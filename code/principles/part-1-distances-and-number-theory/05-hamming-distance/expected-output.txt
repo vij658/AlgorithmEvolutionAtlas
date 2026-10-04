@@ -1,0 +1,2 @@
+mean fractional Hamming distance of random 2048-bit codes = 0.5006
+HammingDistance: 403 checks passed

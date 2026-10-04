@@ -1,0 +1,2 @@
+1 - cos at 0/45/90 degrees: d(u,w) = 1.0000 > d(u,v) + d(v,w) = 0.5858
+MetricAxioms: 1001 checks passed

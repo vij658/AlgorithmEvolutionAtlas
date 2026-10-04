@@ -1,0 +1,3 @@
+8 queens: 92 solutions; backtracking visited 2057 nodes (8! = 40,320 permutations, 8^8 = 16,777,216 placements)
+12 queens: 14200 solutions; 856189 nodes visited
+Backtracking: 21 checks passed

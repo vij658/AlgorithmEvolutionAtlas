@@ -1,0 +1,4 @@
+USL with alpha = 0.03, beta = 0.0005: capacity 13.60 at 44 workers (peak at sqrt((1-a)/b) = 44.0), 11.21 at 100, 7.44 at 200
+fit from 12 measurements with up to 2% noise: alpha = 0.0307, beta = 0.00049; predicted peak 44.6 workers
+predicted peak over 20 noisy fits (true peak 44.0): from measurements at 1-16 workers 25 to 602, and 4 of the 20 fits found no peak at all; from measurements at 1-128 workers 42.2 to 46.7
+UniversalScalabilityLaw: 2364 checks passed

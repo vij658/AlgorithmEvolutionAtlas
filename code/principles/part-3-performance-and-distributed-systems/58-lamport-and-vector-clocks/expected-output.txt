@@ -1,0 +1,2 @@
+3000 random runs, 7,507,802 event pairs: 4,704,495 causally ordered, 2,803,307 concurrent; Lamport clocks gave the concurrent pairs different numbers in 92.1% of cases (they cannot say 'concurrent'), vector clocks identified every one of them
+LogicalClocks: 32834516 checks passed

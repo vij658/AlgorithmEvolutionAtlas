@@ -1,0 +1,5 @@
+share of user requests slower than one server's p99 (102 ms) when they wait for all of n servers: fan-out 1: 1.0% (formula 1.0%); fan-out 10: 9.6% (formula 9.6%); fan-out 100: 63.3% (formula 63.4%); 
+so with fan-out 100, a user-level p99 needs each server's 99.9900% quantile; the median of the slowest of 100 sits at the single-server 99.31% quantile
+hedged requests (second request after the p95 = 52 ms, first answer wins) on 1,000,000 requests: extra load 5.0%, p99 103 ms -> 67 ms, p99.9 222 ms -> 93 ms
+hedging delay against extra load: hedge after p50 (10 ms): +49.9% load, p99 41 ms, p99.9 69 ms; hedge after p90 (36 ms): +10.0% load, p99 56 ms, p99.9 84 ms; hedge after p95 (52 ms): +5.0% load, p99 67 ms, p99.9 93 ms; hedge after p99 (102 ms): +1.0% load, p99 102 ms, p99.9 127 ms; 
+TailLatency: 12 checks passed

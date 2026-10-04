@@ -1,0 +1,2 @@
+limit 100 per 1000 ms, silence until 900 ms then a request every millisecond until 1100 ms: fixed window admitted 200 (all within 200 ms), sliding log 100, token bucket (100 per second) with burst 100 admitted 119, with burst 10 admitted 29
+RateLimiters: 119466754 checks passed

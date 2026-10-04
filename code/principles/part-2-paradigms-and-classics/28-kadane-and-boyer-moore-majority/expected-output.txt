@@ -1,0 +1,1 @@
+KadaneAndMajority: 3925 checks passed

@@ -1,0 +1,2 @@
+text a^100000, pattern a^999 b: naive search made 99001000 comparisons, KMP made 299000
+KnuthMorrisPratt: 40005 checks passed

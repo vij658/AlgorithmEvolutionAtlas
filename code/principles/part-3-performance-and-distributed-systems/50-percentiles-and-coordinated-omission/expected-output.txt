@@ -1,0 +1,4 @@
+log histogram with 1% relative error (811 buckets covering 0.01 ms to 100 s) on 300,000 lognormal samples, worst percentile error 0.790%: p50.0 exact 10.00 ms, histogram 10.08 ms; p90.0 exact 36.06 ms, histogram 36.02 ms; p99.0 exact 101.89 ms, histogram 101.37 ms; p99.9 exact 212.58 ms, histogram 211.69 ms; 
+server A: 995,000 requests between 8 and 12 ms, p99 12.0 ms; server B: 5,000 requests between 900 and 1,100 ms, p99 1097.9 ms; average of the two p99s 554.9 ms; true p99 of all traffic 12.0 ms, true p99.9 1060.0 ms; merged histograms say p99 12.1 ms and p99.9 1061.1 ms
+a 1 s stall seen by a closed-loop benchmark: p50 0.5 ms, p99 0.5 ms, p99.9 0.5 ms, max 1000.5 ms, 1 of 20000 requests slower than 100 ms; measured from the intended send time: p50 0.5 ms, p99 900.5 ms, p99.9 990.5 ms, max 1000.5 ms, 1801 slower than 100 ms
+Percentiles: 9 checks passed

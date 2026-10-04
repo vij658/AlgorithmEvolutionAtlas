@@ -1,0 +1,2 @@
+fib(30): naive recursion made 2692537 calls, memoized made 59
+DynamicProgramming: 1504 checks passed

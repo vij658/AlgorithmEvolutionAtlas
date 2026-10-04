@@ -1,0 +1,5 @@
+Newton for sqrt(2) from x0 = 2, absolute error per iteration: 1: 8.579e-02  2: 2.453e-03  3: 2.124e-06  4: 1.595e-12  5: 2.220e-16  
+newtonSqrt vs Math.sqrt over 200,000 values in [1e-10, 1e10]: worst relative error 2.22e-16; iterations for a = 2: 5, for a = 1e10: 21
+isqrt exact on 1,000,000 random longs and 600000 near-square values; plain (long) Math.sqrt(n) was wrong for 195694 of those near-square values, too big in 195694 of them
+Newton on cbrt(x) from x0 = 1 diverges: after 8 steps x = 255.99999999999994
+NewtonsMethod: 1600023 checks passed

@@ -1,0 +1,2 @@
+steps for gcd(F82, F81) = 80
+EuclideanAlgorithm: 20085 checks passed

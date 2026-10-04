@@ -1,0 +1,2 @@
+Bellman-Ford, Floyd-Warshall and Johnson agreed on all pairs of 300 random graphs, 268 of which contain negative edges
+ShortestPathsAllPairs: 53276 checks passed

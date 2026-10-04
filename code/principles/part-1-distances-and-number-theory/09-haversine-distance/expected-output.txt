@@ -1,0 +1,2 @@
+NYC-LA = 3935.8 km; 1 deg lon at equator = 111.20 km, at 60N = 55.60 km
+HaversineDistance: 4 checks passed

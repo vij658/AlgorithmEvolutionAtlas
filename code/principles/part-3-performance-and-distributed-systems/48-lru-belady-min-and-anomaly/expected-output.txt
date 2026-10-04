@@ -1,0 +1,5 @@
+Belady's anomaly on 1 2 3 4 1 2 5 1 2 3 4 5: FIFO faults 9 with 3 frames, 10 with 4; LRU faults 10 and 8
+on 2000 random traces of 60 requests over 10 items, a larger FIFO cache did worse for some size in 28 traces; LRU did so in 0
+hit rates on a Zipf(0.9) trace of 200,000 requests over 10,000 items: capacity 100: LRU 26.2%, FIFO 22.5%, random 22.5%, top-100 kept forever 41.1%, MIN 47.2%; capacity 1000: LRU 55.6%, FIFO 50.9%, random 51.1%, top-1000 kept forever 67.2%, MIN 74.1%; 
+cycling through 101 items with room for 100, 10100 requests: LRU 0 hits, FIFO 0, random 97.0%, MIN 98.0%
+PagingAndBelady: 3909 checks passed

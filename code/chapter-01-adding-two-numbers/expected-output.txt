@@ -1,0 +1,9 @@
+3 pounds 17s 9d + 2 pounds 5s 8d = 6 pounds 3s 5d (pence 9 + 8 = 17 -> 5, carry 1; shillings 17 + 5 + 1 = 23 -> 3, carry 1; pounds 3 + 2 + 1 = 6)
+the carry out of a column is never more than 1: checked every digit pair and incoming carry for every radix from 2 to 100 (676,698 cases)
+addColumns against BigInteger, numbers of up to 40 columns: radix 2: 100,000 sums match; radix 10: 100,000 sums match; radix 60: 100,000 sums match; random mixed radices (2 to 100 per column): 100,000 sums match; 
+decimal: 478 + 359 = 837; 99999 + 1 = 100000
+exercises: 7 yd 2 ft 11 in + 4 yd 1 ft 5 in = 12 yd 1 ft 4 in; 1 h 45 min 50 s + 2 h 20 min 25 s = 4 h 6 min 15 s
+64 binary columns, all ones plus one (the worst case): a ripple adder passes the carry through all 64 columns in turn; lookahead settles every carry in 6 rounds and 321 combine steps
+longest carry chain when adding two random n-bit numbers, 1,000,000 pairs for each n: 8 bits: average longest chain 2.16 (log2 n = 3.00), longest seen 8; 16 bits: average longest chain 3.24 (log2 n = 4.00), longest seen 16; 32 bits: average longest chain 4.29 (log2 n = 5.00), longest seen 21; 40 bits: average longest chain 4.62 (log2 n = 5.32), longest seen 23; 64 bits: average longest chain 5.31 (log2 n = 6.00), longest seen 23; (for n = 40 von Neumann's team estimated about log2 40 = 5.3)
+a real 64-bit word, 1,000,000 random pairs: rippling and lookahead both agree with Java's +; rippling needs (longest carry chain + 1) rounds exactly, on average 5.62 rounds for random 40-bit numbers and 6.29 for random 64-bit numbers, and more than 6 rounds for 37.6% of the 64-bit pairs; all ones + 1 needs 64 rounds; lookahead always needs 6
+AddingTwoNumbers: 14072170 checks passed

@@ -1,0 +1,2 @@
+same Euclid distance sqrt(2); Mahalanobis along correlation = 1.0260, against = 4.4721
+MahalanobisDistance: 2 checks passed

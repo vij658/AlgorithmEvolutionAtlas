@@ -1,0 +1,2 @@
+1,000,000 sorted ints: at most 20 probes observed (bound 20)
+BinarySearch: 2372505 checks passed

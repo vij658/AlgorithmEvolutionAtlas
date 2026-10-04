@@ -1,0 +1,4 @@
+10 x 0.1: naive = 0.9999999999999999, Kahan = 1.0, DoubleStream.sum = 1.0
+{1, 1e100, 1, -1e100} true answer 2: naive = 0.0, Kahan = 0.0, Neumaier = 2.0, DoubleStream.sum = 0.0
+100k mixed-magnitude values, abs error vs exact: naive 7.573e-08, Kahan 2.880e-10, Neumaier 1.776e-10, DoubleStream.sum 2.880e-10
+CompensatedSummation: 5 checks passed

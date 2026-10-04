@@ -1,0 +1,2 @@
+200000 requests, clients retry until they see an answer, 10% crash before the work, 10% crash between work and record, 10% of answers lost: no idempotency key: 89.98% exactly once, 10.02% more than once, 0.00% never; record the key, then do the work: 89.91% exactly once, 0.00% more than once, 10.10% never; do the work, then record the key: 90.04% exactly once, 9.96% more than once, 0.00% never; work and key in one transaction: 100.00% exactly once, 0.00% more than once, 0.00% never; 
+Idempotency: 516 checks passed

@@ -1,0 +1,2 @@
+Huffman: 224 bits per 100 symbols (2.24 bits/symbol), entropy 2.2199; fixed 3-bit codes need 300
+GreedyAlgorithms: 2534 checks passed

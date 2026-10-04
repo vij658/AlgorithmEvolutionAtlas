@@ -1,0 +1,2 @@
+dependency down for 65 s at 100 requests/s: without a breaker 6500 calls hit it; with a breaker (5 failures, 10 s open) only 11 did, 6993 requests were refused locally, and the first success after recovery came 5040 ms late
+CircuitBreakerDemo: 579040 checks passed

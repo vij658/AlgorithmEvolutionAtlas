@@ -1,0 +1,2 @@
+n = 1000: mean merge-sort comparisons = 8706, worst-case bound = 8977, log2(1000!) = 8529
+DivideAndConquer: 12100 checks passed

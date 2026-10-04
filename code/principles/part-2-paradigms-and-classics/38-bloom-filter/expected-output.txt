@@ -1,0 +1,3 @@
+Bloom filter for 100000 items at 1%: m = 958506 bits (9.585 per item, 117 KiB), k = 7; measured false-positive rate 0.0100 over 1000000 absent keys; formula 0.0100
+the same filter after 200,000 insertions (twice its design size): measured false-positive rate 0.1587, formula 0.1575
+BloomFilter: 100004 checks passed

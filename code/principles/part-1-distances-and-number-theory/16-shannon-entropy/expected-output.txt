@@ -1,0 +1,2 @@
+12 random chars from 94 symbols = 78.66 bits; 6 Diceware words = 77.55 bits; 4 words = 51.70 bits
+ShannonEntropy: 3 checks passed

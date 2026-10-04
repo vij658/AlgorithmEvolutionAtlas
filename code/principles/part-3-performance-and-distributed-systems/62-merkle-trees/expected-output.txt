@@ -1,0 +1,3 @@
+two replicas with 65,536 slots (comparing everything would take 65,536 hashes): 0 differences: 1 comparisons (bound 1); 1 differences: 33 comparisons (bound 33); 4 differences: 105 comparisons (bound 129); 16 differences: 371 comparisons (bound 513); 64 differences: 1,291 comparisons (bound 2,049); 256 differences: 4,161 comparisons (bound 8,193); 1024 differences: 12,689 comparisons (bound 32,769); 
+without prefixes the tree over {x, y} and the one-leaf tree over H(x)||H(y) share the root 42dbeeb4eb5d41bb...; with RFC 6962 prefixes the roots are 6bcf0e2e93e0a18e... and 239fa321f1b4c2fe...
+MerkleTrees: 12520 checks passed

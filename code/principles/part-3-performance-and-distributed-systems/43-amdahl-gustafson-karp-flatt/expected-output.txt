@@ -1,0 +1,7 @@
+Amdahl, p = 0.95: speedup 5.93 on 8 workers, 15.42 on 64, 19.64 on 1024, limit 20
+efficiency (speedup / workers) at p = 0.95: 74% on 8 workers, 24% on 64, 1.9% on 1024
+same 5% serial part, but the problem grows with the machine (Gustafson): 60.85 on 64 workers, against Amdahl's 15.42
+limits 1/(1-p): p = 0.5 -> 2, 0.9 -> 10, 0.99 -> 100, 0.999 -> 1000
+10 equal tasks on 64 workers finish in 1.0 time units, a speedup of 10, where Amdahl with p = 1 would promise 64
+Karp-Flatt: a measured speedup of 5.9259 on 8 workers implies a serial fraction of 0.0500
+SpeedupLaws: 50003 checks passed

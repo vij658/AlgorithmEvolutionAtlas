@@ -1,0 +1,4 @@
+1,000,000 appends: doubling copies 1048575 elements (1.049 per append), 1.5x growth 2.100 per append; +10 growth at n = 100,000 copies 499,960,000 elements (5000 per append)
+StringBuilder capacities while appending 5,000 chars: [16, 34, 70, 142, 286, 574, 1150, 2302, 4606, 9214]
+(ArrayList growth probe skipped; run with --add-opens java.base/java.util=ALL-UNNAMED to enable it)
+AmortizedAnalysis: 2133399 checks passed

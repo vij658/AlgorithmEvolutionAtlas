@@ -1,0 +1,2 @@
+2000 random 30x30 grids with 25% walls, 1402 reachable: mean nodes expanded Dijkstra 665, A* 135, A* with 3x heuristic 88; the 3x heuristic returned a longer-than-optimal path in 1332 grids (worst ratio to the optimum 1.53, guaranteed at most 3)
+AStarSearch: 5404 checks passed

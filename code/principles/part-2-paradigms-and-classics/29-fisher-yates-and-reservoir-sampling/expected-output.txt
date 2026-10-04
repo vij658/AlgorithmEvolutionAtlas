@@ -1,0 +1,6 @@
+naive shuffle of [0,1,2]: outcome counts out of 27 = {[0, 1, 2]=4, [0, 2, 1]=5, [1, 0, 2]=5, [1, 2, 0]=5, [2, 0, 1]=4, [2, 1, 0]=4}
+naive shuffle of 4 items: 256 equally likely index sequences, per-permutation counts range from 8 to 15 (a uniform shuffle would give 256/24 = 10.67 each)
+reservoir sample of 3 from 10: every item kept with frequency within 0.0010 of 0.3
+shuffle with nextInt(i) instead of nextInt(i + 1): for n = 3, 4, 5 no element ever stays in place, and only 2, 6, 24 of the 6, 24, 120 permutations are reachable
+java.util.Random keeps a 48-bit state: at most 2^48 = 281474976710656 shuffles. 16! = 20922789888000 fits under that, 17! = 355687428096000 does not; a 52-card deck needs log2(52!) = 225.58, so 226 bits of seed
+ShuffleAndReservoir: 160 checks passed

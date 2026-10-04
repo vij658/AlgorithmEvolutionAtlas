@@ -1,0 +1,2 @@
+union-find on 1,000,000 elements after 1,000,000 random unions: 0.856 parent hops per find on average
+UnionFindAndMst: 2001 checks passed

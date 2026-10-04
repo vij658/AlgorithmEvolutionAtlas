@@ -1,0 +1,3 @@
+Little's law on 9 simulated queues (3 service orders x 3 service-time distributions, 50,000 customers each) holds to 1e-9; exponential service, rho = 0.7: FIFO: L = 2.412, lambda = 0.997, W = 2.419, lambda*W = 2.412; LIFO: L = 2.396, lambda = 1.001, W = 2.393, lambda*W = 2.396; random order: L = 2.281, lambda = 0.999, W = 2.284, lambda*W = 2.281; 
+sizing example: 500 requests/s x 0.2 s each = 100 requests in flight
+LittlesLaw: 9 checks passed

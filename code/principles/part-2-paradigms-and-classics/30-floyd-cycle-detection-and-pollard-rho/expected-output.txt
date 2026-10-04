@@ -1,0 +1,2 @@
+semiprimes of two random primes between 20,000 and 46,000: Pollard rho averaged 132 iterations, trial division would need about 14320 divisions
+CycleDetection: 5785 checks passed

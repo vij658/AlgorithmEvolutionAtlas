@@ -1,0 +1,2 @@
+negative edge 2->1 of weight -5: textbook Dijkstra (each vertex finalized once) says dist(0,1) = 1, the lazy-deletion version says -1, Bellman-Ford says -1
+Dijkstra: 137839 checks passed

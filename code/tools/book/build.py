@@ -81,11 +81,80 @@ def build_topic(era, i, run=False):
     book_dir.mkdir(parents=True, exist_ok=True)
     (book_dir / "README.md").write_text(page.render_md(spec, book_dir, nav) + "\n")
     (book_dir / f"{slug}.html").write_text(page.render_html(spec, nav))
+    (code_dir / "README.md").write_text(code_readme(era, t, spec, ctx["java"], nav))
     warnings = [w for b in all_blocks(spec) if b["type"] == "diagram" for w in b["diagram"].warnings]
     for w in warnings:
         print("  warning:", w)
     print(f"built topic {num}: {title}")
     return spec
+
+
+def javadoc_section(java, heading):
+    """The lines under `HEADING` in the program's header comment, up to the next heading (a line starting with a
+    capitalised word right after the comment's star) or the end of the comment."""
+    import re
+    import textwrap
+    out, on = [], False
+    for ln in java.split("\n"):
+        if ln.strip().startswith("*/"):
+            break
+        body = re.sub(r"^\s*/?\*+", "", ln)
+        if re.match(r"^ ?[A-Z][A-Z]{2,}", body):
+            if on:
+                break
+            on = body.strip() == heading
+            continue
+        if on:
+            out.append(body)
+    while out and not out[-1].strip():
+        out.pop()
+    return textwrap.dedent("\n".join(out))
+
+
+def code_readme(era, t, spec, java, nav):
+    num, slug, title, date, label, module, cls = t
+    book_rel = os.path.relpath(topic_paths(era, t)[0], topic_paths(era, t)[1])
+    L = [f"# {title}: the program", "",
+         f"*Era {era.ERA['num']} · topic {num} · {date}* · Book page: [GitHub edition]({book_rel}/README.md) · "
+         f"[interactive edition]({book_rel}/{slug}.html) · [All era {era.ERA['num']} programs](../README.md)", ""]
+    how = javadoc_section(java, "HOW IT WORKS")
+    what = javadoc_section(java, "WHAT THIS PROGRAM DOES")
+    if how:
+        L += ["## How it works", "", "```text", how, "```", ""]
+    if what:
+        L += ["## What the program does", "", "```text", what, "```", ""]
+    L += ["## Run it", "", "```", f"java {cls}.java        # JDK 17 or newer, no build step", "```", "",
+          "The output must match [`expected-output.txt`](expected-output.txt) line for line; "
+          "[`../../run-all.sh`](../../run-all.sh) checks every program in the repository this way. "
+          "Each output line starts with a tag (the first word), and the book's pages are built from those tagged lines, "
+          "so every number in the book comes from this program.", ""]
+    links = [b for s in spec["sections"] for b in s["blocks"] if b["type"] == "links"]
+    if links:
+        L += ["## Watch and read", "", "| Level | Link | Why |", "|---|---|---|"]
+        for lvl, ltitle, source, url, why in links[0]["items"]:
+            L.append(f"| {lvl.capitalize()} | [{ltitle}]({url}) — {source} | {why} |")
+        L += ["", f"Every link was opened before it was listed. More, with certainty labels: "
+                  f"[Era {era.ERA['num']} reference catalog](../../../book/{era.ERA['folder']}/reference-catalog.md).", ""]
+    return "\n".join(L)
+
+
+def era_code_readme(era):
+    L = [f"# Era {era.ERA['num']} programs — {era.ERA['title']}", "",
+         f"*{era.ERA['span']}* · [Era {era.ERA['num']} in the book](../../book/{era.ERA['folder']}/README.md) · "
+         f"[All programs](../README.md)", "",
+         "One folder per topic. Each holds a single-file Java program (run it with `java File.java`, JDK 17 or newer), "
+         "the output it must print, and a README with how it works and where to watch and read more.", "",
+         "| # | Topic | When | Program | Checks |", "|---|---|---|---|---|"]
+    import re
+    for t in era.TOPICS:
+        folder = f"{t[0]:02d}-{t[1]}"
+        out = CODE / era.ERA["folder"] / folder / "expected-output.txt"
+        if out.exists():
+            m = re.search(r": (\d+) checks passed", out.read_text())
+            L.append(f"| {t[0]} | [{t[2]}]({folder}/README.md) | {t[3]} | [`{t[6]}.java`]({folder}/{t[6]}.java) | {int(m.group(1)):,} |")
+        else:
+            L.append(f"| {t[0]} | {t[2]} | {t[3]} | planned | |")
+    return "\n".join(L) + "\n"
 
 
 def all_blocks(spec):
@@ -105,6 +174,7 @@ def main():
         if nums and t[0] not in nums:
             continue
         build_topic(era, i, run=run)
+    (CODE / era.ERA["folder"] / "README.md").write_text(era_code_readme(era))
     import era_index
     era_index.build(era, BOOK, CODE)
 

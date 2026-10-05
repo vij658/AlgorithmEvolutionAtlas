@@ -82,18 +82,33 @@ def draw_tablet(theme, standalone=False, round_=False):
     return svg_doc(200, 150, "".join(b), "Drawn placeholder of a clay tablet", theme, standalone, 0.3, 220)
 
 
-def draw_bone(theme, standalone=False):
-    """A bone handle with groups of notches."""
+def draw_bone(theme, standalone=False, groups=(5, 3, 6, 4), tip=True):
+    """A bone handle with groups of notches (and a stone tip, as on the Ishango bone)."""
     c = theme
     b = [path("M24,70 C24,56 40,52 52,58 L150,58 C162,52 178,56 178,70 C178,84 162,88 150,82 L52,82 C40,88 24,84 24,70 Z", c["ink2"], c["paper"], 1.2)]
-    x = 58
-    for g, n in enumerate([5, 3, 6, 4]):
-        for k in range(n):
+    n = sum(groups)
+    span = 92 if len(groups) == 1 else 68
+    step = min(5.0, span / max(1, n))
+    x = 101 - (n * step + (len(groups) - 1) * 9) / 2
+    for g, k in enumerate(groups):
+        for _ in range(k):
             b.append(line(x, 61, x, 79, c["red"] if g % 2 == 0 else c["blue"], 2))
-            x += 5
+            x += step
         x += 9
-    b.append(path("M178,70 L194,64 L196,76 Z", c["ink2"], c["wash"], 1))
+    if tip:
+        b.append(path("M178,70 L194,64 L196,76 Z", c["ink2"], c["wash"], 1))
     return svg_doc(200, 140, "".join(b), "Drawn placeholder of a notched bone", theme, standalone, 0.3, 220)
+
+
+def draw_split_tally(theme, standalone=False):
+    """A tally stick split lengthwise: the long stock and the shorter foil, with notches that line up."""
+    c = theme
+    b = [rect(20, 40, 164, 22, c["paper"], c["ink2"], 1.2, rx=4), rect(52, 72, 132, 22, c["paper"], c["ink2"], 1.2, rx=4)]
+    for x, w in [(70, 10), (92, 6), (108, 6), (124, 3), (136, 3), (150, 2)]:
+        b.append(path(f"M{x},62 l{w / 2},-9 l{w / 2},9 Z", None, c["red"]))
+        b.append(path(f"M{x},72 l{w / 2},9 l{w / 2},-9 Z", None, c["red"]))
+    b += [text(20, 32, "stock", c["muted"], 11), text(52, 112, "foil", c["muted"], 11)]
+    return svg_doc(200, 130, "".join(b), "Drawn placeholder of a split tally stick", theme, standalone, 0.3, 220)
 
 
 def draw_board(theme, standalone=False):

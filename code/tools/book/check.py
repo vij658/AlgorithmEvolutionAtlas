@@ -37,7 +37,7 @@ def check(paths, outdir):
                 info = pg.evaluate("""() => {
                   const w = window.innerWidth, out = [];
                   for (const el of document.querySelectorAll('body *')) {
-                    if (el.closest('.frame, .tbl, pre, .board svg, script, style')) continue;
+                    if (el.closest('.frame, .tbl, pre, .scrollx, .board svg, script, style')) continue;
                     const r = el.getBoundingClientRect();
                     if (r.width && r.right > w + 1) out.push(el.tagName + '.' + (el.className.baseVal ?? el.className) + ' :: ' + (el.textContent || '').trim().slice(0, 60));
                   }

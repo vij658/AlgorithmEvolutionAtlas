@@ -120,23 +120,14 @@ tr.hl td{background:var(--wash);font-weight:600}
 .callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
 .callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
 
-/* charts */
-.charts{display:grid;gap:26px;margin-top:18px}
-.chart{background:var(--surface);border:1px solid var(--rule);padding:16px;position:relative;min-width:0}
-.chart h3{margin:0;font-size:20px}
-.chart .sub{color:var(--ink-2);font-size:14px;margin:4px 0 8px}
-.chart svg{width:100%;height:auto;display:block;overflow:visible}
-.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--ink-2);margin-bottom:4px}
-.legend span{display:inline-flex;align-items:center;gap:6px}
-.legend i{display:inline-block;width:16px;height:2px}
-.tip{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--axis);padding:7px 10px;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.12);min-width:150px;z-index:2}
-.tip .v{font-weight:700;font-family:var(--mono)} .tip .l{color:var(--ink-2)} .tip .row{display:flex;gap:8px;align-items:center}
-.tip i{display:inline-block;width:12px;height:2px}
-details.data{margin-top:8px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
 
-/* family tree */
-.tree{overflow-x:auto;margin-top:18px;background:var(--surface);border:1px solid var(--rule)}
-.tree svg{display:block;min-width:900px;width:100%;height:auto}
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
 
 /* try */
 details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
@@ -190,7 +181,7 @@ footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-siz
   <p class="lede">The oldest procedure still in daily use. Cut the biggest square off a rectangle, again and again; the last square measures both sides.</p>
   <p class="fieldnote">Field note from the visiting historian. Earlier procedures computed a value. This one stops on its own and is proved to work for every pair of numbers. Twenty-three centuries later it still runs, in spirit unchanged, inside every encryption library.</p>
   <nav class="toc" aria-label="On this page">
-    <a href="#board">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#steps">Step by step</a><a href="#four">Four ways</a><a href="#measured">Measured</a><a href="#tree">How ideas combined</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a>
+    <a href="#tree">How ideas combined</a><a href="#board">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#steps">Step by step</a><a href="#four">Four ways</a><a href="#measured">Measured</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a>
   </nav>
   <dl class="card-grid">
     <div><dt>When</dt><dd>c. 300 BCE <span class="chip conj">earlier origins: conjecture</span></dd></div>
@@ -202,8 +193,16 @@ footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-siz
   </dl>
 </header>
 
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+  <p class="col">A new algorithm is usually an older idea combined with a new one. This is the map of the topic: where Euclid's algorithm came from, and what grew out of it. Each box names the idea that was added.</p>
+  <figure class="dgm"><div class="frame"><!--DIAGRAM:family--></div>
+  <figcaption>Red: the algorithm and its best-known descendants. Blue: the mathematical steps in between. The dashed line is a relationship rather than a descendant: Euclid's quotients are exactly the terms of a continued fraction.</figcaption></figure>
+</section>
+
 <section id="board" aria-labelledby="board-h">
-  <div class="sec-label"><span class="n">01</span><span class="eyebrow">Try it</span></div>
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
   <h2 id="board-h">Two numbers are the sides of a rectangle</h2>
   <p class="col">Cut off the biggest square that fits, as many times as it fits, then do the same to the piece that is left. When a piece is filled exactly, the side of its squares is the greatest common divisor. Press <b>Step</b> to cut one stage at a time; the view zooms in when the pieces get small.</p>
   <div class="board">
@@ -236,7 +235,7 @@ footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-siz
 </section>
 
 <section id="time" aria-labelledby="time-h">
-  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Where it sits in time</span></div>
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
   <h2 id="time-h">Era 1, the first algorithms</h2>
   <div class="timeline"><ol>
     <li><span class="when">c. 44,000 years ago</span>Notched bones at Border Cave</li>
@@ -251,13 +250,14 @@ footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-siz
 </section>
 
 <section id="hurt" aria-labelledby="hurt-h">
-  <div class="sec-label"><span class="n">03</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
   <h2 id="hurt-h">Each fix leaves a new pain</h2>
-  <div class="chain" id="chain"></div>
+  <figure class="dgm"><div class="frame"><!--DIAGRAM:chain--></div>
+  <figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
 </section>
 
 <section id="steps" aria-labelledby="steps-h">
-  <div class="sec-label"><span class="n">04</span><span class="eyebrow">Step by step</span></div>
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">Step by step</span></div>
   <h2 id="steps-h">1071 and 462, by hand</h2>
   <div class="tbl"><table id="trace-table"></table></div>
   <p class="col" id="cf-note"></p>
@@ -270,27 +270,26 @@ footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-siz
 </section>
 
 <section id="four" aria-labelledby="four-h">
-  <div class="sec-label"><span class="n">05</span><span class="eyebrow">Before and after</span></div>
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Before and after</span></div>
   <h2 id="four-h">Four ways to find a gcd</h2>
   <p class="col">Basic operations each method needs, counted by the program. Trying candidates grows with the size of the numbers, subtraction can explode, and division grows only with the number of digits. Stein's binary method (1967) uses halving and subtraction, which suits hardware without fast division.</p>
+  <figure class="dgm"><div class="frame"><!--DIAGRAM:four--></div>
+  <figcaption>Each method keeps the goal and changes one thing. The counts come from the program.</figcaption></figure>
   <div class="tbl"><table id="four-table"></table></div>
 </section>
 
 <section id="measured" aria-labelledby="measured-h">
-  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">Measured</span></div>
   <h2 id="measured-h">How fast is it?</h2>
-  <div class="charts">
-    <div class="chart" id="chart-worst"><h3>The worst case stays under Lamé's bound</h3><p class="sub">Division steps for consecutive Fibonacci numbers, the slowest inputs, by digits in the smaller number</p></div>
-    <div class="chart" id="chart-avg"><h3>Random numbers: about two steps per digit</h3><p class="sub" id="avg-sub"></p></div>
-    <div class="chart" id="chart-hist"><h3>Random 18-digit pairs bunch around the middle</h3><p class="sub" id="hist-sub"></p></div>
-  </div>
-</section>
-
-<section id="tree" aria-labelledby="tree-h">
-  <div class="sec-label"><span class="n">07</span><span class="eyebrow">A ⊕ B = C</span></div>
-  <h2 id="tree-h">How ideas combined</h2>
-  <p class="col">A new algorithm is usually an older idea combined with a new one. Euclid's algorithm sits at the root of a long family.</p>
-  <div class="tree" id="family"></div>
+  <p class="col"><b>The worst case.</b> Consecutive Fibonacci numbers make the algorithm work hardest: almost every quotient is 1, so each step takes away as little as possible.</p>
+  <figure class="dgm"><div class="frame"><!--DIAGRAM:ladder--></div></figure>
+  <p class="col">Lamé proved in 1844 that the steps never exceed five times the number of digits of the smaller number. The worst cases sit exactly at that limit for small numbers and just below it after that.</p>
+  <figure class="dgm"><div class="frame"><!--DIAGRAM:lame--></div></figure>
+  <p class="col"><b>The average.</b> Random numbers are much kinder. Each extra digit adds about two steps, as Heilbronn's formula predicts.</p>
+  <figure class="dgm"><div class="frame"><!--DIAGRAM:growth--></div></figure>
+  <p class="col"><b>The spread.</b> For random 18-digit pairs the counts bunch tightly around the middle.</p>
+  <figure class="dgm"><div class="frame"><!--DIAGRAM:split--></div></figure>
+  <div id="measured-data"></div>
 </section>
 
 <section id="circle" aria-labelledby="circle-h">
@@ -510,25 +509,6 @@ load(1071, 462); board.shown = board.stages.length; board.whole = true; drawBoar
 document.getElementById("btn-whole").textContent = "Follow the pieces";
 document.getElementById("zoomnote").textContent = "All three stages are cut. Press Step to replay, and the view follows the pieces as they shrink.";
 
-/* ---------------- chain of needs ---------------- */
-const CHAIN = [
-  ["Try every candidate until one divides both numbers.", "Take the smaller from the larger, again and again. <i>Elements</i> VII, c. 300 BCE."],
-  ["1,000,000 and 1 need a million subtractions.", "One division does a whole run of subtractions: a mod b."],
-  ["Knowing the gcd is not enough: we need x and y with ax + by = gcd.", "Carry the steps back. Aryabhata's <i>kuttaka</i>, the pulverizer, 499 CE."],
-  ["How slow can it get?", "Never more than 5 × the digits of the smaller number. Lamé, 1844 (others had partial results first)."],
-  ["Division is costly in hardware.", "Halving and subtraction only. Stein, 1967; a halving rule appears in China's <i>Nine Chapters</i>."],
-];
-{
-  const box = document.getElementById("chain");
-  CHAIN.forEach(([pain, fix], i) => {
-    const pair = el("div", {class: "pair"}, box);
-    const p = el("div", {class: "pain"}, pair); el("div", {class: "tag"}, p, "What hurt"); const pp = el("div", {}, p); pp.innerHTML = pain;
-    el("div", {class: "arrow", "aria-hidden": "true"}, pair, "→");
-    const f = el("div", {class: "fix"}, pair); el("div", {class: "tag"}, f, "The fix"); const ff = el("div", {}, f); ff.innerHTML = fix;
-    if (i < CHAIN.length - 1) el("div", {class: "down", "aria-hidden": "true"}, box, "↓ which leaves a new problem");
-  });
-}
-
 /* ---------------- tables from the program output ---------------- */
 function table(id, head, rows, opts = {}) {
   const t = document.getElementById(id); t.replaceChildren();
@@ -559,132 +539,17 @@ if (DATA) {
     cmp.map(c => [`${fmt(c.a)} and ${fmt(c.b)} (${label(c)})`, String(c.gcd), fmt(c.trying), fmt(c.subtracting), fmt(c.dividing), fmt(c.binary)]), {num: [1, 2, 3, 4, 5]});
 }
 
-/* ---------------- charts ---------------- */
-function lineChart(host, series, opts) {
-  const W = 760, H = 330, L = 52, R = 150, T = 18, B = 46;
-  const xs = series[0].points.map(p => p[0]), xmin = Math.min(...xs), xmax = Math.max(...xs);
-  const ymax = opts.ymax;
-  const X = x => L + (x - xmin) / (xmax - xmin) * (W - L - R), Y = y => H - B - y / ymax * (H - T - B);
-  if (series.length > 1) {
-    const lg = el("div", {class: "legend"}, host);
-    series.forEach(s => { const sp = el("span", {}, lg); const i = el("i", {}, sp); i.style.background = s.color; sp.append(s.name); });
-  }
-  const svg = sv("svg", {viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": opts.aria}, host);
-  for (const v of opts.yticks) {
-    sv("line", {x1: L, x2: W - R, y1: Y(v), y2: Y(v), stroke: v ? "var(--rule)" : "var(--axis)", "stroke-width": 1}, svg);
-    sv("text", {x: L - 8, y: Y(v) + 4, "text-anchor": "end", fill: "var(--muted)", "font-size": 12}, svg, fmt(v));
-  }
-  for (const v of opts.xticks) sv("text", {x: X(v), y: H - B + 20, "text-anchor": "middle", fill: "var(--muted)", "font-size": 12}, svg, v);
-  sv("text", {x: (L + W - R) / 2, y: H - 8, "text-anchor": "middle", fill: "var(--ink-2)", "font-size": 13}, svg, opts.xlabel);
-  series.forEach(s => {
-    sv("polyline", {points: s.points.map(p => `${X(p[0])},${Y(p[1])}`).join(" "), fill: "none", stroke: s.color, "stroke-width": 2, "stroke-linejoin": "round"}, svg);
-    if (s.markers) s.points.forEach(p => sv("circle", {cx: X(p[0]), cy: Y(p[1]), r: 4, fill: s.color, stroke: "var(--surface)", "stroke-width": 2}, svg));
-    const last = s.points[s.points.length - 1];
-    s.endLabel.forEach((t, i) => sv("text", {x: X(last[0]) + 12, y: Y(last[1]) + (s.dy || 0) + 4 + i * 16, fill: i ? "var(--ink-2)" : "var(--ink)", "font-size": 13, "font-weight": i ? 400 : 600}, svg, t));
-  });
-  const cross = sv("line", {y1: T, y2: H - B, stroke: "var(--axis)", "stroke-width": 1, visibility: "hidden"}, svg);
-  const tip = el("div", {class: "tip", hidden: ""}, host);
-  const hit = sv("rect", {x: L, y: T, width: W - L - R, height: H - T - B, fill: "transparent", tabindex: 0}, svg);
-  const show = x => {
-    const xv = Math.round(Math.min(xmax, Math.max(xmin, xmin + (x - L) / (W - L - R) * (xmax - xmin))));
-    cross.setAttribute("x1", X(xv)); cross.setAttribute("x2", X(xv)); cross.setAttribute("visibility", "visible");
-    tip.replaceChildren(); el("div", {class: "l"}, tip, opts.tipTitle(xv));
-    series.forEach(s => { const p = s.points.find(q => q[0] === xv); const row = el("div", {class: "row"}, tip); const i = el("i", {}, row); i.style.background = s.color; el("span", {class: "v"}, row, s.fmtv(p[1])); el("span", {class: "l"}, row, s.name); });
-    tip.hidden = false;
-    const box = svg.getBoundingClientRect(), hb = host.getBoundingClientRect();
-    const px = X(xv) / W * box.width + box.left - hb.left;
-    tip.style.left = `${Math.min(px + 12, hb.width - 170)}px`; tip.style.top = `${box.top - hb.top + 20}px`;
-  };
-  hit.addEventListener("pointermove", e => { const b = svg.getBoundingClientRect(); show((e.clientX - b.left) / b.width * W); });
-  hit.addEventListener("pointerleave", () => { tip.hidden = true; cross.setAttribute("visibility", "hidden"); });
-  hit.addEventListener("focus", () => show(X(xmax)));
-  hit.addEventListener("blur", () => { tip.hidden = true; cross.setAttribute("visibility", "hidden"); });
-  return svg;
-}
+/* ---------------- the numbers behind the measured diagrams ---------------- */
 function dataTable(host, head, rows) {
   const d = el("details", {class: "data"}, host); el("summary", {}, d, "Show the numbers");
   const wrap = el("div", {class: "tbl"}, d); const t = el("table", {}, wrap);
   const tr = el("tr", {}, el("thead", {}, t)); head.forEach(h => el("th", {class: "n"}, tr, h));
   const tb = el("tbody", {}, t); rows.forEach(r => { const row = el("tr", {}, tb); r.forEach(c => el("td", {class: "n"}, row, c)); });
 }
-function ticks(max, step) { const out = []; for (let v = 0; v <= max + 1e-9; v += step) out.push(v); return out; }
 if (DATA) {
-  const worst = DATA.worst, hostW = document.getElementById("chart-worst");
-  lineChart(hostW, [
-    {name: "Lamé's bound (5 × digits)", color: "var(--red)", points: worst.map(w => [w.digits, w.lame]), endLabel: ["Lamé's bound", "5 × digits"], dy: -12, fmtv: v => `${v} steps`},
-    {name: "Worst case (consecutive Fibonacci)", color: "var(--blue)", markers: true, points: worst.map(w => [w.digits, w.steps]), endLabel: ["Worst case"], dy: 10, fmtv: v => `${v} steps`},
-  ], {ymax: 100, yticks: ticks(100, 20), xticks: [1, 3, 6, 9, 12, 15, 18], xlabel: "digits in the smaller number", aria: "Worst-case steps by digits, always at or below Lamé's bound", tipTitle: x => `${x}-digit smaller number`});
-  dataTable(hostW, ["Digits", "Pair", "Steps", "Lamé's bound"], worst.map(w => [String(w.digits), `${fmt(w.a)}, ${fmt(w.b)}`, String(w.steps), String(w.lame)]));
-
-  const avg = DATA.average, hostA = document.getElementById("chart-avg");
-  document.getElementById("avg-sub").textContent = `Mean division steps over ${fmt(DATA.samples)} random pairs at each size. Measured: +${DATA.slope.toFixed(2)} steps per extra digit; Heilbronn's 0.843 ln n predicts +${DATA.slope_predicted.toFixed(2)}.`;
-  lineChart(hostA, [{name: "Average steps", color: "var(--blue)", markers: true, points: avg.map(v => [v.digits, v.mean]), endLabel: [`${avg[avg.length - 1].mean.toFixed(1)} steps`, "at 18 digits"], fmtv: v => `${v.toFixed(2)} steps`}],
-    {ymax: 40, yticks: ticks(40, 10), xticks: [1, 3, 6, 9, 12, 15, 18], xlabel: "digits in each number", aria: "Average steps rise steadily with the number of digits", tipTitle: x => `${x}-digit numbers`});
-  dataTable(hostA, ["Digits", "Average steps"], avg.map(v => [String(v.digits), v.mean.toFixed(3)]));
-
-  const hist = DATA.histogram, hostH = document.getElementById("chart-hist");
-  const mode = hist.reduce((m, p) => p[1] > m[1] ? p : m);
-  document.getElementById("hist-sub").textContent = `${fmt(DATA.hist_samples)} random pairs of 18-digit numbers. Most took ${mode[0]} steps; the slowest took ${hist[hist.length - 1][0]}, well under Lamé's bound of 90.`;
-  const W = 760, H = 300, L = 60, R = 16, T = 26, B = 46, ymax = 10000;
-  const svg = sv("svg", {viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Distribution of division steps for random 18-digit pairs"}, hostH);
-  const Y = y => H - B - y / ymax * (H - T - B), slot = (W - L - R) / hist.length, bw = Math.min(24, slot - 2);
-  for (const v of ticks(ymax, 2500)) {
-    sv("line", {x1: L, x2: W - R, y1: Y(v), y2: Y(v), stroke: v ? "var(--rule)" : "var(--axis)", "stroke-width": 1}, svg);
-    sv("text", {x: L - 8, y: Y(v) + 4, "text-anchor": "end", fill: "var(--muted)", "font-size": 12}, svg, fmt(v));
-  }
-  const tip = el("div", {class: "tip", hidden: ""}, hostH);
-  hist.forEach(([s, c], i) => {
-    const x = L + i * slot + (slot - bw) / 2, y = Y(c), h = Y(0) - y, r = Math.min(4, h / 2, bw / 2);
-    const g = sv("g", {tabindex: 0}, svg);
-    sv("rect", {x: L + i * slot, y: T, width: slot, height: H - T - B, fill: "transparent"}, g);
-    const bar = sv("path", {d: `M${x},${Y(0)} V${y + r} Q${x},${y} ${x + r},${y} H${x + bw - r} Q${x + bw},${y} ${x + bw},${y + r} V${Y(0)} Z`, fill: "var(--blue)"}, g);
-    if (s % 5 === 0) sv("text", {x: x + bw / 2, y: H - B + 20, "text-anchor": "middle", fill: "var(--muted)", "font-size": 12}, svg, s);
-    if (s === mode[0]) sv("text", {x: x + bw / 2, y: y - 8, "text-anchor": "middle", fill: "var(--ink)", "font-size": 13, "font-weight": 600}, svg, `${fmt(c)} pairs: ${s} steps`);
-    const on = () => { bar.setAttribute("opacity", .75); tip.replaceChildren(); el("div", {class: "v"}, tip, `${fmt(c)} pairs`); el("div", {class: "l"}, tip, `took ${s} division steps`); tip.hidden = false;
-      const b = svg.getBoundingClientRect(), hb = hostH.getBoundingClientRect(); tip.style.left = `${Math.min((x / W) * b.width + b.left - hb.left + 14, hb.width - 170)}px`; tip.style.top = `${(y / H) * b.height + b.top - hb.top - 10}px`; };
-    const off = () => { bar.setAttribute("opacity", 1); tip.hidden = true; };
-    g.addEventListener("pointerenter", on); g.addEventListener("pointerleave", off); g.addEventListener("focus", on); g.addEventListener("blur", off);
-  });
-  sv("text", {x: (L + W - R) / 2, y: H - 8, "text-anchor": "middle", fill: "var(--ink-2)", "font-size": 13}, svg, "division steps");
-  dataTable(hostH, ["Steps", "Pairs"], hist.map(([s, c]) => [String(s), fmt(c)]));
-}
-
-/* ---------------- family tree ---------------- */
-{
-  const W = 1000, H = 680, BW = 180, BH = 70;
-  const svg = sv("svg", {viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "How Euclid's algorithm combined with other ideas"}, document.getElementById("family"));
-  // [x, y, title, combination, date, colour]
-  const N = {
-    sub: [410, 20, "Repeated subtraction", "", "anthyphairesis", "ink"],
-    euc: [410, 150, "Euclid's algorithm", "⊕ division", "c. 300 BCE", "red"],
-    ext: [20, 300, "Extended Euclid", "⊕ carry the steps back", "Aryabhata, 499 CE", "blue"],
-    lam: [215, 300, "Lamé's bound", "⊕ Fibonacci numbers", "1844", "blue"],
-    key: [410, 300, "Weak-key hunt", "⊕ millions of public keys", "2012", "red"],
-    bin: [605, 300, "Binary GCD", "⊕ halving", "Stein, 1967", "blue"],
-    cf:  [800, 300, "Continued fractions", "same quotients", "", "ink"],
-    inv: [20, 450, "Modular inverse", "⊕ arithmetic mod n", "", "blue"],
-    egy: [410, 450, "Egyptian doubling", "", "topic 5, c. 1550 BCE", "ink"],
-    sqm: [410, 590, "Square-and-multiply", "⊕ squaring", "", "ink"],
-    rsa: [20, 590, "RSA", "⊕ fast powers", "1977", "red"],
-  };
-  const E = [["sub", "euc"], ["euc", "ext"], ["euc", "lam"], ["euc", "key"], ["euc", "bin"], ["euc", "cf", true], ["ext", "inv"], ["inv", "rsa"], ["egy", "sqm"], ["sqm", "rsa"]];
-  const center = k => [N[k][0] + BW / 2, N[k][1] + BH / 2];
-  const edgePoint = (cx, cy, dx, dy) => { const t = Math.min(Math.abs(BW / 2 / (dx || 1e-9)), Math.abs(BH / 2 / (dy || 1e-9))); return [cx + dx * t, cy + dy * t]; };
-  for (const [a, b, dashed] of E) {
-    const [x1, y1] = center(a), [x2, y2] = center(b), dx = x2 - x1, dy = y2 - y1;
-    const [sx, sy] = edgePoint(x1, y1, dx, dy), [ex, ey] = edgePoint(x2, y2, -dx, -dy);
-    sv("line", {x1: sx, y1: sy, x2: ex, y2: ey, stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-dasharray": dashed ? "5 4" : null}, svg);
-    const ang = Math.atan2(ey - sy, ex - sx);
-    sv("path", {d: `M${ex},${ey} l${-9 * Math.cos(ang - .45)},${-9 * Math.sin(ang - .45)} M${ex},${ey} l${-9 * Math.cos(ang + .45)},${-9 * Math.sin(ang + .45)}`, stroke: "var(--ink-2)", "stroke-width": 1.5, fill: "none"}, svg);
-  }
-  for (const [x, y, t, combo, date, c] of Object.values(N)) {
-    sv("rect", {x, y, width: BW, height: BH, fill: "var(--paper)", stroke: c === "ink" ? "var(--ink)" : `var(--${c})`, "stroke-width": c === "ink" ? 1.5 : 3}, svg);
-    const lines = [[t, 15, 700, "var(--ink)"]];
-    if (combo) lines.push([combo, 12.5, 600, "var(--ink)"]);
-    if (date) lines.push([date, 12.5, 400, "var(--ink-2)"]);
-    const top = y + (BH - lines.length * 18) / 2 + 13;
-    lines.forEach(([txt, size, wt, fill], i) => sv("text", {x: x + 12, y: top + i * 18, fill, "font-size": size, "font-weight": wt}, svg, txt));
-  }
+  const avg = Object.fromEntries(DATA.average.map(a => [a.digits, a.mean]));
+  dataTable(document.getElementById("measured-data"), ["Digits", "Worst-case pair", "Steps", "Lamé's limit", "Average, random pairs"],
+    DATA.worst.map(w => [String(w.digits), `${fmt(w.a)}, ${fmt(w.b)}`, String(w.steps), String(w.lame), avg[w.digits].toFixed(3)]));
 }
 
 /* ---------------- line segments, and drawn placeholders ---------------- */

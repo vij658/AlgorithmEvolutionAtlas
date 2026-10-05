@@ -12,6 +12,7 @@ script keeps the book in step with the code. Run from anywhere:  python3 code/to
 """
 import html
 import json
+import sys
 import pathlib
 import re
 
@@ -20,6 +21,7 @@ CODE = ROOT / "code" / "era-01-the-first-algorithms" / "07-euclids-algorithm"
 BOOK = ROOT / "book" / "era-01-the-first-algorithms" / "07-euclids-algorithm"
 ASSETS = BOOK / "assets"
 TEMPLATE = pathlib.Path(__file__).resolve().parent / "euclid-page.html"
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
 # Byrne's 1847 Euclid printed its figures in red, yellow and blue; the book's diagrams borrow that idea.
 THEMES = {
@@ -311,24 +313,18 @@ def main():
     g = trace[-1][2]
 
     write_pair("euclid-squares", lambda t: strip_figure(a, b, trace, t))
-    worst = d["worst"]
-    write_pair("worst-case", lambda t: line_chart(
-        [dict(name="Lamé", points=[(w["digits"], w["lame"]) for w in worst], color=t["red"], markers=False,
-              label=["Lamé's bound", "5 × digits"], dy=-10),
-         dict(name="worst", points=[(w["digits"], w["steps"]) for w in worst], color=t["blue"], markers=True,
-              label=["Worst case:", "consecutive Fibonacci", "numbers"], dy=12)],
-        [1, 3, 6, 9, 12, 15, 18], nice_ticks(max(w["lame"] for w in worst)), t,
-        "Division steps in the worst case, against Lamé's bound", "digits in the smaller number", "division steps"))
-    avg = d["average"]
-    write_pair("average-case", lambda t: line_chart(
-        [dict(name="avg", points=[(v["digits"], v["mean"]) for v in avg], color=t["blue"], markers=True,
-              label=[f"{avg[-1]['mean']:.1f} steps", "at 18 digits"])],
-        [1, 3, 6, 9, 12, 15, 18], nice_ticks(max(v["mean"] for v in avg)), t,
-        "Average division steps for random pairs", "digits in each number", "average division steps",
-        notes=[(1.3, 37.5, f"+{d['slope']:.2f} steps per extra digit (measured, 6 to 18 digits)"),
-               (1.3, 34.8, f"Heilbronn's formula 0.843 ln n predicts +{d['slope_predicted']:.2f}")]))
-    mode = max(d["histogram"], key=lambda p: p[1])
-    write_pair("steps-histogram", lambda t: histogram(d["histogram"], t, "How many division steps random 18-digit pairs take", mode[0]))
+    import diagrams
+    import euclid_diagrams
+    diags = euclid_diagrams.build(d)
+    for name, D in diags.items():
+        for theme, t in diagrams.GITHUB_THEMES.items():
+            (ASSETS / f"{name}-{theme}.svg").write_text(D.render(t, standalone=True))
+    for D in diags.values():
+        for w in D.warnings:
+            print("warning:", w)
+    for old in ("worst-case", "average-case", "steps-histogram"):
+        for theme in ("light", "dark"):
+            (ASSETS / f"{old}-{theme}.svg").unlink(missing_ok=True)
     write_pair("segments", segments_figure)
 
     data = dict(d)
@@ -337,6 +333,11 @@ def main():
     write_readme(d, trace, g, data["snippet"])
     if TEMPLATE.exists():
         page = TEMPLATE.read_text().replace("/*DATA*/null", json.dumps(big_as_strings(data)))
+        for name, D in diags.items():
+            page = page.replace(f"<!--DIAGRAM:{name}-->", D.render(diagrams.HTML_THEME, standalone=False))
+        left = re.findall(r"<!--DIAGRAM:(\w+)-->", page)
+        if left:
+            raise SystemExit(f"page template asks for unknown diagrams: {left}")
         (BOOK / "euclids-algorithm.html").write_text(page)
     print("figures, README and page written for Euclid's algorithm")
 
@@ -363,6 +364,8 @@ def write_readme(d, trace, g, snippet):
     worst18 = d["worst"][-1]
     mode = max(d["histogram"], key=lambda p: p[1])
     big = next(c for c in d["compare"] if (c["a"], c["b"]) == (1000000, 1))
+    avg = {a["digits"]: a["mean"] for a in d["average"]}
+    measured_rows = "\n".join(f"| {w['digits']} | {w['a']:,} and {w['b']:,} | {w['steps']} | {w['lame']} | {avg[w['digits']]:.3f} |" for w in d["worst"])
     md = f"""# Euclid's algorithm
 
 *Era 1 · topic 7 · c. 300 BCE* · [Era 1 reference catalog](../reference-catalog.md#7-euclids-algorithm) · [Interactive edition](euclids-algorithm.html) · [Program](../../../code/era-01-the-first-algorithms/07-euclids-algorithm/)
@@ -378,6 +381,12 @@ def write_readme(d, trace, g, snippet):
 | **Cost** | At most 5 × the digits of the smaller number in division steps (Lamé, 1844) |
 | **Atlas** | Ch. 4, *The Euclidean Algorithm*; Ch. 92, *Number Theory* |
 | **Certainty** | **documented** (the text survives); **conjecture** for earlier origins |
+
+## How ideas combined
+
+A new algorithm is usually an older idea combined with a new one: *A ⊕ B = C*. This map shows where Euclid's algorithm came from and what grew out of it; each box names the idea that was added.
+
+{picture("family", "How Euclid's algorithm combined with other ideas, from repeated subtraction to RSA and the 2012 weak-key hunt")}
 
 ## Where it sits in time
 
@@ -397,20 +406,9 @@ timeline
 
 ## What hurt, and what fixed it
 
-```mermaid
-flowchart LR
-  P0["Try every candidate<br/>until one divides both"]:::pain --> F1["Take the smaller from the larger<br/>Elements VII, c. 300 BCE"]:::fix
-  F1 --> P1["1,000,000 and 1 need<br/>1,000,000 subtractions"]:::pain
-  P1 --> F2["One division does a whole run<br/>(a mod b)"]:::fix
-  F2 --> P2["The gcd alone is not enough:<br/>find x, y with ax + by = gcd"]:::pain
-  P2 --> F3["Carry the steps back<br/>Aryabhata's pulverizer, 499 CE"]:::fix
-  F3 --> P3["How slow can it get?"]:::pain
-  P3 --> F4["Never more than 5 × digits<br/>Lamé, 1844"]:::fix
-  classDef pain stroke:#d5352a,stroke-width:2px
-  classDef fix stroke:#1f5ba8,stroke-width:2px
-```
+Each fix solved one problem and exposed the next.
 
-Red outlines are the pains; blue outlines are the fixes.
+{picture("chain", "Each fix leaves a new pain: five steps from trying every candidate to the binary GCD")}
 
 ## The idea, as a picture
 
@@ -448,7 +446,10 @@ So **{bz["g"]} = {bz["x"]} × {A} + {bz["y"]} × {B}** (Bézout's identity). Ary
 
 ## Four ways to find a gcd
 
-Counts of the basic operations each method makes, from the program:
+Each method was built from the one before it. The diagram shows what was added at each step and what the work grows with; the table counts the work, from the program:
+
+{picture("four", "Four ways to find a gcd, each built from the one before, with the work each needs")}
+
 
 | Pair | gcd | Trying every candidate | Repeated subtraction (Euclid) | Division | Binary GCD (Stein) |
 |---|---|---|---|---|---|
@@ -458,35 +459,30 @@ Trying candidates grows with the size of the numbers. Subtraction can explode. D
 
 ## How fast is it? Measured
 
-The worst case is consecutive Fibonacci numbers: every quotient is 1, so each step takes away as little as possible. Lamé proved in 1844 that the steps never exceed five times the number of digits of the smaller number.
+**The worst case.** Consecutive Fibonacci numbers make the algorithm work hardest: almost every quotient is 1, so each step takes away as little as possible.
 
-{picture("worst-case", "Worst-case division steps by digits of the smaller number, always at or below Lamé's bound of 5 times the digits")}
+{picture("ladder", f"The slowest pair below 100, {ex100['a']} and {ex100['b']}, takes {ex100['steps']} divisions")}
 
-For random numbers it is much better. The average grows by about two steps per extra digit, as Heilbronn's formula 0.843 ln n predicts:
+Lamé proved in 1844 that the steps never exceed five times the number of digits of the smaller number. The worst cases sit exactly at that limit for small numbers and just below it after that:
 
-{picture("average-case", f"Average division steps for random pairs rise steadily to {d['average'][-1]['mean']:.1f} at 18 digits")}
+{picture("lame", "The worst case against Lamé's limit of 5 steps per digit")}
 
-And for random 18-digit pairs the counts bunch tightly around the middle; even the slowest pair needed {d["histogram"][-1][0]} steps, well under Lamé's {worst18["lame"]}:
+**The average.** Random numbers are much kinder. Each extra digit adds about two steps, as Heilbronn's formula predicts:
 
-{picture("steps-histogram", f"Distribution of division steps for {d['hist_samples']:,} random 18-digit pairs, peaking at {mode[0]} steps")}
+{picture("growth", "Average steps for random pairs grow by about two per extra digit")}
 
-## How ideas combined
+**The spread.** For random 18-digit pairs the counts bunch tightly around the middle:
 
-```mermaid
-flowchart TB
-  A["Repeated subtraction<br/>(anthyphairesis)"] -->|"⊕ division"| B["Euclid's algorithm"]
-  B -->|"⊕ carry the steps back"| C["Extended Euclid<br/>Aryabhata, 499 CE"]
-  C -->|"⊕ arithmetic mod n"| D["Modular inverse"]
-  E["Egyptian doubling<br/>(topic 5)"] -->|"⊕ squaring"| F["Square-and-multiply"]
-  D --> G["RSA, 1977"]
-  F --> G
-  B -->|"⊕ Fibonacci numbers"| H["Lamé's bound, 1844<br/>an early running-time analysis"]
-  B -->|"⊕ halving"| I["Binary GCD<br/>Stein, 1967"]
-  B -->|"⊕ millions of public keys"| J["Weak-key hunt, 2012"]
-  B -.->|"same quotients"| K["Continued fractions"]
-```
+{picture("split", f"{d['hist_samples']:,} random 18-digit pairs grouped by how many division steps they took")}
 
-*A ⊕ B = C: a new algorithm is an older idea combined with a new one.*
+<details>
+<summary>Show the numbers</summary>
+
+| Digits | Worst-case pair (consecutive Fibonacci) | Steps | Lamé's limit | Average steps, random pairs |
+|---|---|---|---|---|
+{measured_rows}
+
+</details>
 
 ## Full circle
 

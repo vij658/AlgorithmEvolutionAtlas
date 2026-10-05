@@ -14,6 +14,15 @@
 | **Atlas** | Ch. 4, *The Euclidean Algorithm*; Ch. 92, *Number Theory* |
 | **Certainty** | **documented** (the text survives); **conjecture** for earlier origins |
 
+## How ideas combined
+
+A new algorithm is usually an older idea combined with a new one: *A ⊕ B = C*. This map shows where Euclid's algorithm came from and what grew out of it; each box names the idea that was added.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/family-dark.svg">
+  <img src="assets/family-light.svg" alt="How Euclid&#x27;s algorithm combined with other ideas, from repeated subtraction to RSA and the 2012 weak-key hunt">
+</picture>
+
 ## Where it sits in time
 
 ```mermaid
@@ -32,20 +41,12 @@ timeline
 
 ## What hurt, and what fixed it
 
-```mermaid
-flowchart LR
-  P0["Try every candidate<br/>until one divides both"]:::pain --> F1["Take the smaller from the larger<br/>Elements VII, c. 300 BCE"]:::fix
-  F1 --> P1["1,000,000 and 1 need<br/>1,000,000 subtractions"]:::pain
-  P1 --> F2["One division does a whole run<br/>(a mod b)"]:::fix
-  F2 --> P2["The gcd alone is not enough:<br/>find x, y with ax + by = gcd"]:::pain
-  P2 --> F3["Carry the steps back<br/>Aryabhata's pulverizer, 499 CE"]:::fix
-  F3 --> P3["How slow can it get?"]:::pain
-  P3 --> F4["Never more than 5 × digits<br/>Lamé, 1844"]:::fix
-  classDef pain stroke:#d5352a,stroke-width:2px
-  classDef fix stroke:#1f5ba8,stroke-width:2px
-```
+Each fix solved one problem and exposed the next.
 
-Red outlines are the pains; blue outlines are the fixes.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/chain-dark.svg">
+  <img src="assets/chain-light.svg" alt="Each fix leaves a new pain: five steps from trying every candidate to the binary GCD">
+</picture>
 
 ## The idea, as a picture
 
@@ -95,7 +96,13 @@ So **21 = -3 × 1071 + 7 × 462** (Bézout's identity). Aryabhata called the met
 
 ## Four ways to find a gcd
 
-Counts of the basic operations each method makes, from the program:
+Each method was built from the one before it. The diagram shows what was added at each step and what the work grows with; the table counts the work, from the program:
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/four-dark.svg">
+  <img src="assets/four-light.svg" alt="Four ways to find a gcd, each built from the one before, with the work each needs">
+</picture>
+
 
 | Pair | gcd | Trying every candidate | Repeated subtraction (Euclid) | Division | Binary GCD (Stein) |
 |---|---|---|---|---|---|
@@ -109,44 +116,59 @@ Trying candidates grows with the size of the numbers. Subtraction can explode. D
 
 ## How fast is it? Measured
 
-The worst case is consecutive Fibonacci numbers: every quotient is 1, so each step takes away as little as possible. Lamé proved in 1844 that the steps never exceed five times the number of digits of the smaller number.
+**The worst case.** Consecutive Fibonacci numbers make the algorithm work hardest: almost every quotient is 1, so each step takes away as little as possible.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/worst-case-dark.svg">
-  <img src="assets/worst-case-light.svg" alt="Worst-case division steps by digits of the smaller number, always at or below Lamé&#x27;s bound of 5 times the digits">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/ladder-dark.svg">
+  <img src="assets/ladder-light.svg" alt="The slowest pair below 100, 89 and 55, takes 9 divisions">
 </picture>
 
-For random numbers it is much better. The average grows by about two steps per extra digit, as Heilbronn's formula 0.843 ln n predicts:
+Lamé proved in 1844 that the steps never exceed five times the number of digits of the smaller number. The worst cases sit exactly at that limit for small numbers and just below it after that:
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/average-case-dark.svg">
-  <img src="assets/average-case-light.svg" alt="Average division steps for random pairs rise steadily to 35.0 at 18 digits">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/lame-dark.svg">
+  <img src="assets/lame-light.svg" alt="The worst case against Lamé&#x27;s limit of 5 steps per digit">
 </picture>
 
-And for random 18-digit pairs the counts bunch tightly around the middle; even the slowest pair needed 54 steps, well under Lamé's 90:
+**The average.** Random numbers are much kinder. Each extra digit adds about two steps, as Heilbronn's formula predicts:
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/steps-histogram-dark.svg">
-  <img src="assets/steps-histogram-light.svg" alt="Distribution of division steps for 100,000 random 18-digit pairs, peaking at 35 steps">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/growth-dark.svg">
+  <img src="assets/growth-light.svg" alt="Average steps for random pairs grow by about two per extra digit">
 </picture>
 
-## How ideas combined
+**The spread.** For random 18-digit pairs the counts bunch tightly around the middle:
 
-```mermaid
-flowchart TB
-  A["Repeated subtraction<br/>(anthyphairesis)"] -->|"⊕ division"| B["Euclid's algorithm"]
-  B -->|"⊕ carry the steps back"| C["Extended Euclid<br/>Aryabhata, 499 CE"]
-  C -->|"⊕ arithmetic mod n"| D["Modular inverse"]
-  E["Egyptian doubling<br/>(topic 5)"] -->|"⊕ squaring"| F["Square-and-multiply"]
-  D --> G["RSA, 1977"]
-  F --> G
-  B -->|"⊕ Fibonacci numbers"| H["Lamé's bound, 1844<br/>an early running-time analysis"]
-  B -->|"⊕ halving"| I["Binary GCD<br/>Stein, 1967"]
-  B -->|"⊕ millions of public keys"| J["Weak-key hunt, 2012"]
-  B -.->|"same quotients"| K["Continued fractions"]
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/split-dark.svg">
+  <img src="assets/split-light.svg" alt="100,000 random 18-digit pairs grouped by how many division steps they took">
+</picture>
 
-*A ⊕ B = C: a new algorithm is an older idea combined with a new one.*
+<details>
+<summary>Show the numbers</summary>
+
+| Digits | Worst-case pair (consecutive Fibonacci) | Steps | Lamé's limit | Average steps, random pairs |
+|---|---|---|---|---|
+| 1 | 13 and 8 | 5 | 5 | 2.180 |
+| 2 | 144 and 89 | 10 | 10 | 3.982 |
+| 3 | 1,597 and 987 | 15 | 15 | 5.882 |
+| 4 | 10,946 and 6,765 | 19 | 20 | 7.831 |
+| 5 | 121,393 and 75,025 | 24 | 25 | 9.774 |
+| 6 | 1,346,269 and 832,040 | 29 | 30 | 11.705 |
+| 7 | 14,930,352 and 9,227,465 | 34 | 35 | 13.661 |
+| 8 | 102,334,155 and 63,245,986 | 38 | 40 | 15.590 |
+| 9 | 1,134,903,170 and 701,408,733 | 43 | 45 | 17.518 |
+| 10 | 12,586,269,025 and 7,778,742,049 | 48 | 50 | 19.462 |
+| 11 | 139,583,862,445 and 86,267,571,272 | 53 | 55 | 21.410 |
+| 12 | 1,548,008,755,920 and 956,722,026,041 | 58 | 60 | 23.355 |
+| 13 | 10,610,209,857,723 and 6,557,470,319,842 | 62 | 65 | 25.280 |
+| 14 | 117,669,030,460,994 and 72,723,460,248,141 | 67 | 70 | 27.248 |
+| 15 | 1,304,969,544,928,657 and 806,515,533,049,393 | 72 | 75 | 29.166 |
+| 16 | 14,472,334,024,676,221 and 8,944,394,323,791,464 | 77 | 80 | 31.094 |
+| 17 | 160,500,643,816,367,088 and 99,194,853,094,755,497 | 82 | 85 | 33.056 |
+| 18 | 1,100,087,778,366,101,931 and 679,891,637,638,612,258 | 86 | 90 | 34.965 |
+
+</details>
 
 ## Full circle
 

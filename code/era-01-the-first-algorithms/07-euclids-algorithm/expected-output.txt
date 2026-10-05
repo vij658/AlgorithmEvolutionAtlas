@@ -4,6 +4,15 @@ trace 1071 462: 147 = 7 x 21 + 0
 trace 48 18: 48 = 2 x 18 + 12
 trace 48 18: 18 = 1 x 12 + 6
 trace 48 18: 12 = 2 x 6 + 0
+trace 89 55: 89 = 1 x 55 + 34
+trace 89 55: 55 = 1 x 34 + 21
+trace 89 55: 34 = 1 x 21 + 13
+trace 89 55: 21 = 1 x 13 + 8
+trace 89 55: 13 = 1 x 8 + 5
+trace 89 55: 8 = 1 x 5 + 3
+trace 89 55: 5 = 1 x 3 + 2
+trace 89 55: 3 = 1 x 2 + 1
+trace 89 55: 2 = 2 x 1 + 0
 quotients 1071/462 = [2; 3, 7] (squares cut at each stage)
 extended 1071 462: q=0 r=1071 s=1 t=0
 extended 1071 462: q=0 r=462 s=0 t=1

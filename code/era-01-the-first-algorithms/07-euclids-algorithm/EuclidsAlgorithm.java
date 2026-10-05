@@ -170,9 +170,10 @@ public class EuclidsAlgorithm {
     public static void main(String[] args) {
         Random rnd = new Random(300);                      // c. 300 BCE
 
-        // --- the worked example, 1071 and 462, and the small one the reader tries first, 48 and 18
+        // --- the worked example, 1071 and 462; the small one the reader tries first, 48 and 18;
+        //     and the slowest pair below 100, 89 and 55 (consecutive Fibonacci numbers)
         long A = 1071, B = 462;
-        for (long[] p : new long[][]{{A, B}, {48, 18}}) {
+        for (long[] p : new long[][]{{A, B}, {48, 18}, {89, 55}}) {
             long a = p[0], b = p[1];
             while (b != 0) {
                 long q = a / b, r = a % b;

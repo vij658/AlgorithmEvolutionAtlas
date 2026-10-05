@@ -161,7 +161,7 @@ def render_index_html(era, BOOK, CODE, chain, D, events, tl_label, standalone_do
 <footer>Every link in this book was opened before it was listed, and every number comes from a program that was run.
 <a href="{repo}">The Algorithm Evolution Atlas on GitHub</a>.</footer>
 </div>'''
-    doc = (f"<title>Era {E['num']}: {page.esc(E['title'])}</title>\n"
+    doc = (f"<title>{page.esc(E['title'])}</title>\n"
            f'<meta name="description" content="{page.esc(E["lede"])}">\n'
            '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
            '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">\n'

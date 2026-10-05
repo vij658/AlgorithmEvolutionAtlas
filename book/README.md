@@ -20,9 +20,24 @@
 
 ### Era 1 — The first algorithms (c. 44,000 years ago to c. 240 BCE)
 
-- [Reference catalog](era-01-the-first-algorithms/reference-catalog.md): nine developments, from tally marks to the sieve of Eratosthenes, each with checked videos, lectures, articles and original sources.
-- **Topic 7, Euclid's algorithm** — the first fully visual topic page: [GitHub edition](era-01-the-first-algorithms/07-euclids-algorithm/README.md) (diagrams, tables, charts, fold-out answers) · [interactive edition](era-01-the-first-algorithms/07-euclids-algorithm/euclids-algorithm.html) (download and open in a browser) · [program](../code/era-01-the-first-algorithms/07-euclids-algorithm/EuclidsAlgorithm.java)
+- **[Era 1 front page](era-01-the-first-algorithms/README.md)**: the time line, a map of how the nine ideas combine, and the topics. [Interactive edition](era-01-the-first-algorithms/index.html) (download the folder and open `index.html` in a browser).
+- [Reference catalog](era-01-the-first-algorithms/reference-catalog.md): each development with checked videos, lectures, articles and original sources, certainty labels and gaps.
+- The topics. Each has a GitHub edition (diagrams, tables, fold-out answers), an interactive edition (one HTML page with a widget), and a tested program:
+
+| # | Topic | Interactive widget |
+|---|---|---|
+| 1 | [Tally Marks](era-01-the-first-algorithms/01-tally-marks/README.md) | Pair sheep with stones; switch between readings of the Ishango bone |
+| 2 | [Grouping and the First Carry](era-01-the-first-algorithms/02-grouping-and-the-first-carry/README.md) | Pool and exchange in Egyptian or Sumerian signs |
+| 3 | [Babylonian Place Value](era-01-the-first-algorithms/03-babylonian-place-value/README.md) | Read a number in wedges; divide with the reciprocal table |
+| 4 | [The Square Root of Two](era-01-the-first-algorithms/04-square-root-of-two/README.md) | Square up a rectangle by averaging |
+| 5 | [Egyptian Doubling](era-01-the-first-algorithms/05-egyptian-doubling/README.md) | Double and tick; switch to square-and-multiply |
+| 6 | [Counting Boards](era-01-the-first-algorithms/06-counting-boards/README.md) | Push counters and settle, with or without fives |
+| 7 | [Euclid's Algorithm](era-01-the-first-algorithms/07-euclids-algorithm/README.md) | Cut squares from a rectangle |
+| 8 | [Archimedes Squeezes Pi](era-01-the-first-algorithms/08-archimedes-pi/README.md) | Double a polygon's sides, with a magnified gap |
+| 9 | [The Sieve of Eratosthenes](era-01-the-first-algorithms/09-sieve-of-eratosthenes/README.md) | Sieve by primes, by every odd number, or by every number |
+
 - Chapter 1, *Two numbers, one answer*: [outline](era-01-the-first-algorithms/chapter-01-adding-two-numbers/outline.md) · [history fact sheet](era-01-the-first-algorithms/chapter-01-adding-two-numbers/history-fact-sheet.md) · [program](../code/chapter-01-adding-two-numbers/README.md)
+- The pages are built from the programs' outputs by [`code/tools/book/build.py`](../code/tools/book/build.py); see [the tools README](../code/tools/README.md).
 
 ### Coming next (proposed eras; open to change)
 

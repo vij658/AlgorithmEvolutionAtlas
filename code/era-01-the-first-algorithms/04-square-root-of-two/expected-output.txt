@@ -1,0 +1,17 @@
+tablet: 1;24,51,10 = 1.41421296296... ; sqrt(2) = 1.41421356237... ; error -5.99E-7 ; 30 x 1;24,51,10 = 42;25,35 exactly
+tablet-places: 6 correct decimal places; square of the tablet value = 1.99999830461
+sqrt2 in base 60: 1;24,51,10,7,46,6,...
+iterate 0: 1/1 = 1 ; correct places 0
+iterate 1: 3/2 = 1.5 ; correct places 1 ; three base-60 places cut 1;30,0,0 rounded 1;30,0,0 ; convergent 1 ; p^2 - 2q^2 = 1
+iterate 2: 17/12 = 1.41666666667 ; correct places 2 ; three base-60 places cut 1;25,0,0 rounded 1;25,0,0 ; convergent 3 ; p^2 - 2q^2 = 1
+iterate 3: 577/408 = 1.41421568627 ; correct places 5 ; three base-60 places cut 1;24,51,10 rounded 1;24,51,11 ; convergent 7 ; p^2 - 2q^2 = 1
+iterate 4: 665857/470832 = 1.41421356237 ; correct places 11 ; three base-60 places cut 1;24,51,10 rounded 1;24,51,10 ; convergent 15 ; p^2 - 2q^2 = 1
+iterate 5: 886731088897/627013566048 = 1.41421356237 ; correct places 24 ; three base-60 places cut 1;24,51,10 rounded 1;24,51,10 ; convergent 31 ; p^2 - 2q^2 = 1
+method 6 digits: halving=20 digit-by-digit=6 averaging=4
+method 15 digits: halving=50 digit-by-digit=15 averaging=5
+method 100 digits: halving=333 digit-by-digit=100 averaging=8
+method 1000 digits: halving=3322 digit-by-digit=1000 averaging=11
+heron: sqrt(720) from 27: 720/27 = 26 2/3, average = 26 5/6 = 161/6 ; its square is 720 1/36
+invsqrt: y <- y(3 - 2y^2)/2 from y = 1 reaches 15 correct digits of sqrt 2 = 2y in 7 steps, using no division
+quake: 16777216 floats from 1 to 4; bit-trick guess worst relative error 3.4376%, after one Newton step 0.1752%
+SquareRootOfTwo: 16777246 checks passed

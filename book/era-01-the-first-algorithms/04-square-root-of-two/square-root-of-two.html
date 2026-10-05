@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Square Root of Two</title>
+<meta name="description" content="Era 1, topic 4 of The Algorithm Evolution Atlas: the square root of 2 on YBC 7289 and the averaging rule that became Newton&#x27;s method, with an interactive square-up and verified links.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:18px}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px} .links .w{grid-column:2;font-size:13px;color:var(--ink-2)}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.avg-board svg{background:var(--wash)}
+.avg-board .controls input{width:7em}
+.avg-board .steps li{font-size:12.5px;white-space:normal}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 1: The First Algorithms</a><a href="../03-babylonian-place-value/babylonian-place-value.html">← Babylonian Place Value</a><a href="../05-egyptian-doubling/egyptian-doubling.html">Egyptian Doubling →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 1 · Topic 4 · c. 1800–1600 BCE</div>
+    <h1>The Square Root of Two</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">A student wrote the square root of 2 to six decimal places on a clay tablet. No ruler measures that finely: it had to be computed.</p>
+  <p class="fieldnote">Field note from the visiting historian. A student drew a square and its diagonals, wrote 30 on a side and two numbers along the diagonal. How the value was computed is still argued over, 3,800 years later.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#avg">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#tablet">The evidence</a><a href="#steps">Step by step</a><a href="#measured">Measured</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>c. 1800–1600 BCE (sources range from 1900 to 1600)</dd></div><div><dt>Where</dt><dd>Mesopotamia · Yale Babylonian Collection (<strong>documented</strong>)</dd></div><div><dt>What hurt</dt><dd>Some lengths, like a square's diagonal, can never be written exactly</dd></div><div><dt>The fix</dt><dd>A computed value; later, average g and N/g to improve any guess</dd></div><div><dt>Cost</dt><dd>Averaging doubles the correct digits with every step</dd></div><div><dt>Atlas</dt><dd>Ch. 1.4 Babylonian square root · Ch. 102 Newton–Raphson</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Base-60 place value (topic 3) made a value like 1;24,51,10 writable; a rule that improves any guess made it computable. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 650" role="img" aria-label="How the square root of 2 combined with other ideas, from place value to the fast inverse square root" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="285.0" y1="106.0" x2="285.0" y2="160.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="285.0,160.0 281.3,151.8 288.7,151.8" style="fill:var(--ink-2)"/><line x1="715.0" y1="106.0" x2="715.0" y2="160.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="715.0,160.0 711.3,151.8 718.7,151.8" style="fill:var(--ink-2)"/><line x1="390.0" y1="203.0" x2="610.0" y2="203.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="610.0,203.0 601.8,206.7 601.8,199.3" style="fill:var(--ink-2)"/><rect x="467.3" y="182.0" width="65.3" height="19" rx="3" style="fill:var(--surface)"/><text x="500.0" y="195.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">disputed</text><line x1="285.0" y1="246.0" x2="285.0" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="285.0,300.0 281.3,291.8 288.7,291.8" style="fill:var(--ink-2)"/><line x1="715.0" y1="246.0" x2="715.0" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="715.0,300.0 711.3,291.8 718.7,291.8" style="fill:var(--ink-2)"/><line x1="715.0" y1="246.0" x2="500.0" y2="420.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,420.0 504.1,412.0 508.7,417.7" style="fill:var(--ink-2)"/><line x1="500.0" y1="506.0" x2="285.0" y2="540.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="285.0,540.0 292.5,535.1 293.7,542.3" style="fill:var(--ink-2)"/><line x1="500.0" y1="506.0" x2="715.0" y2="540.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="715.0,540.0 706.3,542.3 707.5,535.1" style="fill:var(--ink-2)"/><rect x="180" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="192.0" y="60.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Base-60 place value</text><text x="192.0" y="77.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 3</text><rect x="610" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="622.0" y="60.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Reciprocal tables</text><text x="622.0" y="77.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 3</text><rect x="180" y="160" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="192.0" y="191.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">√2 to three places</text><text x="192.0" y="209.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ a value no ruler gives</text><text x="192.0" y="225.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">YBC 7289, c. 1800–1600 BCE</text><rect x="610" y="160" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="622.0" y="191.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Averaging g and N/g</text><text x="622.0" y="209.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ a rule to improve a guess</text><text x="622.0" y="225.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Heron&#x27;s Metrica, 1st century CE</text><rect x="180" y="300" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="192.0" y="331.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Bounds for √3</text><text x="192.0" y="349.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ squeezing from both sides</text><text x="192.0" y="365.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Archimedes, topic 8</text><rect x="610" y="300" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="622.0" y="331.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Continued fractions</text><text x="622.0" y="349.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">same guesses: 3/2, 17/12,</text><text x="622.0" y="365.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">577/408</text><rect x="395" y="420" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="451.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Newton&#x27;s method</text><text x="407.0" y="469.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ any equation f(x) = 0</text><text x="407.0" y="485.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">17th century</text><rect x="180" y="540" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="192.0" y="562.0" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Fast inverse square</text><text x="192.0" y="581.8" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">root</text><text x="192.0" y="599.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ a bit-trick first guess</text><text x="192.0" y="615.5" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Quake III Arena source</text><rect x="610" y="540" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="622.0" y="571.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Millions of digits</text><text x="622.0" y="589.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ fast multiplication</text><text x="622.0" y="605.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">today&#x27;s big-number libraries</text></svg></div><figcaption>Red: the tablet's value and the averaging rule. Blue: what the rule became. The dashed arrow from the tablet to Heron is disputed: nobody knows that the scribe averaged.</figcaption></figure>
+</section>
+<section id="avg" aria-labelledby="avg-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="avg-h">Square up a rectangle</h2>
+<p class="col">To find the square root of N, start with any guess g. A rectangle with sides g and N/g has area N. If g is too small, N/g is too big, and the other way round, so the average of the two sides is a better guess. Repeat.</p>
+
+<div class="board avg-board">
+  <div style="min-width:0">
+    <div class="controls">
+      <label for="av-n">Square root of <input id="av-n" type="number" min="2" max="1000000" value="2" inputmode="numeric"></label>
+      <label for="av-g">first guess <input id="av-g" type="number" min="0.001" step="any" value="1" inputmode="decimal"></label>
+      <button id="av-step" class="primary" type="button">Average</button>
+      <button id="av-reset" type="button">Reset</button>
+    </div>
+    <svg id="av-svg" viewBox="0 0 520 300" role="img" aria-label="The guess as a rectangle of the right area, squaring up"></svg>
+    <p class="zoomnote" id="av-note"></p>
+  </div>
+  <div style="min-width:0">
+    <div class="eyebrow">The guesses</div>
+    <ol class="steps" id="av-steps"></ol>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 1, the first algorithms</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1098 132" role="img" aria-label="Era 1: The First Algorithms, from c. 44,000 years ago to c. 240 BCE" style="font-family:var(--body);min-width:790px;max-width:1153px;margin:0 auto"><line x1="34" y1="34" x2="1064" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 44,000 years ago</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Notched bones</text><circle cx="185.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 3000 BCE</text><text x="185.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Written numerals</text><text x="185.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">and the first</text><text x="185.2" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">carry</text><circle cx="306.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="306.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1800 BCE</text><text x="306.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Babylonian place</text><text x="306.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">value and tables</text><circle cx="427.8" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="427.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1800–1600 BCE</text><text x="427.8" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">√2 on the tablet</text><text x="427.8" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">YBC 7289</text><circle cx="549.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="549.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1550 BCE</text><text x="549.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Egyptian</text><text x="549.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">multiplication by</text><text x="549.0" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">doubling</text><circle cx="670.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="670.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 300 BCE</text><text x="670.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Counting boards</text><text x="670.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">and the abacus</text><circle cx="791.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="791.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 300 BCE</text><text x="791.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Euclid&#x27;s algorithm</text><circle cx="912.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="912.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 250 BCE</text><text x="912.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Archimedes</text><text x="912.8" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">squeezes π</text><circle cx="1034.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1034.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 240 BCE</text><text x="1034.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">The sieve of</text><text x="1034.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Eratosthenes</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 526" role="img" aria-label="Each fix leaves a new pain: from measuring to computing roots" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="62.0" x2="560.0" y2="62.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,62.0 551.8,65.7 551.8,58.3" style="fill:var(--ink-2)"/><rect x="449.2" y="41.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="54.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="104.0" x2="750.0" y2="154.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,154.0 746.3,145.8 753.7,145.8" style="fill:var(--ink-2)"/><rect x="757.0" y="121.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="134.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="196.0" x2="400.0" y2="196.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,196.0 408.2,192.3 408.2,199.7" style="fill:var(--ink-2)"/><rect x="449.2" y="175.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="188.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="238.0" x2="210.0" y2="288.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,288.0 206.3,279.8 213.7,279.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="330.0" x2="560.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,330.0 551.8,333.7 551.8,326.3" style="fill:var(--ink-2)"/><rect x="449.2" y="309.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="322.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="372.0" x2="750.0" y2="422.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,422.0 746.3,413.8 753.7,413.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="464.0" x2="400.0" y2="464.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,464.0 408.2,460.3 408.2,467.7" style="fill:var(--ink-2)"/><rect x="449.2" y="443.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="456.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="57.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="73.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The diagonal of a square cannot be measured exactly</text><rect x="560" y="20" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="49.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="65.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Compute it: 1;24,51,10, right to 6 decimal places</text><text x="572.0" y="82.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">YBC 7289, c. 1800–1600 BCE</text><rect x="560" y="154" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="191.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="207.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A single guess is always too big or too small</text><rect x="20" y="154" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="175.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="191.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Average a guess g with N/g: they lie on opposite sides of</text><text x="32.0" y="207.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the root</text><text x="32.0" y="224.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Heron, 1st century CE</text><rect x="20" y="288" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="325.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="341.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Every step needs a division</text><rect x="560" y="288" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="317.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="333.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Iterate on 1/√N instead: multiplications only</text><text x="572.0" y="350.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">a modern variant</text><rect x="560" y="422" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="459.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="475.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Halving the interval needs 3,322 steps for 1,000 digits</text><rect x="20" y="422" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="459.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="475.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Averaging doubles the correct digits: 11 steps</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="tablet" aria-labelledby="tablet-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="tablet-h">A student&#x27;s tablet, 3,800 years old</h2>
+<p class="col">YBC 7289 is a small round school tablet in the Yale Babylonian Collection. It shows a square with its diagonals. One side is marked 30. Along the diagonal are two base-60 numbers: 1;24,51,10, which is √2, and 42;25,35, which is 30 × √2, the length of this diagonal.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 320 300" role="img" aria-label="YBC 7289 redrawn: a square of side 30 with the diagonal marked 1;24,51,10 and 42;25,35" style="font-family:var(--body);min-width:160px;max-width:360px;margin:0 auto"><ellipse cx="160" cy="150" rx="140" ry="132" style="fill:var(--wash);stroke:var(--ink-2);stroke-width:1.5"/><path d="M160,40 L270,150 L160,260 L50,150 Z" style="fill:none;stroke:var(--ink);stroke-width:2.2"/><line x1="50.0" y1="150.0" x2="270.0" y2="150.0" style="stroke:var(--red);stroke-width:2.2"/><line x1="160.0" y1="40.0" x2="160.0" y2="260.0" style="stroke:var(--ink-2);stroke-width:1.4"/><text x="92.0" y="88.0" text-anchor="middle" style="fill:var(--ink);font-size:16px;font-weight:700">30</text><text x="160.0" y="142.0" text-anchor="middle" style="fill:var(--red);font-size:15px;font-weight:700">1;24,51,10</text><text x="160.0" y="172.0" text-anchor="middle" style="fill:var(--blue);font-size:15px;font-weight:700">42;25,35</text></svg></div><figcaption>Redrawn for this book, with the numbers in modern notation. It is not a copy of the tablet.</figcaption></figure>
+<div class="tbl"><table><thead><tr><th class=""></th><th class="">Value</th><th class="">Notes</th></tr></thead><tbody><tr class=""><td class="">The tablet: 1;24,51,10</td><td class="">1.41421296296…</td><td class="">6 correct decimal places; its square is 1.99999830461…</td></tr><tr class=""><td class="">√2</td><td class="">1.41421356237…</td><td class="">in base 60: 1;24,51,10,7,46,6,…</td></tr><tr class=""><td class="">Difference</td><td class="">-5.99E-7</td><td class="">smaller than any measurement could detect</td></tr><tr class=""><td class="">30 × 1;24,51,10</td><td class="">42;25,35</td><td class="">exactly, as the program checks</td></tr></tbody></table></div>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 330" role="img" aria-label="How did the scribe get 1;24,51,10? Four answers" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="500.0" y1="104.0" x2="132.5" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="132.5,200.0 139.5,194.4 141.4,201.5" style="fill:var(--ink-2)"/><line x1="500.0" y1="104.0" x2="377.5" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="377.5,200.0 381.7,192.0 386.2,197.8" style="fill:var(--ink-2)"/><line x1="500.0" y1="104.0" x2="622.5" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="622.5,200.0 613.8,197.8 618.3,192.0" style="fill:var(--ink-2)"/><line x1="500.0" y1="104.0" x2="867.5" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="867.5,200.0 858.6,201.5 860.5,194.4" style="fill:var(--ink-2)"/><rect x="330" y="20" width="340" height="84" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="342.0" y="50.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The tablet</text><text x="342.0" y="68.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">side 30; diagonal 1;24,51,10 and 42;25,35</text><text x="342.0" y="84.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">documented: YBC 7289</text><rect x="20" y="200" width="225" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="234.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Copied from a list</text><text x="32.0" y="252.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">of standard coefficients</text><text x="32.0" y="268.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Fowler and Robson, 1998</text><rect x="265" y="200" width="225" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="277.0" y="226.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Cut and paste</text><text x="277.0" y="243.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a geometric step, equal to one</text><text x="277.0" y="260.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">averaging step</text><text x="277.0" y="276.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Fowler and Robson, 1998</text><rect x="510" y="200" width="225" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="522.0" y="226.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Repeated averaging</text><text x="522.0" y="243.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">reaches it at the third new</text><text x="522.0" y="260.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">guess</text><text x="522.0" y="276.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">possible, not shown (Baez)</text><rect x="755" y="200" width="225" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="767.0" y="234.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Another route</text><text x="767.0" y="252.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a different reconstruction</text><text x="767.0" y="268.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Buckle, 2023</text><text x="500.0" y="318.0" text-anchor="middle" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE METHOD IS DISPUTED; THE VALUE AND ITS ARITHMETIC ARE NOT</text></svg></div><figcaption>Fowler and Robson (1998) is the standard study. Repeated averaging reaching the tablet's value shows the method is possible, not that it was used.</figcaption></figure>
+</section>
+<section id="steps" aria-labelledby="steps-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Step by step</span></div>
+  <h2 id="steps-h">Averaging from the guess 1</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 230" role="img" aria-label="Averaging from the guess 1: each step roughly doubles the correct digits" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="176.0" y1="98.0" x2="216.0" y2="98.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="216.0,98.0 207.8,101.7 207.8,94.3" style="fill:var(--ink-2)"/><line x1="372.0" y1="98.0" x2="412.0" y2="98.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="412.0,98.0 403.8,101.7 403.8,94.3" style="fill:var(--ink-2)"/><line x1="568.0" y1="98.0" x2="608.0" y2="98.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="608.0,98.0 599.8,101.7 599.8,94.3" style="fill:var(--ink-2)"/><line x1="764.0" y1="98.0" x2="804.0" y2="98.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="804.0,98.0 795.8,101.7 795.8,94.3" style="fill:var(--ink-2)"/><rect x="20" y="50" width="156" height="96" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="86.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">1/1</text><text x="32.0" y="104.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">1</text><text x="32.0" y="120.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">0 correct places</text><rect x="216" y="50" width="156" height="96" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="228.0" y="86.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">3/2</text><text x="228.0" y="104.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">1.5</text><text x="228.0" y="120.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1 correct places</text><rect x="412" y="50" width="156" height="96" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="424.0" y="86.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">17/12</text><text x="424.0" y="104.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">1.4166666666</text><text x="424.0" y="120.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">2 correct places</text><rect x="608" y="50" width="156" height="96" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="620.0" y="86.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">577/408</text><text x="620.0" y="104.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">1.4142156862</text><text x="620.0" y="120.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">5 correct places</text><rect x="804" y="50" width="156" height="96" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="816.0" y="86.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">665857/470832</text><text x="816.0" y="104.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">1.4142135623</text><text x="816.0" y="120.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">11 correct places</text><text x="20.0" y="30.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE GUESSES, AS EXACT FRACTIONS; EACH ARROW AVERAGES g AND 2/g</text><text x="20.0" y="186.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">577/408 cut to three base-60 places is 1;24,51,10, the tablet&#x27;s value; rounded, it would be 1;24,51,11.</text><text x="20.0" y="208.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Every guess is a continued-fraction convergent of √2, and p² − 2q² = 1 for each one.</text></svg></div></figure>
+<div class="tbl"><table><thead><tr><th class="n">Step</th><th class="">Guess (exact)</th><th class="">Value</th><th class="n">Correct places</th><th class="">Three base-60 places, cut</th><th class="">Rounded</th></tr></thead><tbody><tr class=""><td class="n">0</td><td class="">1/1</td><td class="">1</td><td class="n">0</td><td class="">—</td><td class="">—</td></tr><tr class=""><td class="n">1</td><td class="">3/2</td><td class="">1.5</td><td class="n">1</td><td class="">1;30,0,0</td><td class="">1;30,0,0</td></tr><tr class=""><td class="n">2</td><td class="">17/12</td><td class="">1.41666666667</td><td class="n">2</td><td class="">1;25,0,0</td><td class="">1;25,0,0</td></tr><tr class="hl"><td class="n">3</td><td class="">577/408</td><td class="">1.41421568627</td><td class="n">5</td><td class="">1;24,51,10</td><td class="">1;24,51,11</td></tr><tr class=""><td class="n">4</td><td class="">665857/470832</td><td class="">1.41421356237</td><td class="n">11</td><td class="">1;24,51,10</td><td class="">1;24,51,10</td></tr><tr class=""><td class="n">5</td><td class="">886731088897/627013566048</td><td class="">1.41421356237</td><td class="n">24</td><td class="">1;24,51,10</td><td class="">1;24,51,10</td></tr></tbody></table></div>
+<div class="callout wrong col"><div class="k">Careful</div><p>The third new guess, 577/408, gives the tablet's digits only if you cut it off after three base-60 places: rounded, it is 1;24,51,11. Whether the scribe cut, rounded, or never averaged at all is part of the dispute.</p></div>
+<div class="callout key col"><div class="k">Key idea</div><p>Heron wrote the rule down in his <em>Metrica</em> (1st century CE) for √720: 720 is not a square, the next square is 729 = 27², so divide 720 by 27 and average. The program repeats it: 720/27 = 26 2/3, and the average is 26 5/6 = 161/6, whose square is 720 1/36.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">How fast does it get there?</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 200" role="img" aria-label="Three ways to the digits of a square root" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="310.0" y1="105.0" x2="350.0" y2="105.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="350.0,105.0 341.8,108.7 341.8,101.3" style="fill:var(--ink-2)"/><line x1="640.0" y1="105.0" x2="680.0" y2="105.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="680.0,105.0 671.8,108.7 671.8,101.3" style="fill:var(--ink-2)"/><rect x="20" y="50" width="290" height="110" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="93.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Halve the interval</text><text x="32.0" y="111.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">about 3.3 steps per decimal digit</text><text x="32.0" y="127.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1,000 digits: 3,322 steps</text><rect x="350" y="50" width="290" height="110" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="362.0" y="93.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Digit by digit</text><text x="362.0" y="111.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">one digit per step, as taught in schools</text><text x="362.0" y="127.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1,000 digits: 1,000 steps</text><rect x="680" y="50" width="290" height="110" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="692.0" y="93.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Average g and N/g</text><text x="692.0" y="111.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the correct digits double each step</text><text x="692.0" y="127.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1,000 digits: 11 steps</text><text x="20.0" y="30.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">FASTER TO THE RIGHT, FOR THE SAME ANSWER</text></svg></div></figure>
+<div class="tbl"><table><thead><tr><th class="n">Correct digits wanted</th><th class="n">Halving the interval</th><th class="n">Digit by digit</th><th class="n">Averaging (Heron, Newton)</th></tr></thead><tbody><tr class=""><td class="n">6</td><td class="n">20</td><td class="n">6</td><td class="n"><strong>4</strong></td></tr><tr class=""><td class="n">15</td><td class="n">50</td><td class="n">15</td><td class="n"><strong>5</strong></td></tr><tr class=""><td class="n">100</td><td class="n">333</td><td class="n">100</td><td class="n"><strong>8</strong></td></tr><tr class="hl"><td class="n">1,000</td><td class="n">3,322</td><td class="n">1,000</td><td class="n"><strong>11</strong></td></tr></tbody></table></div>
+<p class="col">Averaging doubles the correct digits at each step: 1, 2, 5, 11, 24 places for the first guesses. A division-free version, which improves a guess y for 1/√2 by y ← y(3 − 2y²)/2, reaches 15 digits in 7 steps.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">One averaging step in a video game</h2>
+<p class="col">The source code of the video game <em>Quake III Arena</em>, published by id Software, computes 1/√x with a bit trick for the first guess and then one Newton step, the averaging idea applied to 1/√x. The program checks it on every float from 1 to 4, where the error pattern repeats.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>Over 16,777,216 floats, the bit trick alone is off by at most <strong>3.4376%</strong>. One Newton step cuts that to <strong>0.1752%</strong>: the same move that lands on 577/408, 3,800 years later, inside a game loop.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Average 1 and 2/1. Then average the result with 2 divided by it.</span></summary><div class="ans"><p>1 and 2 average to <strong>3/2</strong>. Then 2 ÷ 3/2 = 4/3, and the average of 3/2 and 4/3 is <strong>17/12</strong> = 1.41666…</p></div></details><details class="try"><summary><span class="q">2</span><span>Why must g and N/g lie on opposite sides of √N?</span></summary><div class="ans"><p>Their product is N. If both were bigger than √N the product would be bigger than N; if both were smaller it would be smaller.</p></div></details><details class="try"><summary><span class="q">3</span><span>Check the tablet: is 30 × 1;24,51,10 really 42;25,35?</span></summary><div class="ans"><p>30 × 1 = 30; 30 × 24/60 = 12; 30 × 51/3600 = 0;25,30; 30 × 10/216000 = 0;0,5. Total: <strong>42;25,35</strong>. The program checks it with exact fractions.</p></div></details><details class="try"><summary><span class="q">4</span><span>How many steps does averaging need for 1,000 digits of √2? And halving?</span></summary><div class="ans"><p><strong>11</strong> averaging steps against <strong>3,322</strong> halvings.</p></div></details><details class="try"><summary><span class="q">5</span><span>Why is 577/408 special besides matching the tablet?</span></summary><div class="ans"><p>577² − 2 × 408² = 1, so 577/408 is a solution of Pell's equation, and it is a continued-fraction convergent of √2.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 320 300" role="img" aria-label="YBC 7289 redrawn: a square of side 30 with the diagonal marked 1;24,51,10 and 42;25,35" style="font-family:var(--body);min-width:160px;max-width:360px;margin:0 auto"><ellipse cx="160" cy="150" rx="140" ry="132" style="fill:var(--wash);stroke:var(--ink-2);stroke-width:1.5"/><path d="M160,40 L270,150 L160,260 L50,150 Z" style="fill:none;stroke:var(--ink);stroke-width:2.2"/><line x1="50.0" y1="150.0" x2="270.0" y2="150.0" style="stroke:var(--red);stroke-width:2.2"/><line x1="160.0" y1="40.0" x2="160.0" y2="260.0" style="stroke:var(--ink-2);stroke-width:1.4"/><text x="92.0" y="88.0" text-anchor="middle" style="fill:var(--ink);font-size:16px;font-weight:700">30</text><text x="160.0" y="142.0" text-anchor="middle" style="fill:var(--red);font-size:15px;font-weight:700">1;24,51,10</text><text x="160.0" y="172.0" text-anchor="middle" style="fill:var(--blue);font-size:15px;font-weight:700">42;25,35</text></svg></div><figcaption class="txt"><b>YBC 7289</b><span>Old Babylonian school tablet, c. 1800–1600 BCE (sources range from 1900 to 1600). Yale Babylonian Collection.</span><a href="https://cdli.earth/artifacts/255048">CDLI record, with transliteration</a><span class="lic">Drawn for this book; photographs at the link and in Yale's film below.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://www.youtube.com/watch?v=Ecm15-TKOBg" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">A Cuneiform Tablet in the Digital Age · Yale University</span><span class="w">Yale&#x27;s own film about YBC 7289 and its 3D-printed copies</span></a><a href="https://www.youtube.com/watch?v=RR3zzQP3bII" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Cuneiform Numbers · Numberphile</span><span class="w">What you need to read 1;24,51,10</span></a><a href="https://www.youtube.com/watch?v=ojvdPjMhnKI" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Early Mathematics: A Short Introduction · Gresham College, Robin Wilson</span><span class="w">Includes the Mesopotamian √2 approximation</span></a><a href="https://old.maa.org/press/periodicals/convergence/the-best-known-old-babylonian-tablet" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">The Best Known Old Babylonian Tablet? · MAA Convergence</span><span class="w">A novice scribe&#x27;s practice exercise; √2 correct to three sexagesimal places</span></a><a href="https://www.youtube.com/watch?v=2YeJ-5UAke8" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Lecture 12: Square Roots, Newton&#x27;s Method · MIT 6.006 (Srini Devadas), MIT OpenCourseWare</span><span class="w">The same iteration used today for high-precision roots, with error and cost analysis</span></a><a href="https://personal.math.ubc.ca/~cass/Euclid/ybc/analysis.html" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">YBC 7289 — Analysis · Bill Casselman, UBC</span><span class="w">Works through the numbers on the tablet</span></a><a href="https://mathshistory.st-andrews.ac.uk/HistTopics/Babylonian_Pythagoras/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Babylonian Pythagoras · MacTutor</span><span class="w">Two candidate methods, and the admission that there is no evidence of the method being used elsewhere</span></a><a href="https://math.mit.edu/~stevenj/18.335/newton-sqrt.pdf" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Square Roots via Newton&#x27;s Method · MIT 18.335 note (S. G. Johnson)</span><span class="w">Quadratic convergence: correct digits roughly double each step. It dates the Babylonians to &quot;circa 1000 BCE&quot;, which is too late for this tablet</span></a><a href="https://cdli.earth/artifacts/255048" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">YBC 07289 (P255048) · CDLI</span><span class="w">Catalogue record and transliteration</span></a><a href="https://isaw.nyu.edu/exhibitions/before-pythagoras/items/ybc-7289/" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">YBC 7289 exhibition label · ISAW, NYU</span><span class="w">Museum label from *Before Pythagoras*</span></a><a href="https://news.yale.edu/2016/04/11/3800-year-journey-classroom-classroom" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">A 3,800-year journey from classroom to classroom · Yale News</span><span class="w">Curators on the tablet and its digitisation</span></a><a href="https://www.sciencedirect.com/science/article/pii/S0315086098922091" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Square root approximations in Old Babylonian mathematics: YBC 7289 in context · Fowler and Robson, Historia Mathematica 25 (1998)</span><span class="w">The standard scholarly study</span></a><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Heron/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Heron of Alexandria · MacTutor History of Mathematics</span><span class="w">The Metrica&#x27;s square root of 720, in Heron&#x27;s words</span></a><a href="https://github.com/id-Software/Quake-III-Arena/blob/master/code/game/q_math.c" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">q_math.c, Quake III Arena source · id Software, on GitHub</span><span class="w">Q_rsqrt: a bit-trick guess and one Newton step</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-01-the-first-algorithms/reference-catalog.md">Era 1 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-01-the-first-algorithms/04-square-root-of-two/SquareRootOfTwo.java">SquareRootOfTwo.java</a> makes <strong>16,777,246 checks</strong>: the tablet's arithmetic with exact fractions, every averaging step against the continued-fraction convergents and Pell's equation, the digits of three methods to 1,000 places, and the Quake III inverse square root on every float from 1 to 4. Run it with <code>java SquareRootOfTwo.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** One averaging step for the square root of N: (g + N/g) / 2, with exact fractions. */</span>
+<span class="k-kw">static</span> Frac average(Frac g, <span class="k-kw">long</span> n) {
+    BigInteger N = BigInteger.valueOf(n);
+    <span class="k-c">// g = p/q: (p/q + N q/p) / 2 = (p^2 + N q^2) / (2 p q)</span>
+    BigInteger num = g.p().pow(<span class="k-n">2</span>).add(N.multiply(g.q().pow(<span class="k-n">2</span>)));
+    BigInteger den = BigInteger.TWO.multiply(g.p()).multiply(g.q());
+    BigInteger k = num.gcd(den);
+    <span class="k-kw">return</span> <span class="k-kw">new</span> Frac(num.divide(k), den.divide(k));
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>SquareRootOfTwo.java</code>. The tablet is redrawn for this book.<br><span class="navfoot"><a href="../index.html">Era 1: The First Algorithms</a><a href="../03-babylonian-place-value/babylonian-place-value.html">← Babylonian Place Value</a><a href="../05-egyptian-doubling/egyptian-doubling.html">Egyptian Doubling →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const svg = document.getElementById("av-svg");
+  if (!svg) return;
+  let N = 2, guesses = [1];
+  const base60 = x => { let w = Math.floor(x), f = x - w, d = []; for (let i = 0; i < 3; i++) { f *= 60; const k = Math.floor(f + 1e-12); d.push(k); f -= k; } return w + ";" + d.join(","); };
+  const correct = x => { const e = Math.abs(x - Math.sqrt(N)); return e === 0 ? "all" : Math.max(0, Math.floor(-Math.log10(e))); };
+  function draw() {
+    svg.innerHTML = "";
+    const g = guesses[guesses.length - 1], other = N / g, r = Math.sqrt(N);
+    const big = Math.max(g, other, r), scale = 240 / big;
+    const x0 = 40, y0 = 270;
+    sv("rect", {x: x0, y: y0 - r * scale, width: r * scale, height: r * scale, fill: "none", stroke: "var(--axis)", "stroke-dasharray": "5 4", "stroke-width": 1.5}, svg);
+    sv("rect", {x: x0, y: y0 - other * scale, width: g * scale, height: other * scale, fill: "var(--wash)", stroke: "var(--red)", "stroke-width": 2.5}, svg);
+    sv("text", {x: x0 + g * scale / 2, y: y0 + 20, "text-anchor": "middle", fill: "var(--ink)", "font-size": 13, "font-weight": 700}, svg, `g = ${+g.toPrecision(8)}`);
+    sv("text", {x: x0 + g * scale + 8, y: y0 - other * scale / 2, fill: "var(--ink)", "font-size": 13, "font-weight": 700}, svg, `${fmt(N)}/g = ${+other.toPrecision(8)}`);
+    sv("text", {x: 500, y: 24, "text-anchor": "end", fill: "var(--muted)", "font-size": 12}, svg, `dashed: the square of area ${fmt(N)}`);
+    const steps = document.getElementById("av-steps");
+    steps.innerHTML = "";
+    guesses.forEach((x, i) => {
+      el("li", {class: i === guesses.length - 1 ? "current" : ""}, steps, `${i}: ${x.toPrecision(16)}  (${correct(x)} places; base 60 ${base60(x)})`);
+    });
+    document.getElementById("av-note").textContent = guesses.length > 1
+      ? `g and ${fmt(N)}/g always sit on opposite sides of the root, so their average is closer. The page computes in ordinary floating point, so it stops at about 16 digits.`
+      : "Press Average: the new guess is the average of the two sides.";
+  }
+  function reset() {
+    N = Math.max(2, Math.floor(+document.getElementById("av-n").value || 2));
+    const g0 = +document.getElementById("av-g").value;
+    guesses = [g0 > 0 ? g0 : 1]; draw();
+  }
+  document.getElementById("av-step").addEventListener("click", () => {
+    const g = guesses[guesses.length - 1], next = (g + N / g) / 2;
+    if (guesses.length < 12 && next !== g) guesses.push(next);
+    draw();
+  });
+  document.getElementById("av-reset").addEventListener("click", reset);
+  ["av-n", "av-g"].forEach(id => document.getElementById(id).addEventListener("change", reset));
+  draw();
+})();
+
+</script>
+</body>
+</html>

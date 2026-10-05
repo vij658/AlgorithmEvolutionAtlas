@@ -13,5 +13,5 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 5 | [Egyptian Doubling](05-egyptian-doubling/README.md) | c. 1550 BCE | [`EgyptianDoubling.java`](05-egyptian-doubling/EgyptianDoubling.java) | 1,701,049 |
 | 6 | [Counting Boards](06-counting-boards/README.md) | c. 300 BCE | [`CountingBoard.java`](06-counting-boards/CountingBoard.java) | 2,600,007 |
 | 7 | [Euclid's Algorithm](07-euclids-algorithm/README.md) | c. 300 BCE | [`EuclidsAlgorithm.java`](07-euclids-algorithm/EuclidsAlgorithm.java) | 1,444,574 |
-| 8 | Archimedes Squeezes Pi | c. 250 BCE | planned | |
+| 8 | [Archimedes Squeezes Pi](08-archimedes-pi/README.md) | c. 250 BCE | [`ArchimedesPi.java`](08-archimedes-pi/ArchimedesPi.java) | 42 |
 | 9 | The Sieve of Eratosthenes | c. 240 BCE | planned | |

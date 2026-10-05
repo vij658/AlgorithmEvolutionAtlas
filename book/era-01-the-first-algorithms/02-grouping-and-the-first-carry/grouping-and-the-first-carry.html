@@ -149,7 +149,8 @@ details.try[open] summary::after{content:"Hide"}
 details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
 
 /* objects */
-.objects{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:18px}
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
 .obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
 .obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}

@@ -11,7 +11,7 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 3 | [Babylonian Place Value](03-babylonian-place-value/README.md) | c. 1800 BCE | [`BabylonianPlaceValue.java`](03-babylonian-place-value/BabylonianPlaceValue.java) | 2,008,051 |
 | 4 | [The Square Root of Two](04-square-root-of-two/README.md) | c. 1800–1600 BCE | [`SquareRootOfTwo.java`](04-square-root-of-two/SquareRootOfTwo.java) | 16,777,246 |
 | 5 | [Egyptian Doubling](05-egyptian-doubling/README.md) | c. 1550 BCE | [`EgyptianDoubling.java`](05-egyptian-doubling/EgyptianDoubling.java) | 1,701,049 |
-| 6 | Counting Boards | c. 300 BCE | planned | |
+| 6 | [Counting Boards](06-counting-boards/README.md) | c. 300 BCE | [`CountingBoard.java`](06-counting-boards/CountingBoard.java) | 2,600,007 |
 | 7 | [Euclid's Algorithm](07-euclids-algorithm/README.md) | c. 300 BCE | [`EuclidsAlgorithm.java`](07-euclids-algorithm/EuclidsAlgorithm.java) | 1,444,574 |
 | 8 | Archimedes Squeezes Pi | c. 250 BCE | planned | |
 | 9 | The Sieve of Eratosthenes | c. 240 BCE | planned | |

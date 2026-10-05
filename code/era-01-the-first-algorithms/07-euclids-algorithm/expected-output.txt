@@ -1,0 +1,60 @@
+trace 1071 462: 1071 = 2 x 462 + 147
+trace 1071 462: 462 = 3 x 147 + 21
+trace 1071 462: 147 = 7 x 21 + 0
+trace 48 18: 48 = 2 x 18 + 12
+trace 48 18: 18 = 1 x 12 + 6
+trace 48 18: 12 = 2 x 6 + 0
+quotients 1071/462 = [2; 3, 7] (squares cut at each stage)
+extended 1071 462: q=0 r=1071 s=1 t=0
+extended 1071 462: q=0 r=462 s=0 t=1
+extended 1071 462: q=2 r=147 s=1 t=-2
+extended 1071 462: q=3 r=21 s=-3 t=7
+extended 1071 462: q=7 r=0 s=22 t=-51
+bezout 1071 462: 21 = -3 x 1071 + 7 x 462
+compare 1071 462: gcd=21 trying=442 subtracting=12 dividing=3 binary=5
+compare 89 55: gcd=1 trying=55 subtracting=10 dividing=9 binary=5
+compare 1000000 1: gcd=1 trying=1 subtracting=1000000 dividing=1 binary=7
+compare 2971215073 1836311903: gcd=1 trying=1836311903 subtracting=46 dividing=45 binary=26
+compare 917151100147030119 740488968177717441: gcd=3 trying=740488968177717439 subtracting=267 dividing=41 binary=45
+exhaustive below 100: most steps 9 at (89, 55)
+exhaustive below 1000: most steps 14 at (987, 610)
+worst digits=1: (13, 8) steps=5 lame=5
+worst digits=2: (144, 89) steps=10 lame=10
+worst digits=3: (1597, 987) steps=15 lame=15
+worst digits=4: (10946, 6765) steps=19 lame=20
+worst digits=5: (121393, 75025) steps=24 lame=25
+worst digits=6: (1346269, 832040) steps=29 lame=30
+worst digits=7: (14930352, 9227465) steps=34 lame=35
+worst digits=8: (102334155, 63245986) steps=38 lame=40
+worst digits=9: (1134903170, 701408733) steps=43 lame=45
+worst digits=10: (12586269025, 7778742049) steps=48 lame=50
+worst digits=11: (139583862445, 86267571272) steps=53 lame=55
+worst digits=12: (1548008755920, 956722026041) steps=58 lame=60
+worst digits=13: (10610209857723, 6557470319842) steps=62 lame=65
+worst digits=14: (117669030460994, 72723460248141) steps=67 lame=70
+worst digits=15: (1304969544928657, 806515533049393) steps=72 lame=75
+worst digits=16: (14472334024676221, 8944394323791464) steps=77 lame=80
+worst digits=17: (160500643816367088, 99194853094755497) steps=82 lame=85
+worst digits=18: (1100087778366101931, 679891637638612258) steps=86 lame=90
+average digits=1: 2.180 steps over 100000 random pairs
+average digits=2: 3.982 steps over 100000 random pairs
+average digits=3: 5.882 steps over 100000 random pairs
+average digits=4: 7.831 steps over 100000 random pairs
+average digits=5: 9.774 steps over 100000 random pairs
+average digits=6: 11.705 steps over 100000 random pairs
+average digits=7: 13.661 steps over 100000 random pairs
+average digits=8: 15.590 steps over 100000 random pairs
+average digits=9: 17.518 steps over 100000 random pairs
+average digits=10: 19.462 steps over 100000 random pairs
+average digits=11: 21.410 steps over 100000 random pairs
+average digits=12: 23.355 steps over 100000 random pairs
+average digits=13: 25.280 steps over 100000 random pairs
+average digits=14: 27.248 steps over 100000 random pairs
+average digits=15: 29.166 steps over 100000 random pairs
+average digits=16: 31.094 steps over 100000 random pairs
+average digits=17: 33.056 steps over 100000 random pairs
+average digits=18: 34.965 steps over 100000 random pairs
+slope: 1.939 more steps per extra digit (measured, 6 to 18 digits); Heilbronn's 12 ln2 / pi^2 x ln 10 = 1.941
+histogram 18 digits (100000 random pairs): 17:4 18:4 19:15 20:42 21:91 22:159 23:299 24:513 25:885 26:1330 27:2040 28:2894 29:3886 30:5081 31:6292 32:7439 33:8018 34:8454 35:8626 36:8333 37:7723 38:6842 39:5640 40:4694 41:3346 42:2573 43:1779 44:1224 45:700 46:477 47:287 48:177 49:74 50:36 51:13 52:6 53:1 54:3
+rsa: e=17, phi=3120, d=2753 (17 x 2753 = 46801 = 15 x 3120 + 1)
+EuclidsAlgorithm: 1444574 checks passed

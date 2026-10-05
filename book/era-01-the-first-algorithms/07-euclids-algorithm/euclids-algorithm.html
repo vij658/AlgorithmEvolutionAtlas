@@ -1,0 +1,776 @@
+<title>Euclid's Algorithm</title>
+<meta name="description" content="Era 1, topic 7 of The Algorithm Evolution Atlas: Euclid's algorithm as pictures, measurements and history.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+/* charts */
+.charts{display:grid;gap:26px;margin-top:18px}
+.chart{background:var(--surface);border:1px solid var(--rule);padding:16px;position:relative;min-width:0}
+.chart h3{margin:0;font-size:20px}
+.chart .sub{color:var(--ink-2);font-size:14px;margin:4px 0 8px}
+.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--ink-2);margin-bottom:4px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:16px;height:2px}
+.tip{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--axis);padding:7px 10px;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.12);min-width:150px;z-index:2}
+.tip .v{font-weight:700;font-family:var(--mono)} .tip .l{color:var(--ink-2)} .tip .row{display:flex;gap:8px;align-items:center}
+.tip i{display:inline-block;width:12px;height:2px}
+details.data{margin-top:8px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* family tree */
+.tree{overflow-x:auto;margin-top:18px;background:var(--surface);border:1px solid var(--rule)}
+.tree svg{display:block;min-width:900px;width:100%;height:auto}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:18px}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px} .links .w{grid-column:2;font-size:13px;color:var(--ink-2)}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+<header class="hero">
+  <div class="hero-top">
+    <div class="titles">
+      <div class="eyebrow">The Algorithm Evolution Atlas · Era 1 · Topic 7 · c. 300 BCE</div>
+      <h1>Euclid's Algorithm</h1>
+    </div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div>
+  </div>
+  <p class="lede">The oldest procedure still in daily use. Cut the biggest square off a rectangle, again and again; the last square measures both sides.</p>
+  <p class="fieldnote">Field note from the visiting historian. Earlier procedures computed a value. This one stops on its own and is proved to work for every pair of numbers. Twenty-three centuries later it still runs, in spirit unchanged, inside every encryption library.</p>
+  <nav class="toc" aria-label="On this page">
+    <a href="#board">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#steps">Step by step</a><a href="#four">Four ways</a><a href="#measured">Measured</a><a href="#tree">How ideas combined</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a>
+  </nav>
+  <dl class="card-grid">
+    <div><dt>When</dt><dd>c. 300 BCE <span class="chip conj">earlier origins: conjecture</span></dd></div>
+    <div><dt>Where</dt><dd>Alexandria · <i>Elements</i>, Book VII, Props. 1–2 <span class="chip doc">documented</span></dd></div>
+    <div><dt>What hurt</dt><dd>Finding a common measure meant trying every candidate</dd></div>
+    <div><dt>The fix</dt><dd>Replace (a, b) by (b, a mod b) until the remainder is 0</dd></div>
+    <div><dt>Cost</dt><dd>At most 5 × the digits of the smaller number (Lamé, 1844)</dd></div>
+    <div><dt>Atlas</dt><dd>Ch. 4 The Euclidean Algorithm · Ch. 92 Number Theory</dd></div>
+  </dl>
+</header>
+
+<section id="board" aria-labelledby="board-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">Try it</span></div>
+  <h2 id="board-h">Two numbers are the sides of a rectangle</h2>
+  <p class="col">Cut off the biggest square that fits, as many times as it fits, then do the same to the piece that is left. When a piece is filled exactly, the side of its squares is the greatest common divisor. Press <b>Step</b> to cut one stage at a time; the view zooms in when the pieces get small.</p>
+  <div class="board">
+    <div style="min-width:0">
+      <div class="controls">
+        <label for="in-a">a <input id="in-a" type="number" min="1" max="1000000000000" value="1071" inputmode="numeric"></label>
+        <label for="in-b">b <input id="in-b" type="number" min="1" max="1000000000000" value="462" inputmode="numeric"></label>
+        <button id="btn-step" class="primary" type="button">Step</button>
+        <button id="btn-play" type="button">Play</button>
+        <button id="btn-reset" type="button">Reset</button>
+        <button id="btn-whole" type="button">Whole rectangle</button>
+      </div>
+      <svg id="rect" viewBox="0 0 1071 462" preserveAspectRatio="xMidYMid meet" role="img" aria-label="The rectangle and the squares cut from it"></svg>
+      <div class="zoomnote" id="zoomnote" aria-live="polite"></div>
+      <div class="presets" aria-label="Examples">
+        <button type="button" data-a="1071" data-b="462">1071 and 462</button>
+        <button type="button" data-a="89" data-b="55">89 and 55 (Fibonacci)</button>
+        <button type="button" data-a="360" data-b="84">360 and 84</button>
+        <button type="button" data-a="1000000" data-b="1">1,000,000 and 1</button>
+        <button type="button" data-a="2971215073" data-b="1836311903">two 10-digit Fibonacci numbers</button>
+      </div>
+    </div>
+    <div style="min-width:0">
+      <div class="eyebrow">The divisions</div>
+      <ol class="steps" id="steps"></ol>
+      <div class="result" id="result"></div>
+      <div class="work" id="work" aria-label="Work done by each method"></div>
+    </div>
+  </div>
+</section>
+
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 1, the first algorithms</h2>
+  <div class="timeline"><ol>
+    <li><span class="when">c. 44,000 years ago</span>Notched bones at Border Cave</li>
+    <li><span class="when">c. 3000 BCE</span>Written numerals and the first carry</li>
+    <li><span class="when">c. 1800 BCE</span>Babylonian place value and tables</li>
+    <li><span class="when">c. 1800–1600 BCE</span>√2 on the tablet YBC 7289</li>
+    <li><span class="when">c. 1550 BCE</span>Egyptian multiplication by doubling</li>
+    <li class="here"><span class="when">c. 300 BCE</span><b>Euclid's algorithm</b></li>
+    <li><span class="when">c. 250 BCE</span>Archimedes squeezes π</li>
+    <li><span class="when">c. 240 BCE</span>The sieve of Eratosthenes</li>
+  </ol></div>
+</section>
+
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+  <div class="chain" id="chain"></div>
+</section>
+
+<section id="steps" aria-labelledby="steps-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">Step by step</span></div>
+  <h2 id="steps-h">1071 and 462, by hand</h2>
+  <div class="tbl"><table id="trace-table"></table></div>
+  <p class="col" id="cf-note"></p>
+  <div id="segments-wrap" class="col"></div>
+  <div class="callout wrong col" id="wrong"></div>
+  <h3>Going backwards: the pulverizer</h3>
+  <p class="col">Run the steps in reverse and every remainder becomes a combination of the two starting numbers. Each row keeps the promise <i>remainder = s × 1071 + t × 462</i>. Aryabhata (499 CE) called the method <i>kuttaka</i>, "pulverizing", because the numbers get smaller with every step.</p>
+  <div class="tbl"><table id="ext-table"></table></div>
+  <div class="callout key col" id="bezout"></div>
+</section>
+
+<section id="four" aria-labelledby="four-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">Before and after</span></div>
+  <h2 id="four-h">Four ways to find a gcd</h2>
+  <p class="col">Basic operations each method needs, counted by the program. Trying candidates grows with the size of the numbers, subtraction can explode, and division grows only with the number of digits. Stein's binary method (1967) uses halving and subtraction, which suits hardware without fast division.</p>
+  <div class="tbl"><table id="four-table"></table></div>
+</section>
+
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">How fast is it?</h2>
+  <div class="charts">
+    <div class="chart" id="chart-worst"><h3>The worst case stays under Lamé's bound</h3><p class="sub">Division steps for consecutive Fibonacci numbers, the slowest inputs, by digits in the smaller number</p></div>
+    <div class="chart" id="chart-avg"><h3>Random numbers: about two steps per digit</h3><p class="sub" id="avg-sub"></p></div>
+    <div class="chart" id="chart-hist"><h3>Random 18-digit pairs bunch around the middle</h3><p class="sub" id="hist-sub"></p></div>
+  </div>
+</section>
+
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+  <p class="col">A new algorithm is usually an older idea combined with a new one. Euclid's algorithm sits at the root of a long family.</p>
+  <div class="tree" id="family"></div>
+</section>
+
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">An algorithm from 300 BCE finds weak locks in 2012</h2>
+  <div class="callout circle col"><div class="k">Full circle</div>
+  <p>A team from UC San Diego and the University of Michigan collected the public keys of millions of internet hosts and computed greatest common divisors between them. Keys made with poor randomness can share a prime factor, and a shared factor gives the private key away. They recovered RSA private keys for <b>0.50% of TLS hosts</b> and <b>0.03% of SSH hosts</b>.</p>
+  <p class="lic" style="font-size:13px;color:var(--muted)">Heninger, Durumeric, Wustrow and Halderman, <i>Mining Your Ps and Qs</i>, USENIX Security 2012 · <a href="https://factorable.net/">factorable.net</a></p></div>
+</section>
+
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+  <div id="tries"></div>
+</section>
+
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+  <div class="objects">
+    <figure class="obj" id="obj-1482" style="margin:0">
+      <div class="pic"><img src="https://library.si.edu/sites/default/files/books/covers/preclarissimusl00eucl_cover.jpg" alt="Smithsonian Libraries' image of its copy of the 1482 printed Elements" onerror="this.closest('.obj').classList.add('noimg')"><div class="fallback" id="draw-book"><span>Photograph not shown here: open it at Smithsonian Libraries (link below).</span></div></div>
+      <figcaption class="txt"><b>The first printed edition</b><span>Printed by Erhard Ratdolt, Venice, 25 May 1482.</span><a href="https://library.si.edu/digital-library/book/preclarissimusl00eucl">Smithsonian Libraries' digitised copy</a><span class="lic">Photo: Smithsonian Libraries, CC0 (public domain)</span></figcaption>
+    </figure>
+    <figure class="obj" style="margin:0">
+      <div class="pic" id="draw-ms"></div>
+      <figcaption class="txt"><b>MS. D'Orville 301, Bodleian Library</b><span>A Byzantine manuscript of the <i>Elements</i>, dated 888, written by Stephanos the clerk.</span><a href="https://medieval.bodleian.ox.ac.uk/catalog/manuscript_4146">Catalogue entry and digital facsimile</a><span class="lic">Drawn placeholder. Most Digital Bodleian images are CC BY-NC 4.0, so the photographs are linked, not copied.</span></figcaption>
+    </figure>
+    <figure class="obj" style="margin:0">
+      <div class="pic" id="draw-pap"></div>
+      <figcaption class="txt"><b>P. Oxy. 29, Penn Museum E2748</b><span>A papyrus fragment of Book II, Proposition 5, with its diagram. Dated 200–400 CE by the museum, 75–125 CE by the papyrologist Eric Turner. <span class="chip disp">disputed</span></span><a href="https://collections.penn.museum/collections/object/63505">Penn Museum record</a><span class="lic">Drawn placeholder; no image licence is stated, so the photographs are linked.</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+  <div class="links" id="links"></div>
+</section>
+
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+  <p class="col" id="prove-text"></p>
+  <pre class="code" id="code"></pre>
+</section>
+
+<footer>The Algorithm Evolution Atlas · Era 1, topic 7. Every number on this page is parsed from the output of <span class="mono">EuclidsAlgorithm.java</span>; the drawings are made for this book in the style of Byrne's 1847 coloured edition of the <i>Elements</i>.</footer>
+</div>
+
+<script>
+const DATA = {"trace": {"1071,462": [[1071, 2, 462, 147], [462, 3, 147, 21], [147, 7, 21, 0]], "48,18": [[48, 2, 18, 12], [18, 1, 12, 6], [12, 2, 6, 0]]}, "extended": [[0, 1071, 1, 0], [0, 462, 0, 1], [2, 147, 1, -2], [3, 21, -3, 7], [7, 0, 22, -51]], "compare": [{"a": 1071, "b": 462, "gcd": 21, "trying": 442, "subtracting": 12, "dividing": 3, "binary": 5}, {"a": 89, "b": 55, "gcd": 1, "trying": 55, "subtracting": 10, "dividing": 9, "binary": 5}, {"a": 1000000, "b": 1, "gcd": 1, "trying": 1, "subtracting": 1000000, "dividing": 1, "binary": 7}, {"a": 2971215073, "b": 1836311903, "gcd": 1, "trying": 1836311903, "subtracting": 46, "dividing": 45, "binary": 26}, {"a": "917151100147030119", "b": "740488968177717441", "gcd": 3, "trying": "740488968177717439", "subtracting": 267, "dividing": 41, "binary": 45}], "worst": [{"digits": 1, "a": 13, "b": 8, "steps": 5, "lame": 5}, {"digits": 2, "a": 144, "b": 89, "steps": 10, "lame": 10}, {"digits": 3, "a": 1597, "b": 987, "steps": 15, "lame": 15}, {"digits": 4, "a": 10946, "b": 6765, "steps": 19, "lame": 20}, {"digits": 5, "a": 121393, "b": 75025, "steps": 24, "lame": 25}, {"digits": 6, "a": 1346269, "b": 832040, "steps": 29, "lame": 30}, {"digits": 7, "a": 14930352, "b": 9227465, "steps": 34, "lame": 35}, {"digits": 8, "a": 102334155, "b": 63245986, "steps": 38, "lame": 40}, {"digits": 9, "a": 1134903170, "b": 701408733, "steps": 43, "lame": 45}, {"digits": 10, "a": 12586269025, "b": 7778742049, "steps": 48, "lame": 50}, {"digits": 11, "a": 139583862445, "b": 86267571272, "steps": 53, "lame": 55}, {"digits": 12, "a": 1548008755920, "b": 956722026041, "steps": 58, "lame": 60}, {"digits": 13, "a": 10610209857723, "b": 6557470319842, "steps": 62, "lame": 65}, {"digits": 14, "a": 117669030460994, "b": 72723460248141, "steps": 67, "lame": 70}, {"digits": 15, "a": 1304969544928657, "b": 806515533049393, "steps": 72, "lame": 75}, {"digits": 16, "a": "14472334024676221", "b": 8944394323791464, "steps": 77, "lame": 80}, {"digits": 17, "a": "160500643816367088", "b": "99194853094755497", "steps": 82, "lame": 85}, {"digits": 18, "a": "1100087778366101931", "b": "679891637638612258", "steps": 86, "lame": 90}], "average": [{"digits": 1, "mean": 2.18}, {"digits": 2, "mean": 3.982}, {"digits": 3, "mean": 5.882}, {"digits": 4, "mean": 7.831}, {"digits": 5, "mean": 9.774}, {"digits": 6, "mean": 11.705}, {"digits": 7, "mean": 13.661}, {"digits": 8, "mean": 15.59}, {"digits": 9, "mean": 17.518}, {"digits": 10, "mean": 19.462}, {"digits": 11, "mean": 21.41}, {"digits": 12, "mean": 23.355}, {"digits": 13, "mean": 25.28}, {"digits": 14, "mean": 27.248}, {"digits": 15, "mean": 29.166}, {"digits": 16, "mean": 31.094}, {"digits": 17, "mean": 33.056}, {"digits": 18, "mean": 34.965}], "exhaustive": [{"limit": 100, "steps": 9, "a": 89, "b": 55}, {"limit": 1000, "steps": 14, "a": 987, "b": 610}], "quotients": [2, 3, 7], "bezout": {"a": 1071, "b": 462, "g": 21, "x": -3, "y": 7}, "samples": 100000, "slope": 1.939, "slope_predicted": 1.941, "hist_samples": 100000, "histogram": [[17, 4], [18, 4], [19, 15], [20, 42], [21, 91], [22, 159], [23, 299], [24, 513], [25, 885], [26, 1330], [27, 2040], [28, 2894], [29, 3886], [30, 5081], [31, 6292], [32, 7439], [33, 8018], [34, 8454], [35, 8626], [36, 8333], [37, 7723], [38, 6842], [39, 5640], [40, 4694], [41, 3346], [42, 2573], [43, 1779], [44, 1224], [45, 700], [46, 477], [47, 287], [48, 177], [49, 74], [50, 36], [51, 13], [52, 6], [53, 1], [54, 3]], "rsa": {"e": 17, "phi": 3120, "d": 2753}, "checks": 1444574, "snippet": "/** The modern form: one division does a whole run of subtractions. */\nstatic long gcd(long a, long b) {\n    while (b != 0) {\n        long r = a % b;                                // what is left after taking b away as often as possible\n        a = b;\n        b = r;\n    }\n    return a;\n}\n\n/** Rows of the extended algorithm: {quotient, remainder, s, t} with remainder = s*a + t*b on every row. */\nstatic List<long[]> extendedRows(long a, long b) {\n    List<long[]> rows = new ArrayList<>();\n    long r0 = a, r1 = b, s0 = 1, s1 = 0, t0 = 0, t1 = 1;\n    rows.add(new long[]{0, r0, s0, t0});\n    rows.add(new long[]{0, r1, s1, t1});\n    while (r1 != 0) {\n        long q = r0 / r1;\n        long r2 = r0 - q * r1, s2 = s0 - q * s1, t2 = t0 - q * t1;\n        rows.add(new long[]{q, r2, s2, t2});\n        r0 = r1; r1 = r2; s0 = s1; s1 = s2; t0 = t1; t1 = t2;\n    }\n    return rows;\n}"};
+const REPO = "https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/";
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));   // big values arrive as strings
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v);   // theme colours go through CSS, not attributes
+    else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+/* ---------------- the board ---------------- */
+function stagesOf(a, b) {            // the squares cut from an a-by-b rectangle, stage by stage
+  let x = 0, y = 0, w = a, h = b; const out = [];
+  while (w > 0 && h > 0) {
+    const s = Math.min(w, h), n = Math.floor(Math.max(w, h) / s);
+    out.push({side: s, count: n, x, y, horizontal: w >= h, piece: {x, y, w, h}});
+    if (w >= h) { x += n * s; w -= n * s; } else { y += n * s; h -= n * s; }
+  }
+  return out;
+}
+const board = {a: 1071, b: 462, stages: [], shown: 0, timer: null, view: null, anim: null};
+const rect = document.getElementById("rect");
+function setView(target, animate) {
+  const cur = board.view || target;
+  board.view = target;
+  if (board.anim) cancelAnimationFrame(board.anim);
+  if (!animate || reduceMotion) { rect.setAttribute("viewBox", `${target.x} ${target.y} ${target.w} ${target.h}`); return; }
+  const t0 = performance.now(), dur = 650;
+  const step = now => {
+    const k = Math.min(1, (now - t0) / dur), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+    const v = ["x", "y", "w", "h"].map(p => cur[p] + (target[p] - cur[p]) * e);
+    rect.setAttribute("viewBox", v.join(" "));
+    if (k < 1) board.anim = requestAnimationFrame(step);
+  };
+  board.anim = requestAnimationFrame(step);
+}
+function fitBox(p) {                 // a viewBox around a piece, with the board's aspect ratio
+  const ar = board.a / board.b, pad = 1.25;
+  let w = p.w * pad, h = p.h * pad;
+  if (w / h > ar) h = w / ar; else w = h * ar;
+  return {x: p.x + p.w / 2 - w / 2, y: p.y + p.h / 2 - h / 2, w, h};
+}
+function drawBoard(animateZoom) {
+  const {a, b, stages, shown} = board;
+  rect.replaceChildren();
+  sv("rect", {x: 0, y: 0, width: a, height: b, fill: "var(--wash)", stroke: "var(--ink)", "stroke-width": 1.5, "vector-effect": "non-scaling-stroke"}, rect);
+  for (let k = 0; k < shown; k++) {
+    const st = stages[k], color = COLORS[k % 3], on = ON[k % 3];
+    if (st.count > 400) {            // too many squares to draw one by one: draw the block they fill
+      const p = st.piece, w = st.horizontal ? st.count * st.side : p.w, h = st.horizontal ? p.h : st.count * st.side;
+      sv("rect", {x: st.x, y: st.y, width: w, height: h, fill: color, opacity: .85}, rect);
+      continue;
+    }
+    for (let i = 0; i < st.count; i++) {
+      const x = st.horizontal ? st.x + i * st.side : st.x, y = st.horizontal ? st.y : st.y + i * st.side;
+      sv("rect", {x, y, width: st.side, height: st.side, fill: color, stroke: "var(--paper)", "stroke-width": 1.5, "vector-effect": "non-scaling-stroke"}, rect);
+      if (st.count <= 40) sv("text", {x: x + st.side / 2, y: y + st.side / 2, "text-anchor": "middle", "dominant-baseline": "central", fill: on,
+        "font-size": st.side * 0.3, "font-family": "var(--mono)", "font-weight": 600}, rect, fmt(st.side));
+    }
+  }
+  // the zoom target: the piece still to be filled, or the last one filled
+  let target = {x: 0, y: 0, w: a, h: b}, note = "";
+  const idx = shown < stages.length ? shown : stages.length - 1;
+  const piece = shown === 0 ? null : stages[idx].piece;
+  if (piece && Math.max(piece.w / a, piece.h / b) < 0.18 && !board.whole) {
+    target = fitBox(piece);
+    note = `Zoomed in ×${(a / target.w).toFixed(1)} on the ${fmt(piece.w)} × ${fmt(piece.h)} piece.`;
+  } else if (shown === 0) note = "Press Step to cut the first squares.";
+  else if (shown === stages.length) note = "Done: the last squares fill their piece exactly.";
+  document.getElementById("zoomnote").textContent = note;
+  setView(target, animateZoom);
+  renderSteps();
+}
+function gcdInfo(a, b) {
+  // quotients, remainders and Bezout coefficients with BigInt so large inputs stay exact
+  let r0 = BigInt(a), r1 = BigInt(b), s0 = 1n, s1 = 0n, t0 = 0n, t1 = 1n; const rows = [];
+  while (r1 !== 0n) {
+    const q = r0 / r1, r2 = r0 - q * r1;
+    rows.push({big: r0, q, small: r1, r: r2});
+    [r0, r1] = [r1, r2]; [s0, s1] = [s1, s0 - q * s1]; [t0, t1] = [t1, t0 - q * t1];
+  }
+  return {rows, g: r0, x: s0, y: t0};
+}
+function renderSteps() {
+  const info = gcdInfo(board.a, board.b), ol = document.getElementById("steps");
+  ol.replaceChildren();
+  const max = 12;
+  info.rows.forEach((row, i) => {
+    if (i >= max && i !== info.rows.length - 1) { if (i === max) el("li", {class: "pending"}, ol, `… ${info.rows.length - max - 1} more …`); return; }
+    const li = el("li", {class: i < board.shown ? (i === board.shown - 1 ? "current" : "") : "pending"}, ol);
+    const sw = el("span", {class: "sw"}, li); sw.style.background = COLORS[i % 3];
+    el("span", {}, li, `${fmt(row.big)} = ${fmt(row.q)} × ${fmt(row.small)} + ${fmt(row.r)}`);
+  });
+  const res = document.getElementById("result");
+  res.replaceChildren();
+  if (board.shown === board.stages.length) {
+    const qs = info.rows.map(r => fmt(r.q));
+    const p1 = el("p", {}, res); p1.append("gcd = "); el("b", {}, p1, fmt(info.g));
+    p1.append(` · continued fraction [${qs[0]}${qs.length > 1 ? "; " + qs.slice(1).join(", ") : ""}]`);
+    const p2 = el("p", {}, res); p2.append("Bézout: "); el("b", {}, p2, `${fmt(info.g)} = ${info.x} × ${fmt(board.a)} + ${info.y} × ${fmt(board.b)}`);
+  } else {
+    el("p", {}, res, `${board.shown} of ${board.stages.length} stages cut.`);
+  }
+  // work done by each method
+  const g = info.g, subtractions = info.rows.reduce((s, r) => s + r.q, 0n);
+  const trying = BigInt(Math.min(board.a, board.b)) - g + 1n;
+  const work = [["Trying candidates", trying], ["Subtracting (Euclid)", subtractions], ["Dividing", BigInt(info.rows.length)]];
+  const maxLog = Math.max(...work.map(w => Math.log10(Number(w[1]) + 1)));
+  const box = document.getElementById("work"); box.replaceChildren();
+  el("div", {class: "eyebrow"}, box, "Work done, on a log scale");
+  for (const [name, v] of work) {
+    const row = el("div", {class: "row"}, box);
+    el("span", {}, row, name);
+    const cell = el("div", {}, row);
+    const bar = el("div", {class: "bar"}, cell); bar.style.width = `${Math.max(1, Math.log10(Number(v) + 1) / (maxLog || 1) * 100)}%`;
+    el("span", {class: "val"}, cell, `${fmt(v)} ${name.startsWith("Div") ? "divisions" : name.startsWith("Sub") ? "subtractions" : "candidates"}`);
+  }
+}
+function load(a, b) {
+  stop();
+  a = Math.max(1, Math.min(1e12, Math.floor(a))); b = Math.max(1, Math.min(1e12, Math.floor(b)));
+  if (b > a) [a, b] = [b, a];
+  board.a = a; board.b = b; board.stages = stagesOf(a, b); board.whole = false;
+  document.getElementById("in-a").value = a; document.getElementById("in-b").value = b;
+  board.view = null; board.shown = 0;
+  drawBoard(false);
+}
+function stepOnce() { if (board.shown < board.stages.length) { board.shown++; board.whole = false; drawBoard(true); } if (board.shown >= board.stages.length) stop(); }
+function stop() { if (board.timer) { clearInterval(board.timer); board.timer = null; } document.getElementById("btn-play").textContent = "Play"; }
+document.getElementById("btn-step").addEventListener("click", () => {
+  stop();
+  if (board.shown >= board.stages.length) { board.shown = 0; board.view = null; }   // start again from the empty rectangle
+  board.whole = false; document.getElementById("btn-whole").textContent = "Whole rectangle";
+  stepOnce();
+});
+document.getElementById("btn-play").addEventListener("click", e => {
+  if (board.timer) return stop();
+  board.whole = false; document.getElementById("btn-whole").textContent = "Whole rectangle";
+  if (board.shown >= board.stages.length) { board.shown = 0; board.view = null; drawBoard(false); }
+  e.target.textContent = "Pause";
+  board.timer = setInterval(stepOnce, reduceMotion ? 400 : 1100);
+});
+document.getElementById("btn-reset").addEventListener("click", () => load(+document.getElementById("in-a").value, +document.getElementById("in-b").value));
+document.getElementById("btn-whole").addEventListener("click", () => { board.whole = !board.whole; drawBoard(true); document.getElementById("btn-whole").textContent = board.whole ? "Follow the pieces" : "Whole rectangle"; });
+for (const id of ["in-a", "in-b"]) document.getElementById(id).addEventListener("change", () => load(+document.getElementById("in-a").value, +document.getElementById("in-b").value));
+document.querySelectorAll(".presets button").forEach(btn => btn.addEventListener("click", () => load(+btn.dataset.a, +btn.dataset.b)));
+// at rest: 1071 and 462, fully cut
+load(1071, 462); board.shown = board.stages.length; board.whole = true; drawBoard(false);
+document.getElementById("btn-whole").textContent = "Follow the pieces";
+document.getElementById("zoomnote").textContent = "All three stages are cut. Press Step to replay, and the view follows the pieces as they shrink.";
+
+/* ---------------- chain of needs ---------------- */
+const CHAIN = [
+  ["Try every candidate until one divides both numbers.", "Take the smaller from the larger, again and again. <i>Elements</i> VII, c. 300 BCE."],
+  ["1,000,000 and 1 need a million subtractions.", "One division does a whole run of subtractions: a mod b."],
+  ["Knowing the gcd is not enough: we need x and y with ax + by = gcd.", "Carry the steps back. Aryabhata's <i>kuttaka</i>, the pulverizer, 499 CE."],
+  ["How slow can it get?", "Never more than 5 × the digits of the smaller number. Lamé, 1844 (others had partial results first)."],
+  ["Division is costly in hardware.", "Halving and subtraction only. Stein, 1967; a halving rule appears in China's <i>Nine Chapters</i>."],
+];
+{
+  const box = document.getElementById("chain");
+  CHAIN.forEach(([pain, fix], i) => {
+    const pair = el("div", {class: "pair"}, box);
+    const p = el("div", {class: "pain"}, pair); el("div", {class: "tag"}, p, "What hurt"); const pp = el("div", {}, p); pp.innerHTML = pain;
+    el("div", {class: "arrow", "aria-hidden": "true"}, pair, "→");
+    const f = el("div", {class: "fix"}, pair); el("div", {class: "tag"}, f, "The fix"); const ff = el("div", {}, f); ff.innerHTML = fix;
+    if (i < CHAIN.length - 1) el("div", {class: "down", "aria-hidden": "true"}, box, "↓ which leaves a new problem");
+  });
+}
+
+/* ---------------- tables from the program output ---------------- */
+function table(id, head, rows, opts = {}) {
+  const t = document.getElementById(id); t.replaceChildren();
+  const tr = el("tr", {}, el("thead", {}, t));
+  head.forEach((h, i) => el("th", {class: (opts.num || []).includes(i) ? "n" : ""}, tr, h));
+  const tb = el("tbody", {}, t);
+  rows.forEach((r, ri) => {
+    const row = el("tr", {class: opts.hl === ri ? "hl" : ""}, tb);
+    r.forEach((c, i) => el("td", {class: (opts.num || []).includes(i) ? "n" : ""}, row, c));
+  });
+}
+if (DATA) {
+  const tr = DATA.trace["1071,462"];
+  table("trace-table", ["Step", "Division", "Quotient (squares cut)", "Remainder"],
+    tr.map((r, i) => [String(i + 1), `${fmt(r[0])} = ${r[1]} × ${fmt(r[2])} + ${fmt(r[3])}`, String(r[1]), fmt(r[3])]), {num: [0, 2, 3], hl: tr.length - 2});
+  const g = tr[tr.length - 1][2];
+  document.getElementById("cf-note").innerHTML = `The last non-zero remainder, <b>${g}</b>, is gcd(1071, 462). The quotients <b>${DATA.quotients.join(", ")}</b> are the number of squares cut at each stage, and also the continued fraction 1071/462 = [${DATA.quotients[0]}; ${DATA.quotients.slice(1).join(", ")}].`;
+  const cmp = DATA.compare, ex = cmp.find(c => c.a === 1071), big = cmp.find(c => c.a === 1000000);
+  const w = document.getElementById("wrong");
+  w.innerHTML = `<div class="k">Wrong turn</div><p>Euclid subtracted one copy at a time. That is fine for 1071 and 462 (${ex.subtracting} subtractions), but 1,000,000 and 1 need <b>${fmt(big.subtracting)} subtractions</b> where one division is enough. Division is subtraction done in bulk.</p>`;
+  table("ext-table", ["Row", "Quotient", "Remainder", "s", "t", "Check: s × 1071 + t × 462"],
+    DATA.extended.map((r, i) => [String(i), i < 2 ? "—" : String(r[0]), fmt(r[1]), String(r[2]), String(r[3]), fmt(r[2] * 1071 + r[3] * 462)]),
+    {num: [0, 1, 2, 3, 4, 5], hl: DATA.extended.length - 2});
+  const bz = DATA.bezout, rsa = DATA.rsa;
+  document.getElementById("bezout").innerHTML = `<div class="k">Key idea</div><p><b>${bz.g} = ${bz.x} × ${bz.a} + ${bz.y} × ${bz.b}</b>. When the gcd is 1, the s column gives the inverse of one number modulo the other, which is how RSA key generation finds its matching exponent: ${rsa.e} × ${fmt(rsa.d)} = 1 (mod ${fmt(rsa.phi)}).</p>`;
+  const label = c => c.a === 1071 ? "the worked example" : c.a === 89 ? "consecutive Fibonacci numbers" : c.a === 1000000 ? "a huge and a tiny number" : c.gcd === 1 && c.subtracting - c.dividing <= 2 ? "10-digit Fibonacci numbers" : "a random 18-digit pair";
+  table("four-table", ["Pair", "gcd", "Trying every candidate", "Subtracting (Euclid)", "Dividing", "Binary (Stein)"],
+    cmp.map(c => [`${fmt(c.a)} and ${fmt(c.b)} (${label(c)})`, String(c.gcd), fmt(c.trying), fmt(c.subtracting), fmt(c.dividing), fmt(c.binary)]), {num: [1, 2, 3, 4, 5]});
+}
+
+/* ---------------- charts ---------------- */
+function lineChart(host, series, opts) {
+  const W = 760, H = 330, L = 52, R = 150, T = 18, B = 46;
+  const xs = series[0].points.map(p => p[0]), xmin = Math.min(...xs), xmax = Math.max(...xs);
+  const ymax = opts.ymax;
+  const X = x => L + (x - xmin) / (xmax - xmin) * (W - L - R), Y = y => H - B - y / ymax * (H - T - B);
+  if (series.length > 1) {
+    const lg = el("div", {class: "legend"}, host);
+    series.forEach(s => { const sp = el("span", {}, lg); const i = el("i", {}, sp); i.style.background = s.color; sp.append(s.name); });
+  }
+  const svg = sv("svg", {viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": opts.aria}, host);
+  for (const v of opts.yticks) {
+    sv("line", {x1: L, x2: W - R, y1: Y(v), y2: Y(v), stroke: v ? "var(--rule)" : "var(--axis)", "stroke-width": 1}, svg);
+    sv("text", {x: L - 8, y: Y(v) + 4, "text-anchor": "end", fill: "var(--muted)", "font-size": 12}, svg, fmt(v));
+  }
+  for (const v of opts.xticks) sv("text", {x: X(v), y: H - B + 20, "text-anchor": "middle", fill: "var(--muted)", "font-size": 12}, svg, v);
+  sv("text", {x: (L + W - R) / 2, y: H - 8, "text-anchor": "middle", fill: "var(--ink-2)", "font-size": 13}, svg, opts.xlabel);
+  series.forEach(s => {
+    sv("polyline", {points: s.points.map(p => `${X(p[0])},${Y(p[1])}`).join(" "), fill: "none", stroke: s.color, "stroke-width": 2, "stroke-linejoin": "round"}, svg);
+    if (s.markers) s.points.forEach(p => sv("circle", {cx: X(p[0]), cy: Y(p[1]), r: 4, fill: s.color, stroke: "var(--surface)", "stroke-width": 2}, svg));
+    const last = s.points[s.points.length - 1];
+    s.endLabel.forEach((t, i) => sv("text", {x: X(last[0]) + 12, y: Y(last[1]) + (s.dy || 0) + 4 + i * 16, fill: i ? "var(--ink-2)" : "var(--ink)", "font-size": 13, "font-weight": i ? 400 : 600}, svg, t));
+  });
+  const cross = sv("line", {y1: T, y2: H - B, stroke: "var(--axis)", "stroke-width": 1, visibility: "hidden"}, svg);
+  const tip = el("div", {class: "tip", hidden: ""}, host);
+  const hit = sv("rect", {x: L, y: T, width: W - L - R, height: H - T - B, fill: "transparent", tabindex: 0}, svg);
+  const show = x => {
+    const xv = Math.round(Math.min(xmax, Math.max(xmin, xmin + (x - L) / (W - L - R) * (xmax - xmin))));
+    cross.setAttribute("x1", X(xv)); cross.setAttribute("x2", X(xv)); cross.setAttribute("visibility", "visible");
+    tip.replaceChildren(); el("div", {class: "l"}, tip, opts.tipTitle(xv));
+    series.forEach(s => { const p = s.points.find(q => q[0] === xv); const row = el("div", {class: "row"}, tip); const i = el("i", {}, row); i.style.background = s.color; el("span", {class: "v"}, row, s.fmtv(p[1])); el("span", {class: "l"}, row, s.name); });
+    tip.hidden = false;
+    const box = svg.getBoundingClientRect(), hb = host.getBoundingClientRect();
+    const px = X(xv) / W * box.width + box.left - hb.left;
+    tip.style.left = `${Math.min(px + 12, hb.width - 170)}px`; tip.style.top = `${box.top - hb.top + 20}px`;
+  };
+  hit.addEventListener("pointermove", e => { const b = svg.getBoundingClientRect(); show((e.clientX - b.left) / b.width * W); });
+  hit.addEventListener("pointerleave", () => { tip.hidden = true; cross.setAttribute("visibility", "hidden"); });
+  hit.addEventListener("focus", () => show(X(xmax)));
+  hit.addEventListener("blur", () => { tip.hidden = true; cross.setAttribute("visibility", "hidden"); });
+  return svg;
+}
+function dataTable(host, head, rows) {
+  const d = el("details", {class: "data"}, host); el("summary", {}, d, "Show the numbers");
+  const wrap = el("div", {class: "tbl"}, d); const t = el("table", {}, wrap);
+  const tr = el("tr", {}, el("thead", {}, t)); head.forEach(h => el("th", {class: "n"}, tr, h));
+  const tb = el("tbody", {}, t); rows.forEach(r => { const row = el("tr", {}, tb); r.forEach(c => el("td", {class: "n"}, row, c)); });
+}
+function ticks(max, step) { const out = []; for (let v = 0; v <= max + 1e-9; v += step) out.push(v); return out; }
+if (DATA) {
+  const worst = DATA.worst, hostW = document.getElementById("chart-worst");
+  lineChart(hostW, [
+    {name: "Lamé's bound (5 × digits)", color: "var(--red)", points: worst.map(w => [w.digits, w.lame]), endLabel: ["Lamé's bound", "5 × digits"], dy: -12, fmtv: v => `${v} steps`},
+    {name: "Worst case (consecutive Fibonacci)", color: "var(--blue)", markers: true, points: worst.map(w => [w.digits, w.steps]), endLabel: ["Worst case"], dy: 10, fmtv: v => `${v} steps`},
+  ], {ymax: 100, yticks: ticks(100, 20), xticks: [1, 3, 6, 9, 12, 15, 18], xlabel: "digits in the smaller number", aria: "Worst-case steps by digits, always at or below Lamé's bound", tipTitle: x => `${x}-digit smaller number`});
+  dataTable(hostW, ["Digits", "Pair", "Steps", "Lamé's bound"], worst.map(w => [String(w.digits), `${fmt(w.a)}, ${fmt(w.b)}`, String(w.steps), String(w.lame)]));
+
+  const avg = DATA.average, hostA = document.getElementById("chart-avg");
+  document.getElementById("avg-sub").textContent = `Mean division steps over ${fmt(DATA.samples)} random pairs at each size. Measured: +${DATA.slope.toFixed(2)} steps per extra digit; Heilbronn's 0.843 ln n predicts +${DATA.slope_predicted.toFixed(2)}.`;
+  lineChart(hostA, [{name: "Average steps", color: "var(--blue)", markers: true, points: avg.map(v => [v.digits, v.mean]), endLabel: [`${avg[avg.length - 1].mean.toFixed(1)} steps`, "at 18 digits"], fmtv: v => `${v.toFixed(2)} steps`}],
+    {ymax: 40, yticks: ticks(40, 10), xticks: [1, 3, 6, 9, 12, 15, 18], xlabel: "digits in each number", aria: "Average steps rise steadily with the number of digits", tipTitle: x => `${x}-digit numbers`});
+  dataTable(hostA, ["Digits", "Average steps"], avg.map(v => [String(v.digits), v.mean.toFixed(3)]));
+
+  const hist = DATA.histogram, hostH = document.getElementById("chart-hist");
+  const mode = hist.reduce((m, p) => p[1] > m[1] ? p : m);
+  document.getElementById("hist-sub").textContent = `${fmt(DATA.hist_samples)} random pairs of 18-digit numbers. Most took ${mode[0]} steps; the slowest took ${hist[hist.length - 1][0]}, well under Lamé's bound of 90.`;
+  const W = 760, H = 300, L = 60, R = 16, T = 26, B = 46, ymax = 10000;
+  const svg = sv("svg", {viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Distribution of division steps for random 18-digit pairs"}, hostH);
+  const Y = y => H - B - y / ymax * (H - T - B), slot = (W - L - R) / hist.length, bw = Math.min(24, slot - 2);
+  for (const v of ticks(ymax, 2500)) {
+    sv("line", {x1: L, x2: W - R, y1: Y(v), y2: Y(v), stroke: v ? "var(--rule)" : "var(--axis)", "stroke-width": 1}, svg);
+    sv("text", {x: L - 8, y: Y(v) + 4, "text-anchor": "end", fill: "var(--muted)", "font-size": 12}, svg, fmt(v));
+  }
+  const tip = el("div", {class: "tip", hidden: ""}, hostH);
+  hist.forEach(([s, c], i) => {
+    const x = L + i * slot + (slot - bw) / 2, y = Y(c), h = Y(0) - y, r = Math.min(4, h / 2, bw / 2);
+    const g = sv("g", {tabindex: 0}, svg);
+    sv("rect", {x: L + i * slot, y: T, width: slot, height: H - T - B, fill: "transparent"}, g);
+    const bar = sv("path", {d: `M${x},${Y(0)} V${y + r} Q${x},${y} ${x + r},${y} H${x + bw - r} Q${x + bw},${y} ${x + bw},${y + r} V${Y(0)} Z`, fill: "var(--blue)"}, g);
+    if (s % 5 === 0) sv("text", {x: x + bw / 2, y: H - B + 20, "text-anchor": "middle", fill: "var(--muted)", "font-size": 12}, svg, s);
+    if (s === mode[0]) sv("text", {x: x + bw / 2, y: y - 8, "text-anchor": "middle", fill: "var(--ink)", "font-size": 13, "font-weight": 600}, svg, `${fmt(c)} pairs: ${s} steps`);
+    const on = () => { bar.setAttribute("opacity", .75); tip.replaceChildren(); el("div", {class: "v"}, tip, `${fmt(c)} pairs`); el("div", {class: "l"}, tip, `took ${s} division steps`); tip.hidden = false;
+      const b = svg.getBoundingClientRect(), hb = hostH.getBoundingClientRect(); tip.style.left = `${Math.min((x / W) * b.width + b.left - hb.left + 14, hb.width - 170)}px`; tip.style.top = `${(y / H) * b.height + b.top - hb.top - 10}px`; };
+    const off = () => { bar.setAttribute("opacity", 1); tip.hidden = true; };
+    g.addEventListener("pointerenter", on); g.addEventListener("pointerleave", off); g.addEventListener("focus", on); g.addEventListener("blur", off);
+  });
+  sv("text", {x: (L + W - R) / 2, y: H - 8, "text-anchor": "middle", fill: "var(--ink-2)", "font-size": 13}, svg, "division steps");
+  dataTable(hostH, ["Steps", "Pairs"], hist.map(([s, c]) => [String(s), fmt(c)]));
+}
+
+/* ---------------- family tree ---------------- */
+{
+  const W = 1000, H = 680, BW = 180, BH = 70;
+  const svg = sv("svg", {viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "How Euclid's algorithm combined with other ideas"}, document.getElementById("family"));
+  // [x, y, title, combination, date, colour]
+  const N = {
+    sub: [410, 20, "Repeated subtraction", "", "anthyphairesis", "ink"],
+    euc: [410, 150, "Euclid's algorithm", "⊕ division", "c. 300 BCE", "red"],
+    ext: [20, 300, "Extended Euclid", "⊕ carry the steps back", "Aryabhata, 499 CE", "blue"],
+    lam: [215, 300, "Lamé's bound", "⊕ Fibonacci numbers", "1844", "blue"],
+    key: [410, 300, "Weak-key hunt", "⊕ millions of public keys", "2012", "red"],
+    bin: [605, 300, "Binary GCD", "⊕ halving", "Stein, 1967", "blue"],
+    cf:  [800, 300, "Continued fractions", "same quotients", "", "ink"],
+    inv: [20, 450, "Modular inverse", "⊕ arithmetic mod n", "", "blue"],
+    egy: [410, 450, "Egyptian doubling", "", "topic 5, c. 1550 BCE", "ink"],
+    sqm: [410, 590, "Square-and-multiply", "⊕ squaring", "", "ink"],
+    rsa: [20, 590, "RSA", "⊕ fast powers", "1977", "red"],
+  };
+  const E = [["sub", "euc"], ["euc", "ext"], ["euc", "lam"], ["euc", "key"], ["euc", "bin"], ["euc", "cf", true], ["ext", "inv"], ["inv", "rsa"], ["egy", "sqm"], ["sqm", "rsa"]];
+  const center = k => [N[k][0] + BW / 2, N[k][1] + BH / 2];
+  const edgePoint = (cx, cy, dx, dy) => { const t = Math.min(Math.abs(BW / 2 / (dx || 1e-9)), Math.abs(BH / 2 / (dy || 1e-9))); return [cx + dx * t, cy + dy * t]; };
+  for (const [a, b, dashed] of E) {
+    const [x1, y1] = center(a), [x2, y2] = center(b), dx = x2 - x1, dy = y2 - y1;
+    const [sx, sy] = edgePoint(x1, y1, dx, dy), [ex, ey] = edgePoint(x2, y2, -dx, -dy);
+    sv("line", {x1: sx, y1: sy, x2: ex, y2: ey, stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-dasharray": dashed ? "5 4" : null}, svg);
+    const ang = Math.atan2(ey - sy, ex - sx);
+    sv("path", {d: `M${ex},${ey} l${-9 * Math.cos(ang - .45)},${-9 * Math.sin(ang - .45)} M${ex},${ey} l${-9 * Math.cos(ang + .45)},${-9 * Math.sin(ang + .45)}`, stroke: "var(--ink-2)", "stroke-width": 1.5, fill: "none"}, svg);
+  }
+  for (const [x, y, t, combo, date, c] of Object.values(N)) {
+    sv("rect", {x, y, width: BW, height: BH, fill: "var(--paper)", stroke: c === "ink" ? "var(--ink)" : `var(--${c})`, "stroke-width": c === "ink" ? 1.5 : 3}, svg);
+    const lines = [[t, 15, 700, "var(--ink)"]];
+    if (combo) lines.push([combo, 12.5, 600, "var(--ink)"]);
+    if (date) lines.push([date, 12.5, 400, "var(--ink-2)"]);
+    const top = y + (BH - lines.length * 18) / 2 + 13;
+    lines.forEach(([txt, size, wt, fill], i) => sv("text", {x: x + 12, y: top + i * 18, fill, "font-size": size, "font-weight": wt}, svg, txt));
+  }
+}
+
+/* ---------------- line segments, and drawn placeholders ---------------- */
+{
+  const W = 560, H = 160, u = 0.42, svg = sv("svg", {viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Numbers as line segments: CD measured off along AB twice leaves 147"}, document.getElementById("segments-wrap"));
+  svg.style.width = "100%"; svg.style.maxWidth = "560px"; svg.style.marginTop = "14px";
+  const seg = (y, len, color, l1, l2, lab) => {
+    sv("line", {x1: 40, y1: y, x2: 40 + len * u, y2: y, stroke: color, "stroke-width": 7}, svg);
+    sv("text", {x: 30, y: y + 5, "text-anchor": "end", fill: "var(--ink)", "font-size": 15, "font-weight": 700}, svg, l1);
+    sv("text", {x: 50 + len * u, y: y + 5, fill: "var(--ink)", "font-size": 15, "font-weight": 700}, svg, l2);
+    sv("text", {x: 40 + len * u / 2, y: y - 12, "text-anchor": "middle", fill: "var(--ink-2)", "font-size": 12.5}, svg, lab);
+  };
+  seg(40, 1071, "var(--red)", "A", "B", "AB = 1071"); seg(96, 462, "var(--blue)", "C", "D", "CD = 462");
+  for (let i = 0; i < 2; i++) sv("line", {x1: 40 + i * 462 * u, y1: 140, x2: 40 + (i + 1) * 462 * u - 3, y2: 140, stroke: "var(--blue)", "stroke-width": 7}, svg);
+  sv("line", {x1: 40 + 924 * u, y1: 140, x2: 40 + 1071 * u, y2: 140, stroke: "var(--yellow)", "stroke-width": 7}, svg);
+  el("p", {style: "font-size:13.5px;color:var(--ink-2);margin-top:4px"}, document.getElementById("segments-wrap"), "Euclid drew numbers as line segments: CD measured off along AB twice leaves 147. Drawn for this book in the style of the Elements, not copied from a manuscript.");
+  // drawn placeholders: a printed book (shown if the photograph cannot load), a manuscript page and a papyrus fragment
+  const bk = sv("svg", {viewBox: "0 0 200 120", role: "img", "aria-label": "Drawn placeholder of an open printed book"});
+  document.getElementById("draw-book").prepend(bk);
+  sv("path", {d: "M100,20 C80,12 40,12 20,18 V108 C40,102 80,102 100,110 Z", fill: "var(--paper)", stroke: "var(--ink-2)", "stroke-width": 1.2}, bk);
+  sv("path", {d: "M100,20 C120,12 160,12 180,18 V108 C160,102 120,102 100,110 Z", fill: "var(--paper)", stroke: "var(--ink-2)", "stroke-width": 1.2}, bk);
+  for (let i = 0; i < 6; i++) sv("line", {x1: 32, x2: 88, y1: 32 + i * 9, y2: 32 + i * 9, stroke: "var(--axis)", "stroke-width": 2}, bk);
+  sv("circle", {cx: 140, cy: 60, r: 24, fill: "none", stroke: "var(--red)", "stroke-width": 2}, bk);
+  sv("path", {d: "M116,60 L164,60 M140,36 L140,84", stroke: "var(--blue)", "stroke-width": 2}, bk);
+  const ms = sv("svg", {viewBox: "0 0 200 150", role: "img", "aria-label": "Drawn placeholder of a manuscript page"}, document.getElementById("draw-ms"));
+  sv("rect", {x: 50, y: 10, width: 100, height: 130, fill: "var(--paper)", stroke: "var(--ink-2)", "stroke-width": 1.2}, ms);
+  for (let i = 0; i < 9; i++) sv("line", {x1: 60, x2: i % 3 === 2 ? 118 : 140, y1: 22 + i * 7, y2: 22 + i * 7, stroke: "var(--axis)", "stroke-width": 2}, ms);
+  sv("rect", {x: 72, y: 90, width: 36, height: 36, fill: "none", stroke: "var(--red)", "stroke-width": 2}, ms);
+  sv("line", {x1: 72, y1: 126, x2: 108, y2: 90, stroke: "var(--blue)", "stroke-width": 2}, ms);
+  sv("text", {x: 118, y: 120, fill: "var(--muted)", "font-size": 9}, ms, "888");
+  const pap = sv("svg", {viewBox: "0 0 200 150", role: "img", "aria-label": "Drawn placeholder of a papyrus fragment"}, document.getElementById("draw-pap"));
+  sv("path", {d: "M40,22 L150,14 L162,60 L150,128 L60,136 L36,96 Z", fill: "var(--paper)", stroke: "var(--ink-2)", "stroke-width": 1.2}, pap);
+  for (let i = 0; i < 5; i++) sv("line", {x1: 52, x2: 146 - i * 6, y1: 32 + i * 8, y2: 30 + i * 8, stroke: "var(--axis)", "stroke-width": 2}, pap);
+  sv("rect", {x: 66, y: 76, width: 44, height: 44, fill: "none", stroke: "var(--yellow)", "stroke-width": 2}, pap);
+  sv("rect", {x: 110, y: 76, width: 22, height: 44, fill: "none", stroke: "var(--red)", "stroke-width": 2}, pap);
+  sv("line", {x1: 66, y1: 120, x2: 110, y2: 76, stroke: "var(--blue)", "stroke-width": 2}, pap);
+}
+
+/* ---------------- pause and try ---------------- */
+if (DATA) {
+  const t = DATA.trace["48,18"], ex = DATA.exhaustive.find(e => e.limit === 100), bz = DATA.bezout, big = DATA.compare.find(c => c.a === 1000000);
+  const items = [
+    ["Find gcd(48, 18). How many divisions does it take?", t.map(r => `${r[0]} = ${r[1]} × ${r[2]} + ${r[3]}`).join("<br>") + `<br>So gcd(48, 18) = <b>${t[t.length - 1][2]}</b>, in <b>${t.length}</b> divisions.`],
+    ["Why must the algorithm stop?", "Each remainder is smaller than the number it was divided by, so the second number of the pair gets strictly smaller at every step. Whole numbers cannot keep getting smaller forever, so it reaches 0."],
+    ["Which pair of numbers below 100 makes it work hardest?", `<b>(${ex.a}, ${ex.b})</b>, two consecutive Fibonacci numbers, with <b>${ex.steps}</b> divisions. The program checked every pair below 100.`],
+    [`Write ${bz.g} as a combination of ${bz.a} and ${bz.b}.`, `${bz.g} = <b>${bz.x}</b> × ${bz.a} + <b>${bz.y}</b> × ${bz.b}. Check: ${fmt(bz.x * bz.a)} + ${fmt(bz.y * bz.b)} = ${bz.g}.`],
+    ["Is gcd(1,000,000, 1) faster by subtraction or by division?", `Division: <b>${big.dividing}</b> step against <b>${fmt(big.subtracting)}</b> subtractions.`],
+  ];
+  const box = document.getElementById("tries");
+  items.forEach(([q, a], i) => { const d = el("details", {class: "try"}, box); const s = el("summary", {}, d); el("span", {class: "q"}, s, `${i + 1}`); el("span", {}, s, q); const an = el("div", {class: "ans"}, d); an.innerHTML = a; });
+}
+
+/* ---------------- links ---------------- */
+{
+  const L = [
+    ["start", "Euclid's Algorithm", "Numberphile", "https://www.youtube.com/watch?v=6Y3jHHE_hbA", "The algorithm and its Fibonacci connection"],
+    ["start", "The Euclidean Algorithm (Finding the GCD/GCF)", "Houston Math Prep", "https://www.youtube.com/watch?v=SR-jmdjzw-Y", "Worked examples, step by step"],
+    ["start", "Here's looking at Euclid", "Gresham College, Robin Wilson", "https://www.youtube.com/watch?v=9O97Xad-iTQ", "Greek mathematics and the Elements"],
+    ["deeper", "MIT 6.042J, Lecture 4", "MIT OpenCourseWare", "https://www.youtube.com/watch?v=NuY7szYSXSw", "GCD, Euclid's algorithm and the Pulverizer"],
+    ["deeper", "Euclid's Algorithm", "Cut the Knot", "https://www.cut-the-knot.org/blue/Euclid.shtml", "Why gcd(a, b) = gcd(b, r), and Bézout's identity"],
+    ["deeper", "Euclidean Algorithm", "Wolfram MathWorld", "https://mathworld.wolfram.com/EuclideanAlgorithm.html", "Lamé's bound, the Fibonacci worst case, average steps"],
+    ["scholar", "Elements VII.2", "D. E. Joyce, Clark University", "https://mathcs.clarku.edu/~djoyce/elements/bookVII/propVII2.html", "The proposition itself (see also VII.1)"],
+    ["scholar", "Origins of the analysis of the Euclidean algorithm", "J. Shallit, Historia Mathematica (1994)", "https://www.sciencedirect.com/science/article/pii/S0315086084710317", "Who first bounded the running time"],
+    ["scholar", "Aryabhata I", "MacTutor History of Mathematics", "https://mathshistory.st-andrews.ac.uk/Biographies/Aryabhata_I/", "The kuttaka and its link to Euclid's algorithm"],
+    ["scholar", "A Method for Obtaining Digital Signatures and Public-Key Cryptosystems", "Rivest, Shamir and Adleman (1977)", "https://people.csail.mit.edu/rivest/Rsapaper.pdf", "RSA computes its exponents with \"a variation of Euclid's algorithm\""],
+  ];
+  const box = document.getElementById("links");
+  for (const [lvl, t, src, url, why] of L) {
+    const a = el("a", {href: url, target: "_blank", rel: "noopener"}, box);
+    el("span", {class: `lvl ${lvl}`}, a, lvl === "start" ? "Start" : lvl === "deeper" ? "Deeper" : "Scholar");
+    const tt = el("span", {class: "t"}, a, `${t} · `); tt.append(src);
+    el("span", {class: "w"}, a, why);
+  }
+}
+
+/* ---------------- prove it ---------------- */
+if (DATA) {
+  const p = document.getElementById("prove-text");
+  p.innerHTML = `<a href="${REPO}code/era-01-the-first-algorithms/07-euclids-algorithm/EuclidsAlgorithm.java">EuclidsAlgorithm.java</a> makes <b>${fmt(DATA.checks)} checks</b>: every method against Java's <code>BigInteger.gcd</code>, Bézout's identity on 200,000 random pairs, Lamé's bound for every pair below 1,000, and every continued fraction rebuilt exactly. Run it with <code>java EuclidsAlgorithm.java</code> on JDK 17 or newer. The heart of it:`;
+  const code = document.getElementById("code");
+  const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  code.innerHTML = DATA.snippet.split("\n").map(line => {
+    const ci = line.search(/\/\/|\/\*\*|^\s*\*/);
+    const codePart = ci >= 0 ? line.slice(0, ci) : line, comment = ci >= 0 ? line.slice(ci) : "";
+    const c = esc(codePart).replace(/\b(static|long|while|return|new|List|int|for|if)\b/g, '<span class="k-kw">$1</span>').replace(/\b(\d+)\b/g, '<span class="k-n">$1</span>');
+    return c + (comment ? `<span class="k-c">${esc(comment)}</span>` : "");
+  }).join("\n");
+}
+</script>

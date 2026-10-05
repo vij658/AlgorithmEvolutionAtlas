@@ -21,6 +21,7 @@
 ### Era 1 — The first algorithms (c. 44,000 years ago to c. 240 BCE)
 
 - [Reference catalog](era-01-the-first-algorithms/reference-catalog.md): nine developments, from tally marks to the sieve of Eratosthenes, each with checked videos, lectures, articles and original sources.
+- **Topic 7, Euclid's algorithm** — the first fully visual topic page: [GitHub edition](era-01-the-first-algorithms/07-euclids-algorithm/README.md) (diagrams, tables, charts, fold-out answers) · [interactive edition](era-01-the-first-algorithms/07-euclids-algorithm/euclids-algorithm.html) (download and open in a browser) · [program](../code/era-01-the-first-algorithms/07-euclids-algorithm/EuclidsAlgorithm.java)
 - Chapter 1, *Two numbers, one answer*: [outline](era-01-the-first-algorithms/chapter-01-adding-two-numbers/outline.md) · [history fact sheet](era-01-the-first-algorithms/chapter-01-adding-two-numbers/history-fact-sheet.md) · [program](../code/chapter-01-adding-two-numbers/README.md)
 
 ### Coming next (proposed eras; open to change)

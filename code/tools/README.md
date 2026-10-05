@@ -7,6 +7,7 @@ Small Python 3 scripts that build and check the book's pages.
 | `build_html.py` | Builds one self-contained HTML page (light and dark themes, phone layout, highlighted code with copy buttons, downloadable programs) from a Markdown chapter and the Java programs named in its front matter |
 | `expand.py` | Expands `@@ File.java: member …` lines in a Markdown file into fenced Java blocks copied verbatim from the tested program, so the book never shows code that was not run |
 | `shot.py` | Renders a built page in headless Chromium: checks anchors and horizontal overflow, and takes screenshots at desktop-light, desktop-dark and phone widths |
+| `figures/euclid_topic.py` | Builds the visual topic page for Euclid's algorithm from its program's output: SVG figures (light and dark), the GitHub README, and the interactive HTML edition (from `figures/euclid-page.html`) |
 
 ## Requirements
 

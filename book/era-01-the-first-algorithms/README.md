@@ -25,7 +25,7 @@
 | # | Topic | When | What hurt | Read |
 |---|---|---|---|---|
 | 1 | **Tally Marks** | c. 44,000–20,000 years ago | Remembering *how many* without words for big numbers | [page](01-tally-marks/README.md) · [interactive](01-tally-marks/tally-marks.html) · [program](../../code/era-01-the-first-algorithms/01-tally-marks/README.md) |
-| 2 | **Grouping and the First Carry** | Tokens from c. 7500 BCE; numerals c. 3200–3000 BCE | Long rows of marks are slow to write and impossible to read at a glance | planned · [references](reference-catalog.md#2-grouping-written-numerals-and-the-first-carry) |
+| 2 | **Grouping and the First Carry** | Tokens from c. 7500 BCE; numerals c. 3200–3000 BCE | Long rows of marks are slow to write and impossible to read at a glance | [page](02-grouping-and-the-first-carry/README.md) · [interactive](02-grouping-and-the-first-carry/grouping-and-the-first-carry.html) · [program](../../code/era-01-the-first-algorithms/02-grouping-and-the-first-carry/README.md) |
 | 3 | **Babylonian Place Value** | Place value c. 2100 BCE; school tables c. 1800 BCE | Additive numerals make multiplication and division painful | planned · [references](reference-catalog.md#3-babylonian-place-value-and-reciprocal-tables) |
 | 4 | **The Square Root of Two** | c. 1800–1600 BCE | Some lengths cannot be measured exactly, so they must be computed | planned · [references](reference-catalog.md#4-the-square-root-of-2-on-ybc-7289) |
 | 5 | **Egyptian Doubling** | Rhind papyrus c. 1550 BCE, copied from an older text | Multiplying without a times table | planned · [references](reference-catalog.md#5-egyptian-multiplication-by-doubling) |

@@ -111,6 +111,15 @@ def draw_split_tally(theme, standalone=False):
     return svg_doc(200, 130, "".join(b), "Drawn placeholder of a split tally stick", theme, standalone, 0.3, 220)
 
 
+def draw_bulla(theme, standalone=False):
+    """A clay envelope (bulla) with a few tokens beside it."""
+    c = theme
+    b = [circle(84, 70, 44, c["paper"], c["ink2"], 1.2), circle(70, 56, 5, "none", c["axis"], 1.5), circle(96, 82, 5, "none", c["axis"], 1.5),
+         path("M80,92 l6,-12 l6,12 Z", c["axis"], "none", 1.5)]
+    b += [circle(150, 50, 6, c["red"]), path("M142,86 l8,-14 l8,14 Z", None, c["blue"]), rect(160, 96, 12, 12, c["yellow"]), circle(172, 64, 4, c["red"])]
+    return svg_doc(200, 140, "".join(b), "Drawn placeholder of a clay envelope and tokens", theme, standalone, 0.3, 220)
+
+
 def draw_board(theme, standalone=False):
     """A counting board: lines with pebbles."""
     c = theme

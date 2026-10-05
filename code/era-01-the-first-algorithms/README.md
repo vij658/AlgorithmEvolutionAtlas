@@ -7,7 +7,7 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | # | Topic | When | Program | Checks |
 |---|---|---|---|---|
 | 1 | [Tally Marks](01-tally-marks/README.md) | c. 44,000–20,000 years ago | [`TallyMarks.java`](01-tally-marks/TallyMarks.java) | 210,029 |
-| 2 | Grouping and the First Carry | c. 3000 BCE | planned | |
+| 2 | [Grouping and the First Carry](02-grouping-and-the-first-carry/README.md) | c. 3000 BCE | [`GroupingAndCarry.java`](02-grouping-and-the-first-carry/GroupingAndCarry.java) | 6,000,027 |
 | 3 | Babylonian Place Value | c. 1800 BCE | planned | |
 | 4 | The Square Root of Two | c. 1800–1600 BCE | planned | |
 | 5 | Egyptian Doubling | c. 1550 BCE | planned | |

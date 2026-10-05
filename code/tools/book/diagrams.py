@@ -76,8 +76,11 @@ class Diagram:
 
     # ------------------------------------------------------------------------------------------------------------
     def _port(self, n, side):
+        """A point on a box side. "right" is the middle of the right side; "right:0.3" is 30% of the way along it."""
         x, y, w, h = n["x"], n["y"], n["w"], n["h"]
-        return {"top": (x + w / 2, y), "bottom": (x + w / 2, y + h), "left": (x, y + h / 2), "right": (x + w, y + h / 2)}[side]
+        side, _, f = side.partition(":")
+        f = float(f) if f else 0.5
+        return {"top": (x + w * f, y), "bottom": (x + w * f, y + h), "left": (x, y + h * f), "right": (x + w, y + h * f)}[side]
 
     def _clip(self, n, x0, y0, dx, dy):
         t = min(abs(n["w"] / 2 / (dx or 1e-9)), abs(n["h"] / 2 / (dy or 1e-9)))

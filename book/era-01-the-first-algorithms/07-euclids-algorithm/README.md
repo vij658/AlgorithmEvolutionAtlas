@@ -210,7 +210,7 @@ Division: **1** step against **1,000,000** subtractions.
 | Deeper | [2.1.2 Euclidean Algorithm](https://www.youtube.com/watch?v=dW0f62lcCLE) — MIT OpenCourseWare (6.042J, 2015) | Short course segment |
 | Deeper | [Euclidean Algorithm](https://mathworld.wolfram.com/EuclideanAlgorithm.html) — Wolfram MathWorld | Lamé's bound, Fibonacci worst case, average-case step count |
 | Deeper | [Euclid of Alexandria](https://mathshistory.st-andrews.ac.uk/Biographies/Euclid/) — MacTutor | What is (and is not) known about Euclid |
-| Scholar | [Introduction to number theory lecture 3: divisibility and Euclid's algorithm](https://www.youtube.com/watch?v=pVKhDtOjji8) — Richard Borcherds (UC Berkeley) | Rigorous treatment; continues in [lecture 4](https://www.youtube.com/watch?v=R-O8j7FHEXI) |
+| Scholar | [Introduction to number theory lecture 3: divisibility and Euclid's algorithm](https://www.youtube.com/watch?v=pVKhDtOjji8) — Richard Borcherds (UC Berkeley) | Rigorous treatment; continues in lecture 4 |
 | Scholar | [Elements VII.1](https://mathcs.clarku.edu/~djoyce/elements/bookVII/propVII1.html) — David E. Joyce, Clark University | The propositions with commentary and worked examples |
 | Scholar | [Origins of the analysis of the Euclidean algorithm](https://www.sciencedirect.com/science/article/pii/S0315086084710317) — Jeffrey Shallit, Historia Mathematica 21 (1994) | Who first bounded the running time |
 | Scholar | [Aryabhata I](https://mathshistory.st-andrews.ac.uk/Biographies/Aryabhata_I/) — MacTutor History of Mathematics | The kuttaka and its link to Euclid's algorithm |

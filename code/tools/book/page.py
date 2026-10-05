@@ -327,6 +327,7 @@ def catalog_links(catalog_md: str, topic_num: int, limit_per_level=4):
         mm = re.match(r"\| (Start|Deeper|Scholar) \| \[(.+?)\]\((https?://[^)]+)\)(.*?)\| (.+?) \| (.+?) \|$", ln)
         if mm:
             lvl, title, url, extra, source, why = mm.groups()
+            why = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", why)          # a card is one link: keep nested links as text
             rows.append((lvl.lower(), title, source.strip(), url, why.strip()))
     order = {"start": 0, "deeper": 1, "scholar": 2}
     rows.sort(key=lambda r: order[r[0]])

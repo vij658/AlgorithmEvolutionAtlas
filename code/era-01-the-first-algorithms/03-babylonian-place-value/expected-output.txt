@@ -1,0 +1,59 @@
+sexa 1: digits=1 wedges=1 egyptian-signs=1
+sexa 59: digits=59 wedges=14 egyptian-signs=14
+sexa 60: digits=1,0 wedges=1 egyptian-signs=6
+sexa 61: digits=1,1 wedges=2 egyptian-signs=7
+sexa 3601: digits=1,0,1 wedges=2 egyptian-signs=10
+sexa 4622: digits=1,17,2 wedges=11 egyptian-signs=14
+sexa 9999: digits=2,46,39 wedges=24 egyptian-signs=36
+sexa 216000: digits=1,0,0,0 wedges=1 egyptian-signs=9
+average 1-9999: wedges=14.67 egyptian-signs=18.00 most-wedges=29 at 7199 (1,59,59)
+look below 216000: no point: 7139 numbers look like another; no point and no zero: 10620; largest look-alike group 3 numbers all written 1
+look examples: 1 and 60 and 3600 are all written 1; 61 and 3601 are both written 1,1 without a zero
+table 2: reciprocal=30 head=2
+table 3: reciprocal=20 head=3
+table 4: reciprocal=15 head=4
+table 5: reciprocal=12 head=5
+table 6: reciprocal=10 head=6
+table 8: reciprocal=7,30 head=8
+table 9: reciprocal=6,40 head=9
+table 10: reciprocal=6 head=10
+table 12: reciprocal=5 head=12
+table 15: reciprocal=4 head=15
+table 16: reciprocal=3,45 head=16
+table 18: reciprocal=3,20 head=18
+table 20: reciprocal=3 head=20
+table 24: reciprocal=2,30 head=24
+table 25: reciprocal=2,24 head=25
+table 27: reciprocal=2,13,20 head=27
+table 30: reciprocal=2 head=30
+table 32: reciprocal=1,52,30 head=32
+table 36: reciprocal=1,40 head=36
+table 40: reciprocal=1,30 head=40
+table 45: reciprocal=1,20 head=45
+table 48: reciprocal=1,15 head=48
+table 50: reciprocal=1,12 head=50
+table 54: reciprocal=1,6,40 head=54
+table 1: reciprocal=1 head=60
+table 1,4: reciprocal=56,15 head=64
+table 1,12: reciprocal=50 head=72
+table 1,15: reciprocal=48 head=75
+table 1,20: reciprocal=45 head=80
+table 1,21: reciprocal=44,26,40 head=81
+tablecheck: 30 of 30 entries of the standard table recomputed exactly
+skipped 2-81: 30 regular numbers listed, 50 skipped; first skipped 7 11 13 14 17 19 21 22 23 26 28 29
+repeat 1/7: 0;8,34,17,8,34,17,... repeats every 3 digits
+repeat 1/11: 0;5,27,16,21,49,5,... repeats every 5 digits
+repeat 1/13: 0;4,36,55,23,4,36,... repeats every 4 digits
+divide 100 / 16: reciprocal of 16 is 3,45, so 1,40 x 3,45 = 6;15 (decimal 6.25)
+divide 50 / 8: reciprocal of 8 is 7,30, so 50 x 7,30 = 6;15 (decimal 6.25)
+divide 7 / 12: reciprocal of 12 is 5, so 7 x 5 = 0;35 (decimal 0.58333333... never ends)
+divide 1000 / 81: reciprocal of 1,21 is 44,26,40, so 16,40 x 44,26,40 = 12;20,44,26,40 (decimal 12.345679... never ends)
+regular-count up to 60: 26 numbers (43.333%)
+regular-count up to 3600: 130 numbers (3.611%)
+regular-count up to 216000: 370 numbers (0.171%)
+regular-count up to 12960000: 802 numbers (0.006%)
+plimpton row 1: x=2;24 1/x=0;25 half-difference=0;59,30 half-sum=1;24,30 -> short side 1,59 (119), diagonal 2,49 (169), long side 120; 169^2 - 119^2 = 120^2
+magic 7: multiply by 4908534053, then shift right 35 bits (no division)
+magic 60: multiply by 4581298450, then shift right 38 bits (no division)
+magiccheck: 2008000 divisions by 1 to 1000 agreed with ordinary division
+BabylonianPlaceValue: 2008051 checks passed

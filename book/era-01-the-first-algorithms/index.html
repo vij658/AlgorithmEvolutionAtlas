@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Era 1: The First Algorithms</title>
+<meta name="description" content="Before writing, people cut notches in bone. By the time they built libraries, they had written down procedures that work for any number.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:18px}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px} .links .w{grid-column:2;font-size:13px;color:var(--ink-2)}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.topics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
+@media (max-width:900px){.topics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.topics{grid-template-columns:1fr}}
+.topic{display:flex;flex-direction:column;gap:6px;padding:14px 16px 16px;background:var(--surface);border:1px solid var(--rule);border-top:4px solid var(--ink);min-width:0}
+.topic.ready{border-top-color:var(--red)}
+.topic .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.topic h3{margin:0;font-size:23px;line-height:1.15}
+.topic h3 a{color:var(--ink);text-decoration:none}
+.topic h3 a:hover{text-decoration:underline}
+.topic .when{font-size:13px;color:var(--ink-2)}
+.topic .pain{font-size:14.5px;margin:4px 0 6px}
+.topic .pain b{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block}
+.topic .go{margin-top:auto;display:flex;flex-wrap:wrap;gap:6px 12px;font-size:13.5px}
+.topic .status{font-size:12px;font-weight:600;color:var(--muted)}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/README.md">Book contents</a><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-01-the-first-algorithms/reference-catalog.md">Era 1 reference catalog</a><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-01-the-first-algorithms/README.md">Era 1 programs</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 1 · c. 44,000 years ago to c. 240 BCE</div>
+    <h1>The First Algorithms</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">Nine steps, from a notched bone to a method for listing primes. Each one answered a pain the step before it left behind. Several still run, almost unchanged, inside the machines of 2026.</p>
+  <p class="fieldnote">Field note from the visiting historian. Before writing, people cut notches in bone. By the time they built libraries, they had written down procedures that work for any number.</p>
+</header>
+<section id="when" aria-labelledby="when-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">When</span></div>
+  <h2 id="when-h">9 developments in order of time</h2>
+  <figure class="dgm"><div class="frame"><svg viewBox="0 0 1098 132" role="img" aria-label="Era 1: The First Algorithms, from c. 44,000 years ago to c. 240 BCE" style="font-family:var(--body);min-width:790px;max-width:1153px;margin:0 auto"><line x1="34" y1="34" x2="1064" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 44,000 years ago</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Notched bones</text><circle cx="185.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 3000 BCE</text><text x="185.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Written numerals</text><text x="185.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">and the first</text><text x="185.2" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">carry</text><circle cx="306.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="306.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1800 BCE</text><text x="306.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Babylonian place</text><text x="306.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">value and tables</text><circle cx="427.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="427.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1800–1600 BCE</text><text x="427.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">√2 on the tablet</text><text x="427.8" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">YBC 7289</text><circle cx="549.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="549.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1550 BCE</text><text x="549.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Egyptian</text><text x="549.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">multiplication by</text><text x="549.0" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">doubling</text><circle cx="670.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="670.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 300 BCE</text><text x="670.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Counting boards</text><text x="670.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">and the abacus</text><circle cx="791.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="791.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 300 BCE</text><text x="791.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Euclid&#x27;s algorithm</text><circle cx="912.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="912.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 250 BCE</text><text x="912.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Archimedes</text><text x="912.8" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">squeezes π</text><circle cx="1034.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1034.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 240 BCE</text><text x="1034.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">The sieve of</text><text x="1034.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Eratosthenes</text></svg></div></figure>
+</section>
+<section id="map" aria-labelledby="map-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">How the ideas combined</span></div>
+  <h2 id="map-h">Each development reuses an older idea</h2>
+  <figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 716" role="img" aria-label="How the ideas of Era 1 combined: The First Algorithms" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="500.0" y1="96.0" x2="500.0" y2="150.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,150.0 496.3,141.8 503.7,141.8" style="fill:var(--ink-2)"/><rect x="505.0" y="115.0" width="128.0" height="19" rx="3" style="fill:var(--surface)"/><text x="510.0" y="128.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ bundle the marks</text><line x1="500.0" y1="226.0" x2="135.0" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="135.0,300.0 142.3,294.8 143.8,302.0" style="fill:var(--ink-2)"/><rect x="178.4" y="258.9" width="190.7" height="19" rx="3" style="fill:var(--surface)"/><text x="273.7" y="271.9" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ position carries the group</text><line x1="500.0" y1="226.0" x2="500.0" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,300.0 496.3,291.8 503.7,291.8" style="fill:var(--ink-2)"/><rect x="505.0" y="255.0" width="113.2" height="19" rx="3" style="fill:var(--surface)"/><text x="510.0" y="268.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ double and add</text><line x1="500.0" y1="226.0" x2="865.0" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="865.0,300.0 856.2,302.0 857.7,294.8" style="fill:var(--ink-2)"/><rect x="689.6" y="266.3" width="146.4" height="19" rx="3" style="fill:var(--surface)"/><text x="762.8" y="279.3" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ counters in columns</text><line x1="135.0" y1="376.0" x2="135.0" y2="460.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="135.0,460.0 131.3,451.8 138.7,451.8" style="fill:var(--ink-2)"/><rect x="140.0" y="410.0" width="139.1" height="19" rx="3" style="fill:var(--surface)"/><text x="145.0" y="423.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ base-60 fractions</text><line x1="500.0" y1="376.0" x2="500.0" y2="460.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,460.0 496.3,451.8 503.7,451.8" style="fill:var(--ink-2)"/><rect x="505.0" y="410.0" width="201.8" height="19" rx="3" style="fill:var(--surface)"/><text x="510.0" y="423.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ how many times does one fit?</text><line x1="605.0" y1="498.0" x2="760.0" y2="498.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="760.0,498.0 751.8,501.7 751.8,494.3" style="fill:var(--ink-2)"/><rect x="607.4" y="475.0" width="150.1" height="19" rx="3" style="fill:var(--surface)"/><text x="682.5" y="488.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ primes, Elements VII</text><line x1="135.0" y1="536.0" x2="317.0" y2="620.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="317.0,620.0 308.0,619.9 311.1,613.2" style="fill:var(--ink-2)"/><rect x="43.4" y="570.0" width="179.6" height="19" rx="3" style="fill:var(--surface)"/><text x="218.0" y="583.0" text-anchor="end" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ roots trapped both ways</text><line x1="500.0" y1="536.0" x2="317.0" y2="620.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="317.0,620.0 322.9,613.2 326.0,619.9" style="fill:var(--ink-2)"/><rect x="411.5" y="570.0" width="179.6" height="19" rx="3" style="fill:var(--surface)"/><text x="416.5" y="583.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ exhaustion, Elements XII</text><rect x="395" y="20" width="210" height="76" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="55.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">1. Tally Marks</text><text x="407.0" y="72.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">c. 44,000–20,000 years ago</text><rect x="395" y="150" width="210" height="76" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="175.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">2. Grouping and the</text><text x="407.0" y="195.1" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">First Carry</text><text x="407.0" y="212.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">c. 3000 BCE</text><rect x="30" y="300" width="210" height="76" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="42.0" y="335.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">3. Babylonian Place Value</text><text x="42.0" y="352.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">c. 1800 BCE</text><rect x="395" y="300" width="210" height="76" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="335.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">5. Egyptian Doubling</text><text x="407.0" y="352.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">c. 1550 BCE</text><rect x="760" y="300" width="210" height="76" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="772.0" y="335.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">6. Counting Boards</text><text x="772.0" y="352.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">c. 300 BCE</text><rect x="30" y="460" width="210" height="76" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="42.0" y="485.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">4. The Square Root of</text><text x="42.0" y="505.1" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Two</text><text x="42.0" y="522.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">c. 1800–1600 BCE</text><rect x="395" y="460" width="210" height="76" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="495.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">7. Euclid&#x27;s Algorithm</text><text x="407.0" y="512.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">c. 300 BCE</text><rect x="760" y="460" width="210" height="76" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="772.0" y="485.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">9. The Sieve of</text><text x="772.0" y="505.1" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Eratosthenes</text><text x="772.0" y="522.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">c. 240 BCE</text><rect x="212" y="620" width="210" height="76" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="224.0" y="645.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">8. Archimedes Squeezes</text><text x="224.0" y="665.0" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Pi</text><text x="224.0" y="682.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">c. 250 BCE</text></svg></div><figcaption>An arrow means the later development reuses the earlier idea. It does not claim one culture learned it from another; where a borrowing is documented, the topic page says so. The dashed arrow is a shared source (Euclid's Elements), not a shared procedure.</figcaption></figure>
+</section>
+<section id="topics" aria-labelledby="topics-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">The topics</span></div>
+  <h2 id="topics-h">Open a topic</h2>
+  <div class="topics"><article class="topic"><span class="n">Topic 1</span><h3>Tally Marks</h3><span class="when">c. 44,000–20,000 years ago</span><p class="pain"><b>What hurt</b>Remembering <em>how many</em> without words for big numbers</p><span class="status">Page coming next</span><div class="go"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-01-the-first-algorithms/reference-catalog.md#1-tally-marks--one-mark-per-thing">References in the catalog</a></div></article><article class="topic"><span class="n">Topic 2</span><h3>Grouping and the First Carry</h3><span class="when">Tokens from c. 7500 BCE; numerals c. 3200–3000 BCE</span><p class="pain"><b>What hurt</b>Long rows of marks are slow to write and impossible to read at a glance</p><span class="status">Page coming next</span><div class="go"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-01-the-first-algorithms/reference-catalog.md#2-grouping-written-numerals-and-the-first-carry">References in the catalog</a></div></article><article class="topic"><span class="n">Topic 3</span><h3>Babylonian Place Value</h3><span class="when">Place value c. 2100 BCE; school tables c. 1800 BCE</span><p class="pain"><b>What hurt</b>Additive numerals make multiplication and division painful</p><span class="status">Page coming next</span><div class="go"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-01-the-first-algorithms/reference-catalog.md#3-babylonian-place-value-and-reciprocal-tables">References in the catalog</a></div></article><article class="topic"><span class="n">Topic 4</span><h3>The Square Root of Two</h3><span class="when">c. 1800–1600 BCE</span><p class="pain"><b>What hurt</b>Some lengths cannot be measured exactly, so they must be computed</p><span class="status">Page coming next</span><div class="go"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-01-the-first-algorithms/reference-catalog.md#4-the-square-root-of-2-on-ybc-7289">References in the catalog</a></div></article><article class="topic"><span class="n">Topic 5</span><h3>Egyptian Doubling</h3><span class="when">Rhind papyrus c. 1550 BCE, copied from an older text</span><p class="pain"><b>What hurt</b>Multiplying without a times table</p><span class="status">Page coming next</span><div class="go"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-01-the-first-algorithms/reference-catalog.md#5-egyptian-multiplication-by-doubling">References in the catalog</a></div></article><article class="topic"><span class="n">Topic 6</span><h3>Counting Boards</h3><span class="when">Salamis tablet c. 300 BCE; Exchequer table by 1110 CE</span><p class="pain"><b>What hurt</b>Fast, error-resistant reckoning with movable counters</p><span class="status">Page coming next</span><div class="go"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-01-the-first-algorithms/reference-catalog.md#6-the-counting-board-and-the-abacus">References in the catalog</a></div></article><article class="topic ready"><span class="n">Topic 7</span><h3><a href="07-euclids-algorithm/euclids-algorithm.html">Euclid&#x27;s Algorithm</a></h3><span class="when">Elements Book VII, c. 300 BCE</span><p class="pain"><b>What hurt</b>Finding the greatest common measure without trying every candidate</p><div class="go"><a href="07-euclids-algorithm/euclids-algorithm.html">Open the page</a><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-01-the-first-algorithms/07-euclids-algorithm/README.md">Program</a><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-01-the-first-algorithms/07-euclids-algorithm/README.md">GitHub edition</a></div></article><article class="topic"><span class="n">Topic 8</span><h3>Archimedes Squeezes Pi</h3><span class="when">c. 250 BCE</span><p class="pain"><b>What hurt</b>A quantity that can never be written exactly, but can be trapped</p><span class="status">Page coming next</span><div class="go"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-01-the-first-algorithms/reference-catalog.md#8-archimedes-squeezes-π">References in the catalog</a></div></article><article class="topic"><span class="n">Topic 9</span><h3>The Sieve of Eratosthenes</h3><span class="when">c. 240 BCE, recorded c. 100 CE</span><p class="pain"><b>What hurt</b>Listing primes without testing each number by division</p><span class="status">Page coming next</span><div class="go"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-01-the-first-algorithms/reference-catalog.md#9-the-sieve-of-eratosthenes">References in the catalog</a></div></article></div>
+</section>
+<footer>Every link in this book was opened before it was listed, and every number comes from a program that was run.
+<a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/">The Algorithm Evolution Atlas on GitHub</a>.</footer>
+</div>
+</body>
+</html>

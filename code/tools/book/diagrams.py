@@ -12,12 +12,12 @@ import math
 
 GITHUB_THEMES = {
     "light": dict(ink="#17171a", ink2="#55545a", muted="#7d7c84", rule="#d9d8d1", paper="#ffffff", wash="#f4f3ee",
-                  red="#d5352a", yellow="#c98a0c", blue="#1f5ba8", surface="#ffffff", font="system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif"),
+                  red="#d5352a", yellow="#c98a0c", blue="#1f5ba8", surface="#ffffff", axis="#c4c3bb", on_red="#ffffff", on_yellow="#17171a", on_blue="#ffffff", font="system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif"),
     "dark": dict(ink="#ecebe6", ink2="#b9b8b2", muted="#8f8e96", rule="#3a3d44", paper="#0d1117", wash="#161b22",
-                 red="#f0584d", yellow="#d9a227", blue="#5b8fe0", surface="#0d1117", font="system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif"),
+                 red="#f0584d", yellow="#d9a227", blue="#5b8fe0", surface="#0d1117", axis="#41444b", on_red="#14161a", on_yellow="#14161a", on_blue="#14161a", font="system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif"),
 }
 HTML_THEME = dict(ink="var(--ink)", ink2="var(--ink-2)", muted="var(--muted)", rule="var(--rule)", paper="var(--paper)",
-                  wash="var(--wash)", red="var(--red)", yellow="var(--yellow)", blue="var(--blue)", surface="var(--surface)", font="var(--body)")
+                  wash="var(--wash)", red="var(--red)", yellow="var(--yellow)", blue="var(--blue)", surface="var(--surface)", axis="var(--axis)", on_red="var(--on-red)", on_yellow="var(--on-yellow)", on_blue="var(--on-blue)", font="var(--body)")
 
 # text styles: (font size, weight, colour role)
 STYLES = {
@@ -33,7 +33,7 @@ STYLES = {
 
 def text_width(s: str, size: float, weight: int) -> float:
     """A rough width estimate for system sans text, enough to size boxes and label backgrounds."""
-    per = 0.51 if weight < 600 else 0.56
+    per = 0.53 if weight < 600 else 0.59
     narrow = sum(1 for c in s if c in "il.,:;'|!()[] ")
     return (len(s) - narrow * 0.5) * size * per
 

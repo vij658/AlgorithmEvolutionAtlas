@@ -374,7 +374,7 @@ The **Atlas** line points to the matching chapters of *The Evolutionary Atlas of
 ## 7. Euclid's algorithm
 
 **When / where:** Euclid's *Elements*, Book VII, Propositions 1–2, Alexandria, about 300 BCE. The method probably predates Euclid.
-**Atlas:** Ch. 4 (The Euclidean Algorithm — the oldest living algorithm), Ch. 92 (Number theory) · **Code:** [Euclidean algorithm, entry 1](../../code/principles/part-1-distances-and-number-theory/01-euclidean-algorithm/) and [extended Euclid, entry 2](../../code/principles/part-1-distances-and-number-theory/02-extended-euclidean-algorithm/)
+**Visual page:** [Euclid's algorithm, with diagrams, charts and an interactive edition](07-euclids-algorithm/README.md) · **Atlas:** Ch. 4 (The Euclidean Algorithm — the oldest living algorithm), Ch. 92 (Number theory) · **Code:** [Euclidean algorithm, entry 1](../../code/principles/part-1-distances-and-number-theory/01-euclidean-algorithm/) and [extended Euclid, entry 2](../../code/principles/part-1-distances-and-number-theory/02-extended-euclidean-algorithm/)
 
 > **Field note.** Earlier procedures computed a *value*. This one proves something about *any* two numbers and stops on its own. Take the smaller from the larger, again and again; when the two are equal, that is the greatest common measure. Later readers noticed that one division does many subtractions at once. It still runs, unchanged in spirit, inside every encryption library they use.
 

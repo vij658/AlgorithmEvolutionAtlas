@@ -1,0 +1,12 @@
+work plain 2763 1489: put down 2763 -> 2 7 6 3 (18 counters)
+work plain 2763 1489: push on 1489 -> 3 11 14 12 (40 counters)
+work plain 2763 1489: settled -> 4 2 5 2 (13 counters) value=4252 exchanges=3 moves=73
+work fives 2763 1489: put down 2763 -> 0|2 1|2 1|1 0|3 (10 counters)
+work fives 2763 1489: push on 1489 -> 0|3 1|6 2|4 1|7 (24 counters)
+work fives 2763 1489: settled -> 0|4 0|2 1|0 0|2 (9 counters) value=4252 exchanges=6 moves=51
+average plain: 100000 additions of two numbers below 10,000: 18.53 counters left on the board, 39.39 counters moved, 1.94 exchanges per addition; most counters in one settled column 9
+average fives: 100000 additions of two numbers below 10,000: 10.50 counters left on the board, 27.22 counters moved, 3.84 exchanges per addition; most counters in one settled column 5
+boardcheck: 200000 additions and 200000 subtractions on two kinds of board agreed with ordinary arithmetic
+invariant: adding 1000 random numbers below 100,000 (total 51335393): settling after each one, 2521 exchanges over 1000 settlings; piling up and settling once, 2521 exchanges (a column held up to 4634 counters); counters put down 22721, left 32, (put down - left) / 9 = 2521
+invariant fives: settling after each one, 5033 exchanges; settling once, 5033 exchanges
+CountingBoard: 2600007 checks passed

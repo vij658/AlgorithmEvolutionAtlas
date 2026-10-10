@@ -13,6 +13,7 @@ Each program counts the checks it makes (known answers, edge cases, randomized c
 | Folder | What is in it |
 |---|---|
 | [`chapter-01-adding-two-numbers/`](chapter-01-adding-two-numbers/README.md) | The book's chapter 1 program: carries, counting boards, carry-lookahead |
+| [`era-01-the-first-algorithms/`](era-01-the-first-algorithms/README.md) | The book's Era 1 programs, one folder per topic, from tally marks to the sieve of Eratosthenes |
 | [`principles/`](principles/README.md) | The 62 programs of the principles catalog, one folder per entry, grouped by part |
 | [`tools/`](tools/README.md) | Python scripts that build and check the book's pages |
 | [`run-all.sh`](run-all.sh) | Runs every program and compares its output with `expected-output.txt` |

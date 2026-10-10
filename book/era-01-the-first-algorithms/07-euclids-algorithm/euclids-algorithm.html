@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Euclid&#x27;s Algorithm</title>
+<meta name="description" content="Era 1, topic 7 of The Algorithm Evolution Atlas: Euclid&#x27;s algorithm as a rectangle you can cut step by step, with its history, diagrams and verified links.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 1: The First Algorithms</a><a href="../06-counting-boards/counting-boards.html">← Counting Boards</a><a href="../08-archimedes-pi/archimedes-pi.html">Archimedes Squeezes Pi →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 1 · Topic 7 · c. 300 BCE</div>
+    <h1>Euclid&#x27;s Algorithm</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">The oldest procedure still in daily use. Cut the biggest square off a rectangle, again and again; the last square measures both sides.</p>
+  <p class="fieldnote">Field note from the visiting historian. Earlier procedures computed a value. This one stops on its own and is proved to work for every pair of numbers. Twenty-three centuries later it still runs, in spirit unchanged, inside every encryption library.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#board">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#steps">Step by step</a><a href="#four">Four ways</a><a href="#measured">Measured</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>c. 300 BCE (earlier origins: <strong>conjecture</strong>)</dd></div><div><dt>Where</dt><dd>Alexandria · <em>Elements</em>, Book VII, Props. 1–2 (<strong>documented</strong>)</dd></div><div><dt>What hurt</dt><dd>Finding a common measure meant trying every candidate</dd></div><div><dt>The fix</dt><dd>Replace (a, b) by (b, a mod b) until the remainder is 0</dd></div><div><dt>Cost</dt><dd>At most 5 × the digits of the smaller number (Lamé, 1844)</dd></div><div><dt>Atlas</dt><dd>Ch. 4 The Euclidean Algorithm · Ch. 92 Number Theory</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. This is the map of the topic: where Euclid's algorithm came from, and what grew out of it. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 690" role="img" aria-label="How Euclid&#x27;s algorithm combined with other ideas, from repeated subtraction to RSA and the 2012 weak-key hunt" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="500.0" y1="90.0" x2="500.0" y2="150.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,150.0 496.3,141.8 503.7,141.8" style="fill:var(--ink-2)"/><line x1="410.0" y1="219.6" x2="200.0" y2="300.4" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="200.0,300.4 206.4,294.0 209.0,300.9" style="fill:var(--ink-2)"/><line x1="454.5" y1="220.0" x2="350.5" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="350.5,300.0 354.8,292.1 359.3,297.9" style="fill:var(--ink-2)"/><line x1="500.0" y1="220.0" x2="500.0" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,300.0 496.3,291.8 503.7,291.8" style="fill:var(--ink-2)"/><line x1="545.5" y1="220.0" x2="649.5" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="649.5,300.0 640.7,297.9 645.2,292.1" style="fill:var(--ink-2)"/><line x1="110.0" y1="370.0" x2="110.0" y2="450.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="110.0,450.0 106.3,441.8 113.7,441.8" style="fill:var(--ink-2)"/><line x1="110.0" y1="520.0" x2="110.0" y2="590.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="110.0,590.0 106.3,581.8 113.7,581.8" style="fill:var(--ink-2)"/><line x1="500.0" y1="520.0" x2="500.0" y2="590.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,590.0 496.3,581.8 503.7,581.8" style="fill:var(--ink-2)"/><line x1="410.0" y1="625.0" x2="200.0" y2="625.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="200.0,625.0 208.2,621.3 208.2,628.7" style="fill:var(--ink-2)"/><line x1="590.0" y1="219.6" x2="800.0" y2="300.4" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="800.0,300.4 791.0,300.9 793.6,294.0" style="fill:var(--ink-2)"/><rect x="410" y="20" width="180" height="70" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="422.0" y="42.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Repeated</text><text x="422.0" y="62.0" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">subtraction</text><text x="422.0" y="79.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">anthyphairesis</text><rect x="410" y="150" width="180" height="70" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="422.0" y="173.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Euclid&#x27;s algorithm</text><text x="422.0" y="191.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ division</text><text x="422.0" y="207.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">c. 300 BCE</text><rect x="20" y="300" width="180" height="70" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="323.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Extended Euclid</text><text x="32.0" y="341.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ carry the steps back</text><text x="32.0" y="357.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Aryabhata, 499 CE</text><rect x="215" y="300" width="180" height="70" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="227.0" y="323.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Lamé&#x27;s bound</text><text x="227.0" y="341.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ Fibonacci numbers</text><text x="227.0" y="357.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1844</text><rect x="410" y="300" width="180" height="70" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="422.0" y="323.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Weak-key hunt</text><text x="422.0" y="341.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ millions of public keys</text><text x="422.0" y="357.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">2012</text><rect x="605" y="300" width="180" height="70" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="617.0" y="323.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Binary GCD</text><text x="617.0" y="341.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ halving</text><text x="617.0" y="357.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Stein, 1967</text><rect x="800" y="300" width="180" height="70" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="812.0" y="332.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Continued fractions</text><text x="812.0" y="349.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">same quotients</text><rect x="20" y="450" width="180" height="70" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="482.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Modular inverse</text><text x="32.0" y="499.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ arithmetic mod n</text><rect x="410" y="450" width="180" height="70" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="422.0" y="482.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Egyptian doubling</text><text x="422.0" y="499.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 5, c. 1550 BCE</text><rect x="410" y="590" width="180" height="70" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="422.0" y="622.1" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Square-and-multiply</text><text x="422.0" y="639.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ squaring</text><rect x="20" y="590" width="180" height="70" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="613.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">RSA</text><text x="32.0" y="631.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ fast powers</text><text x="32.0" y="647.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1977</text></svg></div><figcaption>Red: the algorithm and its best-known descendants. Blue: the mathematical steps in between. The dashed line is a relationship rather than a descendant: Euclid's quotients are exactly the terms of a continued fraction.</figcaption></figure>
+</section>
+<section id="board" aria-labelledby="board-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="board-h">Two numbers are the sides of a rectangle</h2>
+<p class="col">Cut off the biggest square that fits, as many times as it fits, then do the same to the piece that is left. When a piece is filled exactly, the side of its squares is the greatest common divisor.</p>
+<div class="board">
+    <div style="min-width:0">
+      <div class="controls">
+        <label for="in-a">a <input id="in-a" type="number" min="1" max="1000000000000" value="1071" inputmode="numeric"></label>
+        <label for="in-b">b <input id="in-b" type="number" min="1" max="1000000000000" value="462" inputmode="numeric"></label>
+        <button id="btn-step" class="primary" type="button">Step</button>
+        <button id="btn-play" type="button">Play</button>
+        <button id="btn-reset" type="button">Reset</button>
+        <button id="btn-whole" type="button">Whole rectangle</button>
+      </div>
+      <svg id="rect" viewBox="0 0 1071 462" preserveAspectRatio="xMidYMid meet" role="img" aria-label="The rectangle and the squares cut from it"></svg>
+      <div class="zoomnote" id="zoomnote" aria-live="polite"></div>
+      <div class="presets" aria-label="Examples">
+        <button type="button" data-a="1071" data-b="462">1071 and 462</button>
+        <button type="button" data-a="89" data-b="55">89 and 55 (Fibonacci)</button>
+        <button type="button" data-a="360" data-b="84">360 and 84</button>
+        <button type="button" data-a="1000000" data-b="1">1,000,000 and 1</button>
+        <button type="button" data-a="2971215073" data-b="1836311903">two 10-digit Fibonacci numbers</button>
+      </div>
+    </div>
+    <div style="min-width:0">
+      <div class="eyebrow">The divisions</div>
+      <ol class="steps" id="steps"></ol>
+      <div class="result" id="result"></div>
+      <div class="work" id="work" aria-label="Work done by each method"></div>
+    </div>
+  </div>
+
+<p class="col">The number of squares cut at each stage, <strong>2, 3, 7</strong>, is also the continued fraction 1071/462 = [2; 3, 7]. Every Euclid computation hides one.</p>
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 1, the first algorithms</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1098 132" role="img" aria-label="Era 1: The First Algorithms, from c. 44,000 years ago to c. 240 BCE" style="font-family:var(--body);min-width:790px;max-width:1153px;margin:0 auto"><line x1="34" y1="34" x2="1064" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 44,000 years ago</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Notched bones</text><circle cx="185.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 3000 BCE</text><text x="185.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Written numerals</text><text x="185.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">and the first</text><text x="185.2" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">carry</text><circle cx="306.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="306.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1800 BCE</text><text x="306.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Babylonian place</text><text x="306.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">value and tables</text><circle cx="427.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="427.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1800–1600 BCE</text><text x="427.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">√2 on the tablet</text><text x="427.8" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">YBC 7289</text><circle cx="549.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="549.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1550 BCE</text><text x="549.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Egyptian</text><text x="549.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">multiplication by</text><text x="549.0" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">doubling</text><circle cx="670.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="670.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 300 BCE</text><text x="670.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Counting boards</text><text x="670.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">and the abacus</text><circle cx="791.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="791.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 300 BCE</text><text x="791.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Euclid&#x27;s algorithm</text><circle cx="912.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="912.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 250 BCE</text><text x="912.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Archimedes</text><text x="912.8" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">squeezes π</text><circle cx="1034.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1034.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 240 BCE</text><text x="1034.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">The sieve of</text><text x="1034.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Eratosthenes</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 660" role="img" aria-label="Each fix leaves a new pain: from trying every candidate to the binary GCD" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="62.0" x2="560.0" y2="62.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,62.0 551.8,65.7 551.8,58.3" style="fill:var(--ink-2)"/><rect x="449.2" y="41.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="54.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="104.0" x2="750.0" y2="154.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,154.0 746.3,145.8 753.7,145.8" style="fill:var(--ink-2)"/><rect x="757.0" y="121.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="134.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="196.0" x2="400.0" y2="196.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,196.0 408.2,192.3 408.2,199.7" style="fill:var(--ink-2)"/><rect x="449.2" y="175.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="188.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="238.0" x2="210.0" y2="288.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,288.0 206.3,279.8 213.7,279.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="330.0" x2="560.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,330.0 551.8,333.7 551.8,326.3" style="fill:var(--ink-2)"/><rect x="449.2" y="309.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="322.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="372.0" x2="750.0" y2="422.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,422.0 746.3,413.8 753.7,413.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="464.0" x2="400.0" y2="464.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,464.0 408.2,460.3 408.2,467.7" style="fill:var(--ink-2)"/><rect x="449.2" y="443.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="456.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="506.0" x2="210.0" y2="556.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,556.0 206.3,547.8 213.7,547.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="598.0" x2="560.0" y2="598.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,598.0 551.8,601.7 551.8,594.3" style="fill:var(--ink-2)"/><rect x="449.2" y="577.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="590.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="57.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="73.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Try every candidate until one divides both numbers</text><rect x="560" y="20" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="49.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="65.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Take the smaller from the larger, again and again</text><text x="572.0" y="82.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Elements VII, c. 300 BCE</text><rect x="560" y="154" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="191.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="207.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">1,000,000 and 1 need 1,000,000 subtractions</text><rect x="20" y="154" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="191.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="207.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">One division does a whole run of subtractions: a mod b</text><rect x="20" y="288" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="317.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="333.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Knowing the gcd is not enough: find x, y with ax + by =</text><text x="32.0" y="350.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">gcd</text><rect x="560" y="288" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="317.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="333.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Carry the steps back</text><text x="572.0" y="350.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Aryabhata&#x27;s kuttaka, the pulverizer, 499 CE</text><rect x="560" y="422" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="459.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="475.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">How slow can it get?</text><rect x="20" y="422" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="451.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="467.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Never more than 5 × the digits of the smaller number</text><text x="32.0" y="484.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Lamé, 1844 (others had partial results first)</text><rect x="20" y="556" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="593.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="609.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Division is costly in hardware</text><rect x="560" y="556" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="585.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="601.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Halving and subtraction only</text><text x="572.0" y="618.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Stein, 1967; a halving rule appears in China&#x27;s Nine Chapters</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="steps" aria-labelledby="steps-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">Step by step</span></div>
+  <h2 id="steps-h">1071 and 462, by hand</h2>
+<div class="tbl"><table><thead><tr><th class="n">Step</th><th class="">Division</th><th class="n">Quotient (squares cut)</th><th class="n">Remainder</th></tr></thead><tbody><tr class=""><td class="n">1</td><td class="">1,071 = 2 × 462 + 147</td><td class="n">2</td><td class="n">147</td></tr><tr class="hl"><td class="n">2</td><td class="">462 = 3 × 147 + 21</td><td class="n">3</td><td class="n">21</td></tr><tr class=""><td class="n">3</td><td class="">147 = 7 × 21 + 0</td><td class="n">7</td><td class="n">0</td></tr></tbody></table></div>
+<p class="col">The last non-zero remainder, <strong>21</strong>, is gcd(1071, 462). Euclid himself drew numbers as line segments and measured one off along the other:</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 560 160" role="img" aria-label="Numbers as line segments: CD measured off along AB twice leaves 147" style="font-family:var(--body);min-width:280px;max-width:600px;margin:0 auto"><line x1="40.0" y1="40.0" x2="489.8" y2="40.0" style="stroke:var(--red);stroke-width:7"/><text x="30.0" y="45.0" text-anchor="end" style="fill:var(--ink);font-size:15px;font-weight:700">A</text><text x="499.8" y="45.0" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">B</text><text x="264.9" y="28.0" text-anchor="middle" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">AB = 1071</text><line x1="40.0" y1="96.0" x2="234.0" y2="96.0" style="stroke:var(--blue);stroke-width:7"/><text x="30.0" y="101.0" text-anchor="end" style="fill:var(--ink);font-size:15px;font-weight:700">C</text><text x="244.0" y="101.0" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">D</text><text x="137.0" y="84.0" text-anchor="middle" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">CD = 462</text><line x1="40.0" y1="140.0" x2="231.0" y2="140.0" style="stroke:var(--blue);stroke-width:7"/><line x1="234.0" y1="140.0" x2="425.1" y2="140.0" style="stroke:var(--blue);stroke-width:7"/><line x1="428.1" y1="140.0" x2="489.8" y2="140.0" style="stroke:var(--yellow);stroke-width:7"/></svg></div><figcaption>Drawn for this book in the style of Euclid's Elements, not copied from a manuscript.</figcaption></figure>
+<div class="callout wrong col"><div class="k">Wrong turn</div><p>Euclid subtracted one copy at a time. That is fine for 1071 and 462 (12 subtractions), but 1,000,000 and 1 need <strong>1,000,000 subtractions</strong> where one division is enough. Division is subtraction done in bulk.</p></div>
+<p class="col"><strong>Going backwards: the pulverizer.</strong> Run the steps in reverse and every remainder becomes a combination of the two starting numbers. Each row keeps the promise <em>remainder = s × 1071 + t × 462</em>. Aryabhata (499 CE) called the method <em>kuttaka</em>, "pulverizing", because the numbers get smaller with every step.</p>
+<div class="tbl"><table><thead><tr><th class="n">Row</th><th class="n">Quotient</th><th class="n">Remainder</th><th class="n">s</th><th class="n">t</th><th class="">Check</th></tr></thead><tbody><tr class=""><td class="n">0</td><td class="n">—</td><td class="n">1,071</td><td class="n">1</td><td class="n">0</td><td class="">1 × 1071 + 0 × 462 = 1,071</td></tr><tr class=""><td class="n">1</td><td class="n">—</td><td class="n">462</td><td class="n">0</td><td class="n">1</td><td class="">0 × 1071 + 1 × 462 = 462</td></tr><tr class=""><td class="n">2</td><td class="n">2</td><td class="n">147</td><td class="n">1</td><td class="n">-2</td><td class="">1 × 1071 − 2 × 462 = 147</td></tr><tr class="hl"><td class="n">3</td><td class="n">3</td><td class="n">21</td><td class="n">-3</td><td class="n">7</td><td class="">-3 × 1071 + 7 × 462 = 21</td></tr><tr class=""><td class="n">4</td><td class="n">7</td><td class="n">0</td><td class="n">22</td><td class="n">-51</td><td class="">22 × 1071 − 51 × 462 = 0</td></tr></tbody></table></div>
+<div class="callout key col"><div class="k">Key idea</div><p><strong>21 = -3 × 1071 + 7 × 462</strong> (Bézout's identity). When the gcd is 1, the s column gives the inverse of one number modulo the other, which is how RSA key generation finds its matching exponent: 17 × 2,753 = 1 (mod 3,120).</p></div>
+</section>
+<section id="four" aria-labelledby="four-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Before and after</span></div>
+  <h2 id="four-h">Four ways to find a gcd</h2>
+<p class="col">Each method keeps the goal and changes one thing. The counts of basic operations come from the program.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 800 588" role="img" aria-label="Four ways to find a gcd, each built from the one before, with the work each needs" style="font-family:var(--body);min-width:576px;max-width:840px;margin:0 auto"><line x1="235.0" y1="124.0" x2="235.0" y2="168.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="235.0,168.0 231.3,159.8 238.7,159.8" style="fill:var(--ink-2)"/><rect x="244.0" y="138.0" width="201.8" height="19" rx="3" style="fill:var(--surface)"/><text x="249.0" y="151.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ subtract instead of testing</text><line x1="235.0" y1="272.0" x2="235.0" y2="316.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="235.0,316.0 231.3,307.8 238.7,307.8" style="fill:var(--ink-2)"/><rect x="244.0" y="286.0" width="194.4" height="19" rx="3" style="fill:var(--surface)"/><text x="249.0" y="299.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ do the subtractions in bulk</text><line x1="235.0" y1="420.0" x2="235.0" y2="464.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="235.0,464.0 231.3,455.8 238.7,455.8" style="fill:var(--ink-2)"/><rect x="244.0" y="434.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="249.0" y="447.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ halve instead of dividing</text><rect x="20" y="20" width="430" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Try every candidate</text><text x="32.0" y="78.2" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">count down from the smaller number until one divides both</text><text x="32.0" y="94.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">1071 and 462: 442 tries · 1,000,000 and 1: 1</text><rect x="20" y="168" width="430" height="104" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="208.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Repeated subtraction (Euclid)</text><text x="32.0" y="226.2" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">take the smaller from the larger</text><text x="32.0" y="242.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">1071 and 462: 12 subtractions · 1,000,000 and 1: 1,000,000</text><rect x="20" y="316" width="430" height="104" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="356.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Division</text><text x="32.0" y="374.2" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">replace (a, b) by (b, a mod b)</text><text x="32.0" y="390.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">1071 and 462: 3 divisions · 1,000,000 and 1: 1</text><rect x="20" y="464" width="430" height="104" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="504.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Binary GCD (Stein, 1967)</text><text x="32.0" y="522.2" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">halve away factors of 2, then subtract</text><text x="32.0" y="538.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">1071 and 462: 5 rounds · 1,000,000 and 1: 7</text><text x="480.0" y="66.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WORK GROWS WITH</text><text x="480.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the size of the numbers</text><text x="480.0" y="214.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WORK GROWS WITH</text><text x="480.0" y="234.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the size of the quotients</text><text x="480.0" y="362.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WORK GROWS WITH</text><text x="480.0" y="382.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the number of digits</text><text x="480.0" y="510.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WORK GROWS WITH</text><text x="480.0" y="530.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the number of bits; no division at all</text></svg></div></figure>
+<div class="tbl"><table><thead><tr><th class="">Pair</th><th class="n">gcd</th><th class="n">Trying every candidate</th><th class="n">Subtracting (Euclid)</th><th class="n">Dividing</th><th class="n">Binary (Stein)</th></tr></thead><tbody><tr class=""><td class="">1,071 and 462 (the worked example)</td><td class="n">21</td><td class="n">442</td><td class="n">12</td><td class="n"><strong>3</strong></td><td class="n">5</td></tr><tr class=""><td class="">89 and 55 (consecutive Fibonacci numbers)</td><td class="n">1</td><td class="n">55</td><td class="n">10</td><td class="n"><strong>9</strong></td><td class="n">5</td></tr><tr class=""><td class="">1,000,000 and 1 (a huge and a tiny number)</td><td class="n">1</td><td class="n">1</td><td class="n">1,000,000</td><td class="n"><strong>1</strong></td><td class="n">7</td></tr><tr class=""><td class="">2,971,215,073 and 1,836,311,903 (10-digit consecutive Fibonacci numbers)</td><td class="n">1</td><td class="n">1,836,311,903</td><td class="n">46</td><td class="n"><strong>45</strong></td><td class="n">26</td></tr><tr class=""><td class="">917,151,100,147,030,119 and 740,488,968,177,717,441 (a random 18-digit pair)</td><td class="n">3</td><td class="n">740,488,968,177,717,439</td><td class="n">267</td><td class="n"><strong>41</strong></td><td class="n">45</td></tr></tbody></table></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">How fast is it?</h2>
+<p class="col"><strong>The worst case.</strong> Consecutive Fibonacci numbers make the algorithm work hardest: almost every quotient is 1, so each step takes away as little as possible.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 800 300" role="img" aria-label="The slowest pair below 100: 89 and 55 take 9 divisions, because almost every quotient is 1" style="font-family:var(--body);min-width:576px;max-width:840px;margin:0 auto"><line x1="130.0" y1="60.0" x2="182.0" y2="60.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="182.0,60.0 173.8,63.7 173.8,56.3" style="fill:var(--ink-2)"/><rect x="136.2" y="38.0" width="39.5" height="19" rx="3" style="fill:var(--surface)"/><text x="156.0" y="51.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">q = 1</text><line x1="292.0" y1="60.0" x2="344.0" y2="60.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="344.0,60.0 335.8,63.7 335.8,56.3" style="fill:var(--ink-2)"/><rect x="298.2" y="38.0" width="39.5" height="19" rx="3" style="fill:var(--surface)"/><text x="318.0" y="51.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">q = 1</text><line x1="454.0" y1="60.0" x2="506.0" y2="60.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="506.0,60.0 497.8,63.7 497.8,56.3" style="fill:var(--ink-2)"/><rect x="460.2" y="38.0" width="39.5" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="51.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">q = 1</text><line x1="616.0" y1="60.0" x2="668.0" y2="60.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="668.0,60.0 659.8,63.7 659.8,56.3" style="fill:var(--ink-2)"/><rect x="622.2" y="38.0" width="39.5" height="19" rx="3" style="fill:var(--surface)"/><text x="642.0" y="51.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">q = 1</text><line x1="723.0" y1="90.0" x2="723.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="723.0,170.0 719.3,161.8 726.7,161.8" style="fill:var(--ink-2)"/><rect x="728.0" y="122.0" width="39.5" height="19" rx="3" style="fill:var(--surface)"/><text x="733.0" y="135.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">q = 1</text><line x1="668.0" y1="200.0" x2="616.0" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="616.0,200.0 624.2,196.3 624.2,203.7" style="fill:var(--ink-2)"/><rect x="622.2" y="178.0" width="39.5" height="19" rx="3" style="fill:var(--surface)"/><text x="642.0" y="191.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">q = 1</text><line x1="506.0" y1="200.0" x2="454.0" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="454.0,200.0 462.2,196.3 462.2,203.7" style="fill:var(--ink-2)"/><rect x="460.2" y="178.0" width="39.5" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="191.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">q = 1</text><line x1="344.0" y1="200.0" x2="292.0" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="292.0,200.0 300.2,196.3 300.2,203.7" style="fill:var(--ink-2)"/><rect x="298.2" y="178.0" width="39.5" height="19" rx="3" style="fill:var(--surface)"/><text x="318.0" y="191.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">q = 1</text><line x1="182.0" y1="200.0" x2="130.0" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="130.0,200.0 138.2,196.3 138.2,203.7" style="fill:var(--ink-2)"/><rect x="136.2" y="178.0" width="39.5" height="19" rx="3" style="fill:var(--surface)"/><text x="156.0" y="191.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">q = 2</text><rect x="20" y="30" width="110" height="60" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="57.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">89 and 55</text><text x="32.0" y="74.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">pair 1</text><rect x="182" y="30" width="110" height="60" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="194.0" y="57.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">55 and 34</text><text x="194.0" y="74.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">pair 2</text><rect x="344" y="30" width="110" height="60" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="356.0" y="57.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">34 and 21</text><text x="356.0" y="74.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">pair 3</text><rect x="506" y="30" width="110" height="60" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="518.0" y="57.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">21 and 13</text><text x="518.0" y="74.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">pair 4</text><rect x="668" y="30" width="110" height="60" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="680.0" y="57.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">13 and 8</text><text x="680.0" y="74.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">pair 5</text><rect x="668" y="170" width="110" height="60" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="680.0" y="197.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">8 and 5</text><text x="680.0" y="214.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">pair 6</text><rect x="506" y="170" width="110" height="60" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="518.0" y="197.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">5 and 3</text><text x="518.0" y="214.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">pair 7</text><rect x="344" y="170" width="110" height="60" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="356.0" y="197.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">3 and 2</text><text x="356.0" y="214.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">pair 8</text><rect x="182" y="170" width="110" height="60" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="194.0" y="197.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">2 and 1</text><text x="194.0" y="214.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">pair 9</text><rect x="20" y="170" width="110" height="60" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="197.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">1 and 0</text><text x="32.0" y="214.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">gcd = 1</text><text x="20.0" y="276.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Each arrow is one division; q is the quotient. With q = 1 almost every time, each step takes away as little as possible.</text></svg></div></figure>
+<p class="col">Lamé proved in 1844 that the steps never exceed five times the number of digits of the smaller number. The worst cases sit exactly at that limit for small numbers and just below it after that.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 800 190" role="img" aria-label="The worst case against Lamé&#x27;s limit of 5 steps per digit: it reaches the limit up to 3 digits and stays just below it after that" style="font-family:var(--body);min-width:576px;max-width:840px;margin:0 auto"><rect x="20" y="20" width="100" height="110" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="52.6" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">1 DIGIT</text><text x="32.0" y="71.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">5 steps</text><text x="32.0" y="88.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">limit 5</text><text x="32.0" y="104.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">at the limit</text><rect x="130" y="20" width="100" height="110" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="142.0" y="52.6" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">3 DIGITS</text><text x="142.0" y="71.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">15 steps</text><text x="142.0" y="88.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">limit 15</text><text x="142.0" y="104.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">at the limit</text><rect x="240" y="20" width="100" height="110" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="252.0" y="52.6" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">6 DIGITS</text><text x="252.0" y="71.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">29 steps</text><text x="252.0" y="88.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">limit 30</text><text x="252.0" y="104.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">1 below</text><rect x="350" y="20" width="100" height="110" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="362.0" y="52.6" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">9 DIGITS</text><text x="362.0" y="71.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">43 steps</text><text x="362.0" y="88.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">limit 45</text><text x="362.0" y="104.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">2 below</text><rect x="460" y="20" width="100" height="110" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="472.0" y="52.6" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">12 DIGITS</text><text x="472.0" y="71.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">58 steps</text><text x="472.0" y="88.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">limit 60</text><text x="472.0" y="104.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">2 below</text><rect x="570" y="20" width="100" height="110" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="582.0" y="52.6" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">15 DIGITS</text><text x="582.0" y="71.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">72 steps</text><text x="582.0" y="88.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">limit 75</text><text x="582.0" y="104.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">3 below</text><rect x="680" y="20" width="100" height="110" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="692.0" y="52.6" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">18 DIGITS</text><text x="692.0" y="71.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">86 steps</text><text x="692.0" y="88.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">limit 90</text><text x="692.0" y="104.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">4 below</text><text x="20.0" y="160.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Worst case = consecutive Fibonacci numbers whose smaller one has that many digits. Red: exactly at Lamé&#x27;s limit; blue: below it.</text></svg></div></figure>
+<p class="col"><strong>The average.</strong> Random numbers are much kinder. Each extra digit adds about two steps, as Heilbronn's formula predicts.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 800 230" role="img" aria-label="Average steps for random pairs grow by about 1.94 per extra digit: 2.2 at 1 digit, 35.0 at 18 digits" style="font-family:var(--body);min-width:576px;max-width:840px;margin:0 auto"><line x1="170.0" y1="118.0" x2="226.0" y2="118.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="226.0,118.0 217.8,121.7 217.8,114.3" style="fill:var(--ink-2)"/><rect x="128.5" y="49.0" width="139.1" height="19" rx="3" style="fill:var(--surface)"/><text x="198.0" y="62.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">+5 digits: +9.5 steps</text><line x1="376.0" y1="118.0" x2="432.0" y2="118.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="432.0,118.0 423.8,121.7 423.8,114.3" style="fill:var(--ink-2)"/><rect x="330.8" y="49.0" width="146.4" height="19" rx="3" style="fill:var(--surface)"/><text x="404.0" y="62.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">+6 digits: +11.7 steps</text><line x1="582.0" y1="118.0" x2="638.0" y2="118.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="638.0,118.0 629.8,121.7 629.8,114.3" style="fill:var(--ink-2)"/><rect x="536.8" y="49.0" width="146.4" height="19" rx="3" style="fill:var(--surface)"/><text x="610.0" y="62.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">+6 digits: +11.6 steps</text><rect x="20" y="76" width="150" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="103.8" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">1-DIGIT NUMBERS</text><text x="32.0" y="122.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">2.2 steps</text><text x="32.0" y="139.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">on average</text><rect x="226" y="76" width="150" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="238.0" y="103.8" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">6-DIGIT NUMBERS</text><text x="238.0" y="122.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">11.7 steps</text><text x="238.0" y="139.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">on average</text><rect x="432" y="76" width="150" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="444.0" y="103.8" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">12-DIGIT NUMBERS</text><text x="444.0" y="122.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">23.4 steps</text><text x="444.0" y="139.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">on average</text><rect x="638" y="76" width="150" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="650.0" y="103.8" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">18-DIGIT NUMBERS</text><text x="650.0" y="122.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">35.0 steps</text><text x="650.0" y="139.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">on average</text><text x="20.0" y="196.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Measured over 100,000 random pairs at each size: +1.94 steps per extra digit.</text><text x="20.0" y="214.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Heilbronn&#x27;s formula for the average, 0.843 ln n, predicts +1.94.</text></svg></div></figure>
+<p class="col"><strong>The spread.</strong> For random 18-digit pairs the counts bunch tightly around the middle.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 800 380" role="img" aria-label="100,000 random 18-digit pairs: most need 30 to 40 division steps; the slowest needed 54, far below Lamé&#x27;s limit of 90" style="font-family:var(--body);min-width:576px;max-width:840px;margin:0 auto"><line x1="340.7" y1="84.0" x2="218.4" y2="150.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="218.4,150.0 223.9,142.9 227.4,149.3" style="fill:var(--ink-2)"/><line x1="400.0" y1="84.0" x2="400.0" y2="150.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,150.0 396.3,141.8 403.7,141.8" style="fill:var(--ink-2)"/><line x1="459.3" y1="84.0" x2="581.6" y2="150.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="581.6,150.0 572.6,149.3 576.1,142.9" style="fill:var(--ink-2)"/><line x1="135.0" y1="240.0" x2="135.0" y2="290.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="135.0,290.0 131.3,281.8 138.7,281.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="240.0" x2="400.0" y2="290.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,290.0 396.3,281.8 403.7,281.8" style="fill:var(--ink-2)"/><line x1="665.0" y1="240.0" x2="665.0" y2="290.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="665.0,290.0 661.3,281.8 668.7,281.8" style="fill:var(--ink-2)"/><rect x="230" y="20" width="340" height="64" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="242.0" y="49.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">100,000 random pairs</text><text x="242.0" y="66.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">both numbers have 18 digits</text><rect x="20" y="150" width="230" height="90" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="180.8" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">FEWER THAN 30 STEPS</text><text x="32.0" y="199.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">12,162 pairs</text><text x="32.0" y="216.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">12.2% · 17 to 29 steps</text><rect x="285" y="150" width="230" height="90" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="297.0" y="180.8" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">30 TO 40 STEPS</text><text x="297.0" y="199.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">77,142 pairs</text><text x="297.0" y="216.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">77.1% · 30 to 40 steps</text><rect x="550" y="150" width="230" height="90" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="562.0" y="180.8" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">MORE THAN 40 STEPS</text><text x="562.0" y="199.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">10,696 pairs</text><text x="562.0" y="216.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">10.7% · 41 to 54 steps</text><rect x="20" y="290" width="230" height="56" style="fill:var(--wash);stroke:var(--ink);stroke-width:1"/><text x="32.0" y="322.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">fastest: 17 steps</text><rect x="285" y="290" width="230" height="56" style="fill:var(--wash);stroke:var(--ink);stroke-width:1"/><text x="297.0" y="314.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">most common: 35 steps, 8,626</text><text x="297.0" y="330.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">pairs</text><rect x="550" y="290" width="230" height="56" style="fill:var(--wash);stroke:var(--ink);stroke-width:1"/><text x="562.0" y="314.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">slowest: 54 steps; Lamé&#x27;s limit is</text><text x="562.0" y="330.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">90</text></svg></div></figure>
+<details class="data"><summary>Show the numbers</summary><div class="tbl"><table><thead><tr><th class="n">Digits</th><th class="">Worst-case pair (consecutive Fibonacci)</th><th class="n">Steps</th><th class="n">Lamé&#x27;s limit</th><th class="n">Average, random pairs</th></tr></thead><tbody><tr class=""><td class="n">1</td><td class="">13 and 8</td><td class="n">5</td><td class="n">5</td><td class="n">2.180</td></tr><tr class=""><td class="n">2</td><td class="">144 and 89</td><td class="n">10</td><td class="n">10</td><td class="n">3.982</td></tr><tr class=""><td class="n">3</td><td class="">1,597 and 987</td><td class="n">15</td><td class="n">15</td><td class="n">5.882</td></tr><tr class=""><td class="n">4</td><td class="">10,946 and 6,765</td><td class="n">19</td><td class="n">20</td><td class="n">7.831</td></tr><tr class=""><td class="n">5</td><td class="">121,393 and 75,025</td><td class="n">24</td><td class="n">25</td><td class="n">9.774</td></tr><tr class=""><td class="n">6</td><td class="">1,346,269 and 832,040</td><td class="n">29</td><td class="n">30</td><td class="n">11.705</td></tr><tr class=""><td class="n">7</td><td class="">14,930,352 and 9,227,465</td><td class="n">34</td><td class="n">35</td><td class="n">13.661</td></tr><tr class=""><td class="n">8</td><td class="">102,334,155 and 63,245,986</td><td class="n">38</td><td class="n">40</td><td class="n">15.590</td></tr><tr class=""><td class="n">9</td><td class="">1,134,903,170 and 701,408,733</td><td class="n">43</td><td class="n">45</td><td class="n">17.518</td></tr><tr class=""><td class="n">10</td><td class="">12,586,269,025 and 7,778,742,049</td><td class="n">48</td><td class="n">50</td><td class="n">19.462</td></tr><tr class=""><td class="n">11</td><td class="">139,583,862,445 and 86,267,571,272</td><td class="n">53</td><td class="n">55</td><td class="n">21.410</td></tr><tr class=""><td class="n">12</td><td class="">1,548,008,755,920 and 956,722,026,041</td><td class="n">58</td><td class="n">60</td><td class="n">23.355</td></tr><tr class=""><td class="n">13</td><td class="">10,610,209,857,723 and 6,557,470,319,842</td><td class="n">62</td><td class="n">65</td><td class="n">25.280</td></tr><tr class=""><td class="n">14</td><td class="">117,669,030,460,994 and 72,723,460,248,141</td><td class="n">67</td><td class="n">70</td><td class="n">27.248</td></tr><tr class=""><td class="n">15</td><td class="">1,304,969,544,928,657 and 806,515,533,049,393</td><td class="n">72</td><td class="n">75</td><td class="n">29.166</td></tr><tr class=""><td class="n">16</td><td class="">14,472,334,024,676,221 and 8,944,394,323,791,464</td><td class="n">77</td><td class="n">80</td><td class="n">31.094</td></tr><tr class=""><td class="n">17</td><td class="">160,500,643,816,367,088 and 99,194,853,094,755,497</td><td class="n">82</td><td class="n">85</td><td class="n">33.056</td></tr><tr class=""><td class="n">18</td><td class="">1,100,087,778,366,101,931 and 679,891,637,638,612,258</td><td class="n">86</td><td class="n">90</td><td class="n">34.965</td></tr></tbody></table></div></details>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">An algorithm from 300 BCE finds weak locks in 2012</h2>
+<div class="callout circle col"><div class="k">Full circle</div><p>A team from UC San Diego and the University of Michigan collected the public keys of millions of internet hosts and computed greatest common divisors between them. Keys made with poor randomness can share a prime factor, and a shared factor gives the private key away. They recovered RSA private keys for <strong>0.50% of TLS hosts</strong> and <strong>0.03% of SSH hosts</strong> (Heninger, Durumeric, Wustrow and Halderman, <em>Mining Your Ps and Qs</em>, USENIX Security 2012; <a href="https://factorable.net/">factorable.net</a>).</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Find gcd(48, 18). How many divisions does it take?</span></summary><div class="ans"><p>48 = 2 × 18 + 12<br>18 = 1 × 12 + 6<br>12 = 2 × 6 + 0<br>So gcd(48, 18) = <strong>6</strong>, in <strong>3</strong> divisions.</p></div></details><details class="try"><summary><span class="q">2</span><span>Why must the algorithm stop?</span></summary><div class="ans"><p>Each remainder is smaller than the number it was divided by, so the second number of the pair gets strictly smaller at every step. Whole numbers cannot keep getting smaller forever, so it reaches 0.</p></div></details><details class="try"><summary><span class="q">3</span><span>Which pair of numbers below 100 makes it work hardest?</span></summary><div class="ans"><p><strong>(89, 55)</strong>, two consecutive Fibonacci numbers, with <strong>9</strong> divisions. The program checked every pair below 100.</p></div></details><details class="try"><summary><span class="q">4</span><span>Write 21 as a combination of 1071 and 462.</span></summary><div class="ans"><p>21 = <strong>-3</strong> × 1071 + <strong>7</strong> × 462. Check: -3,213 + 3,234 = 21.</p></div></details><details class="try"><summary><span class="q">5</span><span>Is gcd(1,000,000, 1) faster by subtraction or by division?</span></summary><div class="ans"><p>Division: <strong>1</strong> step against <strong>1,000,000</strong> subtractions.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><img src="https://library.si.edu/sites/default/files/books/covers/preclarissimusl00eucl_cover.jpg" alt="The first printed edition" onerror="this.closest('.obj').classList.add('noimg')"><div class="fallback"><svg viewBox="0 0 200 120" role="img" aria-label="Drawn placeholder of an open printed book" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><path d="M100,20 C80,12 40,12 20,18 V108 C40,102 80,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><path d="M100,20 C120,12 160,12 180,18 V108 C160,102 120,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="32.0" y1="32.0" x2="88.0" y2="32.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="41.0" x2="88.0" y2="41.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="50.0" x2="88.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="59.0" x2="88.0" y2="59.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="68.0" x2="88.0" y2="68.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="77.0" x2="88.0" y2="77.0" style="stroke:var(--axis);stroke-width:2"/><circle cx="140.0" cy="60.0" r="24.0" style="fill:none;stroke:var(--red);stroke-width:2"/><path d="M116,60 L164,60 M140,36 L140,84" style="fill:none;stroke:var(--blue);stroke-width:2"/></svg><span>Photograph not shown here: open it from the link below.</span></div></div><figcaption class="txt"><b>The first printed edition</b><span>Printed by Erhard Ratdolt, Venice, 25 May 1482.</span><a href="https://library.si.edu/digital-library/book/preclarissimusl00eucl">Smithsonian Libraries&#x27; digitised copy</a><span class="lic">Photo: Smithsonian Libraries, CC0 (public domain)</span></figcaption></figure><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>MS. D&#x27;Orville 301, Bodleian Library</b><span>A Byzantine manuscript of the <em>Elements</em>, dated 888, written by Stephanos the clerk.</span><a href="https://medieval.bodleian.ox.ac.uk/catalog/manuscript_4146">Catalogue entry and digital facsimile</a><span class="lic">Drawn placeholder. Most Digital Bodleian images are CC BY-NC 4.0, so the photographs are linked, not copied.</span></figcaption></figure><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a papyrus fragment" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><path d="M40,22 L150,14 L162,60 L150,128 L60,136 L36,96 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="52.0" y1="32.0" x2="146.0" y2="30.0" style="stroke:var(--axis);stroke-width:2"/><line x1="52.0" y1="40.0" x2="140.0" y2="38.0" style="stroke:var(--axis);stroke-width:2"/><line x1="52.0" y1="48.0" x2="134.0" y2="46.0" style="stroke:var(--axis);stroke-width:2"/><line x1="52.0" y1="56.0" x2="128.0" y2="54.0" style="stroke:var(--axis);stroke-width:2"/><line x1="52.0" y1="64.0" x2="122.0" y2="62.0" style="stroke:var(--axis);stroke-width:2"/><rect x="66.0" y="76.0" width="44.0" height="44.0" rx="0" style="fill:none;stroke:var(--yellow);stroke-width:2"/><rect x="110.0" y="76.0" width="22.0" height="44.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="66.0" y1="120.0" x2="110.0" y2="76.0" style="stroke:var(--blue);stroke-width:2"/></svg></div><figcaption class="txt"><b>P. Oxy. 29, Penn Museum E2748</b><span>A papyrus fragment of Book II, Proposition 5, with its diagram. Dated 200–400 CE by the museum, 75–125 CE by the papyrologist Eric Turner (<strong>disputed</strong>).</span><a href="https://collections.penn.museum/collections/object/63505">Penn Museum record</a><span class="lic">Drawn placeholder; no image licence is stated, so the photographs are linked.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://www.youtube.com/watch?v=6Y3jHHE_hbA" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Euclid&#x27;s Algorithm · Numberphile (Sophie Maclean)</span><span class="w">The algorithm and its Fibonacci connection</span></a><a href="https://www.youtube.com/watch?v=SR-jmdjzw-Y" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">The Euclidean Algorithm (Finding the GCD/GCF) · Houston Math Prep</span><span class="w">Step-by-step worked examples</span></a><a href="https://www.youtube.com/watch?v=9O97Xad-iTQ" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Here&#x27;s looking at Euclid · Gresham College, Robin Wilson (2004)</span><span class="w">Greek mathematics and the *Elements*, with the Euclidean algorithm in context</span></a><a href="https://www.cut-the-knot.org/blue/Euclid.shtml" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Euclid&#x27;s Algorithm · Cut the Knot</span><span class="w">gcd(*a*, *b*) = gcd(*b*, *r*) with a worked example, and Bézout&#x27;s identity</span></a><a href="https://www.youtube.com/watch?v=NuY7szYSXSw" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Lec 4, MIT 6.042J Mathematics for Computer Science · MIT OpenCourseWare (2010)</span><span class="w">GCD, Euclid&#x27;s algorithm, the Pulverizer (extended Euclid)</span></a><a href="https://www.youtube.com/watch?v=dW0f62lcCLE" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">2.1.2 Euclidean Algorithm · MIT OpenCourseWare (6.042J, 2015)</span><span class="w">Short course segment</span></a><a href="https://mathworld.wolfram.com/EuclideanAlgorithm.html" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Euclidean Algorithm · Wolfram MathWorld</span><span class="w">Lamé&#x27;s bound, Fibonacci worst case, average-case step count</span></a><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Euclid/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Euclid of Alexandria · MacTutor</span><span class="w">What is (and is not) known about Euclid</span></a><a href="https://www.youtube.com/watch?v=pVKhDtOjji8" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Introduction to number theory lecture 3: divisibility and Euclid&#x27;s algorithm · Richard Borcherds (UC Berkeley)</span><span class="w">Rigorous treatment; continues in lecture 4</span></a><a href="https://mathcs.clarku.edu/~djoyce/elements/bookVII/propVII1.html" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Elements VII.1 · David E. Joyce, Clark University</span><span class="w">The propositions with commentary and worked examples</span></a><a href="https://www.sciencedirect.com/science/article/pii/S0315086084710317" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Origins of the analysis of the Euclidean algorithm · Jeffrey Shallit, Historia Mathematica 21 (1994)</span><span class="w">Who first bounded the running time</span></a><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Aryabhata_I/" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Aryabhata I · MacTutor History of Mathematics</span><span class="w">The kuttaka and its link to Euclid&#x27;s algorithm</span></a><a href="https://people.csail.mit.edu/rivest/Rsapaper.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">A Method for Obtaining Digital Signatures and Public-Key Cryptosystems · Rivest, Shamir and Adleman (1977)</span><span class="w">RSA computes its exponents with &quot;a variation of Euclid&#x27;s algorithm&quot;</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-01-the-first-algorithms/reference-catalog.md">Era 1 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-01-the-first-algorithms/07-euclids-algorithm/EuclidsAlgorithm.java">EuclidsAlgorithm.java</a> makes <strong>1,444,574 checks</strong>: every method against Java's <code>BigInteger.gcd</code>, Bézout's identity on 200,000 random pairs, Lamé's bound for every pair below 1,000, and every continued fraction rebuilt exactly. Run it with <code>java EuclidsAlgorithm.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** The modern form: one division does a whole run of subtractions. */</span>
+<span class="k-kw">static</span> <span class="k-kw">long</span> gcd(<span class="k-kw">long</span> a, <span class="k-kw">long</span> b) {
+    <span class="k-kw">while</span> (b != <span class="k-n">0</span>) {
+        <span class="k-kw">long</span> r = a % b;                                <span class="k-c">// what is left after taking b away as often as possible</span>
+        a = b;
+        b = r;
+    }
+    <span class="k-kw">return</span> a;
+}
+
+<span class="k-c">/** Rows of the extended algorithm: {quotient, remainder, s, t} with remainder = s*a + t*b on every row. */</span>
+<span class="k-kw">static</span> <span class="k-kw">List</span>&lt;<span class="k-kw">long</span>[]&gt; extendedRows(<span class="k-kw">long</span> a, <span class="k-kw">long</span> b) {
+    <span class="k-kw">List</span>&lt;<span class="k-kw">long</span>[]&gt; rows = <span class="k-kw">new</span> ArrayList&lt;&gt;();
+    <span class="k-kw">long</span> r0 = a, r1 = b, s0 = <span class="k-n">1</span>, s1 = <span class="k-n">0</span>, t0 = <span class="k-n">0</span>, t1 = <span class="k-n">1</span>;
+    rows.add(<span class="k-kw">new</span> <span class="k-kw">long</span>[]{<span class="k-n">0</span>, r0, s0, t0});
+    rows.add(<span class="k-kw">new</span> <span class="k-kw">long</span>[]{<span class="k-n">0</span>, r1, s1, t1});
+    <span class="k-kw">while</span> (r1 != <span class="k-n">0</span>) {
+        <span class="k-kw">long</span> q = r0 / r1;
+        <span class="k-kw">long</span> r2 = r0 - q * r1, s2 = s0 - q * s1, t2 = t0 - q * t1;
+        rows.add(<span class="k-kw">new</span> <span class="k-kw">long</span>[]{q, r2, s2, t2});
+        r0 = r1; r1 = r2; s0 = s1; s1 = s2; t0 = t1; t1 = t2;
+    }
+    <span class="k-kw">return</span> rows;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>EuclidsAlgorithm.java</code>; the drawings are made for this book in the style of Byrne's 1847 coloured edition of the <em>Elements</em>.<br><span class="navfoot"><a href="../index.html">Era 1: The First Algorithms</a><a href="../06-counting-boards/counting-boards.html">← Counting Boards</a><a href="../08-archimedes-pi/archimedes-pi.html">Archimedes Squeezes Pi →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+/* ---------------- the board ---------------- */
+function stagesOf(a, b) {            // the squares cut from an a-by-b rectangle, stage by stage
+  let x = 0, y = 0, w = a, h = b; const out = [];
+  while (w > 0 && h > 0) {
+    const s = Math.min(w, h), n = Math.floor(Math.max(w, h) / s);
+    out.push({side: s, count: n, x, y, horizontal: w >= h, piece: {x, y, w, h}});
+    if (w >= h) { x += n * s; w -= n * s; } else { y += n * s; h -= n * s; }
+  }
+  return out;
+}
+const board = {a: 1071, b: 462, stages: [], shown: 0, timer: null, view: null, anim: null};
+const rect = document.getElementById("rect");
+function setView(target, animate) {
+  const cur = board.view || target;
+  board.view = target;
+  if (board.anim) cancelAnimationFrame(board.anim);
+  if (!animate || reduceMotion) { rect.setAttribute("viewBox", `${target.x} ${target.y} ${target.w} ${target.h}`); return; }
+  const t0 = performance.now(), dur = 650;
+  const step = now => {
+    const k = Math.min(1, (now - t0) / dur), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+    const v = ["x", "y", "w", "h"].map(p => cur[p] + (target[p] - cur[p]) * e);
+    rect.setAttribute("viewBox", v.join(" "));
+    if (k < 1) board.anim = requestAnimationFrame(step);
+  };
+  board.anim = requestAnimationFrame(step);
+}
+function fitBox(p) {                 // a viewBox around a piece, with the board's aspect ratio
+  const ar = board.a / board.b, pad = 1.25;
+  let w = p.w * pad, h = p.h * pad;
+  if (w / h > ar) h = w / ar; else w = h * ar;
+  return {x: p.x + p.w / 2 - w / 2, y: p.y + p.h / 2 - h / 2, w, h};
+}
+function drawBoard(animateZoom) {
+  const {a, b, stages, shown} = board;
+  rect.replaceChildren();
+  sv("rect", {x: 0, y: 0, width: a, height: b, fill: "var(--wash)", stroke: "var(--ink)", "stroke-width": 1.5, "vector-effect": "non-scaling-stroke"}, rect);
+  for (let k = 0; k < shown; k++) {
+    const st = stages[k], color = COLORS[k % 3], on = ON[k % 3];
+    if (st.count > 400) {            // too many squares to draw one by one: draw the block they fill
+      const p = st.piece, w = st.horizontal ? st.count * st.side : p.w, h = st.horizontal ? p.h : st.count * st.side;
+      sv("rect", {x: st.x, y: st.y, width: w, height: h, fill: color, opacity: .85}, rect);
+      continue;
+    }
+    for (let i = 0; i < st.count; i++) {
+      const x = st.horizontal ? st.x + i * st.side : st.x, y = st.horizontal ? st.y : st.y + i * st.side;
+      sv("rect", {x, y, width: st.side, height: st.side, fill: color, stroke: "var(--paper)", "stroke-width": 1.5, "vector-effect": "non-scaling-stroke"}, rect);
+      if (st.count <= 40) sv("text", {x: x + st.side / 2, y: y + st.side / 2, "text-anchor": "middle", "dominant-baseline": "central", fill: on,
+        "font-size": st.side * 0.3, "font-family": "var(--mono)", "font-weight": 600}, rect, fmt(st.side));
+    }
+  }
+  // the zoom target: the piece still to be filled, or the last one filled
+  let target = {x: 0, y: 0, w: a, h: b}, note = "";
+  const idx = shown < stages.length ? shown : stages.length - 1;
+  const piece = shown === 0 ? null : stages[idx].piece;
+  if (piece && Math.max(piece.w / a, piece.h / b) < 0.18 && !board.whole) {
+    target = fitBox(piece);
+    note = `Zoomed in ×${(a / target.w).toFixed(1)} on the ${fmt(piece.w)} × ${fmt(piece.h)} piece.`;
+  } else if (shown === 0) note = "Press Step to cut the first squares.";
+  else if (shown === stages.length) note = "Done: the last squares fill their piece exactly.";
+  document.getElementById("zoomnote").textContent = note;
+  setView(target, animateZoom);
+  renderSteps();
+}
+function gcdInfo(a, b) {
+  // quotients, remainders and Bezout coefficients with BigInt so large inputs stay exact
+  let r0 = BigInt(a), r1 = BigInt(b), s0 = 1n, s1 = 0n, t0 = 0n, t1 = 1n; const rows = [];
+  while (r1 !== 0n) {
+    const q = r0 / r1, r2 = r0 - q * r1;
+    rows.push({big: r0, q, small: r1, r: r2});
+    [r0, r1] = [r1, r2]; [s0, s1] = [s1, s0 - q * s1]; [t0, t1] = [t1, t0 - q * t1];
+  }
+  return {rows, g: r0, x: s0, y: t0};
+}
+function renderSteps() {
+  const info = gcdInfo(board.a, board.b), ol = document.getElementById("steps");
+  ol.replaceChildren();
+  const max = 12;
+  info.rows.forEach((row, i) => {
+    if (i >= max && i !== info.rows.length - 1) { if (i === max) el("li", {class: "pending"}, ol, `… ${info.rows.length - max - 1} more …`); return; }
+    const li = el("li", {class: i < board.shown ? (i === board.shown - 1 ? "current" : "") : "pending"}, ol);
+    const sw = el("span", {class: "sw"}, li); sw.style.background = COLORS[i % 3];
+    el("span", {}, li, `${fmt(row.big)} = ${fmt(row.q)} × ${fmt(row.small)} + ${fmt(row.r)}`);
+  });
+  const res = document.getElementById("result");
+  res.replaceChildren();
+  if (board.shown === board.stages.length) {
+    const qs = info.rows.map(r => fmt(r.q));
+    const p1 = el("p", {}, res); p1.append("gcd = "); el("b", {}, p1, fmt(info.g));
+    p1.append(` · continued fraction [${qs[0]}${qs.length > 1 ? "; " + qs.slice(1).join(", ") : ""}]`);
+    const p2 = el("p", {}, res); p2.append("Bézout: "); el("b", {}, p2, `${fmt(info.g)} = ${info.x} × ${fmt(board.a)} + ${info.y} × ${fmt(board.b)}`);
+  } else {
+    el("p", {}, res, `${board.shown} of ${board.stages.length} stages cut.`);
+  }
+  // work done by each method
+  const g = info.g, subtractions = info.rows.reduce((s, r) => s + r.q, 0n);
+  const trying = BigInt(Math.min(board.a, board.b)) - g + 1n;
+  const work = [["Trying candidates", trying], ["Subtracting (Euclid)", subtractions], ["Dividing", BigInt(info.rows.length)]];
+  const maxLog = Math.max(...work.map(w => Math.log10(Number(w[1]) + 1)));
+  const box = document.getElementById("work"); box.replaceChildren();
+  el("div", {class: "eyebrow"}, box, "Work done, on a log scale");
+  for (const [name, v] of work) {
+    const row = el("div", {class: "row"}, box);
+    el("span", {}, row, name);
+    const cell = el("div", {}, row);
+    const bar = el("div", {class: "bar"}, cell); bar.style.width = `${Math.max(1, Math.log10(Number(v) + 1) / (maxLog || 1) * 100)}%`;
+    el("span", {class: "val"}, cell, `${fmt(v)} ${name.startsWith("Div") ? "divisions" : name.startsWith("Sub") ? "subtractions" : "candidates"}`);
+  }
+}
+function load(a, b) {
+  stop();
+  a = Math.max(1, Math.min(1e12, Math.floor(a))); b = Math.max(1, Math.min(1e12, Math.floor(b)));
+  if (b > a) [a, b] = [b, a];
+  board.a = a; board.b = b; board.stages = stagesOf(a, b); board.whole = false;
+  document.getElementById("in-a").value = a; document.getElementById("in-b").value = b;
+  board.view = null; board.shown = 0;
+  drawBoard(false);
+}
+function stepOnce() { if (board.shown < board.stages.length) { board.shown++; board.whole = false; drawBoard(true); } if (board.shown >= board.stages.length) stop(); }
+function stop() { if (board.timer) { clearInterval(board.timer); board.timer = null; } document.getElementById("btn-play").textContent = "Play"; }
+document.getElementById("btn-step").addEventListener("click", () => {
+  stop();
+  if (board.shown >= board.stages.length) { board.shown = 0; board.view = null; }   // start again from the empty rectangle
+  board.whole = false; document.getElementById("btn-whole").textContent = "Whole rectangle";
+  stepOnce();
+});
+document.getElementById("btn-play").addEventListener("click", e => {
+  if (board.timer) return stop();
+  board.whole = false; document.getElementById("btn-whole").textContent = "Whole rectangle";
+  if (board.shown >= board.stages.length) { board.shown = 0; board.view = null; drawBoard(false); }
+  e.target.textContent = "Pause";
+  board.timer = setInterval(stepOnce, reduceMotion ? 400 : 1100);
+});
+document.getElementById("btn-reset").addEventListener("click", () => load(+document.getElementById("in-a").value, +document.getElementById("in-b").value));
+document.getElementById("btn-whole").addEventListener("click", () => { board.whole = !board.whole; drawBoard(true); document.getElementById("btn-whole").textContent = board.whole ? "Follow the pieces" : "Whole rectangle"; });
+for (const id of ["in-a", "in-b"]) document.getElementById(id).addEventListener("change", () => load(+document.getElementById("in-a").value, +document.getElementById("in-b").value));
+document.querySelectorAll(".presets button").forEach(btn => btn.addEventListener("click", () => load(+btn.dataset.a, +btn.dataset.b)));
+// at rest: 1071 and 462, fully cut
+load(1071, 462); board.shown = board.stages.length; board.whole = true; drawBoard(false);
+document.getElementById("btn-whole").textContent = "Follow the pieces";
+document.getElementById("zoomnote").textContent = "All three stages are cut. Press Step to replay, and the view follows the pieces as they shrink.";
+
+
+</script>
+</body>
+</html>

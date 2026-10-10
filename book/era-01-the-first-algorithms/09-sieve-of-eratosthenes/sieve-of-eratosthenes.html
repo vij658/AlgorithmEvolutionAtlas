@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Sieve of Eratosthenes</title>
+<meta name="description" content="Era 1, topic 9 of The Algorithm Evolution Atlas: the sieve of Eratosthenes, with an interactive sieve, six methods compared, and verified links.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.sv-board select{font:inherit;font-size:14px;padding:4px 6px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px;max-width:100%}
+.sv-board .controls input[type=checkbox]{width:auto}
+.sv-grid{display:grid;grid-template-columns:repeat(20,minmax(0,1fr));gap:2px;font-family:var(--mono);font-size:11px}
+.sv-grid span{display:flex;align-items:center;justify-content:center;aspect-ratio:1;background:var(--surface);border:1px solid var(--rule);color:var(--ink);min-width:0}
+.sv-grid span.x{background:var(--wash);color:var(--muted);text-decoration:line-through}
+.sv-grid span.p{border:2px solid var(--ink);font-weight:700}
+.sv-grid span.now{background:var(--ink);color:var(--paper)}
+.sv-grid span.twice{box-shadow:inset 0 0 0 2px var(--yellow)}
+.sv-board .say{font-size:15px}
+.sv-board .tally{font-family:var(--mono);font-size:13px;color:var(--muted)}
+@media (max-width:600px){.sv-grid{grid-template-columns:repeat(10,minmax(0,1fr))}}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 1: The First Algorithms</a><a href="../08-archimedes-pi/archimedes-pi.html">← Archimedes Squeezes Pi</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 1 · Topic 9 · c. 240 BCE</div>
+    <h1>The Sieve of Eratosthenes</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">Never ask whether a number is prime. For each prime, cross out its multiples; whatever survives is prime. A table of numbers does the work that division did.</p>
+  <p class="fieldnote">Field note from the visiting historian. Testing each number for divisors repeats the same work again and again. The sieve turns the problem inside out.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#sieve">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#evidence">The evidence</a><a href="#measured">Measured</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Eratosthenes fl. c. 240 BCE; first account by Nicomachus, c. 100 CE</dd></div><div><dt>Where</dt><dd>Alexandria (<strong>documented</strong>); the method's exact origin is unknown</dd></div><div><dt>What hurt</dt><dd>Trial division tests each number from scratch</dd></div><div><dt>The fix</dt><dd>Cross out multiples instead; stop at √n</dd></div><div><dt>Cost</dt><dd>About n ln ln n crossings: 2,122,048 up to a million</dd></div><div><dt>Atlas</dt><dd>Ch. 3 The Sieve of Eratosthenes</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Euclid's <em>Elements</em> defined primes (topic 7); counting on by a fixed step is repeated addition (topics 2 and 5). The sieve turns the question round: instead of asking whether each number is prime, it crosses out what cannot be. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How the sieve combined with other ideas, from Euclid&#x27;s primes to lazy functional programs" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="285.0" y1="106.0" x2="500.0" y2="150.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,150.0 491.2,151.9 492.7,144.8" style="fill:var(--ink-2)"/><line x1="715.0" y1="106.0" x2="500.0" y2="150.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,150.0 507.3,144.8 508.8,151.9" style="fill:var(--ink-2)"/><line x1="500.0" y1="236.0" x2="125.0" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="125.0,300.0 132.5,295.0 133.7,302.2" style="fill:var(--ink-2)"/><line x1="500.0" y1="236.0" x2="375.0" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="375.0,300.0 380.6,293.0 384.0,299.5" style="fill:var(--ink-2)"/><line x1="500.0" y1="236.0" x2="875.0" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="875.0,300.0 866.3,302.2 867.5,295.0" style="fill:var(--ink-2)"/><line x1="500.0" y1="236.0" x2="625.0" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="625.0,300.0 616.0,299.5 619.4,293.0" style="fill:var(--ink-2)"/><line x1="875.0" y1="386.0" x2="875.0" y2="450.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="875.0,450.0 871.3,441.8 878.7,441.8" style="fill:var(--ink-2)"/><rect x="180" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="192.0" y="60.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Primes defined</text><text x="192.0" y="77.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Euclid&#x27;s Elements VII, topic 7</text><rect x="610" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="622.0" y="60.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Counting on by p</text><text x="622.0" y="77.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">repeated addition, topics 2 and 5</text><rect x="395" y="150" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="181.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The sieve</text><text x="407.0" y="199.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ cross out multiples</text><text x="407.0" y="215.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Eratosthenes, c. 240 BCE</text><rect x="20" y="300" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="340.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Segmented sieve</text><text x="32.0" y="357.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ one window at a time</text><rect x="270" y="300" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="282.0" y="331.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Linear sieve</text><text x="282.0" y="349.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ cross each number once</text><text x="282.0" y="365.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1978 or 1987 (disputed)</text><rect x="520" y="300" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="532.0" y="331.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">How many primes?</text><text x="532.0" y="349.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">π(n) ≈ n / ln n</text><text x="532.0" y="365.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">proved 1896</text><rect x="770" y="300" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="782.0" y="331.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Lazy sieves</text><text x="782.0" y="349.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ infinite lists</text><text x="782.0" y="365.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">O&#x27;Neill 2009; Gibbons 2025</text><rect x="770" y="450" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="782.0" y="481.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The &#x27;unfaithful sieve&#x27;</text><text x="782.0" y="499.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">trial division in disguise</text><text x="782.0" y="515.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">O&#x27;Neill&#x27;s warning</text><text x="20.0" y="600.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dashed: the sieve supplies the counts; the theorem came from analysis, not from sieving.</text></svg></div><figcaption>Red: the sieve. Blue: where it is argued about today, in functional programming.</figcaption></figure>
+</section>
+<section id="sieve" aria-labelledby="sieve-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="sieve-h">Cross out, and see what survives</h2>
+<p class="col">Take the first number not yet crossed out: it is prime. Cross out its multiples, starting at its square. Repeat until the square passes the end of the table. Switch the sieving numbers to every odd number, as in Nicomachus's account, or start at 2p instead of p × p, and watch the wasted crossings.</p>
+
+<div class="board sv-board">
+  <div style="min-width:0">
+    <div class="controls">
+      <label for="sv-mode">Sieve with <select id="sv-mode"><option value="primes">primes only</option><option value="odd">every odd number (as in Nicomachus)</option><option value="all">every number</option></select></label>
+      <label><input id="sv-sq" type="checkbox" checked> start at p × p</label>
+    </div>
+    <div class="controls">
+      <button id="sv-next" class="primary" type="button">Next sieving number</button>
+      <button id="sv-all" type="button">Finish</button>
+      <button id="sv-reset" type="button">Reset</button>
+      <label for="sv-n">up to <select id="sv-n"><option>100</option><option>200</option><option>400</option></select></label>
+    </div>
+    <div class="sv-grid" id="sv-grid" aria-label="The numbers being sieved"></div>
+  </div>
+  <div style="min-width:0">
+    <div class="eyebrow">The sieve so far</div>
+    <p class="say" id="sv-say" aria-live="polite"></p>
+    <p class="tally" id="sv-count"></p>
+  </div>
+</div>
+
+<p class="col">Up to 100 the sieve makes <strong>104</strong> crossings with just 4 primes: 2, 3, 5 and 7. 11 × 11 = 121 passes 100, so the 25 numbers left are prime.</p>
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 1, the first algorithms</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1098 132" role="img" aria-label="Era 1: The First Algorithms, from c. 44,000 years ago to c. 240 BCE" style="font-family:var(--body);min-width:790px;max-width:1153px;margin:0 auto"><line x1="34" y1="34" x2="1064" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 44,000 years ago</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Notched bones</text><circle cx="185.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 3000 BCE</text><text x="185.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Written numerals</text><text x="185.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">and the first</text><text x="185.2" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">carry</text><circle cx="306.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="306.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1800 BCE</text><text x="306.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Babylonian place</text><text x="306.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">value and tables</text><circle cx="427.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="427.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1800–1600 BCE</text><text x="427.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">√2 on the tablet</text><text x="427.8" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">YBC 7289</text><circle cx="549.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="549.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1550 BCE</text><text x="549.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Egyptian</text><text x="549.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">multiplication by</text><text x="549.0" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">doubling</text><circle cx="670.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="670.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 300 BCE</text><text x="670.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Counting boards</text><text x="670.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">and the abacus</text><circle cx="791.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="791.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 300 BCE</text><text x="791.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Euclid&#x27;s algorithm</text><circle cx="912.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="912.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 250 BCE</text><text x="912.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Archimedes</text><text x="912.8" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">squeezes π</text><circle cx="1034.0" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="1034.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 240 BCE</text><text x="1034.0" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">The sieve of</text><text x="1034.0" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Eratosthenes</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 526" role="img" aria-label="Each fix leaves a new pain: from trial division to the linear sieve" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="62.0" x2="560.0" y2="62.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,62.0 551.8,65.7 551.8,58.3" style="fill:var(--ink-2)"/><rect x="449.2" y="41.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="54.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="104.0" x2="750.0" y2="154.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,154.0 746.3,145.8 753.7,145.8" style="fill:var(--ink-2)"/><rect x="757.0" y="121.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="134.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="196.0" x2="400.0" y2="196.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,196.0 408.2,192.3 408.2,199.7" style="fill:var(--ink-2)"/><rect x="449.2" y="175.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="188.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="238.0" x2="210.0" y2="288.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,288.0 206.3,279.8 213.7,279.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="330.0" x2="560.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,330.0 551.8,333.7 551.8,326.3" style="fill:var(--ink-2)"/><rect x="449.2" y="309.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="322.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="372.0" x2="750.0" y2="422.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,422.0 746.3,413.8 753.7,413.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="464.0" x2="400.0" y2="464.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,464.0 408.2,460.3 408.2,467.7" style="fill:var(--ink-2)"/><rect x="449.2" y="443.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="456.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="49.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="65.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Testing each number by division repeats work:</text><text x="32.0" y="82.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">13,927,402 divisions up to a million</text><rect x="560" y="20" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="49.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="65.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Cross out multiples of each prime: 2,122,048 crossings</text><text x="572.0" y="82.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Eratosthenes, c. 240 BCE</text><rect x="560" y="154" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="183.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="199.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Sieving with every odd number wastes work on</text><text x="572.0" y="216.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">composites like 9 and 15: 1,419,797 crossings</text><rect x="20" y="154" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="183.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="199.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Sieve with primes only, from p × p: 811,068 crossings on</text><text x="32.0" y="216.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the odd numbers</text><rect x="20" y="288" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="325.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="341.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A table of every number up to N needs N cells of memory</text><rect x="560" y="288" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="309.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="325.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Sieve one window at a time: 65,536 cells for primes up to</text><text x="572.0" y="341.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">100 million</text><text x="572.0" y="358.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">segmented sieve</text><rect x="560" y="422" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="451.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="467.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Composites are still crossed more than once: 12 by 2 and</text><text x="572.0" y="484.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">by 3</text><rect x="20" y="422" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="451.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="467.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Cross each composite exactly once: 921,501 crossings</text><text x="32.0" y="484.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">linear sieve</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">A method known from a later book</h2>
+<p class="col">Eratosthenes of Cyrene (276–194 BCE) was librarian at Alexandria from about 240 BCE (<strong>documented</strong>). None of his writing on the sieve survives. The earliest account is in Nicomachus of Gerasa's <em>Introduction to Arithmetic</em>, about 100 CE, three centuries later, and it sieves with odd numbers rather than only with primes. So "c. 240 BCE" dates the man, not the method.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>The sieve trades memory for time: it keeps a table of every number, and in return never divides. The reciprocal tables of topic 3 made the same trade as a reference book, worked out once and copied; here the table is working memory, built and used inside one computation.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">How much work?</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 250" role="img" aria-label="Six ways to list the primes below 100,000, by the work they do" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="165.0" y1="105.0" x2="183.0" y2="105.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="183.0,105.0 174.8,108.7 174.8,101.3" style="fill:var(--ink-2)"/><line x1="328.0" y1="105.0" x2="346.0" y2="105.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="346.0,105.0 337.8,108.7 337.8,101.3" style="fill:var(--ink-2)"/><line x1="491.0" y1="105.0" x2="509.0" y2="105.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="509.0,105.0 500.8,108.7 500.8,101.3" style="fill:var(--ink-2)"/><line x1="654.0" y1="105.0" x2="672.0" y2="105.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="672.0,105.0 663.8,108.7 663.8,101.3" style="fill:var(--ink-2)"/><line x1="817.0" y1="105.0" x2="835.0" y2="105.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="835.0,105.0 826.8,108.7 826.8,101.3" style="fill:var(--ink-2)"/><rect x="20" y="60" width="145" height="90" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="93.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Unfaithful sieve</text><text x="32.0" y="111.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">46,314,477</text><text x="32.0" y="127.6" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">divisions</text><rect x="183" y="60" width="145" height="90" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="195.0" y="102.1" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Trial division</text><text x="195.0" y="119.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">744,436 divisions</text><rect x="346" y="60" width="145" height="90" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="358.0" y="102.1" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Textbook sieve</text><text x="358.0" y="119.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">193,078 crossings</text><rect x="509" y="60" width="145" height="90" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="521.0" y="92.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Every odd</text><text x="521.0" y="112.0" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">number</text><text x="521.0" y="129.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">113,247 crossings</text><rect x="672" y="60" width="145" height="90" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="684.0" y="102.1" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Linear sieve</text><text x="684.0" y="119.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">90,407 crossings</text><rect x="835" y="60" width="145" height="90" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="847.0" y="102.1" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Odd primes only</text><text x="847.0" y="119.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">71,556 crossings</text><text x="20.0" y="38.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">LESS WORK TO THE RIGHT; ALL SIX FIND THE SAME 9,592 PRIMES</text><text x="20.0" y="190.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Divisions and crossings are not the same cost, but each is one basic step of its method.</text><text x="20.0" y="212.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">The every-odd and odd-primes rows skip even numbers; the textbook sieve crosses them too.</text></svg></div></figure>
+<div class="tbl"><table><thead><tr><th class="n">Up to</th><th class="n">Primes</th><th class="n">Trial division</th><th class="n">Unfaithful sieve</th><th class="n">Every odd number</th><th class="n">Odd primes only</th><th class="n">Textbook sieve</th><th class="n">Linear sieve</th><th class="n">n ln ln n</th></tr></thead><tbody><tr class=""><td class="n">100</td><td class="n">25</td><td class="n">181</td><td class="n">411</td><td class="n">30</td><td class="n">28</td><td class="n">104</td><td class="n">74</td><td class="n">153</td></tr><tr class=""><td class="n">10,000</td><td class="n">1,229</td><td class="n">43,753</td><td class="n">776,631</td><td class="n">8,463</td><td class="n">5,995</td><td class="n">16,981</td><td class="n">8,770</td><td class="n">22,203</td></tr><tr class=""><td class="n">100,000</td><td class="n">9,592</td><td class="n">744,436</td><td class="n">46,314,477</td><td class="n">113,247</td><td class="n">71,556</td><td class="n">193,078</td><td class="n">90,407</td><td class="n">244,347</td></tr><tr class=""><td class="n">1,000,000</td><td class="n">78,498</td><td class="n">13,927,402</td><td class="n">—</td><td class="n">1,419,797</td><td class="n">811,068</td><td class="n">2,122,048</td><td class="n">921,501</td><td class="n">2,625,792</td></tr><tr class=""><td class="n">10,000,000</td><td class="n">664,579</td><td class="n">286,144,938</td><td class="n">—</td><td class="n">17,074,329</td><td class="n">8,925,144</td><td class="n">22,850,051</td><td class="n">9,335,420</td><td class="n">27,799,426</td></tr></tbody></table></div>
+<p class="col">The textbook sieve's crossings stay below n ln ln n, the classic estimate, at every size. The program also counted <strong>5,761,455</strong> primes up to 100 million with a segmented sieve, holding only 1,229 sieving primes and a window of 65,536 numbers in memory.</p>
+<p class="col">Up to 10 million, the largest gap between consecutive primes is 154, after 4,652,353; there are 58,980 pairs of twin primes (primes 2 apart).</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">The sieve that was not a sieve</h2>
+<p class="col">Functional programming has a famous one-line "sieve": take the first number, then filter every later number that it divides, and repeat. In 2009 Melissa O'Neill showed in the <em>Journal of Functional Programming</em> that this is really trial division, and far slower than the real thing: it tests each number against every earlier prime instead of crossing out multiples. In 2025 Jeremy Gibbons returned to lazy sieves in the same journal.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>Up to 100,000 the program counts <strong>46,314,477</strong> divisions for the one-line version against 193,078 crossings for the sieve, about 239 times the work. An algorithm from about 240 BCE was still being argued over in a journal in 2025.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Why can the sieve stop at 7 when listing primes up to 100?</span></summary><div class="ans"><p>Any composite up to 100 has a prime factor at most √100 = 10. The primes up to 10 are 2, 3, 5, 7, so after them nothing composite is left.</p></div></details><details class="try"><summary><span class="q">2</span><span>Why start crossing out the multiples of 7 at 49?</span></summary><div class="ans"><p>14, 21, 28, 35 and 42 have smaller prime factors (2, 3, 5), so they were crossed out already. The first multiple of 7 with no smaller factor is 7 × 7.</p></div></details><details class="try"><summary><span class="q">3</span><span>Sieving with 9 as well as the primes: does it change the answer?</span></summary><div class="ans"><p>No: every multiple of 9 is a multiple of 3 and is already crossed out. It only adds work, as the every-odd-number column shows.</p></div></details><details class="try"><summary><span class="q">4</span><span>How many primes are there below 1,000,000? And what does n / ln n estimate?</span></summary><div class="ans"><p><strong>78,498</strong>; n / ln n gives about 72,382, an underestimate of about 8%.</p></div></details><details class="try"><summary><span class="q">5</span><span>Why is the one-line functional 'sieve' slow?</span></summary><div class="ans"><p>It divides each number by every earlier prime until one divides it, with no square-root stop: 46,314,477 divisions up to 100,000.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 120" role="img" aria-label="Drawn placeholder of an open printed book" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><path d="M100,20 C80,12 40,12 20,18 V108 C40,102 80,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><path d="M100,20 C120,12 160,12 180,18 V108 C160,102 120,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="32.0" y1="32.0" x2="88.0" y2="32.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="41.0" x2="88.0" y2="41.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="50.0" x2="88.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="59.0" x2="88.0" y2="59.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="68.0" x2="88.0" y2="68.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="77.0" x2="88.0" y2="77.0" style="stroke:var(--axis);stroke-width:2"/><circle cx="140.0" cy="60.0" r="24.0" style="fill:none;stroke:var(--red);stroke-width:2"/><path d="M116,60 L164,60 M140,36 L140,84" style="fill:none;stroke:var(--blue);stroke-width:2"/></svg></div><figcaption class="txt"><b>Introduction to Arithmetic</b><span>Nicomachus of Gerasa, about 100 CE, Book I, Chapter 13: the earliest surviving account of the sieve. D'Ooge's English translation, 1926.</span><a href="https://archive.org/details/nicomachus-introduction-to-arithmetic">Internet Archive scan</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://www.youtube.com/watch?v=klcIklsWzrY" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Sieve of Eratosthenes · Khan Academy (Journey into cryptography)</span><span class="w">Animated introduction, framed by cryptography</span></a><a href="https://www.youtube.com/watch?v=heY6nsELLVk" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Prime-time mathematics · Gresham College, Robin Wilson (2005)</span><span class="w">Walks through sifting the numbers up to 100</span></a><a href="https://mathworld.wolfram.com/SieveofEratosthenes.html" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Sieve of Eratosthenes · Wolfram MathWorld</span><span class="w">The procedure, and how Nicomachus preserved it</span></a><a href="https://www.youtube.com/watch?v=bnRNiE_OVWA" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Infinite Data Structures: To Infinity &amp; Beyond! · Computerphile (Graham Hutton)</span><span class="w">An infinite list of primes in Haskell: the classic &quot;sieve&quot; that O&#x27;Neill&#x27;s paper critiques</span></a><a href="https://cp-algorithms.com/algebra/sieve-of-eratosthenes.html" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Sieve of Eratosthenes · CP-Algorithms</span><span class="w">Proof of *n* log log *n*, the segmented sieve, block-size advice</span></a><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Eratosthenes/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Eratosthenes of Cyrene · MacTutor</span><span class="w">Life and work. Note: it credits the account to &quot;Nicomedes&quot;, a slip for Nicomachus</span></a><a href="https://www.cambridge.org/core/journals/journal-of-functional-programming/article/turner-bird-eratosthenes-an-eternal-burning-thread/32E2EDF5D5EAEC95F13D313BC97B86F0" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Turner, Bird, Eratosthenes: an eternal burning thread · Jeremy Gibbons, J. Functional Programming 35 (2025)</span><span class="w">A follow-up to O&#x27;Neill on lazy sieves</span></a><a href="https://archive.org/details/nicomachus-introduction-to-arithmetic" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Introduction to Arithmetic · Nicomachus, trans. D&#x27;Ooge (1926), Internet Archive</span><span class="w">The earliest surviving account (Book I, Ch. 13). Also on Zenodo</span></a><a href="https://www.cs.hmc.edu/~oneill/papers/Sieve-JFP.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">The Genuine Sieve of Eratosthenes · Melissa O&#x27;Neill, J. Functional Programming 19 (2009)</span><span class="w">Author&#x27;s PDF; cite JFP 19(1):95–106</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-01-the-first-algorithms/reference-catalog.md">Era 1 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-01-the-first-algorithms/09-sieve-of-eratosthenes/SieveOfEratosthenes.java">SieveOfEratosthenes.java</a> makes <strong>40 checks</strong>: six methods agreeing on the primes up to 10 million, the known prime counts up to 10⁸, the linear sieve crossing each composite exactly once, and the segmented sieve against the plain one. Run it with <code>java SieveOfEratosthenes.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** The sieve: cross out multiples of each prime p, starting at p x p, while p x p &lt;= n. */</span>
+<span class="k-kw">static</span> <span class="k-kw">boolean</span>[] sieve(<span class="k-kw">int</span> n) {
+    <span class="k-kw">boolean</span>[] composite = <span class="k-kw">new</span> <span class="k-kw">boolean</span>[n + <span class="k-n">1</span>];
+    work = <span class="k-n">0</span>;
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> p = <span class="k-n">2</span>; (<span class="k-kw">long</span>) p * p &lt;= n; p++) {
+        <span class="k-kw">if</span> (composite[p]) continue;                                 <span class="k-c">// only primes do the crossing</span>
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> m = p * p; m &lt;= n; m += p) {                       <span class="k-c">// counting on by p: repeated addition</span>
+            composite[m] = <span class="k-kw">true</span>;
+            work++;
+        }
+    }
+    <span class="k-kw">return</span> composite;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>SieveOfEratosthenes.java</code>.<br><span class="navfoot"><a href="../index.html">Era 1: The First Algorithms</a><a href="../08-archimedes-pi/archimedes-pi.html">← Archimedes Squeezes Pi</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const grid = document.getElementById("sv-grid");
+  if (!grid) return;
+  const COLS = ["var(--red)", "var(--blue)", "var(--yellow)", "var(--ink-2)"];
+  let N, crossed, hits, k, crossings, used, cells, done;
+  function reset() {
+    N = +document.getElementById("sv-n").value;
+    crossed = new Array(N + 1).fill(0); hits = new Array(N + 1).fill(0);
+    k = 1; crossings = 0; used = []; done = false;
+    grid.innerHTML = ""; cells = [];
+    for (let v = 1; v <= N; v++) cells[v] = el("span", {}, grid, String(v));
+    say("Press Next: the first sieving number is 2.");
+    paint();
+  }
+  const say = t => { document.getElementById("sv-say").innerHTML = t; };
+  function nextSiever() {
+    const mode = document.getElementById("sv-mode").value;
+    let c = k + 1;
+    if (mode === "odd" && c > 2 && c % 2 === 0) c++;
+    while (c <= N) {
+      if (mode === "primes" && crossed[c]) { c++; continue; }
+      if (mode === "odd" && c > 2 && c % 2 === 0) { c++; continue; }
+      break;
+    }
+    return c;
+  }
+  function step() {
+    if (done) return false;
+    const p = nextSiever();
+    const fromSq = document.getElementById("sv-sq").checked;
+    if (p * p > N || p > N) {
+      done = true;
+      const primes = []; for (let v = 2; v <= N; v++) if (!crossed[v]) primes.push(v);
+      say(`The next sieving number would be ${p}, and ${p} × ${p} = ${fmt(p * p)} passes ${N}: every number not crossed out is prime. <b>${primes.length} primes</b> up to ${N}.`);
+      paint(); return false;
+    }
+    k = p; used.push(p);
+    let n = 0, wasted = 0;
+    for (let m = fromSq ? p * p : 2 * p; m <= N; m += p) {
+      if (crossed[m]) wasted++; else crossed[m] = p;
+      hits[m]++; crossings++; n++;
+    }
+    say(`Sieve with <b>${p}</b>${crossed[p] ? " (itself already crossed out: a composite, so this work is wasted)" : ""}: ${n} crossings from ${fromSq ? p + " × " + p : "2 × " + p}, ${wasted} of them on numbers already crossed.`);
+    paint(p);
+    return true;
+  }
+  function paint(now) {
+    for (let v = 1; v <= N; v++) {
+      const c = cells[v];
+      c.className = (crossed[v] ? "x" : (v > 1 && (done || v <= k) ? "p" : "")) + (v === now ? " now" : "") + (hits[v] > 1 ? " twice" : "");
+      c.style.color = crossed[v] && v !== now ? COLS[used.indexOf(crossed[v]) % 4] : "";
+    }
+    const twice = hits.filter(h => h > 1).length;
+    document.getElementById("sv-count").textContent = `${crossings} crossings so far · ${twice} numbers crossed more than once (yellow ring) · sieving numbers used: ${used.join(", ") || "none"}`;
+  }
+  document.getElementById("sv-next").addEventListener("click", step);
+  document.getElementById("sv-all").addEventListener("click", () => { let g = 0; while (step() && g++ < 500); });
+  document.getElementById("sv-reset").addEventListener("click", reset);
+  ["sv-mode", "sv-sq", "sv-n"].forEach(id => document.getElementById(id).addEventListener("change", reset));
+  reset();
+})();
+
+</script>
+</body>
+</html>

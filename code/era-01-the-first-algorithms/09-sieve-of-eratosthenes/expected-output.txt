@@ -1,0 +1,11 @@
+primes to 100: 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97
+smallest factor 2-100: 2 3 2 5 2 7 2 3 2 11 2 13 2 3 2 17 2 19 2 3 2 23 2 5 2 3 2 29 2 31 2 3 2 5 2 37 2 3 2 41 2 43 2 3 2 47 2 7 2 3 2 53 2 5 2 3 2 59 2 61 2 3 2 5 2 67 2 3 2 71 2 73 2 3 2 7 2 79 2 3 2 83 2 5 2 3 2 89 2 7 2 3 2 5 2 97 2 3 2
+sieve 100: 104 crossings by 4 primes (2, 3, 5, 7); 11 x 11 = 121 passes 100, so every number left is prime
+work 100: primes=25 trial-division=181 unfaithful-sieve=411 every-odd=30 odd-primes=28 sieve=104 linear=74 ; n ln ln n = 153 ; n / ln n = 22
+work 10000: primes=1229 trial-division=43753 unfaithful-sieve=776631 every-odd=8463 odd-primes=5995 sieve=16981 linear=8770 ; n ln ln n = 22203 ; n / ln n = 1086
+work 100000: primes=9592 trial-division=744436 unfaithful-sieve=46314477 every-odd=113247 odd-primes=71556 sieve=193078 linear=90407 ; n ln ln n = 244347 ; n / ln n = 8686
+work 1000000: primes=78498 trial-division=13927402 unfaithful-sieve=- every-odd=1419797 odd-primes=811068 sieve=2122048 linear=921501 ; n ln ln n = 2625792 ; n / ln n = 72382
+work 10000000: primes=664579 trial-division=286144938 unfaithful-sieve=- every-odd=17074329 odd-primes=8925144 sieve=22850051 linear=9335420 ; n ln ln n = 27799426 ; n / ln n = 620421
+segmented: 5761455 primes up to 100,000,000 with a window of 65536 numbers and 1229 sieving primes in memory (a whole table would need 100,000,001 cells)
+gaps up to 10,000,000: largest gap 154 after the prime 4652353; 58980 twin-prime pairs
+SieveOfEratosthenes: 40 checks passed

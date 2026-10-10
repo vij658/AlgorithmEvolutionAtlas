@@ -6,7 +6,7 @@
 
 | | |
 |---|---|
-| **When** | Place value probably by c. 2100 BCE (Ur III) · school tables c. 1800 BCE (**documented**) |
+| **When** | School tables c. 1800 BCE (**documented**) · place value probably from c. 2100 BCE (Ur III) |
 | **Where** | Mesopotamia |
 | **What hurt** | In additive numerals, multiplying and dividing means juggling piles of signs |
 | **The fix** | Base-60 place value with two signs, and tables of reciprocals |
@@ -25,7 +25,7 @@ A new algorithm is usually an older idea combined with a new one. Here the group
 
 ## Two signs, sixty digits
 
-A Babylonian number is a row of base-60 digits. Each digit is written with two signs only: a corner wedge for each ten and a vertical wedge for each one. Type a number, then switch off the empty places, as an Old Babylonian scribe would have written it.
+A Babylonian number is a row of base-60 digits. Each digit is written with two signs only: a corner wedge for each ten and a vertical wedge for each one. Modern scholars write base-60 numbers with commas between the places and a semicolon before the fractional part: 2,46,39 means 2 × 3,600 + 46 × 60 + 39 = 9,999, and 6;15 means 6 + 15/60. In the interactive edition you can type a number and switch off the empty places, as an Old Babylonian scribe would have written it.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/wedges-dark.svg">
@@ -54,11 +54,11 @@ The wedges are simplified drawings. Two signs suffice for any number, and the av
   <source media="(prefers-color-scheme: dark)" srcset="assets/lookalike-dark.svg">
   <img src="assets/lookalike-light.svg" alt="Without zero or point, different numbers look the same">
 </picture>
-*MacTutor: "The numbers 1 and 1,0, namely 1 and 60 in decimals, had exactly the same representation." The counts are for the 215,999 numbers from 1 to 215,999.*
+*MacTutor: the numbers "1 and 1,0, namely 1 and 60 in decimals, had exactly the same representation". The counts are for the 215,999 numbers from 1 to 215,999.*
 
 ## Divide by looking up
 
-"For Old Babylonians, division by n amounted to multiplication by 1/n" (AMS Feature Column). Pick a divisor in the standard reciprocal table, or type any number:
+"For Old Babylonians, division by n amounted to multiplication by 1/n" (AMS Feature Column). The standard reciprocal table follows; in the interactive edition you can divide any two numbers with it:
 
 | Number | In decimal | Reciprocal | Number | In decimal | Reciprocal |
 |---|---|---|---|---|---|
@@ -96,7 +96,7 @@ The wedges are simplified drawings. Two signs suffice for any number, and the av
 
 ## Plimpton 322: what was it for?
 
-Plimpton 322, probably from Larsa about 1820–1762 BCE, is a table of fifteen rows of large base-60 numbers. Each row gives two sides of a right triangle with whole-number sides. Scholars agree on that, and disagree on why the table was made. One reading builds every row from a reciprocal pair, the same kind of number the reciprocal tables list:
+Plimpton 322, probably from Larsa about 1820–1762 BCE, is a table of fifteen rows of large base-60 numbers. Once a few copying errors are corrected, each row gives two sides of a right triangle with whole-number sides. Scholars agree on that, and disagree on why the table was made. One reading builds every row from a reciprocal pair, the same kind of number the reciprocal tables list:
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/plimpton-dark.svg">

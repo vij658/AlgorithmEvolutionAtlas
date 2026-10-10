@@ -87,6 +87,16 @@ The **Atlas** line points to the matching chapters of *The Evolutionary Atlas of
 | Scholar | [The oldest mathematical artefact](https://www.cambridge.org/core/journals/mathematical-gazette/article/abs/7136-the-oldest-mathematical-artefact/65E17776F7EC0D23568F9826F5BC8CDF) | Mathematical Gazette 71 (1987) | The note that named the Lebombo bone the oldest mathematical artefact (preview only) |
 | Scholar | [Early evidence of San material culture … Border Cave](https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:10.1073/pnas.1204213109&format=json&resultType=core) | d'Errico et al., PNAS 2012 (Europe PMC record) | The redating, and "notched bones for notational purposes" |
 
+**Added with the topic page** (each opened before it was listed)
+
+| Level | Link | Source | Why |
+|---|---|---|---|
+| Deeper | [Georg Cantor](https://mathshistory.st-andrews.ac.uk/Biographies/Cantor/) | MacTutor | 1874: the reals cannot be counted; 1878: sets of equal power are those in one-to-one correspondence |
+| Start | [Tally sticks](https://www.parliament.uk/about/living-heritage/building/palace/estatehistory/from-the-parliamentary-collections/fire-of-westminster/tallysticks/) | UK Parliament | Exchequer tallies abolished in 1826; burning them led to the fire of 16 October 1834 |
+| Start | [Medieval Exchequer tally sticks](https://collection.sciencemuseumgroup.org.uk/objects/co60506/medieval-exchequer-tally-sticks) | Science Museum Group | A real pair, c. 1440, object 1952-431: stock for the lender, foil for the debtor (photo CC BY-NC-SA 4.0) |
+| Deeper | [The Log: What every software engineer should know about real-time data's unifying abstraction](https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying) | Jay Kreps, LinkedIn Engineering (2013) | A log is "an append-only, totally-ordered sequence of records ordered by time" |
+| Scholar | [Subitizing: An Analysis of Its Component Processes](https://escholarship.org/content/qt9fn27772/qt9fn27772_noSplash_758e0f7f6e6c0393e6eb156f48bd67b2.pdf) | Mandler and Shebo, J. Exp. Psychology: General (1982) | Reviews Kaufman et al. (1949), who coined subitizing |
+
 **Gaps:** I found no explainer video or lecture from a museum, university or major channel about either bone. The YouTube videos that exist come from small channels, often with overclaiming titles, so they are left out.
 
 ---
@@ -145,6 +155,14 @@ The **Atlas** line points to the matching chapters of *The Evolutionary Atlas of
 | Scholar | [Numeracy at the dawn of writing: Mesopotamia and beyond](https://www.sciencedirect.com/science/article/pii/S0315086020300665) | Valerio and Ferrara, Historia Mathematica 59 (2022) | The critique of the token theory |
 | Scholar | [The state of decipherment of proto-Elamite](https://www.mpiwg-berlin.mpg.de/Preprints/P183.PDF) | Robert K. Englund, MPIWG Preprint 183 | Proto-cuneiform number systems and their link to tokens |
 
+**Added with the topic page** (each opened before it was listed)
+
+| Level | Link | Source | Why |
+|---|---|---|---|
+| Deeper | [Carries, Combinatorics, and an Amazing Matrix](https://sites.math.washington.edu/~billey/classes/561.fall.2019/past.articles/holte.pdf) | John M. Holte, American Mathematical Monthly 104 (1997) | Carries form a Markov chain; in the long run half the columns carry |
+| Scholar | [Preliminary discussion of the logical design of an electronic computing instrument](https://www.cs.unc.edu/~adyilie/comp265/vonNeumann.html) | Burks, Goldstine and von Neumann (1946) | Section 5.6: the longest carry sequence averages about 5 for 40 binary digits |
+| Scholar | [Carries, Shuffling and An Amazing Matrix](https://ar5iv.labs.arxiv.org/html/0806.3583) | Diaconis and Fulman (2008), arXiv | Where Holte's carries chain leads |
+
 **Gaps:** the Narmer macehead (the classic example of very large hieroglyphic numbers) could not be verified on a museum page, so it is left out.
 
 ---
@@ -202,6 +220,13 @@ The **Atlas** line points to the matching chapters of *The Evolutionary Atlas of
 | Scholar | [Words and Pictures: New Light on Plimpton 322](https://maa.org/programs/maa-awards/writing-awards/words-and-pictures-new-light-on-plimpton-322) | Eleanor Robson, Amer. Math. Monthly 109 (2002) | The reciprocal-pair reading; trigonometry is "conceptually anachronistic" |
 | Scholar | [Plimpton 322 is Babylonian exact sexagesimal trigonometry](https://www.sciencedirect.com/science/article/pii/S0315086017300691) | Mansfield and Wildberger, Historia Mathematica 44 (2017) | The trigonometric reading |
 
+**Added with the topic page** (each opened before it was listed)
+
+| Level | Link | Source | Why |
+|---|---|---|---|
+| Deeper | [The numbers behind Plimpton 322](https://arxiv.org/html/1109.3814) | Anthony Phillips, arXiv | Row 1 (1,59 and 2,49) from the reciprocal pair 2;24 and 0;25 |
+| Deeper | [Division by Invariant Integers using Multiplication](https://gmplib.org/~tege/divcnst-pldi94.pdf) | Granlund and Montgomery, PLDI 1994 | Dividing by a constant with one multiplication; implemented in GCC 2.6 |
+
 **Gaps:** no major-channel video is devoted to reciprocal tables.
 
 ---
@@ -256,6 +281,12 @@ The **Atlas** line points to the matching chapters of *The Evolutionary Atlas of
 | Scholar | [Square root approximations in Old Babylonian mathematics: YBC 7289 in context](https://www.sciencedirect.com/science/article/pii/S0315086098922091) | Fowler and Robson, Historia Mathematica 25 (1998) | The standard scholarly study |
 | Scholar | [How the estimate of √2 on YBC 7289 may have been calculated](https://www.sciencedirect.com/science/article/pii/S0315086022000477) | Buckle, Historia Mathematica 62 (2023) | A recent alternative reconstruction |
 
+**Added with the topic page** (each opened before it was listed)
+
+| Level | Link | Source | Why |
+|---|---|---|---|
+| Deeper | [q_math.c, Quake III Arena source](https://github.com/id-Software/Quake-III-Arena/blob/master/code/game/q_math.c) | id Software, on GitHub | Q_rsqrt: a bit-trick first guess and one Newton step for 1/√x |
+
 **Gaps:** no major popular channel has a video devoted to YBC 7289. Sources disagree on how and when Yale acquired the tablet (1909 or "by 1944").
 
 ---
@@ -265,7 +296,7 @@ The **Atlas** line points to the matching chapters of *The Evolutionary Atlas of
 **When / where:** the Rhind Mathematical Papyrus, copied by the scribe Ahmose about 1550 BCE from a text he says was older; British Museum EA10057 and EA10058.
 **Atlas:** Ch. 2 (Egyptian Algorithms), Ch. 94 (Exponentiation) · **Code:** [square-and-multiply, entry 11](../../code/principles/part-1-distances-and-number-theory/11-square-and-multiply-and-rsa/), the same idea with × in place of +
 
-> **Field note.** These scribes had no times table. To multiply 41 by 59 they doubled 59 again and again (59, 118, 236, 472, 944, 1888) and added the rows whose multipliers make 41 = 32 + 8 + 1. They never named base 2, yet they wrote every number as a sum of powers of two. Swap the addition for multiplication and you have the fast exponentiation that today's encryption runs on.
+> **Field note.** These scribes had no times table. To multiply 41 by 59 they doubled 59 again and again (59, 118, 236, 472, 944, 1888) and added the rows whose multipliers make 41 = 32 + 8 + 1. They never named base 2, yet every multiplication split the multiplier into powers of two. Swap the addition for multiplication and you have the fast exponentiation that today's encryption runs on.
 
 **What hurt:** multiplying with additive numerals and no memorised table.
 **The step forward:** only two skills are needed, doubling and adding. Any multiplier is a sum of powers of two, so about log₂ *n* doublings suffice.
@@ -319,7 +350,7 @@ The **Atlas** line points to the matching chapters of *The Evolutionary Atlas of
 **When / where:** the Salamis tablet, a marble counting board, about 300 BCE (Epigraphical Museum, Athens). Roman bronze hand abaci. The English Exchequer table, first mentioned in 1110 and described about 1179. The Chinese suanpan (clearly illustrated by 1573) and the Japanese soroban.
 **Atlas:** Ch. 7.2 (The Abacus — an early physical algorithm machine) · **Code:** [chapter 1 program](../../code/chapter-01-adding-two-numbers/): `columnSums` is "push the counters on", `settle` is "exchange full columns"
 
-> **Field note.** On these boards nobody writes a digit. Counters go in columns; adding is pushing more counters on, then settling: any column holding a full group is cleared and one counter goes to the next column. The procedure lives in the hands. Their word *calculus* is Latin for a small pebble, and the English *Exchequer* is named after the chequered cloth its officials counted on.
+> **Field note.** On these boards nobody writes a digit. Counters go in columns; adding is pushing more counters on, then settling: any column holding a full group is cleared and one counter goes to the next column. The procedure lives in the hands. Their word *calculus* is Latin for a small pebble, and the English *Exchequer* takes its name from a counting table that looked like a chessboard.
 
 **What hurt:** written numerals (Greek, Roman) were poor for calculating. Merchants and treasuries needed speed and fewer mistakes.
 **The step forward:** a physical place-value machine. Columns hold the place value, so the user only has to push and exchange.
@@ -366,6 +397,14 @@ The **Atlas** line points to the matching chapters of *The Evolutionary Atlas of
 | Scholar | [The Dialogue concerning the Exchequer](https://avalon.law.yale.edu/medieval/excheq.asp) | Avalon Project, Yale Law School (Henderson's translation) | Primary text, c. 1179 |
 | Scholar | [Early accounting: the tally and checkerboard](https://egrove.olemiss.edu/aah_journal/vol16/iss2/2/) | W. T. Baxter, Accounting Historians Journal (1989) | Medieval counter-reckoning and tally sticks |
 | Scholar | [Zhusuan: Chinese abacus calculation](https://ich.unesco.org/en/RL/chinese-zhusuan-knowledge-and-practices-of-mathematical-calculation-through-the-abacus-00853) | UNESCO Intangible Cultural Heritage (2013) | The inscription for bead-and-rod calculation |
+
+**Added with the topic page** (each opened before it was listed)
+
+| Level | Link | Source | Why |
+|---|---|---|---|
+| Scholar | [A Suggestion for a Fast Multiplier](https://scispace.com/papers/a-suggestion-for-a-fast-multiplier-12zf7tphek) | C. S. Wallace, IEEE Transactions on Electronic Computers 13 (1964) | A multiplier that "generates the product of two numbers using purely combinational logic, i.e., in one gating step" |
+
+- The Smithsonian's replica of the Salamis tablet was made in 1966 by Dorothy M. Briggs; its record is CC0. **Documented** ([Smithsonian NMAH](https://www.si.edu/object/nmah_690540))
 
 **Gaps:** Mabel Lang's "Herodotos and the Abacus" (Hesperia, 1957) and Herodotus 2.36 could not be opened. No video was found on the Exchequer table.
 
@@ -466,6 +505,13 @@ The **Atlas** line points to the matching chapters of *The Evolutionary Atlas of
 |---|---|---|---|
 | Scholar | [The Works of Archimedes](https://archive.org/details/worksofarchimede00arch) | T. L. Heath (1897), Internet Archive | The standard English translation, including *Measurement of a Circle* |
 | Scholar | [Archimedes' Measurement of a Circle](https://triumphsannals.journals.publicknowledgeproject.org/index.php/triumphsannals/article/download/13291/11763/71303) | TRIUMPHS primary-source project | Students work through the iterations from Heath's text |
+
+**Added with the topic page** (each opened before it was listed)
+
+| Level | Link | Source | Why |
+|---|---|---|---|
+| Deeper | [Ludolph van Ceulen](https://mathshistory.st-andrews.ac.uk/Biographies/Van_Ceulen/) | MacTutor | 20 places in 1596 (15 × 2^31 sides); 35 places from polygons of 2^62 sides, published in 1621 after his death in 1610 |
+| Deeper | [Interval Analysis (review)](https://www.science.org/doi/10.1126/science.158.3799.365) | Science 158 (1967), review of R. E. Moore, Prentice-Hall 1966 | The book that made guaranteed bounds a branch of computing |
 
 **Gaps:** no Archimedes-π video from Numberphile, Mathologer, 3Blue1Brown or TED-Ed was found.
 

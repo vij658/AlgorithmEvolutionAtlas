@@ -178,7 +178,11 @@ def prove_it_section(ctx, cls, checks_n, what, members, run_dir_note=None):
 
 
 def links_section(ctx, extra=()):
-    rows = page.catalog_links(ctx["catalog"], ctx["topic"][0]) + list(extra)
+    rows, seen = [], set()
+    for r in page.catalog_links(ctx["catalog"], ctx["topic"][0]) + list(extra):
+        if r[3] not in seen:                                           # the same link from the catalog and a page extra
+            seen.add(r[3])
+            rows.append(r)
     return dict(id="read", eyebrow="Watch and read", title="Every link was opened before it was listed", toc="Watch and read",
                 blocks=[dict(type="links", items=rows),
                         dict(type="p", text=f"More, with certainty labels and the gaps we could not fill: [Era 1 reference catalog]({ctx['repo_url']}book/{ctx['era'].ERA['folder']}/reference-catalog.md).")])

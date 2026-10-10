@@ -149,7 +149,7 @@ def md_block_render(b, svg_pair, sec, spec):
     if t == "table":
         out = ["| " + " | ".join(b["head"]) + " |", "|" + "|".join("---" for _ in b["head"]) + "|"]
         for i, r in enumerate(b["rows"]):
-            cells = [f"**{c}**" if b.get("hl") == i and str(c).strip() else str(c) for c in r]
+            cells = [f"**{c}**" if b.get("hl") == i and str(c).strip() and not str(c).startswith("**") else str(c) for c in r]
             out.append("| " + " | ".join(cells) + " |")
         return out
     if t == "details":

@@ -294,7 +294,7 @@ def chain(d):
 def ladders(d):
     rows = [("egyptian", "Egyptian signs", "ink"), ("sumerian-S", "Sumerian, counted objects", "red"), ("sumerian-B", "Sumerian, rations", "blue")]
     bw, gap, rowh = 96, 46, 120
-    D = Diagram(30 + 7 * (bw + gap), 30 + len(rows) * rowh, "Three ladders of exchange rates: Egyptian tens, and two Sumerian ladders of tens and sixes")
+    D = Diagram(30 + 7 * (bw + gap), 30 + len(rows) * rowh, "Three ladders of exchange rates: Egyptian tens, and two Sumerian ladders of tens, sixes and a two")
     for r, (key, title, color) in enumerate(rows):
         lad = d["ladder"][key]
         y = 40 + r * rowh
@@ -382,7 +382,7 @@ def build(ctx):
         ]),
         dict(id="pool", eyebrow="Try it", title="Pool the signs, then exchange", toc="Try it", blocks=[
             dict(type="p", text="Write each number with its signs. To add, put the two piles together, then wherever there are too many of one sign, swap them for one sign of the next size. "
-                                "In Egyptian signs the rate is always ten; in the oldest Sumerian accounts it alternates between ten and six."),
+                                "In Egyptian signs the rate is always ten; in the oldest Sumerian accounts it is mostly ten and six (the rations ladder also has a step of two)."),
             dict(type="widget", html=pe_html, js=pe_js, css=PE_CSS,
                  fallback=dict(type="svg", name="pool", draw=piles_svg([("Pooled", w["states"][0]), (f"After {w['exchanges']} exchanges", w["states"][-1])], "e", egy["values"],
                                                                      f"{w['a']:,} + {w['b']:,} in Egyptian signs, pooled and then exchanged"),
@@ -399,7 +399,7 @@ def build(ctx):
                  rows=[[f"{s['n']:,}", f"{s['tally']:,}", s["egy"], s["sum"]] for s in d["signs"]] +
                       [["average, 1 to 9,999", f"{d['avg']['tally']:,.1f}", f"{d['avg']['egy']:.2f}", f"{d['avg']['sum']:.2f}"]]),
             dict(type="p", text=f"The worst number below 10,000 is {d['most']['egy_at']:,} for Egyptian signs ({d['most']['egy']} signs) and {d['most']['sum_at']:,} for the Sumerian ones ({d['most']['sum']}). "
-                                "Bigger bundles mean fewer signs, but more kinds of sign to learn."),
+                                "More rungs on the ladder mean fewer signs per number, but more kinds of sign to learn."),
         ]),
         dict(id="steps", eyebrow="Step by step", title=f"{w['a']:,} + {w['b']:,}, by exchange", toc="Step by step", blocks=[
             dict(type="table", head=["Step", "Thousands", "Hundreds", "Tens", "Ones", "What happened"], num=[0, 1, 2, 3, 4], hl=0, rows=work_rows),
@@ -419,7 +419,7 @@ def build(ctx):
         ]),
         dict(id="measured", eyebrow="Measured", title="How often does a carry happen?", toc="Measured", blocks=[
             dict(type="p", text=f"Add two long random numbers. How many columns pass a carry on? The program added {sh['trials']:,} pairs of {sh['digits']}-digit numbers. "
-                                f"In the first column {d['t01']} of the 100 possible digit pairs make a carry, so it carries {sh['first']:.4f} of the time. Further along, a carry coming in makes the next carry more likely:"),
+                                f"In the first column {d['t01']} of the 100 possible digit pairs make a carry, so it carries {d['t01']}% of the time ({sh['first']:.4f} in the program's random sample). Further along, a carry coming in makes the next carry more likely:"),
             dict(type="diagram", name="markov", diagram=markov(d)),
             dict(type="table", head=["What was measured", "Share of columns that carry"], num=[1],
                  rows=[["First column (no carry can come in)", f"{sh['first']:.4f}"], [f"All {sh['digits']} columns", f"{sh['all']:.4f}"], ["Columns 21 to 40 of 40-digit numbers", f"**{sh['late']:.4f}**"]]),
@@ -427,7 +427,7 @@ def build(ctx):
         ]),
         dict(id="circle", eyebrow="Full circle", title="The carry inside the computer", toc="Full circle", blocks=[
             dict(type="p", text=f"In 1946 Arthur Burks, Herman Goldstine and John von Neumann wrote the design of a stored-program computer that worked in binary, with 40-digit numbers. For its adder they worked out how far a carry travels. "
-                                f"Their answer: the longest carry chain averages no more than log₂ 40, about 5.3 places, \"an average length of about 5 for the longest carry sequence\"."),
+                                f"Their answer: the longest carry chain averages no more than log₂ 40 (the power of 2 that gives 40), about 5.3 places, \"an average length of about 5 for the longest carry sequence\"."),
             dict(type="callout", kind="circle", label="Full circle",
                  text=f"The program added {ch['trials']:,} pairs of random {ch['bits']}-bit numbers. The longest carry chain averaged **{ch['avg']:.3f}** places (their bound: {ch['log2']:.3f}). "
                       f"The most common longest chain was {ch['mode']}, the longest seen {ch['max']}, against a worst case of {ch['worst']}. Five thousand years after the first exchange of ten strokes for one sign, how far a carry travels had become a question about how fast a computer can add."),

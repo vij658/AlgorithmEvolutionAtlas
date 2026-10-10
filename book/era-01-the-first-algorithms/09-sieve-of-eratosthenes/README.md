@@ -6,7 +6,7 @@
 
 | | |
 |---|---|
-| **When** | Eratosthenes fl. c. 240 BCE; first account by Nicomachus, c. 100 CE |
+| **When** | Eratosthenes active c. 240 BCE; first account by Nicomachus, c. 100 CE |
 | **Where** | Alexandria (**documented**); the method's exact origin is unknown |
 | **What hurt** | Trial division tests each number from scratch |
 | **The fix** | Cross out multiples instead; stop at √n |
@@ -58,6 +58,8 @@ Eratosthenes of Cyrene (276–194 BCE) was librarian at Alexandria from about 24
 
 ## How much work?
 
+Six ways to list the primes. *Trial division* tests each number by the primes up to its square root. The *unfaithful sieve* is the one-line functional program described below. *Every odd number* and *odd primes only* sieve the odd numbers, crossing out with every odd number (as in Nicomachus's account) or with the odd primes. The *textbook sieve* crosses out the multiples of each prime from p × p over all the numbers. The *linear sieve* crosses out each composite exactly once.
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/methods-dark.svg">
   <img src="assets/methods-light.svg" alt="Six ways to list the primes below 100,000, by the work they do">
@@ -71,15 +73,15 @@ Eratosthenes of Cyrene (276–194 BCE) was librarian at Alexandria from about 24
 | 1,000,000 | 78,498 | 13,927,402 | — | 1,419,797 | 811,068 | 2,122,048 | 921,501 | 2,625,792 |
 | 10,000,000 | 664,579 | 286,144,938 | — | 17,074,329 | 8,925,144 | 22,850,051 | 9,335,420 | 27,799,426 |
 
-The textbook sieve's crossings stay below n ln ln n, the classic estimate, at every size. The program also counted **5,761,455** primes up to 100 million with a segmented sieve, holding only 1,229 sieving primes and a window of 65,536 numbers in memory.
+The textbook sieve's crossings stay below n ln ln n, the classic estimate, at every size. (ln is the natural logarithm; ln ln n grows so slowly that n ln ln n is barely more than a few times n.) The program also counted **5,761,455** primes up to 100 million with a segmented sieve, holding only 1,229 sieving primes and a window of 65,536 numbers in memory.
 
 Up to 10 million, the largest gap between consecutive primes is 154, after 4,652,353; there are 58,980 pairs of twin primes (primes 2 apart).
 
 ## The sieve that was not a sieve
 
-Functional programming has a famous one-line "sieve": take the first number, then filter every later number that it divides, and repeat. In 2009 Melissa O'Neill showed in the *Journal of Functional Programming* that this is really trial division, and far slower than the real thing: it tests each number against every earlier prime instead of crossing out multiples. In 2025 Jeremy Gibbons returned to lazy sieves in the same journal.
+Functional programming has a famous one-line "sieve": take the first number, then filter every later number that it divides, and repeat. In 2009 Melissa O'Neill showed in the *Journal of Functional Programming* that this is really trial division, and far slower than the real thing: it tests each number against each earlier prime until one divides it, instead of crossing out multiples. In 2025 Jeremy Gibbons returned in the same journal to lazy sieves, programs that produce the primes one at a time, only as they are asked for.
 
-> **Full circle.** Up to 100,000 the program counts **46,314,477** divisions for the one-line version against 193,078 crossings for the sieve, about 239 times the work. An algorithm from about 240 BCE was still being argued over in a journal in 2025.
+> **Full circle.** Up to 100,000 the program counts **46,314,477** divisions for the one-line version against 193,078 crossings for the sieve, about 240 times the work. An algorithm named after a librarian of about 240 BCE was still being argued over in a journal in 2025.
 
 ## Before you read on
 

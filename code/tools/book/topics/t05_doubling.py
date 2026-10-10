@@ -27,8 +27,8 @@ def parse(text: str) -> dict:
             d["generic"]["fib"] = (m.group(1), int(m.group(2)))
         elif m := re.match(r"rsa: .* 65 encrypts to (\d+); decrypting \d+\^2753 mod 3233 takes (\d+) multiplications", ln):
             d["generic"]["rsa"] = (m.group(1), int(m.group(2)))
-        elif m := re.match(r"rsa-2048: .* needs (\d+) squarings and (\d+) multiplications, (\d+) in all", ln):
-            d["rsa2048"] = tuple(int(m.group(i)) for i in range(1, 4))
+        elif m := re.match(r"rsa-2048: .* needs (\d+) squarings and (\d+) multiplications, (\d+) in all; one at a time would take a number of multiplications with (\d+) digits", ln):
+            d["rsa2048"] = tuple(int(m.group(i)) for i in range(1, 5))
         elif m := re.match(r"chain 15: shortest ([\d, ]+) \((\d+) steps\); doubling and adding needs (\d+) \(([\d, ]+)\)", ln):
             d["c15"] = dict(short=m.group(1), short_n=int(m.group(2)), binary_n=int(m.group(3)), binary=m.group(4))
         elif m := re.match(r"chains 1-128: doubling and adding is not the shortest for (\d+) numbers; the first are ([\d ]+)$", ln):
@@ -237,13 +237,13 @@ def build(ctx):
     js = DBL_JS
     html = DBL_HTML.replace("AV", str(d["a"])).replace("BV", str(d["b"]))
     g = d["generic"]
-    sq, mu, tot = d["rsa2048"]
+    sq, mu, tot, digits = d["rsa2048"]
     ch = d["chains"]
     sections = [
         dict(id="tree", eyebrow="A ⊕ B = C", title="How ideas combined", toc="How ideas combined", blocks=[
             dict(type="p", text="A new algorithm is usually an older idea combined with a new one. Here adding (topic 2) is combined with itself: double, double again, and add only the rows you need. Swap the addition for multiplication and the same table computes powers. Each box names the idea that was added."),
             dict(type="diagram", name="family", diagram=family(),
-                 caption="Red: the Egyptian method and its most important descendant. Blue: where it went next. Dashed: a likely relative, not a proven descendant."),
+                 caption="Red: the Egyptian method, and square-and-multiply, which reuses its idea with × in place of +. Blue: where it went next. Dashed: a likely relative, not a proven descendant."),
         ]),
         dict(id="dbl", eyebrow="Try it", title="Double, then tick", toc="Try it", blocks=[
             dict(type="p", text=f"Write 1 beside {d['b']}. Double both, again and again, while the left column stays at most {d['a']}. Then, from the bottom, tick each row whose left number still fits into what is left of {d['a']}. Add the ticked right numbers. Switch the rule to square-and-multiply and the same steps compute a power."),
@@ -269,18 +269,19 @@ def build(ctx):
                  text="The ticked rows are the binary digits of the multiplier: MacTutor calls the method \"a very early use of binary arithmetic\". That is a modern reading. The scribes had no idea of base 2; they only needed to double and to add."),
         ]),
         dict(id="generic", eyebrow="Before and after", title="One table, any operation", toc="Any operation", blocks=[
-            dict(type="p", text="The table works for any operation that can be regrouped freely (an associative one). Alexander Stepanov, who designed C++'s Standard Template Library, built a course on this idea: from Ahmes's 41 × 59 to the generic power algorithm. The program runs the same code four times:"),
+            dict(type="p", text="The table works for any operation that can be regrouped freely (an associative one). Alexander Stepanov, who designed C++'s Standard Template Library, built a course on this idea, from the Egyptian method to the generic power algorithm. The program runs the same code four times. "
+                                "(A 2 × 2 matrix is a square of four numbers that can be multiplied like a single number; *mod n* means keeping only the remainder after dividing by n.)"),
             dict(type="diagram", name="generic", diagram=generic(d)),
             dict(type="table", head=["Operation", "Result", "Steps", "One at a time"], num=[2, 3],
-                 rows=[["59 added to itself 41 times", g["plus"][0], g["plus"][1], 40],
-                       ["3 multiplied by itself 41 times", g["times"][0], g["times"][1], 40],
+                 rows=[["41 copies of 59 added together", g["plus"][0], g["plus"][1], 40],
+                       ["3 to the power 41 (41 copies of 3 multiplied)", g["times"][0], g["times"][1], 40],
                        ["Fibonacci number 90, by 2 × 2 matrix powers", g["fib"][0], g["fib"][1], 89],
                        ["RSA: 2790^2753 mod 3233", "65", g["rsa"][1], "2,752"]]),
         ]),
         dict(id="measured", eyebrow="Measured", title="How many steps?", toc="Measured", blocks=[
             dict(type="table", head=["Multiplier", "Doubling and adding", "Adding one at a time"], num=[0, 1, 2],
                  rows=[[f"{n:,}", a, f"{r:,}"] for n, a, r in d["steps"]]),
-            dict(type="p", text=f"Over {d['mc']['n']:,} random pairs below a million, the program checked doubling, and halving-and-doubling, against ordinary multiplication. The method needed **{d['mc']['avg']}** doublings and additions on average, against {d['mc']['rep']} additions one at a time."),
+            dict(type="p", text=f"Over {d['mc']['n']:,} random pairs below a million, the program checked doubling, and the halving-and-doubling form (halve one number, double the other), against ordinary multiplication. The method needed **{d['mc']['avg']}** doublings and additions on average, against {d['mc']['rep']} additions one at a time."),
             dict(type="p", text=f"Doubling is not always the shortest route. An *addition chain* builds a number from 1, each step adding two numbers already made. For 15, doubling and adding needs {d['c15']['binary_n']} steps; the shortest chain needs {d['c15']['short_n']}:"),
             dict(type="diagram", name="chains15", diagram=chains15(d)),
             dict(type="p", text=f"The program searched every number up to 128: doubling and adding is beaten for **{ch['n']}** of them, starting with {', '.join(ch['first'][:8])}."),
@@ -288,7 +289,7 @@ def build(ctx):
         dict(id="circle", eyebrow="Full circle", title="The scribe's table inside every secure connection", toc="Full circle", blocks=[
             dict(type="p", text="RSA encryption needs powers of huge numbers modulo another huge number. A course note from the University of Alaska Fairbanks puts the link in one line: \"replacing + with * gives the fast exponentiation by squaring trick\"."),
             dict(type="callout", kind="circle", label="Full circle",
-                 text=f"For a random 2048-bit exponent the program counts **{sq:,} squarings and {mu:,} multiplications**, {tot:,} in all. Multiplying one at a time would take about 2^2048 steps, a number with 617 digits. The Rhind papyrus's doubling table is why that is possible."),
+                 text=f"For a random 2048-bit exponent the program counts **{sq:,} squarings and {mu:,} multiplications**, {tot:,} in all. Multiplying one at a time would take a number of steps with {digits} digits. The same doubling idea as the Rhind papyrus's table makes it possible."),
         ]),
         dict(id="try", eyebrow="Pause and try", title="Before you read on", toc="Pause and try", blocks=[dict(type="tries", items=[
             ("Multiply 13 × 24 by doubling.", "Rows: 1 24, 2 48, 4 96, 8 192. 13 = 8 + 4 + 1, so add 192 + 96 + 24 = **312**."),
@@ -298,7 +299,7 @@ def build(ctx):
             ("Is doubling and adding always the fastest way to build a number?", f"No. 15 takes {d['c15']['binary_n']} steps by doubling ({d['c15']['binary']}) but {d['c15']['short_n']} by the chain {d['c15']['short']}."),
         ])]),
         dict(id="objects", eyebrow="The objects", title="Where the evidence lives", toc="The objects", blocks=[dict(type="objects", items=[
-            dict(title="The Rhind Mathematical Papyrus", text="Copied by the scribe Ahmose from an older text, about 1550 BCE (other sources: c. 1650). 84 problems. British Museum EA10057 and EA10058.",
+            dict(title="The Rhind Mathematical Papyrus", text="Copied by the scribe Ahmose (also spelled Ahmes) from an older text, about 1550 BCE (other sources: c. 1650). 84 problems. British Museum EA10057 and EA10058.",
                  draw=C.draw_papyrus, link="https://www.britishmuseum.org/collection/object/Y_EA10057", link_text="British Museum record",
                  licence="Drawn placeholder; the museum's photographs are at the link."),
         ])]),
@@ -310,12 +311,12 @@ def build(ctx):
     return dict(
         title="Egyptian Doubling", date="c. 1550 BCE",
         description="Era 1, topic 5 of The Algorithm Evolution Atlas: multiplication by doubling from the Rhind papyrus, and how the same table became square-and-multiply and RSA.",
-        lede="No times table, only two skills: doubling and adding. The scribe's table quietly writes every number in binary, and with one swap it computes powers.",
-        fieldnote="These scribes had no times table. To multiply 41 by 59 they doubled 59 again and again and added the rows whose multipliers make 41. They never named base 2, yet they wrote every number as a sum of powers of two.",
+        lede="No times table, only two skills: doubling and adding. The scribe's table quietly writes the multiplier in binary, and with one swap it computes powers.",
+        fieldnote="These scribes had no times table. To multiply, say, 41 by 59, a scribe doubled 59 again and again and added the rows whose multipliers make 41. They never named base 2, yet every multiplication split the multiplier into powers of two.",
         card=[("When", "Rhind papyrus, c. 1550 BCE, copied from an older text (dates differ: **disputed**)"),
               ("Where", "Egypt · British Museum (**documented**)"),
               ("What hurt", "Multiplying with additive numerals and no times table"),
-              ("The fix", "Double and add: about log₂ n rows"),
+              ("The fix", "Double and add: about log₂ n rows (the number of times n can be halved)"),
               ("Cost", f"{d['a']} × {d['b']}: {d['doublings'] + d['additions']} steps instead of {d['repeat']}"),
               ("Atlas", "Ch. 2 Egyptian Algorithms · Ch. 94 Exponentiation")],
         sections=sections,

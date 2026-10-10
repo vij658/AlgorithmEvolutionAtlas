@@ -14,11 +14,11 @@ steps 1000000: doubling-and-adding=25 repeated-adding=999999
 divide 1000 / 7: quotient=142 remainder=6 rows=8
 divide 2419 / 59: quotient=41 remainder=0 rows=6
 divide 696 / 8: quotient=87 remainder=0 rows=7
-generic + : 59 added to itself 41 times = 2419 in 7 additions
-generic x : 3^41 = 36472996377170786403 in 7 multiplications (repeating would take 40)
+generic + : 41 copies of 59 added together = 2419 in 7 additions (one at a time would take 40)
+generic x : 3^41 = 36472996377170786403 in 7 multiplications (one at a time would take 40)
 generic matrix : Fibonacci number 90 = 2880067194370816120 in 9 matrix multiplications (adding one by one takes 89 additions)
 rsa: n=3233 e=17 d=2753: 65 encrypts to 2790; decrypting 2790^2753 mod 3233 takes 15 multiplications instead of 2752, and gives back 65
-rsa-2048: a random 2048-bit exponent needs 2047 squarings and 1015 multiplications, 3062 in all
+rsa-2048: a random 2048-bit exponent needs 2047 squarings and 1015 multiplications, 3062 in all; one at a time would take a number of multiplications with 617 digits
 chain 15: shortest 1, 2, 4, 5, 10, 15 (5 steps); doubling and adding needs 6 (1, 2, 3, 6, 7, 14, 15)
 chains 1-128: doubling and adding is not the shortest for 52 numbers; the first are 15 23 27 30 31 39 43 45 46 47 51 54 55 59 60 61 62 63 75 77 78
 EgyptianDoubling: 1701049 checks passed

@@ -25,7 +25,7 @@ A new algorithm is usually an older idea combined with a new one. Here the tally
 
 ## Pool the signs, then exchange
 
-Write each number with its signs. To add, put the two piles together, then wherever there are too many of one sign, swap them for one sign of the next size. In Egyptian signs the rate is always ten; in the oldest Sumerian accounts it alternates between ten and six.
+Write each number with its signs. To add, put the two piles together, then wherever there are too many of one sign, swap them for one sign of the next size. In Egyptian signs the rate is always ten; in the oldest Sumerian accounts it is mostly ten and six (the rations ladder also has a step of two).
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/pool-dark.svg">
@@ -62,7 +62,7 @@ Signs for bundles shrink the writing dramatically. The program counts the signs 
 | 9,999 | 9,999 | 36 | 24 |
 | average, 1 to 9,999 | 5,000.0 | 18.00 | 14.67 |
 
-The worst number below 10,000 is 9,999 for Egyptian signs (36 signs) and 7,199 for the Sumerian ones (29). Bigger bundles mean fewer signs, but more kinds of sign to learn.
+The worst number below 10,000 is 9,999 for Egyptian signs (36 signs) and 7,199 for the Sumerian ones (29). More rungs on the ladder mean fewer signs per number, but more kinds of sign to learn.
 
 ## 2,763 + 1,489, by exchange
 
@@ -85,7 +85,7 @@ Result: **85** = 1 sixty, 2 tens and 5 ones, after 2 exchanges. Nothing in the m
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/ladders-dark.svg">
-  <img src="assets/ladders-light.svg" alt="Three ladders of exchange rates: Egyptian tens, and two Sumerian ladders of tens and sixes">
+  <img src="assets/ladders-light.svg" alt="Three ladders of exchange rates: Egyptian tens, and two Sumerian ladders of tens, sixes and a two">
 </picture>
 *The Sumerian ladders follow Duncan Melville's account: the counted-objects system reaches 36,000 units and the rations system 7,200. The same sign could mean different amounts in different systems.*
 
@@ -108,7 +108,7 @@ Denise Schmandt-Besserat's account runs in one line: plain clay tokens (about 75
 
 ## How often does a carry happen?
 
-Add two long random numbers. How many columns pass a carry on? The program added 200,000 pairs of 12-digit numbers. In the first column 45 of the 100 possible digit pairs make a carry, so it carries 0.4480 of the time. Further along, a carry coming in makes the next carry more likely:
+Add two long random numbers. How many columns pass a carry on? The program added 200,000 pairs of 12-digit numbers. In the first column 45 of the 100 possible digit pairs make a carry, so it carries 45% of the time (0.4480 in the program's random sample). Further along, a carry coming in makes the next carry more likely:
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/markov-dark.svg">
@@ -125,7 +125,7 @@ John Holte proved in 1997 that the long-run share is exactly one half, and that 
 
 ## The carry inside the computer
 
-In 1946 Arthur Burks, Herman Goldstine and John von Neumann wrote the design of a stored-program computer that worked in binary, with 40-digit numbers. For its adder they worked out how far a carry travels. Their answer: the longest carry chain averages no more than log₂ 40, about 5.3 places, "an average length of about 5 for the longest carry sequence".
+In 1946 Arthur Burks, Herman Goldstine and John von Neumann wrote the design of a stored-program computer that worked in binary, with 40-digit numbers. For its adder they worked out how far a carry travels. Their answer: the longest carry chain averages no more than log₂ 40 (the power of 2 that gives 40), about 5.3 places, "an average length of about 5 for the longest carry sequence".
 
 > **Full circle.** The program added 200,000 pairs of random 40-bit numbers. The longest carry chain averaged **4.609** places (their bound: 5.322). The most common longest chain was 4, the longest seen 21, against a worst case of 40. Five thousand years after the first exchange of ten strokes for one sign, how far a carry travels had become a question about how fast a computer can add.
 

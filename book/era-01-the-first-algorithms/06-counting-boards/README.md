@@ -2,7 +2,7 @@
 
 *Era 1 · topic 6 · c. 300 BCE* · [Era 1 index](../README.md) · [← Egyptian Doubling](../05-egyptian-doubling/README.md) · [Euclid's Algorithm →](../07-euclids-algorithm/README.md) · [Interactive edition](counting-boards.html) · [Program](../../../code/era-01-the-first-algorithms/06-counting-boards/)
 
-> **Field note from the visiting historian.** Their word calculus is Latin for a small pebble, and the English Exchequer is named after the chequered cloth its officials counted on.
+> **Field note from the visiting historian.** Their word calculus is Latin for a small pebble, and the English Exchequer takes its name from a counting table that looked like a chessboard.
 
 | | |
 |---|---|
@@ -10,7 +10,7 @@
 | **Where** | Greece, Rome, England, China, Japan |
 | **What hurt** | Written Greek and Roman numerals were poor for calculating |
 | **The fix** | A place-value machine: push counters, then settle |
-| **Cost** | 27.2 counter moves per 4-digit addition with fives |
+| **Cost** | 27.2 counter moves per addition of two numbers below 10,000, with fives |
 | **Atlas** | Ch. 7.2 The abacus: an early physical algorithm machine |
 
 ## How ideas combined
@@ -25,7 +25,7 @@ A new algorithm is usually an older idea combined with a new one. The counting b
 
 ## Push the counters, then settle
 
-Put down the first number: in each column, as many counters as its digit, with a five-counter above the bar when it saves counters. Push on the second number. Then settle: five ones make a five, and two fives make one counter in the next column.
+Put down the first number: in each column, as many counters as its digit, with a five-counter above the bar (the line that separates fives from ones) when it saves counters. Push on the second number. Then settle: five ones make a five, and two fives make one counter in the next column.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/board-dark.svg">
@@ -60,13 +60,13 @@ No digit is written at any point. The Latin name for a reckoning pebble, *calcul
 
 Both boards end at **4,252**. The plain board needed 3 exchanges and 73 counter moves in all; the board with fives needed 6 smaller exchanges but only 51 moves, because there are fewer counters to push.
 
-> **Key idea.** The board is a machine for place value. The person adding never thinks about tens or hundreds: they only push counters and make one kind of swap. Later, gears would make that swap by themselves.
+> **Key idea.** The board is a machine for place value. The person adding never thinks about tens or hundreds: they only push counters and make one or two kinds of swap. Later, gears would make that swap by themselves.
 
 ## What survives, and what is guessed
 
-The Salamis tablet (Epigraphical Museum, Athens, EM 11515) is a marble slab with ruled lines and Greek number signs, dated to about 300 BCE (the Computer History Museum says the 4th century BCE). The museum calls it "a table of mathematical calculations or a toy"; it was once thought to be a gaming board. Its use is **disputed**.
+The Salamis tablet (Epigraphical Museum, Athens, EM 11515) is a marble slab with ruled lines and Greek number signs, dated to about 300 BCE (the Computer History Museum says the 4th century BCE). The museum says it is "believed to be a table of mathematical calculations or a toy"; it was once thought to be a gaming board. Its use is **disputed**.
 
-Three bronze Roman hand abaci survive, in Aosta, Paris and Rome (**documented**). In England, the *Dialogue concerning the Exchequer* (about 1179) describes the royal accounts being reckoned with counters on a table covered with a chequered cloth, which gave the Exchequer its name (**documented**). Early dates for the Chinese suanpan and the Japanese soroban vary widely between sources (**disputed**).
+Three bronze Roman hand abaci survive, in Aosta, Paris and Rome (**documented**). In England, the *Dialogue concerning the Exchequer* (about 1179) describes the royal accounts being reckoned with counters on a table covered with a black cloth marked in stripes, and traces the name Exchequer to the table's likeness to a chessboard (**documented**). Early dates for the Chinese suanpan and the Japanese soroban vary widely between sources (**disputed**).
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/words-dark.svg">
@@ -82,7 +82,7 @@ Three bronze Roman hand abaci survive, in Aosta, Paris and Rome (**documented**)
 | Exchanges | 1.94 | 3.84 |
 | Most counters in a settled column | 9 | 5 |
 
-Fives halve the counters on the board and cut the moves by about a third, at the price of twice as many (smaller) exchanges. The program checked 200,000 additions and 200,000 subtractions, with borrowing, on both boards.
+Fives cut the counters on the board by 43% and the moves by 31%, at the price of about twice as many (smaller) exchanges. The program checked 200,000 additions and 200,000 subtractions, with borrowing, on both boards.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/invariant-dark.svg">
@@ -95,7 +95,7 @@ On the board with fives the count is also fixed: 5,033 exchanges either way. Eac
 
 A board lets you pile counters up and settle once at the end; nothing breaks while a column is overfull. Fast hardware multipliers do the same. They add many rows of bits at once and keep the carries unsettled, as a second row of numbers, until a single final addition: the carry-save idea.
 
-> **Full circle.** C. S. Wallace's 1964 design for a fast multiplier generated "the product of two numbers using purely combinational logic, i.e., in one gating step". The program shows why delaying is safe: adding 1,000 numbers, settling after each one and settling once at the end make exactly the same **2,521** exchanges. Only the waiting changes.
+> **Full circle.** C. S. Wallace's 1964 design for a fast multiplier generated "the product of two numbers using purely combinational logic, i.e., in one gating step": by wiring alone, without stepping through a sequence. The program shows why delaying is safe: adding 1,000 numbers, settling after each one and settling once at the end make exactly the same **2,521** exchanges. Only the waiting changes.
 
 ## Before you read on
 
@@ -136,7 +136,7 @@ From Latin *calculus*, a pebble used as a reckoning counter.
 |---|---|---|---|
 | — | **The Salamis tablet**. Marble counting board, c. 300 BCE. Epigraphical Museum, Athens, EM 11515. | [The museum's permanent exhibition](https://epigraphicmuseum.gr/en/permanent-exhibition/) | Drawn placeholder. |
 | — | **Salamis counting table, replica**. Marble replica made in 1966 by Dorothy M. Briggs. Smithsonian, National Museum of American History. | [Smithsonian record](https://www.si.edu/object/nmah_690540) | Drawn placeholder. The record is CC0; its photograph can be viewed at the link. |
-| — | **The Exchequer**. The *Dialogue concerning the Exchequer*, c. 1179, describes the counting table and its chequered cloth. | [The text, Avalon Project (Yale Law School)](https://avalon.law.yale.edu/medieval/excheq.asp) | Drawn placeholder. |
+| — | **The Exchequer**. The *Dialogue concerning the Exchequer*, c. 1179, describes the counting table and its striped black cloth. | [The text, Avalon Project (Yale Law School)](https://avalon.law.yale.edu/medieval/excheq.asp) | Drawn placeholder. |
 
 ## Every link was opened before it was listed
 

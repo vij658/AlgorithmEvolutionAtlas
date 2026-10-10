@@ -9,7 +9,7 @@
 | **When** | Measurement of a Circle, probably c. 250 BCE |
 | **Where** | Syracuse, Sicily (**documented**) |
 | **What hurt** | A needed quantity that no exact number expresses |
-| **The fix** | Two bounds that close in, each step a fixed recurrence |
+| **The fix** | Two bounds that close in, each step the same formula applied to the last |
 | **Cost** | Each doubling cuts the gap about 4 times |
 | **Atlas** | Ch. 6.4–6.5 Archimedes and numerical approximation; exhaustion |
 
@@ -70,7 +70,7 @@ Proposition 3 in Heath's translation: "The ratio of the circumference of any cir
   <img src="assets/rounding-light.svg" alt="Archimedes rounded his 96-gon bounds outward, never inward">
 </picture>
 
-> **Key idea.** Every square root on the way had to be replaced by a fraction, and the fraction had to err on the safe side. For √3 Archimedes used 265/153 < √3 < 1351/780 (1.73202614 < 1.73205081 < 1.73205128). Both are continued-fraction convergents of √3, numbers 8 and 11 in the list 1/1, 2/1, 5/3, 7/4, 19/11, 26/15, 71/41, 97/56, 265/153, 362/209, 989/571, 1351/780. He does not say how he found them; reconstructions differ (**disputed**).
+> **Key idea.** Every square root on the way had to be replaced by a fraction, and the fraction had to err on the safe side. For √3 Archimedes used 265/153 < √3 < 1351/780 (1.73202614 < 1.73205081 < 1.73205128). Both are continued-fraction convergents of √3: the best fractions for √3 for their size, which Euclid's algorithm (topic 7) produces. They are the 9th and 12th in the list 1/1, 2/1, 5/3, 7/4, 19/11, 26/15, 71/41, 97/56, 265/153, 362/209, 989/571, 1351/780. He does not say how he found them; reconstructions differ (**disputed**).
 
 ## How good is a guaranteed answer?
 
@@ -83,9 +83,9 @@ The program redid the whole computation the way a hand computer must: every inte
 | 6 | 3.14098 < π < 3.14275 | at least as tight as Archimedes' bounds |
 | 7 | 3.141015 < π < 3.142717 | at least as tight as Archimedes' bounds |
 
-Rounding blindly needs six digits at every step to match Archimedes; his choice of fractions did better. More digits need many more doublings: 2 places, 3 doublings; 3 places, 5 doublings; 10 places, 17 doublings; 35 places, 58 doublings. Van Ceulen's 35 places (c. 1600) needed a polygon with about 6 × 2^58 sides by this count.
+Rounding blindly needs six digits at every step to be at least as tight as Archimedes' 223/71 and 22/7; at five digits it is looser. To shrink the gap further takes many more doublings. To bring it below 10⁻2: 3 doublings; 10⁻3: 5 doublings; 10⁻10: 17 doublings; 10⁻35: 58 doublings. Ludolph van Ceulen worked out π to 35 places with polygons of 2^62 sides; he died in 1610 and the full result was published in 1621. By this program's count, a gap below 10⁻³⁵ needs 58 doublings from the hexagon, 6 × 2^58 sides.
 
-Combining the bounds helps more than doubling. The 96-gon alone gives 3 correct places; (2 × inside + outside) / 3 gives **6**, and (4 × inside of the 96-gon − inside of the 48-gon) / 3 gives **6**. Huygens found improvements of this kind in 1654; Richardson later made the trick general.
+Combining the bounds helps more than doubling. The 96-gon's inside value is right to 3 places (its error is below 10⁻3); (2 × inside + outside) / 3 gives **6**, and (4 × inside of the 96-gon − inside of the 48-gon) / 3 gives **6**. Huygens found improvements of this kind in 1654; Richardson later made the trick general.
 
 ## Computers that round outward
 
@@ -120,7 +120,7 @@ The error of an n-sided polygon shrinks like 1/n². Doubling n divides it by 2²
 </details>
 
 <details>
-<summary><b>5.</b> How many doublings from the hexagon give 10 correct places?</summary>
+<summary><b>5.</b> How many doublings from the hexagon bring the gap below 10⁻¹⁰?</summary>
 
 **17** doublings, a polygon of 6 × 2^17 sides.
 </details>
@@ -143,6 +143,7 @@ The error of an n-sided polygon shrinks like 1/n². Doubling n divides it by 2²
 | Deeper | [How Archimedes showed that π is approximately equal to 22/7](https://arxiv.org/pdf/2008.07995) — Damini and Dhar, arXiv | Step-by-step modern reconstruction of the doubling recurrences |
 | Deeper | [Ancient estimate of π and modern numerical analysis](https://www.johndcook.com/blog/2023/07/30/archimedes-richardson/) — John D. Cook | From the 96-gon to Huygens and Richardson extrapolation |
 | Deeper | [Archimedes on the Circumference and Area of a Circle](https://www.ams.org/publicoutreach/feature-column/fc-2012-02) — AMS Feature Column (Bill Casselman) | The method of exhaustion in Proposition 1 (not the 96-gon) |
+| Deeper | [Ludolph van Ceulen](https://mathshistory.st-andrews.ac.uk/Biographies/Van_Ceulen/) — MacTutor | 20 places in 1596 (15 × 2^31 sides); 35 places from polygons of 2^62 sides, published in 1621 after his death in 1610 |
 | Scholar | [The Works of Archimedes](https://archive.org/details/worksofarchimede00arch) — T. L. Heath (1897), Internet Archive | The standard English translation, including *Measurement of a Circle* |
 | Scholar | [Archimedes' Measurement of a Circle](https://triumphsannals.journals.publicknowledgeproject.org/index.php/triumphsannals/article/download/13291/11763/71303) — TRIUMPHS primary-source project | Students work through the iterations from Heath's text |
 | Deeper | [Interval Analysis (review)](https://www.science.org/doi/10.1126/science.158.3799.365) — Science 158 (1967), review of R. E. Moore, Prentice-Hall 1966 | The 1966 book that made guaranteed bounds a branch of computing |

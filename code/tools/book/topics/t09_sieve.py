@@ -256,17 +256,20 @@ def build(ctx):
                  text="The sieve trades memory for time: it keeps a table of every number, and in return never divides. The reciprocal tables of topic 3 made the same trade as a reference book, worked out once and copied; here the table is working memory, built and used inside one computation."),
         ]),
         dict(id="measured", eyebrow="Measured", title="How much work?", toc="Measured", blocks=[
+            dict(type="p", text="Six ways to list the primes. *Trial division* tests each number by the primes up to its square root. The *unfaithful sieve* is the one-line functional program described below. "
+                                "*Every odd number* and *odd primes only* sieve the odd numbers, crossing out with every odd number (as in Nicomachus's account) or with the odd primes. "
+                                "The *textbook sieve* crosses out the multiples of each prime from p × p over all the numbers. The *linear sieve* crosses out each composite exactly once."),
             dict(type="diagram", name="methods", diagram=methods(d)),
             dict(type="table", head=["Up to", "Primes", "Trial division", "Unfaithful sieve", "Every odd number", "Odd primes only", "Textbook sieve", "Linear sieve", "n ln ln n"],
                  num=[0, 1, 2, 3, 4, 5, 6, 7, 8],
                  rows=[[f"{x['n']:,}", f"{x['primes']:,}", f"{x['trial']:,}", f"{x['unf']:,}" if x["unf"] else "—", f"{x['odd_all']:,}", f"{x['odd_p']:,}", f"{x['sieve']:,}", f"{x['linear']:,}", f"{x['nll']:,}"] for x in d["work"]]),
-            dict(type="p", text=f"The textbook sieve's crossings stay below n ln ln n, the classic estimate, at every size. The program also counted **{seg['count']:,}** primes up to 100 million with a segmented sieve, holding only {seg['base']:,} sieving primes and a window of {seg['window']:,} numbers in memory."),
+            dict(type="p", text=f"The textbook sieve's crossings stay below n ln ln n, the classic estimate, at every size. (ln is the natural logarithm; ln ln n grows so slowly that n ln ln n is barely more than a few times n.) The program also counted **{seg['count']:,}** primes up to 100 million with a segmented sieve, holding only {seg['base']:,} sieving primes and a window of {seg['window']:,} numbers in memory."),
             dict(type="p", text=f"Up to 10 million, the largest gap between consecutive primes is {gp['gap']}, after {gp['at']:,}; there are {gp['twins']:,} pairs of twin primes (primes 2 apart)."),
         ]),
         dict(id="circle", eyebrow="Full circle", title="The sieve that was not a sieve", toc="Full circle", blocks=[
-            dict(type="p", text="Functional programming has a famous one-line \"sieve\": take the first number, then filter every later number that it divides, and repeat. In 2009 Melissa O'Neill showed in the *Journal of Functional Programming* that this is really trial division, and far slower than the real thing: it tests each number against every earlier prime instead of crossing out multiples. In 2025 Jeremy Gibbons returned to lazy sieves in the same journal."),
+            dict(type="p", text="Functional programming has a famous one-line \"sieve\": take the first number, then filter every later number that it divides, and repeat. In 2009 Melissa O'Neill showed in the *Journal of Functional Programming* that this is really trial division, and far slower than the real thing: it tests each number against each earlier prime until one divides it, instead of crossing out multiples. In 2025 Jeremy Gibbons returned in the same journal to lazy sieves, programs that produce the primes one at a time, only as they are asked for."),
             dict(type="callout", kind="circle", label="Full circle",
-                 text=f"Up to 100,000 the program counts **{w5['unf']:,}** divisions for the one-line version against {w5['sieve']:,} crossings for the sieve, about {w5['unf'] // w5['sieve']} times the work. An algorithm from about 240 BCE was still being argued over in a journal in 2025."),
+                 text=f"Up to 100,000 the program counts **{w5['unf']:,}** divisions for the one-line version against {w5['sieve']:,} crossings for the sieve, about {round(w5['unf'] / w5['sieve'])} times the work. An algorithm named after a librarian of about 240 BCE was still being argued over in a journal in 2025."),
         ]),
         dict(id="try", eyebrow="Pause and try", title="Before you read on", toc="Pause and try", blocks=[dict(type="tries", items=[
             ("Why can the sieve stop at 7 when listing primes up to 100?", "Any composite up to 100 has a prime factor at most √100 = 10. The primes up to 10 are 2, 3, 5, 7, so after them nothing composite is left."),
@@ -290,7 +293,7 @@ def build(ctx):
         description="Era 1, topic 9 of The Algorithm Evolution Atlas: the sieve of Eratosthenes, with an interactive sieve, six methods compared, and verified links.",
         lede="Never ask whether a number is prime. For each prime, cross out its multiples; whatever survives is prime. A table of numbers does the work that division did.",
         fieldnote="Testing each number for divisors repeats the same work again and again. The sieve turns the problem inside out.",
-        card=[("When", "Eratosthenes fl. c. 240 BCE; first account by Nicomachus, c. 100 CE"),
+        card=[("When", "Eratosthenes active c. 240 BCE; first account by Nicomachus, c. 100 CE"),
               ("Where", "Alexandria (**documented**); the method's exact origin is unknown"),
               ("What hurt", "Trial division tests each number from scratch"),
               ("The fix", "Cross out multiples instead; stop at √n"),

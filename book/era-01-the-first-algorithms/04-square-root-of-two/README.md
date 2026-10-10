@@ -25,7 +25,7 @@ A new algorithm is usually an older idea combined with a new one. Base-60 place 
 
 ## Square up a rectangle
 
-To find the square root of N, start with any guess g. A rectangle with sides g and N/g has area N. If g is too small, N/g is too big, and the other way round, so the average of the two sides is a better guess. Repeat.
+To find the square root of N, start with any guess g. A rectangle with sides g and N/g has area N. If g is too small, N/g is too big, and the other way round, so the root lies between them, and so does their average. After the first step every guess is a little too big, and each new guess is closer than the last. Repeat.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/squares-dark.svg">
@@ -60,7 +60,7 @@ YBC 7289 is a small round school tablet in the Yale Babylonian Collection. It sh
 
 |  | Value | Notes |
 |---|---|---|
-| The tablet: 1;24,51,10 | 1.41421296296… | 6 correct decimal places; its square is 1.99999830461… |
+| The tablet: 1;24,51,10 | 1.41421296296… | off by less than 10⁻⁶ (about six decimal places); its square is 1.99999830461… |
 | √2 | 1.41421356237… | in base 60: 1;24,51,10,7,46,6,… |
 | Difference | -5.99E-7 | smaller than any measurement could detect |
 | 30 × 1;24,51,10 | 42;25,35 | exactly, as the program checks |
@@ -93,6 +93,8 @@ YBC 7289 is a small round school tablet in the Yale Babylonian Collection. It sh
 
 ## How fast does it get there?
 
+Three ways to get the digits of √2. *Halving the interval* keeps a range that holds the root and cuts it in half at each step. *Digit by digit* is the long-hand method once taught in schools, which finds one digit per step. *Averaging* is Heron's rule. Here a guess has n correct places when its error is below 10⁻ⁿ.
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/threeways-dark.svg">
   <img src="assets/threeways-light.svg" alt="Three ways to the digits of a square root">
@@ -103,15 +105,15 @@ YBC 7289 is a small round school tablet in the Yale Babylonian Collection. It sh
 | 6 | 20 | 6 | **4** |
 | 15 | 50 | 15 | **5** |
 | 100 | 333 | 100 | **8** |
-| **1,000** | **3,322** | **1,000** | ****11**** |
+| **1,000** | **3,322** | **1,000** | **11** |
 
-Averaging doubles the correct digits at each step: 1, 2, 5, 11, 24 places for the first guesses. A division-free version, which improves a guess y for 1/√2 by y ← y(3 − 2y²)/2, reaches 15 digits in 7 steps.
+Averaging roughly doubles the correct digits at each step: 1, 2, 5, 11, 24 places for the first guesses. A division-free version, which improves a guess y for 1/√2 by y ← y(3 − 2y²)/2, reaches 15 digits in 7 steps.
 
-## One averaging step in a video game
+## One Newton step in a video game
 
-The source code of the video game *Quake III Arena*, published by id Software, computes 1/√x with a bit trick for the first guess and then one Newton step, the averaging idea applied to 1/√x. The program checks it on every float from 1 to 4, where the error pattern repeats.
+The source code of the video game *Quake III Arena*, published by id Software, computes 1/√x with a bit trick for the first guess and then one step of Newton's method, which improves a guess by following the tangent line of a curve. For √N, Newton's method is exactly Heron's averaging; Quake applies it to 1/√x instead. The program checks it on every float (the computer's standard 32-bit number with a fractional part) from 1 to 4, where the error pattern repeats.
 
-> **Full circle.** Over 16,777,216 floats, the bit trick alone is off by at most **3.4376%**. One Newton step cuts that to **0.1752%**: the same move that lands on 577/408, 3,800 years later, inside a game loop.
+> **Full circle.** Over 16,777,216 floats, the bit trick alone is off by at most **3.4376%**. One Newton step cuts that to **0.1752%**. For √2 the same method is the averaging that lands on 577/408; here it runs inside a game loop.
 
 ## Before you read on
 
@@ -142,7 +144,7 @@ Their product is N. If both were bigger than √N the product would be bigger th
 <details>
 <summary><b>5.</b> Why is 577/408 special besides matching the tablet?</summary>
 
-577² − 2 × 408² = 1, so 577/408 is a solution of Pell's equation, and it is a continued-fraction convergent of √2.
+577² − 2 × 408² = 1: the pair (577, 408) solves Pell's equation p² − 2q² = 1. And 577/408 is a continued-fraction convergent of √2, one of the best fractions for √2 with a denominator that size.
 </details>
 
 

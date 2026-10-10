@@ -206,11 +206,11 @@ public class EgyptianDoubling {
         opCount = 0;
         long prod = power(59L, 41, Long::sum);
         check(prod == 2419, "power with + is multiplication");
-        System.out.printf("generic + : 59 added to itself 41 times = %d in %d additions%n", prod, opCount);
+        System.out.printf("generic + : 41 copies of 59 added together = %d in %d additions (one at a time would take 40)%n", prod, opCount);
         opCount = 0;
         BigInteger p3 = power(BigInteger.valueOf(3), 41, BigInteger::multiply);
         check(p3.equals(BigInteger.valueOf(3).pow(41)), "power with x is exponentiation");
-        System.out.printf("generic x : 3^41 = %s in %d multiplications (repeating would take 40)%n", p3, opCount);
+        System.out.printf("generic x : 3^41 = %s in %d multiplications (one at a time would take 40)%n", p3, opCount);
         opCount = 0;
         long[][] fibM = power(new long[][]{{1, 1}, {1, 0}}, 90, EgyptianDoubling::matMul);
         long f0 = 0, f1 = 1;
@@ -227,7 +227,8 @@ public class EgyptianDoubling {
         System.out.printf("rsa: n=3233 e=17 d=2753: 65 encrypts to %s; decrypting %s^2753 mod 3233 takes %d multiplications instead of 2752, and gives back %s%n", c, c, opCount, back);
         BigInteger big = new BigInteger(2048, new Random(1977)).setBit(2047);
         int bigOps = big.bitLength() - 1 + big.bitCount() - 1;
-        System.out.printf("rsa-2048: a random 2048-bit exponent needs %d squarings and %d multiplications, %d in all%n", big.bitLength() - 1, big.bitCount() - 1, bigOps);
+        System.out.printf("rsa-2048: a random 2048-bit exponent needs %d squarings and %d multiplications, %d in all; one at a time would take a number of multiplications with %d digits%n",
+                big.bitLength() - 1, big.bitCount() - 1, bigOps, big.subtract(BigInteger.ONE).toString().length());
 
         // 4. shortest addition chains
         int notOptimal = 0, first = 0;

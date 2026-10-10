@@ -131,7 +131,7 @@ def family():
         "rt": (610, 20, "Safe bounds for roots", "265/153 < √3 < 1351/780", "topic 4's square roots", "ink"),
         "sq": (395, 150, "Squeezing π", "⊕ two polygons that close in", "Measurement of a Circle, c. 250 BCE", "red"),
         "zu": (20, 300, "355/113", "", "Zu Chongzhi (430–501)", "ink"),
-        "vc": (270, 300, "35 places", "⊕ many more doublings", "van Ceulen, c. 1600", "ink"),
+        "vc": (270, 300, "35 places", "⊕ polygons of 2^62 sides", "van Ceulen, by 1610", "ink"),
         "hy": (520, 300, "Combine the bounds", "⊕ cancel the main error", "Huygens, 1654", "ink"),
         "se": (770, 300, "Series for π", "⊕ infinite sums", "era 3", "ink"),
         "ia": (395, 460, "Interval arithmetic", "⊕ computers round outward", "Moore, 1966", "blue"),
@@ -202,6 +202,10 @@ def safe_rounding(d):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+def ordinal(n):
+    return f"{n}{'th' if 10 <= n % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th')}"
+
+
 def build(ctx):
     import json
     d = parse(ctx["out"])
@@ -233,15 +237,16 @@ def build(ctx):
             dict(type="diagram", name="rounding", diagram=safe_rounding(d)),
             dict(type="callout", kind="key", label="Key idea",
                  text=f"Every square root on the way had to be replaced by a fraction, and the fraction had to err on the safe side. For √3 Archimedes used 265/153 < √3 < 1351/780 ({s3['lo']} < {s3['v']} < {s3['hi']}). "
-                      f"Both are continued-fraction convergents of √3, numbers {s3['il']} and {s3['iu']} in the list {s3['conv']}. He does not say how he found them; reconstructions differ (**disputed**)."),
+                      f"Both are continued-fraction convergents of √3: the best fractions for √3 for their size, which Euclid's algorithm (topic 7) produces. They are the {ordinal(s3['il'] + 1)} and {ordinal(s3['iu'] + 1)} in the list {s3['conv']}. He does not say how he found them; reconstructions differ (**disputed**)."),
         ]),
         dict(id="measured", eyebrow="Measured", title="How good is a guaranteed answer?", toc="Measured", blocks=[
             dict(type="p", text="The program redid the whole computation the way a hand computer must: every intermediate value rounded outward to a fixed number of digits. The bounds always stay valid; they just get looser."),
             dict(type="table", head=["Digits kept at every step", "Bounds at 96 sides", "Compared with 223/71 and 22/7"], num=[0],
                  rows=[[r["digits"], f"{r['lo']} < π < {r['hi']}", r["verdict"] + " Archimedes' bounds"] for r in d["rounded"]]),
-            dict(type="p", text=f"Rounding blindly needs six digits at every step to match Archimedes; his choice of fractions did better. More digits need many more doublings: "
-                                + "; ".join(f"{x['places']} places, {x['n']} doublings" for x in d["doublings"]) + f". Van Ceulen's 35 places (c. 1600) needed a polygon with about 6 × 2^{dbl[35]} sides by this count."),
-            dict(type="p", text=f"Combining the bounds helps more than doubling. The 96-gon alone gives {ex['base']} correct places; (2 × inside + outside) / 3 gives **{ex['combo_p']}**, and (4 × inside of the 96-gon − inside of the 48-gon) / 3 gives **{ex['rich_p']}**. "
+            dict(type="p", text=f"Rounding blindly needs six digits at every step to be at least as tight as Archimedes' 223/71 and 22/7; at five digits it is looser. To shrink the gap further takes many more doublings. To bring it below "
+                                + "; ".join(f"10⁻{x['places']}: {x['n']} doublings" for x in d["doublings"]) + ". "
+                                f"Ludolph van Ceulen worked out π to 35 places with polygons of 2^62 sides; he died in 1610 and the full result was published in 1621. By this program's count, a gap below 10⁻³⁵ needs {dbl[35]} doublings from the hexagon, 6 × 2^{dbl[35]} sides."),
+            dict(type="p", text=f"Combining the bounds helps more than doubling. The 96-gon's inside value is right to {ex['base']} places (its error is below 10⁻{ex['base']}); (2 × inside + outside) / 3 gives **{ex['combo_p']}**, and (4 × inside of the 96-gon − inside of the 48-gon) / 3 gives **{ex['rich_p']}**. "
                                 "Huygens found improvements of this kind in 1654; Richardson later made the trick general."),
         ]),
         dict(id="circle", eyebrow="Full circle", title="Computers that round outward", toc="Full circle", blocks=[
@@ -254,7 +259,7 @@ def build(ctx):
             ("Is 22/7 bigger or smaller than π? And 223/71?", f"22/7 = {a['hi']} is bigger; 223/71 = {a['lo']} is smaller. π = {a['pi']}… lies between."),
             ("Why must a lower bound be rounded down?", "If it were rounded up it might pass π, and then it would no longer be a lower bound. Rounding the safe way keeps the guarantee."),
             ("Each doubling shrinks the gap about 4 times. Why 4?", "The error of an n-sided polygon shrinks like 1/n². Doubling n divides it by 2² = 4."),
-            ("How many doublings from the hexagon give 10 correct places?", f"**{dbl[10]}** doublings, a polygon of 6 × 2^{dbl[10]} sides."),
+            ("How many doublings from the hexagon bring the gap below 10⁻¹⁰?", f"**{dbl[10]}** doublings, a polygon of 6 × 2^{dbl[10]} sides."),
         ])]),
         dict(id="objects", eyebrow="The objects", title="Where the evidence lives", toc="The objects", blocks=[dict(type="objects", items=[
             dict(title="The Works of Archimedes", text="T. L. Heath's English translation (1897), including *Measurement of a Circle*. The surviving treatise is probably a fragment of a longer work (**disputed**).",
@@ -262,6 +267,7 @@ def build(ctx):
                  licence="Drawn placeholder; the 1897 book is scanned at the link."),
         ])]),
         C.links_section(ctx, extra=[
+            ("deeper", "Ludolph van Ceulen", "MacTutor History of Mathematics", "https://mathshistory.st-andrews.ac.uk/Biographies/Van_Ceulen/", "35 places of π from polygons of 2^62 sides, published in 1621"),
             ("deeper", "Interval Analysis (review)", "Science 158 (1967), review of R. E. Moore, Prentice-Hall 1966", "https://www.science.org/doi/10.1126/science.158.3799.365", "The 1966 book that made guaranteed bounds a branch of computing"),
         ]),
         C.prove_it_section(ctx, "ArchimedesPi", d["checks"],
@@ -276,7 +282,7 @@ def build(ctx):
         card=[("When", "Measurement of a Circle, probably c. 250 BCE"),
               ("Where", "Syracuse, Sicily (**documented**)"),
               ("What hurt", "A needed quantity that no exact number expresses"),
-              ("The fix", "Two bounds that close in, each step a fixed recurrence"),
+              ("The fix", "Two bounds that close in, each step the same formula applied to the last"),
               ("Cost", "Each doubling cuts the gap about 4 times"),
               ("Atlas", "Ch. 6.4–6.5 Archimedes and numerical approximation; exhaustion")],
         sections=sections,

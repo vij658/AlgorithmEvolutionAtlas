@@ -372,7 +372,8 @@ def build(ctx):
                  caption="Red: place value and the tables it made possible. Blue: where the ideas live in 2026. The dashed arrow is survival rather than descent: base 60 lives on in clocks and angles."),
         ]),
         dict(id="read", eyebrow="Try it", title="Two signs, sixty digits", toc="Try it", blocks=[
-            dict(type="p", text="A Babylonian number is a row of base-60 digits. Each digit is written with two signs only: a corner wedge for each ten and a vertical wedge for each one. Type a number, then switch off the empty places, as an Old Babylonian scribe would have written it."),
+            dict(type="p", text="A Babylonian number is a row of base-60 digits. Each digit is written with two signs only: a corner wedge for each ten and a vertical wedge for each one. Modern scholars write base-60 numbers with commas between the places and a semicolon before the fractional part: 2,46,39 means 2 × 3,600 + 46 × 60 + 39 = 9,999, and 6;15 means 6 + 15/60. "
+                                "In the interactive edition you can type a number and switch off the empty places, as an Old Babylonian scribe would have written it."),
             dict(type="widget", html=READ_HTML, js=read_js, css=BAB_CSS,
                  fallback=dict(type="svg", name="wedges", alt="4,622, 61 and 3,601 written in wedges",
                                draw=wedge_number_svg([("4,622 = 1,17,2", [1, 17, 2], ""), ("61 = 1,1", [1, 1], ""), ("3,601 = 1,0,1", [1, None, 1], "looks like 61")],
@@ -384,10 +385,10 @@ def build(ctx):
         dict(id="hurt", eyebrow="What hurt, and what fixed it", title="Each fix leaves a new pain", toc="What hurt", blocks=[
             dict(type="diagram", name="chain", diagram=chain(d), caption="Read it as a snake: each new problem sits directly under the fix that exposed it."),
             dict(type="diagram", name="lookalike", diagram=lookalike(d),
-                 caption=f"MacTutor: \"The numbers 1 and 1,0, namely 1 and 60 in decimals, had exactly the same representation.\" The counts are for the {lk['limit'] - 1:,} numbers from 1 to {lk['limit'] - 1:,}."),
+                 caption=f"MacTutor: the numbers \"1 and 1,0, namely 1 and 60 in decimals, had exactly the same representation\". The counts are for the {lk['limit'] - 1:,} numbers from 1 to {lk['limit'] - 1:,}."),
         ]),
         dict(id="steps", eyebrow="Step by step", title="Divide by looking up", toc="Step by step", blocks=[
-            dict(type="p", text="\"For Old Babylonians, division by n amounted to multiplication by 1/n\" (AMS Feature Column). Pick a divisor in the standard reciprocal table, or type any number:"),
+            dict(type="p", text="\"For Old Babylonians, division by n amounted to multiplication by 1/n\" (AMS Feature Column). The standard reciprocal table follows; in the interactive edition you can divide any two numbers with it:"),
             dict(type="widget", html=DIV_HTML, js=div_js,
                  fallback=dict(type="table", head=["Number", "In decimal", "Reciprocal", "Number", "In decimal", "Reciprocal"], num=[1, 4], rows=table_rows),
                  note="In the interactive edition you can divide any two numbers with the table."),
@@ -400,7 +401,7 @@ def build(ctx):
                  rows=[[f"1/{r['n']}", f"0;{r['digits']},…", f"{r['period']} digits"] for r in d["repeat"]]),
         ]),
         dict(id="plimpton", eyebrow="The evidence", title="Plimpton 322: what was it for?", toc="The evidence", blocks=[
-            dict(type="p", text="Plimpton 322, probably from Larsa about 1820–1762 BCE, is a table of fifteen rows of large base-60 numbers. Each row gives two sides of a right triangle with whole-number sides. Scholars agree on that, and disagree on why the table was made. One reading builds every row from a reciprocal pair, the same kind of number the reciprocal tables list:"),
+            dict(type="p", text="Plimpton 322, probably from Larsa about 1820–1762 BCE, is a table of fifteen rows of large base-60 numbers. Once a few copying errors are corrected, each row gives two sides of a right triangle with whole-number sides. Scholars agree on that, and disagree on why the table was made. One reading builds every row from a reciprocal pair, the same kind of number the reciprocal tables list:"),
             dict(type="diagram", name="plimpton", diagram=plimpton(d)),
             dict(type="p", text="The program follows the reciprocal-pair route for row 1 and gets the tablet's numbers exactly. That shows the route works, not that the scribe took it. The trigonometric reading drew wide press attention in 2017 and pointed criticism; Robson had already called trigonometry here \"conceptually anachronistic\" (2002)."),
         ]),
@@ -448,7 +449,7 @@ def build(ctx):
         description="Era 1, topic 3 of The Algorithm Evolution Atlas: base-60 place value, the missing zero, and division by reciprocal tables, with a wedge reader, a working reciprocal table and verified links.",
         lede="The same wedge means one, sixty or three thousand six hundred, depending only on where it stands. With position comes a new trick: to divide, look up the reciprocal and multiply.",
         fieldnote="Position does the work that new signs did before. With position comes the first precomputed table I have found: division turns into a lookup and a multiplication.",
-        card=[("When", "Place value probably by c. 2100 BCE (Ur III) · school tables c. 1800 BCE (**documented**)"),
+        card=[("When", "School tables c. 1800 BCE (**documented**) · place value probably from c. 2100 BCE (Ur III)"),
               ("Where", "Mesopotamia"),
               ("What hurt", "In additive numerals, multiplying and dividing means juggling piles of signs"),
               ("The fix", "Base-60 place value with two signs, and tables of reciprocals"),

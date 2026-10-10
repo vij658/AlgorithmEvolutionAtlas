@@ -2,14 +2,14 @@
 
 *Era 1 · topic 5 · c. 1550 BCE* · [Era 1 index](../README.md) · [← The Square Root of Two](../04-square-root-of-two/README.md) · [Counting Boards →](../06-counting-boards/README.md) · [Interactive edition](egyptian-doubling.html) · [Program](../../../code/era-01-the-first-algorithms/05-egyptian-doubling/)
 
-> **Field note from the visiting historian.** These scribes had no times table. To multiply 41 by 59 they doubled 59 again and again and added the rows whose multipliers make 41. They never named base 2, yet they wrote every number as a sum of powers of two.
+> **Field note from the visiting historian.** These scribes had no times table. To multiply, say, 41 by 59, a scribe doubled 59 again and again and added the rows whose multipliers make 41. They never named base 2, yet every multiplication split the multiplier into powers of two.
 
 | | |
 |---|---|
 | **When** | Rhind papyrus, c. 1550 BCE, copied from an older text (dates differ: **disputed**) |
 | **Where** | Egypt · British Museum (**documented**) |
 | **What hurt** | Multiplying with additive numerals and no times table |
-| **The fix** | Double and add: about log₂ n rows |
+| **The fix** | Double and add: about log₂ n rows (the number of times n can be halved) |
 | **Cost** | 41 × 59: 7 steps instead of 40 |
 | **Atlas** | Ch. 2 Egyptian Algorithms · Ch. 94 Exponentiation |
 
@@ -21,7 +21,7 @@ A new algorithm is usually an older idea combined with a new one. Here adding (t
   <source media="(prefers-color-scheme: dark)" srcset="assets/family-dark.svg">
   <img src="assets/family-light.svg" alt="How doubling combined with other ideas, from grouped numerals to RSA">
 </picture>
-*Red: the Egyptian method and its most important descendant. Blue: where it went next. Dashed: a likely relative, not a proven descendant.*
+*Red: the Egyptian method, and square-and-multiply, which reuses its idea with × in place of +. Blue: where it went next. Dashed: a likely relative, not a proven descendant.*
 
 ## Double, then tick
 
@@ -82,7 +82,7 @@ Division runs the same table the other way: double the divisor while it fits, th
 
 ## One table, any operation
 
-The table works for any operation that can be regrouped freely (an associative one). Alexander Stepanov, who designed C++'s Standard Template Library, built a course on this idea: from Ahmes's 41 × 59 to the generic power algorithm. The program runs the same code four times:
+The table works for any operation that can be regrouped freely (an associative one). Alexander Stepanov, who designed C++'s Standard Template Library, built a course on this idea, from the Egyptian method to the generic power algorithm. The program runs the same code four times. (A 2 × 2 matrix is a square of four numbers that can be multiplied like a single number; *mod n* means keeping only the remainder after dividing by n.)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/generic-dark.svg">
@@ -91,8 +91,8 @@ The table works for any operation that can be regrouped freely (an associative o
 
 | Operation | Result | Steps | One at a time |
 |---|---|---|---|
-| 59 added to itself 41 times | 2419 | 7 | 40 |
-| 3 multiplied by itself 41 times | 36472996377170786403 | 7 | 40 |
+| 41 copies of 59 added together | 2419 | 7 | 40 |
+| 3 to the power 41 (41 copies of 3 multiplied) | 36472996377170786403 | 7 | 40 |
 | Fibonacci number 90, by 2 × 2 matrix powers | 2880067194370816120 | 9 | 89 |
 | RSA: 2790^2753 mod 3233 | 65 | 15 | 2,752 |
 
@@ -106,7 +106,7 @@ The table works for any operation that can be regrouped freely (an associative o
 | 1,000 | 14 | 999 |
 | 1,000,000 | 25 | 999,999 |
 
-Over 500,000 random pairs below a million, the program checked doubling, and halving-and-doubling, against ordinary multiplication. The method needed **26.84** doublings and additions on average, against 499,385 additions one at a time.
+Over 500,000 random pairs below a million, the program checked doubling, and the halving-and-doubling form (halve one number, double the other), against ordinary multiplication. The method needed **26.84** doublings and additions on average, against 499,385 additions one at a time.
 
 Doubling is not always the shortest route. An *addition chain* builds a number from 1, each step adding two numbers already made. For 15, doubling and adding needs 6 steps; the shortest chain needs 5:
 
@@ -121,7 +121,7 @@ The program searched every number up to 128: doubling and adding is beaten for *
 
 RSA encryption needs powers of huge numbers modulo another huge number. A course note from the University of Alaska Fairbanks puts the link in one line: "replacing + with * gives the fast exponentiation by squaring trick".
 
-> **Full circle.** For a random 2048-bit exponent the program counts **2,047 squarings and 1,015 multiplications**, 3,062 in all. Multiplying one at a time would take about 2^2048 steps, a number with 617 digits. The Rhind papyrus's doubling table is why that is possible.
+> **Full circle.** For a random 2048-bit exponent the program counts **2,047 squarings and 1,015 multiplications**, 3,062 in all. Multiplying one at a time would take a number of steps with 617 digits. The same doubling idea as the Rhind papyrus's table makes it possible.
 
 ## Before you read on
 
@@ -160,7 +160,7 @@ No. 15 takes 6 steps by doubling (1, 2, 3, 6, 7, 14, 15) but 5 by the chain 1, 2
 
 | | Object | Where to see it | Licence |
 |---|---|---|---|
-| — | **The Rhind Mathematical Papyrus**. Copied by the scribe Ahmose from an older text, about 1550 BCE (other sources: c. 1650). 84 problems. British Museum EA10057 and EA10058. | [British Museum record](https://www.britishmuseum.org/collection/object/Y_EA10057) | Drawn placeholder; the museum's photographs are at the link. |
+| — | **The Rhind Mathematical Papyrus**. Copied by the scribe Ahmose (also spelled Ahmes) from an older text, about 1550 BCE (other sources: c. 1650). 84 problems. British Museum EA10057 and EA10058. | [British Museum record](https://www.britishmuseum.org/collection/object/Y_EA10057) | Drawn placeholder; the museum's photographs are at the link. |
 
 ## Every link was opened before it was listed
 

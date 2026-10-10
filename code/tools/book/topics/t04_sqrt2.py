@@ -162,7 +162,7 @@ def family():
 def chain(d):
     m1000 = next(m for m in d["method"] if m[0] == 1000)
     steps = [
-        ("The diagonal of a square cannot be measured exactly", f"Compute it: 1;24,51,10, right to {d['tablet_places']} decimal places", "YBC 7289, c. 1800–1600 BCE"),
+        ("The diagonal of a square cannot be measured exactly", "Compute it: 1;24,51,10, within a millionth of the true value", "YBC 7289, c. 1800–1600 BCE"),
         ("A single guess is always too big or too small", "Average a guess g with N/g: they lie on opposite sides of the root", "Heron, 1st century CE"),
         ("Every step needs a division", "Iterate on 1/√N instead: multiplications only", "a modern variant"),
         (f"Halving the interval needs {m1000[1]:,} steps for 1,000 digits", f"Averaging doubles the correct digits: {m1000[3]} steps", ""),
@@ -238,7 +238,7 @@ def build(ctx):
                  caption="Red: the tablet's value and the averaging rule. Blue: what the rule became. The dashed arrow from the tablet to Heron is disputed: nobody knows that the scribe averaged."),
         ]),
         dict(id="avg", eyebrow="Try it", title="Square up a rectangle", toc="Try it", blocks=[
-            dict(type="p", text="To find the square root of N, start with any guess g. A rectangle with sides g and N/g has area N. If g is too small, N/g is too big, and the other way round, so the average of the two sides is a better guess. Repeat."),
+            dict(type="p", text="To find the square root of N, start with any guess g. A rectangle with sides g and N/g has area N. If g is too small, N/g is too big, and the other way round, so the root lies between them, and so does their average. After the first step every guess is a little too big, and each new guess is closer than the last. Repeat."),
             dict(type="widget", html=AVG_HTML, js=AVG_JS, css=AVG_CSS,
                  fallback=dict(type="svg", name="squares", draw=squares_figure(d), alt="Four guesses for the square root of 2 drawn as rectangles of area 2"),
                  note="In the interactive edition you can average your way to the square root of any number."),
@@ -252,7 +252,7 @@ def build(ctx):
             dict(type="svg", name="tablet", draw=tablet_drawing, alt="YBC 7289 redrawn", width=360,
                  caption="Redrawn for this book, with the numbers in modern notation. It is not a copy of the tablet."),
             dict(type="table", head=["", "Value", "Notes"], num=[],
-                 rows=[["The tablet: 1;24,51,10", d["tablet"] + "…", f"{d['tablet_places']} correct decimal places; its square is {d['tablet_sq']}…"],
+                 rows=[["The tablet: 1;24,51,10", d["tablet"] + "…", f"off by less than 10⁻⁶ (about six decimal places); its square is {d['tablet_sq']}…"],
                        ["√2", d["sqrt2"] + "…", f"in base 60: {d['sqrt2_60']},…"],
                        ["Difference", d["error"], "smaller than any measurement could detect"],
                        ["30 × 1;24,51,10", "42;25,35", "exactly, as the program checks"]]),
@@ -271,15 +271,18 @@ def build(ctx):
                       f"The program repeats it: 720/27 = 26 2/3, and the average is 26 5/6 = {d['heron']}, whose square is 720 1/36."),
         ]),
         dict(id="measured", eyebrow="Measured", title="How fast does it get there?", toc="Measured", blocks=[
+            dict(type="p", text="Three ways to get the digits of √2. *Halving the interval* keeps a range that holds the root and cuts it in half at each step. *Digit by digit* is the long-hand method once taught in schools, which finds one digit per step. *Averaging* is Heron's rule. "
+                                "Here a guess has n correct places when its error is below 10⁻ⁿ."),
             dict(type="diagram", name="threeways", diagram=three_ways(d)),
             dict(type="table", head=["Correct digits wanted", "Halving the interval", "Digit by digit", "Averaging (Heron, Newton)"], num=[0, 1, 2, 3],
                  hl=len(d["method"]) - 1, rows=[[f"{a:,}", f"{b:,}", f"{c:,}", f"**{e}**"] for a, b, c, e in d["method"]]),
-            dict(type="p", text=f"Averaging doubles the correct digits at each step: 1, 2, 5, 11, 24 places for the first guesses. A division-free version, which improves a guess y for 1/√2 by y ← y(3 − 2y²)/2, reaches 15 digits in {d['invsqrt']} steps."),
+            dict(type="p", text=f"Averaging roughly doubles the correct digits at each step: {', '.join(str(it['places']) for it in d['iter'][1:])} places for the first guesses. A division-free version, which improves a guess y for 1/√2 by y ← y(3 − 2y²)/2, reaches 15 digits in {d['invsqrt']} steps."),
         ]),
-        dict(id="circle", eyebrow="Full circle", title="One averaging step in a video game", toc="Full circle", blocks=[
-            dict(type="p", text="The source code of the video game *Quake III Arena*, published by id Software, computes 1/√x with a bit trick for the first guess and then one Newton step, the averaging idea applied to 1/√x. The program checks it on every float from 1 to 4, where the error pattern repeats."),
+        dict(id="circle", eyebrow="Full circle", title="One Newton step in a video game", toc="Full circle", blocks=[
+            dict(type="p", text="The source code of the video game *Quake III Arena*, published by id Software, computes 1/√x with a bit trick for the first guess and then one step of Newton's method, which improves a guess by following the tangent line of a curve. For √N, Newton's method is exactly Heron's averaging; Quake applies it to 1/√x instead. "
+                                "The program checks it on every float (the computer's standard 32-bit number with a fractional part) from 1 to 4, where the error pattern repeats."),
             dict(type="callout", kind="circle", label="Full circle",
-                 text=f"Over {q['n']:,} floats, the bit trick alone is off by at most **{q['guess']}%**. One Newton step cuts that to **{q['step']}%**: the same move that lands on 577/408, 3,800 years later, inside a game loop."),
+                 text=f"Over {q['n']:,} floats, the bit trick alone is off by at most **{q['guess']}%**. One Newton step cuts that to **{q['step']}%**. For √2 the same method is the averaging that lands on 577/408; here it runs inside a game loop."),
         ]),
         dict(id="try", eyebrow="Pause and try", title="Before you read on", toc="Pause and try", blocks=[dict(type="tries", items=[
             ("Average 1 and 2/1. Then average the result with 2 divided by it.", "1 and 2 average to **3/2**. Then 2 ÷ 3/2 = 4/3, and the average of 3/2 and 4/3 is **17/12** = 1.41666…"),
@@ -288,7 +291,7 @@ def build(ctx):
              "30 × 1 = 30; 30 × 24/60 = 12; 30 × 51/3600 = 0;25,30; 30 × 10/216000 = 0;0,5. Total: **42;25,35**. The program checks it with exact fractions."),
             ("How many steps does averaging need for 1,000 digits of √2? And halving?",
              "".join(f"**{e}** averaging steps against **{b:,}** halvings." for a, b, c, e in d["method"] if a == 1000)),
-            ("Why is 577/408 special besides matching the tablet?", "577² − 2 × 408² = 1, so 577/408 is a solution of Pell's equation, and it is a continued-fraction convergent of √2."),
+            ("Why is 577/408 special besides matching the tablet?", "577² − 2 × 408² = 1: the pair (577, 408) solves Pell's equation p² − 2q² = 1. And 577/408 is a continued-fraction convergent of √2, one of the best fractions for √2 with a denominator that size."),
         ])]),
         dict(id="objects", eyebrow="The objects", title="Where the evidence lives", toc="The objects", blocks=[dict(type="objects", items=[
             dict(title="YBC 7289", text="Old Babylonian school tablet, c. 1800–1600 BCE (sources range from 1900 to 1600). Yale Babylonian Collection.",

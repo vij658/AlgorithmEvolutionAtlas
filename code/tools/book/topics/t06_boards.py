@@ -162,7 +162,7 @@ def family():
         "car": (610, 20, "Columns and exchanges", "", "topics 2 and 3", "ink"),
         "brd": (395, 150, "Counting board", "⊕ columns hold the place", "Salamis tablet, c. 300 BCE", "red"),
         "rom": (20, 300, "Roman hand abacus", "⊕ beads in grooves, a five", "bronze; three survive", "ink"),
-        "exq": (270, 300, "Exchequer table", "⊕ a chequered cloth", "first mentioned 1110", "ink"),
+        "exq": (270, 300, "Exchequer table", "⊕ a striped cloth, royal accounts", "first mentioned 1110", "ink"),
         "sor": (520, 300, "Suanpan and soroban", "⊕ beads on rods", "suanpan pictured by 1573", "ink"),
         "pen": (770, 300, "Column arithmetic on paper", "⊕ zero and written digits", "era 2", "ink"),
         "mec": (180, 450, "Mechanical calculators", "⊕ gears carry by themselves", "era 3", "blue"),
@@ -224,7 +224,7 @@ def invariant(d):
 def words():
     D = Diagram(1000, 200, "Words the counting board left behind")
     pairs = [("calc", "calculus", "Latin: a pebble used as a reckoning counter", "calculate, calculus, calculator"),
-             ("exq", "Exchequer", "named after the chequered cloth of the royal accounts", "Chancellor of the Exchequer")]
+             ("exq", "Exchequer", "named for a counting table that looked like a chessboard", "Chancellor of the Exchequer")]
     for i, (k, w, meaning, now) in enumerate(pairs):
         y = 20 + i * 90
         D.node(k, 20, y, 300, 70, [(w, "title"), (meaning, "note")])
@@ -249,7 +249,7 @@ def build(ctx):
                  caption="Red: the counting board. Blue: machines that settle carries for you, or put it off on purpose."),
         ]),
         dict(id="board", eyebrow="Try it", title="Push the counters, then settle", toc="Try it", blocks=[
-            dict(type="p", text="Put down the first number: in each column, as many counters as its digit, with a five-counter above the bar when it saves counters. Push on the second number. Then settle: five ones make a five, and two fives make one counter in the next column."),
+            dict(type="p", text="Put down the first number: in each column, as many counters as its digit, with a five-counter above the bar (the line that separates fives from ones) when it saves counters. Push on the second number. Then settle: five ones make a five, and two fives make one counter in the next column."),
             dict(type="widget", html=html, js=BOARD_JS, css=BOARD_CSS,
                  fallback=dict(type="svg", name="board", draw=board_svg(states, f"{d['a']:,} + {d['b']:,} on a counting board with fives"),
                                alt=f"{d['a']:,} + {d['b']:,} on a counting board with fives"),
@@ -266,12 +266,12 @@ def build(ctx):
             dict(type="p", text=f"Both boards end at **{wp[2]['value']:,}**. The plain board needed {wp[2]['exchanges']} exchanges and {wp[2]['moves']} counter moves in all; "
                                 f"the board with fives needed {wf[2]['exchanges']} smaller exchanges but only {wf[2]['moves']} moves, because there are fewer counters to push."),
             dict(type="callout", kind="key", label="Key idea",
-                 text="The board is a machine for place value. The person adding never thinks about tens or hundreds: they only push counters and make one kind of swap. Later, gears would make that swap by themselves."),
+                 text="The board is a machine for place value. The person adding never thinks about tens or hundreds: they only push counters and make one or two kinds of swap. Later, gears would make that swap by themselves."),
         ]),
         dict(id="evidence", eyebrow="The evidence", title="What survives, and what is guessed", toc="The evidence", blocks=[
             dict(type="p", text="The Salamis tablet (Epigraphical Museum, Athens, EM 11515) is a marble slab with ruled lines and Greek number signs, dated to about 300 BCE (the Computer History Museum says the 4th century BCE). "
-                                "The museum calls it \"a table of mathematical calculations or a toy\"; it was once thought to be a gaming board. Its use is **disputed**."),
-            dict(type="p", text="Three bronze Roman hand abaci survive, in Aosta, Paris and Rome (**documented**). In England, the *Dialogue concerning the Exchequer* (about 1179) describes the royal accounts being reckoned with counters on a table covered with a chequered cloth, which gave the Exchequer its name (**documented**). Early dates for the Chinese suanpan and the Japanese soroban vary widely between sources (**disputed**)."),
+                                "The museum says it is \"believed to be a table of mathematical calculations or a toy\"; it was once thought to be a gaming board. Its use is **disputed**."),
+            dict(type="p", text="Three bronze Roman hand abaci survive, in Aosta, Paris and Rome (**documented**). In England, the *Dialogue concerning the Exchequer* (about 1179) describes the royal accounts being reckoned with counters on a table covered with a black cloth marked in stripes, and traces the name Exchequer to the table's likeness to a chessboard (**documented**). Early dates for the Chinese suanpan and the Japanese soroban vary widely between sources (**disputed**)."),
             dict(type="diagram", name="words", diagram=words()),
         ]),
         dict(id="measured", eyebrow="Measured", title="Is a five-counter worth it?", toc="Measured", blocks=[
@@ -280,14 +280,14 @@ def build(ctx):
                        ["Counters moved", f"{av['plain']['moved']:.2f}", f"**{av['fives']['moved']:.2f}**"],
                        ["Exchanges", f"{av['plain']['ex']:.2f}", f"{av['fives']['ex']:.2f}"],
                        ["Most counters in a settled column", av["plain"]["most"], av["fives"]["most"]]]),
-            dict(type="p", text=f"Fives halve the counters on the board and cut the moves by about a third, at the price of twice as many (smaller) exchanges. The program checked {d['boardcheck'][0]:,} additions and {d['boardcheck'][1]:,} subtractions, with borrowing, on both boards."),
+            dict(type="p", text=f"Fives cut the counters on the board by {100 * (1 - av['fives']['left'] / av['plain']['left']):.0f}% and the moves by {100 * (1 - av['fives']['moved'] / av['plain']['moved']):.0f}%, at the price of about twice as many (smaller) exchanges. The program checked {d['boardcheck'][0]:,} additions and {d['boardcheck'][1]:,} subtractions, with borrowing, on both boards."),
             dict(type="diagram", name="invariant", diagram=invariant(d)),
             dict(type="p", text=f"On the board with fives the count is also fixed: {d['inv_f'][0]:,} exchanges either way. Each column's exchanges are forced by what lands in it, so their order cannot change their number."),
         ]),
         dict(id="circle", eyebrow="Full circle", title="Settle the carries last", toc="Full circle", blocks=[
             dict(type="p", text="A board lets you pile counters up and settle once at the end; nothing breaks while a column is overfull. Fast hardware multipliers do the same. They add many rows of bits at once and keep the carries unsettled, as a second row of numbers, until a single final addition: the carry-save idea."),
             dict(type="callout", kind="circle", label="Full circle",
-                 text=f"C. S. Wallace's 1964 design for a fast multiplier generated \"the product of two numbers using purely combinational logic, i.e., in one gating step\". The program shows why delaying is safe: adding {inv['n']:,} numbers, settling after each one and settling once at the end make exactly the same **{inv['lazy']:,}** exchanges. Only the waiting changes."),
+                 text=f"C. S. Wallace's 1964 design for a fast multiplier generated \"the product of two numbers using purely combinational logic, i.e., in one gating step\": by wiring alone, without stepping through a sequence. The program shows why delaying is safe: adding {inv['n']:,} numbers, settling after each one and settling once at the end make exactly the same **{inv['lazy']:,}** exchanges. Only the waiting changes."),
         ]),
         dict(id="try", eyebrow="Pause and try", title="Before you read on", toc="Pause and try", blocks=[dict(type="tries", items=[
             ("Put 3,746 on a board with fives. How many counters?", "Thousands 3 ones; hundreds 1 five + 2 ones; tens 4 ones; ones 1 five + 1 one: **12 counters**, against 20 on a plain board."),
@@ -305,7 +305,7 @@ def build(ctx):
             dict(title="Salamis counting table, replica", text="Marble replica made in 1966 by Dorothy M. Briggs. Smithsonian, National Museum of American History.",
                  draw=lambda t, s: C.draw_board(t, s), link="https://www.si.edu/object/nmah_690540", link_text="Smithsonian record",
                  licence="Drawn placeholder. The record is CC0; its photograph can be viewed at the link."),
-            dict(title="The Exchequer", text="The *Dialogue concerning the Exchequer*, c. 1179, describes the counting table and its chequered cloth.",
+            dict(title="The Exchequer", text="The *Dialogue concerning the Exchequer*, c. 1179, describes the counting table and its striped black cloth.",
                  draw=C.draw_book, link="https://avalon.law.yale.edu/medieval/excheq.asp", link_text="The text, Avalon Project (Yale Law School)",
                  licence="Drawn placeholder."),
         ])]),
@@ -320,12 +320,12 @@ def build(ctx):
         title="Counting Boards", date="c. 300 BCE",
         description="Era 1, topic 6 of The Algorithm Evolution Atlas: counting boards and the abacus, with a board you can push counters on and settle, and verified links.",
         lede="On these boards nobody writes a digit. Counters go in columns; adding is pushing more on, then settling full columns into the next. The procedure lives in the hands.",
-        fieldnote="Their word calculus is Latin for a small pebble, and the English Exchequer is named after the chequered cloth its officials counted on.",
+        fieldnote="Their word calculus is Latin for a small pebble, and the English Exchequer takes its name from a counting table that looked like a chessboard.",
         card=[("When", "Salamis tablet c. 300 BCE · Roman hand abaci · Exchequer table first mentioned 1110"),
               ("Where", "Greece, Rome, England, China, Japan"),
               ("What hurt", "Written Greek and Roman numerals were poor for calculating"),
               ("The fix", "A place-value machine: push counters, then settle"),
-              ("Cost", f"{av['fives']['moved']:.1f} counter moves per 4-digit addition with fives"),
+              ("Cost", f"{av['fives']['moved']:.1f} counter moves per addition of two numbers below 10,000, with fives"),
               ("Atlas", "Ch. 7.2 The abacus: an early physical algorithm machine")],
         sections=sections,
         footer="Every number on this page is parsed from the output of `CountingBoard.java`. The boards are drawn for this book.",

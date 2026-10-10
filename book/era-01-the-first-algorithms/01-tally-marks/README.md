@@ -6,7 +6,7 @@
 
 | | |
 |---|---|
-| **When** | Border Cave, c. 44,000 years ago · Ishango, c. 25,000–16,000 years ago (dates differ by source) |
+| **When** | Border Cave, c. 44,000 years ago · Ishango, c. 25,000–20,000 years ago by most sources (a re-evaluation cited by the UNESCO portal gives 25,000–16,000) |
 | **Where** | South Africa and the DR Congo (**documented**) |
 | **What hurt** | Remembering *how many* with no words for big numbers |
 | **The fix** | One mark per thing, on something that lasts |
@@ -67,7 +67,7 @@ One look per bundle, plus one for the leftover marks. The model is deliberately 
 
 ## The Ishango bone, notch by notch
 
-The best-known notched bone was excavated in 1950 at Ishango, in what is now the Democratic Republic of the Congo. It is a fossilised bone handle with a quartz tip, and it carries **168 notches** in three columns. The museum that holds it says plainly that it is still not clear what the marks represent. Switch between the readings scholars have proposed:
+The best-known notched bone was excavated in 1950 at Ishango, in what is now the Democratic Republic of the Congo. It is a fossilised bone handle with a quartz tip, and it carries **168 notches** in three columns. The museum that holds it says it is still not clear what the marks represent. The group sizes below are those read by Jean de Heinzelin, who first proposed an arithmetic reading in 1962, as listed by the UNESCO astronomy portal. The readings scholars have proposed follow; in the interactive edition you can switch between them.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/ishango-dark.svg">
@@ -81,7 +81,7 @@ The best-known notched bone was excavated in 1950 at Ishango, in what is now the
 | M | 3, 6, 4, 8, 10, 5, 5, 7 | 48 | no | no | 3 |
 | D | 11, 21, 19, 9 | 60 | no | yes | 0 |
 
-> **Wrong turn.** Group the same marks differently and the pattern changes. The listing writes two of column M's groups as 9 + 1 and 1 + 4. Split them (3, 6, 4, 8, 9, 1, 1, 4, 5, 7) and the total is still 48, but the doubling pairs fall from 3 to **2**. Where a group ends is itself a judgement, and NRICH's version of the same column groups it differently again.
+> **Wrong turn.** Group the same marks differently and the pattern changes. The UNESCO portal's listing writes two of column M's groups as 9 + 1 and 1 + 4. Split them (3, 6, 4, 8, 9, 1, 1, 4, 5, 7) and the total is still 48, but the doubling pairs fall from 3 to **2**. Where a group ends is itself a judgement, and NRICH's version of the same column groups it differently again.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/readings-dark.svg">
@@ -114,7 +114,7 @@ Suppose the carver had cut groups of random sizes. How often would random groups
 
 ## The tally became the log
 
-A tally is only ever added to; the count is its length. Modern systems keep their most important records the same way. In 2013 Jay Kreps, who built the Kafka messaging system at LinkedIn, defined a log as "an append-only, totally-ordered sequence of records ordered by time": a tally of events. A database writes each change to such a log before applying it; in his words, "the log is the record of what happened", and every table is rebuilt from it after a crash.
+A tally is only ever added to; the count is its length. Modern systems keep their most important records the same way. In 2013 Jay Kreps, one of the creators of the Kafka messaging system at LinkedIn, defined a log as "an append-only, totally-ordered sequence of records ordered by time": a tally of events. A database writes each change to such a log before applying it; in his words, "the log is the record of what happened", and every table is rebuilt from it after a crash.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/circle-dark.svg">
@@ -160,7 +160,7 @@ No. The patterns were picked after looking at the bone, and any particular set o
 
 | | Object | Where to see it | Licence |
 |---|---|---|---|
-| — | **The Ishango bone**. A bone handle with a quartz tip and 168 notches, excavated in 1950; about 25,000 to 16,000 years old (sources differ). Royal Belgian Institute of Natural Sciences, Brussels. | [The museum's page](https://ishango.naturalsciences.be/en/en-ishango-20.html) | Drawn placeholder; the museum's photographs are at the link. |
+| — | **The Ishango bone**. A bone handle with a quartz tip and 168 notches, excavated in 1950; about 25,000 to 20,000 years old by most sources, 25,000 to 16,000 by a re-evaluation cited by the UNESCO portal. Royal Belgian Institute of Natural Sciences, Brussels. | [The museum's page](https://ishango.naturalsciences.be/en/en-ishango-20.html) | Drawn placeholder; the museum's photographs are at the link. |
 | — | **Notched bones from Border Cave**. South Africa, about 44,000 years old. The excavators conclude that people there "used notched bones for notational purposes" (d'Errico et al., PNAS 2012). | [The paper's Europe PMC record](https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:10.1073/pnas.1204213109&format=json&resultType=core) | Drawn placeholder. |
 | — | **Medieval Exchequer tally sticks**. London, about 1440. Science Museum Group, object 1952-431. The lender kept the stock, the debtor the foil. | [Science Museum Group record](https://collection.sciencemuseumgroup.org.uk/objects/co60506/medieval-exchequer-tally-sticks) | Drawn placeholder. The museum's photograph is CC BY-NC-SA 4.0, so it is linked, not copied. |
 
@@ -175,11 +175,11 @@ No. The patterns were picked after looking at the bone, and any particular set o
 | Deeper | [Lecture 2: Arithmetic (handout)](https://people.math.harvard.edu/~knill/teaching/mathe320_2010/handouts/01-arithmetic.pdf) — Harvard Math E-320, Oliver Knill | Written lecture notes: tallying with sticks, bones, knots and pebbles, through to Egyptian and Babylonian numerals |
 | Deeper | [Technical Marvels (2): Lebombo and Ishango Bones](https://cacm.acm.org/blogcacm/technical-marvels-part-2-lebombo-and-ishango-bones) — Communications of the ACM blog | A computing historian on both bones as early notation |
 | Deeper | [The Ishango Bone, DR Congo](https://web.astronomicalheritage.net/show-entity?identity=85&idsubentity=1) — UNESCO Portal to the Heritage of Astronomy | Column totals 60, 48, 60, with the counting and lunar readings side by side |
+| Deeper | [Georg Cantor](https://mathshistory.st-andrews.ac.uk/Biographies/Cantor/) — MacTutor | 1874: the reals cannot be counted; 1878: sets of equal power are those in one-to-one correspondence |
 | Scholar | [The first Ishango bone](https://ishango.naturalsciences.be/en/en-ishango-20.html) — RBINS, the holding museum | The museum's own description and its caution about interpretation |
 | Scholar | [The fables of Ishango, or the irresistible temptation of mathematical fiction](http://www.bibnum.education.fr/sites/default/files/ishango-analysis_v2.pdf) — Olivier Keller (2010; English 2015) | The main sceptical analysis |
 | Scholar | [Does the Ishango Bone Indicate Knowledge of the Base 12?](https://arxiv.org/pdf/1204.1019) — Vladimir Pletser, arXiv | The base-12 reading. Read it alongside Keller |
 | Scholar | [The oldest mathematical artefact](https://www.cambridge.org/core/journals/mathematical-gazette/article/abs/7136-the-oldest-mathematical-artefact/65E17776F7EC0D23568F9826F5BC8CDF) — Mathematical Gazette 71 (1987) | The note that named the Lebombo bone the oldest mathematical artefact (preview only) |
-| Deeper | [Georg Cantor](https://mathshistory.st-andrews.ac.uk/Biographies/Cantor/) — MacTutor History of Mathematics | 1878: sets of equal power are those in one-to-one correspondence |
 | Start | [Tally sticks](https://www.parliament.uk/about/living-heritage/building/palace/estatehistory/from-the-parliamentary-collections/fire-of-westminster/tallysticks/) — UK Parliament | Abolished in 1826; burning them caused the fire of 16 October 1834 |
 | Start | [Medieval Exchequer tally sticks](https://collection.sciencemuseumgroup.org.uk/objects/co60506/medieval-exchequer-tally-sticks) — Science Museum Group | A real pair, c. 1440: stock for the lender, foil for the debtor |
 | Deeper | [The Log: What every software engineer should know about real-time data's unifying abstraction](https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying) — Jay Kreps, LinkedIn Engineering (2013) | The append-only log as the core of modern data systems |

@@ -411,7 +411,8 @@ def build(ctx):
         ]),
         dict(id="bone", eyebrow="The evidence", title="The Ishango bone, notch by notch", toc="The bone", blocks=[
             dict(type="p", text=f"The best-known notched bone was excavated in 1950 at Ishango, in what is now the Democratic Republic of the Congo. It is a fossilised bone handle with a quartz tip, and it carries **{d['notches']} notches** in three columns. "
-                                "The museum that holds it says plainly that it is still not clear what the marks represent. Switch between the readings scholars have proposed:"),
+                                "The museum that holds it says it is still not clear what the marks represent. The group sizes below are those read by Jean de Heinzelin, who first proposed an arithmetic reading in 1962, as listed by the UNESCO astronomy portal. "
+                                "The readings scholars have proposed follow; in the interactive edition you can switch between them."),
             dict(type="widget", html=bone_html, js=bone_js,
                  fallback=dict(type="svg", name="ishango", draw=bone_svg(d, layers_on=["numG", "numM", "numD", "totals"]),
                                alt="The Ishango bone's notch groups and column totals"),
@@ -419,7 +420,7 @@ def build(ctx):
             dict(type="table", head=["Column", "Groups (de Heinzelin's reading)", "Total", "All prime?", "All 10 ± 1 or 20 ± 1?", "Doubling pairs"], num=[2, 5],
                  rows=[[k, js_list(ish[k]["groups"]), ish[k]["total"], "yes" if ish[k]["prime"] else "no", "yes" if ish[k]["near"] else "no", ish[k]["dbl"]] for k in "GMD"]),
             dict(type="callout", kind="wrong", label="Wrong turn",
-                 text=f"Group the same marks differently and the pattern changes. The listing writes two of column M's groups as 9 + 1 and 1 + 4. Split them ({js_list(rg['groups'])}) and the total is still {rg['total']}, "
+                 text=f"Group the same marks differently and the pattern changes. The UNESCO portal's listing writes two of column M's groups as 9 + 1 and 1 + 4. Split them ({js_list(rg['groups'])}) and the total is still {rg['total']}, "
                       f"but the doubling pairs fall from {rg['was']} to **{rg['dbl']}**. Where a group ends is itself a judgement, and NRICH's version of the same column groups it differently again."),
             dict(type="diagram", name="readings", diagram=readings(d),
                  caption="Each reading is a conjecture; together they are disputed. Keller's sceptical analysis argues the marks show nothing beyond one-to-one matching."),
@@ -437,7 +438,7 @@ def build(ctx):
         ]),
         dict(id="circle", eyebrow="Full circle", title="The tally became the log", toc="Full circle", blocks=[
             dict(type="p", text="A tally is only ever added to; the count is its length. Modern systems keep their most important records the same way. "
-                                "In 2013 Jay Kreps, who built the Kafka messaging system at LinkedIn, defined a log as \"an append-only, totally-ordered sequence of records ordered by time\": a tally of events. "
+                                "In 2013 Jay Kreps, one of the creators of the Kafka messaging system at LinkedIn, defined a log as \"an append-only, totally-ordered sequence of records ordered by time\": a tally of events. "
                                 "A database writes each change to such a log before applying it; in his words, \"the log is the record of what happened\", and every table is rebuilt from it after a crash."),
             dict(type="diagram", name="circle", diagram=circle()),
             dict(type="callout", kind="circle", label="Full circle",
@@ -457,7 +458,7 @@ def build(ctx):
              "The calculation also assumes group sizes are equally likely from 3 to 21, and that de Heinzelin's groups are the right ones."),
         ])]),
         dict(id="objects", eyebrow="The objects", title="Where the evidence lives", toc="The objects", blocks=[dict(type="objects", items=[
-            dict(title="The Ishango bone", text=f"A bone handle with a quartz tip and {d['notches']} notches, excavated in 1950; about 25,000 to 16,000 years old (sources differ). Royal Belgian Institute of Natural Sciences, Brussels.",
+            dict(title="The Ishango bone", text=f"A bone handle with a quartz tip and {d['notches']} notches, excavated in 1950; about 25,000 to 20,000 years old by most sources, 25,000 to 16,000 by a re-evaluation cited by the UNESCO portal. Royal Belgian Institute of Natural Sciences, Brussels.",
                  draw=C.draw_bone, link="https://ishango.naturalsciences.be/en/en-ishango-20.html", link_text="The museum's page",
                  licence="Drawn placeholder; the museum's photographs are at the link."),
             dict(title="Notched bones from Border Cave", text="South Africa, about 44,000 years old. The excavators conclude that people there \"used notched bones for notational purposes\" (d'Errico et al., PNAS 2012).",
@@ -483,7 +484,7 @@ def build(ctx):
         description="Era 1, topic 1 of The Algorithm Evolution Atlas: tally marks and the Ishango bone, with pairing you can try, the readings of the bone, and verified links.",
         lede="The first data structure: one notch per thing, added and never erased. It needs no words for numbers at all.",
         fieldnote="Before numbers, there is matching: one notch for each animal, each day, each debt. You need no idea of \"seventeen\" to keep this record; you only need to be able to make one mark per thing.",
-        card=[("When", "Border Cave, c. 44,000 years ago · Ishango, c. 25,000–16,000 years ago (dates differ by source)"),
+        card=[("When", "Border Cave, c. 44,000 years ago · Ishango, c. 25,000–20,000 years ago by most sources (a re-evaluation cited by the UNESCO portal gives 25,000–16,000)"),
               ("Where", "South Africa and the DR Congo (**documented**)"),
               ("What hurt", "Remembering *how many* with no words for big numbers"),
               ("The fix", "One mark per thing, on something that lasts"),

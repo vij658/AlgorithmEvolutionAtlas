@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Grouping and the First Carry</title>
+<meta name="description" content="Era 1, topic 2 of The Algorithm Evolution Atlas: grouped numerals in Egypt and Sumer and the first carry, with a pool-and-exchange board, diagrams and verified links.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.pe-board{grid-template-columns:1fr}
+.pe-board .steps{columns:2 18em;column-gap:22px}
+.pe-board select{font:inherit;font-size:14px;padding:4px 6px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+.pe-board .controls input{width:6.5em}
+.pe-board svg{background:none;min-width:560px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 1: The First Algorithms</a><a href="../01-tally-marks/tally-marks.html">← Tally Marks</a><a href="../03-babylonian-place-value/babylonian-place-value.html">Babylonian Place Value →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 1 · Topic 2 · c. 3200–3000 BCE</div>
+    <h1>Grouping and the First Carry</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">Give each bundle of marks its own sign, and adding becomes two moves: pool the signs, then exchange ten of one for one of the next. That exchange is the carry, and it is older than place value.</p>
+  <p class="fieldnote">Field note from the visiting historian. Fourteen strokes in a row cannot be read at a glance; ten strokes swapped for one new sign can. Once the signs exist, adding is pooling them, and whenever too many of one sign pile up you exchange them for one of the next.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#pool">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#steps">Step by step</a><a href="#debate">The evidence</a><a href="#measured">Measured</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Uruk accounts c. 3200–3000 BCE · Egyptian numerals from c. 3000 BCE (<strong>documented</strong>)</dd></div><div><dt>Where</dt><dd>Mesopotamia and Egypt</dd></div><div><dt>What hurt</dt><dd>Long rows of marks are slow to write and impossible to read at a glance</dd></div><div><dt>The fix</dt><dd>A sign for each bundle; add by pooling and exchanging</dd></div><div><dt>Cost</dt><dd>168 takes 15 Egyptian signs instead of 168 marks</dd></div><div><dt>Atlas</dt><dd>Ch. 7.1 Computational limits of additive numerals · Ch. 89 Numeral Systems</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Here the tally (topic 1) gains names for its bundles, and adding gains its first rule: the exchange. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How grouped numerals combined with other ideas, from tally marks to the carry inside a computer" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="234.1" y1="96.0" x2="400.9" y2="160.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="400.9,160.0 391.9,160.5 394.6,153.6" style="fill:var(--ink-2)"/><line x1="500.0" y1="96.0" x2="500.0" y2="160.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,160.0 496.3,151.8 503.7,151.8" style="fill:var(--ink-2)"/><line x1="500.0" y1="236.0" x2="285.0" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="285.0,300.0 291.8,294.1 293.9,301.2" style="fill:var(--ink-2)"/><line x1="500.0" y1="236.0" x2="715.0" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="715.0,300.0 706.1,301.2 708.2,294.1" style="fill:var(--ink-2)"/><line x1="285.0" y1="376.0" x2="500.0" y2="430.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,430.0 491.1,431.6 492.9,424.4" style="fill:var(--ink-2)"/><line x1="715.0" y1="376.0" x2="500.0" y2="430.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,430.0 507.1,424.4 508.9,431.6" style="fill:var(--ink-2)"/><line x1="500.0" y1="506.0" x2="285.0" y2="550.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="285.0,550.0 292.3,544.8 293.8,551.9" style="fill:var(--ink-2)"/><line x1="390.0" y1="588.0" x2="610.0" y2="588.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="610.0,588.0 601.8,591.7 601.8,584.3" style="fill:var(--ink-2)"/><rect x="30" y="20" width="210" height="76" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="42.0" y="55.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Clay tokens</text><text x="42.0" y="72.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">from c. 7500 BCE</text><rect x="395" y="20" width="210" height="76" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="55.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Tally marks</text><text x="407.0" y="72.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 1</text><rect x="395" y="160" width="210" height="76" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="186.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">A sign for each bundle</text><text x="407.0" y="204.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ bundles get names</text><text x="407.0" y="220.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Egypt and Sumer, c. 3000 BCE</text><rect x="180" y="300" width="210" height="76" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="192.0" y="326.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Pool and exchange</text><text x="192.0" y="344.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ an exchange rate</text><text x="192.0" y="360.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the first carry</text><rect x="610" y="300" width="210" height="76" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="622.0" y="326.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Place value</text><text x="622.0" y="344.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ position names the bundle</text><text x="622.0" y="360.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 3</text><rect x="395" y="430" width="210" height="76" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="465.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Column addition</text><text x="407.0" y="482.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ carry into the next column</text><rect x="180" y="550" width="210" height="76" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="192.0" y="576.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Electronic adder</text><text x="192.0" y="594.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ switches</text><text x="192.0" y="610.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">designed 1946</text><rect x="610" y="550" width="210" height="76" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="622.0" y="576.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">How far carries run</text><text x="622.0" y="594.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ probability</text><text x="622.0" y="610.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1946; Holte, 1997</text></svg></div><figcaption>Red: grouped signs and the carry they made necessary. Blue: where the carry went in the twentieth century. The dashed arrow from tokens is disputed (see below).</figcaption></figure>
+</section>
+<section id="pool" aria-labelledby="pool-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="pool-h">Pool the signs, then exchange</h2>
+<p class="col">Write each number with its signs. To add, put the two piles together, then wherever there are too many of one sign, swap them for one sign of the next size. In Egyptian signs the rate is always ten; in the oldest Sumerian accounts it is mostly ten and six (the rations ladder also has a step of two).</p>
+
+<div class="board pe-board">
+  <div style="min-width:0">
+    <div class="controls">
+      <label for="pe-sys">Signs <select id="pe-sys"><option value="egyptian">Egyptian (tens)</option><option value="sumerian">Sumerian (tens and sixes)</option></select></label>
+      <label for="pe-a">a <input id="pe-a" type="number" min="0" max="9999" value="2763" inputmode="numeric"></label>
+      <label for="pe-b">b <input id="pe-b" type="number" min="0" max="9999" value="1489" inputmode="numeric"></label>
+    </div>
+    <div class="controls">
+      <button id="pe-pool" class="primary" type="button">Pool</button>
+      <button id="pe-ex" type="button">Exchange</button>
+      <button id="pe-all" type="button">All exchanges</button>
+      <button id="pe-reset" type="button">Reset</button>
+    </div>
+    <div class="scrollx"><svg id="pe-svg" role="img" aria-label="The signs of two numbers, pooled and exchanged"></svg></div>
+    <div class="presets" aria-label="Examples">
+      <button type="button" data-s="egyptian" data-a="2763" data-b="1489">2,763 + 1,489</button>
+      <button type="button" data-s="egyptian" data-a="9999" data-b="1">9,999 + 1</button>
+      <button type="button" data-s="sumerian" data-a="47" data-b="38">47 + 38 in Sumerian signs</button>
+      <button type="button" data-s="sumerian" data-a="3599" data-b="1">3,599 + 1 in Sumerian signs</button>
+    </div>
+  </div>
+  <div style="min-width:0">
+    <div class="eyebrow">What happened</div>
+    <ol class="steps" id="pe-steps"></ol>
+    <div class="result" id="pe-result" aria-live="polite"></div>
+  </div>
+</div>
+
+<p class="col">The signs are simplified drawings made for this book. MacTutor puts the rule in one sentence: "One just adds the individual symbols, but replacing ten copies of a symbol by a single symbol of the next higher value."</p>
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 1, the first algorithms</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1098 132" role="img" aria-label="Era 1: The First Algorithms, from c. 44,000 years ago to c. 240 BCE" style="font-family:var(--body);min-width:790px;max-width:1153px;margin:0 auto"><line x1="34" y1="34" x2="1064" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 44,000 years ago</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Notched bones</text><circle cx="185.2" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="185.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 3000 BCE</text><text x="185.2" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Written numerals</text><text x="185.2" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">and the first</text><text x="185.2" y="116" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">carry</text><circle cx="306.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="306.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1800 BCE</text><text x="306.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Babylonian place</text><text x="306.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">value and tables</text><circle cx="427.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="427.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1800–1600 BCE</text><text x="427.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">√2 on the tablet</text><text x="427.8" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">YBC 7289</text><circle cx="549.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="549.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1550 BCE</text><text x="549.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Egyptian</text><text x="549.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">multiplication by</text><text x="549.0" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">doubling</text><circle cx="670.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="670.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 300 BCE</text><text x="670.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Counting boards</text><text x="670.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">and the abacus</text><circle cx="791.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="791.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 300 BCE</text><text x="791.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Euclid&#x27;s algorithm</text><circle cx="912.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="912.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 250 BCE</text><text x="912.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Archimedes</text><text x="912.8" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">squeezes π</text><circle cx="1034.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1034.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 240 BCE</text><text x="1034.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">The sieve of</text><text x="1034.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Eratosthenes</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 526" role="img" aria-label="Each fix leaves a new pain: from long tallies to place value" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="62.0" x2="560.0" y2="62.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,62.0 551.8,65.7 551.8,58.3" style="fill:var(--ink-2)"/><rect x="449.2" y="41.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="54.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="104.0" x2="750.0" y2="154.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,154.0 746.3,145.8 753.7,145.8" style="fill:var(--ink-2)"/><rect x="757.0" y="121.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="134.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="196.0" x2="400.0" y2="196.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,196.0 408.2,192.3 408.2,199.7" style="fill:var(--ink-2)"/><rect x="449.2" y="175.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="188.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="238.0" x2="210.0" y2="288.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,288.0 206.3,279.8 213.7,279.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="330.0" x2="560.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,330.0 551.8,333.7 551.8,326.3" style="fill:var(--ink-2)"/><rect x="449.2" y="309.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="322.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="372.0" x2="750.0" y2="422.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,422.0 746.3,413.8 753.7,413.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="464.0" x2="400.0" y2="464.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,464.0 408.2,460.3 408.2,467.7" style="fill:var(--ink-2)"/><rect x="449.2" y="443.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="456.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="57.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="73.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A tally of 168 needs 168 marks</text><rect x="560" y="20" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="49.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="65.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A new sign for each bundle: 168 takes 15 Egyptian signs</text><text x="572.0" y="82.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Egypt and Sumer, c. 3000 BCE</text><rect x="560" y="154" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="183.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="199.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Pooled signs pile up: 2,763 + 1,489 gives 12 ones, 14 tens,</text><text x="572.0" y="216.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">11 hundreds</text><rect x="20" y="154" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="191.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="207.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Exchange ten of a sign for one of the next: the carry</text><rect x="20" y="288" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="317.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="333.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Each kind of goods had its own ladder: one sign could</text><text x="32.0" y="350.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">mean 6, 10 or 18 units</text><rect x="560" y="288" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="317.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="333.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">One abstract system for everything</text><text x="572.0" y="350.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 3</text><rect x="560" y="422" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="459.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="475.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Every power needs its own sign, and 9,999 takes 36 signs</text><rect x="20" y="422" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="451.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="467.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Let the position say which bundle: place value</text><text x="32.0" y="484.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 3</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+<p class="col">Signs for bundles shrink the writing dramatically. The program counts the signs each system needs:</p>
+<div class="tbl"><table><thead><tr><th class="n">Number</th><th class="n">Tally marks</th><th class="n">Egyptian signs</th><th class="n">Sumerian signs (counted objects)</th></tr></thead><tbody><tr class=""><td class="n">7</td><td class="n">7</td><td class="n">7</td><td class="n">7</td></tr><tr class=""><td class="n">60</td><td class="n">60</td><td class="n">6</td><td class="n">1</td></tr><tr class="hl"><td class="n">168</td><td class="n">168</td><td class="n">15</td><td class="n">14</td></tr><tr class=""><td class="n">1,999</td><td class="n">1,999</td><td class="n">28</td><td class="n">16</td></tr><tr class=""><td class="n">4,622</td><td class="n">4,622</td><td class="n">14</td><td class="n">11</td></tr><tr class=""><td class="n">9,999</td><td class="n">9,999</td><td class="n">36</td><td class="n">24</td></tr><tr class=""><td class="n">average, 1 to 9,999</td><td class="n">5,000.0</td><td class="n">18.00</td><td class="n">14.67</td></tr></tbody></table></div>
+<p class="col">The worst number below 10,000 is 9,999 for Egyptian signs (36 signs) and 7,199 for the Sumerian ones (29). More rungs on the ladder mean fewer signs per number, but more kinds of sign to learn.</p>
+</section>
+<section id="steps" aria-labelledby="steps-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">Step by step</span></div>
+  <h2 id="steps-h">2,763 + 1,489, by exchange</h2>
+<div class="tbl"><table><thead><tr><th class="n">Step</th><th class="n">Thousands</th><th class="n">Hundreds</th><th class="n">Tens</th><th class="n">Ones</th><th class="">What happened</th></tr></thead><tbody><tr class="hl"><td class="n">0</td><td class="n">3</td><td class="n">11</td><td class="n">14</td><td class="n">12</td><td class="">Pool the signs of both numbers</td></tr><tr class=""><td class="n">1</td><td class="n">3</td><td class="n">11</td><td class="n">15</td><td class="n">2</td><td class="">Ten ones out, one of the tens in</td></tr><tr class=""><td class="n">2</td><td class="n">3</td><td class="n">12</td><td class="n">5</td><td class="n">2</td><td class="">Ten tens out, one of the hundreds in</td></tr><tr class=""><td class="n">3</td><td class="n">4</td><td class="n">2</td><td class="n">5</td><td class="n">2</td><td class="">Ten hundreds out, one of the thousands in</td></tr></tbody></table></div>
+<p class="col">Result: <strong>4,252</strong>, after <strong>3 exchanges</strong>. The Sumerian ladder works the same way with a different rate at each step. 47 + 38 counted objects:</p>
+<div class="tbl"><table><thead><tr><th class="n">Step</th><th class="n">Sixties</th><th class="n">Tens</th><th class="n">Ones</th><th class="">What happened</th></tr></thead><tbody><tr class="hl"><td class="n">0</td><td class="n">0</td><td class="n">7</td><td class="n">15</td><td class="">Pool the signs</td></tr><tr class=""><td class="n">1</td><td class="n">0</td><td class="n">8</td><td class="n">5</td><td class="">Ten small cones out, one small circle in</td></tr><tr class=""><td class="n">2</td><td class="n">1</td><td class="n">2</td><td class="n">5</td><td class="">Six small circles out, one large cone in</td></tr></tbody></table></div>
+<p class="col">Result: <strong>85</strong> = 1 sixty, 2 tens and 5 ones, after 2 exchanges. Nothing in the method needs ten: only an agreed rate for each step.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1024 390" role="img" aria-label="Three ladders of exchange rates: Egyptian tens, and two Sumerian ladders of tens, sixes and a two" style="font-family:var(--body);min-width:737px;max-width:1075px;margin:0 auto"><line x1="116.0" y1="66.0" x2="162.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="162.0,66.0 153.8,69.7 153.8,62.3" style="fill:var(--ink-2)"/><rect x="122.9" y="47.0" width="32.1" height="19" rx="3" style="fill:var(--surface)"/><text x="139.0" y="60.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">×10</text><line x1="258.0" y1="66.0" x2="304.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="304.0,66.0 295.8,69.7 295.8,62.3" style="fill:var(--ink-2)"/><rect x="264.9" y="47.0" width="32.1" height="19" rx="3" style="fill:var(--surface)"/><text x="281.0" y="60.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">×10</text><line x1="400.0" y1="66.0" x2="446.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="446.0,66.0 437.8,69.7 437.8,62.3" style="fill:var(--ink-2)"/><rect x="406.9" y="47.0" width="32.1" height="19" rx="3" style="fill:var(--surface)"/><text x="423.0" y="60.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">×10</text><line x1="542.0" y1="66.0" x2="588.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="588.0,66.0 579.8,69.7 579.8,62.3" style="fill:var(--ink-2)"/><rect x="548.9" y="47.0" width="32.1" height="19" rx="3" style="fill:var(--surface)"/><text x="565.0" y="60.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">×10</text><line x1="684.0" y1="66.0" x2="730.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="730.0,66.0 721.8,69.7 721.8,62.3" style="fill:var(--ink-2)"/><rect x="690.9" y="47.0" width="32.1" height="19" rx="3" style="fill:var(--surface)"/><text x="707.0" y="60.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">×10</text><line x1="826.0" y1="66.0" x2="872.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="872.0,66.0 863.8,69.7 863.8,62.3" style="fill:var(--ink-2)"/><rect x="832.9" y="47.0" width="32.1" height="19" rx="3" style="fill:var(--surface)"/><text x="849.0" y="60.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">×10</text><line x1="116.0" y1="186.0" x2="162.0" y2="186.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="162.0,186.0 153.8,189.7 153.8,182.3" style="fill:var(--ink-2)"/><rect x="122.9" y="167.0" width="32.1" height="19" rx="3" style="fill:var(--surface)"/><text x="139.0" y="180.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">×10</text><line x1="258.0" y1="186.0" x2="304.0" y2="186.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="304.0,186.0 295.8,189.7 295.8,182.3" style="fill:var(--ink-2)"/><rect x="268.6" y="167.0" width="24.8" height="19" rx="3" style="fill:var(--surface)"/><text x="281.0" y="180.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">×6</text><line x1="400.0" y1="186.0" x2="446.0" y2="186.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="446.0,186.0 437.8,189.7 437.8,182.3" style="fill:var(--ink-2)"/><rect x="406.9" y="167.0" width="32.1" height="19" rx="3" style="fill:var(--surface)"/><text x="423.0" y="180.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">×10</text><line x1="542.0" y1="186.0" x2="588.0" y2="186.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="588.0,186.0 579.8,189.7 579.8,182.3" style="fill:var(--ink-2)"/><rect x="552.6" y="167.0" width="24.8" height="19" rx="3" style="fill:var(--surface)"/><text x="565.0" y="180.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">×6</text><line x1="684.0" y1="186.0" x2="730.0" y2="186.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="730.0,186.0 721.8,189.7 721.8,182.3" style="fill:var(--ink-2)"/><rect x="690.9" y="167.0" width="32.1" height="19" rx="3" style="fill:var(--surface)"/><text x="707.0" y="180.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">×10</text><line x1="116.0" y1="306.0" x2="162.0" y2="306.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="162.0,306.0 153.8,309.7 153.8,302.3" style="fill:var(--ink-2)"/><rect x="122.9" y="287.0" width="32.1" height="19" rx="3" style="fill:var(--surface)"/><text x="139.0" y="300.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">×10</text><line x1="258.0" y1="306.0" x2="304.0" y2="306.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="304.0,306.0 295.8,309.7 295.8,302.3" style="fill:var(--ink-2)"/><rect x="268.6" y="287.0" width="24.8" height="19" rx="3" style="fill:var(--surface)"/><text x="281.0" y="300.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">×6</text><line x1="400.0" y1="306.0" x2="446.0" y2="306.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="446.0,306.0 437.8,309.7 437.8,302.3" style="fill:var(--ink-2)"/><rect x="410.6" y="287.0" width="24.8" height="19" rx="3" style="fill:var(--surface)"/><text x="423.0" y="300.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">×2</text><line x1="542.0" y1="306.0" x2="588.0" y2="306.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="588.0,306.0 579.8,309.7 579.8,302.3" style="fill:var(--ink-2)"/><rect x="548.9" y="287.0" width="32.1" height="19" rx="3" style="fill:var(--surface)"/><text x="565.0" y="300.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">×10</text><line x1="684.0" y1="306.0" x2="730.0" y2="306.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="730.0,306.0 721.8,309.7 721.8,302.3" style="fill:var(--ink-2)"/><rect x="694.6" y="287.0" width="24.8" height="19" rx="3" style="fill:var(--surface)"/><text x="707.0" y="300.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">×6</text><rect x="20" y="40" width="96" height="52" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="71.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">1</text><rect x="162" y="40" width="96" height="52" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="174.0" y="71.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">10</text><rect x="304" y="40" width="96" height="52" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="316.0" y="71.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">100</text><rect x="446" y="40" width="96" height="52" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="458.0" y="71.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">1,000</text><rect x="588" y="40" width="96" height="52" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="600.0" y="71.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">10,000</text><rect x="730" y="40" width="96" height="52" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="742.0" y="71.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">100,000</text><rect x="872" y="40" width="96" height="52" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="884.0" y="71.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">1,000,000</text><rect x="20" y="160" width="96" height="52" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="191.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">1</text><rect x="162" y="160" width="96" height="52" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="174.0" y="191.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">10</text><rect x="304" y="160" width="96" height="52" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="316.0" y="191.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">60</text><rect x="446" y="160" width="96" height="52" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="458.0" y="191.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">600</text><rect x="588" y="160" width="96" height="52" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="600.0" y="191.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">3,600</text><rect x="730" y="160" width="96" height="52" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="742.0" y="191.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">36,000</text><rect x="20" y="280" width="96" height="52" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="311.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">1</text><rect x="162" y="280" width="96" height="52" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="174.0" y="311.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">10</text><rect x="304" y="280" width="96" height="52" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="316.0" y="311.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">60</text><rect x="446" y="280" width="96" height="52" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="458.0" y="311.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">120</text><rect x="588" y="280" width="96" height="52" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="600.0" y="311.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">1,200</text><rect x="730" y="280" width="96" height="52" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="742.0" y="311.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">7,200</text><text x="20.0" y="28.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">EGYPTIAN SIGNS</text><text x="20.0" y="148.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">SUMERIAN, COUNTED OBJECTS</text><text x="20.0" y="268.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">SUMERIAN, RATIONS</text></svg></div><figcaption>The Sumerian ladders follow Duncan Melville's account: the counted-objects system reaches 36,000 units and the rations system 7,200. The same sign could mean different amounts in different systems.</figcaption></figure>
+<div class="callout key col"><div class="k">Key idea</div><p>An exchange can trigger the next one. In 9,999 + 1 the ten ones become a ten, which makes ten tens, which makes ten hundreds, and so on. One added stroke forces four exchanges:</p></div>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 980 170" role="img" aria-label="9,999 + 1: one carry ripples through four exchanges" style="font-family:var(--body);min-width:705px;max-width:1029px;margin:0 auto"><line x1="170.0" y1="78.0" x2="212.0" y2="78.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="212.0,78.0 203.8,81.7 203.8,74.3" style="fill:var(--ink-2)"/><line x1="362.0" y1="78.0" x2="404.0" y2="78.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="404.0,78.0 395.8,81.7 395.8,74.3" style="fill:var(--ink-2)"/><line x1="554.0" y1="78.0" x2="596.0" y2="78.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="596.0,78.0 587.8,81.7 587.8,74.3" style="fill:var(--ink-2)"/><line x1="746.0" y1="78.0" x2="788.0" y2="78.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="788.0,78.0 779.8,81.7 779.8,74.3" style="fill:var(--ink-2)"/><rect x="20" y="40" width="150" height="76" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="75.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">10 ones</text><text x="32.0" y="92.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">become 1 of the tens</text><rect x="212" y="40" width="150" height="76" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="224.0" y="66.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">10 tens</text><text x="224.0" y="84.2" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">become 1 of the</text><text x="224.0" y="100.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">hundreds</text><rect x="404" y="40" width="150" height="76" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="416.0" y="66.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">10 hundreds</text><text x="416.0" y="84.2" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">become 1 of the</text><text x="416.0" y="100.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">thousands</text><rect x="596" y="40" width="150" height="76" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="608.0" y="66.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">10 thousands</text><text x="608.0" y="84.2" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">become 1 of the</text><text x="608.0" y="100.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">ten-thousands</text><rect x="788" y="40" width="150" height="76" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="800.0" y="77.7" text-anchor="start" style="fill:var(--ink);font-size:22px;font-weight:700">10,000</text><text x="800.0" y="97.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">one sign</text><text x="20.0" y="22.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">9,999 + 1, POOLED: TEN ONES</text><text x="20.0" y="150.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Each exchange makes the next one necessary. This is the carry that a computer&#x27;s adder must pass along too.</text></svg></div></figure>
+</section>
+<section id="debate" aria-labelledby="debate-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="debate-h">Where did written numbers come from?</h2>
+<p class="col">Denise Schmandt-Besserat's account runs in one line: plain clay tokens (about 7500 to 3500 BCE), then tokens sealed in clay envelopes, then tablets with impressed signs, then abstract numerals. Valerio and Ferrara (2022) argue instead that numerals and proto-cuneiform signs were "two distinct but converging developments". <strong>Disputed</strong>.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 330" role="img" aria-label="Where did written numbers come from? Two accounts" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="230.0" y1="76.0" x2="265.0" y2="76.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="265.0,76.0 256.8,79.7 256.8,72.3" style="fill:var(--ink-2)"/><line x1="475.0" y1="76.0" x2="510.0" y2="76.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="510.0,76.0 501.8,79.7 501.8,72.3" style="fill:var(--ink-2)"/><line x1="720.0" y1="76.0" x2="755.0" y2="76.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="755.0,76.0 746.8,79.7 746.8,72.3" style="fill:var(--ink-2)"/><line x1="320.0" y1="224.0" x2="600.0" y2="258.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="600.0,258.0 591.4,260.7 592.3,253.4" style="fill:var(--ink-2)"/><line x1="320.0" y1="292.0" x2="600.0" y2="258.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="600.0,258.0 592.3,262.6 591.4,255.3" style="fill:var(--ink-2)"/><rect x="20" y="44" width="210" height="64" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="80.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Plain clay tokens</text><rect x="265" y="44" width="210" height="64" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="277.0" y="72.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Tokens sealed in clay</text><text x="277.0" y="88.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">envelopes</text><rect x="510" y="44" width="210" height="64" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="522.0" y="72.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Token shapes pressed into</text><text x="522.0" y="88.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">tablets</text><rect x="755" y="44" width="210" height="64" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="767.0" y="80.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Number signs, then writing</text><rect x="20" y="196" width="300" height="56" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="228.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Number signs</text><rect x="20" y="264" width="300" height="56" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="296.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Proto-cuneiform word signs</text><rect x="600" y="223" width="340" height="70" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="612.0" y="254.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Accounts that use both</text><text x="612.0" y="270.8" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Uruk, c. 3200–3000 BCE</text><text x="20.0" y="30.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">SCHMANDT-BESSERAT: ONE LINE OF DESCENT</text><text x="20.0" y="178.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">VALERIO AND FERRARA (2022): TWO DEVELOPMENTS THAT CONVERGE</text></svg></div><figcaption>The token account is widely taught; the critique is recent. Both agree that by about 3200–3000 BCE the accounts of Uruk wrote numbers with bundled signs (<strong>documented</strong>).</figcaption></figure>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">How often does a carry happen?</h2>
+<p class="col">Add two long random numbers. How many columns pass a carry on? The program added 200,000 pairs of 12-digit numbers. In the first column 45 of the 100 possible digit pairs make a carry, so it carries 45% of the time (0.4480 in the program's random sample). Further along, a carry coming in makes the next carry more likely:</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 900 280" role="img" aria-label="Carries as a two-state chain: with or without a carry coming in" style="font-family:var(--body);min-width:648px;max-width:945px;margin:0 auto"><line x1="320.0" y1="120.0" x2="580.0" y2="120.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="580.0,120.0 571.8,123.7 571.8,116.3" style="fill:var(--ink-2)"/><rect x="389.7" y="99.0" width="120.6" height="19" rx="3" style="fill:var(--surface)"/><text x="450.0" y="112.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">a carry: 45 in 100</text><line x1="580.0" y1="160.0" x2="320.0" y2="160.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="320.0,160.0 328.2,156.3 328.2,163.7" style="fill:var(--ink-2)"/><rect x="386.0" y="167.0" width="128.0" height="19" rx="3" style="fill:var(--surface)"/><text x="450.0" y="180.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">no carry: 45 in 100</text><rect x="60" y="90" width="260" height="100" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="72.0" y="127.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">NO CARRY COMING IN</text><text x="72.0" y="143.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">45 of 100 digit pairs pass one on</text><text x="72.0" y="160.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">55 of 100 do not</text><rect x="580" y="90" width="260" height="100" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="592.0" y="127.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">A CARRY COMING IN</text><text x="592.0" y="143.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">55 of 100 digit pairs pass one on</text><text x="592.0" y="160.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">45 of 100 do not</text><text x="450.0" y="40.0" text-anchor="middle" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE NEXT COLUMN DEPENDS ONLY ON THIS ONE</text><text x="450.0" y="250.0" text-anchor="middle" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Leaving each state is equally likely (45 in 100), so in the long run half of all columns carry.</text></svg></div></figure>
+<div class="tbl"><table><thead><tr><th class="">What was measured</th><th class="n">Share of columns that carry</th></tr></thead><tbody><tr class=""><td class="">First column (no carry can come in)</td><td class="n">0.4480</td></tr><tr class=""><td class="">All 12 columns</td><td class="n">0.4948</td></tr><tr class=""><td class="">Columns 21 to 40 of 40-digit numbers</td><td class="n"><strong>0.5000</strong></td></tr></tbody></table></div>
+<p class="col">John Holte proved in 1997 that the long-run share is exactly one half, and that the carries form a Markov chain: the chance of the next carry depends only on whether this column carried.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">The carry inside the computer</h2>
+<p class="col">In 1946 Arthur Burks, Herman Goldstine and John von Neumann wrote the design of a stored-program computer that worked in binary, with 40-digit numbers. For its adder they worked out how far a carry travels. Their answer: the longest carry chain averages no more than log₂ 40 (the power of 2 that gives 40), about 5.3 places, "an average length of about 5 for the longest carry sequence".</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>The program added 200,000 pairs of random 40-bit numbers. The longest carry chain averaged <strong>4.609</strong> places (their bound: 5.322). The most common longest chain was 4, the longest seen 21, against a worst case of 40. Five thousand years after the first exchange of ten strokes for one sign, how far a carry travels had become a question about how fast a computer can add.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>How many Egyptian signs does 1,999 need? How many tally marks?</span></summary><div class="ans"><p><strong>28</strong> signs (1 thousand, 9 hundreds, 9 tens, 9 ones) against <strong>1,999</strong> marks. In the Sumerian counted-objects system it takes 16.</p></div></details><details class="try"><summary><span class="q">2</span><span>Add 2,763 + 1,489 in Egyptian signs. How many exchanges?</span></summary><div class="ans"><p>Pooled: 12 ones, 14 tens, 11 hundreds, 3 thousands. Exchanging gives <strong>4,252</strong> in <strong>3</strong> exchanges.</p></div></details><details class="try"><summary><span class="q">3</span><span>Why can adding two numbers in Egyptian signs never need two exchanges in the same column?</span></summary><div class="ans"><p>Each number has at most 9 of a sign, so the pool has at most 9 + 9 = 18, plus 1 carried in: 19. That is less than 20, so one exchange always clears the column.</p></div></details><details class="try"><summary><span class="q">4</span><span>In the Sumerian counted-objects system, how many units is the sign after 600 worth?</span></summary><div class="ans"><p><strong>3,600</strong>: 600 × 6. The ladder is 1, 10, 60, 600, 3,600, 36,000.</p></div></details><details class="try"><summary><span class="q">5</span><span>If half of all columns carry in the long run, why does the first column carry less often?</span></summary><div class="ans"><p>Nothing can carry into the first column. Without a carry coming in, only 45 of the 100 digit pairs reach ten; with one, 55 do.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><img src="https://images.metmuseum.org/CRDImages/an/web-large/DP293243.jpg" alt="Proto-cuneiform tablet, account of barley" onerror="this.closest('.obj').classList.add('noimg')"><div class="fallback"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a clay tablet" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="40.0" y="18.0" width="120.0" height="114.0" rx="14" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><path d="M62,50 l8.0,-4.0 l0,8.0 Z" style="fill:var(--ink)"/><line x1="70.0" y1="50.0" x2="82.0" y2="50.0" style="stroke:var(--ink);stroke-width:1.6"/><path d="M88,50 l8.0,-4.0 l0,8.0 Z" style="fill:var(--ink)"/><line x1="96.0" y1="50.0" x2="108.0" y2="50.0" style="stroke:var(--ink);stroke-width:1.6"/><path d="M114,50 l8.0,-4.0 l0,8.0 Z" style="fill:var(--ink)"/><line x1="122.0" y1="50.0" x2="134.0" y2="50.0" style="stroke:var(--ink);stroke-width:1.6"/><path d="M62,74 l8.0,-4.0 l0,8.0 Z" style="fill:var(--red)"/><line x1="70.0" y1="74.0" x2="82.0" y2="74.0" style="stroke:var(--red);stroke-width:1.6"/><path d="M88,74 l8.0,-4.0 l0,8.0 Z" style="fill:var(--red)"/><line x1="96.0" y1="74.0" x2="108.0" y2="74.0" style="stroke:var(--red);stroke-width:1.6"/><path d="M62,98 l8.0,-4.0 l0,8.0 Z" style="fill:var(--ink)"/><line x1="70.0" y1="98.0" x2="82.0" y2="98.0" style="stroke:var(--ink);stroke-width:1.6"/><path d="M88,98 l8.0,-4.0 l0,8.0 Z" style="fill:var(--ink)"/><line x1="96.0" y1="98.0" x2="108.0" y2="98.0" style="stroke:var(--ink);stroke-width:1.6"/><path d="M114,98 l8.0,-4.0 l0,8.0 Z" style="fill:var(--ink)"/><line x1="122.0" y1="98.0" x2="134.0" y2="98.0" style="stroke:var(--ink);stroke-width:1.6"/></svg><span>Photograph not shown here: open it from the link below.</span></div></div><figcaption class="txt"><b>Proto-cuneiform tablet, account of barley</b><span>Jemdet Nasr period, c. 3100–2900 BCE. The round and conical impressions are numbers. Metropolitan Museum of Art, 1988.433.1.</span><a href="https://www.metmuseum.org/art/collection/search/329081">The Met&#x27;s record</a><span class="lic">Photo: The Metropolitan Museum of Art, Open Access, public domain.</span></figcaption></figure><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 140" role="img" aria-label="Drawn placeholder of a clay envelope and tokens" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><circle cx="84.0" cy="70.0" r="44.0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><circle cx="70.0" cy="56.0" r="5.0" style="fill:none;stroke:var(--axis);stroke-width:1.5"/><circle cx="96.0" cy="82.0" r="5.0" style="fill:none;stroke:var(--axis);stroke-width:1.5"/><path d="M80,92 l6,-12 l6,12 Z" style="fill:none;stroke:var(--axis);stroke-width:1.5"/><circle cx="150.0" cy="50.0" r="6.0" style="fill:var(--red)"/><path d="M142,86 l8,-14 l8,14 Z" style="fill:var(--blue)"/><rect x="160.0" y="96.0" width="12.0" height="12.0" rx="0" style="fill:var(--yellow)"/><circle cx="172.0" cy="64.0" r="4.0" style="fill:var(--red)"/></svg></div><figcaption class="txt"><b>Clay envelope with tokens, Susa</b><span>A hollow clay ball (bulla) that held tokens, with impressions on its surface. Musée du Louvre, SB 1967.</span><a href="https://collections.louvre.fr/en/ark:/53355/cl010176019">The Louvre&#x27;s record</a><span class="lic">Drawn placeholder; the museum's photographs are at the link.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://www.youtube.com/watch?v=RR3zzQP3bII" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Cuneiform Numbers · Numberphile (Alex Bellos)</span><span class="w">How numbers were written in cuneiform</span></a><a href="https://www.youtube.com/watch?v=z8f4MR6m7YY" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Egyptian Number System · Khan Academy India</span><span class="w">The hieroglyphic signs for powers of ten</span></a><a href="https://www.youtube.com/watch?v=YdOXWQuNsDE" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Arithmetic Operations in Egyptian Number System · Khan Academy India</span><span class="w">Adding with Egyptian numerals: the pool-and-exchange carry</span></a><a href="https://www.youtube.com/watch?v=BLHhcYFeC5A" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">The most important lumps of dry mud in history · Stefan Milo</span><span class="w">Clay tokens as counters that became writing (does not mention the critiques)</span></a><a href="https://www.youtube.com/watch?v=Rgdb-sY0Y4A" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">From Laundry Lists to Liturgies: The Origins of Writing in Ancient Mesopotamia · Getty Museum, Irving Finkel (British Museum)</span><span class="w">90-minute talk on how cuneiform began, accounting included</span></a><a href="https://www.youtube.com/watch?v=M7bg0PsNXMQ" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Denise Schmandt-Besserat — How Writing Came About · Talk by the author of the token theory</span><span class="w">The theory in her own words; pair it with Valerio and Ferrara</span></a><a href="https://www.youtube.com/watch?v=NgNNkUewUGQ" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Number Systems Ancient to Modern 1: the Egyptians · Insights into Mathematics, N. J. Wildberger (UNSW)</span><span class="w">Long lecture on the Egyptian system</span></a><a href="https://sites.utexas.edu/dsb/tokens/tokens/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Tokens: their significance for the origin of counting and writing · Denise Schmandt-Besserat, UT Austin</span><span class="w">The token sequence with dates</span></a><a href="https://collections.louvre.fr/en/ark:/53355/cl010176019" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Bulla with impressions and tokens (SB 1967) · Musée du Louvre</span><span class="w">A real clay envelope from Susa holding 15 tokens</span></a><a href="https://www.metmuseum.org/art/collection/search/329081" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Proto-cuneiform tablet: account of barley distribution · Metropolitan Museum of Art</span><span class="w">Jemdet Nasr tablet, c. 3100–2900 BCE, with circular impressions used as numbers</span></a><a href="https://www.sciencedirect.com/science/article/pii/S0315086020300665" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Numeracy at the dawn of writing: Mesopotamia and beyond · Valerio and Ferrara, Historia Mathematica 59 (2022)</span><span class="w">The critique of the token theory</span></a><a href="https://www.mpiwg-berlin.mpg.de/Preprints/P183.PDF" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">The state of decipherment of proto-Elamite · Robert K. Englund, MPIWG Preprint 183</span><span class="w">Proto-cuneiform number systems and their link to tokens</span></a><a href="https://sites.math.washington.edu/~billey/classes/561.fall.2019/past.articles/holte.pdf" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Carries, Combinatorics, and an Amazing Matrix · John M. Holte, American Mathematical Monthly 104 (1997)</span><span class="w">Carries form a Markov chain; in the long run half the columns carry</span></a><a href="https://www.cs.unc.edu/~adyilie/comp265/vonNeumann.html" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Preliminary discussion of the logical design of an electronic computing instrument · Burks, Goldstine and von Neumann (1946)</span><span class="w">Section 5.6: the longest carry sequence averages about 5 for 40 digits</span></a><a href="https://ar5iv.labs.arxiv.org/html/0806.3583" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Carries, Shuffling and An Amazing Matrix · Diaconis and Fulman (2008), arXiv</span><span class="w">Where Holte&#x27;s carries chain leads: card shuffling and Eulerian numbers</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-01-the-first-algorithms/reference-catalog.md">Era 1 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-01-the-first-algorithms/02-grouping-and-the-first-carry/GroupingAndCarry.java">GroupingAndCarry.java</a> makes <strong>6,000,027 checks</strong>: pool-and-exchange against ordinary addition on 300,000 random pairs in three systems, the ladders against Melville's totals, and every binary carry against the machine's own addition. Run it with <code>java GroupingAndCarry.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/**</span>
+<span class="k-c"> * Add two numbers written in signs. Pool them (add the counts sign by sign), then walk from the smallest sign</span>
+<span class="k-c"> * upwards: while there are at least `rate` of a sign, take that many away and add one of the next sign.</span>
+<span class="k-c"> */</span>
+<span class="k-kw">static</span> Sum add(NumberSystem s, <span class="k-kw">int</span>[] a, <span class="k-kw">int</span>[] b, <span class="k-kw">boolean</span> keepStates) {
+    <span class="k-kw">int</span>[] c = <span class="k-kw">new</span> <span class="k-kw">int</span>[a.length];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; c.length; i++) c[i] = a[i] + b[i];            <span class="k-c">// pool</span>
+    <span class="k-kw">List</span>&lt;<span class="k-kw">int</span>[]&gt; states = <span class="k-kw">new</span> ArrayList&lt;&gt;();
+    <span class="k-kw">if</span> (keepStates) states.add(c.clone());
+    <span class="k-kw">int</span> exchanges = <span class="k-n">0</span>;
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; s.rates().length; i++) {
+        <span class="k-kw">while</span> (c[i] &gt;= s.rates()[i]) {                                <span class="k-c">// too many of this sign</span>
+            c[i] -= s.rates()[i];                                     <span class="k-c">// give up `rate` of them ...</span>
+            c[i + <span class="k-n">1</span>] += <span class="k-n">1</span>;                                            <span class="k-c">// ... for one of the next size: the carry</span>
+            exchanges++;
+            <span class="k-kw">if</span> (keepStates) states.add(c.clone());
+        }
+    }
+    <span class="k-kw">return</span> <span class="k-kw">new</span> Sum(c, exchanges, states);
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>GroupingAndCarry.java</code>. The signs are simplified drawings made for this book.<br><span class="navfoot"><a href="../index.html">Era 1: The First Algorithms</a><a href="../01-tally-marks/tally-marks.html">← Tally Marks</a><a href="../03-babylonian-place-value/babylonian-place-value.html">Babylonian Place Value →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const svg = document.getElementById("pe-svg");
+  if (!svg) return;
+  const SYS = {"egyptian": {"rates": [10, 10, 10, 10], "prefix": "e"}, "sumerian": {"rates": [10, 6, 10, 6], "prefix": "s"}};
+  const DEFS = "<defs><symbol id=\"g-e0\" viewBox=\"0 0 20 24\"><line x1=\"10\" y1=\"3\" x2=\"10\" y2=\"21\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"3\"/></symbol><symbol id=\"g-e1\" viewBox=\"0 0 20 24\"><path d=\"M4,21 V11 A6,6 0 0 1 16,11 V21\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></symbol><symbol id=\"g-e2\" viewBox=\"0 0 20 24\"><path d=\"M10,12 a1.6,1.6 0 1 1 3.2,0 a3.6,3.6 0 1 1 -7.2,0 a5.6,5.6 0 1 1 11.2,0 a7.4,7.4 0 0 1 -6,7.3 V22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></symbol><symbol id=\"g-e3\" viewBox=\"0 0 20 24\"><path d=\"M10,22 V9 M10,15 C6,15 5,12 6,10 M10,9 C7,8 6,5 7,2 C8.5,4 9.5,5 10,6.5 C10.5,5 11.5,4 13,2 C14,5 13,8 10,9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></symbol><symbol id=\"g-e4\" viewBox=\"0 0 20 24\"><path d=\"M9,22 V7 a2.6,2.6 0 0 1 5.2,0 V12 l-2.5,2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></symbol><symbol id=\"g-s0\" viewBox=\"0 0 20 24\"><path d=\"M10,3 L13,20 Q10,23 7,20 Z\" fill=\"currentColor\"/></symbol><symbol id=\"g-s1\" viewBox=\"0 0 20 24\"><circle cx=\"10\" cy=\"12\" r=\"5.5\" fill=\"currentColor\"/></symbol><symbol id=\"g-s2\" viewBox=\"0 0 20 24\"><path d=\"M10,1 L16,21 Q10,25 4,21 Z\" fill=\"currentColor\"/></symbol><symbol id=\"g-s3\" viewBox=\"0 0 20 24\"><path d=\"M10,1 L16,21 Q10,25 4,21 Z\" fill=\"currentColor\"/><circle cx=\"10\" cy=\"15\" r=\"3.2\" fill=\"var(--surface, #fff)\"/></symbol><symbol id=\"g-s4\" viewBox=\"0 0 20 24\"><circle cx=\"10\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.2\"/></symbol><symbol id=\"g-s5\" viewBox=\"0 0 20 24\"><circle cx=\"10\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.2\"/><circle cx=\"10\" cy=\"12\" r=\"3.4\" fill=\"currentColor\"/></symbol></defs>";
+  let sys = "egyptian", A = 2763, B = 1489, pooled = null, ex = 0, justIn = -1, log = [];
+  const val = s => { const v = [1]; for (const r of SYS[s].rates) v.push(v[v.length - 1] * r); return v; };
+  const toSigns = (s, n) => { const v = val(s), c = v.map(() => 0); for (let i = v.length - 1; i >= 0; i--) { c[i] = Math.floor(n / v[i]); n %= v[i]; } return c; };
+  const total = (s, c) => val(s).reduce((t, v, i) => t + v * c[i], 0);
+  const W = 128, CELL = 22, ROWH = 26, PER = 5, N = 5;
+  function band(y, title, counts, faded, hotCol) {
+    const rows = Math.max(1, ...counts.map(c => Math.ceil(c / PER)));
+    sv("line", {x1: 20, y1: y, x2: 96 + N * W - 20, y2: y, stroke: "var(--rule)"}, svg);
+    sv("text", {x: 20, y: y + 20, fill: "var(--ink-2)", "font-size": 12, "font-weight": 600}, svg, title);
+    for (let j = 0; j < N; j++) {
+      const i = N - 1 - j;
+      for (let k = 0; k < (counts[i] || 0); k++) {
+        const u = sv("use", {href: `#g-${SYS[sys].prefix}${i}`, x: 96 + j * W + (k % PER) * CELL, y: y + 8 + Math.floor(k / PER) * ROWH, width: 18, height: 21.6}, svg);
+        u.style.color = faded ? "var(--axis)" : (i === justIn && k === counts[i] - 1 ? "var(--yellow)" : (i === hotCol ? "var(--red)" : "var(--ink)"));
+      }
+    }
+    return y + rows * ROWH + 14;
+  }
+  function draw() {
+    svg.innerHTML = DEFS;
+    const v = val(sys);
+    for (let j = 0; j < N; j++) {
+      const i = N - 1 - j, x = 96 + j * W;
+      const u = sv("use", {href: `#g-${SYS[sys].prefix}${i}`, x, y: 14, width: 18, height: 21.6}, svg);
+      u.style.color = "var(--ink)";
+      sv("text", {x: x + 24, y: 30, fill: "var(--muted)", "font-size": 12}, svg, fmt(v[i]));
+    }
+    let y = 50;
+    y = band(y, fmt(A), toSigns(sys, A), pooled !== null, -1);
+    y = band(y, fmt(B), toSigns(sys, B), pooled !== null, -1);
+    if (pooled) {
+      const k = pooled.findIndex((c, i) => i < SYS[sys].rates.length && c >= SYS[sys].rates[i]);
+      y = band(y, "Pooled", pooled, false, k);
+    }
+    svg.setAttribute("viewBox", `0 0 ${96 + N * W} ${y + 6}`);
+    const steps = document.getElementById("pe-steps");
+    steps.innerHTML = "";
+    const items = [pooled ? "Pool the signs of both numbers." : "Press Pool to put the two piles together.", ...log];
+    items.forEach((t, i) => el("li", {class: i === items.length - 1 ? "current" : ""}, steps, t));
+    const res = document.getElementById("pe-result");
+    if (!pooled) { res.textContent = ""; return; }
+    const k = pooled.findIndex((c, i) => i < SYS[sys].rates.length && c >= SYS[sys].rates[i]);
+    res.innerHTML = k < 0 ? `<b>${fmt(total(sys, pooled))}</b> = ${fmt(A)} + ${fmt(B)}, after ${ex} exchange${ex === 1 ? "" : "s"}. No sign appears too often: the sum is written.`
+                          : `${ex} exchange${ex === 1 ? "" : "s"} so far. The red signs are too many: ${SYS[sys].rates[k]} of them make one of the next size. ${justIn >= 0 ? "The yellow sign is the one just carried in." : ""}`;
+  }
+  function exchange() {
+    if (!pooled) return false;
+    const k = pooled.findIndex((c, i) => i < SYS[sys].rates.length && c >= SYS[sys].rates[i]);
+    if (k < 0) return false;
+    const r = SYS[sys].rates[k], v = val(sys);
+    pooled[k] -= r; pooled[k + 1] += 1; ex++; justIn = k + 1;
+    log.push(`${r} signs of ${fmt(v[k])} out, one sign of ${fmt(v[k + 1])} in.`);
+    return true;
+  }
+  function read() {
+    sys = document.getElementById("pe-sys").value;
+    A = Math.max(0, Math.min(9999, Math.floor(+document.getElementById("pe-a").value || 0)));
+    B = Math.max(0, Math.min(9999, Math.floor(+document.getElementById("pe-b").value || 0)));
+    pooled = null; ex = 0; justIn = -1; log = []; draw();
+  }
+  ["pe-sys", "pe-a", "pe-b"].forEach(id => document.getElementById(id).addEventListener("change", read));
+  document.getElementById("pe-pool").addEventListener("click", () => {
+    if (pooled) return;
+    const a = toSigns(sys, A), b = toSigns(sys, B);
+    pooled = a.map((x, i) => x + b[i]); draw();
+  });
+  document.getElementById("pe-ex").addEventListener("click", () => { if (!pooled) document.getElementById("pe-pool").click(); else { exchange(); draw(); } });
+  document.getElementById("pe-all").addEventListener("click", () => { if (!pooled) document.getElementById("pe-pool").click(); while (exchange()); draw(); });
+  document.getElementById("pe-reset").addEventListener("click", read);
+  document.querySelectorAll(".pe-board .presets button").forEach(b => b.addEventListener("click", () => {
+    document.getElementById("pe-sys").value = b.dataset.s;
+    document.getElementById("pe-a").value = b.dataset.a;
+    document.getElementById("pe-b").value = b.dataset.b;
+    read();
+  }));
+  draw();
+})();
+
+</script>
+</body>
+</html>

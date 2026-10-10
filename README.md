@@ -22,6 +22,7 @@ The repository has two halves:
 | Piece | State |
 |---|---|
 | Reference catalog, Era 1 (tally marks to the sieve, 9 topics) | Done: 123 checked links ([read it](book/era-01-the-first-algorithms/reference-catalog.md)) |
+| Era 1 topic pages, all 9 | Done: GitHub and interactive editions with diagrams and widgets ([front page](book/era-01-the-first-algorithms/README.md)); 9 programs verified (30,741,065 checks) |
 | Chapter 1, *Two numbers, one answer* | Program verified (14,072,170 checks); history checked; outline written; chapter text not written |
 | Reference catalog, Era 2 onward | Not started |
 | Principles catalog, Parts 1–2 (entries 1–42) | Pages written; 42 programs verified (8,135,522 checks) |

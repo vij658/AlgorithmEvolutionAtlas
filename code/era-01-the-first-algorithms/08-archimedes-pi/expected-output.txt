@@ -1,0 +1,15 @@
+polygon 6: inside 3 outside 3.464101615 gap 0.4641
+polygon 12: inside 3.105828541 outside 3.215390309 gap 0.1096 (gap shrank 4.236 times)
+polygon 24: inside 3.132628613 outside 3.159659942 gap 0.02703 (gap shrank 4.053 times)
+polygon 48: inside 3.139350203 outside 3.146086215 gap 0.006736 (gap shrank 4.013 times)
+polygon 96: inside 3.141031951 outside 3.142714600 gap 0.001683 (gap shrank 4.003 times)
+archimedes: 223/71 = 3.1408451 < inside 96-gon 3.1410320 ; outside 96-gon 3.1427146 < 22/7 = 3.1428571 ; pi = 3.1415927
+sqrt3: 265/153 = 1.73202614 < sqrt(3) = 1.73205081 < 1351/780 = 1.73205128 ; convergents 8 and 11 of [1; 1, 2, 1, 2, ...]: 1/1, 2/1, 5/3, 7/4, 19/11, 26/15, 71/41, 97/56, 265/153, 362/209, 989/571, 1351/780
+archimedes-margin: his lower bound gives up 0.000187, his upper bound 0.000143, against the exact 96-gon values
+rounded 4 digits: every value rounded outward: 3.138 < pi < 3.145 at 96 sides, still valid; looser than Archimedes' 223/71 and 22/7
+rounded 5 digits: every value rounded outward: 3.1406 < pi < 3.1430 at 96 sides, still valid; looser than Archimedes' 223/71 and 22/7
+rounded 6 digits: every value rounded outward: 3.14098 < pi < 3.14275 at 96 sides, still valid; at least as tight as Archimedes' 223/71 and 22/7
+rounded 7 digits: every value rounded outward: 3.141015 < pi < 3.142717 at 96 sides, still valid; at least as tight as Archimedes' 223/71 and 22/7
+doublings: gap below 10^-d needs 2 places: 3 doublings (a polygon of 6 x 2^3 sides); 3 places: 5 doublings (a polygon of 6 x 2^5 sides); 10 places: 17 doublings (a polygon of 6 x 2^17 sides); 35 places: 58 doublings (a polygon of 6 x 2^58 sides)
+extrapolate: inside 96-gon 3 correct places; (2 x inside + outside)/3 = 3.14159283381, 6 places; (4 x inside96 - inside48)/3 = 3.14159253351, 6 places
+ArchimedesPi: 42 checks passed

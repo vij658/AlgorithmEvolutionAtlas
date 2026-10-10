@@ -1,0 +1,25 @@
+match 12 9: pairs=9 winner=first by=3 counting-needs=21
+match 7 7: pairs=7 winner=same by=0 counting-needs=14
+match 15 23: pairs=15 winner=second by=8 counting-needs=38
+matchcheck: 200000 random pairs of collections (0 to 60 things each), matching agreed with counting every time
+log: 7 marks added, count=7, replay=new moon,day,day,day,half moon,day,day
+read 4: one-by-one=4 by-fives=1
+read 7: one-by-one=7 by-fives=2
+read 23: one-by-one=23 by-fives=5
+read 60: one-by-one=60 by-fives=12
+read 168: one-by-one=168 by-fives=34
+read 1000: one-by-one=1000 by-fives=200
+ishango G: 11 13 17 19 total=60 all-prime=true near-ten=false doubling-pairs=0
+ishango M: 3 6 4 8 10 5 5 7 total=48 all-prime=false near-ten=false doubling-pairs=3
+ishango D: 11 21 19 9 total=60 all-prime=false near-ten=true doubling-pairs=0
+ishango total: 168 notches in 3 columns of 4, 8 and 4 groups
+regroup M: 3 6 4 8 9 1 1 4 5 7 total=48 doubling-pairs=2 (was 3)
+model: group sizes equally likely from 3 to 21; columns of 4, 8 and 4 groups as on the bone
+pattern all-prime-and-total-multiple-of-12: 403 of 130321 four-group columns
+pattern near-ten-and-total-multiple-of-12: 70 of 130321 four-group columns
+pattern both-of-those: 6 of 130321 four-group columns
+pattern three-doublings-and-total-multiple-of-12: 5521624 of 16983563041 eight-group columns
+combination: probability 1.079e-09, about 1 in 926,477,557 random bones
+any-pattern: a four-group column shows at least one pattern 10.0% of the time, the eight-group column 8.7%; a random bone shows at least one somewhere 26.1% of the time
+split: 10000 honest stick pairs matched, 10000 of 10000 forged halves were caught
+TallyMarks: 210029 checks passed

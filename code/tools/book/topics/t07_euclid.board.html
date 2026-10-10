@@ -1,0 +1,27 @@
+<div class="board">
+    <div style="min-width:0">
+      <div class="controls">
+        <label for="in-a">a <input id="in-a" type="number" min="1" max="1000000000000" value="1071" inputmode="numeric"></label>
+        <label for="in-b">b <input id="in-b" type="number" min="1" max="1000000000000" value="462" inputmode="numeric"></label>
+        <button id="btn-step" class="primary" type="button">Step</button>
+        <button id="btn-play" type="button">Play</button>
+        <button id="btn-reset" type="button">Reset</button>
+        <button id="btn-whole" type="button">Whole rectangle</button>
+      </div>
+      <svg id="rect" viewBox="0 0 1071 462" preserveAspectRatio="xMidYMid meet" role="img" aria-label="The rectangle and the squares cut from it"></svg>
+      <div class="zoomnote" id="zoomnote" aria-live="polite"></div>
+      <div class="presets" aria-label="Examples">
+        <button type="button" data-a="1071" data-b="462">1071 and 462</button>
+        <button type="button" data-a="89" data-b="55">89 and 55 (Fibonacci)</button>
+        <button type="button" data-a="360" data-b="84">360 and 84</button>
+        <button type="button" data-a="1000000" data-b="1">1,000,000 and 1</button>
+        <button type="button" data-a="2971215073" data-b="1836311903">two 10-digit Fibonacci numbers</button>
+      </div>
+    </div>
+    <div style="min-width:0">
+      <div class="eyebrow">The divisions</div>
+      <ol class="steps" id="steps"></ol>
+      <div class="result" id="result"></div>
+      <div class="work" id="work" aria-label="Work done by each method"></div>
+    </div>
+  </div>

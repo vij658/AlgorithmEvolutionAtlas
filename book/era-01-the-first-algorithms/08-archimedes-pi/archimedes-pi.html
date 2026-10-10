@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Archimedes Squeezes Pi</title>
+<meta name="description" content="Era 1, topic 8 of The Algorithm Evolution Atlas: Archimedes traps π between polygons of 6 to 96 sides, with a doubling widget, diagrams and verified links.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.pi-board .pi-views{display:grid;grid-template-columns:3fr 2fr;gap:12px}
+.pi-board svg{background:var(--wash);width:100%;height:auto}
+.pi-board .steps li{font-size:12.5px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 1: The First Algorithms</a><a href="../07-euclids-algorithm/euclids-algorithm.html">← Euclid&#x27;s Algorithm</a><a href="../09-sieve-of-eratosthenes/sieve-of-eratosthenes.html">The Sieve of Eratosthenes →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 1 · Topic 8 · c. 250 BCE</div>
+    <h1>Archimedes Squeezes Pi</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">π cannot be written down exactly. Archimedes traps it instead: a polygon inside the circle is too short, one outside too long, and each doubling of the sides narrows the gap.</p>
+  <p class="fieldnote">Field note from the visiting historian. He does not give an answer; he gives an answer with a guaranteed error bound. After 6, 12, 24, 48 and 96 sides: 223/71 &lt; π &lt; 22/7.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#trap">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#steps">Step by step</a><a href="#measured">Measured</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Measurement of a Circle, probably c. 250 BCE</dd></div><div><dt>Where</dt><dd>Syracuse, Sicily (<strong>documented</strong>)</dd></div><div><dt>What hurt</dt><dd>A needed quantity that no exact number expresses</dd></div><div><dt>The fix</dt><dd>Two bounds that close in, each step the same formula applied to the last</dd></div><div><dt>Cost</dt><dd>Each doubling cuts the gap about 4 times</dd></div><div><dt>Atlas</dt><dd>Ch. 6.4–6.5 Archimedes and numerical approximation; exhaustion</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Archimedes combined the method of exhaustion (squeeze a curved figure between straight ones) with safe numerical bounds for square roots, and turned a proof technique into a computation. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How Archimedes&#x27; squeeze combined with other ideas, from exhaustion to interval arithmetic" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="285.0" y1="106.0" x2="500.0" y2="150.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,150.0 491.2,151.9 492.7,144.8" style="fill:var(--ink-2)"/><line x1="715.0" y1="106.0" x2="500.0" y2="150.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,150.0 507.3,144.8 508.8,151.9" style="fill:var(--ink-2)"/><line x1="500.0" y1="236.0" x2="125.0" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="125.0,300.0 132.5,295.0 133.7,302.2" style="fill:var(--ink-2)"/><line x1="500.0" y1="236.0" x2="375.0" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="375.0,300.0 380.6,293.0 384.0,299.5" style="fill:var(--ink-2)"/><line x1="500.0" y1="236.0" x2="625.0" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="625.0,300.0 616.0,299.5 619.4,293.0" style="fill:var(--ink-2)"/><line x1="500.0" y1="236.0" x2="875.0" y2="300.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="875.0,300.0 866.3,302.2 867.5,295.0" style="fill:var(--ink-2)"/><line x1="375.0" y1="386.0" x2="458.0" y2="460.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="458.0,460.0 449.4,457.3 454.3,451.8" style="fill:var(--ink-2)"/><line x1="500.0" y1="236.0" x2="500.0" y2="460.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,460.0 496.3,451.8 503.7,451.8" style="fill:var(--ink-2)"/><rect x="180" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="192.0" y="60.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Exhaustion</text><text x="192.0" y="77.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Euclid&#x27;s Elements, Book XII</text><rect x="610" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="622.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Safe bounds for roots</text><text x="622.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">265/153 &lt; √3 &lt; 1351/780</text><text x="622.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 4&#x27;s square roots</text><rect x="395" y="150" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="173.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Squeezing π</text><text x="407.0" y="190.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ two polygons that close in</text><text x="407.0" y="207.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Measurement of a Circle, c. 250</text><text x="407.0" y="223.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">BCE</text><rect x="20" y="300" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="340.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">355/113</text><text x="32.0" y="357.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Zu Chongzhi (430–501)</text><rect x="270" y="300" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="282.0" y="331.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">35 places</text><text x="282.0" y="349.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ polygons of 2^62 sides</text><text x="282.0" y="365.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">van Ceulen, by 1610</text><rect x="520" y="300" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="532.0" y="331.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Combine the bounds</text><text x="532.0" y="349.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ cancel the main error</text><text x="532.0" y="365.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Huygens, 1654</text><rect x="770" y="300" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="331.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Series for π</text><text x="782.0" y="349.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ infinite sums</text><text x="782.0" y="365.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">era 3</text><rect x="395" y="460" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="491.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Interval arithmetic</text><text x="407.0" y="509.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ computers round outward</text><text x="407.0" y="525.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Moore, 1966</text><text x="20.0" y="600.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dashed: the same goal or the same habit of mind, not a documented line of descent.</text></svg></div><figcaption>Red: Archimedes' squeeze. Blue: the same guarantee built into computers.</figcaption></figure>
+</section>
+<section id="trap" aria-labelledby="trap-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="trap-h">Trap the circle</h2>
+<p class="col">A polygon inside a circle is shorter than the circle; a polygon outside is longer. Double the number of sides and both get closer. Archimedes started from hexagons and doubled four times.</p>
+
+<div class="board pi-board">
+  <div style="min-width:0">
+    <div class="controls">
+      <button id="pi-dbl" class="primary" type="button">Double the sides</button>
+      <button id="pi-reset" type="button">Back to hexagons</button>
+    </div>
+    <div class="pi-views">
+      <svg id="pi-svg" viewBox="0 0 320 320" role="img" aria-label="A circle trapped between two polygons"></svg>
+      <svg id="pi-zoom" viewBox="0 0 200 320" role="img" aria-label="A magnified slice where the polygons meet the circle"></svg>
+    </div>
+    <p class="zoomnote" id="pi-note"></p>
+  </div>
+  <div style="min-width:0">
+    <div class="eyebrow">The trap</div>
+    <ol class="steps" id="pi-steps"></ol>
+    <div class="result" id="pi-result" aria-live="polite"></div>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 1, the first algorithms</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1098 132" role="img" aria-label="Era 1: The First Algorithms, from c. 44,000 years ago to c. 240 BCE" style="font-family:var(--body);min-width:790px;max-width:1153px;margin:0 auto"><line x1="34" y1="34" x2="1064" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 44,000 years ago</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Notched bones</text><circle cx="185.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 3000 BCE</text><text x="185.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Written numerals</text><text x="185.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">and the first</text><text x="185.2" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">carry</text><circle cx="306.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="306.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1800 BCE</text><text x="306.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Babylonian place</text><text x="306.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">value and tables</text><circle cx="427.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="427.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1800–1600 BCE</text><text x="427.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">√2 on the tablet</text><text x="427.8" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">YBC 7289</text><circle cx="549.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="549.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1550 BCE</text><text x="549.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Egyptian</text><text x="549.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">multiplication by</text><text x="549.0" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">doubling</text><circle cx="670.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="670.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 300 BCE</text><text x="670.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Counting boards</text><text x="670.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">and the abacus</text><circle cx="791.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="791.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 300 BCE</text><text x="791.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Euclid&#x27;s algorithm</text><circle cx="912.8" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="912.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 250 BCE</text><text x="912.8" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Archimedes</text><text x="912.8" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">squeezes π</text><circle cx="1034.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1034.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 240 BCE</text><text x="1034.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">The sieve of</text><text x="1034.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Eratosthenes</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 526" role="img" aria-label="Each fix leaves a new pain: from an inexpressible number to guaranteed bounds" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="62.0" x2="560.0" y2="62.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,62.0 551.8,65.7 551.8,58.3" style="fill:var(--ink-2)"/><rect x="449.2" y="41.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="54.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="104.0" x2="750.0" y2="154.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,154.0 746.3,145.8 753.7,145.8" style="fill:var(--ink-2)"/><rect x="757.0" y="121.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="134.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="196.0" x2="400.0" y2="196.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,196.0 408.2,192.3 408.2,199.7" style="fill:var(--ink-2)"/><rect x="449.2" y="175.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="188.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="238.0" x2="210.0" y2="288.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,288.0 206.3,279.8 213.7,279.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="330.0" x2="560.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,330.0 551.8,333.7 551.8,326.3" style="fill:var(--ink-2)"/><rect x="449.2" y="309.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="322.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="372.0" x2="750.0" y2="422.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,422.0 746.3,413.8 753.7,413.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="464.0" x2="400.0" y2="464.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,464.0 408.2,460.3 408.2,467.7" style="fill:var(--ink-2)"/><rect x="449.2" y="443.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="456.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="57.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="73.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">π cannot be written as a fraction</text><rect x="560" y="20" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="41.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="57.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Trap it: a polygon inside is too short, one outside too</text><text x="572.0" y="73.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">long</text><text x="572.0" y="90.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Measurement of a Circle</text><rect x="560" y="154" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="191.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="207.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Hexagons only say 3 &lt; π &lt; 3.4641</text><rect x="20" y="154" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="175.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="191.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Double the sides: each doubling cuts the gap about 4</text><text x="32.0" y="207.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">times</text><text x="32.0" y="224.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">6, 12, 24, 48, 96 sides</text><rect x="20" y="288" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="325.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="341.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Each doubling needs a square root that cannot be exact</text><rect x="560" y="288" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="309.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="325.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Round every bound the safe way: lower bounds down,</text><text x="572.0" y="341.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">upper bounds up</text><text x="572.0" y="358.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">265/153 &lt; √3 &lt; 1351/780</text><rect x="560" y="422" width="380" height="84" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="459.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="475.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">35 places would need 58 doublings</text><rect x="20" y="422" width="380" height="84" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="443.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="459.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Combine the bounds to cancel the main error; later,</text><text x="32.0" y="475.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">infinite series</text><text x="32.0" y="492.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Huygens, 1654; era 3</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="steps" aria-labelledby="steps-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">Step by step</span></div>
+  <h2 id="steps-h">From hexagons to 96 sides</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 230" role="img" aria-label="Doubling the sides from 6 to 96: the bounds close in" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="186.0" y1="105.0" x2="216.0" y2="105.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="216.0,105.0 207.8,108.7 207.8,101.3" style="fill:var(--ink-2)"/><line x1="382.0" y1="105.0" x2="412.0" y2="105.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="412.0,105.0 403.8,108.7 403.8,101.3" style="fill:var(--ink-2)"/><line x1="578.0" y1="105.0" x2="608.0" y2="105.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="608.0,105.0 599.8,108.7 599.8,101.3" style="fill:var(--ink-2)"/><line x1="774.0" y1="105.0" x2="804.0" y2="105.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="804.0,105.0 795.8,108.7 795.8,101.3" style="fill:var(--ink-2)"/><rect x="20" y="50" width="166" height="110" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="85.6" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">6 sides</text><text x="32.0" y="102.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">&gt; 3</text><text x="32.0" y="119.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">&lt; 3.464101</text><text x="32.0" y="135.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">gap 0.4641</text><rect x="216" y="50" width="166" height="110" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="228.0" y="85.6" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">12 sides</text><text x="228.0" y="102.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">&gt; 3.105828</text><text x="228.0" y="119.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">&lt; 3.215390</text><text x="228.0" y="135.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">gap 0.1096</text><rect x="412" y="50" width="166" height="110" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="424.0" y="85.6" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">24 sides</text><text x="424.0" y="102.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">&gt; 3.132628</text><text x="424.0" y="119.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">&lt; 3.159659</text><text x="424.0" y="135.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">gap 0.02703</text><rect x="608" y="50" width="166" height="110" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="620.0" y="85.6" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">48 sides</text><text x="620.0" y="102.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">&gt; 3.139350</text><text x="620.0" y="119.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">&lt; 3.146086</text><text x="620.0" y="135.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">gap 0.006736</text><rect x="804" y="50" width="166" height="110" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="816.0" y="85.6" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">96 sides</text><text x="816.0" y="102.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">&gt; 3.141031</text><text x="816.0" y="119.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">&lt; 3.142714</text><text x="816.0" y="135.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">gap 0.001683</text><text x="20.0" y="30.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">EACH ARROW DOUBLES THE SIDES: HARMONIC MEAN FOR THE OUTSIDE, GEOMETRIC MEAN FOR THE INSIDE</text><text x="20.0" y="200.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">π = 3.1415927… lies inside every box. The gap shrinks about four times per doubling.</text></svg></div></figure>
+<div class="tbl"><table><thead><tr><th class="n">Sides</th><th class="">Inside (too short)</th><th class="">Outside (too long)</th><th class="n">Gap</th><th class="n">Gap shrank</th></tr></thead><tbody><tr class=""><td class="n">6</td><td class="">3</td><td class="">3.464101615</td><td class="n">0.4641</td><td class="n">—</td></tr><tr class=""><td class="n">12</td><td class="">3.105828541</td><td class="">3.215390309</td><td class="n">0.1096</td><td class="n">4.236×</td></tr><tr class=""><td class="n">24</td><td class="">3.132628613</td><td class="">3.159659942</td><td class="n">0.02703</td><td class="n">4.053×</td></tr><tr class=""><td class="n">48</td><td class="">3.139350203</td><td class="">3.146086215</td><td class="n">0.006736</td><td class="n">4.013×</td></tr><tr class="hl"><td class="n">96</td><td class="">3.141031951</td><td class="">3.142714600</td><td class="n">0.001683</td><td class="n">4.003×</td></tr></tbody></table></div>
+<p class="col">Proposition 3 in Heath's translation: "The ratio of the circumference of any circle to its diameter is less than 3 1/7 but greater than 3 10/71."</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 260" role="img" aria-label="Archimedes rounded his 96-gon bounds outward, never inward" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="160.0" y1="116.0" x2="160.0" y2="160.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="160.0,160.0 156.3,151.8 163.7,151.8" style="fill:var(--ink-2)"/><line x1="840.0" y1="116.0" x2="840.0" y2="160.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="840.0,160.0 836.3,151.8 843.7,151.8" style="fill:var(--ink-2)"/><rect x="20" y="40" width="280" height="76" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="75.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Inside 96-gon (exact)</text><text x="32.0" y="92.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">3.1410320</text><rect x="20" y="160" width="280" height="76" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="195.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Rounded down: 223/71</text><text x="32.0" y="212.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">3.1408451, gives up 0.000187</text><rect x="360" y="100" width="280" height="76" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="372.0" y="137.7" text-anchor="start" style="fill:var(--ink);font-size:22px;font-weight:700">π</text><text x="372.0" y="157.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">3.1415927…</text><rect x="700" y="40" width="280" height="76" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="712.0" y="75.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Outside 96-gon (exact)</text><text x="712.0" y="92.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">3.1427146</text><rect x="700" y="160" width="280" height="76" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="712.0" y="195.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Rounded up: 22/7</text><text x="712.0" y="212.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">3.1428571, gives up 0.000143</text><text x="500.0" y="30.0" text-anchor="middle" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">SMALLER ←   → BIGGER</text></svg></div></figure>
+<div class="callout key col"><div class="k">Key idea</div><p>Every square root on the way had to be replaced by a fraction, and the fraction had to err on the safe side. For √3 Archimedes used 265/153 &lt; √3 &lt; 1351/780 (1.73202614 &lt; 1.73205081 &lt; 1.73205128). Both are continued-fraction convergents of √3: the best fractions for √3 for their size, which Euclid's algorithm (topic 7) produces. They are the 9th and 12th in the list 1/1, 2/1, 5/3, 7/4, 19/11, 26/15, 71/41, 97/56, 265/153, 362/209, 989/571, 1351/780. He does not say how he found them; reconstructions differ (<strong>disputed</strong>).</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">How good is a guaranteed answer?</h2>
+<p class="col">The program redid the whole computation the way a hand computer must: every intermediate value rounded outward to a fixed number of digits. The bounds always stay valid; they just get looser.</p>
+<div class="tbl"><table><thead><tr><th class="n">Digits kept at every step</th><th class="">Bounds at 96 sides</th><th class="">Compared with 223/71 and 22/7</th></tr></thead><tbody><tr class=""><td class="n">4</td><td class="">3.138 &lt; π &lt; 3.145</td><td class="">looser than Archimedes' bounds</td></tr><tr class=""><td class="n">5</td><td class="">3.1406 &lt; π &lt; 3.1430</td><td class="">looser than Archimedes' bounds</td></tr><tr class=""><td class="n">6</td><td class="">3.14098 &lt; π &lt; 3.14275</td><td class="">at least as tight as Archimedes' bounds</td></tr><tr class=""><td class="n">7</td><td class="">3.141015 &lt; π &lt; 3.142717</td><td class="">at least as tight as Archimedes' bounds</td></tr></tbody></table></div>
+<p class="col">Rounding blindly needs six digits at every step to be at least as tight as Archimedes' 223/71 and 22/7; at five digits it is looser. To shrink the gap further takes many more doublings. To bring it below 10⁻2: 3 doublings; 10⁻3: 5 doublings; 10⁻10: 17 doublings; 10⁻35: 58 doublings. Ludolph van Ceulen worked out π to 35 places with polygons of 2^62 sides; he died in 1610 and the full result was published in 1621. By this program's count, a gap below 10⁻³⁵ needs 58 doublings from the hexagon, 6 × 2^58 sides.</p>
+<p class="col">Combining the bounds helps more than doubling. The 96-gon's inside value is right to 3 places (its error is below 10⁻3); (2 × inside + outside) / 3 gives <strong>6</strong>, and (4 × inside of the 96-gon − inside of the 48-gon) / 3 gives <strong>6</strong>. Huygens found improvements of this kind in 1654; Richardson later made the trick general.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Computers that round outward</h2>
+<p class="col">Archimedes did not give <em>an</em> answer; he gave an answer with a guaranteed error bound. In 1966 Ramon Moore's book <em>Interval Analysis</em> made the same habit into a branch of computing: carry a lower and an upper bound through every step, rounding each the safe way, and the true answer is guaranteed to lie between them.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>The program's interval run is exactly that: with 6 digits kept it proves 3.14098 &lt; π &lt; 3.14275, no matter how the rounding falls. Calling Archimedes' method the first algorithm with a guaranteed error bound is this book's framing (<strong>conjecture</strong>); MacTutor calls it "the first theoretical calculation" of π.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Why is the hexagon inside a circle of diameter 1 exactly 3 long?</span></summary><div class="ans"><p>Its six sides each equal the radius, 1/2, because the hexagon is made of six equilateral triangles: 6 × 1/2 = 3.</p></div></details><details class="try"><summary><span class="q">2</span><span>Is 22/7 bigger or smaller than π? And 223/71?</span></summary><div class="ans"><p>22/7 = 3.1428571 is bigger; 223/71 = 3.1408451 is smaller. π = 3.1415927… lies between.</p></div></details><details class="try"><summary><span class="q">3</span><span>Why must a lower bound be rounded down?</span></summary><div class="ans"><p>If it were rounded up it might pass π, and then it would no longer be a lower bound. Rounding the safe way keeps the guarantee.</p></div></details><details class="try"><summary><span class="q">4</span><span>Each doubling shrinks the gap about 4 times. Why 4?</span></summary><div class="ans"><p>The error of an n-sided polygon shrinks like 1/n². Doubling n divides it by 2² = 4.</p></div></details><details class="try"><summary><span class="q">5</span><span>How many doublings from the hexagon bring the gap below 10⁻¹⁰?</span></summary><div class="ans"><p><strong>17</strong> doublings, a polygon of 6 × 2^17 sides.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 120" role="img" aria-label="Drawn placeholder of an open printed book" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><path d="M100,20 C80,12 40,12 20,18 V108 C40,102 80,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><path d="M100,20 C120,12 160,12 180,18 V108 C160,102 120,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="32.0" y1="32.0" x2="88.0" y2="32.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="41.0" x2="88.0" y2="41.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="50.0" x2="88.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="59.0" x2="88.0" y2="59.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="68.0" x2="88.0" y2="68.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="77.0" x2="88.0" y2="77.0" style="stroke:var(--axis);stroke-width:2"/><circle cx="140.0" cy="60.0" r="24.0" style="fill:none;stroke:var(--red);stroke-width:2"/><path d="M116,60 L164,60 M140,36 L140,84" style="fill:none;stroke:var(--blue);stroke-width:2"/></svg></div><figcaption class="txt"><b>The Works of Archimedes</b><span>T. L. Heath's English translation (1897), including <em>Measurement of a Circle</em>. The surviving treatise is probably a fragment of a longer work (<strong>disputed</strong>).</span><a href="https://archive.org/details/worksofarchimede00arch">Internet Archive scan</a><span class="lic">Drawn placeholder; the 1897 book is scanned at the link.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://www.youtube.com/watch?v=gMlf1ELvRzc" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">The Discovery That Transformed Pi · Veritasium</span><span class="w">Opens with Archimedes doubling polygons to 96 sides, then moves to Newton&#x27;s series</span></a><a href="https://www.youtube.com/watch?v=f4Sk6gEG570" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">The Story of Pi · Gresham College, Robin Wilson (2007)</span><span class="w">Archimedes repeatedly doubling a hexagon&#x27;s sides, in the long history of π</span></a><a href="https://www.pbs.org/wgbh/nova/archimedes/pi.html" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Approximating Pi · PBS NOVA</span><span class="w">Illustrated: hexagon to 96-gon</span></a><a href="https://mathshistory.st-andrews.ac.uk/HistTopics/Pi_through_the_ages/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">A history of Pi · MacTutor</span><span class="w">Archimedes&#x27; recursion in the long history of π</span></a><a href="https://arxiv.org/pdf/2008.07995" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">How Archimedes showed that π is approximately equal to 22/7 · Damini and Dhar, arXiv</span><span class="w">Step-by-step modern reconstruction of the doubling recurrences</span></a><a href="https://www.johndcook.com/blog/2023/07/30/archimedes-richardson/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Ancient estimate of π and modern numerical analysis · John D. Cook</span><span class="w">From the 96-gon to Huygens and Richardson extrapolation</span></a><a href="https://www.ams.org/publicoutreach/feature-column/fc-2012-02" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Archimedes on the Circumference and Area of a Circle · AMS Feature Column (Bill Casselman)</span><span class="w">The method of exhaustion in Proposition 1 (not the 96-gon)</span></a><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Van_Ceulen/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Ludolph van Ceulen · MacTutor</span><span class="w">20 places in 1596 (15 × 2^31 sides); 35 places from polygons of 2^62 sides, published in 1621 after his death in 1610</span></a><a href="https://archive.org/details/worksofarchimede00arch" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">The Works of Archimedes · T. L. Heath (1897), Internet Archive</span><span class="w">The standard English translation, including *Measurement of a Circle*</span></a><a href="https://triumphsannals.journals.publicknowledgeproject.org/index.php/triumphsannals/article/download/13291/11763/71303" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Archimedes&#x27; Measurement of a Circle · TRIUMPHS primary-source project</span><span class="w">Students work through the iterations from Heath&#x27;s text</span></a><a href="https://www.science.org/doi/10.1126/science.158.3799.365" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Interval Analysis (review) · Science 158 (1967), review of R. E. Moore, Prentice-Hall 1966</span><span class="w">The 1966 book that made guaranteed bounds a branch of computing</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-01-the-first-algorithms/reference-catalog.md">Era 1 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-01-the-first-algorithms/08-archimedes-pi/ArchimedesPi.java">ArchimedesPi.java</a> makes <strong>42 checks</strong>: π between the polygons at every step, Archimedes' fractions outside the exact 96-gon values, his √3 bounds as convergents, and interval runs rounded outward at 4 to 7 digits. Run it with <code>java ArchimedesPi.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** One doubling step: from the outside and inside perimeters of an n-gon (diameter 1) to those of the 2n-gon. */</span>
+<span class="k-kw">static</span> BigDecimal[] doubleSides(BigDecimal a, BigDecimal b, MathContext mc) {
+    BigDecimal a2 = TWO.multiply(a).multiply(b).divide(a.add(b), mc);   <span class="k-c">// harmonic mean</span>
+    BigDecimal b2 = a2.multiply(b).sqrt(mc);                             <span class="k-c">// geometric mean</span>
+    <span class="k-kw">return</span> <span class="k-kw">new</span> BigDecimal[]{a2, b2};
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>ArchimedesPi.java</code>.<br><span class="navfoot"><a href="../index.html">Era 1: The First Algorithms</a><a href="../07-euclids-algorithm/euclids-algorithm.html">← Euclid&#x27;s Algorithm</a><a href="../09-sieve-of-eratosthenes/sieve-of-eratosthenes.html">The Sieve of Eratosthenes →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const svg = document.getElementById("pi-svg"), zoom = document.getElementById("pi-zoom");
+  if (!svg) return;
+  const ROWS = [{"n": 6, "inside": "3", "outside": "3.4641016", "gap": "0.4641", "shrink": ""}, {"n": 12, "inside": "3.1058285", "outside": "3.2153903", "gap": "0.1096", "shrink": "4.236"}, {"n": 24, "inside": "3.1326286", "outside": "3.1596599", "gap": "0.02703", "shrink": "4.053"}, {"n": 48, "inside": "3.1393502", "outside": "3.1460862", "gap": "0.006736", "shrink": "4.013"}, {"n": 96, "inside": "3.1410319", "outside": "3.1427146", "gap": "0.001683", "shrink": "4.003"}];
+  let k = 0;
+  const cx = 160, cy = 160, R = 130;
+  function poly(parent, n, r, rot, color, scaleFn) {
+    const pts = [];
+    for (let i = 0; i < n; i++) { const a = 2 * Math.PI * i / n + rot; pts.push(scaleFn(r * Math.cos(a), r * Math.sin(a))); }
+    sv("polygon", {points: pts.map(p => p.join(",")).join(" "), fill: "none", stroke: color, "stroke-width": 2}, parent);
+  }
+  function draw() {
+    const n = ROWS[k].n;
+    svg.innerHTML = ""; zoom.innerHTML = "";
+    sv("circle", {cx, cy, r: R, fill: "none", stroke: "var(--ink)", "stroke-width": 1.5}, svg);
+    poly(svg, n, R, 0, "var(--blue)", (x, y) => [cx + x, cy + y]);
+    poly(svg, n, R / Math.cos(Math.PI / n), Math.PI / n, "var(--red)", (x, y) => [cx + x, cy + y]);
+    const bx = cx + R * Math.cos(Math.PI / n), by = cy + R * Math.sin(Math.PI / n);
+    sv("rect", {x: bx - 12, y: by - 12, width: 24, height: 24, fill: "none", stroke: "var(--muted)", "stroke-dasharray": "3 3"}, svg);
+    // zoom: turn the picture so the corner of the outside polygon at angle pi/n lies on the x-axis, then magnify
+    // around the circle there. The inside polygon's side is the vertical line x = R cos(pi/n).
+    const t = Math.PI / n, xin = R * Math.cos(t), xout = R / Math.cos(t);
+    const mag = 150 / (xout - xin), zx = 100, zy = 160;
+    const map = (x, y) => [zx + (x - R) * mag, zy - y * mag];
+    const half = 170 / mag, th = Math.asin(Math.min(1, half / R));
+    const arc = [];
+    for (let i = 0; i <= 60; i++) { const a = -th + 2 * th * i / 60; arc.push(map(R * Math.cos(a), R * Math.sin(a))); }
+    sv("polyline", {points: arc.map(q => q.join(",")).join(" "), fill: "none", stroke: "var(--ink)", "stroke-width": 1.5}, zoom);
+    const i1 = map(xin, R * Math.sin(t)), i2 = map(xin, -R * Math.sin(t));
+    sv("line", {x1: i1[0], y1: i1[1], x2: i2[0], y2: i2[1], stroke: "var(--blue)", "stroke-width": 2}, zoom);
+    const ov = map(xout, 0), o1 = map(xout * Math.cos(2 * t), xout * Math.sin(2 * t)), o2 = map(xout * Math.cos(2 * t), -xout * Math.sin(2 * t));
+    sv("polyline", {points: [o1, ov, o2].map(q => q.join(",")).join(" "), fill: "none", stroke: "var(--red)", "stroke-width": 2}, zoom);
+    sv("rect", {x: 4, y: 4, width: 128, height: 20, fill: "var(--wash)"}, zoom);
+    sv("text", {x: i2[0] + 4, y: 312, fill: "var(--blue)", "font-size": 11, "font-weight": 700}, zoom, "inside");
+    sv("text", {x: ov[0] - 4, y: 312, "text-anchor": "end", fill: "var(--red)", "font-size": 11, "font-weight": 700}, zoom, "outside");
+    sv("text", {x: 8, y: 18, fill: "var(--muted)", "font-size": 11}, zoom, `magnified ${fmt(Math.round(mag))} times`);
+    const steps = document.getElementById("pi-steps");
+    steps.innerHTML = "";
+    ROWS.slice(0, k + 1).forEach((r, i) => el("li", {class: i === k ? "current" : ""}, steps, `${r.n} sides: ${r.inside} < π < ${r.outside}`));
+    const row = ROWS[k];
+    document.getElementById("pi-result").innerHTML = `Gap: <b>${row.gap}</b>${row.shrink ? ` (${row.shrink} times smaller than before)` : ""}.` +
+      (n === 96 ? ` Archimedes rounded these outward to <b>223/71 < π < 22/7</b>.` : "");
+    document.getElementById("pi-note").textContent = n === 96 ? "Four doublings from the hexagon: Archimedes stopped here." : "The right-hand view magnifies the boxed slice so the gap stays visible.";
+    document.getElementById("pi-dbl").disabled = k === ROWS.length - 1;
+  }
+  document.getElementById("pi-dbl").addEventListener("click", () => { if (k < ROWS.length - 1) { k++; draw(); } });
+  document.getElementById("pi-reset").addEventListener("click", () => { k = 0; draw(); });
+  draw();
+})();
+
+</script>
+</body>
+</html>

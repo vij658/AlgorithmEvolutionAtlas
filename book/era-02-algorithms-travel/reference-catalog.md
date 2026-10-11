@@ -316,7 +316,7 @@ Shen (1988) also gives a calendar congruence from Qin's book, 377873 x ≡ 1 (mo
 ## 5. The chakravala and Pell's equation
 
 **When / where:** India. Brahmagupta's *Brahmasphutasiddhanta* (628 CE, written at Bhillamala, modern Bhinmal) gives the composition rule (*bhavana*). The full cyclic method (*chakravala*) is first known from Jayadeva, whose verses are quoted in Udayadivakara's commentary *Sundari* of 1073. Bhaskara II (1114–1185), head of the observatory at Ujjain, sets it out in his *Bijaganita* (1150 CE).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`Chakravala.java`](../../code/era-02-algorithms-travel/05-chakravala/) · **Page:** [topic 5](05-chakravala/README.md)
 
 > **Field note.** The task is to find whole numbers with x² − Ny² = 1. My sources write it Nx² + 1 = y², with the letters swapped. Guessing is hopeless: for N = 61 the smallest answer is x = 1,766,319,049. Brahmagupta noticed that two near-misses can be multiplied into a new near-miss, so a near-miss that is off by 1, 2 or 4 can be turned into an exact answer. Later Indian mathematicians closed the loop. Choose a multiplier that keeps the error small, compose, divide out, and repeat. The cycle always ends, though Bhaskara II probably could not prove it: the proof came six centuries later, in Europe. Europeans met the same equation five hundred years after Bhaskara and named it after John Pell, by what their own historians call a mix-up.
 
@@ -367,6 +367,14 @@ No video could be verified (see **Gaps**).
 | Level | Link | Source | Why |
 |---|---|---|---|
 | Scholar | [Algebra, with Arithmetic and Mensuration, from the Sanscrit of Brahmegupta and Bháscara](https://archive.org/details/algebrawitharith00brahuoft/page/n5/mode/2up) | H. T. Colebrooke (trans.), London: J. Murray, 1817. Internet Archive (University of Toronto copy) | Colebrooke's English translation of Brahmagupta's and Bhaskara's algebra |
+
+**Added with the topic page** (each opened before it was listed)
+
+| Level | Link | Source | Why |
+|---|---|---|---|
+| Scholar | [Polynomial-time quantum algorithms for Pell's equation and the principal ideal problem](https://pure.psu.edu/en/publications/polynomial-time-quantum-algorithms-for-pells-equation-and-the-pri-2/) | Sean Hallgren, *Journal of the ACM* 54(1), 2007 (Penn State record) | "Factoring integers reduces to finding integer solutions of Pell's equation"; a quantum algorithm solves it in polynomial time and breaks the Buchmann–Williams key exchange |
+
+Dutta's worked N = 61 reaches (5, 39; −4) in one chakravala step and finishes with Brahmagupta's rule for −4. The topic's program reproduces this route, and also the 22 convergents Selenius counts for the continued-fraction method.
 
 **Gaps:** YouTube pages could not be opened in this environment, so no video is listed. Search found a YouTube result titled "Week 12-Lecture 62 : Brahmagupta-Pell equations", probably from an NPTEL course. Its page could not be opened, so its title and channel are unverified. The NPTEL course page did not load its lecture list, and its syllabus PDF is hosted on a test server (arctest.dev.nptel.ac.in). The syllabus does not name the chakravala or *varga-prakriti*. No Gresham College lecture on Pell's equation or the chakravala was found. MacTutor's Bhaskara II biography does not explain the method. No openly readable edition of Jayadeva's verses or of the *Sundari* was found. Kim Plofker's *Mathematics in India* (Princeton) was not opened. The Colebrooke scan page does not itself name the *Bijaganita*, and the relevant chapter was not checked in the scan. Open question for the plan: the sources credit the cyclic step to Jayadeva, before Bhaskara II, and Dutta builds it on the *kuttaka* (the pulverizer). That supports folding the pulverizer into this topic.
 

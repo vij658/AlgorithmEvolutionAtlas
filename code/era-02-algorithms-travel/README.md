@@ -10,7 +10,7 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 2 | [Ptolemy's Table of Chords](02-ptolemys-chords/README.md) | c. 150 CE | [`PtolemyChords.java`](02-ptolemys-chords/PtolemyChords.java) | 20,018 |
 | 3 | [The Chinese Remainder Problem](03-chinese-remainder-problem/README.md) | 3rd–5th century CE | [`ChineseRemainder.java`](03-chinese-remainder-problem/ChineseRemainder.java) | 106,153 |
 | 4 | [Zero Becomes a Number](04-zero-becomes-a-number/README.md) | 628 CE | [`ZeroAsANumber.java`](04-zero-becomes-a-number/ZeroAsANumber.java) | 133,043 |
-| 5 | The Chakravala and Pell's Equation | 628–1150 CE | planned | |
+| 5 | [The Chakravala and Pell's Equation](05-chakravala/README.md) | 628–1150 CE | [`Chakravala.java`](05-chakravala/Chakravala.java) | 34,009 |
 | 6 | Algorism and Al-Jabr | c. 820–830 CE | planned | |
 | 7 | Frequency Analysis | 9th century CE | planned | |
 | 8 | Fibonacci's Liber Abaci | 1202 CE | planned | |

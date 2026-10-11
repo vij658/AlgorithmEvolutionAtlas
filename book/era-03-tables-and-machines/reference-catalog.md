@@ -141,7 +141,7 @@ No video could be verified (see **Gaps**).
 ## 3. The carry, mechanized
 
 **When / where:** Wilhelm Schickard described a "calculating clock" to Johannes Kepler in a letter of 20 September 1623 (Tübingen); the machine burned before it was finished. Blaise Pascal began his adding machine in 1642 in Rouen, for his father's tax accounts, published an 18-page *Lettre dédicatoire* about it in 1645 and received a royal privilege in 1649. Gottfried Wilhelm Leibniz showed a wooden model of a machine that could multiply to the Royal Society in London on 1 February 1673; the surviving stepped reckoner dates from about 1694.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`MechanicalCarry.java`](../../code/era-03-tables-and-machines/03-mechanical-carry/) · **Page:** [topic 3](03-mechanical-carry/README.md)
 
 > **Field note.** On the counting boards of the first era (topic 6), the carry was a decision: ten counters become one in the next column, and a person had to notice. In this century three men put the carry into brass. Schickard's machine burned. Pascal's dropped a small weighted lever from one wheel to the next, so a carry could ripple through every column without straining the gears. Leibniz built a drum with nine teeth of different lengths, so that one turn of a crank added a whole number, and a sliding carriage made multiplication into repeated addition.
 

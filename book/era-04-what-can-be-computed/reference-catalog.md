@@ -419,7 +419,7 @@ No video could be verified (see **Gaps**).
 ## 9. The stored program, and merge sort
 
 **When / where:** John von Neumann's "First Draft of a Report on the EDVAC" (dated 30 June 1945, written March–April 1945) put instructions and numbers in one memory; in 1945 he also wrote, by hand, a program for merging ("meshing") two sorted sequences, analysed by Knuth in 1970. Goldstine and von Neumann treated sorting and merging "in considerable detail" in 1948. The first stored program actually to run was Tom Kilburn's, on the Manchester "Baby", on 21 June 1948.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`StoredProgram.java`](../../code/era-04-what-can-be-computed/09-stored-program/) · **Page:** [topic 9](09-stored-program/README.md)
 
 > **Field note.** The first electronic computers were set up for each problem by plugging cables and setting switches. The design report of 1945 proposed something else: keep the orders for the machine in the same memory as the numbers, written in the same binary digits. Then a program can be loaded like data, and, as it turned out, a program can change its own instructions, which is how the first programs stepped through a list: by adding one to the address inside an instruction. To show that such a machine was more than a calculator, the author wrote out a program for a clerical task, merging sorted files, and estimated that it would beat the punched-card sorting machines of the day. Merge sort, the result, is still how large files are sorted.
 

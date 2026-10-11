@@ -14,7 +14,7 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 6 | [Church's Lambda Calculus](06-lambda-calculus/README.md) | 1936 | [`LambdaCalculus.java`](06-lambda-calculus/LambdaCalculus.java) | 163 |
 | 7 | [Turing's Machines](07-turing-machines/README.md) | 1936 | [`TuringMachines.java`](07-turing-machines/TuringMachines.java) | 9,872 |
 | 8 | [Breaking Enigma](08-breaking-enigma/README.md) | 1932–1940 | [`Enigma.java`](08-breaking-enigma/Enigma.java) | 835,723 |
-| 9 | The Stored Program, and Merge Sort | 1945–1948 | planned | |
+| 9 | [The Stored Program, and Merge Sort](09-stored-program/README.md) | 1945–1948 | [`StoredProgram.java`](09-stored-program/StoredProgram.java) | 1,473,898 |
 | 10 | Monte Carlo | 1946–1949 | planned | |
 | 11 | The Simplex Method | 1947 | planned | |
 | 12 | Shannon's Bits | 1937–1948 | planned | |

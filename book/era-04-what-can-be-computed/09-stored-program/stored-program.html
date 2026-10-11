@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Stored Program, and Merge Sort</title>
+<meta name="description" content="Era 4, topic 9 of The Algorithm Evolution Atlas: instructions stored as numbers, self-modifying programs in the Baby&#x27;s seven instructions, and von Neumann&#x27;s merge sort.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.sp-board input[type=number]{width:7em}
+.sp-regs{font:13px var(--mono);display:grid;gap:3px;margin:8px 0}
+.sp-store{font:12.5px var(--mono);max-height:430px;overflow:auto;margin:6px 0;padding-left:3.2em;border:1px solid var(--axis);background:var(--surface)}
+.sp-store li{padding:1px 6px;white-space:nowrap}
+.sp-store li.now{background:color-mix(in srgb,var(--yellow) 45%,transparent)}
+.sp-store li.changed{color:var(--red);font-weight:600}
+.sp-store .lab{color:var(--blue);display:inline-block;min-width:5.5em}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 4: What Can Be Computed</a><a href="../08-breaking-enigma/breaking-enigma.html">← Breaking Enigma</a><a href="../10-monte-carlo/monte-carlo.html">Monte Carlo →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 4 · Topic 9 · 1945–1948</div>
+    <h1>The Stored Program, and Merge Sort</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">In 1945 a design report proposed keeping a computer's instructions in its memory, as numbers, beside the data. Programs could then be loaded and even rewritten like data, and the first program written for such a machine was a merge, the heart of merge sort.</p>
+  <p class="fieldnote">Field note from the visiting historian. An instruction is a number: function times 8,192, plus an address. My merging program adds one to its own instructions to step along the lists, and after 432 instructions the word that said STO 63 says STO 79. The machine cannot tell its program from its data, and that is the point.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#machine">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>EDVAC report 1945; the Baby, 21 June 1948</dd></div><div><dt>Where</dt><dd>The EDVAC project; Manchester</dd></div><div><dt>What hurt</dt><dd>Machines rewired for each problem; slow card sorting</dd></div><div><dt>The fix</dt><dd>Orders stored as numbers; sorting by merging</dd></div><div><dt>Cost</dt><dd>18,674,306 comparisons for 1,000,000 items</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Turing's universal machine (topic 7) read its instructions from its tape; the wartime electronic machines were fast but were set up for each problem by hand. The 1945 design report put the two together: instructions in the same fast memory as the numbers. To show that such a machine could do clerical work, not just arithmetic, von Neumann wrote out a program for merging sorted files. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How the stored program and merge sort combined older ideas, and where they led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="426.5,170.0 417.7,171.9 419.2,164.7" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,170.0 496.3,161.8 503.7,161.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="605.0" y2="355.8" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="605.0,355.8 608.5,347.5 613.5,352.9" style="fill:var(--ink-2)"/><line x1="416.0" y1="256.0" x2="167.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="167.0,330.0 173.8,324.1 175.9,331.2" style="fill:var(--ink-2)"/><line x1="500.0" y1="256.0" x2="500.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,330.0 496.3,321.8 503.7,321.8" style="fill:var(--ink-2)"/><line x1="584.0" y1="256.0" x2="833.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="833.0,330.0 824.1,331.2 826.2,324.1" style="fill:var(--ink-2)"/><line x1="500.0" y1="416.0" x2="500.0" y2="480.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,480.0 496.3,471.8 503.7,471.8" style="fill:var(--ink-2)"/><line x1="833.0" y1="416.0" x2="605.0" y2="523.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="605.0,523.0 610.9,516.2 614.0,522.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The universal machine</text><text x="32.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a table given as data</text><text x="32.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 7</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Electronic speed</text><text x="407.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">thousands of operations a</text><text x="407.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">second</text><text x="407.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the ENIAC years</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Punched-card sorting</text><text x="782.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">one column at a time</text><text x="782.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 3 topic 13</text><rect x="395" y="170" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="193.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The stored program</text><text x="407.0" y="210.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ orders kept in memory as</text><text x="407.0" y="227.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">numbers</text><text x="407.0" y="243.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">EDVAC report, 1945</text><rect x="20" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="352.0" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Programs that change</text><text x="32.0" y="371.8" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">themselves</text><text x="32.0" y="389.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">adding 1 to an address</text><text x="32.0" y="405.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1945–1948</text><rect x="395" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Merge sort</text><text x="407.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">merge sorted runs: n log₂ n</text><text x="407.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">von Neumann, 1945</text><rect x="770" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The Baby runs</text><text x="782.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the first stored program</text><text x="782.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">21 June 1948</text><rect x="395" y="480" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="503.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Every computer since</text><text x="407.0" y="520.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">programs as data; sorting</text><text x="407.0" y="537.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">files too big for memory</text><text x="407.0" y="553.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">today</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dashed: Turing&#x27;s influence on the 1945 report is not settled in the sources opened; card sorting is the job merge sort was written to beat.</text></svg></div><figcaption>Red: the stored-program design of 1945. Blue: every computer since.</figcaption></figure>
+</section>
+<section id="machine" aria-labelledby="machine-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="machine-h">Run a program that lives in its own data</h2>
+<p class="col">The store on the right holds the program and its numbers side by side, in the Baby's seven instructions. The first program finds the highest proper factor of a number by repeated subtraction, the task of the Baby's first run; set the number to 262144 (2¹⁸) and run it: it executes 2,097,156 instructions, as in the program. The second merges two sorted lists, and adds 1 to the addresses inside its own instructions LA, LB and SC as it goes (they turn red).</p>
+
+<div class="board sp-board">
+  <div style="min-width:0">
+    <div class="presets" id="sp-pre"></div>
+    <div class="controls" id="sp-nrow"><label for="sp-n">Find the highest proper factor of <input id="sp-n" type="number" min="4" max="1000000" value="60"></label></div>
+    <div class="controls">
+      <button class="primary" id="sp-step">One instruction</button>
+      <button id="sp-run">Run to STP</button>
+      <button id="sp-reset">Reload</button>
+    </div>
+    <div class="sp-regs" id="sp-regs"></div>
+    <p class="say" id="sp-say" aria-live="polite"></p>
+  </div>
+  <div style="min-width:0">
+    <div class="eyebrow">The store: instructions and numbers in the same words</div>
+    <ol class="sp-store" id="sp-store" start="0"></ol>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 4, what can be computed</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 4: What Can Be Computed, from 1895 to 1950" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1900–1928</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Hilbert&#x27;s questions</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1895–1901</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Runge and Kutta</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1906–1913</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Markov&#x27;s chains</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1926–1930</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Borůvka and</text><text x="428.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Jarník</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1931</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Gödel&#x27;s numbering</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1936</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Church&#x27;s</text><text x="671.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">λ-calculus</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1936</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Turing&#x27;s machines</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1932–1940</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Breaking Enigma</text><circle cx="1036.0" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1945–1948</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">The stored</text><text x="1036.0" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">program</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1946–1949</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Monte Carlo</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1947</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Dantzig&#x27;s simplex</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1937–1948</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Shannon&#x27;s bits</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1950</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Hamming&#x27;s codes</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 558" role="img" aria-label="Each fix leaves a new pain: from rewiring to stored programs" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="396.0" x2="750.0" y2="446.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,446.0 746.3,437.8 753.7,437.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="492.0" x2="400.0" y2="492.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,492.0 408.2,488.3 408.2,495.7" style="fill:var(--ink-2)"/><rect x="449.2" y="471.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="484.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A machine set up for each problem by cables and</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">switches</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Keep the orders in memory, as numbers, beside the data</text><text x="572.0" y="86.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">EDVAC report, 1945</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="203.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">No index registers: how does a program walk along a list?</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Do arithmetic on its own instructions: LDN 45 becomes</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">LDN 53</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">von Neumann&#x27;s merging program, 1945</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="345.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Sorting on punched-card machines, one column at a time</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Merge sorted runs: 18,674,306 comparisons for</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">1,000,000 items</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">merge sort, 1945</text><rect x="560" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="487.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="503.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A design on paper is not a working machine</text><rect x="20" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="471.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="487.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The Baby runs a stored program; here, 2,097,156</text><text x="32.0" y="503.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">instructions</text><text x="32.0" y="520.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Manchester, 21 June 1948</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Instructions are numbers</h2>
+<p class="col"><strong>The machine.</strong> The Baby had 32 words of store, an accumulator and seven instructions: JMP and JRP (jump to an address held in a word, or forward by a number held in one), LDN (load minus a word), STO (store), SUB (subtract), CMP (skip the next instruction if the accumulator is negative) and STP (stop). There is no add: x + 1 is −(−x − 1). Each instruction is a single word: a function number times 8,192, plus an address.</p>
+<p class="col"><strong>A program in 32 words.</strong> The program's own version of the Baby's first task uses 16 instructions and 7 words of data: it tries divisors from 262,143 downward and divides by repeated subtraction. It stops with 131,072 after 2,097,156 instructions. (Kilburn's program of 21 June 1948 had 17 instructions and took about 3.5 million operations; this one is not his, so the counts differ.)</p>
+<p class="col"><strong>A program that rewrites itself.</strong> With no index registers, a program steps through a list by changing the address inside an instruction. The merging program (35 instructions) loads the front of each run with instructions LA and LB and writes with SC; after each move it adds 1 to the instruction it used. Merging [132, 179, 410, 504, 536, 551, 657, 844] with [53, 142, 278, 286, 296, 471, 937, 992] took 432 instructions, and afterwards LA had become LDN 53 (from LDN 45), LB LDN 62 (from LDN 54) and SC STO 79 (from STO 63). A large sentinel at the end of each run saves testing which run is empty, and equal keys are taken from the first run, so the merge is stable.</p>
+<p class="col"><strong>Merge sort.</strong> Merging two sorted runs of total length n takes at most n − 1 comparisons. Sorting merges runs of 1 into runs of 2, then 4, then 8: about log₂ n rounds of about n comparisons. The program checks the exact worst case over every permutation of up to 8 items:</p>
+<div class="tbl"><table><thead><tr><th class="n">Items n</th><th class="n">Merge sort, worst case (all permutations)</th><th class="n">n⌈lg n⌉ − 2^⌈lg n⌉ + 1</th><th class="n">Lower bound ⌈lg n!⌉ for any comparison sort</th></tr></thead><tbody><tr class=""><td class="n">1</td><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr class=""><td class="n">2</td><td class="n">1</td><td class="n">1</td><td class="n">1</td></tr><tr class=""><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td></tr><tr class=""><td class="n">4</td><td class="n">5</td><td class="n">5</td><td class="n">5</td></tr><tr class=""><td class="n">5</td><td class="n">8</td><td class="n">8</td><td class="n">7</td></tr><tr class=""><td class="n">6</td><td class="n">11</td><td class="n">11</td><td class="n">10</td></tr><tr class=""><td class="n">7</td><td class="n">14</td><td class="n">14</td><td class="n">13</td></tr><tr class=""><td class="n">8</td><td class="n">17</td><td class="n">17</td><td class="n">16</td></tr></tbody></table></div>
+<div class="callout key col"><div class="k">Key idea</div><p>Keep the program in memory as numbers, and the machine can load it, change it and run it like data. And sort by merging: combining two sorted lists costs one comparison per item, so halving and merging costs about n log₂ n.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Merging against inserting</h2>
+<div class="tbl"><table><thead><tr><th class="n">Random items</th><th class="n">Merge sort comparisons</th><th class="n">n log₂ n</th><th class="n">Insertion sort shifts</th></tr></thead><tbody><tr class=""><td class="n">1,000</td><td class="n">8,711</td><td class="n">9,966</td><td class="n">249,417</td></tr><tr class=""><td class="n">10,000</td><td class="n">120,460</td><td class="n">132,877</td><td class="n">24,953,522</td></tr><tr class=""><td class="n">100,000</td><td class="n">1,536,355</td><td class="n">1,660,964</td><td class="n">2,490,753,322</td></tr><tr class=""><td class="n">1,000,000</td><td class="n">18,674,306</td><td class="n">19,931,569</td><td class="n">249,861,839,855</td></tr></tbody></table></div>
+<p class="col">Insertion sort moves each item past every larger item before it, about n²/4 moves on random data; merge sort's comparisons stay just under n log₂ n. For a million items that is the difference between a quarter of a trillion steps and under twenty million. The program counts insertion sort's moves directly up to 10,000 items and, beyond that, as the number of out-of-order pairs, which merge sort counts as it merges.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">A report, a manuscript and a small machine</h2>
+<p class="col">The "First Draft of a Report on the EDVAC" is dated 30 June 1945 and describes "a uniform memory containing both numbers (data) and orders (instructions)"; that it bears only von Neumann's name is <strong>disputed</strong> as credit, since Eckert and Mauchly designed the machine, and the report's circulation made the EDVAC patent unenforceable (Wikipedia). Knuth calls von Neumann's handwritten merging program "probably the earliest extant program for a stored program digital computer"; its aim was "to formulate code instructions for sorting and for meshing", and the planned machine would be "definitely faster than" IBM's card sorters (Knuth, <em>Computing Surveys</em>, 1970).</p>
+<p class="col">The Manchester Baby "ran its first program on 21 June 1948": Kilburn's 17 instructions searched for the highest proper factor of 2¹⁸ by repeated subtraction, in 52 minutes and about 3.5 million operations, on 32 words of 32 bits (Wikipedia). Merge sort "was invented by John von Neumann in 1945" and analysed by Goldstine and von Neumann in 1948 (Wikipedia).</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Programs as data, sorting as merging</h2>
+<p class="col">Every computer since keeps programs in memory as numbers; loading an app is copying numbers into memory and jumping to them. Later machines added index registers, so programs no longer had to rewrite themselves, but the principle stayed: a program is data. Merge sort, meanwhile, is still how files too large for memory are sorted: sort pieces that fit, then merge them.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>A million random items: 18,674,306 comparisons by merging, 249,861,839,855 moves by insertion. The argument von Neumann made in 1945, that the new machine could out-sort the card machines, rests on that gap.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>The Baby has no add instruction. How do you compute x + 1?</span></summary><div class="ans"><p>LDN x gives −x; SUB one gives −x − 1; store it and LDN it again: −(−x − 1) = x + 1.</p></div></details><details class="try"><summary><span class="q">2</span><span>Why does adding 1 to the word holding LDN 100 give LDN 101?</span></summary><div class="ans"><p>An instruction is a number: function × 8192 + address. Adding 1 adds 1 to the address part.</p></div></details><details class="try"><summary><span class="q">3</span><span>Merge [2, 5, 9] and [3, 4, 10]. How many comparisons?</span></summary><div class="ans"><p>2–3, 5–3, 5–4, 5–10, 9–10: five comparisons, then 10 is copied. At most n − 1 = 5 for six items.</p></div></details><details class="try"><summary><span class="q">4</span><span>Why is merge sort's worst case for 8 items 17 comparisons?</span></summary><div class="ans"><p>Four merges of 1 + 1 (1 each), two of 2 + 2 (up to 3 each), one of 4 + 4 (up to 7): 4 + 6 + 7 = 17.</p></div></details><details class="try"><summary><span class="q">5</span><span>Can any sort by comparisons do 8 items in fewer than 16 comparisons in the worst case?</span></summary><div class="ans"><p>No: there are 8! = 40,320 orders, and 15 yes-or-no answers can tell apart at most 2¹⁵ = 32,768 of them.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 120" role="img" aria-label="Drawn placeholder of an open printed book" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><path d="M100,20 C80,12 40,12 20,18 V108 C40,102 80,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><path d="M100,20 C120,12 160,12 180,18 V108 C160,102 120,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="32.0" y1="32.0" x2="88.0" y2="32.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="41.0" x2="88.0" y2="41.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="50.0" x2="88.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="59.0" x2="88.0" y2="59.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="68.0" x2="88.0" y2="68.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="77.0" x2="88.0" y2="77.0" style="stroke:var(--axis);stroke-width:2"/><circle cx="140.0" cy="60.0" r="24.0" style="fill:none;stroke:var(--red);stroke-width:2"/><path d="M116,60 L164,60 M140,36 L140,84" style="fill:none;stroke:var(--blue);stroke-width:2"/></svg></div><figcaption class="txt"><b>First Draft of a Report on the EDVAC (1945)</b><span>The design report: CA, CC, M, I and O, and orders stored as numbers.</span><a href="https://cs.carleton.edu/faculty/jondich/courses/cs207_f03/assignments/edvac.pdf">Carleton College course page</a><span class="lic">Drawn placeholder.</span></figcaption></figure><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Von Neumann&#x27;s First Computer Program (1970)</b><span>Knuth's reading of the 1945 merging manuscript, line by line.</span><a href="https://fermatslibrary.com/s/von-neumanns-first-computer-program">Fermat&#x27;s Library</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://en.wikipedia.org/wiki/First_Draft_of_a_Report_on_the_EDVAC" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">First Draft of a Report on the EDVAC · Wikipedia</span><span class="w">The stored-program design, its distribution, and the dispute over credit</span></a><a href="https://en.wikipedia.org/wiki/Manchester_Baby" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Manchester Baby · Wikipedia</span><span class="w">The first stored program to run, and the seven instructions it used</span></a><a href="https://en.wikipedia.org/wiki/Merge_sort" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Merge sort · Wikipedia</span><span class="w">The algorithm, its analysis and its variants</span></a><a href="https://fermatslibrary.com/s/von-neumanns-first-computer-program" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Von Neumann's First Computer Program · Donald E. Knuth, <em>Computing Surveys</em> 2(4):247–260 (December 1970), annotated on Fermat's Library</span><span class="w">The 1945 merging program, read line by line</span></a><a href="https://cs.carleton.edu/faculty/jondich/courses/cs207_f03/assignments/edvac.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">First Draft of a Report on the EDVAC · John von Neumann (30 June 1945), reprinted from Laplante (ed.), <em>Great Papers in Computer Science</em>, on a Carleton College course page</span><span class="w">The five organs, and orders stored as numbers</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-04-what-can-be-computed/reference-catalog.md">Era 4 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-04-what-can-be-computed/09-stored-program/StoredProgram.java">StoredProgram.java</a> makes <strong>1,473,898 checks</strong>: the factor program's answer, the merge program's output and its rewritten instructions, merge sort's worst case over every permutation of up to 8 items against the formula and the lower bound, and insertion sort's moves against the inversions counted by merge sort. Run it with <code>java StoredProgram.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code">    <span class="k-c">/** Run until STP; return the number of instructions executed. */</span>
+    <span class="k-kw">long</span> run(<span class="k-kw">long</span> limit) {
+        <span class="k-kw">while</span> (executed &lt; limit) {
+            ci++;                                                  <span class="k-c">// the address counter moves on before each fetch</span>
+            <span class="k-kw">int</span> w = mem[ci], f = (w &gt;&gt;&gt; <span class="k-n">13</span>) &amp; <span class="k-n">7</span>, s = w &amp; <span class="k-n">8191</span>;
+            executed++;
+            switch (f) {
+                case <span class="k-n">0</span> -&gt; ci = mem[s];                             <span class="k-c">// JMP: to the address held in s</span>
+                case <span class="k-n">1</span> -&gt; ci += mem[s];                            <span class="k-c">// JRP: forward by the number held in s</span>
+                case <span class="k-n">2</span> -&gt; acc = -mem[s];                           <span class="k-c">// LDN</span>
+                case <span class="k-n">3</span> -&gt; mem[s] = acc;                            <span class="k-c">// STO</span>
+                case <span class="k-n">4</span>, <span class="k-n">5</span> -&gt; acc -= mem[s];                        <span class="k-c">// SUB</span>
+                case <span class="k-n">6</span> -&gt; { <span class="k-kw">if</span> (acc &lt; <span class="k-n">0</span>) ci++; }                   <span class="k-c">// CMP: skip the next instruction if negative</span>
+                default -&gt; { <span class="k-kw">return</span> executed; }                    <span class="k-c">// STP</span>
+            }
+        }
+        throw <span class="k-kw">new</span> IllegalStateException(&quot;no STP within &quot; + limit + &quot; instructions&quot;);
+    }
+
+<span class="k-kw">static</span> <span class="k-kw">void</span> mergeSort(<span class="k-kw">int</span>[] a, <span class="k-kw">int</span>[] tmp, <span class="k-kw">int</span> lo, <span class="k-kw">int</span> hi) {           <span class="k-c">// sorts a[lo, hi)</span>
+    <span class="k-kw">if</span> (hi - lo &lt; <span class="k-n">2</span>) <span class="k-kw">return</span>;
+    <span class="k-kw">int</span> mid = (lo + hi) &gt;&gt;&gt; <span class="k-n">1</span>;
+    mergeSort(a, tmp, lo, mid);
+    mergeSort(a, tmp, mid, hi);
+    <span class="k-kw">int</span> i = lo, j = mid, k = lo;
+    <span class="k-kw">while</span> (i &lt; mid &amp;&amp; j &lt; hi) {
+        comparisons++;
+        <span class="k-kw">if</span> (a[i] &lt;= a[j]) tmp[k++] = a[i++];
+        <span class="k-kw">else</span> { tmp[k++] = a[j++]; inversions += mid - i; }              <span class="k-c">// a[j] jumps over the mid - i items left</span>
+    }
+    <span class="k-kw">while</span> (i &lt; mid) tmp[k++] = a[i++];
+    <span class="k-kw">while</span> (j &lt; hi) tmp[k++] = a[j++];
+    System.arraycopy(tmp, lo, a, lo, hi - lo);
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>StoredProgram.java</code>.<br><span class="navfoot"><a href="../index.html">Era 4: What Can Be Computed</a><a href="../08-breaking-enigma/breaking-enigma.html">← Breaking Enigma</a><a href="../10-monte-carlo/monte-carlo.html">Monte Carlo →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const storeEl = document.getElementById("sp-store");
+  if (!storeEl) return;
+  const FACTOR = ["start: NUM 0", "outer: LDN b", "STO t", "LDN t", "SUB one", "STO b", "LDN negN", "inner: SUB b", "CMP", "back: JRP rel", "STO t", "LDN t", "SUB b", "CMP", "JMP foundp", "JMP outerp", "found: STP", "b: NUM __N__", "t: NUM 0", "one: NUM 1", "negN: NUM -__N__", "rel: NUM inner-back-1", "foundp: NUM found-1", "outerp: NUM outer-1"], MERGE = ["start: NUM 0", "LB: LDN B0", "STO mb", "LA: LDN A0", "STO ma", "SUB mb", "CMP", "JMP takeAp", "LDN LB", "SUB one", "STO tmp", "LDN tmp", "STO LB", "LDN mb", "JMP storep", "takeA: LDN LA", "SUB one", "STO tmp", "LDN tmp", "STO LA", "LDN ma", "SC: STO C0", "LDN SC", "SUB one", "STO tmp", "LDN tmp", "STO SC", "LDN cnt", "SUB negone", "STO tmp", "LDN tmp", "STO cnt", "SUB one", "CMP", "JMP loopp", "STP", "mb: NUM 0", "ma: NUM 0", "tmp: NUM 0", "one: NUM 1", "negone: NUM -1", "cnt: NUM 16", "takeAp: NUM takeA-1", "storep: NUM SC-1", "loopp: NUM LB-1"], RUNS = {"A": [132, 179, 410, 504, 536, 551, 657, 844], "B": [53, 142, 278, 286, 296, 471, 937, 992]};
+  const OPS = ["JMP", "JRP", "LDN", "STO", "SUB", "SUB", "CMP", "STP"];
+  function assemble(lines, size) {
+    const lab = {}, mem = new Array(size).fill(0), name = {};
+    lines.forEach((l, a) => { const i = l.indexOf(":"); if (i >= 0) { lab[l.slice(0, i).trim()] = a; name[a] = l.slice(0, i).trim(); } });
+    const ev = e => { let t = 0, s = 1, tok = "", i = 0; if (e[0] === "-") { s = -1; i = 1; }
+      for (; i <= e.length; i++) { if (i === e.length || e[i] === "+" || e[i] === "-") { t += s * (/^\d+$/.test(tok) ? +tok : lab[tok]); if (i < e.length) s = e[i] === "+" ? 1 : -1; tok = ""; } else tok += e[i]; }
+      return t; };
+    lines.forEach((l, a) => {
+      let x = l.includes(":") ? l.slice(l.indexOf(":") + 1).trim() : l.trim();
+      const p = x.split(/\s+/);
+      mem[a] = p[0] === "NUM" ? ev(p[1]) : OPS.indexOf(p[0]) * 8192 + (p.length > 1 ? ev(p[1]) : 0);
+    });
+    return {mem, lab, name, code: new Set(lines.map((l, a) => (/\b(NUM)\b/.test(l) ? -1 : a)).filter(a => a > 0))};
+  }
+  const word = w => { const f = (w >>> 13) & 7; return OPS[f] + (f === 6 || f === 7 ? "" : " " + (w & 8191)); };
+  let P, mem, orig, acc, ci, executed, stopped, mode = "factor", shown;
+  function load() {
+    if (mode === "factor") {
+      const N = Math.max(4, Math.min(1000000, Math.round(+document.getElementById("sp-n").value || 60)));
+      P = assemble(FACTOR.map(l => l.replace("__N__", N)), 32); shown = 32;
+    } else {
+      const lines = MERGE.slice();
+      RUNS.A.concat([1000000]).forEach((v, i) => lines.push((i ? "" : "A0: ") + "NUM " + v));
+      RUNS.B.concat([1000000]).forEach((v, i) => lines.push((i ? "" : "B0: ") + "NUM " + v));
+      for (let i = 0; i < 16; i++) lines.push((i ? "" : "C0: ") + "NUM 0");
+      P = assemble(lines, 256); shown = lines.length;
+    }
+    mem = P.mem.slice(); orig = P.mem.slice(); acc = 0; ci = 0; executed = 0; stopped = false; show();
+  }
+  function step() {
+    if (stopped) return false;
+    ci++; const w = mem[ci], f = (w >>> 13) & 7, s = w & 8191; executed++;
+    if (f === 0) ci = mem[s]; else if (f === 1) ci += mem[s]; else if (f === 2) acc = -mem[s]; else if (f === 3) mem[s] = acc;
+    else if (f === 4 || f === 5) acc -= mem[s]; else if (f === 6) { if (acc < 0) ci++; } else { stopped = true; return false; }
+    return true;
+  }
+  function show() {
+    storeEl.innerHTML = "";
+    for (let a = 0; a < shown; a++) {
+      const isCode = P.code.has(a);
+      const li = el("li", {class: (a === ci + 1 && !stopped ? "now " : "") + (mem[a] !== orig[a] && isCode ? "changed" : "")}, storeEl);
+      el("span", {class: "lab"}, li, P.name[a] ? P.name[a] : "");
+      li.appendChild(document.createTextNode(isCode ? word(mem[a]) : String(mem[a])));
+    }
+    const nx = storeEl.querySelector("li.now"); if (nx) nx.scrollIntoView({block: "nearest"});
+    document.getElementById("sp-regs").innerHTML = `<div>accumulator <b>${acc}</b></div><div>next instruction at <b>${ci + 1}</b></div><div>instructions executed <b>${fmt(executed)}</b></div>`;
+    const say = document.getElementById("sp-say");
+    if (!stopped) say.textContent = mode === "factor" ? "Word b holds the divisor being tried; it counts down from the number until one divides it." : "Watch LB, LA and SC (in red once changed): the program adds 1 to the address inside them.";
+    else if (mode === "factor") say.textContent = `Stopped. Word b holds the highest proper factor: ${mem[P.lab.b]}.`;
+    else say.textContent = `Stopped after ${fmt(executed)} instructions; C0 onward holds the merged list. The program found the same: 432 instructions.`;
+  }
+  const pre = document.getElementById("sp-pre");
+  [["Highest factor (32 words)", "factor"], ["Merge that rewrites itself", "merge"]].forEach(([n, m]) => {
+    const b = el("button", {type: "button"}, pre, n);
+    b.addEventListener("click", () => { mode = m; document.getElementById("sp-nrow").style.display = m === "factor" ? "" : "none"; load(); });
+  });
+  document.getElementById("sp-step").addEventListener("click", () => { step(); show(); });
+  document.getElementById("sp-run").addEventListener("click", () => { let k = 0; while (k++ < 5e7 && step()); show(); });
+  document.getElementById("sp-reset").addEventListener("click", load);
+  document.getElementById("sp-n").addEventListener("change", load);
+  load();
+})();
+
+</script>
+</body>
+</html>

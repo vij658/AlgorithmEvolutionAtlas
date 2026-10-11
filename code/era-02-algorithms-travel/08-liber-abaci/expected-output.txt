@@ -1,0 +1,10 @@
+numerals: 1 to 3999 ; Roman 7.50 symbols on average, longest 15 (3888 = MMMDCCCLXXXVIII) ; Indian figures 3.72 on average, at most 4
+multiply: 1202 x 1228 (MCCII x MCCXXVIII) ; partial products 1202 x 8 = 9616 ; 1202 x 2 x 10 = 24040 ; 1202 x 2 x 100 = 240400 ; 1202 x 1 x 1000 = 1202000 ; total 1476056 (too big for standard Roman numerals) ; 16 digit products
+rabbits: pairs at the end of months 1 to 12: 1 2 3 5 8 13 21 34 55 89 144 233
+recursion: F(10) = 55 in 177 calls ; F(20) = 6765 in 21891 calls ; F(30) = 832040 in 2692537 calls ; F(35) = 9227465 in 29860703 calls
+fast: F(1000) has 209 digits: loop 1000 additions, fast doubling 10 steps ; F(1000000) has 208988 digits, in 20 doubling steps
+binet: rounding phi^n / sqrt 5 in double precision gives F(n) exactly up to n = 70, and first goes wrong at n = 71
+lame: for a > b, the smallest pair that needs k division steps is (F(k+2), F(k+1)) ; 1 steps: 2, 1 ; 4 steps: 8, 5 ; 7 steps: 34, 21 ; 10 steps: 144, 89 ; 13 steps: 610, 377 ; 14 steps: 987, 610
+false position: 10000 random linear problems solved exactly from two guesses ; for x^2 = 2, guesses 1 and 2 give 1.333333 ; repeated, 16 rounds reach 1.414213562373
+heap: the smallest tree of rank k in a Fibonacci heap has F(k+2) nodes (checked for k up to 59) ; so a heap of a million items has rank at most 28 ; log_phi(10^6) = 28.7
+LiberAbaci: 14093 checks passed

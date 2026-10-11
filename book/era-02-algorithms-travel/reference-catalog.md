@@ -510,7 +510,7 @@ The program's English reference sample and secret message were written for it, s
 ## 8. Fibonacci's *Liber Abaci*
 
 **When / where:** Pisa, 1202 CE. Leonardo of Pisa, called Fibonacci (c. 1170 – c. 1250), learned Hindu–Arabic reckoning at Bugia (now Bejaia, Algeria). His father was a public notary at the customs there, acting for Pisan merchants. *Liber abaci* was published in 1202 after his return to Italy. The 1202 text is lost, and every surviving copy descends from the second edition of 1228.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`LiberAbaci.java`](../../code/era-02-algorithms-travel/08-liber-abaci/) · **Page:** [topic 8](08-liber-abaci/README.md)
 
 > **Field note.** In Pisa the merchants still wrote amounts in Roman numerals, which are fine for recording a sum and miserable for working one out. The son of a customs official, who had learned the Indian figures in North Africa, wrote them a manual in fifteen chapters. It begins with nine figures and a zero. Then come written rules for multiplying, adding, subtracting and dividing, then fractions, then problem after problem on prices, barter, partnerships and money changing. In chapter 12, almost in passing, there is a puzzle about rabbits whose answer, 1, 2, 3, 5, 8, …, my hosts now name after him. Sanskrit writers had met that sequence centuries earlier. His real export was the written algorithm itself, put into the hands of people who did sums for a living.
 
@@ -562,6 +562,15 @@ The program's English reference sample and secret message were written for it, s
 | Scholar | [Il Liber abbaci di Leonardo Pisano](https://archive.org/details/bub_gb_w86fLKi88pYC/page/n7/mode/2up) | Baldassarre Boncompagni (ed.), *Scritti di Leonardo Pisano*, 1857. Internet Archive (Google Books scan of the Florence National Central Library copy) | The Latin text, edited from a single manuscript |
 | Scholar | [Fibonacci's Liber Abaci: A Translation into Modern English of Leonardo Pisano's Book of Calculation](https://link.springer.com/book/9780387407371) | Laurence Sigler, Springer, 2002 (Sources and Studies in the History of Mathematics and Physical Sciences) | The only complete translation into a modern language |
 | Scholar | [Mathematical Treasures: Fibonacci's Liber abaci](https://old.maa.org/node/1734149) | MAA *Convergence* | Images from a 14th-century copy in the Biblioteca Nazionale Centrale di Firenze, including the page of nine Indian figures, and a translation of the autobiographical preface |
+
+**Added with the topic page** (each opened before it was listed)
+
+| Level | Link | Source | Why |
+|---|---|---|---|
+| Scholar | [Fibonacci heaps and their uses in improved network optimization algorithms](https://collaborate.princeton.edu/en/publications/fibonacci-heaps-and-their-uses-in-improved-network-optimization-a-2/) | Michael L. Fredman and Robert E. Tarjan, *Journal of the ACM* 34(3), 1987, 596–615 (Princeton record) | O(log n) amortized deletion, O(1) for other operations; single-source shortest paths in O(n log n + m) |
+| Deeper | [Fibonacci Heaps](https://www.cs.princeton.edu/~wayne/kleinberg-tardos/pdf/FibonacciHeaps.pdf) | Kevin Wayne, lecture slides for Kleinberg and Tardos, *Algorithm Design* (updated 2017) | The lemma: a heap of rank k has at least F(k+2) elements, so rank ≤ log base φ of n |
+
+The rabbit problem's one-year total as printed in the book was not found on a page opened here; the topic page gives the counts that follow from Strick's statement of the rules (five pairs at the end of the fourth month).
 
 **Gaps:** YouTube pages could not be opened, so no video is listed. Search found, for example, "Fibonacci's Liber Abaci: Leonardo Pisano's Book of Calculation" and Italian documentaries, but none could be checked. Keith Devlin's lecture "Leonardo Fibonacci and the birth of the modern western world" (University of Huddersfield, 23 October 2019) has an event page, but the page mentions no recording, so it is not listed. Devlin's *The Man of Numbers* was not opened. The ETSU and Emory pages name neither an author nor a course instructor; their institutions are inferred from their sites. No digitized manuscript of *Liber abaci* (for example in Florence) was found directly, and Boncompagni's volume page does not state its volume number or place of publication. The claim that merchants used counting boards comes from the plan, not from a page opened here: the pages opened speak only of Roman numerals.
 

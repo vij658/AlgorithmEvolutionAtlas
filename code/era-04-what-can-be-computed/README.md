@@ -18,4 +18,4 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 10 | [Monte Carlo](10-monte-carlo/README.md) | 1946–1949 | [`MonteCarlo.java`](10-monte-carlo/MonteCarlo.java) | 16 |
 | 11 | [The Simplex Method](11-simplex-method/README.md) | 1947 | [`SimplexMethod.java`](11-simplex-method/SimplexMethod.java) | 19,025 |
 | 12 | [Shannon's Bits](12-information-theory/README.md) | 1937–1948 | [`InformationTheory.java`](12-information-theory/InformationTheory.java) | 723 |
-| 13 | Hamming's Codes | 1950 | planned | |
+| 13 | [Hamming's Codes](13-hamming-codes/README.md) | 1950 | [`HammingCodes.java`](13-hamming-codes/HammingCodes.java) | 80,949 |

@@ -36,6 +36,6 @@
 | 10 | **Monte Carlo** | Ulam 1946; ENIAC 1948; Metropolis and Ulam 1949 | Too many interacting chances to calculate | [page](10-monte-carlo/README.md) · [interactive](10-monte-carlo/monte-carlo.html) · [program](../../code/era-04-what-can-be-computed/10-monte-carlo/README.md) |
 | 11 | **The Simplex Method** | Dantzig 1947 | Plans with astronomically many options | [page](11-simplex-method/README.md) · [interactive](11-simplex-method/simplex-method.html) · [program](../../code/era-04-what-can-be-computed/11-simplex-method/README.md) |
 | 12 | **Shannon's Bits** | Thesis 1937; *Mathematical Theory of Communication* 1948 | Circuits by trial and error; no measure of information | [page](12-information-theory/README.md) · [interactive](12-information-theory/information-theory.html) · [program](../../code/era-04-what-can-be-computed/12-information-theory/README.md) |
-| 13 | **Hamming's Codes** | 1947; published 1950 | A detected error meant starting again | planned · [references](reference-catalog.md#13-hammings-codes) |
+| 13 | **Hamming's Codes** | 1947; published 1950 | A detected error meant starting again | [page](13-hamming-codes/README.md) · [interactive](13-hamming-codes/hamming-codes.html) · [program](../../code/era-04-what-can-be-computed/13-hamming-codes/README.md) |
 
 The interactive edition is a single HTML file per topic: download it and open it in a browser, or use the published copy linked from the [book contents](../README.md).

@@ -583,7 +583,7 @@ No video could be verified (see **Gaps**).
 ## 13. Hamming's codes
 
 **When / where:** Richard Hamming, Bell Telephone Laboratories, from 1947: frustrated by a relay computer that abandoned his weekend jobs whenever it detected an error, he devised codes that locate and correct errors. "Error Detecting and Error Correcting Codes", *Bell System Technical Journal* 29(2): 147–160 (April 1950).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`HammingCodes.java`](../../code/era-04-what-can-be-computed/13-hamming-codes/) · **Page:** [topic 13](13-hamming-codes/README.md)
 
 > **Field note.** The relay computers at Bell Labs checked their own work: if a parity check failed, they stopped. During the week an operator restarted the job; at weekends the machine simply dropped it and went on to the next. A mathematician who came back on Mondays to find his work abandoned asked the obvious question: if the machine can tell that something is wrong, why can't it tell where, and put it right? His answer adds a few check digits, each the parity of a chosen set of positions, arranged so that the pattern of failed checks spells out, in binary, the position of the error. Seven digits carry four of information and survive any single error. This era began with a question about what can be computed at all; it ends with computing that can be trusted.
 

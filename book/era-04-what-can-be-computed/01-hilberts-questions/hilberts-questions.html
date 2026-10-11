@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hilbert&#x27;s Questions</title>
+<meta name="description" content="Era 4, topic 1 of The Algorithm Evolution Atlas: Hilbert&#x27;s tenth problem and the Entscheidungsproblem, a search that halts only on yes, and proofs by remainders.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.hq-board select{font:inherit;font-size:14px;padding:3px 6px}
+.hq-board input[type=number]{width:6.5em}
+.hq-steps{margin:6px 0 10px;padding-left:1.4em;font-size:13.5px;display:grid;gap:6px}
+.hq-steps .m{font-family:var(--mono);font-size:12.5px;overflow-wrap:anywhere}
+.hq-board .say{font-size:14.5px}
+#hq-svg{width:100%;max-width:420px;height:auto}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 4: What Can Be Computed</a><a href="../02-runge-kutta/runge-kutta.html">Runge–Kutta →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 4 · Topic 1 · 1900–1928</div>
+    <h1>Hilbert&#x27;s Questions</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">In 1900 Hilbert asked for a process that decides, in a finite number of operations, whether any equation in whole numbers has a solution; in 1928 he asked the same of logic. Searching gives half an answer: it confirms every yes and never confirms a no.</p>
+  <p class="fieldnote">Field note from the visiting historian. He was certain the process existed: in mathematics, he said, there is no ignorabimus, nothing we shall not know. The search I ran for x³ + y³ + z³ = 30 found nothing in 64,481,201 tries, though an answer exists. Whether one exists for 114, nobody on this planet knows.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#search">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Paris 1900; Hilbert and Ackermann 1928</dd></div><div><dt>Where</dt><dd>Paris and Göttingen</dd></div><div><dt>What hurt</dt><dd>Each kind of equation needed its own method</dd></div><div><dt>The fix</dt><dd>Ask for one process that decides them all</dd></div><div><dt>Answer</dt><dd>No such process exists (1936 for logic, 1970 for equations)</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Here the new idea is a question. Earlier eras invented a method for each kind of problem: Pell's equation (Era 2, topic 5), roots of polynomials (Era 2, topic 9), logic as algebra (Era 3, topic 12). In 1900 Hilbert asked for one process that decides every equation of a kind, and in 1928, with Ackermann, for one that decides every statement of logic. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How Hilbert&#x27;s questions combined older ideas, and where they led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="426.5,170.0 417.7,171.9 419.2,164.7" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,170.0 496.3,161.8 503.7,161.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="573.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,170.0 580.8,164.7 582.3,171.9" style="fill:var(--ink-2)"/><line x1="416.0" y1="256.0" x2="167.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="167.0,330.0 173.8,324.1 175.9,331.2" style="fill:var(--ink-2)"/><line x1="500.0" y1="256.0" x2="500.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,330.0 496.3,321.8 503.7,321.8" style="fill:var(--ink-2)"/><line x1="584.0" y1="256.0" x2="833.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="833.0,330.0 824.1,331.2 826.2,324.1" style="fill:var(--ink-2)"/><line x1="500.0" y1="416.0" x2="500.0" y2="480.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,480.0 496.3,471.8 503.7,471.8" style="fill:var(--ink-2)"/><line x1="833.0" y1="416.0" x2="605.0" y2="523.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="605.0,523.0 610.9,516.2 614.0,522.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Pell&#x27;s equation</text><text x="32.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">special methods for special</text><text x="32.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">equations</text><text x="32.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 2 topic 5</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Boole&#x27;s algebra</text><text x="407.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">logic as calculation</text><text x="407.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 3 topic 12</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Formal logic</text><text x="782.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">proofs as strings of symbols</text><text x="782.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Frege, Russell</text><rect x="395" y="170" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="193.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Hilbert&#x27;s questions</text><text x="407.0" y="210.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ ask for one process that</text><text x="407.0" y="227.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">decides everything</text><text x="407.0" y="243.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1900, 1928</text><rect x="20" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Gödel</text><text x="32.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">true but unprovable</text><text x="32.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 5, 1931</text><rect x="395" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="353.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Church and Turing</text><text x="407.0" y="370.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ a definition of process; the</text><text x="407.0" y="387.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">decision problem has none</text><text x="407.0" y="403.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topics 6, 7, 1936</text><rect x="770" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="782.0" y="353.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Matiyasevich</text><text x="782.0" y="370.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">no process for Diophantine</text><text x="782.0" y="387.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">equations</text><text x="782.0" y="403.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1970</text><rect x="395" y="480" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="503.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Undecidability today</text><text x="407.0" y="520.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">searches that halt only on</text><text x="407.0" y="537.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">yes</text><text x="407.0" y="553.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">today</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Frege and Russell are named for context only; this book has no topic on them. Arrows link ideas, not documented lines of influence.</text></svg></div><figcaption>Red: Hilbert's questions. Blue: the negative answers and what they mean today.</figcaption></figure>
+</section>
+<section id="search" aria-labelledby="search-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="search-h">Search for a solution, or prove there is none</h2>
+<p class="col">Pick an equation. The page first tries remainders: if the left side can never leave the same remainder as n for some divisor m up to 60, there is no solution, and no search is needed. Otherwise it searches outward, shell by shell, as the program does, and stops at the first solution. Try 1103 (impossible), 29 (quick), 30 or 42 (solutions exist, far out of reach) and 114 (nobody knows).</p>
+
+<div class="board hq-board">
+  <div style="min-width:0">
+    <div class="controls">
+      <label for="hq-k">Equation <select id="hq-k"><option value="2">x² + y² = n</option><option value="3">x³ + y³ + z³ = n</option></select></label>
+      <label for="hq-n">n = <input id="hq-n" type="number" min="0" max="99999" value="1105"></label>
+      <button class="primary" id="hq-go">Search</button>
+    </div>
+    <div class="presets" id="hq-pre"></div>
+    <svg id="hq-svg" viewBox="0 0 420 150" role="img" aria-label="Progress of the search, shell by shell"></svg>
+  </div>
+  <div style="min-width:0">
+    <div class="eyebrow">What happened</div>
+    <ol class="hq-steps" id="hq-steps"></ol>
+    <p class="say" id="hq-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 4, what can be computed</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 4: What Can Be Computed, from 1895 to 1950" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1900–1928</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Hilbert&#x27;s</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">questions</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1895–1901</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Runge and Kutta</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1906–1913</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Markov&#x27;s chains</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1926–1930</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Borůvka and</text><text x="428.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Jarník</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1931</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Gödel&#x27;s numbering</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1936</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Church&#x27;s</text><text x="671.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">λ-calculus</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1936</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Turing&#x27;s machines</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1932–1940</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Breaking Enigma</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1945–1948</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">The stored</text><text x="1036.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">program</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1946–1949</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Monte Carlo</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1947</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Dantzig&#x27;s simplex</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1937–1948</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Shannon&#x27;s bits</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1950</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Hamming&#x27;s codes</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 558" role="img" aria-label="Each fix leaves a new pain: from Hilbert&#x27;s question to its negative answer" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="396.0" x2="750.0" y2="446.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,446.0 746.3,437.8 753.7,437.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="492.0" x2="400.0" y2="492.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,492.0 408.2,488.3 408.2,495.7" style="fill:var(--ink-2)"/><rect x="449.2" y="471.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="484.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="61.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Each kind of equation needs its own method</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Ask for one process that settles them all</text><text x="572.0" y="86.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Hilbert, Paris 1900</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">To prove that no process exists, &quot;process&quot; must be</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">defined</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Define it: λ-calculus and Turing machines</text><text x="32.0" y="228.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Church, Turing, 1936</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="345.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A search confirms every yes, but never a no</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Remainders rule some equations out: mod 4, mod 9</text><text x="572.0" y="370.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">elementary number theory</text><rect x="560" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="479.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="495.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">x³ + y³ + z³ = 30: no remainder rule, and the solution lies</text><text x="572.0" y="512.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">on shell 2,220,422,932</text><rect x="20" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="479.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="495.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">No general process exists, so cleverness is unavoidable</text><text x="32.0" y="512.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Matiyasevich, 1970</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Half a process is easy</h2>
+<p class="col"><strong>Search, shell by shell.</strong> List every tuple of whole numbers so that each one comes up after finitely many steps: first the tuple whose largest entry (in size) is 0, then those whose largest entry is 1, then 2, and so on. Each shell is finite, so the list reaches every tuple. The program checked this for three unknowns, shells 0 to 25: 132,651 tuples, each visited exactly once.</p>
+<p class="col">Run down the list and test each tuple. If the equation has a solution, the search finds one and stops: x² + y² = 1105 stops on shell 24 after 2,211 tuples, at (-24, -23); x³ + y³ + z³ = 29 stops on shell 3 after 207 tuples, at (3, 1, 1). This is the half of Hilbert's tenth problem that is easy: a yes can always be confirmed.</p>
+<p class="col"><strong>Proof by remainders.</strong> The other half needs an argument. Squares leave only the remainders {0, 1} when divided by 4, and no two of them add up to 3; since 1103 = 4 × 275 + 3, x² + y² = 1103 has no solution. Cubes leave only {0, 1, 8} when divided by 9, and no three of them add up to 4, so x³ + y³ + z³ = 4 is impossible. The program's search agrees as far as it goes: 4,004,001 tuples and 8,120,601 tuples, none a solution.</p>
+<div class="tbl"><table><thead><tr><th class="">Remainder of a cube mod 9</th><th class="">Possible sums of three, mod 9</th></tr></thead><tbody><tr class=""><td class="">0, 1, 8</td><td class="">0, 1, 2, 3, 6, 7, 8 (never 4 or 5)</td></tr></tbody></table></div>
+<p class="col"><strong>When neither works.</strong> For x³ + y³ + z³ = 30, no remainder up to 60 forbids a solution, and the program's search through shell 200 (64,481,201 tuples) finds nothing. A solution does exist; the program checks it exactly. It lies on shell 2,220,422,932, and the shells inside that one hold about 10²⁸ tuples:</p>
+<div class="tbl"><table><thead><tr><th class="">Equation</th><th class="">The program&#x27;s search</th><th class="">Known solution (checked)</th><th class="n">Its shell</th><th class="">Tuples in the shells inside</th></tr></thead><tbody><tr class=""><td class="">x³ + y³ + z³ = 30</td><td class="">none through shell 200 (64,481,201 tuples)</td><td class="">(-283,059,965, -2,218,888,517, 2,220,422,932)</td><td class="n">2,220,422,932</td><td class="">about 10²⁸</td></tr><tr class=""><td class="">x³ + y³ + z³ = 33</td><td class="">none through shell 200 (64,481,201 tuples)</td><td class="">(8,866,128,975,287,528, -8,778,405,442,862,239, -2,736,111,468,807,040)</td><td class="n">8,866,128,975,287,528</td><td class="">about 10⁴⁸</td></tr><tr class=""><td class="">x³ + y³ + z³ = 42</td><td class="">none through shell 200 (64,481,201 tuples)</td><td class="">(-80,538,738,812,075,974, 80,435,758,145,817,515, 12,602,123,297,335,631)</td><td class="n">80,538,738,812,075,974</td><td class="">about 10⁵¹</td></tr></tbody></table></div>
+<p class="col"><strong>One unknown is easy.</strong> For a polynomial in one unknown with whole-number coefficients, any whole-number root divides the constant term, so only finitely many candidates need testing. x³ − 6x² + 11x − 6 has roots 1, 2, 3, found with 8 tests; x⁵ − x − 1 has none, shown with 2 tests. On 3000 random polynomials the divisor test needed 33,574 evaluations against 501,814 for a full search, and the two agreed every time.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>A search that stops whenever the answer is yes is not a decision procedure: it can run for ever when the answer is no. Hilbert asked for a procedure that always stops. For one unknown it exists; for equations in general, Matiyasevich proved in 1970 that it does not.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">What each equation cost</h2>
+<div class="tbl"><table><thead><tr><th class="">Equation</th><th class="">Outcome</th><th class="n">Tuples tried</th></tr></thead><tbody><tr class=""><td class="">x² + y² = 1105</td><td class="">solution on shell 24</td><td class="n">2,211</td></tr><tr class=""><td class="">x³ + y³ + z³ = 29</td><td class="">solution on shell 3</td><td class="n">207</td></tr><tr class=""><td class="">x² + y² = 1103</td><td class="">impossible mod 4; searched through shell 1000</td><td class="n">4,004,001</td></tr><tr class=""><td class="">x³ + y³ + z³ = 4</td><td class="">impossible mod 9; searched through shell 100</td><td class="n">8,120,601</td></tr><tr class=""><td class="">x³ + y³ + z³ = 30</td><td class="">nothing through shell 200</td><td class="n">64,481,201</td></tr><tr class=""><td class="">x³ + y³ + z³ = 33</td><td class="">nothing through shell 200</td><td class="n">64,481,201</td></tr><tr class=""><td class="">x³ + y³ + z³ = 42</td><td class="">nothing through shell 200</td><td class="n">64,481,201</td></tr></tbody></table></div>
+<p class="col">A remainder argument settles the question for every tuple at once, not just for those searched. The blind searches for 30, 33 and 42 are hopeless at any speed; the known solutions were found by other methods.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">Two questions and their answers</h2>
+<p class="col">Hilbert's tenth problem (Paris, 1900) asks "to devise a process according to which it can be determined by a finite number of operations" whether a Diophantine equation is solvable in whole numbers, and the address insists that "in mathematics there is no ignorabimus" (Newson's translation, Project Gutenberg). MacTutor speaks of 23 Paris problems while its own links say 24 (<strong>disputed</strong> count). In 1928 Hilbert and Ackermann posed the Entscheidungsproblem; Church and Turing proved it unsolvable in 1936 (Wikipedia; Dawar, Cambridge).</p>
+<p class="col">Matiyasevich completed the negative answer to the tenth problem in January 1970, building on Davis, Putnam and Julia Robinson (MacTutor). Sums of three cubes: no number that leaves 4 or 5 mod 9 is one, and "it is unknown whether this necessary condition is sufficient"; 33 and 42 were settled in 2019 (Booker; Booker and Sutherland); 114, 390, 627, 633, 732, 921 and 975 are the open cases below 1,000 (Wikipedia, Sums of three cubes).</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Searches that halt only on yes</h2>
+<p class="col">Hilbert's question is now asked of programs. A tool that looks for a bug, a counterexample or a proof halts when it finds one; when there is none, it may run for ever, and Turing (topic 7) showed that no tool can always tell the difference. Practical tools therefore combine a search with arguments, like the remainders here, that settle some of the no cases.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>Remainders mod 9 settle infinitely many sums of three cubes in one line. For 30 a blind search would need about 10²⁸ tries; for 114, nobody knows whether any number of tries will do.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Why search in shells instead of trying x = 0, 1, 2, ... with y = 0 fixed?</span></summary><div class="ans"><p>That order never reaches y = 1. Shells are finite, so every tuple comes up after finitely many steps.</p></div></details><details class="try"><summary><span class="q">2</span><span>Show that x² + y² = 1103 has no solution.</span></summary><div class="ans"><p>Squares leave remainder 0 or 1 when divided by 4, so x² + y² leaves 0, 1 or 2. But 1103 leaves 3.</p></div></details><details class="try"><summary><span class="q">3</span><span>Can x³ + y³ + z³ = 23 be ruled out by remainders mod 9?</span></summary><div class="ans"><p>Yes. 23 leaves 5 when divided by 9; cubes leave 0, 1 or 8, and no three of these add up to 5 mod 9.</p></div></details><details class="try"><summary><span class="q">4</span><span>Find the whole-number roots of x³ − 6x² + 11x − 6.</span></summary><div class="ans"><p>They must divide 6: try ±1, ±2, ±3, ±6. The roots are 1, 2 and 3.</p></div></details><details class="try"><summary><span class="q">5</span><span>If a search has run for a year without finding a solution, what do you know?</span></summary><div class="ans"><p>Only that there is no solution in the shells searched so far. Without a separate argument, nothing about the rest.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 120" role="img" aria-label="Drawn placeholder of an open printed book" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><path d="M100,20 C80,12 40,12 20,18 V108 C40,102 80,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><path d="M100,20 C120,12 160,12 180,18 V108 C160,102 120,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="32.0" y1="32.0" x2="88.0" y2="32.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="41.0" x2="88.0" y2="41.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="50.0" x2="88.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="59.0" x2="88.0" y2="59.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="68.0" x2="88.0" y2="68.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="77.0" x2="88.0" y2="77.0" style="stroke:var(--axis);stroke-width:2"/><circle cx="140.0" cy="60.0" r="24.0" style="fill:none;stroke:var(--red);stroke-width:2"/><path d="M116,60 L164,60 M140,36 L140,84" style="fill:none;stroke:var(--blue);stroke-width:2"/></svg></div><figcaption class="txt"><b>Mathematical Problems (1900)</b><span>Hilbert's Paris address in Mary Winston Newson's English translation of 1902, problem 10 included.</span><a href="https://gutenberg.org/files/71655/71655-h/71655-h.htm">Project Gutenberg</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Hilbert/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">David Hilbert · MacTutor</span><span class="w">The Paris problems, the Königsberg speech, and what Gödel did to the programme</span></a><a href="https://en.wikipedia.org/wiki/Entscheidungsproblem" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Entscheidungsproblem · Wikipedia</span><span class="w">The decision problem of 1928 and its negative answer in 1936</span></a><a href="https://en.wikipedia.org/wiki/Hilbert%27s_tenth_problem" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Hilbert's tenth problem · Wikipedia</span><span class="w">Why searching for solutions works only one way</span></a><a href="https://en.wikipedia.org/wiki/Sums_of_three_cubes" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Sums of three cubes · Wikipedia</span><span class="w">A search that halts only if an answer exists, run for decades</span></a><a href="https://www.cl.cam.ac.uk/teaching/2324/CompTheory/slides.pdf" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Computation Theory (lecture slides) · Anuj Dawar (after Andrew Pitts), University of Cambridge, 2024</span><span class="w">The Entscheidungsproblem as the starting point of computation theory: register machines, Turing machines, the lambda calculus and the halting problem</span></a><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Matiyasevich/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Yuri Matiyasevich · MacTutor</span><span class="w">The final step of 1970, in Matiyasevich's own words</span></a><a href="https://gutenberg.org/files/71655/71655-h/71655-h.htm" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Mathematical Problems (1900) · David Hilbert, trans. Mary Winston Newson (1902), Project Gutenberg</span><span class="w">The address itself, with problem 10 and "no ignorabimus"</span></a><a href="https://www.ams.org/bull/2000-37-04/S0273-0979-00-00881-8/" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Mathematical problems (reprint) · <em>Bulletin of the AMS</em> 37:407–436 (2000), reprinting Bull. AMS 8 (1902)</span><span class="w">The same translation in the journal of record</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-04-what-can-be-computed/reference-catalog.md">Era 4 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-04-what-can-be-computed/01-hilberts-questions/HilbertsQuestions.java">HilbertsQuestions.java</a> makes <strong>12,392,947 checks</strong>: every tuple of three unknowns visited exactly once through shell 25, the searches for 1105 and 29, millions of tuples tested against the remainder proofs for 1103 and 4, the known solutions for 30, 33 and 42 checked exactly, and the divisor test against a full search on 3,000 polynomials. Run it with <code>java HilbertsQuestions.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/**</span>
+<span class="k-c"> * Visit every tuple whose largest entry (in absolute value) is exactly r, each once: the first coordinate that</span>
+<span class="k-c"> * reaches r is coordinate i; coordinates before it stay inside the shell, coordinates after it range freely.</span>
+<span class="k-c"> */</span>
+<span class="k-kw">static</span> <span class="k-kw">boolean</span> shell(<span class="k-kw">int</span> k, <span class="k-kw">long</span> r, Visit visit) {
+    <span class="k-kw">long</span>[] v = <span class="k-kw">new</span> <span class="k-kw">long</span>[k];
+    <span class="k-kw">if</span> (r == <span class="k-n">0</span>) { tried++; <span class="k-kw">return</span> visit.at(v); }
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; k; i++)
+        <span class="k-kw">for</span> (<span class="k-kw">long</span> s : <span class="k-kw">new</span> <span class="k-kw">long</span>[]{-r, r}) {
+            v[i] = s;
+            <span class="k-kw">if</span> (fill(v, <span class="k-n">0</span>, i, r, visit)) <span class="k-kw">return</span> <span class="k-kw">true</span>;
+        }
+    <span class="k-kw">return</span> <span class="k-kw">false</span>;
+}
+
+<span class="k-c">// ---- 3. proof by remainders ---------------------------------------------------------------------------------------</span>
+<span class="k-c">/** The smallest m &lt;= maxM for which the equation has no solution even in remainders mod m, or 0 if there is none. */</span>
+<span class="k-kw">static</span> <span class="k-kw">int</span> obstruction(Eq e, <span class="k-kw">int</span> maxM) {
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> m = <span class="k-n">2</span>; m &lt;= maxM; m++) {
+        <span class="k-kw">boolean</span>[] isPow = <span class="k-kw">new</span> <span class="k-kw">boolean</span>[m];
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> a = <span class="k-n">0</span>; a &lt; m; a++) isPow[(<span class="k-kw">int</span>) (e.power == <span class="k-n">2</span> ? (<span class="k-kw">long</span>) a * a % m : (<span class="k-kw">long</span>) a * a % m * a % m)] = <span class="k-kw">true</span>;
+        <span class="k-kw">int</span> t = (<span class="k-kw">int</span>) Math.floorMod(e.target, (<span class="k-kw">long</span>) m);
+        <span class="k-kw">boolean</span> possible = <span class="k-kw">false</span>;
+        <span class="k-kw">if</span> (e.vars == <span class="k-n">2</span>) {
+            <span class="k-kw">for</span> (<span class="k-kw">int</span> a = <span class="k-n">0</span>; a &lt; m &amp;&amp; !possible; a++) <span class="k-kw">if</span> (isPow[a] &amp;&amp; isPow[Math.floorMod(t - a, m)]) possible = <span class="k-kw">true</span>;
+        } <span class="k-kw">else</span> {
+            <span class="k-kw">for</span> (<span class="k-kw">int</span> a = <span class="k-n">0</span>; a &lt; m &amp;&amp; !possible; a++)
+                <span class="k-kw">for</span> (<span class="k-kw">int</span> b = <span class="k-n">0</span>; b &lt; m &amp;&amp; !possible; b++)
+                    <span class="k-kw">if</span> (isPow[a] &amp;&amp; isPow[b] &amp;&amp; isPow[Math.floorMod(t - a - b, m)]) possible = <span class="k-kw">true</span>;
+        }
+        <span class="k-kw">if</span> (!possible) <span class="k-kw">return</span> m;
+    }
+    <span class="k-kw">return</span> <span class="k-n">0</span>;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>HilbertsQuestions.java</code>.<br><span class="navfoot"><a href="../index.html">Era 4: What Can Be Computed</a><a href="../02-runge-kutta/runge-kutta.html">Runge–Kutta →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const svg = document.getElementById("hq-svg");
+  if (!svg) return;
+  const KNOWN = {"30": {"sol": "-283059965, -2218888517, 2220422932", "shell": "2220422932", "exp": "28"}, "33": {"sol": "8866128975287528, -8778405442862239, -2736111468807040", "shell": "8866128975287528", "exp": "48"}, "42": {"sol": "-80538738812075974, 80435758145817515, 12602123297335631", "shell": "80538738812075974", "exp": "51"}};
+  const OPEN = ["114", "390", "627", "633", "732", "921", "975"];
+  const CAP = {2: 600, 3: 70};
+  const pre = document.getElementById("hq-pre");
+  [["2", 1105], ["2", 1103], ["3", 29], ["3", 4], ["3", 30], ["3", 42]].forEach(([k, n]) => {
+    const b = el("button", {type: "button"}, pre, (k === "2" ? "x²+y²=" : "x³+y³+z³=") + n);
+    b.addEventListener("click", () => { document.getElementById("hq-k").value = k; document.getElementById("hq-n").value = n; run(); });
+  });
+  let job = 0;
+  const pw = (a, k) => (k === 2 ? a * a : a * a * a);
+  function obstruction(k, n) {
+    for (let m = 2; m <= 60; m++) {
+      const isP = new Array(m).fill(false), res = new Set();
+      for (let a = 0; a < m; a++) { const r = ((k === 2 ? a * a : a * a * a) % m + m) % m; isP[r] = true; res.add(r); }
+      const t = ((n % m) + m) % m;
+      let ok = false;
+      if (k === 2) { for (let a = 0; a < m && !ok; a++) if (isP[a] && isP[((t - a) % m + m) % m]) ok = true; }
+      else { for (let a = 0; a < m && !ok; a++) for (let b = 0; b < m && !ok; b++) if (isP[a] && isP[b] && isP[((t - a - b) % m + 2 * m) % m]) ok = true; }
+      if (!ok) return {m, res: [...res].sort((x, y) => x - y), t};
+    }
+    return null;
+  }
+  function draw(k, r, cap, tried, hit) {
+    svg.innerHTML = "";
+    const W = 420, H = 150, x0 = 40, x1 = 400, y = 52;
+    sv("line", {x1: x0, y1: y, x2: x1, y2: y, stroke: "var(--axis)", "stroke-width": 2}, svg);
+    const frac = Math.min(1, r / cap);
+    sv("rect", {x: x0, y: y - 14, width: (x1 - x0) * frac, height: 28, fill: hit ? "var(--blue)" : "var(--yellow)"}, svg);
+    sv("text", {x: x0, y: y - 30, fill: "var(--muted)", "font-size": 13}, svg, "shell 0");
+    sv("text", {x: x1, y: y - 30, fill: "var(--muted)", "font-size": 13, "text-anchor": "end"}, svg, "shell " + cap + " (this page stops here)");
+    sv("text", {x: W / 2, y: y + 50, fill: "var(--ink)", "font-size": 16, "font-weight": 700, "text-anchor": "middle"}, svg, "shell " + r + " · " + fmt(tried) + " tuples tried");
+    sv("text", {x: W / 2, y: y + 76, fill: "var(--muted)", "font-size": 13, "text-anchor": "middle"}, svg, k === 2 ? "two unknowns: shell r holds 8r points" : "three unknowns: shell r holds 24r² + 2 points");
+  }
+  function run() {
+    const my = ++job;
+    const k = +document.getElementById("hq-k").value;
+    let n = Math.max(0, Math.min(99999, Math.round(+document.getElementById("hq-n").value || 0)));
+    const ol = document.getElementById("hq-steps"); ol.innerHTML = "";
+    const li = h => { el("li", {}, ol).innerHTML = h; };
+    const say = document.getElementById("hq-say");
+    const name = k === 2 ? "x² + y² = " + n : "x³ + y³ + z³ = " + n;
+    const ob = obstruction(k, n);
+    if (ob) {
+      li(`Remainders first: ${k === 2 ? "squares" : "cubes"} leave only <span class="m">{${ob.res.join(", ")}}</span> when divided by ${ob.m}.`);
+      li(`No ${k} of them add up to ${ob.t}, the remainder of ${n}. So ${name} has no solution at all.`);
+      say.textContent = "Proved impossible without searching: a finite argument settles the infinite question.";
+      draw(k, 0, CAP[k], 0, false);
+      return;
+    }
+    li(`No remainder rule up to 60 rules it out, so search: shell 0, 1, 2, ...`);
+    let r = 0, tried = 0;
+    const cap = CAP[k];
+    function test(v) { tried++; let s = 0; for (const a of v) s += pw(a, k); return s === n; }
+    function shell(r) {
+      if (r === 0) return test(k === 2 ? [0, 0] : [0, 0, 0]) ? (k === 2 ? [0, 0] : [0, 0, 0]) : null;
+      for (let i = 0; i < k; i++) for (const s of [-r, r]) {
+        const lim = j => (j < i ? r - 1 : r);
+        if (k === 2) {
+          const j = 1 - i;
+          for (let a = -lim(j); a <= lim(j); a++) { const v = i === 0 ? [s, a] : [a, s]; if (test(v)) return v; }
+        } else {
+          const o = [0, 1, 2].filter(j => j !== i);
+          for (let a = -lim(o[0]); a <= lim(o[0]); a++) for (let b = -lim(o[1]); b <= lim(o[1]); b++) {
+            const v = [0, 0, 0]; v[i] = s; v[o[0]] = a; v[o[1]] = b;
+            if (test(v)) return v;
+          }
+        }
+      }
+      return null;
+    }
+    function chunk() {
+      if (my !== job) return;
+      const t0 = performance.now();
+      while (r <= cap && performance.now() - t0 < 25) {
+        const hit = shell(r);
+        if (hit) {
+          draw(k, r, cap, tried, true);
+          li(`Found <span class="m">(${hit.join(", ")})</span> on shell ${r}, after ${fmt(tried)} tuples.`);
+          say.textContent = "The search stops: a yes can always be confirmed by searching.";
+          return;
+        }
+        r++;
+      }
+      draw(k, Math.min(r, cap), cap, tried, false);
+      if (r <= cap) { requestAnimationFrame(chunk); return; }
+      li(`No solution through shell ${cap}: ${fmt(tried)} tuples tried.`);
+      if (k === 3 && KNOWN[n]) {
+        const kn = KNOWN[n];
+        li(`A solution is known: <span class="m">(${kn.sol})</span>. It lies on shell ${fmt(kn.shell)}; the shells inside it hold about 10<sup>${kn.exp}</sup> tuples.`);
+        say.textContent = "This search would have stopped, but not in the lifetime of the universe. Cleverer searches found it.";
+      } else if (k === 3 && OPEN.includes(String(n))) {
+        say.textContent = "Nobody knows whether this search ever stops: " + n + " is one of the open cases below 1,000.";
+      } else {
+        say.textContent = "Still searching. If no solution exists, the search runs for ever, and watching it tells you nothing.";
+      }
+    }
+    chunk();
+  }
+  document.getElementById("hq-go").addEventListener("click", run);
+  run();
+})();
+
+</script>
+</body>
+</html>

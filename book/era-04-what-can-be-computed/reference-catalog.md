@@ -241,7 +241,7 @@ No video could be verified (see **Gaps**).
 ## 5. Gödel's numbering
 
 **When / where:** Kurt Gödel, aged 24, announced his first incompleteness theorem at a conference in Königsberg in September 1930; the paper, "Über formal unentscheidbare Sätze der Principia Mathematica und verwandter Systeme I", was submitted on 17 November 1930 and published in *Monatshefte für Mathematik und Physik* 38 (1931), 173–198.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`GodelNumbering.java`](../../code/era-04-what-can-be-computed/05-godel-numbering/) · **Page:** [topic 5](05-godel-numbering/README.md)
 
 > **Field note.** Hilbert wanted mathematics written as a game of symbols, with rules so exact that a machine could check every proof, and then a proof that the game could never produce a contradiction. A young logician took the first half at its word. He gave every symbol a number, every formula a number built from those (a product of prime powers), every proof a number built from those, and showed that "this number is a proof of that formula" is a question of ordinary arithmetic. Then arithmetic could talk about its own proofs, and he wrote down a formula that says, in effect, "I am not provable". If the system is consistent, that formula is true and cannot be proved. Programs are numbers: I date the idea from this paper.
 

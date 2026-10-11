@@ -1,0 +1,12 @@
+signs: 0=1 f=3 ~=5 v=7 P=9 (=11 )=13 ; variables x1=17 y1=19 z1=23 (primes above 13) ; x2=289 y2=361 z2=529 (their squares, for the next type)
+formula: 0 ; signs 1 ; 2^1 = 2
+formula: f0 ; signs 3 1 ; 2^3 * 3^1 = 24
+formula: ff0 ; signs 3 3 1 ; 2^3 * 3^3 * 5^1 = 1080
+formula: x2(x1) ; signs 289 11 17 13 ; 2^289 * 3^11 * 5^17 * 7^13 = 116 digits, 130246...000000
+formula: ~(x2(x1)) ; signs 5 11 289 11 17 13 13 ; 2^5 * 3^11 * 5^289 * 7^11 * 11^17 * 13^13 * 17^13 = 267 digits, 170871...500000
+formula: x1P(x2(x1)) ; signs 17 9 11 289 11 17 13 13 ; 2^17 * 3^9 * 5^11 * 7^289 * 11^11 * 13^17 * 17^13 * 19^13 = 325 digits, 221612...000000
+roundtrip: 10000 random strings of 1 to 8 signs (7299 different) coded and factored back: every one recovered, no two different strings share a number ; the largest number has 2383 digits
+proof: the list f0, ff0, x2(x1) is coded as 2^24 * 3^1080 * 5^(the number of x2(x1)) ; its last factor alone has about 10^115.0 digits, far too many to write down
+bounded: the exponent of p in x found with loops of fixed length (63 tries) agrees with repeated division for x = 1 to 200000 and the first 10 primes: 2000000 cases
+diag: A = "Put the number @ in place of every at-sign in sentence number @: the sentence you get is not provable." (102 characters) ; its number has 202 digits ; G is A with that number written in place of each at-sign (504 characters, number of 997 digits) ; following G's recipe gives G itself ; G = "Put the number 2807452759755614598417334997106395934982202225852679731889779538979060097849148761803248359510966360275072061007480749023874714569318354835288617980405499449927762203255003525322934824049259004317677590 in place of every at-sign in sentence number 2807452759755614598417334997106395934982202225852679731889779538979060097849148761803248359510966360275072061007480749023874714569318354835288617980405499449927762203255003525322934824049259004317677590: the sentence you get is not provable."
+GodelNumbering: 2017311 checks passed

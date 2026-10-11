@@ -1,0 +1,7 @@
+machine1: Turing's first example, m-configurations b, c, e, f, after 40 moves: 0 _ 1 _ 0 _ 1 _ 0 _ 1 _ 0 _ 1 _ 0 _ 1 _ ; figures on every other square, alternately 0 and 1, and it never stops
+sd: standard description DADDCRDAA;DAADDRDAAA;DAAADDCCRDAAAA;DAAAADDRDA; ; replacing A, C, D, L, R, N, ; by 1 to 7 gives the description number 31332531173113353111731113322531111731111335317, the number printed in the paper
+universal: the description number read back as 4 instructions ; run from the number alone, the machine wrote the same tape for 10000 moves
+example: q1 blank -> print 1, right, q2 ; q2 blank -> print 0, right, q1 ; standard description DADDCCRDAA;DAADDCRDA; ; description number 313322531173113325317, as published
+two: all 20736 machines with 2 states and 2 symbols, from a blank tape ; 9784 halt (1 moves: 6912, 2 moves: 2304, 3 moves: 384, 4 moves: 128, 5 moves: 16, 6 moves: 40) ; the slowest takes 6 moves and the most ones left is 4 ; the other 10952 are still running after 1000 moves, and none of them halts between move 7 and move 1000
+bb5: Marxen and Buntrock's five-state machine halts after 47176870 moves, leaving 4098 ones on a stretch of 12289 squares ; after 10000000 moves it was still running, so a test that waits that long would wrongly call it a machine that never halts
+TuringMachines: 9872 checks passed

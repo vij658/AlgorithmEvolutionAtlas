@@ -329,7 +329,7 @@ No video could be verified (see **Gaps**).
 ## 7. Turing's machines
 
 **When / where:** Alan Turing, Cambridge, after Max Newman's lectures of spring 1935. "On Computable Numbers, with an Application to the Entscheidungsproblem" was received by the London Mathematical Society on 28 May 1936, read on 12 November 1936, and printed in its *Proceedings* (series 2, vol. 42, 230–265) in 1937, with an appendix on Church's work added on 28 August 1936.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`TuringMachines.java`](../../code/era-04-what-can-be-computed/07-turing-machines/) · **Page:** [topic 7](07-turing-machines/README.md)
 
 > **Field note.** Church had defined computation by a calculus; Turing defined it by watching a person compute. A clerk with a pencil works on squared paper, looks at a few squares at a time, has a finite number of states of mind, and follows fixed rules. Strip that down and you get a machine: a tape of squares, a head that reads one square, writes and moves one step, and a finite table of instructions. Then two surprises. A single machine can do the work of every other, if it is handed the other's table written on its tape: the table is just data. And no machine can look at any table and decide whether that machine will run properly forever or get stuck. Hilbert's decision problem fell with it.
 

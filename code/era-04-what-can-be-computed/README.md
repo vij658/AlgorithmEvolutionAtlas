@@ -12,7 +12,7 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 4 | [The Cheapest Network](04-cheapest-network/README.md) | 1926–1930 | [`CheapestNetwork.java`](04-cheapest-network/CheapestNetwork.java) | 14,341 |
 | 5 | [Gödel's Numbering](05-godel-numbering/README.md) | 1931 | [`GodelNumbering.java`](05-godel-numbering/GodelNumbering.java) | 2,017,311 |
 | 6 | [Church's Lambda Calculus](06-lambda-calculus/README.md) | 1936 | [`LambdaCalculus.java`](06-lambda-calculus/LambdaCalculus.java) | 163 |
-| 7 | Turing's Machines | 1936 | planned | |
+| 7 | [Turing's Machines](07-turing-machines/README.md) | 1936 | [`TuringMachines.java`](07-turing-machines/TuringMachines.java) | 9,872 |
 | 8 | Breaking Enigma | 1932–1940 | planned | |
 | 9 | The Stored Program, and Merge Sort | 1945–1948 | planned | |
 | 10 | Monte Carlo | 1946–1949 | planned | |

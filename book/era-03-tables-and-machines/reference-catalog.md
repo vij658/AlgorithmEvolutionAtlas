@@ -228,7 +228,7 @@ No original source could be opened (see **Gaps**).
 ## 5. Newton's method
 
 **When / where:** Isaac Newton's *De analysi per aequationes numero terminorum infinitas*, written in Cambridge probably in mid-1669, solves x³ − 2x − 5 = 0 by successive corrections; it was first printed (in Wallis's *Treatise of Algebra*) in 1685 and in full in 1711. Joseph Raphson published his own iteration, *Analysis aequationum universalis*, in London in 1690. Thomas Simpson gave the general form for any equation, and for two equations in two unknowns, in 1740.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`NewtonsMethod.java`](../../code/era-03-tables-and-machines/05-newtons-method/) · **Page:** [topic 5](05-newtons-method/README.md)
 
 > **Field note.** Qin Jiushao (Era 2, topic 9) dug out a root one digit at a time. Newton did something bolder: guess, then ask what small correction would make the guess right if the curve were a straight line. The correction is never exactly right, so do it again. With each round the number of correct digits roughly doubles. Newton wrote out a new polynomial at every step; Raphson saw that one could keep correcting the same equation; Simpson saw that the equation need not be a polynomial at all. The method carries Newton's name, though three people made it what it is.
 

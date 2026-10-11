@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ptolemy&#x27;s Table of Chords</title>
+<meta name="description" content="Era 2, topic 2 of The Algorithm Evolution Atlas: Ptolemy&#x27;s table of chords, grown from five polygons by halving, sums and differences, with interpolation, and the same pattern inside today&#x27;s sine function.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.pc-board input[type=range]{width:min(320px,62vw)}
+.pc-board .pc-arcval{font-family:var(--mono);font-size:14px;font-weight:600}
+.pc-board .say{font-size:15px}
+.pc-board svg{max-width:420px;margin:0 auto}
+.pc-read{border-collapse:collapse;font-size:13.5px;width:100%;margin-top:6px}
+.pc-read td{padding:5px 6px;border-bottom:1px solid var(--rule);vertical-align:top}
+.pc-read td:first-child{color:var(--muted);width:46%}
+.pc-read td:last-child{font-family:var(--mono)}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 2: Algorithms Travel</a><a href="../01-fangcheng/fangcheng.html">← Elimination on the Counting Board</a><a href="../03-chinese-remainder-problem/chinese-remainder-problem.html">The Chinese Remainder Problem →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 2 · Topic 2 · c. 150 CE</div>
+    <h1>Ptolemy&#x27;s Table of Chords</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">Nobody can measure the chord of every angle. Ptolemy grew a table of 360 chords from five exact ones, with rules that make new entries from old, and a column for reading between the lines.</p>
+  <p class="fieldnote">Field note from the visiting historian. The sky-watchers of Alexandria met the same geometry problem a thousand times a night: given an angle, how long is the chord across it? Ptolemy did not measure. He started from five chords he knew exactly and grew the rest.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#table">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#steps">How it works</a><a href="#evidence">The evidence</a><a href="#measured">Measured</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd><em>Almagest</em>, Book I, c. 150 CE; observations 127–141 CE (<strong>documented</strong>)</dd></div><div><dt>Where</dt><dd>Alexandria</dd></div><div><dt>What hurt</dt><dd>Astronomy needs the chord of every angle</dd></div><div><dt>The fix</dt><dd>A seed of exact chords, rules for halves, sums and differences, and linear interpolation</dd></div><div><dt>Cost</dt><dd>360 entries; interpolation at worst 1.45 seconds off</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Ptolemy inherited base-60 fractions and the habit of tables from Babylon (Era 1, topic 3), and the sides of regular polygons from Greek geometry (topics 7 and 8). He added a way to grow a whole table from a handful of exact values. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How Ptolemy&#x27;s table combined older ideas, and where the sine came from" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="437.0" y2="160.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="437.0,160.0 428.3,162.2 429.5,155.0" style="fill:var(--ink-2)"/><line x1="375.0" y1="106.0" x2="489.5" y2="160.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="489.5,160.0 480.5,159.8 483.6,153.2" style="fill:var(--ink-2)"/><line x1="625.0" y1="106.0" x2="552.5" y2="160.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="552.5,160.0 556.9,152.1 561.3,158.0" style="fill:var(--ink-2)"/><line x1="437.0" y1="246.0" x2="250.0" y2="320.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="250.0,320.0 256.3,313.6 259.0,320.4" style="fill:var(--ink-2)"/><line x1="250.0" y1="406.0" x2="250.0" y2="470.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="250.0,470.0 246.3,461.8 253.7,461.8" style="fill:var(--ink-2)"/><line x1="542.0" y1="246.0" x2="625.0" y2="320.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="625.0,320.0 616.4,317.3 621.3,311.8" style="fill:var(--ink-2)"/><line x1="594.5" y1="246.0" x2="875.0" y2="320.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="875.0,320.0 866.1,321.5 868.0,314.4" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="60.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Base 60 and tables</text><text x="32.0" y="77.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Babylon, Era 1 topic 3</text><rect x="270" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="282.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Inscribed polygons</text><text x="282.0" y="69.2" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Euclid XIII; Archimedes, topics</text><text x="282.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">7–8</text><rect x="520" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="532.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Hipparchus&#x27;s chords</text><text x="532.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the first table, now lost</text><text x="532.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">c. 140 BCE</text><rect x="395" y="160" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="183.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Ptolemy&#x27;s table</text><text x="407.0" y="200.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ a seed, growth rules,</text><text x="407.0" y="217.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">interpolation</text><text x="407.0" y="233.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Almagest, c. 150 CE</text><rect x="145" y="320" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="157.0" y="351.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Half-chords: jya</text><text x="157.0" y="369.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ use half the chord</text><text x="157.0" y="385.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Aryabhata, c. 500</text><rect x="145" y="470" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="157.0" y="501.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">jya → jiba → sinus</text><text x="157.0" y="519.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the word travels</text><text x="157.0" y="535.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Arabic, then Latin</text><rect x="520" y="320" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="532.0" y="351.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Regiomontanus</text><text x="532.0" y="369.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">De triangulis omnimodis</text><text x="532.0" y="385.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">written c. 1464, printed 1533</text><rect x="770" y="320" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="782.0" y="351.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The C library&#x27;s sin(x)</text><text x="782.0" y="369.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ table + the sum rule</text><text x="782.0" y="385.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">glibc (IBM&#x27;s library)</text><text x="20.0" y="610.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dashed: Hipparchus&#x27;s table is lost, so how much Ptolemy took from it is not known.</text></svg></div><figcaption>Red: Ptolemy's table. Blue: the same two moves, a table and the sum rule, inside a computer's sine function today.</figcaption></figure>
+</section>
+<section id="table" aria-labelledby="table-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="table-h">Read the table, and walk Ptolemy&#x27;s route</h2>
+<p class="col">Drag the arc to read its chord from a table with an entry every half degree, interpolating with the increment column. Then press <strong>Next step</strong> to walk Ptolemy's route from the five seed polygons down to half a degree. The yellow segment is half the chord: Indian astronomers later tabulated half-chords instead, and the half-chord became the sine.</p>
+
+<div class="board pc-board">
+  <div style="min-width:0">
+    <div class="controls">
+      <label for="pc-arc">Arc <input id="pc-arc" type="range" min="0" max="10800" step="1" value="2000"></label>
+      <span class="pc-arcval" id="pc-arcval"></span>
+    </div>
+    <div class="controls">
+      <button id="pc-next" class="primary" type="button">Next step of Ptolemy's route</button>
+      <button id="pc-reset" type="button">Start again</button>
+    </div>
+    <svg id="pc-svg" viewBox="0 0 360 330" role="img" aria-label="The chord of the chosen arc in a circle of diameter 120"></svg>
+  </div>
+  <div style="min-width:0">
+    <div class="eyebrow">Reading the table</div>
+    <p class="say" id="pc-say" aria-live="polite"></p>
+    <table class="pc-read"><tbody id="pc-read"></tbody></table>
+  </div>
+</div>
+
+<p class="col">On a circle of diameter 120, the chord of an arc <em>a</em> is 120 sin(<em>a</em>/2): a table of chords is a table of sines in disguise. The numbers are in base 60, with a semicolon after the whole parts: 37;4,55 means 37 + 4/60 + 55/3600 parts.</p>
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 2, algorithms travel</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1342 132" role="img" aria-label="Era 2: Algorithms Travel, from c. 200 BCE to 1424 CE" style="font-family:var(--body);min-width:966px;max-width:1409px;margin:0 auto"><line x1="34" y1="34" x2="1308" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 200 BCE – 263 CE</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Fangcheng:</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">elimination on the</text><text x="64.0" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">board</text><circle cx="185.4" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="185.4" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 150 CE</text><text x="185.4" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Ptolemy&#x27;s table</text><text x="185.4" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">of chords</text><circle cx="306.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="306.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">3rd–5th century CE</text><text x="306.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Sunzi&#x27;s remainder</text><text x="306.8" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">problem</text><circle cx="428.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">628 CE</text><text x="428.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Brahmagupta&#x27;s</text><text x="428.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">rules for zero</text><circle cx="549.6" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="549.6" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">628–1150 CE</text><text x="549.6" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">The chakravala</text><circle cx="671.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 820–830 CE</text><text x="671.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">al-Khwarizmi&#x27;s</text><text x="671.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">written</text><text x="671.0" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">procedures</text><circle cx="792.4" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="792.4" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">9th century CE</text><text x="792.4" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">al-Kindi&#x27;s</text><text x="792.4" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">frequency analysis</text><circle cx="913.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="913.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1202 CE</text><text x="913.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Liber Abaci</text><circle cx="1035.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1035.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1247 CE</text><text x="1035.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Qin Jiushao&#x27;s root</text><text x="1035.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">method</text><circle cx="1156.6" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1156.6" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1400 CE</text><text x="1156.6" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Madhava&#x27;s series</text><text x="1156.6" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">for π</text><circle cx="1278.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1278.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1424 CE</text><text x="1278.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">al-Kashi&#x27;s π</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 700" role="img" aria-label="Each fix leaves a new pain: from a seed of chords to the C library" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="396.0" x2="750.0" y2="446.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,446.0 746.3,437.8 753.7,437.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="492.0" x2="400.0" y2="492.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,492.0 408.2,488.3 408.2,495.7" style="fill:var(--ink-2)"/><rect x="449.2" y="471.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="484.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="538.0" x2="210.0" y2="588.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,588.0 206.3,579.8 213.7,579.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="634.0" x2="560.0" y2="634.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,634.0 551.8,637.7 551.8,630.3" style="fill:var(--ink-2)"/><rect x="449.2" y="613.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="626.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Astronomy needs the chord of every angle, and nobody</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">can measure them all</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A seed of exact chords from regular polygons, and rules</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">to grow more: halves, sums, differences</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Ptolemy, c. 150 CE</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Halving and differences from the seed reach 12°, 6°, 3°,</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">1½°, ¾°, but never 1°</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Pin 1° between what ¾° and 1½° give: 1;2,50</text><text x="32.0" y="228.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Ptolemy, Almagest I</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Adding ½° 360 times lets rounding pile up: only 34 of 360</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">entries right to the second</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Restart the sums from every exact chord: 134 right,</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">none worse than 3 seconds</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the program&#x27;s experiment</text><rect x="560" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="479.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="495.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A table only has every half degree; the reader needs</text><text x="572.0" y="512.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">every minute</text><rect x="20" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="471.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="487.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A column of increments for straight-line interpolation:</text><text x="32.0" y="503.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">at worst 1.45 seconds off</text><text x="32.0" y="520.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Ptolemy&#x27;s third column</text><rect x="20" y="588" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="629.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="645.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A computer needs 16 digits, not 5</text><rect x="560" y="588" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="613.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="629.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A table of sines and cosines plus the sum rule: 3 units in</text><text x="572.0" y="645.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the last place here; glibc adds corrections</text><text x="572.0" y="662.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">GNU C library</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="steps" aria-labelledby="steps-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="steps-h">From five polygons to half a degree</h2>
+<p class="col">Three rules do all the work. The <strong>supplement</strong>: the angle in a semicircle is a right angle, so the chord of 180° − <em>a</em> is √(120² − crd²<em>a</em>). <strong>Halving</strong>: crd²(<em>a</em>/2) = 60 × (120 − crd(180° − <em>a</em>)). <strong>Sums and differences</strong>: in a quadrilateral inside a circle, the two diagonals multiplied equal the two pairs of opposite sides multiplied and added (Ptolemy's theorem); with one side a diameter, that gives the chord of <em>a</em> − <em>b</em> or <em>a</em> + <em>b</em> from the chords of <em>a</em> and <em>b</em>.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 430" role="img" aria-label="Ptolemy&#x27;s route from the seed chords to the chord of half a degree" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="487.0" y1="90.0" x2="321.0" y2="150.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="321.0,150.0 327.5,143.8 330.0,150.7" style="fill:var(--ink-2)"/><line x1="291.0" y1="90.0" x2="261.0" y2="150.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="261.0,150.0 261.4,141.0 268.0,144.3" style="fill:var(--ink-2)"/><line x1="366.0" y1="185.0" x2="412.0" y2="185.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="412.0,185.0 403.8,188.7 403.8,181.3" style="fill:var(--ink-2)"/><line x1="562.0" y1="185.0" x2="608.0" y2="185.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="608.0,185.0 599.8,188.7 599.8,181.3" style="fill:var(--ink-2)"/><line x1="758.0" y1="185.0" x2="804.0" y2="185.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="804.0,185.0 795.8,188.7 795.8,181.3" style="fill:var(--ink-2)"/><line x1="879.0" y1="220.0" x2="879.0" y2="290.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="879.0,290.0 875.3,281.8 882.7,281.8" style="fill:var(--ink-2)"/><line x1="804.0" y1="325.0" x2="762.0" y2="325.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="762.0,325.0 770.2,321.3 770.2,328.7" style="fill:var(--ink-2)"/><line x1="834.0" y1="220.0" x2="719.2" y2="290.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="719.2,290.0 724.3,282.6 728.1,288.9" style="fill:var(--ink-2)"/><line x1="548.0" y1="325.0" x2="506.0" y2="325.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="506.0,325.0 514.2,321.3 514.2,328.7" style="fill:var(--ink-2)"/><line x1="316.0" y1="325.0" x2="260.0" y2="325.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="260.0,325.0 268.2,321.3 268.2,328.7" style="fill:var(--ink-2)"/><rect x="20" y="20" width="150" height="70" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="52.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">36°</text><text x="32.0" y="69.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">decagon</text><rect x="216" y="20" width="150" height="70" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="228.0" y="52.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">60°</text><text x="228.0" y="69.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">hexagon</text><rect x="412" y="20" width="150" height="70" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="424.0" y="52.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">72°</text><text x="424.0" y="69.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">pentagon</text><rect x="608" y="20" width="150" height="70" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="620.0" y="52.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">90°</text><text x="620.0" y="69.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">square</text><rect x="804" y="20" width="150" height="70" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="816.0" y="52.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">120°</text><text x="816.0" y="69.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">triangle</text><rect x="216" y="150" width="150" height="70" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="228.0" y="173.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">12°</text><text x="228.0" y="191.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">72° − 60°</text><text x="228.0" y="207.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">12;32,36</text><rect x="412" y="150" width="150" height="70" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="424.0" y="173.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">6°</text><text x="424.0" y="191.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">halve</text><text x="424.0" y="207.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">6;16,49</text><rect x="608" y="150" width="150" height="70" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="620.0" y="173.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">3°</text><text x="620.0" y="191.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">halve</text><text x="620.0" y="207.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">3;8,28</text><rect x="804" y="150" width="150" height="70" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="816.0" y="173.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">1½°</text><text x="816.0" y="191.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">halve</text><text x="816.0" y="207.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1;34,15</text><rect x="804" y="290" width="150" height="70" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="816.0" y="313.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">¾°</text><text x="816.0" y="331.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">halve</text><text x="816.0" y="347.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">0;47,7</text><rect x="548" y="290" width="214" height="70" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="560.0" y="313.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">1°</text><text x="560.0" y="331.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">squeezed by ¾° and 1½°</text><text x="560.0" y="347.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1;2,50</text><rect x="316" y="290" width="190" height="70" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="328.0" y="313.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">½°</text><text x="328.0" y="331.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">halve 1°</text><text x="328.0" y="347.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">0;31,25</text><rect x="20" y="290" width="240" height="70" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="313.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Every ½° to 180°</text><text x="32.0" y="331.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">add ½° with the sum rule</text><text x="32.0" y="347.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">360 entries</text><text x="20.0" y="405.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Blue: the sum and difference rules (Ptolemy&#x27;s theorem). Red: where halving and differences cannot reach.</text></svg></div></figure>
+<div class="tbl"><table><thead><tr><th class="">Arc</th><th class="">Rule</th><th class="">Worked to thirds</th><th class="">In the table</th><th class="">True value</th></tr></thead><tbody><tr class=""><td class="">36°</td><td class="">side of the decagon</td><td class=""></td><td class="">37;4,55</td><td class="">37;4,55,20</td></tr><tr class=""><td class="">60°</td><td class="">side of the hexagon</td><td class=""></td><td class="">60;0,0</td><td class="">60;0,0,0</td></tr><tr class=""><td class="">72°</td><td class="">side of the pentagon</td><td class=""></td><td class="">70;32,3</td><td class="">70;32,3,14</td></tr><tr class=""><td class="">90°</td><td class="">side of the square</td><td class=""></td><td class="">84;51,10</td><td class="">84;51,10,8</td></tr><tr class=""><td class="">120°</td><td class="">side of the triangle</td><td class=""></td><td class="">103;55,23</td><td class="">103;55,22,58</td></tr><tr class=""><td class="">12°</td><td class="">difference: 72° − 60°</td><td class="">12;32,36,1</td><td class="">12;32,36</td><td class="">12;32,36,18</td></tr><tr class=""><td class="">6°</td><td class="">half of 12°</td><td class="">6;16,49,0</td><td class="">6;16,49</td><td class="">6;16,49,8</td></tr><tr class=""><td class="">3°</td><td class="">half of 6°</td><td class="">3;8,28,23</td><td class="">3;8,28</td><td class="">3;8,28,27</td></tr><tr class=""><td class="">1½°</td><td class="">half of 3°</td><td class="">1;34,14,41</td><td class="">1;34,15</td><td class="">1;34,14,42</td></tr><tr class=""><td class="">¾°</td><td class="">half of 1½°</td><td class="">0;47,7,24</td><td class="">0;47,7</td><td class="">0;47,7,25</td></tr><tr class=""><td class="">1°</td><td class="">squeeze between ¾° and 1½°</td><td class="">1;2,49,47 to 1;2,49,52</td><td class="">1;2,50</td><td class="">1;2,49,52</td></tr><tr class=""><td class="">½°</td><td class="">half of 1°</td><td class=""></td><td class="">0;31,25</td><td class="">0;31,24,57</td></tr></tbody></table></div>
+<p class="col">Why squeeze? Every arc that halving, sums and differences can reach from 36°, 60°, 72°, 90° and 120° is 3° times a fraction whose bottom is a power of 2, so 1° is out of reach (it would mean trisecting an angle). The program pins it down instead: a chord grows more slowly than its arc, so crd 1° lies between ⅔ × crd 1½° = 1;2,49,47 and 4/3 × crd ¾° = 1;2,49,52. To the second both are <strong>1;2,50</strong>. Halving that gives <strong>0;31,25</strong> for half a degree, the value MacTutor reports from Ptolemy's table.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>A table can be grown, not measured: a seed of exact values and a few rules that make new entries from old ones. The same pattern, a small table and an addition rule, is how a computer's sine function works today.</p></div>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">A table in Book I of the Almagest</h2>
+<p class="col">Ptolemy observed at Alexandria between 127 and 141 CE (<strong>documented</strong>); the <em>Almagest</em> is usually placed about 150 CE. His life dates differ even within MacTutor, about 85–165 CE in one article and about 100–170 CE in another (<strong>disputed</strong>). The table runs from ½° to 180° in steps of ½°, with a third column of increments for interpolating. With its chords he obtained π ≈ 3 17/120 and √3 ≈ 1.73205 (<strong>documented</strong>, MacTutor).</p>
+<p class="col">Hipparchus made the first known chord table about 140 BCE; it is lost, and the claim that he wrote twelve books of chord tables cannot be checked (<strong>conjecture</strong> for its contents). Whether Hipparchus already used Ptolemy's theorem is <strong>disputed</strong>: Toomer doubts it. Whether Ptolemy computed his own table by the methods he describes is also <strong>disputed</strong>: course notes from Florida State University say there is good reason to think it was not computed that way, or by him.</p>
+<p class="col">Indian astronomers tabulated half-chords instead. Aryabhata (about 500) called the function <em>jya</em>, and Brahmagupta reproduced the table in 628. In Arabic <em>jya</em> became <em>jiba</em>, then <em>jaib</em>, "fold", which Latin translators rendered <em>sinus</em>: the word <strong>sine</strong> (MacTutor).</p>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">How good is a hand-built table?</h2>
+<div class="tbl"><table><thead><tr><th class="">How the 360 entries were made</th><th class="n">Right to the second</th><th class="n">Worst error</th></tr></thead><tbody><tr class=""><td class="">Add ½° to the previous entry, 360 times</td><td class="n">34 of 360</td><td class="n">9 seconds (at 94 ½°)</td></tr><tr class=""><td class="">Restart the sums at every exact or derived chord</td><td class="n">134 of 360</td><td class="n">3 seconds</td></tr></tbody></table></div>
+<p class="col">Each sum is rounded to the second, and a long chain of sums lets those roundings pile up: the plain chain gets only 34 entries exactly right. Restarting from the chords known independently (the seeds, 12°, 1½°, 1° and ½°) keeps the worst error to 3 seconds. How Ptolemy's own table was actually computed is not recorded.</p>
+<div class="tbl"><table><thead><tr><th class="">Arc</th><th class="">Chord</th><th class="">Increment per minute of arc</th></tr></thead><tbody><tr class=""><td class="">½°</td><td class="">0;31,25</td><td class="">0;1,2,50</td></tr><tr class=""><td class="">1°</td><td class="">1;2,50</td><td class="">0;1,2,50</td></tr><tr class=""><td class="">1½°</td><td class="">1;34,15</td><td class="">0;1,2,48</td></tr><tr class=""><td class="">30°</td><td class="">31;3,30</td><td class="">0;1,0,38</td></tr><tr class=""><td class="">60°</td><td class="">60;0,0</td><td class="">0;0,54,20</td></tr><tr class=""><td class="">120°</td><td class="">103;55,23</td><td class="">0;0,31,18</td></tr><tr class=""><td class="">179½°</td><td class="">119;59,56</td><td class="">0;0,0,8</td></tr><tr class=""><td class="">180°</td><td class="">120;0,0</td><td class="">0;0,0,0</td></tr></tbody></table></div>
+<p class="col">Between entries the reader adds the increment once for each minute of arc. The program tried every minute from 0° to 180°: the worst error is <strong>1.45 seconds</strong>, at 168° 15′. The curve of the chord alone allows 1.03 seconds, and rounding the entries half a second more. A half-degree step makes interpolation about as accurate as the table itself.</p>
+<p class="col">Two by-products. A polygon of 360 sides has perimeter 360 × crd 1°, so π ≈ 360 × 1;2,50 / 120 = <strong>3;8,30</strong> = 377/120 = 3.141667 (true 3.141593). And the chord of 120° over the radius is √3: 103;55,23 / 60 = 1;43,55,23 = 1.7320509 (true 1.7320508).</p>
+<p class="col">The program also checked Ptolemy's theorem itself on 20,000 random quadrilaterals inside a circle: the largest relative gap between the two sides was 6.7e-16, rounding error.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">A table and the sum rule, inside your computer</h2>
+<p class="col">The GNU C library computes sin(<em>x</em>) for most arguments the way Ptolemy filled his table: it looks up the sine and cosine of a nearby tabulated point, computes a short series for the small remainder, and combines them with the sum rule, sin(<em>x</em>₀ + <em>dx</em>) = sin <em>x</em>₀ cos <em>dx</em> + cos <em>x</em>₀ sin <em>dx</em>. The source comment in <code>s_sin.c</code> describes "combining the sin and cos of X ... with the values looked up from the sin/cos table".</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>The program built a table of 257 sines and cosines and used the sum rule on 1,000,000 random angles: the worst error was 3 units in the last place of a double. A half-degree table with Ptolemy's straight-line interpolation is off by up to 9.5e-06, five correct decimals, about what his seconds gave. The library also looks up a small correction alongside each table value, and its source states a worst case of 0.518 units.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Why did Ptolemy use a circle of diameter 120 rather than 1?</span></summary><div class="ans"><p>Base 60: with a radius of 60, the chords come out as whole parts plus sixtieths, and the hexagon's side is exactly 60.</p></div></details><details class="try"><summary><span class="q">2</span><span>The chord of 60° is 60. What is the chord of 120°?</span></summary><div class="ans"><p>By the supplement rule, √(120² − 60²) = √10800 = 60√3 ≈ <strong>103;55,23</strong>.</p></div></details><details class="try"><summary><span class="q">3</span><span>Why can't halving and differences reach 1°?</span></summary><div class="ans"><p>Starting from 36°, 60°, 72°, 90° and 120°, they only make 3° times a fraction with a power of 2 below. 1° would need a third of 3°: trisecting an angle.</p></div></details><details class="try"><summary><span class="q">4</span><span>The table gives 1;2,50 for 1° and the increment 0;1,2,50 per minute. What is the chord of 1° 20′?</span></summary><div class="ans"><p>1;2,50 plus 20 increments: 1;23,47. Set the widget's arc to 1° 20′ to compare it with the true value.</p></div></details><details class="try"><summary><span class="q">5</span><span>What is the chord of an arc in modern terms?</span></summary><div class="ans"><p>On a circle of diameter 120, 120 sin(a/2). Half a chord, over the radius, is the sine of half the arc.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>The Almagest, Vat. gr. 1594</b><span>A Greek manuscript of Ptolemy's <em>Syntaxis mathematica</em> in the Vatican Library, dated about 900 in its record, digitized by the Library and shown by Source Library.</span><a href="https://sourcelibrary.org/book/vat-gr-1594-ptolemy">Source Library page</a><span class="lic">Drawn placeholder. The English on that page is an AI translation; its licence fields conflict, so no image is copied here.</span></figcaption></figure><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 120" role="img" aria-label="Drawn placeholder of an open printed book" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><path d="M100,20 C80,12 40,12 20,18 V108 C40,102 80,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><path d="M100,20 C120,12 160,12 180,18 V108 C160,102 120,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="32.0" y1="32.0" x2="88.0" y2="32.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="41.0" x2="88.0" y2="41.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="50.0" x2="88.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="59.0" x2="88.0" y2="59.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="68.0" x2="88.0" y2="68.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="77.0" x2="88.0" y2="77.0" style="stroke:var(--axis);stroke-width:2"/><circle cx="140.0" cy="60.0" r="24.0" style="fill:none;stroke:var(--red);stroke-width:2"/><path d="M116,60 L164,60 M140,36 L140,84" style="fill:none;stroke:var(--blue);stroke-width:2"/></svg></div><figcaption class="txt"><b>The Almagest in Latin, Vat. lat. 2054</b><span>George of Trebizond's 15th-century Latin translation, a paper codex of 235 folios that he corrected himself: the table travelling into Latin.</span><a href="https://ptolemaeus.badw.de/ms/446">Ptolemaeus Arabus et Latinus record</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://www.gresham.ac.uk/watch-now/sine-wave" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">The Incredible Sine Wave and its Uses · Gresham College, Sarah Hart, 23 May 2022 (video and transcript)</span><span class="w">Hipparchus's lost chord table and how later sine tables were built from half-angle and sum formulas. Context only: Ptolemy is not mentioned</span></a><a href="https://mathshistory.st-andrews.ac.uk/Strick/ptolemy.pdf" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Claudius Ptolemy · Heinz Klaus Strick, trans. John O'Connor, MacTutor (2020)</span><span class="w">The construction step by step: exact chords, halving, differences, interpolation</span></a><a href="https://parabola.unsw.edu.au/sites/default/files/2024-03/vol43_no1_5.pdf" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">History of Mathematics: Ptolemy's Theorem · Michael A. B. Deakin, <em>Parabola</em> 43(1), UNSW (2007)</span><span class="w">The theorem behind the sum and difference rules, written for school students</span></a><a href="https://people.sc.fsu.edu/~dduke/lectures/lecture1.pdf" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Ancient Astronomy, Lecture 1 · Florida State University course notes (author not named on the slides; the URL is Dennis Duke's)</span><span class="w">Ptolemy's toolkit (chords, base-60 fractions, interpolation) and why the table's authorship is doubted</span></a><a href="https://old.maa.org/press/periodicals/convergence/teaching-and-learning-the-trigonometric-functions-through-their-origins-episode-3-ptolemy-finds-high" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Teaching and Learning the Trigonometric Functions through Their Origins: Episode 3 – Ptolemy Finds High Noon in Chords of Circles · Daniel E. Otero (Xavier University), MAA <em>Convergence</em>, December 2020</span><span class="w">Classroom project: use the chord table and sexagesimal arithmetic to check Ptolemy's noon shadows</span></a><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Ptolemy/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Ptolemy biography · MacTutor (O'Connor and Robertson)</span><span class="w">Dates, observations, the Crd function and the addition formulas</span></a><a href="https://mathshistory.st-andrews.ac.uk/HistTopics/Trigonometric_functions/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Trigonometric functions · MacTutor (O'Connor and Robertson)</span><span class="w">From Hipparchus's chords to Ptolemy's polygons, half-arc rule and interpolation</span></a><a href="https://mathcs.clarku.edu/~djoyce/elements/bookXIII/propXIII10.html" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Euclid's Elements, Book XIII, Proposition 10 · David E. Joyce, Clark University</span><span class="w">The pentagon's side squared equals the hexagon's plus the decagon's, which gives the seed chord of 72°</span></a><a href="https://old.maa.org/node/109370" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">The Mathematics of the Heavens and the Earth (review) · Rob Bradley, MAA Reviews (2011), on Glen Van Brummelen, Princeton UP 2009</span><span class="w">Points to the standard modern account, which has sections on Ptolemy's chord table, the chord of 1° and the interpolation table</span></a><a href="https://press.princeton.edu/isbn/9780691002606" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Ptolemy's Almagest · G. J. Toomer (trans.), Princeton University Press, 1998</span><span class="w">The standard English translation, from Heiberg's Greek text (publisher's page)</span></a><a href="https://catalog.perseus.org/catalog/urn:cts:greekLit:tlg0363.tlg001" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Syntaxis Mathematica · Perseus Catalog record</span><span class="w">Heiberg's Greek edition (Teubner, 1898–1903) and Manitius's German translation (1912–13), with links to scans</span></a><a href="https://codebrowser.dev/glibc/glibc/sysdeps/ieee754/dbl-64/s_sin.c.html" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">s_sin.c (IBM Accurate Mathematical Library) · GNU C library source, on codebrowser.dev</span><span class="w"><code>do_sin</code> combines a sin/cos table with the sum rule; its comment states a worst case of 0.518 units in the last place</span></a><a href="https://ptolemaeus.badw.de/ms/446" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Vat. lat. 2054 · Ptolemaeus Arabus et Latinus, Bavarian Academy of Sciences</span><span class="w">George of Trebizond's Latin Almagest, 15th century, with images</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-02-algorithms-travel/reference-catalog.md">Era 2 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-02-algorithms-travel/02-ptolemys-chords/PtolemyChords.java">PtolemyChords.java</a> makes <strong>20,018 checks</strong>: Ptolemy's theorem on 20,000 random quadrilaterals, the seed and derived chords against the true values, the squeeze for 1°, the half-degree value 0;31,25, π = 377/120, the interpolation bound, and the table-plus-sum-rule sine on a million angles. Run it with <code>java PtolemyChords.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-kw">static</span> <span class="k-kw">double</span> half(<span class="k-kw">double</span> cSupp) { <span class="k-kw">return</span> Math.sqrt(D / <span class="k-n">2</span> * (D - cSupp)); }       <span class="k-c">// from crd(180 - a) to crd(a/2)</span>
+
+<span class="k-c">/** crd(a - b) from crd a, crd b and their supplements: Ptolemy&#x27;s theorem with one side a diameter. */</span>
+<span class="k-kw">static</span> <span class="k-kw">double</span> difference(<span class="k-kw">double</span> ca, <span class="k-kw">double</span> cb) { <span class="k-kw">return</span> (ca * supplement(cb) - cb * supplement(ca)) / D; }
+
+<span class="k-c">/** crd(a + b): first the supplement of the sum, then back. */</span>
+<span class="k-kw">static</span> <span class="k-kw">double</span> sum(<span class="k-kw">double</span> ca, <span class="k-kw">double</span> cb) { <span class="k-kw">return</span> supplement((supplement(ca) * supplement(cb) - ca * cb) / D); }</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>PtolemyChords.java</code>.<br><span class="navfoot"><a href="../index.html">Era 2: Algorithms Travel</a><a href="../01-fangcheng/fangcheng.html">← Elimination on the Counting Board</a><a href="../03-chinese-remainder-problem/chinese-remainder-problem.html">The Chinese Remainder Problem →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const svg = document.getElementById("pc-svg");
+  if (!svg) return;
+  const ROUTE = [{"arc": 36, "poly": 36, "say": "The seed: 36° is one side of the inscribed decagon, known exactly. To the second it is 37;4,55."}, {"arc": 60, "poly": 60, "say": "The seed: 60° is one side of the inscribed hexagon, known exactly. To the second it is 60;0,0."}, {"arc": 72, "poly": 72, "say": "The seed: 72° is one side of the inscribed pentagon, known exactly. To the second it is 70;32,3."}, {"arc": 90, "poly": 90, "say": "The seed: 90° is one side of the inscribed square, known exactly. To the second it is 84;51,10."}, {"arc": 120, "poly": 120, "say": "The seed: 120° is one side of the inscribed triangle, known exactly. To the second it is 103;55,23."}, {"arc": 12.0, "poly": null, "say": "12° by the difference rule: 72° − 60°, from Ptolemy's theorem. Worked to thirds: 12;32,36,1; true 12;32,36,18."}, {"arc": 6.0, "poly": null, "say": "6° by halving: half of 12°. Worked to thirds: 6;16,49,0; true 6;16,49,8."}, {"arc": 3.0, "poly": null, "say": "3° by halving: half of 6°. Worked to thirds: 3;8,28,23; true 3;8,28,27."}, {"arc": 1.5, "poly": null, "say": "1½° by halving: half of 3°. Worked to thirds: 1;34,14,41; true 1;34,14,42."}, {"arc": 0.75, "poly": null, "say": "¾° by halving: half of 1 1/2°. Worked to thirds: 0;47,7,24; true 0;47,7,25."}, {"arc": 1, "poly": null, "say": "1° cannot be reached by halving or differences. A chord grows more slowly than its arc, so it lies between ⅔ of the chord of 1½° (1;2,49,47) and 4/3 of the chord of ¾° (1;2,49,52). Both give 1;2,50."}, {"arc": 0.5, "poly": null, "say": "½° by halving 1°: 0;31,25, the first entry of the table. Every other entry follows by adding ½° with the sum rule."}];
+  const slider = document.getElementById("pc-arc");
+  const crd = a => 120 * Math.sin(a * Math.PI / 360);
+  const sec = v => Math.round(v * 3600) / 3600;
+  function sexa(v, places) {
+    let n = Math.round(Math.abs(v) * 60 ** places);
+    const dg = [];
+    for (let i = 0; i < places; i++) { dg.unshift(n % 60); n = Math.floor(n / 60); }
+    return n + ";" + dg.join(",");
+  }
+  const arcText = m => `${Math.floor(m / 60)}° ${m % 60}′`;
+  const POLY = { 36: 10, 60: 6, 72: 5, 90: 4, 120: 3 };
+  let at = -1;
+  function draw(arcDeg, poly) {
+    svg.innerHTML = "";
+    const cx = 180, cy = 165, R = 140;
+    sv("circle", { cx, cy, r: R, fill: "none", stroke: "var(--ink-2)", "stroke-width": 1.5 }, svg);
+    sv("line", { x1: cx - R, y1: cy, x2: cx + R, y2: cy, stroke: "var(--rule)", "stroke-width": 1 }, svg);
+    if (poly) {
+      const n = POLY[poly], pts = [];
+      for (let k = 0; k <= n; k++) { const t = k * 2 * Math.PI / n; pts.push(`${cx + R * Math.cos(t)},${cy - R * Math.sin(t)}`); }
+      sv("polyline", { points: pts.join(" "), fill: "none", stroke: "var(--muted)", "stroke-width": 1 }, svg);
+    }
+    const t = arcDeg * Math.PI / 180;
+    const P = [cx + R, cy], Q = [cx + R * Math.cos(t), cy - R * Math.sin(t)];
+    const M = [(P[0] + Q[0]) / 2, (P[1] + Q[1]) / 2];
+    const large = arcDeg > 180 ? 1 : 0;
+    sv("path", { d: `M ${P[0]} ${P[1]} A ${R} ${R} 0 ${large} 0 ${Q[0].toFixed(2)} ${Q[1].toFixed(2)}`, fill: "none", stroke: "var(--blue)", "stroke-width": 4 }, svg);
+    sv("line", { x1: cx, y1: cy, x2: P[0], y2: P[1], stroke: "var(--ink-2)", "stroke-width": 1 }, svg);
+    sv("line", { x1: cx, y1: cy, x2: Q[0], y2: Q[1], stroke: "var(--ink-2)", "stroke-width": 1 }, svg);
+    sv("line", { x1: P[0], y1: P[1], x2: Q[0], y2: Q[1], stroke: "var(--red)", "stroke-width": 3 }, svg);
+    // the half-chord: the line from the centre bisects the chord at a right angle (the sine)
+    if (arcDeg > 2) {
+      sv("line", { x1: cx, y1: cy, x2: M[0], y2: M[1], stroke: "var(--muted)", "stroke-width": 1, "stroke-dasharray": "3 3" }, svg);
+      sv("line", { x1: M[0], y1: M[1], x2: Q[0], y2: Q[1], stroke: "var(--yellow)", "stroke-width": 5 }, svg);
+    }
+    sv("circle", { cx, cy, r: 3, fill: "var(--ink)" }, svg);
+    if (arcDeg > 0 && arcDeg < 20) {                       // a magnified view of a small arc
+      const len = Math.hypot(Q[0] - P[0], Q[1] - P[1]), k = 76 / len, bx = 238, by = 214, bw = 116, bh = 106;
+      const id = "pc-clip";
+      const defs = sv("defs", {}, svg), cp = sv("clipPath", { id }, defs);
+      sv("rect", { x: bx, y: by, width: bw, height: bh }, cp);
+      sv("rect", { x: bx, y: by, width: bw, height: bh, fill: "var(--surface)", stroke: "var(--axis)", "stroke-width": 1 }, svg);
+      const g = sv("g", { "clip-path": `url(#${id})` }, svg);
+      const ox = bx + bw / 2 + 10, oy = by + bh / 2 + 6;          // where the chord's midpoint sits in the inset
+      const map = ([x, y]) => [ox + (x - M[0]) * k, oy + (y - M[1]) * k];
+      const pts = [];
+      for (let i = 0; i <= 40; i++) { const u = t * i / 40; pts.push(map([cx + R * Math.cos(u), cy - R * Math.sin(u)]).map(v => v.toFixed(1)).join(",")); }
+      sv("polyline", { points: pts.join(" "), fill: "none", stroke: "var(--blue)", "stroke-width": 3 }, g);
+      const [p1, q1, m1] = [map(P), map(Q), map(M)];
+      sv("line", { x1: p1[0], y1: p1[1], x2: q1[0], y2: q1[1], stroke: "var(--red)", "stroke-width": 2 }, g);
+      sv("line", { x1: m1[0], y1: m1[1], x2: q1[0], y2: q1[1], stroke: "var(--yellow)", "stroke-width": 4 }, g);
+      sv("text", { x: bx + 4, y: by + 12, fill: "var(--muted)", "font-size": 9 }, svg, `magnified ${Math.round(k)}×`);
+      sv("text", { x: bx + 4, y: by + bh - 6, fill: "var(--muted)", "font-size": 9 }, svg, "arc ≈ chord");
+    }
+    sv("text", { x: 8, y: 16, fill: "var(--muted)", "font-size": 10 }, svg, "diameter 120 · red: chord · yellow: half-chord · blue: arc");
+  }
+  function read(m) {
+    const arcDeg = m / 60, k = Math.floor(arcDeg * 2), a0 = k / 2;
+    const y0 = k === 0 ? 0 : sec(crd(a0)), y1 = sec(crd(Math.min(180, a0 + 0.5)));
+    const inc = (y1 - y0) / 30, past = m - a0 * 60;
+    const val = y0 + inc * past, truth = crd(arcDeg);
+    const rows = [
+      ["Table entry for " + (a0 % 1 ? Math.floor(a0) + "½" : a0) + "°", sexa(y0, 2)],
+      ["Increment per minute of arc", sexa(inc, 3)],
+      [`${past} minute${past === 1 ? "" : "s"} past the entry`, sexa(val, 2)],
+      ["True chord", sexa(truth, 3)],
+      ["Error", (Math.abs(val - truth) * 3600).toFixed(2) + " seconds"],
+      ["Sine of half the arc", (truth / 120).toFixed(6)],
+    ];
+    const tb = document.getElementById("pc-read");
+    tb.innerHTML = "";
+    for (const [a, b] of rows) { const tr = el("tr", {}, tb); el("td", {}, tr, a); el("td", {}, tr, b); }
+    document.getElementById("pc-arcval").textContent = arcText(m);
+    return arcDeg;
+  }
+  function update(poly) { draw(read(+slider.value), poly); }
+  slider.addEventListener("input", () => { at = -1; document.getElementById("pc-say").textContent = "Drag the arc. The table holds every half degree; between entries, add the increment once for each minute of arc."; update(); });
+  document.getElementById("pc-next").addEventListener("click", () => {
+    at = (at + 1) % ROUTE.length;
+    const s = ROUTE[at];
+    slider.value = Math.round(s.arc * 60);
+    document.getElementById("pc-say").innerHTML = `<b>Step ${at + 1} of ${ROUTE.length}.</b> ${s.say}`;
+    update(s.poly);
+  });
+  document.getElementById("pc-reset").addEventListener("click", () => { at = -1; slider.value = 2000; slider.dispatchEvent(new Event("input")); });
+  slider.dispatchEvent(new Event("input"));
+})();
+
+</script>
+</body>
+</html>

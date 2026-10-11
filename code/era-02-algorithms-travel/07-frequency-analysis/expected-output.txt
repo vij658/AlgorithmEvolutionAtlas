@@ -1,0 +1,13 @@
+sample: 5944 letters of English ; ranking etaonrshidlwcumfgpbyvkxqjz ; the 12 most common: etaonrshidlw
+percent: e=13.2 t=9.9 a=8.5 o=7.4 n=7.0 r=6.6 s=6.2 h=6.1 i=6.1 d=4.4 l=3.6 w=2.7 c=2.7 u=2.6 m=2.3 f=2.0 g=1.8 p=1.6 b=1.6 y=1.5 v=0.9 k=0.8 x=0.2 q=0.1 j=0.0 z=0.0
+keys: 26! = 403291461126605635584000000 substitution keys ; at a billion a second, trying them all takes 12788288341 years
+break 50 letters: ranking alone 21.2% right (0 of 20 keys read) ; ranking then letter pairs 42.5% right (0 of 20 keys read)
+break 100 letters: ranking alone 44.9% right (0 of 20 keys read) ; ranking then letter pairs 70.7% right (0 of 20 keys read)
+break 200 letters: ranking alone 39.9% right (0 of 20 keys read) ; ranking then letter pairs 86.7% right (0 of 20 keys read)
+break 400 letters: ranking alone 48.9% right (0 of 20 keys read) ; ranking then letter pairs 93.6% right (19 of 20 keys read)
+break 800 letters: ranking alone 54.7% right (0 of 20 keys read) ; ranking then letter pairs 97.8% right (19 of 20 keys read)
+break 1275 letters: ranking alone 54.7% right (0 of 20 keys read) ; ranking then letter pairs 100.0% right (20 of 20 keys read)
+example 400: cipher ftesizikindgqqqeikeftesgfavexlzebidnlnfteftgzbbialxfteulnftd ; by ranking tnewarapashidddeapetnewitgkeuorecahsostnetnirccagoutnevostnh ; with letter pairs thecaravanwillleavethecitgbeforedawnonthethirddagofthemonthw
+ioc: plain 0.0706 ; substitution 0.0706 ; Vigenere with key "kindi" 0.0444 ; one-time pad 0.0383 ; uniform 1/26 = 0.0385
+period: average index of the columns for each guessed key length: 1=0.0444 2=0.0445 3=0.0445 4=0.0442 5=0.0716 6=0.0445 7=0.0435 8=0.0442 9=0.0444 10=0.0722 ; the key has 5 letters
+FrequencyAnalysis: 246 checks passed

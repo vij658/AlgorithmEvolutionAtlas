@@ -1,0 +1,27 @@
+sunzi: multipliers 70 21 15 ; 2 x 70 + 3 x 21 + 2 x 15 = 233 ; cast out 210 -> 23 ; search needs 23 tries
+sunzi all: 105 triples of remainders, 105 different answers below 105
+dayan 35 mod 3: reduce to 2 ; k = 2 ; multiplier 35 x 2 = 70 ; 2 steps
+dayan 21 mod 5: reduce to 1 ; k = 1 ; multiplier 21 x 1 = 21 ; 0 steps
+dayan 15 mod 7: reduce to 1 ; k = 1 ; multiplier 15 x 1 = 15 ; 0 steps
+qin step 1: lower by upper: quotient 1 ; board 1 377873 / 1 121194
+qin step 2: upper by lower: quotient 3 ; board 4 14291 / 1 121194
+qin step 3: lower by upper: quotient 8 ; board 4 14291 / 33 6866
+qin step 4: upper by lower: quotient 2 ; board 70 559 / 33 6866
+qin step 5: lower by upper: quotient 12 ; board 70 559 / 873 158
+qin step 6: upper by lower: quotient 3 ; board 2689 85 / 873 158
+qin step 7: lower by upper: quotient 1 ; board 2689 85 / 3562 73
+qin step 8: upper by lower: quotient 1 ; board 6251 12 / 3562 73
+qin step 9: lower by upper: quotient 6 ; board 6251 12 / 41068 1
+qin step 10: upper by lower: quotient 11 ; board 457999 1 / 41068 1
+qin answer: 377873 x 457999 = 173065456127 = 346778 x 499067 + 1 ; 10 divisions
+dayan random: 100000 random divisors below 10^9, same answer as extended Euclid every time ; 16.6 divisions on average, at most 30
+qin cycles: leaves 1 by 19, 14 by 17, 1 by 12 -> 3193 (repeats every 3876)
+shared: leaves 5 by 12 and 11 by 18 -> divisors 4 and 9 -> 29, every 36 ; leaves 1 by 4 and 2 by 6 -> no number
+shared random: 5819 systems of three divisors up to 24, the rule agrees with search every time
+scale 2 cycles: repeat every 1022117 ; answer 695934 ; search needs 695935 tries ; the rule needs 4 divisions and 2 multiplications
+scale 3 cycles: repeat every 1041537223 ; answer 452563575 ; search needs 452563576 tries ; the rule needs 10 divisions and 3 multiplications
+scale 4 cycles: repeat every 1063409504683 ; answer 917589108979 ; search needs 917589108980 tries ; the rule needs 24 divisions and 4 multiplications
+scale 5 cycles: repeat every 1096375199328173 ; answer 980013567820897 ; search needs 980013567820898 tries ; the rule needs 30 divisions and 5 multiplications
+scale 6 cycles: repeat every 1132555580906002709 ; answer 717803553928955531 ; search needs 717803553928955532 tries ; the rule needs 42 divisions and 6 multiplications
+rsa: 2048-bit key, 200 messages decrypted both ways ; plain: 3053 multiplications of 2048-bit numbers ; by remainders: 3035 of 1024-bit numbers ; word products 3126272 against 776960, 4.0 times fewer
+ChineseRemainder: 106153 checks passed

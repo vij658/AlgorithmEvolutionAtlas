@@ -267,8 +267,9 @@ def html_block(b, T):
                          f'<a href="{o["link"]}">{esc(o["link_text"])}</a><span class="lic">{md_inline(o["licence"])}</span></figcaption></figure>')
         return f'<div class="objects">{"".join(cards)}</div>', None, None
     if t == "links":
+        plain = lambda x: md_inline(re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", x))   # a card is one link: no nested links
         cards = "".join(f'<a href="{url}" target="_blank" rel="noopener"><span class="lvl {lvl}">{lvl.capitalize()}</span>'
-                        f'<span class="t">{esc(title)} · {esc(source)}</span><span class="w">{esc(why)}</span></a>'
+                        f'<span class="t">{plain(title)} · {plain(source)}</span><span class="w">{plain(why)}</span></a>'
                         for lvl, title, source, url, why in b["items"])
         return f'<div class="links">{cards}</div>', None, None
     if t == "code":

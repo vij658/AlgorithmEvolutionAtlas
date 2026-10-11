@@ -1,0 +1,15 @@
+target: error in pi at most 0.5e-17 ; doublings from the hexagon needed: inscribed alone 28, circumscribed alone 28, the average of the two 27 ; al-Kashi's 3 x 2^28 = 805306368 sides is 27 doublings
+precision: sexagesimal places carried in each chord, and the correct decimals of 2 pi from the average: 10 places: 2 decimals ; 12 places: 5 decimals ; 14 places: 9 decimals ; 16 places: 12 decimals ; 18 places: 16 decimals ; 20 places: 16 decimals ; 22 places: 16 decimals ; 24 places: 16 decimals ; 26 places: 16 decimals
+bounds: 6 sides 3.000000 < pi < 3.464102 ; 12 sides 3.105828 < pi < 3.215391 ; 24 sides 3.132628 < pi < 3.159660 ; 48 sides 3.139350 < pi < 3.146087
+chord 120 degrees: 103;55,22,58,27
+chord 150 degrees: 115;54,39,57,25
+chord 165 degrees: 118;58,24,10,48
+chord 180 - 60/2^27 degrees: 119;59,59,59,59
+roots: 29 square roots in base 60, each carried to 20 sexagesimal places and checked by casting out 59 ; the polygon's side 0;0,0,0,6,4,1,14,59 parts
+two pi: inscribed 6;16,59,28,1,34,51,46,14,49,45 (6.2831853071795864610) ; circumscribed 6;16,59,28,1,34,51,46,14,50,14 (6.2831853071795865088) ; true 6;16,59,28,1,34,51,46,14,49,55 (6.2831853071795864769)
+mean: the arithmetic mean of the two perimeters, rounded to nine sexagesimal places, is 6;16,59,28,1,34,51,46,14,50 ; 2 pi rounded the same way is 6;16,59,28,1,34,51,46,14,50
+places: inscribed correct to 16 decimals, circumscribed to 16, their average 6.2831853071795864849 to 16 ; the DSB's 6.2831853071795865 is 2 pi rounded to 16 decimals (error 2.3E-17)
+sin1: from sin 3 degrees = 0.0523359562429438327, iterating x = (sin 3 + 4x^3)/3 ; correct decimals after 1: 7 decimals ; 2: 10 decimals ; 3: 13 decimals ; 4: 16 decimals ; true sin 1 = 0.017452406437283512819
+sin1 his: 1;2,49,43,11,14,44,16,26,17 (radius 60) ; true 1;2,49,43,11,14,44,16,26,18 ; first 8 places agree ; as a decimal 0.017452406437283510371, correct to 17 decimals (error -2.4E-18) ; the printed decimal 0.017452406437283571 shares its first 16 digits with the true value but is correct to 15 (error 5.8E-17), so it is not an exact conversion of his digits
+double: 2 * Math.PI prints 6.283185307179586 and is exactly 6.2831853071795862320 ; error -2.4E-16 ; al-Kashi's error 2.3E-17, 11 times smaller
+AlKashiPi: 594 checks passed

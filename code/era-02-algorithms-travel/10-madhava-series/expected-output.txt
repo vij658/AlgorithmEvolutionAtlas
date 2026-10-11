@@ -1,0 +1,9 @@
+plain: 4(1 - 1/3 + 1/5 - ...) ; 1 decimals: 20 terms ; 2 decimals: 200 terms ; 3 decimals: 2000 terms ; 4 decimals: 20000 terms ; 5 decimals: 200000 terms ; 6 decimals: 2000000 terms ; 7 decimals: 20000000 terms
+corrected 5 terms: no correction 0 decimals (3.3396825396825) ; 1/(4n) 2 ; n/(4n^2+1) 3 ; (n^2+1)/(4n^3+5n) 4 (3.141587301587302)
+corrected 10 terms: no correction 0 decimals (3.0418396189294) ; 1/(4n) 3 ; n/(4n^2+1) 5 ; (n^2+1)/(4n^3+5n) 6 (3.141592705349155)
+corrected 20 terms: no correction 1 decimals (3.0916238066678) ; 1/(4n) 4 ; n/(4n^2+1) 6 ; (n^2+1)/(4n^3+5n) 9 (3.141592654019864)
+corrected 50 terms: no correction 1 decimals (3.1215946525910) ; 1/(4n) 5 ; n/(4n^2+1) 8 ; (n^2+1)/(4n^3+5n) 11 (3.141592653590511)
+sqrt12: 21 terms give 3.141592653595635, whose first 11 decimals are 3.14159265359 ; error 5.8E-12 ; correct decimals (half-unit test): 5 terms 2 10 terms 5 15 terms 7 21 terms 10
+polygons: 18 doublings (a 1572864-sided polygon) and 19 square roots before the two bounds agree to 11 decimals: 3.1415926535877 < pi < 3.1415926535940
+chudnovsky: 74 terms give pi to 1019 decimals (agreeing with an arctangent formula) ; about 13.8 digits per term ; Madhava's sqrt(12) series gains 0.48 digits per term
+MadhavaSeries: 606 checks passed

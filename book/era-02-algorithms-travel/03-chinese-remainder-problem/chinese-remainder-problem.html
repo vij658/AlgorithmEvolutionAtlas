@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Chinese Remainder Problem</title>
+<meta name="description" content="Era 2, topic 3 of The Algorithm Evolution Atlas: Sunzi&#x27;s remainder problem and Qin Jiushao&#x27;s dayan rule, with a working dayan board and the same rule inside RSA decryption.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.cr-in label{font-size:13px}
+.cr-in input{width:4.2em}
+.cr-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}
+.cr-tabs button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.cr-tabs button.on{background:var(--ink);color:var(--paper)}
+.cr-peb{display:flex;flex-direction:column;gap:4px;max-height:380px;overflow:auto;padding:8px;background:var(--wash);border:1px solid var(--rule)}
+.cr-peb .row{display:flex;gap:4px;flex-wrap:nowrap}
+.cr-peb i{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--ink-2);background:var(--surface);flex:none}
+.cr-peb i.left{background:var(--red);border-color:var(--red)}
+.cr-peb .more{font-size:12px;color:var(--muted)}
+.cr-steps{font-size:14px}
+.cr-steps p{margin:0 0 8px}
+.cr-steps .mono{font-family:var(--mono);font-size:13px}
+.cr-steps .dy{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin:2px 0 8px 10px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 2: Algorithms Travel</a><a href="../02-ptolemys-chords/ptolemys-chords.html">← Ptolemy&#x27;s Table of Chords</a><a href="../04-zero-becomes-a-number/zero-becomes-a-number.html">Zero Becomes a Number →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 2 · Topic 3 · 3rd–5th century CE</div>
+    <h1>The Chinese Remainder Problem</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">Counted in threes, two are left; in fives, three; in sevens, two. Sunzi did not search: he kept three ready-made numbers. Eight centuries later Qin Jiushao found a way to make them for any cycles, and RSA still uses the rule.</p>
+  <p class="fieldnote">Field note from the visiting historian. A short puzzle in a Chinese primer turned out to hold a whole method. The answer comes from three numbers kept ready in advance, and a later treatise shows how to make such numbers for any cycles, by a chain of divisions my hosts would call Euclid's algorithm with a memory.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#rule">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#dayan">The dayan rule</a><a href="#evidence">The evidence</a><a href="#measured">Measured</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd><em>Sunzi Suanjing</em>, 3rd–5th century CE (<strong>disputed</strong>); Qin Jiushao's general rule, 1247</dd></div><div><dt>Where</dt><dd>China</dd></div><div><dt>What hurt</dt><dd>Finding a number from its remainders, when the cycles are long</dd></div><div><dt>The fix</dt><dd>Ready-made multipliers; the dayan rule computes them for any divisors</dd></div><div><dt>Cost</dt><dd>A few divisions per cycle, instead of up to the product of the cycles; 10 divisions for Qin's calendar congruence</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Sunzi's rule needs a few ready-made numbers; finding them for any divisors needs Euclid's chain of divisions (Era 1, topic 7) with a running record kept on the counting board. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 650" role="img" aria-label="How the remainder problem combined older ideas, from Sunzi to RSA" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="125.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="125.0,170.0 121.3,161.8 128.7,161.8" style="fill:var(--ink-2)"/><line x1="230.0" y1="88.8" x2="395.0" y2="187.2" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="395.0,187.2 386.1,186.1 389.8,179.8" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,170.0 496.3,161.8 503.7,161.8" style="fill:var(--ink-2)"/><line x1="230.0" y1="213.0" x2="395.0" y2="213.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="395.0,213.0 386.8,216.7 386.8,209.3" style="fill:var(--ink-2)"/><line x1="605.0" y1="63.0" x2="875.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="875.0,170.0 866.0,170.4 868.7,163.6" style="fill:var(--ink-2)"/><line x1="500.0" y1="256.0" x2="500.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="500.0,330.0 496.3,321.8 503.7,321.8" style="fill:var(--ink-2)"/><line x1="125.0" y1="256.0" x2="125.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="125.0,330.0 121.3,321.8 128.7,321.8" style="fill:var(--ink-2)"/><line x1="500.0" y1="416.0" x2="500.0" y2="480.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,480.0 496.3,471.8 503.7,471.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="60.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Calendar cycles</text><text x="32.0" y="77.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">60-day cycle, months, years</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="60.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Euclid&#x27;s algorithm</text><text x="407.0" y="77.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 1, topic 7</text><rect x="20" y="170" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="193.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Sunzi&#x27;s rule</text><text x="32.0" y="210.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ ready-made multipliers 70,</text><text x="32.0" y="227.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">21, 15</text><text x="32.0" y="243.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">3rd–5th century CE</text><rect x="395" y="170" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="193.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Qin&#x27;s dayan rule</text><text x="407.0" y="210.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ find any multiplier on the</text><text x="407.0" y="227.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">board</text><text x="407.0" y="243.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1247</text><rect x="770" y="170" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="193.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Aryabhata&#x27;s kuttaka</text><text x="782.0" y="210.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the pulverizer, found</text><text x="782.0" y="227.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">separately</text><text x="782.0" y="243.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">India, c. 500</text><rect x="395" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Gauss</text><text x="407.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the theorem, in congruences</text><text x="407.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Disquisitiones, 1801</text><rect x="395" y="480" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="503.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">RSA by remainders</text><text x="407.0" y="520.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ decrypt mod p and mod q,</text><text x="407.0" y="537.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">recombine</text><text x="407.0" y="553.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">PKCS #1, RFC 8017</text><rect x="20" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="353.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Fibonacci</text><text x="32.0" y="370.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">solved such puzzles case by</text><text x="32.0" y="387.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">case</text><text x="32.0" y="403.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Liber Abaci, 1202</text><text x="20.0" y="620.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dashed: a link of ideas without a documented line of transmission. Sunzi&#x27;s link to calendars is a conjecture.</text></svg></div><figcaption>Red: the two Chinese steps. Blue: the same rule inside every RSA private-key operation that follows PKCS #1.</figcaption></figure>
+</section>
+<section id="rule" aria-labelledby="rule-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="rule-h">Count in threes, fives and sevens</h2>
+<p class="col">Set three remainders and three divisors. <strong>Solve by Sunzi's rule</strong> builds the ready-made numbers with Qin's dayan board, multiplies, adds and casts out the product; <strong>Search instead</strong> counts up from zero. Then count the answer off in groups and watch the leftovers.</p>
+
+<div class="board cr-board">
+  <div style="min-width:0">
+    <div class="controls cr-in" id="cr-in"></div>
+    <div class="controls">
+      <button id="cr-solve" class="primary" type="button">Solve by Sunzi's rule</button>
+      <button id="cr-search" type="button">Search instead</button>
+      <button id="cr-reset" type="button">Sunzi's problem</button>
+    </div>
+    <div class="cr-tabs" id="cr-tabs" role="group" aria-label="Count the answer off in groups"></div>
+    <div class="cr-peb" id="cr-peb" aria-label="The answer, counted off in groups"></div>
+  </div>
+  <div style="min-width:0">
+    <div class="eyebrow">The rule, step by step</div>
+    <div class="cr-steps" id="cr-steps" aria-live="polite"></div>
+  </div>
+</div>
+
+<p class="col">The problem, in MacTutor's translation: "Suppose we have an unknown number of objects. When counted in threes, 2 are left over, when counted in fives, 3 are left over, and when counted in sevens, 2 are left over. How many objects are there?" Sunzi's working: 2 x 70 + 3 x 21 + 2 x 15 = <strong>233</strong>; take away 210 and <strong>23</strong> remains. The program checked that every one of the 105 triples of remainders has its own answer below 105, so the rule never fails and never gives two answers.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>Each ready-made number does one job and stays out of the others' way: 70 leaves 1 by 3 and nothing by 5 or 7; 21 leaves 1 by 5 and nothing by 3 or 7; 15 leaves 1 by 7 and nothing by 3 or 5. Multiply each by the remainder you want, and the three jobs add up without interfering.</p></div>
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 2, algorithms travel</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1342 132" role="img" aria-label="Era 2: Algorithms Travel, from c. 200 BCE to 1424 CE" style="font-family:var(--body);min-width:966px;max-width:1409px;margin:0 auto"><line x1="34" y1="34" x2="1308" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 200 BCE – 263 CE</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Fangcheng:</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">elimination on the</text><text x="64.0" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">board</text><circle cx="185.4" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.4" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 150 CE</text><text x="185.4" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Ptolemy&#x27;s table of</text><text x="185.4" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">chords</text><circle cx="306.8" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="306.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">3rd–5th century CE</text><text x="306.8" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Sunzi&#x27;s remainder</text><text x="306.8" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">problem</text><circle cx="428.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">628 CE</text><text x="428.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Brahmagupta&#x27;s</text><text x="428.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">rules for zero</text><circle cx="549.6" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="549.6" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">628–1150 CE</text><text x="549.6" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">The chakravala</text><circle cx="671.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 820–830 CE</text><text x="671.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">al-Khwarizmi&#x27;s</text><text x="671.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">written</text><text x="671.0" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">procedures</text><circle cx="792.4" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="792.4" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">9th century CE</text><text x="792.4" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">al-Kindi&#x27;s</text><text x="792.4" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">frequency analysis</text><circle cx="913.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="913.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1202 CE</text><text x="913.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Liber Abaci</text><circle cx="1035.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1035.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1247 CE</text><text x="1035.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Qin Jiushao&#x27;s root</text><text x="1035.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">method</text><circle cx="1156.6" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1156.6" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1400 CE</text><text x="1156.6" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Madhava&#x27;s series</text><text x="1156.6" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">for π</text><circle cx="1278.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1278.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1424 CE</text><text x="1278.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">al-Kashi&#x27;s π</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 700" role="img" aria-label="Each fix leaves a new pain: from Sunzi&#x27;s puzzle to RSA" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="396.0" x2="750.0" y2="446.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,446.0 746.3,437.8 753.7,437.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="492.0" x2="400.0" y2="492.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,492.0 408.2,488.3 408.2,495.7" style="fill:var(--ink-2)"/><rect x="449.2" y="471.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="484.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="538.0" x2="210.0" y2="588.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,588.0 206.3,579.8 213.7,579.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="634.0" x2="560.0" y2="634.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,634.0 551.8,637.7 551.8,630.3" style="fill:var(--ink-2)"/><rect x="449.2" y="613.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="626.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Find a number from its remainders: searching takes 23</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">tries even for 3, 5 and 7</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Ready-made multipliers: 70, 21, 15; multiply, add, cast out</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">105</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Sunzi, 3rd–5th century</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Those multipliers only work for 3, 5 and 7; every new set</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">of cycles needs new ones</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The dayan rule finds any multiplier on the board: Euclid&#x27;s</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">divisions with a running record</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Qin Jiushao, 1247</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Cycles can share factors, like 12 and 18, and then the</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">multipliers do not exist</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Replace them with coprime divisors that give the same</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">answer, or show that none exists</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Qin Jiushao, 1247</text><rect x="560" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="479.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="495.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Search grows with the product of the cycles: 19-digit</text><text x="572.0" y="512.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">repeats for 6 cycles near 1,000</text><rect x="20" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="471.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="487.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The rule grows with the digits instead: 42 divisions for 6</text><text x="32.0" y="503.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">cycles</text><text x="32.0" y="520.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the program&#x27;s measurement</text><rect x="20" y="588" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="621.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="637.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">RSA decryption raises a 600-digit number to a 600-digit</text><text x="32.0" y="654.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">power</text><rect x="560" y="588" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="613.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="629.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Do it modulo each prime and recombine: 4.0 times fewer</text><text x="572.0" y="645.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">word products</text><text x="572.0" y="662.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">PKCS #1 (RFC 8017)</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="dayan" aria-labelledby="dayan-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="dayan-h">Finding one: the dayan board</h2>
+<p class="col">To build a ready-made number for the divisor <em>m</em>, multiply the other divisors to get <em>M</em> and find <em>k</em> so that <em>M</em> × <em>k</em> leaves 1 by <em>m</em>. Qin Jiushao's <em>dayan qiuyi</em> rule ("finding one") does it on four places of the counting board: <em>M</em> (reduced by <em>m</em>) at the upper right, <em>m</em> at the lower right, 1 at the upper left. Divide the lower number by the upper and the upper by the lower in turn, each time adding the quotient times the left-hand number to the other left-hand place, until the upper right is 1. The upper left is <em>k</em>.</p>
+<div class="tbl"><table><thead><tr><th class="n">Divisor</th><th class="n">Other divisors multiplied</th><th class="n">Reduced</th><th class="n">k</th><th class="n">Ready-made number</th></tr></thead><tbody><tr class=""><td class="n">3</td><td class="n">35</td><td class="n">2</td><td class="n">2</td><td class="n">70</td></tr><tr class=""><td class="n">5</td><td class="n">21</td><td class="n">1</td><td class="n">1</td><td class="n">21</td></tr><tr class=""><td class="n">7</td><td class="n">15</td><td class="n">1</td><td class="n">1</td><td class="n">15</td></tr></tbody></table></div>
+<p class="col">Qin's own book has far larger numbers. One calendar problem needs <em>k</em> with 377,873 × <em>k</em> leaving 1 by 499,067. The board takes 10 divisions:</p>
+<div class="tbl"><table><thead><tr><th class="n">Step</th><th class="">Divide</th><th class="n">Quotient</th><th class="n">Upper left</th><th class="n">Upper right</th><th class="n">Lower left</th><th class="n">Lower right</th></tr></thead><tbody><tr class=""><td class="n">1</td><td class="">lower by upper</td><td class="n">1</td><td class="n">1</td><td class="n">377,873</td><td class="n">1</td><td class="n">121,194</td></tr><tr class=""><td class="n">2</td><td class="">upper by lower</td><td class="n">3</td><td class="n">4</td><td class="n">14,291</td><td class="n">1</td><td class="n">121,194</td></tr><tr class=""><td class="n">3</td><td class="">lower by upper</td><td class="n">8</td><td class="n">4</td><td class="n">14,291</td><td class="n">33</td><td class="n">6,866</td></tr><tr class=""><td class="n">4</td><td class="">upper by lower</td><td class="n">2</td><td class="n">70</td><td class="n">559</td><td class="n">33</td><td class="n">6,866</td></tr><tr class=""><td class="n">5</td><td class="">lower by upper</td><td class="n">12</td><td class="n">70</td><td class="n">559</td><td class="n">873</td><td class="n">158</td></tr><tr class=""><td class="n">6</td><td class="">upper by lower</td><td class="n">3</td><td class="n">2,689</td><td class="n">85</td><td class="n">873</td><td class="n">158</td></tr><tr class=""><td class="n">7</td><td class="">lower by upper</td><td class="n">1</td><td class="n">2,689</td><td class="n">85</td><td class="n">3,562</td><td class="n">73</td></tr><tr class=""><td class="n">8</td><td class="">upper by lower</td><td class="n">1</td><td class="n">6,251</td><td class="n">12</td><td class="n">3,562</td><td class="n">73</td></tr><tr class=""><td class="n">9</td><td class="">lower by upper</td><td class="n">6</td><td class="n">6,251</td><td class="n">12</td><td class="n">41,068</td><td class="n">1</td></tr><tr class=""><td class="n">10</td><td class="">upper by lower</td><td class="n">11</td><td class="n">457,999</td><td class="n">1</td><td class="n">41,068</td><td class="n">1</td></tr></tbody></table></div>
+<p class="col">The upper left ends at <strong>457,999</strong>: 377,873 × 457,999 = 173,065,456,127 = 346,778 × 499,067 + 1. Shen Kangsheng's history prints the same answer for this problem. On 100,000 random divisors below a billion, the board gave the same answer as the modern extended Euclidean algorithm every time, in 16.6 divisions on average and never more than 30.</p>
+<p class="col">Two more of Qin's ideas. In his first example, three cycles of 19, 17 and 12 with remainders 1, 14 and 1 give <strong>3,193</strong>, repeating every 3,876. And when divisors share factors, he replaced them with coprime ones that give the same answer: 5 left by 12 and 11 left by 18 becomes a problem in 4 and 9, answer <strong>29</strong>, repeating every 36. The program checked this replacement against search on 5,819 systems, including those with no answer at all.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">A puzzle in a primer, a method in a treatise</h2>
+<p class="col">The <em>Sunzi Suanjing</em> is hard to date. MacTutor lists estimates from about 250 BCE to after 280 CE and notes that, as a whole, the text "cannot be older than 473 AD"; other sources give the 3rd, 4th or 5th century (<strong>disputed</strong>). The book was probably compiled from older material of different dates.</p>
+<p class="col">Qin Jiushao (1202–1261) wrote the <em>Shushu jiuzhang</em> in 1247 (<strong>documented</strong>). He said he learned the method from calendar experts at the Board of Astronomy, who used it without understanding it. Chinese calendar-makers needed such congruences to find a <em>shangyuan</em>, a starting moment when the 60-day cycle, the winter solstice and the new moon coincide; Shen Kangsheng traces this to the Jingchu calendar of 237 CE. That Sunzi's own puzzle came from calendar work is a <strong>conjecture</strong>: no source opened here says so.</p>
+<p class="col">In India, Aryabhata's 5th-century work contains instances of the same theorem. In 1874 Mathiesen pointed out that Sunzi's method matches Gauss's, which is why Western books call it the <em>Chinese</em> remainder theorem (one source). Cheng Dawei set the multipliers 70, 21 and 15 to verse in 1592.</p>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Search against the rule</h2>
+<div class="tbl"><table><thead><tr><th class="n">Cycles (primes near 1,000)</th><th class="">Repeats every</th><th class="n">Answer</th><th class="n">Search: tries</th><th class="n">Rule: divisions</th></tr></thead><tbody><tr class=""><td class="n">2</td><td class="">1,022,117</td><td class="n">695,934</td><td class="n">695,935</td><td class="n">4</td></tr><tr class=""><td class="n">3</td><td class="">1,041,537,223</td><td class="n">452,563,575</td><td class="n">452,563,576</td><td class="n">10</td></tr><tr class=""><td class="n">4</td><td class="">1,063,409,504,683</td><td class="n">917,589,108,979</td><td class="n">917,589,108,980</td><td class="n">24</td></tr><tr class=""><td class="n">5</td><td class="">1,096,375,199,328,173</td><td class="n">980,013,567,820,897</td><td class="n">980,013,567,820,898</td><td class="n">30</td></tr><tr class=""><td class="n">6</td><td class="">1,132,555,580,906,002,709</td><td class="n">717,803,553,928,955,531</td><td class="n">717,803,553,928,955,532</td><td class="n">42</td></tr></tbody></table></div>
+<p class="col">Searching has to walk up to the answer, which can be anywhere below the product of the cycles, so the work multiplies with every cycle added. The rule's work, a few divisions per cycle, only adds.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Decrypting by remainders</h2>
+<p class="col">An RSA private key works modulo <em>n</em> = <em>p</em> × <em>q</em>, a number of about 600 digits. PKCS #1, the RSA standard (RFC 8017, 2016), stores the key a second way, as <em>p</em>, <em>q</em>, <em>dP</em>, <em>dQ</em> and <em>qInv</em>, so that decryption can work modulo <em>p</em> and modulo <em>q</em> separately: <code>m1 = c^dP mod p</code>, <code>m2 = c^dQ mod q</code>, <code>h = (m1 − m2) × qInv mod p</code>, <code>m = m2 + q × h</code>. The last two steps are Sunzi's rule for two divisors.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>The program made a 2048-bit key and decrypted 200 messages both ways. Plain decryption took 3,053 multiplications of 2048-bit numbers; by remainders, 3,035 multiplications of 1024-bit numbers. Counting 64-bit word products, that is 3,126,272 against 776,960: <strong>4.0 times fewer</strong>. A puzzle about counting things in threes, fives and sevens is inside every RSA decryption that follows the standard.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Why is 70 the ready-made number for 3, and not 35?</span></summary><div class="ans"><p>35 is divisible by 5 and 7 but leaves 2 by 3. Doubling it gives 70, which leaves 1 by 3 and is still divisible by 5 and 7.</p></div></details><details class="try"><summary><span class="q">2</span><span>Counted in threes, 1 is left; in fives, 1; in sevens, 1. How many?</span></summary><div class="ans"><p>70 + 21 + 15 = 106; cast out 105: <strong>1</strong>. (Or notice that 1 itself leaves 1 every time.)</p></div></details><details class="try"><summary><span class="q">3</span><span>Why cast out 105 and not some other number?</span></summary><div class="ans"><p>105 = 3 × 5 × 7 leaves nothing by any of the three, so taking it away does not change any remainder. Any smaller number would.</p></div></details><details class="try"><summary><span class="q">4</span><span>The dayan board for 377,873 by 499,067 ends with 457,999 at the upper left. How can you check it without the board?</span></summary><div class="ans"><p>Multiply: 377,873 × 457,999 = 173,065,456,127, which is 346,778 × 499,067 + 1.</p></div></details><details class="try"><summary><span class="q">5</span><span>Why can 1 by 4 and 2 by 6 never both hold?</span></summary><div class="ans"><p>Leaving 1 by 4 makes the number odd; leaving 2 by 6 makes it even. Divisors that share a factor must agree on it.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 120" role="img" aria-label="Drawn placeholder of an open printed book" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><path d="M100,20 C80,12 40,12 20,18 V108 C40,102 80,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><path d="M100,20 C120,12 160,12 180,18 V108 C160,102 120,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="32.0" y1="32.0" x2="88.0" y2="32.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="41.0" x2="88.0" y2="41.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="50.0" x2="88.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="59.0" x2="88.0" y2="59.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="68.0" x2="88.0" y2="68.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="77.0" x2="88.0" y2="77.0" style="stroke:var(--axis);stroke-width:2"/><circle cx="140.0" cy="60.0" r="24.0" style="fill:none;stroke:var(--red);stroke-width:2"/><path d="M116,60 L164,60 M140,36 L140,84" style="fill:none;stroke:var(--blue);stroke-width:2"/></svg></div><figcaption class="txt"><b>Sunzi Suanjing</b><span>The whole book in Chinese as a Project Gutenberg e-text; the remainder problem is Volume 3, Problem 26. The catalogue lists the Tang editor Li Chunfeng (602–670).</span><a href="https://m.gutenberg.org/ebooks/24038">Project Gutenberg #24038</a><span class="lic">Drawn placeholder.</span></figcaption></figure><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>RFC 8017 (PKCS #1 v2.2)</b><span>The RSA standard, November 2016. Section 5.1.2 decrypts by the remainder theorem with dP, dQ and qInv.</span><a href="https://rfc-editor.org/rfc/rfc8017">RFC Editor</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://legacy-www.math.harvard.edu/~knill/seminars/chinese/chinese.pdf" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Chinese Remainder Theorem · Oliver Knill, Math Circle slides, Harvard, 15 April 2014</span><span class="w">Sunzi's problem worked visually, with a timeline to Qin Jiushao's "full algorithm"</span></a><a href="https://sites.oxy.edu/ron/math/400/19/ws/ws11.pdf" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Non-Western Perspectives, Part 2: Mathematics from China and Africa (Worksheet 11) · Senior Colloquium: History of Mathematics, worksheet (Fall 2019), Occidental College site; instructor not named</span><span class="w">Students rework Sunzi's 140 + 63 + 30 − 210 solution</span></a><a href="https://www.britannica.com/print/article/112749" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Chinese remainder theorem · Encyclopaedia Britannica</span><span class="w">Short statement of the theorem, Sun Zi and Qin Jiushao</span></a><a href="https://www.gresham.ac.uk/watch-now/numbers-cultures" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Histories of Numbers · Gresham College, Karine Chemla (CNRS), 20 October 2021 (video and transcript)</span><span class="w">The <em>Sunzi Suanjing</em> as the text that explains rod numerals on a calculating surface; Qin Jiushao's <em>Shu shu jiu zhang</em>. The remainder problem itself is not discussed</span></a><a href="https://polyu.edu.hk/ama/profile/hwlee/AMA1D01C/lec04.pdf" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Chinese Remainder Theorem (中國剩餘定理), Lecture Notes Set #04, AMA1D01C · Hong Kong Polytechnic University, Dept. of Applied Mathematics (in Chinese)</span><span class="w">The original Chinese text, why 70/21/15 work, and Qin's <em>dayan qiuyi</em> procedure with worked examples</span></a><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Sun_Zi/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Sun Zi · MacTutor</span><span class="w">The problem and the rule in translation, and the full argument over dating</span></a><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Qin_Jiushao/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Qin Jiushao · MacTutor</span><span class="w">The 1247 generalisation, non-coprime moduli, and the calendar experts</span></a><a href="https://rfc-editor.org/rfc/rfc8017" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">RFC 8017: PKCS #1: RSA Cryptography Specifications Version 2.2 · K. Moriarty (ed.), B. Kaliski, J. Jonsson, A. Rusch, November 2016</span><span class="w">Section 3.2 (the key as p, q, dP, dQ, qInv) and 5.1.2 (decryption by remainders)</span></a><a href="https://link.springer.com/doi/10.1007/BF00357063" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Historical development of the Chinese remainder theorem · Shen Kangsheng, <em>Archive for History of Exact Sciences</em> 38(4) (1988) 285–305</span><span class="w">The standard history, from calendars to Qin's <em>dayan</em> rule. A full-text PDF is on a University of Kentucky course page</span></a><a href="https://legacy-www.math.harvard.edu/~knill/crt/lib/Libbrecht14.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Indeterminate Analysis of the First Degree outside China (Ch. 14) · Ulrich Libbrecht, <em>Chinese Mathematics in the Thirteenth Century</em> (PDF on Knill's Harvard CRT site)</span><span class="w">Sunzi to Qin compared with India and Fibonacci, who solved congruences case by case</span></a><a href="https://link.springer.com/doi/10.1007/s12045-015-0171-x" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Multivariable Chinese remainder theorem · B. Sury, <em>Resonance</em> 20(3) (2015) 206–216</span><span class="w">History in the abstract (Sunzi, calendars, Aryabhata, Qin), then generalisations</span></a><a href="https://web.math.sinica.edu.tw/media/pdf/d353/35308.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">孫子剩餘定理與高斯剩餘定理 · Wang Yixun, <em>數學傳播</em> 35(3) (2011) 64–79, Academia Sinica (in Chinese)</span><span class="w">Quotes the original problem and rule in full and compares them with Gauss's method</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-02-algorithms-travel/reference-catalog.md">Era 2 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-02-algorithms-travel/03-chinese-remainder-problem/ChineseRemainder.java">ChineseRemainder.java</a> makes <strong>106,153 checks</strong>: Sunzi's multipliers and answer, all 105 triples of remainders, the dayan rule against the extended Euclidean algorithm on 100,000 random cases, Qin's calendar congruence, divisors with shared factors against search, and RSA decryption both ways. Run it with <code>java ChineseRemainder.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/**</span>
+<span class="k-c"> * Qin Jiushao&#x27;s dayan qiuyi: k with a k = 1 (mod m), for a and m coprime, a reduced below m. The board has four</span>
+<span class="k-c"> * places: upper left (starts at 1), upper right (a), lower left (starts at 0), lower right (m). trace may be null.</span>
+<span class="k-c"> */</span>
+<span class="k-kw">static</span> <span class="k-kw">long</span> dayan(<span class="k-kw">long</span> a, <span class="k-kw">long</span> m, <span class="k-kw">List</span>&lt;String&gt; trace) {
+    <span class="k-kw">long</span> ul = <span class="k-n">1</span>, ur = a % m, ll = <span class="k-n">0</span>, lr = m;
+    <span class="k-kw">if</span> (ur == <span class="k-n">1</span>) <span class="k-kw">return</span> <span class="k-n">1</span>;
+    <span class="k-kw">while</span> (<span class="k-kw">true</span>) {
+        <span class="k-kw">long</span> q = lr / ur;                              <span class="k-c">// the lower right divided by the upper right</span>
+        lr -= q * ur;
+        ll += q * ul;
+        divisions++;
+        <span class="k-kw">if</span> (trace != <span class="k-kw">null</span>) trace.add(String.format(&quot;lower by upper: quotient %d ; board %d %d / %d %d&quot;, q, ul, ur, ll, lr));
+        <span class="k-kw">if</span> (lr == <span class="k-n">0</span>) throw <span class="k-kw">new</span> IllegalArgumentException(&quot;not coprime&quot;);
+        q = lr == <span class="k-n">1</span> ? ur - <span class="k-n">1</span> : ur / lr;                <span class="k-c">// the upper right divided by the lower right; stop at 1, not 0</span>
+        ur -= q * lr;
+        ul += q * ll;
+        divisions++;
+        <span class="k-kw">if</span> (trace != <span class="k-kw">null</span>) trace.add(String.format(&quot;upper by lower: quotient %d ; board %d %d / %d %d&quot;, q, ul, ur, ll, lr));
+        <span class="k-kw">if</span> (ur == <span class="k-n">1</span>) <span class="k-kw">return</span> ul % m;
+    }
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>ChineseRemainder.java</code>.<br><span class="navfoot"><a href="../index.html">Era 2: Algorithms Travel</a><a href="../02-ptolemys-chords/ptolemys-chords.html">← Ptolemy&#x27;s Table of Chords</a><a href="../04-zero-becomes-a-number/zero-becomes-a-number.html">Zero Becomes a Number →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const box = document.getElementById("cr-in");
+  if (!box) return;
+  const SUNZI = { m: [3, 5, 7], r: [2, 3, 2] };
+  const ins = [];
+  for (let i = 0; i < 3; i++) {
+    const lab = el("label", {}, box);
+    lab.append("leaves ");
+    const r = el("input", { type: "number", min: 0, value: SUNZI.r[i], "aria-label": `remainder ${i + 1}` }, lab);
+    lab.append(" by ");
+    const m = el("input", { type: "number", min: 2, max: 400, value: SUNZI.m[i], "aria-label": `divisor ${i + 1}` }, lab);
+    ins.push([r, m]);
+  }
+  const gcd = (a, b) => b ? gcd(b, a % b) : Math.abs(a);
+  const steps = document.getElementById("cr-steps");
+  let group = 0, answer = null;
+  // Qin Jiushao's dayan rule: k with a k = 1 (mod m)
+  function dayan(a, m) {
+    let ul = 1, ur = a % m, ll = 0, lr = m;
+    const log = [`board ${ul} ${ur} / ${ll} ${lr}`];
+    if (ur === 1) return [1, log];
+    for (let guard = 0; guard < 200; guard++) {
+      let q = Math.floor(lr / ur); lr -= q * ur; ll += q * ul;
+      log.push(`lower ÷ upper, quotient ${q}: ${ul} ${ur} / ${ll} ${lr}`);
+      q = lr === 1 ? ur - 1 : Math.floor(ur / lr); ur -= q * lr; ul += q * ll;
+      log.push(`upper ÷ lower, quotient ${q}: ${ul} ${ur} / ${ll} ${lr}`);
+      if (ur === 1) return [ul % m, log];
+    }
+    return [null, log];
+  }
+  function read() {
+    return ins.map(([r, m]) => [Math.max(0, Math.floor(+r.value || 0)), Math.max(2, Math.min(400, Math.floor(+m.value || 2)))]);
+  }
+  function pebbles() {
+    const peb = document.getElementById("cr-peb");
+    peb.innerHTML = "";
+    if (answer === null) return;
+    const k = read()[group][1], n = answer, left = n % k, show = Math.min(n, 600);
+    let row;
+    for (let i = 0; i < show; i++) {
+      if (i % k === 0) row = el("div", { class: "row" }, peb);
+      el("i", { class: i >= n - left ? "left" : "" }, row);
+    }
+    if (n > show) el("div", { class: "more" }, peb, `… and ${fmt(n - show)} more`);
+    el("div", { class: "more" }, peb, `${fmt(n)} counted in ${k}s: ${fmt(Math.floor(n / k))} full rows, ${left} left (red)`);
+  }
+  function tabs() {
+    const t = document.getElementById("cr-tabs");
+    t.innerHTML = "";
+    read().forEach(([, m], i) => {
+      const b = el("button", { type: "button", class: i === group ? "on" : "" }, t, `count in ${m}s`);
+      b.addEventListener("click", () => { group = i; tabs(); pebbles(); });
+    });
+  }
+  function solve() {
+    const v = read(), m = v.map(x => x[1]), r = v.map((x, i) => x[0] % m[i]);
+    steps.innerHTML = "";
+    for (let i = 0; i < 3; i++) for (let j = i + 1; j < 3; j++) if (gcd(m[i], m[j]) !== 1) {
+      el("p", {}, steps, `${m[i]} and ${m[j]} share the factor ${gcd(m[i], m[j])}. Sunzi's rule needs divisors with no common factor; Qin Jiushao first replaced such divisors with coprime ones. Try Search instead.`);
+      answer = null; pebbles(); return;
+    }
+    const prod = m[0] * m[1] * m[2];
+    let total = 0;
+    const terms = [];
+    for (let i = 0; i < 3; i++) {
+      const others = prod / m[i];
+      const [k, log] = dayan(others % m[i], m[i]);
+      const mult = others * k;
+      const p = el("p", {}, steps);
+      p.innerHTML = `Divisor <b>${m[i]}</b>: the other two multiply to ${fmt(others)}, which leaves ${others % m[i]}. The dayan board finds k = <b>${k}</b>, so the ready-made number is ${fmt(others)} × ${k} = <b>${fmt(mult)}</b>: it leaves 1 by ${m[i]} and nothing by the others.`;
+      const dy = el("div", { class: "dy" }, steps);
+      dy.textContent = log.join(" → ");
+      total += r[i] * mult;
+      terms.push(`${r[i]} × ${fmt(mult)}`);
+    }
+    answer = total % prod;
+    const p = el("p", { class: "mono" }, steps);
+    p.innerHTML = `${terms.join(" + ")} = ${fmt(total)}<br>cast out ${fmt(prod)} as often as possible: <b>${fmt(answer)}</b>`;
+    tabs(); pebbles();
+  }
+  function search() {
+    const v = read(), m = v.map(x => x[1]), r = v.map((x, i) => x[0] % m[i]);
+    let l = 1;
+    for (const x of m) l = l / gcd(l, x) * x;
+    steps.innerHTML = "";
+    let tries = 0, found = null;
+    for (let x = 0; x < l && x < 2e6; x++) { tries++; if (x % m[0] === r[0] && x % m[1] === r[1] && x % m[2] === r[2]) { found = x; break; } }
+    answer = found;
+    el("p", {}, steps, found === null ? `No number below ${fmt(l)} fits: the conditions contradict each other.` :
+      `Searching 0, 1, 2, … finds ${fmt(found)} after ${fmt(tries)} tries. The pattern repeats every ${fmt(l)}.`);
+    tabs(); pebbles();
+  }
+  document.getElementById("cr-solve").addEventListener("click", solve);
+  document.getElementById("cr-search").addEventListener("click", search);
+  document.getElementById("cr-reset").addEventListener("click", () => { ins.forEach(([r, m], i) => { r.value = SUNZI.r[i]; m.value = SUNZI.m[i]; }); group = 0; solve(); });
+  ins.forEach(([r, m]) => [r, m].forEach(x => x.addEventListener("change", () => { group = 0; tabs(); })));
+  solve();
+})();
+
+</script>
+</body>
+</html>

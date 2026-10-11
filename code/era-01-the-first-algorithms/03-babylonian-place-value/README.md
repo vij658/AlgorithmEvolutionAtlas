@@ -47,11 +47,11 @@ The output must match [`expected-output.txt`](expected-output.txt) line for line
 | Deeper | [Lecture 1, History of Math, Princeton University](https://www.youtube.com/watch?v=ZSk63kC9o6U) — Prof. Alex Kontorovich (2024) | University course lecture: early number, sexagesimal, YBC 7289, Plimpton 322 |
 | Deeper | [Number Systems Ancient to Modern 2: the Babylonians](https://www.youtube.com/watch?v=58Z91hD5RXE) — N. J. Wildberger | Babylonian place value |
 | Deeper | [Old Babylonian Multiplication and Reciprocal Tables](https://www.ams.org/publicoutreach/feature-column/fc-2012-05) — AMS Feature Column (Tony Phillips) | Walks through real tables; explains regular numbers and division by reciprocals |
+| Deeper | [The numbers behind Plimpton 322](https://arxiv.org/html/1109.3814) — Anthony Phillips, arXiv | Row 1 from the reciprocal pair 2;24 and 0;25, worked through |
+| Deeper | [Division by Invariant Integers using Multiplication](https://gmplib.org/~tege/divcnst-pldi94.pdf) — Granlund and Montgomery (1994) | Dividing by a constant with one multiplication; implemented in GCC |
 | Scholar | [Old Babylonian mathematics and Plimpton 322: the remarkable OB sexagesimal system](https://www.youtube.com/watch?v=J5Ug3Cr8RUE) — N. J. Wildberger | Long-form lecture by a co-author of the 2017 claim, so his framing is one-sided |
 | Scholar | [Plimpton 322 (P254790)](https://cdli.earth/artifacts/254790) — Cuneiform Digital Library Initiative | Catalogue record with photographs and line art |
 | Scholar | ["Our Tools of Learning": Plimpton 322](https://exhibitions.library.columbia.edu/exhibits/show/plimpton/mathematics/page-2) — Columbia University Libraries | The owning library's presentation |
 | Scholar | [Multiplication table (Penn Museum B6063)](https://isaw.nyu.edu/exhibitions/before-pythagoras/items/b-6063/) — ISAW, NYU, *Before Pythagoras* | A real Old Babylonian school multiplication tablet from Nippur |
-| Deeper | [The numbers behind Plimpton 322](https://arxiv.org/html/1109.3814) — Anthony Phillips, arXiv | Row 1 from the reciprocal pair 2;24 and 0;25, worked through |
-| Deeper | [Division by Invariant Integers using Multiplication](https://gmplib.org/~tege/divcnst-pldi94.pdf) — Granlund and Montgomery (1994) | Dividing by a constant with one multiplication; implemented in GCC |
 
 Every link was opened before it was listed. More, with certainty labels: [Era 1 reference catalog](../../../book/era-01-the-first-algorithms/reference-catalog.md).

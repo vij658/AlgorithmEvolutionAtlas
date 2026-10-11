@@ -1,0 +1,31 @@
+p1 board: 1 2 3 26 | 2 3 1 34 | 3 2 1 39
+p1 step 1: column 2 x 3 = 6 9 3 102 ; subtract column 1 2 times -> 0 5 1 24
+p1 step 2: column 3 x 3 = 3 6 9 78 ; subtract column 1 1 time -> 0 4 8 39
+p1 step 3: column 3 x 5 = 0 20 40 195 ; subtract column 2 4 times -> 0 0 36 99
+p1 triangle: 0 0 36 99 | 0 5 1 24 | 3 2 1 39
+p1 back: divisor 36 ; dividends 333 153 99
+p1 answer: top 9 1/4 ; medium 4 1/4 ; low 2 3/4 dou ; 16 multiplications ; largest number 99
+animals board: -5 6 8 -600 | 3 -9 3 0 | 2 5 -13 1000
+animals step 1: column 2 x 2 = 6 -18 6 0 ; subtract column 1 3 times -> 0 -33 45 -3000
+animals step 2: column 3 x 2 = -10 12 16 -1200 ; add column 1 5 times -> 0 37 -49 3800
+animals step 3: column 3 x -33 = 0 -1221 1617 -125400 ; subtract column 2 37 times -> 0 0 -48 -14400
+animals answer: cattle 1200 ; sheep 500 ; pig 300 ; sign rule: 4 like-sign subtractions, 3 unlike-sign (added), 1 from an empty place ; 5 negative numbers left on the board
+growth 3 unknowns: plain 4 digits ; common factors cancelled 3 digits ; Bareiss 3 digits ; answer 2 digits
+growth 5 unknowns: plain 6 digits ; common factors cancelled 3 digits ; Bareiss 3 digits ; answer 3 digits
+growth 7 unknowns: plain 62 digits ; common factors cancelled 12 digits ; Bareiss 8 digits ; answer 8 digits
+growth 9 unknowns: plain 205 digits ; common factors cancelled 16 digits ; Bareiss 10 digits ; answer 10 digits
+growth 11 unknowns: plain 518 digits ; common factors cancelled 18 digits ; Bareiss 12 digits ; answer 12 digits
+growth 13 unknowns: plain 2704 digits ; common factors cancelled 24 digits ; Bareiss 14 digits ; answer 13 digits
+steps 15 unknowns plain: 3 4 8 14 28 55 108 215 429 857 1713 3425 6849 13695 13695
+steps 15 unknowns bareiss: 3 4 5 5 6 7 8 9 10 12 13 14 15 16 16
+growth 15 unknowns: plain 13695 digits ; common factors cancelled 25 digits ; Bareiss 16 digits ; answer 16 digits
+work 3 unknowns: by division 8 multiplications ; cross-multiplying 16 ; n^3/3 = 9
+work 6 unknowns: by division 70 multiplications ; cross-multiplying 140 ; n^3/3 = 72
+work 18 unknowns: by division 1938 multiplications ; cross-multiplying 3876 ; n^3/3 = 1944
+work 100 unknowns: by division 333300 multiplications ; cross-multiplying 666600 ; n^3/3 = 333333
+work 1000 unknowns: by division 333333000 multiplications ; cross-multiplying 666666000 ; n^3/3 = 333333333
+tiny pivot: without pivoting x = 0.0, y = 1.0 ; with partial pivoting x = 1.0, y = 1.0 ; exactly x = 100000000000000000000/99999999999999999999
+worst case 20: growth 2^19, error 1.5e-11 ; random matrix growth 4.5, error 6.4e-15
+worst case 40: growth 2^39, error 1.8e-06 ; random matrix growth 7.1, error 4.7e-15
+worst case 60: growth 2^59, error 9.4e-01 ; random matrix growth 7.3, error 4.1e-15
+FangCheng: 5447 checks passed

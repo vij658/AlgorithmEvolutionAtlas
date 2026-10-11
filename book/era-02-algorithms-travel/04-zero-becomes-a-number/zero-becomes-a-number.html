@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zero Becomes a Number</title>
+<meta name="description" content="Era 2, topic 4 of The Algorithm Evolution Atlas: how a mark for an empty place became a number with rules, from Babylon to Brahmagupta to Gwalior, and what dividing by zero gives today.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.zr-board select{font:inherit;font-size:14px;padding:4px 6px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+.zr-out{font-size:14px}
+.zr-out h4{margin:12px 0 4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.zr-out .big{font-family:var(--mono);font-size:26px;font-weight:600}
+.zr-out .chips{display:flex;flex-wrap:wrap;gap:4px}
+.zr-out .chips span{font-family:var(--mono);font-size:12.5px;padding:2px 7px;border:1px solid var(--rule);background:var(--surface)}
+.zr-out .chips span.me{border-color:var(--red);color:var(--red);font-weight:600}
+.zr-out .sx{font-family:var(--mono);font-size:15px}
+.zr-out .sx b{display:inline-block;min-width:1.8em;text-align:center;border:1px solid var(--rule);background:var(--surface);margin-right:3px;padding:1px 3px}
+.zr-out .sx b.e{color:var(--muted);border-style:dashed}
+.zr-tab{border-collapse:collapse;width:100%;font-size:13.5px}
+.zr-tab td{padding:6px;border-bottom:1px solid var(--rule);vertical-align:top}
+.zr-tab td:first-child{color:var(--muted);width:40%}
+.zr-tab td:last-child{font-family:var(--mono)}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 2: Algorithms Travel</a><a href="../03-chinese-remainder-problem/chinese-remainder-problem.html">← The Chinese Remainder Problem</a><a href="../05-chakravala/chakravala.html">The Chakravala and Pell&#x27;s Equation →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 2 · Topic 4 · 628 CE</div>
+    <h1>Zero Becomes a Number</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">A mark for an empty place tells you how to read a number. A number with rules tells you how to calculate with it. Brahmagupta wrote the rules in 628, and his one rejected answer, zero divided by zero is zero, is back.</p>
+  <p class="fieldnote">Field note from the visiting historian. For more than a thousand years the Babylonians wrote place-value numbers with no mark for an empty place, and readers guessed. In India the mark became a number. Brahmagupta wrote down what zero does in every operation, next to the rules for fortunes and debts.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#read">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#rules">The rules</a><a href="#evidence">The evidence</a><a href="#today">Today</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Brahmagupta, 628 CE; the Gwalior inscription, 876 CE (earlier Southeast Asian zeros, <strong>disputed</strong>)</dd></div><div><dt>Where</dt><dd>India: Bhillamala (Bhinmal), Gwalior</dd></div><div><dt>What hurt</dt><dd>Place value needs a mark for an empty place, and arithmetic needs rules for it</dd></div><div><dt>The fix</dt><dd>Zero as a digit that can stand anywhere, and as a number with its own rules</dd></div><div><dt>Cost</dt><dd>Without it, 46.9% of the numbers below a million can be misread</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Place value came from Babylon (Era 1, topic 3), with a placeholder for an empty place added late. Indian numerals let the mark stand anywhere, and Brahmagupta gave it rules, next to the rules for positive and negative numbers. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How zero became a number, and where its rules ended up" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="230.0" y1="63.0" x2="270.0" y2="63.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="270.0,63.0 261.8,66.7 261.8,59.3" style="fill:var(--ink-2)"/><line x1="375.0" y1="106.0" x2="292.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="292.0,170.0 296.3,162.1 300.7,167.9" style="fill:var(--ink-2)"/><line x1="355.0" y1="213.0" x2="520.0" y2="213.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="520.0,213.0 511.8,216.7 511.8,209.3" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="688.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="688.0,170.0 694.6,163.9 697.0,170.8" style="fill:var(--ink-2)"/><line x1="250.0" y1="256.0" x2="250.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="250.0,330.0 246.3,321.8 253.7,321.8" style="fill:var(--ink-2)"/><line x1="250.0" y1="416.0" x2="250.0" y2="470.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="250.0,470.0 246.3,461.8 253.7,461.8" style="fill:var(--ink-2)"/><line x1="583.0" y1="256.0" x2="625.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="625.0,330.0 617.8,324.7 624.1,321.0" style="fill:var(--ink-2)"/><line x1="688.0" y1="256.0" x2="833.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="833.0,330.0 824.0,329.5 827.3,323.0" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="60.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Babylonian place value</text><text x="32.0" y="77.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 1, topic 3</text><rect x="270" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="282.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">A placeholder</text><text x="282.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">two wedges, never at the end</text><text x="282.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">c. 400 BCE</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Negative numbers</text><text x="782.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">black rods, a sign rule</text><text x="782.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Nine Chapters, topic 1</text><rect x="145" y="170" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="157.0" y="193.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Zero as a digit</text><text x="157.0" y="210.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ a mark that can stand</text><text x="157.0" y="227.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">anywhere</text><text x="157.0" y="243.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Gwalior, 876</text><rect x="520" y="170" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="532.0" y="193.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Zero as a number</text><text x="532.0" y="210.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ rules beside fortunes and</text><text x="532.0" y="227.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">debts</text><text x="532.0" y="243.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Brahmagupta, 628</text><rect x="145" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="157.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Algorism</text><text x="157.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">written column arithmetic</text><text x="157.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">al-Khwarizmi, topic 6</text><rect x="145" y="470" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="157.0" y="501.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Liber Abaci</text><text x="157.0" y="519.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the numerals reach Pisa</text><text x="157.0" y="535.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1202, topic 8</text><rect x="520" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="532.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Floating point</text><text x="532.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">signed zero, infinity, NaN</text><text x="532.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Java, 2026</text><rect x="770" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="782.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Proof assistants</text><text x="782.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ define x / 0 = 0</text><text x="782.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Lean, Isabelle, Coq</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dashed: negative numbers appear in China earlier, but no transmission to India is documented.</text></svg></div><figcaption>Red: zero as a number. Blue: two modern answers to the question Brahmagupta answered first, what dividing by zero gives.</figcaption></figure>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="read-h">Read it without a zero</h2>
+<p class="col">Type a number and see how it would be written with no mark for an empty place, and how many other numbers would look the same. Then try Brahmagupta's rules on fortunes, debts and zero, next to what Java and the proof assistants answer today.</p>
+
+<div class="board zr-board">
+  <div style="min-width:0">
+    <div class="controls">
+      <label for="zr-n">A number <input id="zr-n" type="number" min="1" max="999999" value="270"></label>
+      <div class="presets" id="zr-pre"></div>
+    </div>
+    <div class="zr-out" id="zr-out" aria-live="polite"></div>
+  </div>
+  <div style="min-width:0">
+    <div class="eyebrow">Brahmagupta's rules, and today's</div>
+    <div class="controls zr-calc">
+      <select id="zr-a" aria-label="first number"></select>
+      <select id="zr-op" aria-label="operation"><option>+</option><option>−</option><option>×</option><option>÷</option></select>
+      <select id="zr-b" aria-label="second number"></select>
+    </div>
+    <table class="zr-tab"><tbody id="zr-res"></tbody></table>
+  </div>
+</div>
+
+<div class="tbl"><table><thead><tr><th class="">System</th><th class="n">Numbers</th><th class="n">Written like another number</th><th class="">Share</th><th class="n">Largest group</th></tr></thead><tbody><tr class=""><td class="">Base 10, no mark</td><td class="n">1 to 999,999</td><td class="n">468,558</td><td class="">46.9%</td><td class="n">20 (all written "111")</td></tr><tr class=""><td class="">Base 60, no mark</td><td class="n">1 to 215,999</td><td class="n">10,620</td><td class="">4.9%</td><td class="n">3</td></tr><tr class=""><td class="">Base 60, placeholder never at the end</td><td class="n">1 to 215,999</td><td class="n">7,139</td><td class="">3.3%</td><td class="n">3</td></tr><tr class=""><td class="">Any base, with a zero</td><td class="n"></td><td class="n">0</td><td class="">0%</td><td class="n">1</td></tr></tbody></table></div>
+<p class="col">Without a mark, almost half the numbers below a million can be misread. Base 60 suffers less, because an empty place is rarer when each place holds 60 values, but 10,620 numbers still collide. A placeholder inside the number removes most of the problem; what is left is exactly the numbers that differ by a factor of 60, like 1 and 60, which only a final zero can tell apart.</p>
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 2, algorithms travel</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1342 132" role="img" aria-label="Era 2: Algorithms Travel, from c. 200 BCE to 1424 CE" style="font-family:var(--body);min-width:966px;max-width:1409px;margin:0 auto"><line x1="34" y1="34" x2="1308" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 200 BCE – 263 CE</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Fangcheng:</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">elimination on the</text><text x="64.0" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">board</text><circle cx="185.4" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.4" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 150 CE</text><text x="185.4" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Ptolemy&#x27;s table of</text><text x="185.4" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">chords</text><circle cx="306.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="306.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">3rd–5th century CE</text><text x="306.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Sunzi&#x27;s remainder</text><text x="306.8" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">problem</text><circle cx="428.2" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="428.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">628 CE</text><text x="428.2" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Brahmagupta&#x27;s</text><text x="428.2" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">rules for zero</text><circle cx="549.6" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="549.6" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">628–1150 CE</text><text x="549.6" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">The chakravala</text><circle cx="671.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 820–830 CE</text><text x="671.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">al-Khwarizmi&#x27;s</text><text x="671.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">written</text><text x="671.0" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">procedures</text><circle cx="792.4" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="792.4" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">9th century CE</text><text x="792.4" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">al-Kindi&#x27;s</text><text x="792.4" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">frequency analysis</text><circle cx="913.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="913.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1202 CE</text><text x="913.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Liber Abaci</text><circle cx="1035.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1035.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1247 CE</text><text x="1035.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Qin Jiushao&#x27;s root</text><text x="1035.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">method</text><circle cx="1156.6" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1156.6" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1400 CE</text><text x="1156.6" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Madhava&#x27;s series</text><text x="1156.6" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">for π</text><circle cx="1278.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1278.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1424 CE</text><text x="1278.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">al-Kashi&#x27;s π</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 700" role="img" aria-label="Each fix leaves a new pain: from an empty place to x ÷ 0 = 0" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="396.0" x2="750.0" y2="446.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,446.0 746.3,437.8 753.7,437.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="492.0" x2="400.0" y2="492.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,492.0 408.2,488.3 408.2,495.7" style="fill:var(--ink-2)"/><rect x="449.2" y="471.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="484.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="538.0" x2="210.0" y2="588.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,588.0 206.3,579.8 213.7,579.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="634.0" x2="560.0" y2="634.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,634.0 551.8,637.7 551.8,630.3" style="fill:var(--ink-2)"/><rect x="449.2" y="613.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="626.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Place value with no mark for an empty place: 468,558 of</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the numbers below a million share their written form</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A placeholder for the empty place</text><text x="572.0" y="86.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Babylon, c. 400 BCE</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The placeholder is never written at the end, so 1 and 60</text><text x="572.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">still look alike: 7,139 base-60 numbers below 216,000</text><text x="572.0" y="236.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">collide</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A zero that can stand anywhere, even last: 270 and 50</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">at Gwalior</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Gwalior, 876 CE</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A mark is not a number: what is 5 − 5, or zero times a</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">debt?</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Rules for zero beside fortunes and debts</text><text x="572.0" y="370.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Brahmagupta, 628</text><rect x="560" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="487.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="503.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">His rule 0 ÷ 0 = 0 breaks (a ÷ b) × b = a</text><rect x="20" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="471.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="487.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Leave division by zero undefined: Java throws, floating</text><text x="32.0" y="503.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">point gives NaN</text><text x="32.0" y="520.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">modern arithmetic</text><rect x="20" y="588" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="621.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="637.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Undefined values make every proof check its</text><text x="32.0" y="654.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">denominators</text><rect x="560" y="588" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="613.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="629.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Define x ÷ 0 = 0; the laws survive except (a ÷ b) × b = a,</text><text x="572.0" y="645.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which fails in 46 of 2,209 cases</text><text x="572.0" y="662.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Lean, Isabelle</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="rules" aria-labelledby="rules-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="rules-h">Fortunes, debts and zero</h2>
+<p class="col">Brahmagupta defined zero as a number subtracted from itself, and gave it rules beside those for "fortunes" and "debts", positive and negative numbers. In MacTutor's translation: "A debt minus zero is a debt." "Zero minus zero is a zero." "A debt subtracted from zero is a fortune." "The product of zero multiplied by a debt or fortune is zero." The program implements them:</p>
+<div class="tbl"><table><thead><tr><th class="">Rule</th><th class="">Example: 5 and 3</th></tr></thead><tbody><tr class=""><td class="">A debt minus zero</td><td class="">a debt of 5</td></tr><tr class=""><td class="">A fortune minus zero</td><td class="">a fortune of 5</td></tr><tr class=""><td class="">Zero minus zero</td><td class="">zero</td></tr><tr class=""><td class="">Zero minus a debt</td><td class="">a fortune of 5</td></tr><tr class=""><td class="">Zero minus a fortune</td><td class="">a debt of 5</td></tr><tr class=""><td class="">Zero times a debt</td><td class="">zero</td></tr><tr class=""><td class="">A debt times a debt</td><td class="">a fortune of 15</td></tr><tr class=""><td class="">A debt times a fortune</td><td class="">a debt of 15</td></tr></tbody></table></div>
+<p class="col">On all 14,641 pairs of whole numbers from −60 to 60, his addition, subtraction and multiplication give exactly what modern arithmetic gives, and so does his division on the 14,520 pairs with a divisor other than zero. Two rules differ. A fortune or debt divided by zero is left as "a fraction with zero as denominator" (7/0 stays 7/0), which says little. And "zero divided by zero is zero": MacTutor calls this wrong.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>A placeholder only says that a place is empty. A number has to answer every question arithmetic can ask of it: what is it plus 5, times a debt, divided by itself? Brahmagupta answered all of them, and only one answer was later taken back.</p></div>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">Which zero was first?</h2>
+<p class="col">Brahmagupta (598–670) wrote the <em>Brahmasphutasiddhanta</em> in 628 at Bhillamala, modern Bhinmal (<strong>documented</strong>). The Babylonians wrote place-value numbers with no mark for an empty place for over a thousand years; from about 400 BCE they used two wedges as a placeholder, but never at the end of a number (<strong>documented</strong>, MacTutor).</p>
+<p class="col">The inscription at a temple in Gwalior records a garden of 187 by 270 <em>hastas</em> and a daily gift of 50 garlands, dated 933 in an era beginning in 57 BCE, that is 876 CE. It is the earliest dated Indian zero that everyone accepts. But stone inscriptions in Southeast Asia are two centuries older: the Cambodian stele K-127 is dated in the Khmer year 604 or 605, 682–685 CE depending on the reading, and three Sumatran stones date from the 680s (<strong>disputed</strong>: which is oldest, and the exact year of K-127).</p>
+<p class="col">The Bakhshali manuscript, full of dot zeros, gave radiocarbon dates of CE 224–383, 680–779 and 885–993 for three of its folios. Oxford announced in 2017 that it was "as early as the 3rd or 4th century"; Plofker, Keller, Hayashi, Montelle and Wujastyk argue that the latest folio dates the copying, most likely the 9th to 10th century (<strong>disputed</strong>).</p>
+</section>
+<section id="today" aria-labelledby="today-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">Measured</span></div>
+  <h2 id="today-h">What dividing by zero gives today</h2>
+<div class="tbl"><table><thead><tr><th class="">Expression</th><th class="">Java&#x27;s answer</th></tr></thead><tbody><tr class=""><td class="">7 / 0 (whole numbers)</td><td class="">ArithmeticException: / by zero</td></tr><tr class=""><td class="">7.0 / 0.0</td><td class="">Infinity</td></tr><tr class=""><td class="">−7.0 / 0.0</td><td class="">-Infinity</td></tr><tr class=""><td class="">0.0 / 0.0</td><td class="">NaN</td></tr><tr class=""><td class="">0.0 == −0.0</td><td class="">true</td></tr><tr class=""><td class="">1 / −0.0</td><td class="">-Infinity</td></tr><tr class=""><td class="">NaN == NaN</td><td class="">false</td></tr></tbody></table></div>
+<p class="col">Whole-number division by zero stops the program. Floating point keeps going: a non-zero number over zero is an infinity with a sign, and zero over zero is NaN, "not a number", a value so strange that it is not equal even to itself. Zero itself has a sign: 0.0 and −0.0 are equal, yet dividing 1 by each gives opposite infinities.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Zero divided by zero is zero, again</h2>
+<p class="col">Proof assistants, the programs that check mathematical proofs line by line, need division to give an answer for every input. Lean and Isabelle (and Coq) define <em>x</em> / 0 = 0, Hillel Wayne explains: division is not one of the axioms of a field, so it can be completed with any value at zero without contradiction, because the theorems about division all assume a non-zero denominator anyway.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>The program defined <em>x</em> / 0 = 0 on 47 fractions and tested three laws on all 103,823 triples: (a/b)/c = a/(bc), (a+b)/c = a/c + b/c and a/b + c/b = (a+c)/b all hold, zero denominators included. Only (a/b) × b = a breaks, in 46 of 2,209 pairs: exactly those with b = 0 and a not 0. Brahmagupta's rejected rule, 0 ÷ 0 = 0, is the answer these systems give.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Without a zero, which numbers below 1,000 are written "5"?</span></summary><div class="ans"><p>5, 50 and 500: the digit 5 with any number of empty places after it.</p></div></details><details class="try"><summary><span class="q">2</span><span>Why could a Babylonian placeholder in the middle of a number still not tell 1 from 60?</span></summary><div class="ans"><p>It was never written at the end. 1 and 60 (one sixty and an empty units place) both appear as a single 1.</p></div></details><details class="try"><summary><span class="q">3</span><span>By Brahmagupta's rules, what is zero minus a debt of 5?</span></summary><div class="ans"><p>"A debt subtracted from zero is a fortune": a fortune of 5, which is 0 − (−5) = 5.</p></div></details><details class="try"><summary><span class="q">4</span><span>Why is 0 ÷ 0 = 0 a problem if we also want (a ÷ b) × b = a?</span></summary><div class="ans"><p>With b = 0 that law would make (a ÷ 0) × 0 = a for every a, but anything times 0 is 0. No single value of 0 ÷ 0 can satisfy it for all a.</p></div></details><details class="try"><summary><span class="q">5</span><span>In Java, why does 1 / −0.0 differ from 1 / 0.0?</span></summary><div class="ans"><p>Floating-point zero carries a sign: 1 / 0.0 is Infinity and 1 / −0.0 is -Infinity, even though 0.0 == −0.0 is true.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of the Gwalior inscription&#x27;s 270" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="0.0" y="0.0" width="200.0" height="150.0" rx="0" style="fill:var(--wash);stroke:var(--rule);stroke-width:1"/><rect x="36.0" y="18.0" width="128.0" height="114.0" rx="6" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.5"/><line x1="50.0" y1="36.0" x2="150.0" y2="36.0" style="stroke:var(--muted);stroke-width:1"/><line x1="50.0" y1="45.0" x2="150.0" y2="45.0" style="stroke:var(--muted);stroke-width:1"/><line x1="50.0" y1="54.0" x2="150.0" y2="54.0" style="stroke:var(--muted);stroke-width:1"/><line x1="50.0" y1="63.0" x2="150.0" y2="63.0" style="stroke:var(--muted);stroke-width:1"/><line x1="50.0" y1="72.0" x2="150.0" y2="72.0" style="stroke:var(--muted);stroke-width:1"/><text x="100.0" y="106.0" text-anchor="middle" style="fill:var(--ink);font-size:30px;font-weight:700">270</text><circle cx="124.0" cy="96.0" r="13.0" style="fill:none;stroke:var(--red);stroke-width:2.5"/></svg></div><figcaption class="txt"><b>The Gwalior inscription, 876 CE</b><span>A temple grant recording a garden of 187 by 270 hastas and 50 garlands a day: the earliest Indian zero dated beyond dispute. Casselman's AMS column gives a translation.</span><a href="https://www.ams.org/publicoutreach/feature-column/fcarc-india-zero">AMS Feature Column</a><span class="lic">Drawn placeholder; photographs of the stone are linked from the Smithsonian article in the reading list.</span></figcaption></figure><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 120" role="img" aria-label="Drawn placeholder of an open printed book" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><path d="M100,20 C80,12 40,12 20,18 V108 C40,102 80,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><path d="M100,20 C120,12 160,12 180,18 V108 C160,102 120,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="32.0" y1="32.0" x2="88.0" y2="32.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="41.0" x2="88.0" y2="41.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="50.0" x2="88.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="59.0" x2="88.0" y2="59.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="68.0" x2="88.0" y2="68.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="77.0" x2="88.0" y2="77.0" style="stroke:var(--axis);stroke-width:2"/><circle cx="140.0" cy="60.0" r="24.0" style="fill:none;stroke:var(--red);stroke-width:2"/><path d="M116,60 L164,60 M140,36 L140,84" style="fill:none;stroke:var(--blue);stroke-width:2"/></svg></div><figcaption class="txt"><b>Brahmagupta in English, 1817</b><span>Colebrooke's translation of Brahmagupta's and Bhaskara's arithmetic and algebra, the classic source for the rules of zero.</span><a href="https://archive.org/details/algebrawitharith00brahuoft/page/n5/mode/2up">Internet Archive scan</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://www.gresham.ac.uk/watch-now/much-ado-about-zero" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Much ado about zero · Gresham College, Robin Wilson, 17 November 2004 (embedded video)</span><span class="w">Mathematics of China, India and Central America over a thousand years, ending with "the elusive origins of zero"</span></a><a href="https://www.gresham.ac.uk/sites/default/files/2021-04-27-1300_HART_Symbols-T.pdf" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Where do mathematical symbols come from? · Gresham College, Sarah Hart, 27 April 2021 (transcript)</span><span class="w">Babylonian placeholder versus zero as a number in Brahmagupta (dated "around 630AD" in the talk)</span></a><a href="https://www.smithsonianmag.com/smart-news/you-can-visit-the-worlds-oldest-zero-at-a-temple-in-india-2120286/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">You Can Visit the World's Oldest Zero at a Temple in India · Colin Schultz, <em>Smithsonian Magazine</em>, 16 October 2013</span><span class="w">Photo of the Gwalior "270" and the popular "oldest zero" story</span></a><a href="https://www.scientificamerican.com/article/the-elusive-origin-of-zero1/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">The Elusive Origin of Zero · Swetz and Zain, <em>Scientific American</em> (opinion; undated on the page)</span><span class="w">The Southeast Asian challenge to Gwalior: Sambor and the Sumatran stones</span></a><a href="https://mathshistory.st-andrews.ac.uk/HistTopics/Zero/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">A history of Zero · MacTutor (O'Connor and Robertson)</span><span class="w">From Babylonian wedges to Brahmagupta's rules and Gwalior</span></a><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Brahmagupta/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Brahmagupta · MacTutor (O'Connor and Robertson)</span><span class="w">The rules for fortunes, debts and zero, quoted in translation</span></a><a href="https://www.ams.org/publicoutreach/feature-column/fcarc-india-zero" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">All for Nought · Bill Casselman (UBC), AMS Feature Column, February 2007</span><span class="w">A translation of the Gwalior inscription with its numbers 933, 187, 270 and 50, and why it fixes a date for the zero</span></a><a href="https://old.maa.org/press/periodicals/convergence/mathematical-treasure-the-cambodian-zero" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Mathematical Treasure: The Cambodian Zero · Frank J. Swetz (Penn State), MAA <em>Convergence</em>, 2015 (updated 2024)</span><span class="w">Stele K-127, the zero two centuries older than Gwalior</span></a><a href="https://hillelwayne.com/post/divide-by-zero/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">1/0 = 0 · Hillel Wayne (2018, disclaimer added 2024)</span><span class="w">Why Lean, Isabelle and Coq can define x/0 = 0 without contradiction</span></a><a href="https://journals.library.ualberta.ca/hssa/index.php/hssa/article/view/22" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">The Bakhshālī Manuscript: A Response to the Bodleian Library's Radiocarbon Dating · Plofker, Keller, Hayashi, Montelle and Wujastyk, <em>History of Science in South Asia</em> 5(1) (2017) 134–150</span><span class="w">The specialists' case against reading the earliest folio date as the date of the text</span></a><a href="https://archive.org/details/algebrawitharith00brahuoft/page/n5/mode/2up" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Algebra, with Arithmetic and Mensuration, from the Sanscrit of Brahmegupta and Bháscara · H. T. Colebrooke (trans.), London: J. Murray, 1817, Internet Archive</span><span class="w">The classic English translation of Brahmagupta's arithmetic and algebra, the source of his rules for zero</span></a><a href="https://www.glam.ox.ac.uk/node/218481" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Carbon dating finds Bakhshali manuscript contains oldest recorded origins of the symbol 'zero' · University of Oxford, Gardens, Libraries and Museums, 14 September 2017</span><span class="w">The original announcement that started the dispute</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-02-algorithms-travel/reference-catalog.md">Era 2 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-02-algorithms-travel/04-zero-becomes-a-number/ZeroAsANumber.java">ZeroAsANumber.java</a> makes <strong>133,043 checks</strong>: the ambiguity counts, Brahmagupta's rules against modern integers on every pair from −60 to 60, Java's floating-point zeros, and three laws of fractions under x/0 = 0 on every triple of the grid. Run it with <code>java ZeroAsANumber.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** Subtraction: &quot;a debt minus zero is a debt&quot;, &quot;a debt subtracted from zero is a fortune&quot;, and so on. */</span>
+<span class="k-kw">static</span> B subtract(B a, B b) {
+    <span class="k-kw">if</span> (b.kind == <span class="k-n">0</span>) <span class="k-kw">return</span> a;                          <span class="k-c">// a debt (fortune, zero) minus zero is a debt (fortune, zero)</span>
+    <span class="k-kw">if</span> (a.kind == <span class="k-n">0</span>) <span class="k-kw">return</span> <span class="k-kw">new</span> B(-b.kind, b.size);     <span class="k-c">// subtracted from zero, a debt becomes a fortune and a fortune a debt</span>
+    <span class="k-kw">return</span> add(a, <span class="k-kw">new</span> B(-b.kind, b.size));
+}
+
+<span class="k-c">/** Division, as a fraction: {kind, numerator, denominator}; zero over zero is zero; n over zero stays n/0. */</span>
+<span class="k-kw">static</span> <span class="k-kw">long</span>[] divide(B a, B b) {
+    <span class="k-kw">if</span> (a.kind == <span class="k-n">0</span> &amp;&amp; b.kind == <span class="k-n">0</span>) <span class="k-kw">return</span> <span class="k-kw">new</span> <span class="k-kw">long</span>[]{<span class="k-n">0</span>, <span class="k-n">0</span>, <span class="k-n">1</span>};       <span class="k-c">// &quot;zero divided by zero is zero&quot;</span>
+    <span class="k-kw">if</span> (b.kind == <span class="k-n">0</span>) <span class="k-kw">return</span> <span class="k-kw">new</span> <span class="k-kw">long</span>[]{a.kind, a.size, <span class="k-n">0</span>};            <span class="k-c">// &quot;a fraction with zero as denominator&quot;</span>
+    <span class="k-kw">if</span> (a.kind == <span class="k-n">0</span>) <span class="k-kw">return</span> <span class="k-kw">new</span> <span class="k-kw">long</span>[]{<span class="k-n">0</span>, <span class="k-n">0</span>, <span class="k-n">1</span>};
+    <span class="k-kw">long</span> g = gcd(a.size, b.size);
+    <span class="k-kw">return</span> <span class="k-kw">new</span> <span class="k-kw">long</span>[]{a.kind * b.kind, a.size / g, b.size / g};
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>ZeroAsANumber.java</code>.<br><span class="navfoot"><a href="../index.html">Era 2: Algorithms Travel</a><a href="../03-chinese-remainder-problem/chinese-remainder-problem.html">← The Chinese Remainder Problem</a><a href="../05-chakravala/chakravala.html">The Chakravala and Pell&#x27;s Equation →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const inp = document.getElementById("zr-n");
+  if (!inp) return;
+  const out = document.getElementById("zr-out");
+  const pre = document.getElementById("zr-pre");
+  [270, 50, 933, 105, 3600, 61].forEach(v => { const b = el("button", { type: "button" }, pre, String(v)); b.addEventListener("click", () => { inp.value = v; show(); }); });
+  const digits = (n, base) => { const d = []; while (n > 0) { d.unshift(n % base); n = Math.floor(n / base); } return d; };
+  const noZero = (n, base) => digits(n, base).filter(x => x).join(" ");
+  const medial = (n, base) => { const d = digits(n, base); while (d.length && d[d.length - 1] === 0) d.pop(); return d.map(x => x || ".").join(" "); };
+  function show() {
+    const n = Math.max(1, Math.min(999999, Math.floor(+inp.value || 1)));
+    out.innerHTML = "";
+    el("h4", {}, out, "With a zero");
+    el("div", { class: "big" }, out, String(n));
+    el("h4", {}, out, "Without a mark for the empty place");
+    const f = noZero(n, 10), same = [];
+    for (let x = 1; x <= 999999; x++) if (noZero(x, 10) === f) same.push(x);
+    el("div", { class: "big" }, out, f.replace(/ /g, ""));
+    el("p", {}, out, same.length === 1 ? "No other number below a million is written this way." : `Below a million, ${fmt(same.length)} numbers are written this way:`);
+    const ch = el("div", { class: "chips" }, out);
+    same.slice(0, 40).forEach(x => el("span", { class: x === n ? "me" : "" }, ch, fmt(x)));
+    if (same.length > 40) el("span", {}, ch, `… ${fmt(same.length - 40)} more`);
+    el("h4", {}, out, "In base 60, as on a Babylonian tablet");
+    const d = digits(n, 60), sx = el("div", { class: "sx" }, out);
+    d.forEach(x => el("b", { class: x ? "" : "e" }, sx, x ? String(x) : "·"));
+    let a = 0, b = 0;
+    const fa = noZero(n, 60), fb = medial(n, 60);
+    for (let x = 1; x < 216000; x++) { if (noZero(x, 60) === fa) a++; if (medial(x, 60) === fb) b++; }
+    el("p", {}, out, `Below 60³ = 216,000: with no mark at all, ${fmt(a)} number${a === 1 ? "" : "s"} look${a === 1 ? "s" : ""} the same; with a placeholder that is never written at the end, ${fmt(b)}.`);
+  }
+  // Brahmagupta's rules
+  const A = document.getElementById("zr-a"), O = document.getElementById("zr-op"), B = document.getElementById("zr-b");
+  [-5, -3, 0, 3, 5].forEach(v => { el("option", { value: v }, A, v < 0 ? `debt ${-v}` : v ? `fortune ${v}` : "zero"); el("option", { value: v }, B, v < 0 ? `debt ${-v}` : v ? `fortune ${v}` : "zero"); });
+  A.value = 0; B.value = 0; O.value = "÷";
+  const name = v => v < 0 ? `a debt of ${-v}` : v ? `a fortune of ${v}` : "zero";
+  function calc() {
+    const a = +A.value, b = +B.value, op = O.value;
+    let bra, rule, jint, jdbl, lean;
+    if (op === "+") { bra = name(a + b); rule = a === 0 || b === 0 ? "Zero added to a number leaves it unchanged." : Math.sign(a) === Math.sign(b) ? "Like kinds add." : "Unlike kinds give their difference."; jint = jdbl = lean = String(a + b); }
+    if (op === "−") { bra = name(a - b); rule = b === 0 ? (a < 0 ? "\"A debt minus zero is a debt.\"" : a > 0 ? "\"A fortune minus zero is a fortune.\"" : "\"Zero minus zero is a zero.\"") : a === 0 ? (b < 0 ? "\"A debt subtracted from zero is a fortune.\"" : "\"A fortune subtracted from zero is a debt.\"") : "Subtract by the rules for fortunes and debts."; jint = jdbl = lean = String(a - b); }
+    if (op === "×") { bra = name(a * b); rule = a === 0 || b === 0 ? "\"The product of zero multiplied by a debt or fortune is zero.\"" : Math.sign(a) === Math.sign(b) ? "Two fortunes, or two debts, give a fortune." : "A debt and a fortune give a debt."; jint = jdbl = lean = String(a * b); }
+    if (op === "÷") {
+      if (b === 0 && a === 0) { bra = "zero"; rule = "\"Zero divided by zero is zero.\" Later rejected."; }
+      else if (b === 0) { bra = `${a}/0, a fraction with zero below`; rule = "A fortune or debt divided by zero is a fraction with zero as denominator."; }
+      else { const g = (x, y) => y ? g(y, x % y) : Math.abs(x); const k = g(a, b); bra = a === 0 ? "zero" : `${Math.sign(a) * Math.sign(b) < 0 ? "a debt" : "a fortune"} of ${Math.abs(a / k)}${Math.abs(b / k) === 1 ? "" : "/" + Math.abs(b / k)}`; rule = "Like kinds give a fortune, unlike a debt."; }
+      jint = b === 0 ? "ArithmeticException: / by zero" : String(Math.trunc(a / b));
+      const q = a / b; jdbl = Number.isNaN(q) ? "NaN" : q === Infinity ? "Infinity" : q === -Infinity ? "-Infinity" : String(q);
+      lean = b === 0 ? "0" : String(q);
+    }
+    const tb = document.getElementById("zr-res");
+    tb.innerHTML = "";
+    [["Brahmagupta, 628", bra], ["His rule", rule], ["Java, whole numbers", jint], ["Java, floating point", jdbl], ["Lean and Isabelle (x/0 = 0)", lean]]
+      .forEach(([k, v]) => { const tr = el("tr", {}, tb); el("td", {}, tr, k); el("td", {}, tr, v); });
+  }
+  [A, O, B].forEach(x => x.addEventListener("change", calc));
+  inp.addEventListener("change", show);
+  show(); calc();
+})();
+
+</script>
+</body>
+</html>

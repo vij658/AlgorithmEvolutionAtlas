@@ -20,18 +20,21 @@ Every topic page is built from one *spec*, which renders to two editions:
 | File | Role |
 |---|---|
 | `book/build.py` | Runs the build: reads each program's `expected-output.txt`, calls the topic module, writes both editions, then the era index |
-| `book/era01.py` | Era 1's topics in order, its time line labels, and the era map (which idea each development reuses) |
+| `book/era01.py`, `book/era02.py` | Each era's topics in order, its time line labels, and the era map (which idea each development reuses) |
+| `book/eras.py` | The list of eras the builder knows |
 | `book/era_index.py` | The era front page: time line, era map and one card per topic (planned topics link to the reference catalog) |
 | `book/page.py` | The spec format and both renderers |
 | `book/diagrams.py` | The box-and-arrow renderer shared by both editions |
 | `book/base.css` | The page style (Byrne's 1847 *Elements*: red, yellow and blue on white) |
-| `book/topics/tNN_*.py` | One module per topic: `build(ctx)` returns the spec, with every number parsed from the program's output |
+| `book/topics/tNN_*.py`, `eE_NN_*.py` | One module per topic (Era 1: `tNN`, later eras: `eE_NN`): `build(ctx)` returns the spec, with every number parsed from the program's output |
 | `book/topics/common.py` | Shared pieces: drawn placeholders for objects, the era time line block, *Prove it* and *Watch and read* sections |
 
 ```
-python3 code/tools/book/build.py              # every topic whose program output exists, then the era index
-python3 code/tools/book/build.py --run 1 7    # run topics 1 and 7's programs first, saving expected-output.txt
-python3 code/tools/book/check.py /tmp/shots book/era-01-the-first-algorithms/*/*.html
+python3 code/tools/book/build.py                    # every era: each topic whose program output exists, then the era index
+python3 code/tools/book/build.py --era 2            # era 2 only
+python3 code/tools/book/build.py --era 1 --run 1 7  # run era 1 topics 1 and 7's programs first, saving expected-output.txt
+python3 code/tools/book/check.py /tmp/shots book/era-02-algorithms-travel/*/*.html
+python3 code/tools/book/stage_artifact.py /tmp/site 2   # era 2's interactive edition, staged for publishing
 ```
 
 Rules the builder keeps: numbers on a page come from the program's output, never typed by hand; every link comes from

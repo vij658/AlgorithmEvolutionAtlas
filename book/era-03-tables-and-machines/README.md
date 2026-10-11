@@ -36,6 +36,6 @@
 | 10 | **Babbage's Difference Engine** | 1822; No. 2 built 1991 | Printed tables full of errors | [page](10-difference-engine/README.md) · [interactive](10-difference-engine/difference-engine.html) · [program](../../code/era-03-tables-and-machines/10-difference-engine/README.md) |
 | 11 | **Lovelace's Note G** | 1843 | A general machine has to be told what to do | [page](11-note-g/README.md) · [interactive](11-note-g/note-g.html) · [program](../../code/era-03-tables-and-machines/11-note-g/README.md) |
 | 12 | **Boole's Algebra of Logic** | 1847, 1854; Shannon 1937 | Logic as a catalogue of syllogisms | [page](12-boolean-algebra/README.md) · [interactive](12-boolean-algebra/boolean-algebra.html) · [program](../../code/era-03-tables-and-machines/12-boolean-algebra/README.md) |
-| 13 | **Hollerith's Tabulator** | Patent 1889; census of 1890 | Census tallies took years | planned · [references](reference-catalog.md#13-holleriths-tabulator) |
+| 13 | **Hollerith's Tabulator** | Patent 1889; census of 1890 | Census tallies took years | [page](13-hollerith-tabulator/README.md) · [interactive](13-hollerith-tabulator/hollerith-tabulator.html) · [program](../../code/era-03-tables-and-machines/13-hollerith-tabulator/README.md) |
 
 The interactive edition is a single HTML file per topic: download it and open it in a browser, or use the published copy linked from the [book contents](../README.md).

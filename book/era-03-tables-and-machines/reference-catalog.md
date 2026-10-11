@@ -558,7 +558,7 @@ No video could be verified (see **Gaps**).
 ## 13. Hollerith's tabulator
 
 **When / where:** Herman Hollerith, a Columbia School of Mines graduate (Engineer of Mines, 1879), patented "the art of compiling statistics" with punched cards (US 395,782, issued 8 January 1889; first application 1884) and described "An Electric Tabulating System" in Columbia's *School of Mines Quarterly* (April 1889). His machines won the Census Office's trial in 1888 and counted the 1890 census.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`HollerithTabulator.java`](../../code/era-03-tables-and-machines/13-hollerith-tabulator/) · **Page:** [topic 13](13-hollerith-tabulator/README.md)
 
 > **Field note.** The young republic counts its people every ten years, and the counting now takes nearly as long as the interval. Clerks made a tally mark in a small square for every person with every property, then counted the marks. An engineer put each person on a card, as holes. A press brings pins down on the card; where there is a hole, a pin dips into a cup of mercury, closes a circuit, and a dial moves on by one. The same cards can be counted again and again for new questions, and sorted into drawers by what is punched on them. Tally marks, the very first algorithm I recorded (Era 1, topic 1), have become electrical.
 

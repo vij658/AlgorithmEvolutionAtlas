@@ -18,4 +18,4 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 10 | [Babbage's Difference Engine](10-difference-engine/README.md) | 1822 | [`DifferenceEngine.java`](10-difference-engine/DifferenceEngine.java) | 411,062 |
 | 11 | [Lovelace's Note G](11-note-g/README.md) | 1843 | [`NoteG.java`](11-note-g/NoteG.java) | 50 |
 | 12 | [Boole's Algebra of Logic](12-boolean-algebra/README.md) | 1847–1854 | [`BooleanAlgebra.java`](12-boolean-algebra/BooleanAlgebra.java) | 357,599 |
-| 13 | Hollerith's Tabulator | 1890 | planned | |
+| 13 | [Hollerith's Tabulator](13-hollerith-tabulator/README.md) | 1890 | [`HollerithTabulator.java`](13-hollerith-tabulator/HollerithTabulator.java) | 1,000,052 |

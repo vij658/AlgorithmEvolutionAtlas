@@ -1,0 +1,6 @@
+noteg: Lovelace's B7 (the modern B8) from B1 = 1/6, B3 = -1/30, B5 = 1/42 ; 36 operations executed (25 cards, operations 13 to 23 repeated 2 times) ; B7 = -1/30
+trace: 1: V2 x V3 -> V4 = 8 ; 2: V4 - V1 -> V4 = 7 ; 3: V5 + V1 -> V5 = 9 ; 4: V4 / V5 -> V11 = 7/9 ; 5: V11 / V2 -> V11 = 7/18 ; 6: V13 - V11 -> V13 = -7/18 ; ... ; 24: V0 - V13 -> V24 = -1/30
+series: each result fed into the next run: B1 = 1/6, B3 = -1/30, B5 = 1/42, B7 = -1/30, B9 = 5/66, B11 = -691/2730, B13 = 7/6, B15 = -3617/510, B17 = 43867/798, B19 = -174611/330 ; every one equals the standard value
+bug: with operation 4 dividing (2n + 1) by (2n - 1) instead, A0 = -(1/2)(9/7) for n = 4 and B7 comes out 139/630 instead of -1/30 ; fed forward from B1, the run gives B3 = 1/2, B5 = -23/10, B7 = 1011/70, B9 = -85217/630
+growth: B7: 36 operations ; B19: 102 operations ; B39: 212 operations ; operations for B_(2n-1) = 14 + 11(n - 2) ; all of B3 to B39 in 2,147 operations ; B39 = -261082718496449122051/13530
+NoteG: 50 checks passed

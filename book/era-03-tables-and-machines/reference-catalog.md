@@ -478,7 +478,7 @@ No video could be verified (see **Gaps**).
 ## 11. Lovelace's Note G
 
 **When / where:** Luigi Menabrea published a French account of Babbage's Analytical Engine in 1842 (Geneva). Ada Lovelace translated it and added seven notes, A to G, signed only "A.A.L."; they appeared in *Taylor's Scientific Memoirs* (London) in August 1843. Note G ends with a table that computes a Bernoulli number on the Engine, step by step.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`NoteG.java`](../../code/era-03-tables-and-machines/11-note-g/) · **Page:** [topic 11](11-note-g/README.md)
 
 > **Field note.** Babbage's second machine (designed in the 1830s, never built) was different in kind: a store of numbered columns, a mill that does arithmetic, and a train of punched cards, borrowed from the Jacquard loom, that says which operation to do on which columns. A translator's notes, longer than the paper they annotate, worked out what such a machine could do: repeat a group of cards (a loop), act on symbols as well as numbers, perhaps compose music. To show it, she laid out every step of a calculation of a Bernoulli number. One step has its division the wrong way round. It is still the first such plan I have found in print.
 

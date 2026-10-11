@@ -1,0 +1,6 @@
+law: x^2 = x among the whole numbers from -1,000 to 1,000: only 0 and 1 ; among 155,464 fractions p/q with q from 2 to 200: none ; so x(1 - x) = 0 for every symbol
+expand: f(x) = f(1) x + f(0)(1 - x) ; checked for all 16 functions of two variables (4 terms each) and all 256 of three (8 terms each)
+syllogism: all 256 forms (4 figures x 4^3 moods), tested against all 256 ways three classes can share members ; valid: 15 ; valid if every class has members: 24 ; the first valid form is AAA-1, "all M are P, all S are M, so all S are P": m(1 - p) = 0 and s(1 - m) = 0 give s(1 - p) = 0
+adder: a full adder as Boolean expressions, sum = x XOR y XOR c and carry = xy OR c(x XOR y), checked on all 8 inputs ; chained sixteen times, it added 200,000 random pairs of 16-bit numbers correctly
+circuit: xy + x(1 - y) + (1 - x)y as relays: 6 contacts ; by Boole's laws it equals x + y - xy, two contacts in parallel: 2 ; the majority of three, xy + xz + yz (6 contacts), factored as x(y + z) + yz: 5 ; both checked on every input
+BooleanAlgebra: 357599 checks passed

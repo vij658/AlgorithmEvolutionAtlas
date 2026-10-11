@@ -519,7 +519,7 @@ No video could be verified (see **Gaps**).
 ## 12. Boole's algebra of logic
 
 **When / where:** George Boole, a schoolmaster in Lincoln, published *The Mathematical Analysis of Logic* in 1847; appointed the first professor of mathematics at Queen's College, Cork, in 1849, he published *An Investigation of the Laws of Thought* in 1854. In 1937 Claude Shannon showed in his MIT master's thesis (published 1938) that Boole's algebra describes circuits of switches.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`BooleanAlgebra.java`](../../code/era-03-tables-and-machines/12-boolean-algebra/) · **Page:** [topic 12](12-boolean-algebra/README.md)
 
 > **Field note.** Since Aristotle, logic had been a list of valid argument forms, learned by heart. A self-taught teacher wrote logic as algebra: letters for classes of things, multiplication for "and", and one law that ordinary numbers do not obey, x times x equals x. Only two numbers satisfy it, nothing and everything, 0 and 1. Reasoning became calculation, done by rules a clerk could follow. Eighty years later a student noticed that a switch, too, is either open or closed, and the algebra of thought became the algebra of circuits.
 

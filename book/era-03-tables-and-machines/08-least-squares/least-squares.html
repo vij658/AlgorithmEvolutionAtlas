@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Least Squares, and the Lost Planet</title>
+<meta name="description" content="Era 3, topic 8 of The Algorithm Evolution Atlas: Legendre&#x27;s and Gauss&#x27;s method of least squares, the lost and recovered Ceres, and why least squares still trains linear models.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.ls-board svg{max-width:420px;display:block;margin:0 auto;touch-action:none}
+.ls-board .controls{flex-wrap:wrap;font-size:13.5px}
+.ls-board .controls input[type=checkbox]{width:auto;padding:0;margin:0 4px 0 0;vertical-align:-2px}
+.ls-board .controls label{display:inline-flex;align-items:center}
+.ls-out{font-family:var(--mono);font-size:13px;line-height:1.7;margin:4px 0 8px}
+.ls-board .say{font-size:14.5px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 3: Tables and Machines</a><a href="../07-konigsberg-bridges/konigsberg-bridges.html">← The Bridges of Königsberg</a><a href="../09-gauss-fft/gauss-fft.html">Gauss&#x27;s Fast Fourier Transform →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 3 · Topic 8 · 1801–1809</div>
+    <h1>Least Squares, and the Lost Planet</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">A new planet was found on the first day of the nineteenth century and lost in the Sun's glare six weeks later. Recovering it needed an orbit from a few disagreeing measurements. The rule that settles which answer is best, the sum of squared errors, was published four years later, and two great mathematicians claimed it.</p>
+  <p class="fieldnote">Field note from the visiting historian. I expected the astronomers to argue about which measurement to trust. Instead a geometer in Paris proposed a rule for trusting all of them a little: make the sum of the squared errors as small as possible. The old algorithm for equations then did the rest.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#fit">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Ceres 1801; Legendre 1805; Gauss 1809</dd></div><div><dt>Where</dt><dd>Palermo, Paris, Göttingen</dd></div><div><dt>What hurt</dt><dd>More observations than unknowns, and they disagree</dd></div><div><dt>The fix</dt><dd>Minimise the sum of squared errors; solve the normal equations</dd></div><div><dt>Cost</dt><dd>A small system of equations, the same size for any number of observations</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Chinese elimination (Era 2, topic 1) solves as many equations as unknowns; Pascal and Fermat (topic 4) began the calculation of chances; astronomers had more observations than unknowns, and the observations disagreed. Legendre's rule turns the too-many equations into exactly as many as unknowns, which elimination can solve. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How least squares combined older ideas, and where it went" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="426.5,170.0 417.7,171.9 419.2,164.7" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,170.0 496.3,161.8 503.7,161.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="573.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,170.0 580.8,164.7 582.3,171.9" style="fill:var(--ink-2)"/><line x1="416.0" y1="256.0" x2="167.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="167.0,330.0 173.8,324.1 175.9,331.2" style="fill:var(--ink-2)"/><line x1="500.0" y1="256.0" x2="500.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,330.0 496.3,321.8 503.7,321.8" style="fill:var(--ink-2)"/><line x1="584.0" y1="256.0" x2="833.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="833.0,330.0 824.1,331.2 826.2,324.1" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Elimination</text><text x="32.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">solve n equations in n</text><text x="32.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">unknowns</text><text x="32.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">fangcheng, Era 2 topic 1</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Probability</text><text x="407.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">chances of errors</text><text x="407.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 4</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Too many observations</text><text x="782.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">astronomy and surveying</text><text x="782.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Ceres, 1801</text><rect x="395" y="170" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="193.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Least squares</text><text x="407.0" y="210.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ minimise the sum of squared</text><text x="407.0" y="227.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">errors</text><text x="407.0" y="243.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Legendre 1805; Gauss 1809</text><rect x="20" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Fitting periodic data</text><text x="32.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Gauss&#x27;s FFT</text><text x="32.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 9</text><rect x="395" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="353.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Orthogonal methods</text><text x="407.0" y="370.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">QR, without squaring the</text><text x="407.0" y="387.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">problem</text><text x="407.0" y="403.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 5</text><rect x="770" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="782.0" y="353.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Machine learning</text><text x="782.0" y="370.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">linear models trained on</text><text x="782.0" y="387.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">squared error</text><text x="782.0" y="403.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">today</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Gauss linked least squares to the probability of errors in 1809; Legendre justified it by the balance it sets up among the errors.</text></svg></div><figcaption>Red: least squares. Blue: where it went after this era.</figcaption></figure>
+</section>
+<section id="fit" aria-labelledby="fit-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="fit-h">Drag the points; watch the squares</h2>
+<p class="col">Each red square is a residual squared: the gap between a point and the blue line, drawn as a square. The blue line is the one with the smallest total area. Drag the points, copy one wrongly, and switch on the other two rules to compare them.</p>
+
+<div class="board ls-board">
+  <div style="min-width:0">
+    <svg id="ls-svg" viewBox="0 0 360 260" role="img" aria-label="Points and the fitted line; drag a point to move it"></svg>
+    <div class="controls">
+      <label><input type="checkbox" id="ls-sq" checked> show the squares</label>
+      <label><input type="checkbox" id="ls-lad"> least absolute errors</label>
+      <label><input type="checkbox" id="ls-mm"> least largest error</label>
+      <button type="button" id="ls-wild">Copy one wrongly</button>
+      <button type="button" id="ls-reset">Reset</button>
+    </div>
+  </div>
+  <div style="min-width:0">
+    <div class="eyebrow">The best line, by Legendre's rule</div>
+    <div class="ls-out" id="ls-out"></div>
+    <p class="say" id="ls-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 3, tables and machines</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 3: Tables and Machines, from 1545 to 1890 CE" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1545 CE</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Cardano&#x27;s cubic</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1614–1624</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Napier and Briggs&#x27;s</text><text x="185.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">logarithms</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1623–1694</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Schickard, Pascal,</text><text x="307.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Leibniz</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1654</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Pascal and</text><text x="428.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Fermat&#x27;s points</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1669–1740</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Newton&#x27;s method</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1703</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Leibniz&#x27;s binary</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1736</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Euler&#x27;s bridges</text><circle cx="914.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1801–1809</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Least squares</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1805</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Gauss&#x27;s FFT</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1822</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Babbage&#x27;s</text><text x="1157.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">difference engine</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1843</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Lovelace&#x27;s Note G</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1847–1854</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Boole&#x27;s algebra</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1890</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Hollerith&#x27;s</text><text x="1522.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">tabulator</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 416" role="img" aria-label="Each fix leaves a new pain: from a rule for &#x27;best&#x27; to stable algorithms" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="61.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">More observations than unknowns, and they disagree</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Minimise the sum of squared errors; solve the normal</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">equations by elimination</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Legendre 1805; Gauss 1809</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="203.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">One wild observation pulls the line: slope 0.517 → 1.017</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Least absolute errors resists it (0.515 → 0.515), at a</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">price for ordinary noise</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">robust fitting</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Forming the normal equations squares the difficulty:</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">degree 12 loses all its digits (1.1 × 10¹)</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Orthogonal (QR) methods that never form them: 1.2 ×</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">10⁻⁸</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Householder, Era 5</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">As many equations as unknowns</h2>
+<p class="col">Fit y = c₀ + c₁x (or more terms) to m observations. Each observation gives an equation that will not hold exactly; its error is the residual. Legendre's rule: make the sum of the squared residuals as small as possible. At the minimum, the derivative with respect to each coefficient is zero, which gives one linear equation per coefficient: the normal equations. However many observations there are, a straight line gives 2 equations and a quadratic 3, solved by elimination.</p>
+<div class="tbl"><table><thead><tr><th class="">Model, fitted to 22 noisy observations</th><th class="">Coefficients</th><th class="n">Sum of squared residuals</th></tr></thead><tbody><tr class=""><td class="">Straight line</td><td class="">1.6157 + 1.3084x</td><td class="n">0.9130</td></tr><tr class=""><td class="">Quadratic (the true curve is 2 + 0.7x + 0.15x²)</td><td class="">2.0004 + 0.7173x + 0.1442x²</td><td class="n">0.05733</td></tr></tbody></table></div>
+<p class="col">The program also nudged the coefficients of each fit a little in 2,000 random ways: no nudge ever lowered the sum of squares.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 250" role="img" aria-label="Three rules for the best line, compared on the program&#x27;s data" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><rect x="20" y="50" width="300" height="130" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="95.6" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Least squares</text><text x="32.0" y="112.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">minimise the sum of squared errors</text><text x="32.0" y="129.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">slope error (mean square) 0.00357</text><text x="32.0" y="145.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">one wild point: slope 0.517 → 1.017</text><rect x="345" y="50" width="300" height="130" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="357.0" y="95.6" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Least absolute errors</text><text x="357.0" y="112.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">minimise the sum of |errors|</text><text x="357.0" y="129.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">slope error (mean square) 0.00548</text><text x="357.0" y="145.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">one wild point: slope 0.515 → 0.515</text><rect x="670" y="50" width="300" height="130" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="682.0" y="95.6" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Least largest error</text><text x="682.0" y="112.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">minimise the worst error</text><text x="682.0" y="129.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">slope error (mean square) 0.00772</text><text x="682.0" y="145.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">one wild point: slope 0.513 → 1.966</text><text x="20.0" y="30.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">10,000 NOISY DATA SETS, AND ONE OBSERVATION COPIED WRONGLY</text><text x="20.0" y="210.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">With bell-shaped errors, least squares estimates the slope best; a single wild point pulls it, but less than it pulls the worst-error rule.</text><text x="20.0" y="228.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Numbers from LeastSquares.java.</text></svg></div></figure>
+<div class="callout key col"><div class="k">Key idea</div><p>When the data cannot all be satisfied, decide what "best" means, as a number to minimise, and then minimise it. Squares make the minimum a set of linear equations, which an old algorithm already solves.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Cheap in observations, fragile in digits</h2>
+<div class="tbl"><table><thead><tr><th class="n">Observations (quadratic fit)</th><th class="n">Multiply-adds to form and solve the normal equations</th></tr></thead><tbody><tr class=""><td class="n">22</td><td class="n">206</td></tr><tr class=""><td class="n">1,000</td><td class="n">9,008</td></tr><tr class=""><td class="n">100,000</td><td class="n">900,008</td></tr></tbody></table></div>
+<p class="col">The work grows only in proportion to the number of observations: each observation adds its share to a 3 × 3 system, and the system is the same size for 22 observations or 100,000.</p>
+<div class="tbl"><table><thead><tr><th class="">Polynomial degree</th><th class="n">Largest coefficient error, normal equations</th><th class="n">Largest coefficient error, QR</th></tr></thead><tbody><tr class=""><td class="">3</td><td class="n">5.5 × 10⁻¹³</td><td class="n">1.8 × 10⁻¹⁴</td></tr><tr class=""><td class="">6</td><td class="n">5.9 × 10⁻⁹</td><td class="n">2.1 × 10⁻¹³</td></tr><tr class=""><td class="">9</td><td class="n">2.8 × 10⁻⁴</td><td class="n">3.8 × 10⁻¹⁰</td></tr><tr class=""><td class="">12</td><td class="n">1.1 × 10¹</td><td class="n">1.2 × 10⁻⁸</td></tr></tbody></table></div>
+<p class="col">The price: forming the normal equations squares the sensitivity of the problem. On exact data, the coefficients of a degree-12 fit come out completely wrong from the normal equations in 64-bit floating point, while an orthogonal (QR) method, which never forms them, keeps most of its digits.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">A planet found, lost and found again</h2>
+<p class="col">Piazzi discovered Ceres on 1 January 1801 and "had only been able to observe 9 degrees of its orbit before it disappeared behind the Sun" (MacTutor); Weiss counts 22 observations over 41 days. Gauss's prediction "differed greatly from the others", and Ceres was found "almost exactly where Gauss had predicted": by Zach on 7 December (MacTutor) or by Zach and Olbers in December, Olbers on the 31st (Weiss; <strong>disputed</strong> dates). Whether Gauss used least squares for the Ceres orbit is <strong>disputed</strong>: MacTutor and Weiss say yes; <em>thatsmaths</em> says it is unclear.</p>
+<p class="col">Legendre published first, in 1805: the method "consiste à rendre minimum la somme des quarrés des erreurs", which sets up "entre les erreurs une sorte d'équilibre" that keeps the extreme errors from prevailing. Gauss, in 1809, called it "principium nostrum quo jam inde ab anno 1795 usi sumus": our principle, used since 1795. The priority dispute is <strong>disputed</strong> to this day; Stigler could not reproduce Gauss's 1799 results with least squares (Chalberg).</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Training a model is fitting a line</h2>
+<p class="col">Machine-learning libraries rarely solve normal equations. They start from a guess and repeatedly nudge the coefficients downhill on the sum of squared errors: gradient descent.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>The program trained a straight line by gradient descent on the 15 points with the wild one. After 17,292 small steps it reached y = -1.283070 + 1.016560x, exactly the line the normal equations give in one elimination: y = -1.283070 + 1.016560x. Legendre's sum of squares is still the loss function of a linear model.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Why squares rather than plain errors?</span></summary><div class="ans"><p>Plain errors cancel (+3 and −3 sum to 0). Squares are always positive, and their sum has a minimum found by setting derivatives to zero: linear equations.</p></div></details><details class="try"><summary><span class="q">2</span><span>How many normal equations for a quadratic fitted to 1,000 points?</span></summary><div class="ans"><p>Three: one per coefficient, however many points.</p></div></details><details class="try"><summary><span class="q">3</span><span>Why does one wild point move least squares so much?</span></summary><div class="ans"><p>Its error is squared: an error of 20 counts 400, outweighing many small errors.</p></div></details><details class="try"><summary><span class="q">4</span><span>Why does least absolute errors resist it?</span></summary><div class="ans"><p>Each point counts in proportion to its error, not its square, and the best line passes through two of the points; a single wild point cannot drag it far.</p></div></details><details class="try"><summary><span class="q">5</span><span>What is the point of the QR method?</span></summary><div class="ans"><p>It finds the same least-squares answer without forming FᵀF, which would square the problem's sensitivity to rounding.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 120" role="img" aria-label="Drawn placeholder of an open printed book" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><path d="M100,20 C80,12 40,12 20,18 V108 C40,102 80,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><path d="M100,20 C120,12 160,12 180,18 V108 C160,102 120,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="32.0" y1="32.0" x2="88.0" y2="32.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="41.0" x2="88.0" y2="41.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="50.0" x2="88.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="59.0" x2="88.0" y2="59.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="68.0" x2="88.0" y2="68.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="77.0" x2="88.0" y2="77.0" style="stroke:var(--axis);stroke-width:2"/><circle cx="140.0" cy="60.0" r="24.0" style="fill:none;stroke:var(--red);stroke-width:2"/><path d="M116,60 L164,60 M140,36 L140,84" style="fill:none;stroke:var(--blue);stroke-width:2"/></svg></div><figcaption class="txt"><b>Sur la méthode des moindres quarrés (1805)</b><span>Legendre's appendix to his book on comet orbits: the first publication of least squares, in French.</span><a href="https://www.york.ac.uk/depts/maths/histstat/legendre2.pdf">University of York</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://thatsmaths.com/2021/06/24/gauss-predicts-the-orbit-of-ceres/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Gauss Predicts the Orbit of Ceres · <em>thatsmaths</em> blog (24 June 2021)</span><span class="w">The lost planet and the prediction, with the caution about least squares</span></a><a href="https://ow3.math.rutgers.edu/~cherlin/History/Papers1999/weiss.html" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Gauss and Ceres · Leorah Weiss, history of mathematics term paper, Rutgers (1999)</span><span class="w">Piazzi's 22 observations over 41 days, the three Gauss used, and the recovery</span></a><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Gauss/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Carl Friedrich Gauss · MacTutor</span><span class="w">Ceres, the <em>Theoria motus</em>, and Gauss's life</span></a><a href="https://old.maa.org/sites/default/files/pdf/upload_library/46/HOMSIGMAA/Chalberg-RegressionHistoryPaper.pdf" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Regression Analysis – A Powerful Tool and Riveting Drama · Tim Chalberg, Pacific Lutheran University, MAA HOMSIGMAA</span><span class="w">Legendre, Gauss, Adrain and the priority dispute</span></a><a href="https://gtfp.cs.rhul.ac.uk/pulskamp/Gauss/Gauss.html" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Gauss and the method of least squares · Richard Pulskamp, sources in the history of probability and statistics</span><span class="w">Where to find Gauss's least-squares writings in translation</span></a><a href="https://www.york.ac.uk/depts/maths/histstat/legendre2.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Sur la méthode des moindres quarrés · Legendre, appendix to <em>Nouvelles méthodes pour la détermination des orbites des comètes</em> (Paris, 1805), scan on the University of York history of statistics pages</span><span class="w">The first publication of least squares, in French</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-03-tables-and-machines/reference-catalog.md">Era 3 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-03-tables-and-machines/08-least-squares/LeastSquares.java">LeastSquares.java</a> makes <strong>4,007 checks</strong>: that no nearby coefficients beat the least-squares fit (4,000 random nudges), the three rules on 10,000 noisy data sets, the pull of one wild point, the work of forming normal equations, their loss of digits against QR, and gradient descent reaching the same line. Run it with <code>java LeastSquares.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** Least squares by the normal equations: (F^T F) c = F^T y, with F[i][j] = x_i^j. */</span>
+<span class="k-kw">static</span> <span class="k-kw">double</span>[] normalEquations(<span class="k-kw">double</span>[] x, <span class="k-kw">double</span>[] y, <span class="k-kw">int</span> n) {
+    <span class="k-kw">double</span>[][] M = <span class="k-kw">new</span> <span class="k-kw">double</span>[n][n];
+    <span class="k-kw">double</span>[] r = <span class="k-kw">new</span> <span class="k-kw">double</span>[n];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; x.length; i++) {
+        <span class="k-kw">double</span>[] f = <span class="k-kw">new</span> <span class="k-kw">double</span>[n];
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; n; j++) f[j] = Math.pow(x[i], j);
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> a = <span class="k-n">0</span>; a &lt; n; a++) { r[a] += f[a] * y[i]; <span class="k-kw">for</span> (<span class="k-kw">int</span> b = <span class="k-n">0</span>; b &lt; n; b++) { M[a][b] += f[a] * f[b]; flops++; } }
+    }
+    <span class="k-kw">return</span> solve(M, r);
+}
+
+<span class="k-c">/** Gaussian elimination with partial pivoting: solve A c = b (A is n x n). */</span>
+<span class="k-kw">static</span> <span class="k-kw">double</span>[] solve(<span class="k-kw">double</span>[][] A0, <span class="k-kw">double</span>[] b0) {
+    <span class="k-kw">int</span> n = b0.length;
+    <span class="k-kw">double</span>[][] A = <span class="k-kw">new</span> <span class="k-kw">double</span>[n][];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; n; i++) A[i] = A0[i].clone();
+    <span class="k-kw">double</span>[] b = b0.clone();
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> k = <span class="k-n">0</span>; k &lt; n; k++) {
+        <span class="k-kw">int</span> p = k;
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = k + <span class="k-n">1</span>; i &lt; n; i++) <span class="k-kw">if</span> (Math.abs(A[i][k]) &gt; Math.abs(A[p][k])) p = i;
+        <span class="k-kw">double</span>[] t = A[k]; A[k] = A[p]; A[p] = t; <span class="k-kw">double</span> tb = b[k]; b[k] = b[p]; b[p] = tb;
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = k + <span class="k-n">1</span>; i &lt; n; i++) {
+            <span class="k-kw">double</span> f = A[i][k] / A[k][k];
+            <span class="k-kw">for</span> (<span class="k-kw">int</span> j = k; j &lt; n; j++) { A[i][j] -= f * A[k][j]; flops++; }
+            b[i] -= f * b[k];
+        }
+    }
+    <span class="k-kw">double</span>[] c = <span class="k-kw">new</span> <span class="k-kw">double</span>[n];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = n - <span class="k-n">1</span>; i &gt;= <span class="k-n">0</span>; i--) { <span class="k-kw">double</span> s = b[i]; <span class="k-kw">for</span> (<span class="k-kw">int</span> j = i + <span class="k-n">1</span>; j &lt; n; j++) s -= A[i][j] * c[j]; c[i] = s / A[i][i]; }
+    <span class="k-kw">return</span> c;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>LeastSquares.java</code>.<br><span class="navfoot"><a href="../index.html">Era 3: Tables and Machines</a><a href="../07-konigsberg-bridges/konigsberg-bridges.html">← The Bridges of Königsberg</a><a href="../09-gauss-fft/gauss-fft.html">Gauss&#x27;s Fast Fourier Transform →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const svg = document.getElementById("ls-svg");
+  if (!svg) return;
+  const W = 360, H = 260, X0 = 0, X1 = 10, Y0 = 0, Y1 = 8;
+  const sx = x => 20 + (x - X0) / (X1 - X0) * (W - 40), sy = y => H - 20 - (y - Y0) / (Y1 - Y0) * (H - 40);
+  const ix = px => X0 + (px - 20) / (W - 40) * (X1 - X0), iy = py => Y0 + (H - 20 - py) / (H - 40) * (Y1 - Y0);
+  const base = [[0.5, 1.4], [1.5, 1.6], [2.5, 2.5], [3.5, 2.4], [4.5, 3.4], [5.5, 3.3], [6.5, 4.3], [7.5, 4.2], [8.5, 5.1], [9.5, 5.6]];
+  let pts = base.map(p => p.slice()), drag = -1;
+  const ls = P => { const n = P.length; let sx_ = 0, sy_ = 0, sxx = 0, sxy = 0; P.forEach(([x, y]) => { sx_ += x; sy_ += y; sxx += x * x; sxy += x * y; });
+    const b = (n * sxy - sx_ * sy_) / (n * sxx - sx_ * sx_); return [(sy_ - b * sx_) / n, b]; };
+  const lad = P => { let best = Infinity, bc = null; for (let i = 0; i < P.length; i++) for (let j = i + 1; j < P.length; j++) { if (P[i][0] === P[j][0]) continue;
+    const b = (P[j][1] - P[i][1]) / (P[j][0] - P[i][0]), a = P[i][1] - b * P[i][0]; let s = 0; P.forEach(([x, y]) => s += Math.abs(y - a - b * x)); if (s < best) { best = s; bc = [a, b]; } } return bc; };
+  const mm = P => { const err = b => { let lo = Infinity, hi = -Infinity; P.forEach(([x, y]) => { const r = y - b * x; lo = Math.min(lo, r); hi = Math.max(hi, r); }); return [(hi - lo) / 2, (hi + lo) / 2]; };
+    let lo = -10, hi = 10; for (let i = 0; i < 120; i++) { const m1 = lo + (hi - lo) / 3, m2 = hi - (hi - lo) / 3; if (err(m1)[0] < err(m2)[0]) hi = m2; else lo = m1; } const b = (lo + hi) / 2; return [err(b)[1], b]; };
+  const line = ([a, b], col, dash) => sv("line", { x1: sx(X0), y1: sy(a + b * X0), x2: sx(X1), y2: sy(a + b * X1), stroke: col, "stroke-width": 2.2, "stroke-dasharray": dash || "" }, svg);
+  function draw() {
+    svg.innerHTML = "";
+    sv("rect", { x: 20, y: 20, width: W - 40, height: H - 40, fill: "none", stroke: "var(--axis)", "stroke-width": 1 }, svg);
+    const c = ls(pts);
+    let sse = 0;
+    if (document.getElementById("ls-sq").checked) pts.forEach(([x, y]) => {
+      const r = y - (c[0] + c[1] * x), side = Math.abs(sy(y) - sy(y - r));
+      sv("rect", { x: r > 0 ? sx(x) : sx(x) - side, y: Math.min(sy(y), sy(y - r)), width: side, height: side, fill: "var(--red)", "fill-opacity": 0.18, stroke: "var(--red)", "stroke-width": 0.8 }, svg);
+    });
+    pts.forEach(([x, y]) => { const r = y - (c[0] + c[1] * x); sse += r * r; });
+    if (document.getElementById("ls-mm").checked) line(mm(pts), "var(--yellow)", "6 4");
+    if (document.getElementById("ls-lad").checked) line(lad(pts), "var(--ink-2)", "3 3");
+    line(c, "var(--blue)");
+    pts.forEach(([x, y], i) => { const p = sv("circle", { cx: sx(x), cy: sy(y), r: 6, fill: "var(--ink)" }, svg); p.addEventListener("pointerdown", e => { drag = i; e.preventDefault(); }); });
+    const out = document.getElementById("ls-out");
+    let html = `least squares (blue): y = ${c[0].toFixed(3)} + ${c[1].toFixed(3)}x<br>sum of the squares (red): ${sse.toFixed(3)}`;
+    if (document.getElementById("ls-lad").checked) { const l = lad(pts); html += `<br>least absolute errors (grey): slope ${l[1].toFixed(3)}`; }
+    if (document.getElementById("ls-mm").checked) { const l = mm(pts); html += `<br>least largest error (yellow): slope ${l[1].toFixed(3)}`; }
+    out.innerHTML = html;
+    document.getElementById("ls-say").textContent = "Drag any point. The blue line is the one that makes the total area of the red squares as small as possible; no other line has a smaller total.";
+  }
+  svg.addEventListener("pointermove", e => { if (drag < 0) return; const r = svg.getBoundingClientRect(), px = (e.clientX - r.left) / r.width * W, py = (e.clientY - r.top) / r.height * H;
+    pts[drag] = [Math.min(X1, Math.max(X0, ix(px))), Math.min(Y1, Math.max(Y0, iy(py)))]; draw(); });
+  window.addEventListener("pointerup", () => { drag = -1; });
+  ["ls-sq", "ls-lad", "ls-mm"].forEach(id => document.getElementById(id).addEventListener("change", draw));
+  document.getElementById("ls-wild").addEventListener("click", () => { pts[pts.length - 1][1] = 7.8; draw(); });
+  document.getElementById("ls-reset").addEventListener("click", () => { pts = base.map(p => p.slice()); draw(); });
+  draw();
+})();
+
+</script>
+</body>
+</html>

@@ -59,11 +59,32 @@
 | 10 | [Madhava's Series for Pi](era-02-algorithms-travel/10-madhava-series/README.md) | Add terms, then correct for the rest |
 | 11 | [Al-Kashi's Pi](era-02-algorithms-travel/11-al-kashi-pi/README.md) | Double the sides until the error is a horse's hair |
 
+### Era 3 — Tables and Machines (1545 to 1890 CE)
+
+- **[Era 3 front page](era-03-tables-and-machines/README.md)**: the time line, a map of how the thirteen ideas combine, and the topics. [Interactive edition](era-03-tables-and-machines/index.html) (download the folder and open `index.html` in a browser). [Plan](era-03-tables-and-machines/plan.md).
+- [Reference catalog](era-03-tables-and-machines/reference-catalog.md): each development with checked lectures, articles and original sources, certainty labels and gaps.
+- The topics, each with a GitHub edition, an interactive edition and a tested program:
+
+| # | Topic | Interactive widget |
+|---|---|---|
+| 1 | [Cardano's Cubic](era-03-tables-and-machines/01-cardanos-cubic/README.md) | Follow the recipe, even through √−1 |
+| 2 | [Logarithms](era-03-tables-and-machines/02-logarithms/README.md) | Multiply by adding; build the table from square roots |
+| 3 | [The Carry, Mechanized](era-03-tables-and-machines/03-mechanical-carry/README.md) | Turn the wheels and watch the carries |
+| 4 | [The Problem of Points](era-03-tables-and-machines/04-problem-of-points/README.md) | Fill in Pascal's table |
+| 5 | [Newton's Method](era-03-tables-and-machines/05-newtons-method/README.md) | Follow the tangent |
+| 6 | [Binary Arithmetic](era-03-tables-and-machines/06-binary-arithmetic/README.md) | Flip the bits |
+| 7 | [The Bridges of Königsberg](era-03-tables-and-machines/07-konigsberg-bridges/README.md) | Cross every bridge once |
+| 8 | [Least Squares, and the Lost Planet](era-03-tables-and-machines/08-least-squares/README.md) | Drag the points; watch the squares |
+| 9 | [Gauss's Fast Fourier Transform](era-03-tables-and-machines/09-gauss-fft/README.md) | Fit twelve observations, then split them |
+| 10 | [Babbage's Difference Engine](era-03-tables-and-machines/10-difference-engine/README.md) | Turn the handle |
+| 11 | [Lovelace's Note G](era-03-tables-and-machines/11-note-g/README.md) | Run the cards |
+| 12 | [Boole's Algebra of Logic](era-03-tables-and-machines/12-boolean-algebra/README.md) | Check a syllogism by algebra |
+| 13 | [Hollerith's Tabulator](era-03-tables-and-machines/13-hollerith-tabulator/README.md) | Punch a card, feed the press |
+
 ### Coming next (proposed eras; open to change)
 
 | Era | Span | Topics (from the Evolutionary Atlas) |
 |---|---|---|
-| 3 | 1600–1900 | Logarithms and Napier's bones, Pascal's and Leibniz's calculators, binary, Newton's method, Gauss and least squares, Babbage and Lovelace, Boole |
 | 4 | 1900–1950 | Hilbert's program, Gödel, Turing machines, the lambda calculus, Shannon's switching circuits, the stored-program computer, merge sort (von Neumann) |
 | 5 onward | 1950–2026 | The loop and the subroutine, sorting and searching, data structures, graphs, dynamic programming, complexity, cryptography, databases, networks, distributed systems, streaming, machine learning, transformers, and the algorithms of 2026 |
 

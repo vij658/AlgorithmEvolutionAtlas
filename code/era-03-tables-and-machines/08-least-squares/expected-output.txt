@@ -1,0 +1,7 @@
+fit: 22 observations of y = 2 + 0.7x + 0.15x^2 plus noise (sd 0.05) ; straight line y = 1.6157 + 1.3084x, sum of squares 0.9130 ; quadratic y = 2.0004 + 0.7173x + 0.1442x^2, sum of squares 0.05733 ; the normal equations are 2 by 2 and 3 by 3, whatever the number of observations
+rules: 10,000 data sets of 15 points on y = 1 + 0.5x with normal errors (sd 1) ; mean squared error of the fitted slope: least squares 0.00357, least absolute errors 0.00548, least largest error 0.00772
+wild: 15 points on y = 1 + 0.5x, then one observation off by 20 ; slope before and after: least squares 0.517 -> 1.017 ; least absolute errors 0.515 -> 0.515 ; least largest error 0.513 -> 1.966
+work: 22 observations: 206 multiply-adds to form the 3 by 3 normal equations and solve them ; 1,000 observations: 9,008 multiply-adds to form the 3 by 3 normal equations and solve them ; 100,000 observations: 900,008 multiply-adds to form the 3 by 3 normal equations and solve them
+digits: fitting exact data (every coefficient 1) by polynomials in 64-bit floating point, largest coefficient error ; degree 3: normal equations error 5.5e-13, QR 1.8e-14 ; degree 6: normal equations error 5.9e-09, QR 2.1e-13 ; degree 9: normal equations error 2.8e-04, QR 3.8e-10 ; degree 12: normal equations error 1.1e+01, QR 1.2e-08
+circle: gradient descent on the sum of squares for the 15 points with the wild one, from (0, 0): after 17,292 small steps y = -1.283070 + 1.016560x, the normal equations' y = -1.283070 + 1.016560x in one elimination
+LeastSquares: 4007 checks passed

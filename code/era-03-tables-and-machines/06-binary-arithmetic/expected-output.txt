@@ -1,0 +1,8 @@
+harriot: 1101101 = 64 + 32 + 8 + 4 + 1 = 109 ; back again by halving 109: 109 r 1, 54 r 0, 27 r 1, 13 r 1, 6 r 0, 3 r 1, 1 r 1 ; reading the remainders upward gives 1101101
+convert: every number below 2^20 = 1,048,576 converted to binary and back, matching Java's own conversion
+tables: base 10 has 100 single-digit sums and 100 products (55 each, counting a + b and b + a once), of which 36 products have no factor 0 or 1 ; base 2 has 4 of each (3 counted once), and every product has a factor 0 or 1: 0 x 0 = 0, 0 x 1 = 0, 1 x 1 = 1, and the only sum that carries is 1 + 1 = 10
+random: 100,000 pairs of numbers below 2^20 added and multiplied bit by bit, all correct ; a product needs one shifted addition for each 1 in the multiplier: on average 10.00 additions for multipliers of 19.00 bits
+egypt: 13 x 21 by doubling: 1: 21 (ticked) ; 2: 42 ; 4: 84 (ticked) ; 8: 168 (ticked) ; ticked rows 21 + 84 + 168 = 273 ; the ticks, read from the bottom, are 1101, which is 13 in binary
+length: the numbers 1 to 1,000,000 take 5,888,896 decimal digits and 18,951,445 binary digits, 3.22 times as many ; log2(10) = 3.3219
+circle: Integer.toBinaryString(109) = 1101101 ; -109 in an 8-bit byte is 10010011 = 256 - 109 = 147, the ones' complement 10010010 plus 1 ; there are 2^6 = 64 six-digit binary numbers, as many as the hexagrams in Bouvet's figure
+BinaryArithmetic: 1248581 checks passed

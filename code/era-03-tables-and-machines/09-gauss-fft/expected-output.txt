@@ -1,0 +1,6 @@
+twelve: observations at 0, 30, ..., 330 degrees: 1252, 905, 448, 90, -39, 65, 328, 646, 923, 1130, 1288, 1364 ; coefficients mean 700.00 ; cos 1t 449.88, sin 1t -520.10 ; cos 2t 90.00, sin 2t 35.22 ; cos 3t 12.00, sin 3t 0.00 ; direct 144 products ; Gauss's split 4 x 3: 90 (three groups of four, n = 3 n1 + n2) ; 3 x 4: 90 ; all three agree to 1e-09
+interpolate: the sum of sines and cosines passes through all 12 observations (largest miss 3.4e-13) ; at 15 degrees, between the first two, it gives 1104.10
+random: the fast transform equals the direct one, and its inverse recovers the data, on 20 random complex sequences of each length 2, 4, ..., 2,048 (11 lengths)
+count: complex multiplications ; N = 8: direct 64, fast 12 (5 times fewer) ; N = 64: direct 4,096, fast 192 (21 times fewer) ; N = 1,024: direct 1,048,576, fast 5,120 (204 times fewer) ; N = 32,768: direct 1,073,741,824, fast 245,760 (4,369 times fewer) ; N = 1,048,576: direct 1,099,511,627,776, fast 10,485,760 (104,857 times fewer)
+circle: two random 2,000-digit numbers multiplied by transforming their digits, multiplying point by point, transforming back and carrying ; the 4,000-digit product matches Java's BigInteger ; 77,824 complex multiplications, against 4,000,000 digit products by long multiplication
+GaussFFT: 460 checks passed

@@ -1,0 +1,8 @@
+city: 4 pieces of land, 7 bridges ; bridges at A 5, B 3, C 3, D 3 ; total 14 = twice the number of bridges ; pieces with an odd number of bridges: 4
+euler: a route over 7 bridges is a string of 8 letters ; with an odd number k of bridges, a piece of land must appear (k + 1)/2 times: A 3, B 2, C 2, D 2 ; that is 9 letters, more than 8, so no route exists
+search: every walk that never repeats a bridge, from every piece of land: 824 walks examined ; the longest crosses 6 of the 7 bridges
+eighth: add a bridge from B to C: bridges at A 5, B 4, C 4, D 3 ; two odd pieces, so a route must start at one and end at the other ; Hierholzer's splicing finds DABACDBCA, crossing all 8 bridges
+random: 20,000 random multigraphs with 3 to 6 pieces of land and 4 to 10 bridges ; exhaustive search finds a full route in 15,081, exactly those where the land is connected and 0 or 2 pieces are odd ; none of the other 4,919 has one ; work: search examined 213,588,546 walks in all, Hierholzer took 226,141 steps
+large: a connected graph with 200 pieces of land and 2,000 bridges, every piece even ; Hierholzer finds a closed route over all 2,000 bridges in 4,001 steps
+circle: the 16 four-digit binary codes as bridges between 8 three-digit codes ; an Euler route through them spells 0000100110101111000 (19 digits), which contains every code exactly once ; trying the codes one by one would take 64 digits
+KonigsbergBridges: 35090 checks passed

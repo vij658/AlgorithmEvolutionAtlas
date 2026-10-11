@@ -1,0 +1,7 @@
+count: counting from 1 to 999,999 on six wheels: 111,105 carries in all ; 0 carries: 900,000 times ; 1 carry: 90,000 times ; 2 carries: 9,000 times ; 3 carries: 900 times ; 4 carries: 90 times ; 5 carries: 9 times ; then 999,999 + 1 sets off a chain through all 6 wheels
+column: adding a column of 1,000 five-digit figures on eight wheels: total 48,826,454 ; 2,496 carries (2.50 per figure) ; longest chain 4
+subtract: 4567 - 1234 on six wheels: enter the nines' complement 995432, add 1234 to get 996666, read its complement 003333 = 3333 ; checked on 100,000 random pairs
+leibniz: 4567 x 8912 = 40701104 in 20 turns of the crank and 3 shifts of the carriage (repeated addition would take 8,912 turns) ; 40701104 / 4567 = 8912 remainder 0 in 20 turns and 4 shifts
+leibniz survey: 100,000 random products of numbers below 100,000: on average 22.5 crank turns per product, against 50,080 additions by repeated addition
+binary: 200,000 random 64-bit additions done bit by bit with rippling carries: the longest carry chain averages 5.31 bits (median 5, the largest seen 23), though the worst case is 64
+MechanicalCarry: 1401003 checks passed

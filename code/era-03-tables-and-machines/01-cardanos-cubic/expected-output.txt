@@ -1,0 +1,8 @@
+depress: 2x^3 - 6x^2 + 18x - 34 = 0 ; shift x = y + 1 ; y^3 + 6y - 10 = 0 ; D = (q/2)^2 + (p/3)^3 = 33 ; u^3 = 10.744563, v^3 = -0.744563 ; y = 1.300271 ; x = 2.300271
+formula: x^3 + 6x = 20 ; D = 108 ; u = cbrt(sqrt(108) + 10) = 2.732050807569 ; v = -cbrt(sqrt(108) - 10) = -0.732050807569 ; x = u + v = 2.000000000000
+product: (5 + sqrt(-15)) + (5 - sqrt(-15)) = 10 ; (5 + sqrt(-15)) x (5 - sqrt(-15)) = 25 - (-15) = 40
+bombelli: x^3 = 15x + 4 ; D = (q/2)^2 + (p/3)^3 = -121 ; u^3 = 2 + 11i, v^3 = 2 - 11i ; trying a + bi with |a|,|b| <= 5 (84 tries): (2 + i)^3 = 2 + 11i, (2 - i)^3 = 2 - 11i ; x = 4 ; the other roots -2 + sqrt3 = -0.267949 and -2 - sqrt3 = -3.732051, all real
+survey: 100,000 random cubics x^3 + Ax^2 + Bx + C (A, B, C from -20 to 20): 48,151 with three real roots (48.2%), 51,849 with one ; D < 0 for every cubic with three distinct real roots and D > 0 for every cubic with one (154 with D = 0, a repeated root) ; 100,000 cubics with three distinct whole-number roots: D < 0 in 100%
+random: 100,000 cubics with three distinct whole-number roots from -100 to 100 ; Cardano's formula in complex arithmetic recovers all three roots of every one ; worst error 8.2e-11
+cancel: y^3 + 3000000000y - 1 = 0 in 64-bit floating point ; u = 31622.8, v = -31622.8 ; root 3.3333333333333330e-10 ; plain formula u + v = 3.3105607144534590e-10 (relative error 6.8e-03) ; as (u^3 + v^3)/(u^2 - uv + v^2) 3.3333333333333330e-10 (0.0e+00) ; plain formula then one Newton step 3.3333333333333330e-10 (0.0e+00)
+CardanoCubic: 199857 checks passed

@@ -25,7 +25,7 @@
 | # | Topic | When | What hurt | Read |
 |---|---|---|---|---|
 | 1 | **Cardano's Cubic** | Tartaglia 1535; *Ars Magna* 1545; Bombelli 1572 | Cubic equations had no general method | [page](01-cardanos-cubic/README.md) · [interactive](01-cardanos-cubic/cardanos-cubic.html) · [program](../../code/era-03-tables-and-machines/01-cardanos-cubic/README.md) |
-| 2 | **Logarithms** | Napier 1614; Briggs 1617, 1624 | Long multiplications for astronomy and navigation | planned · [references](reference-catalog.md#2-logarithms) |
+| 2 | **Logarithms** | Napier 1614; Briggs 1617, 1624 | Long multiplications for astronomy and navigation | [page](02-logarithms/README.md) · [interactive](02-logarithms/logarithms.html) · [program](../../code/era-03-tables-and-machines/02-logarithms/README.md) |
 | 3 | **The Carry, Mechanized** | Schickard 1623; Pascal 1642–1645; Leibniz 1673–1694 | Columns of addition, and every carry by hand | planned · [references](reference-catalog.md#3-the-carry-mechanized) |
 | 4 | **The Problem of Points** | Pascal and Fermat, 1654 | No fair rule for a game stopped early | planned · [references](reference-catalog.md#4-the-problem-of-points) |
 | 5 | **Newton's Method** | Newton 1669; Raphson 1690; Simpson 1740 | Formulas stop at degree four, and digit-by-digit roots are slow | planned · [references](reference-catalog.md#5-newtons-method) |

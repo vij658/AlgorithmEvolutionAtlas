@@ -95,7 +95,7 @@ No video could be verified (see **Gaps**).
 ## 2. Logarithms
 
 **When / where:** John Napier, *Mirifici logarithmorum canonis descriptio* (Edinburgh, 1614), and his numbering rods (*Rabdologiae*, 1617). Henry Briggs, Gresham College's first professor of geometry, visited Napier in 1615 and 1616; they agreed on logarithms with log 1 = 0 and base 10. Briggs published *Logarithmorum chilias prima* (London, 1617) and *Arithmetica logarithmica* (London, 1624).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`Logarithms.java`](../../code/era-03-tables-and-machines/02-logarithms/) · **Page:** [topic 2](02-logarithms/README.md)
 
 > **Field note.** Astronomers and navigators of this time spend their nights multiplying long numbers. A Scottish laird spent twenty years on a cure: a table in which every number has a partner, chosen so that adding the partners does the work of multiplying the numbers. A London professor rode for days to meet him, and between them they settled the form that every pocket calculator used until the 1970s. The partners themselves were found by a brutal routine: take the square root of ten, fifty-four times in a row, each time to thirty decimals.
 

@@ -7,7 +7,7 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | # | Topic | When | Program | Checks |
 |---|---|---|---|---|
 | 1 | [Cardano's Cubic](01-cardanos-cubic/README.md) | 1545 CE | [`CardanoCubic.java`](01-cardanos-cubic/CardanoCubic.java) | 199,857 |
-| 2 | Logarithms | 1614–1624 | planned | |
+| 2 | [Logarithms](02-logarithms/README.md) | 1614–1624 | [`Logarithms.java`](02-logarithms/Logarithms.java) | 85,847 |
 | 3 | The Carry, Mechanized | 1623–1694 | planned | |
 | 4 | The Problem of Points | 1654 | planned | |
 | 5 | Newton's Method | 1669–1740 | planned | |

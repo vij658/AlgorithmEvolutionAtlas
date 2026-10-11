@@ -1,0 +1,6 @@
+code: the 16 code words of the (7,4) code, positions 1 to 7, checks at 1, 2 and 4: 0000000 1110000 1001100 0111100 0101010 1011010 1100110 0010110 1101001 0011001 0100101 1010101 1000011 0110011 0001111 1111111 ; every two of them differ in at least 3 places (120 pairs)
+perfect: each code word with its 7 one-bit neighbours makes a ball of 8 words ; 16 balls x 8 = 128 = 2^7: every 7-bit word lies in exactly one ball
+errors: all 112 single errors corrected, the failed checks spelling each position ; all 336 double errors fool the (7,4) code into a wrong correction ; with an eighth bit for the parity of the whole word, all 128 single errors are corrected and all 448 double errors detected
+family: (7,4): 3 checks for 4 message bits, 57% of the bits carry the message ; (15,11): 4 checks for 11 message bits, 73% of the bits carry the message ; (31,26): 5 checks for 26 message bits, 84% of the bits carry the message ; (63,57): 6 checks for 57 message bits, 90% of the bits carry the message ; each corrected one random error in each of 20000 random words
+channel: 1,000,000 four-bit messages, each bit flipped with probability 0.01 ; no code (4 bits sent): 39,514 wrong (3.951%, expected 3.940%) ; Hamming (7,4), 7 bits: 1,957 wrong (0.196%, expected 0.203%) ; each bit three times, 12 bits: 1,230 wrong (0.123%)
+HammingCodes: 80949 checks passed

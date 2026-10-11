@@ -20,7 +20,7 @@ Every topic page is built from one *spec*, which renders to two editions:
 | File | Role |
 |---|---|
 | `book/build.py` | Runs the build: reads each program's `expected-output.txt`, calls the topic module, writes both editions, then the era index |
-| `book/era01.py`, `book/era02.py` | Each era's topics in order, its time line labels, and the era map (which idea each development reuses) |
+| `book/era01.py` to `book/era04.py` | Each era's topics in order, its time line labels, and the era map (which idea each development reuses) |
 | `book/eras.py` | The list of eras the builder knows |
 | `book/era_index.py` | The era front page: time line, era map and one card per topic (planned topics link to the reference catalog) |
 | `book/page.py` | The spec format and both renderers |

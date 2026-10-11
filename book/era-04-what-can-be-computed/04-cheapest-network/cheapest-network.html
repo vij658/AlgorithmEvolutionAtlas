@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Cheapest Network</title>
+<meta name="description" content="Era 4, topic 4 of The Algorithm Evolution Atlas: Borůvka&#x27;s and Jarník&#x27;s methods for connecting towns with the least total length of line, the minimum spanning tree.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.nw-board .controls{flex-wrap:wrap;gap:8px}
+.nw-steps{margin:6px 0 10px;padding-left:1.4em;font-size:13.5px;display:grid;gap:5px}
+.nw-steps .m{font-family:var(--mono);font-size:12.5px}
+#nw-svg{width:100%;max-width:520px;height:auto}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 4: What Can Be Computed</a><a href="../03-markov-chains/markov-chains.html">← Markov Chains</a><a href="../05-godel-numbering/godel-numbering.html">Gödel&#x27;s Numbering →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 4 · Topic 4 · 1926–1930</div>
+    <h1>The Cheapest Network</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">Southern Moravia was being wired for electricity. How do you connect every town with the least total length of line? Borůvka's answer, and Jarník's a few years later, are greedy, simple, and provably the best.</p>
+  <p class="fieldnote">Field note from the visiting historian. Every town reaches for its nearest neighbour. That leaves pieces; every piece reaches for the nearest piece. On my forty towns, 12 pieces, then 4 pieces, then one network. I have seen few algorithms so obviously right that also needed a proof.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#build">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Borůvka 1926; Jarník 1930</dd></div><div><dt>Where</dt><dd>Brno and Prague</dd></div><div><dt>What hurt</dt><dd>Connecting many towns with the least line</dd></div><div><dt>The fix</dt><dd>Greedy choices that are provably optimal</dd></div><div><dt>Cost</dt><dd>3 rounds for 40 towns; at most log₂ n rounds</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Euler had shown how to keep only the connections in a problem about places (Era 3, topic 7); joining each point to its nearest neighbour is the most obvious greedy move there is. Borůvka's contribution, asked for by a friend at the West-Moravian power company, was to repeat that move on pieces instead of points, and to prove that the result is the cheapest network possible. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How the cheapest network combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="426.5,170.0 417.7,171.9 419.2,164.7" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,170.0 496.3,161.8 503.7,161.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="573.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,170.0 580.8,164.7 582.3,171.9" style="fill:var(--ink-2)"/><line x1="416.0" y1="256.0" x2="167.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="167.0,330.0 173.8,324.1 175.9,331.2" style="fill:var(--ink-2)"/><line x1="500.0" y1="256.0" x2="500.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,330.0 496.3,321.8 503.7,321.8" style="fill:var(--ink-2)"/><line x1="584.0" y1="256.0" x2="833.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="833.0,330.0 824.1,331.2 826.2,324.1" style="fill:var(--ink-2)"/><line x1="500.0" y1="416.0" x2="500.0" y2="480.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,480.0 496.3,471.8 503.7,471.8" style="fill:var(--ink-2)"/><line x1="833.0" y1="416.0" x2="605.0" y2="523.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="605.0,523.0 610.9,516.2 614.0,522.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Euler&#x27;s bridges</text><text x="32.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">keep only what connects to</text><text x="32.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">what</text><text x="32.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 3 topic 7</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Electrifying Moravia</text><text x="407.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">lines are expensive; towns</text><text x="407.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">are many</text><text x="407.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1920s</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Nearest neighbour</text><text x="782.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">join each point to the</text><text x="782.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">closest</text><text x="782.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">a greedy choice</text><rect x="395" y="170" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="193.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Borůvka and Jarník</text><text x="407.0" y="210.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ greedy choices, proved</text><text x="407.0" y="227.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">optimal</text><text x="407.0" y="243.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1926, 1930</text><rect x="20" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="353.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Found again</text><text x="32.0" y="370.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Choquet 1938; Florek et al.</text><text x="32.0" y="387.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">1951; Sollin</text><text x="32.0" y="403.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">rediscoveries</text><rect x="395" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="353.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Kruskal and Prim</text><text x="407.0" y="370.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">sort the lines; grow from one</text><text x="407.0" y="387.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">town</text><text x="407.0" y="403.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1956, 1957</text><rect x="770" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="353.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Clustering</text><text x="782.0" y="370.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">cut the longest lines of the</text><text x="782.0" y="387.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">tree</text><text x="782.0" y="403.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Czekanowski&#x27;s precursor, 1909</text><rect x="395" y="480" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="503.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Networks today</text><text x="407.0" y="520.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">cables, pipes, circuits; a step</text><text x="407.0" y="537.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">in harder problems</text><text x="407.0" y="553.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">today</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dashed: the same methods found independently, and a precursor whose method was not checked here (see the catalog).</text></svg></div><figcaption>Red: Borůvka (1926) and Jarník (1930). Blue: where the cheapest network is used today.</figcaption></figure>
+</section>
+<section id="build" aria-labelledby="build-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="build-h">Wire forty towns</h2>
+<p class="col">Forty towns, at the random points the program used. Press Borůvka's button to run one round: every piece (at first, every town) takes its shortest line to another piece. Or start again and press Jarník's button to grow a single network from town 0, one line at a time. Either way you end with the same 39 lines, the ones the program found by three methods.</p>
+
+<div class="board nw-board">
+  <div style="min-width:0">
+    <svg id="nw-svg" viewBox="0 0 520 520" role="img" aria-label="Forty towns and the lines chosen so far"></svg>
+  </div>
+  <div style="min-width:0">
+    <div class="controls">
+      <button class="primary" id="nw-b">Borůvka: next round</button>
+      <button id="nw-j">Jarník: next line</button>
+      <button id="nw-r">Start again</button>
+    </div>
+    <ol class="nw-steps" id="nw-steps"></ol>
+    <p class="say" id="nw-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 4, what can be computed</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 4: What Can Be Computed, from 1895 to 1950" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1900–1928</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Hilbert&#x27;s questions</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1895–1901</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Runge and Kutta</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1906–1913</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Markov&#x27;s chains</text><circle cx="428.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1926–1930</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Borůvka and</text><text x="428.5" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Jarník</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1931</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Gödel&#x27;s numbering</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1936</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Church&#x27;s</text><text x="671.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">λ-calculus</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1936</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Turing&#x27;s machines</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1932–1940</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Breaking Enigma</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1945–1948</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">The stored</text><text x="1036.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">program</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1946–1949</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Monte Carlo</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1947</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Dantzig&#x27;s simplex</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1937–1948</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Shannon&#x27;s bits</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1950</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Hamming&#x27;s codes</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 558" role="img" aria-label="Each fix leaves a new pain: from nearest neighbours to a proved method" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="396.0" x2="750.0" y2="446.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,446.0 746.3,437.8 753.7,437.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="492.0" x2="400.0" y2="492.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,492.0 408.2,488.3 408.2,495.7" style="fill:var(--ink-2)"/><rect x="449.2" y="471.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="484.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Connect every town for the least total length of line;</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">trying every network is out of the question</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Each town joins its nearest neighbour, then each piece</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the nearest piece: 40 → 12 → 4 → 1</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Borůvka, 1926</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="203.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Is a run of greedy choices really the cheapest?</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Proof: the shortest line out of any group belongs to</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the cheapest network</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Borůvka; Jarník</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="345.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Rounds must track every piece at once</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Grow one network from one town, always by its shortest</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">line out: 1,521 comparisons</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Jarník, 1930</text><rect x="560" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="487.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="503.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Equal distances can make a round close a loop</text><rect x="20" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="479.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="495.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Break every tie by one shared rule</text><text x="32.0" y="512.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the program&#x27;s rule: length, then town numbers</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">The shortest line out of any group</h2>
+<p class="col"><strong>The one fact.</strong> Split the towns into two groups in any way. The shortest line that joins the groups belongs to the cheapest network (if no two distances are equal). For suppose a cheapest network did without it: adding it closes a loop, the loop must cross between the groups a second time by a longer line, and swapping the longer line for the shorter one gives a cheaper network, which is impossible.</p>
+<p class="col"><strong>Borůvka (1926).</strong> Treat every town as a piece. In each round, every piece picks the shortest line from itself to any other piece, and all picked lines are added at once. Every piece joins at least one other, so the number of pieces at least halves each round. On the program's forty towns: 40 → 12 → 4 → 1 pieces in 3 rounds (Borůvka's own forty cities went 40 → 13 → 4 → 1).</p>
+<p class="col"><strong>Jarník (1930).</strong> Start from one town. Repeatedly add the shortest line from the network built so far to a town not yet in it. After 39 additions every town is in. <strong>Kruskal (1956)</strong> sorts all 780 lines and keeps each one that joins two separate pieces. All three methods are the one fact applied in different orders, and the program checks that they choose exactly the same 39 lines, total length 4074.008.</p>
+<p class="col"><strong>Brute force agrees.</strong> On 200 sets of 7 towns, the program lists every one of the 16,807 possible networks (3,361,400 in all; Cayley's count 7^5) and finds that the algorithms' network is the unique cheapest every time. It also tests the one fact directly on 10,000 random splits of the forty towns.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>A greedy choice is usually a gamble. Here it is safe, because of a fact you can check: the cheapest line out of any group is always part of a cheapest network. With equal distances, every choice must break ties by the same rule, or Borůvka's simultaneous picks can close a loop.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Three orders, one network</h2>
+<div class="tbl"><table><thead><tr><th class="">Method</th><th class="">Work on 40 towns</th><th class="">Result</th></tr></thead><tbody><tr class=""><td class="">Borůvka, 1926</td><td class="">3 rounds, 2,340 comparisons of a line</td><td class="">39 lines, length 4074.008</td></tr><tr class=""><td class="">Jarník, 1930</td><td class="">1,521 comparisons</td><td class="">the same lines</td></tr><tr class=""><td class="">Kruskal, 1956</td><td class="">sort 780 lines, then examine 780</td><td class="">the same lines</td></tr></tbody></table></div>
+<div class="tbl"><table><thead><tr><th class="n">Rounds Borůvka needed</th><th class="n">Sets of 40 random towns (of 1,000)</th></tr></thead><tbody><tr class=""><td class="n">2</td><td class="n">10</td></tr><tr class=""><td class="n">3</td><td class="n">846</td></tr><tr class=""><td class="n">4</td><td class="n">144</td></tr></tbody></table></div>
+<p class="col">Since each round at least halves the pieces, 40 towns can never need more than 5 rounds (40 → 20 → 10 → 5 → 2 → 1); in practice pieces merge faster, because several towns often pick the same nearest neighbour.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">A friend at the power company</h2>
+<p class="col">The problem "was communicated to him by a friend Jindrich Saxel - an employee of Zapadomoravske elektrarny", during the electrification of southern Moravia; Borůvka's two papers of 1926 appeared in <em>Práce moravské přírodovědecké společnosti</em> and <em>Elektrotechnický obzor</em>, the second "by means of a geometric example with 40 cities" (Nešetřil, Milková and Nešetřilová). Jarník's paper of 1930 is a letter to Borůvka: "In your article ... you solved an interesting problem" (Korte and Nešetřil).</p>
+<p class="col">Kruskal's sort (1956) and Prim's growth (1957, the method Jarník had published) made the problem famous; Choquet (1938), Florek and colleagues (1951) and Sollin found Borůvka's method again. Sollin's date is <strong>disputed</strong> in the opened sources: 1961 (Graham and Hell) or 1965 (Wikipedia).</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Still the first network you build</h2>
+<p class="col">The cheapest connecting network is still the first step in designing cable and pipe networks, and Kruskal's 1956 paper already tied it to the travelling salesman problem, where a cheapest network gives a lower bound for the length of any tour. Borůvka's rounds, which work on every piece at once, suit machines that do many things in parallel.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>Borůvka's own forty cities needed three rounds; so did 846 of the program's 1,000 random sets of forty towns.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Four towns sit at the corners of a 3 by 4 rectangle. Which lines does the cheapest network use?</span></summary><div class="ans"><p>Three sides: two of length 3 and one of length 4, total 10. The diagonals (length 5) are never needed.</p></div></details><details class="try"><summary><span class="q">2</span><span>Why must every Borůvka round at least halve the number of pieces?</span></summary><div class="ans"><p>Every piece joins at least one other piece, so the pieces pair up or merge in larger groups: no piece survives alone.</p></div></details><details class="try"><summary><span class="q">3</span><span>How many lines does the cheapest network on n towns have?</span></summary><div class="ans"><p>n − 1: it connects everything without a loop, so it is a tree.</p></div></details><details class="try"><summary><span class="q">4</span><span>Why do equal distances cause trouble for Borůvka but not for Jarník?</span></summary><div class="ans"><p>Borůvka's pieces choose at the same time, so three towns at equal distances can each pick a different line and close a loop. Jarník adds one line at a time, always to a new town.</p></div></details><details class="try"><summary><span class="q">5</span><span>Is the cheapest network the same as the shortest round trip through all towns?</span></summary><div class="ans"><p>No. The round trip must visit the towns in a single loop; the cheapest network may branch. But the network is never longer than the round trip minus one line.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Borůvka&#x27;s two papers of 1926, in English</b><span>Both papers translated, with the 40-city example, by Nešetřil, Milková and Nešetřilová.</span><a href="https://www.dml.cz/bitstream/handle/10338.dmlcz/500413/Boruvka_03-0000-60_1.pdf">Czech Digital Mathematics Library</a><span class="lic">Drawn placeholder.</span></figcaption></figure><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Jarník&#x27;s letter of 1930</b><span>In Czech and in English, with Korte and Nešetřil's commentary.</span><a href="https://www.dml.cz/bitstream/handle/10338.dmlcz/500662/Jarnik_04-0000-19_1.pdf">Czech Digital Mathematics Library</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://en.wikipedia.org/wiki/Bor%C5%AFvka%27s_algorithm" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Borůvka's algorithm · Wikipedia</span><span class="w">The rounds, the rediscoveries, and why ties must be broken consistently</span></a><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Boruvka/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Otakar Borůvka · MacTutor</span><span class="w">Borůvka's life in Brno and the friend at the power company</span></a><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Jarnik/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Vojtěch Jarník · MacTutor</span><span class="w">A number theorist's single, lasting excursion into networks</span></a><a href="https://courses.grainger.illinois.edu/cs374/fa2020/lec_prerec/20/20_1_0_0.pdf" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Algorithms for Minimum Spanning Trees · CS/ECE 374, University of Illinois (Fall 2020), lecture 20 slides</span><span class="w">Borůvka's electricity network and the history before Kruskal and Prim</span></a><a href="https://math.ucdavis.edu/~saito/data/acha.read.w12/graham-hell-mst.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">On the History of the Minimum Spanning Tree Problem · R. L. Graham and Pavol Hell, <em>Annals of the History of Computing</em> 7(1) (1985), on a UC Davis reading list</span><span class="w">The standard history: Borůvka, Jarník, Choquet, Florek et al., Kruskal, Prim, Sollin</span></a><a href="https://www.dml.cz/bitstream/handle/10338.dmlcz/500413/Boruvka_03-0000-60_1.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Otakar Borůvka on minimum spanning tree problem: translation of both the 1926 papers, comments, history · J. Nešetřil, E. Milková and H. Nešetřilová, <em>Discrete Mathematics</em> 233:3–36 (2001), Czech Digital Mathematics Library</span><span class="w">Both of Borůvka's papers in English, including the 40-city example</span></a><a href="https://www.dml.cz/bitstream/handle/10338.dmlcz/500662/Jarnik_04-0000-19_1.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Vojtěch Jarník's work in combinatorial optimization · B. Korte and J. Nešetřil, <em>Discrete Mathematics</em> 235:1–17 (2001), Czech Digital Mathematics Library</span><span class="w">Jarník's letter of 1930, in Czech and in English translation</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-04-what-can-be-computed/reference-catalog.md">Era 4 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-04-what-can-be-computed/04-cheapest-network/CheapestNetwork.java">CheapestNetwork.java</a> makes <strong>14,341 checks</strong>: the three methods against each other on forty towns and on 1,000 more sets, every round halving the pieces, brute force over all 16,807 networks on 7 towns 200 times, the cut rule on 10,000 random splits, and the tie that closes a loop. Run it with <code>java CheapestNetwork.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** Borůvka: each piece takes its shortest outgoing line, all at once; returns the lines, records the piece counts. */</span>
+<span class="k-kw">static</span> TreeSet&lt;Long&gt; boruvka(<span class="k-kw">List</span>&lt;Integer&gt; pieces) {
+    parent = <span class="k-kw">new</span> <span class="k-kw">int</span>[n];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; n; i++) parent[i] = i;
+    TreeSet&lt;Long&gt; chosen = <span class="k-kw">new</span> TreeSet&lt;&gt;();
+    <span class="k-kw">int</span> count = n;
+    pieces.add(count);
+    <span class="k-kw">while</span> (count &gt; <span class="k-n">1</span>) {
+        <span class="k-kw">int</span>[] bi = <span class="k-kw">new</span> <span class="k-kw">int</span>[n], bj = <span class="k-kw">new</span> <span class="k-kw">int</span>[n];
+        Arrays.fill(bi, -<span class="k-n">1</span>);
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; n; i++)
+            <span class="k-kw">for</span> (<span class="k-kw">int</span> j = i + <span class="k-n">1</span>; j &lt; n; j++) {
+                examined++;
+                <span class="k-kw">int</span> a = find(i), b = find(j);
+                <span class="k-kw">if</span> (a == b) continue;
+                <span class="k-kw">for</span> (<span class="k-kw">int</span> r : <span class="k-kw">new</span> <span class="k-kw">int</span>[]{a, b})
+                    <span class="k-kw">if</span> (bi[r] &lt; <span class="k-n">0</span> || shorter(i, j, bi[r], bj[r])) { bi[r] = i; bj[r] = j; }
+            }
+        <span class="k-kw">int</span> before = count;
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> r = <span class="k-n">0</span>; r &lt; n; r++)
+            <span class="k-kw">if</span> (bi[r] &gt;= <span class="k-n">0</span>) {
+                <span class="k-kw">int</span> a = find(bi[r]), b = find(bj[r]);
+                <span class="k-kw">if</span> (a != b) { parent[a] = b; count--; }
+                chosen.add(key(bi[r], bj[r]));
+            }
+        check(count &lt;= before / <span class="k-n">2</span>, &quot;a round at least halves the pieces&quot;);
+        pieces.add(count);
+    }
+    <span class="k-kw">return</span> chosen;
+}
+
+<span class="k-c">/** Jarník: grow one network from town 0 by the shortest line to a new town. */</span>
+<span class="k-kw">static</span> TreeSet&lt;Long&gt; jarnik() {
+    <span class="k-kw">boolean</span>[] in = <span class="k-kw">new</span> <span class="k-kw">boolean</span>[n];
+    <span class="k-kw">int</span>[] near = <span class="k-kw">new</span> <span class="k-kw">int</span>[n];                                      <span class="k-c">// for each outside town, its nearest town inside</span>
+    in[<span class="k-n">0</span>] = <span class="k-kw">true</span>;
+    TreeSet&lt;Long&gt; chosen = <span class="k-kw">new</span> TreeSet&lt;&gt;();
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">1</span>; i &lt; n; i++) near[i] = <span class="k-n">0</span>;
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> step = <span class="k-n">1</span>; step &lt; n; step++) {
+        <span class="k-kw">int</span> best = -<span class="k-n">1</span>;
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; n; i++) {
+            <span class="k-kw">if</span> (in[i]) continue;
+            examined++;
+            <span class="k-kw">if</span> (best &lt; <span class="k-n">0</span> || shorter(i, near[i], best, near[best])) best = i;
+        }
+        in[best] = <span class="k-kw">true</span>;
+        chosen.add(key(best, near[best]));
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; n; i++) <span class="k-kw">if</span> (!in[i]) { examined++; <span class="k-kw">if</span> (shorter(i, best, i, near[i])) near[i] = best; }
+    }
+    <span class="k-kw">return</span> chosen;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>CheapestNetwork.java</code>.<br><span class="navfoot"><a href="../index.html">Era 4: What Can Be Computed</a><a href="../03-markov-chains/markov-chains.html">← Markov Chains</a><a href="../05-godel-numbering/godel-numbering.html">Gödel&#x27;s Numbering →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const svg = document.getElementById("nw-svg");
+  if (!svg) return;
+  const P = [[302, 804], [897, 588], [320, 228], [509, 431], [718, 507], [66, 447], [246, 243], [88, 255], [45, 716], [538, 57], [893, 89], [135, 734], [436, 723], [680, 473], [320, 205], [728, 47], [43, 505], [279, 553], [667, 141], [529, 169], [701, 811], [818, 755], [43, 464], [669, 9], [877, 454], [356, 344], [733, 661], [132, 846], [324, 109], [552, 369], [571, 315], [101, 173], [656, 513], [66, 193], [954, 726], [39, 138], [528, 276], [21, 111], [370, 361], [437, 388]], PROG = new Set(["0-12", "0-27", "1-24", "1-34", "2-6", "2-14", "2-25", "3-29", "3-39", "4-13", "4-26", "5-7", "5-22", "6-7", "7-33", "8-11", "8-16", "9-19", "9-23", "10-15", "11-27", "13-29", "13-32", "14-28", "15-18", "15-23", "16-22", "17-38", "19-36", "20-21", "21-26", "21-34", "25-38", "29-30", "30-36", "31-33", "33-35", "35-37", "38-39"]);
+  const n = P.length, COL = ["var(--red)", "var(--yellow)", "var(--blue)", "var(--ink)"];
+  const d2 = (i, j) => (P[i][0] - P[j][0]) ** 2 + (P[i][1] - P[j][1]) ** 2;
+  const shorter = (i, j, k, l) => { const a = d2(i, j), b = d2(k, l); if (a !== b) return a < b;
+    const mi = Math.min(i, j), mk = Math.min(k, l); if (mi !== mk) return mi < mk; return Math.max(i, j) < Math.max(k, l); };
+  const key = (i, j) => Math.min(i, j) + "-" + Math.max(i, j);
+  let lines, parent, mode, rounds, inTree, log;
+  const find = a => { while (parent[a] !== a) a = parent[a] = parent[parent[a]]; return a; };
+  function reset() { lines = []; parent = [...Array(n).keys()]; mode = null; rounds = 0; inTree = new Set([0]); log = []; draw(); }
+  function pieces() { const s = new Set(); for (let i = 0; i < n; i++) s.add(find(i)); return s.size; }
+  function total() { return lines.reduce((s, l) => s + Math.sqrt(d2(l.i, l.j)), 0); }
+  function boruvka() {
+    if (mode === "j" || pieces() === 1) return;
+    mode = "b";
+    const bi = {}, before = pieces();
+    for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) {
+      const a = find(i), b = find(j); if (a === b) continue;
+      for (const r of [a, b]) if (!(r in bi) || shorter(i, j, bi[r][0], bi[r][1])) bi[r] = [i, j];
+    }
+    const added = new Set();
+    for (const r of Object.keys(bi)) {
+      const [i, j] = bi[r], a = find(i), b = find(j);
+      if (!added.has(key(i, j))) { added.add(key(i, j)); lines.push({i, j, c: rounds}); }
+      if (a !== b) parent[a] = b;
+    }
+    rounds++;
+    log.push(`round ${rounds}: every piece takes its shortest line out; <span class="m">${added.size}</span> lines, ${before} → ${pieces()} pieces`);
+    draw();
+  }
+  function jarnik() {
+    if (mode === "b" || inTree.size === n) return;
+    mode = "j";
+    let best = null;
+    for (const i of inTree) for (let j = 0; j < n; j++) if (!inTree.has(j) && (!best || shorter(i, j, best[0], best[1]))) best = [i, j];
+    inTree.add(best[1]);
+    parent[find(best[1])] = find(best[0]);
+    lines.push({i: best[0], j: best[1], c: 2});
+    if (inTree.size <= 4 || inTree.size === n) log.push(`line ${lines.length}: town ${best[0]} to town ${best[1]}, the shortest line from the network to a new town`);
+    else if (inTree.size === 5) log.push("…");
+    draw();
+  }
+  function draw() {
+    svg.innerHTML = "";
+    const s = 0.5, o = 10;
+    for (const l of lines) sv("line", {x1: o + P[l.i][0] * s, y1: o + P[l.i][1] * s, x2: o + P[l.j][0] * s, y2: o + P[l.j][1] * s,
+      stroke: mode === "j" ? "var(--blue)" : COL[l.c % 4], "stroke-width": 3.2}, svg);
+    for (let i = 0; i < n; i++) sv("circle", {cx: o + P[i][0] * s, cy: o + P[i][1] * s, r: i === 0 && mode === "j" ? 6 : 4.5,
+      fill: mode === "j" && inTree.has(i) ? "var(--blue)" : "var(--surface)", stroke: "var(--ink)", "stroke-width": 1.5}, svg);
+    const ol = document.getElementById("nw-steps"); ol.innerHTML = "";
+    for (const h of log) el("li", {}, ol).innerHTML = h;
+    const say = document.getElementById("nw-say");
+    if (lines.length === n - 1) {
+      const same = lines.every(l => PROG.has(key(l.i, l.j)));
+      say.textContent = `Done: ${n - 1} lines, total length ${total().toFixed(3)}. ${same ? "The same lines as the program found by all three methods." : "Different from the program!"}`;
+    } else if (!mode) say.textContent = "Choose a method. Borůvka works on every piece at once; Jarník grows one network from town 0.";
+    else say.textContent = `${lines.length} lines so far, ${pieces()} piece${pieces() > 1 ? "s" : ""}, length ${total().toFixed(1)}.`;
+    document.getElementById("nw-b").disabled = mode === "j" || lines.length === n - 1;
+    document.getElementById("nw-j").disabled = mode === "b" || lines.length === n - 1;
+  }
+  document.getElementById("nw-b").addEventListener("click", boruvka);
+  document.getElementById("nw-j").addEventListener("click", jarnik);
+  document.getElementById("nw-r").addEventListener("click", reset);
+  reset();
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+counts: 20000 letters, 8638 vowels, 11362 consonants ; pairs 1104 vowel-vowel, 3827 consonant-consonant, 15069 mixed, total 20000
+pairs: 19,999 pairs inside the sample would total 19,999, not 20000 ; a closed loop needs 15068 mixed pairs, not 15069 ; 20,000 pairs, the last reaching letter 20,001, fit with vowel->consonant 7534 and consonant->vowel 7535, only if consonant first, vowel at 20,001
+probabilities: a vowel 0.4319 ; a vowel after a vowel 1104/8638 = 0.1278 ; a vowel after a consonant 7535/11362 = 0.6632 ; independent letters would give 20000 x 0.4319^2 = 3731 double vowels, the poem has 1104
+longrun: share of vowels p2 / (1 - p1 + p2) = 0.4319 ; d = p1 - p2 = -0.5354 ; chance of a vowel n letters after a vowel vs after a consonant: 1 letters on: 0.127807 vs 0.663175 ; 2 letters on: 0.594752 vs 0.308132 ; 3 letters on: 0.344764 vs 0.498211 ; 5 letters on: 0.406949 vs 0.450929 ; 8 letters on: 0.435766 vs 0.429018 ; 12 letters on: 0.432248 vs 0.431693
+spread: dispersion factor (1 + d) / (1 - d) = 0.3026 ; groups of 100 letters: independent letters, variance n p q = 24.54, simulated 24.56 ; the chain, exact variance 7.54 (ratio 0.3072), simulated 7.58, over 200000 groups
+lln: a simulated chain with these probabilities, share of vowels after 100 letters: 0.45000 ; 1,000 letters: 0.43400 ; 10,000 letters: 0.43010 ; 100,000 letters: 0.43343 ; 1,000,000 letters: 0.43217 ; 10,000,000 letters: 0.43196 ; long-run value 0.43193
+MarkovChains: 25 checks passed

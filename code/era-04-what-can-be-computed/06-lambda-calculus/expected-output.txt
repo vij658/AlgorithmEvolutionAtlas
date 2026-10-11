@@ -1,0 +1,12 @@
+numerals: Church 1936 (from 1): 1 = \ab.a(b), 2 = \ab.a(a(b)), 3 = \ab.a(a(a(b))) ; today (from 0): 0 = \ab.b, the same formulas otherwise
+arith: PLUS, MULT and EXP on numerals 0 to 6 and PRED on 0 to 10: 144 results, all equal to ordinary arithmetic, 3063 reduction steps in all ; EXP m 0 gives \a.a in all 7 cases, which is the numeral 1 only after eta-conversion ; steps: PLUS 2 3 in 6, MULT 2 3 in 7, EXP 2 3 in 16, PRED 3 in 11
+trace: 0 (\abcd.a(c)(b(c)(d)))(\ab.a(a(b)))(\ab.a(a(a(b))))
+trace: 1 (\abc.(\de.d(d(e)))(b)(a(b)(c)))(\ab.a(a(a(b))))
+trace: 2 \ab.(\cd.c(c(d)))(a)((\cd.c(c(c(d))))(a)(b))
+trace: 3 \ab.(\c.a(a(c)))((\cd.c(c(c(d))))(a)(b))
+trace: 4 \ab.a(a((\cd.c(c(c(d))))(a)(b)))
+trace: 5 \ab.a(a((\c.a(a(a(c))))(b)))
+trace: 6 \ab.a(a(a(a(a(b)))))
+fact: factorial with Y and no named recursion: 0! = 1 in 9 steps ; 1! = 1 in 30 steps ; 2! = 2 in 127 steps ; 3! = 6 in 646 steps ; 4! = 24 in 3873 steps ; 5! = 120 in 26898 steps
+omega: (\x.x x)(\x.x x) reduces in one step to itself, and after 1000 steps has not changed: it has no normal form ; (\x.\y.y) applied to it: leftmost-outermost order reaches \a.a in 1 step, arguments-first order is still working after 1000 steps
+LambdaCalculus: 163 checks passed

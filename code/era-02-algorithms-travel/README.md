@@ -14,6 +14,6 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 6 | [Algorism and Al-Jabr](06-algorism-and-al-jabr/README.md) | c. 820–830 CE | [`AlKhwarizmi.java`](06-algorism-and-al-jabr/AlKhwarizmi.java) | 99,796 |
 | 7 | [Frequency Analysis](07-frequency-analysis/README.md) | 9th century CE | [`FrequencyAnalysis.java`](07-frequency-analysis/FrequencyAnalysis.java) | 246 |
 | 8 | [Fibonacci's Liber Abaci](08-liber-abaci/README.md) | 1202 CE | [`LiberAbaci.java`](08-liber-abaci/LiberAbaci.java) | 14,093 |
-| 9 | Horner's Method, Nearly Six Centuries Early | 1247 CE | planned | |
+| 9 | [Horner's Method, Nearly Six Centuries Early](09-qin-jiushao/README.md) | 1247 CE | [`QinJiushao.java`](09-qin-jiushao/QinJiushao.java) | 5,007 |
 | 10 | Madhava's Series for Pi | c. 1400 CE | planned | |
 | 11 | Al-Kashi's Pi | 1424 CE | planned | |

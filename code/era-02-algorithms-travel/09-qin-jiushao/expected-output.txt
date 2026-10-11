@@ -1,0 +1,20 @@
+evaluate: degree 10 ; term by term 55 multiplications ; keeping the powers 19 ; Horner's rule 10 ; the circular-city polynomial at x = 3 is 0
+cubic digit 2 at 10^1 -> root so far 20 ; shifted: 1 62 1286 -4338
+cubic digit 2 at 10^0 -> root so far 22 ; shifted: 1 68 1546 -1510
+cubic digit 9 at 10^-1 -> root so far 22.9 ; shifted: 1 70.7 1670.83 -62.791
+cubic digit 3 at 10^-2 -> root so far 22.93 ; shifted: 1 70.79 1675.0747 -12.602443
+cubic root: 22.937521 ; 8 digits ; 162 multiply-adds
+quartic digit 2 at 10^2 -> root so far 200 ; shifted: -1 -800 523200 273280000 -11714560000
+quartic digit 4 at 10^1 -> root so far 240 ; shifted: -1 -960 417600 311040000 0
+quartic root: 240 ; 2 digits ; 48 multiply-adds
+city digit 3 at 10^0 -> root so far 3 ; shifted: 1 30 420 3600 20862 85212 246996 495072 630585 400950 0
+city root: 3 ; 1 digits ; 85 multiply-adds
+fifth digit 1 at 10^0 -> root so far 1 ; shifted: 1 5 10 10 5 -1
+fifth digit 1 at 10^-1 -> root so far 1.1 ; shifted: 1 5.5 12.1 13.31 7.3205 -0.38949
+fifth digit 4 at 10^-2 -> root so far 1.14 ; shifted: 1 5.7 12.996 14.81544 8.4448008 -0.0745854176
+fifth digit 8 at 10^-3 -> root so far 1.148 ; shifted: 1 5.74 13.17904 15.12953792 8.68435476608 -0.006072145708032
+fifth root: 1.1486983549 ; 11 digits ; 500 multiply-adds
+quartic other: searching above 300 gives 840 ; check: -840^4 + 763200 x 840^2 - 40642560000 = 0
+random: 5000 polynomials of degree 2 to 8 with a root of up to four digits ; every root recovered digit by digit
+speed: fifth root of 2 to 15 digits ; digit by digit 15 steps (655 multiply-adds) ; bisection 50 halvings ; Newton 5 steps ; 1.14869835499703
+QinJiushao: 5007 checks passed

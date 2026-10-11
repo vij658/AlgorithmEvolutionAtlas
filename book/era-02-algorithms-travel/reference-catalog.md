@@ -579,7 +579,7 @@ The rabbit problem's one-year total as printed in the book was not found on a pa
 ## 9. Horner's method, nearly six centuries early, and the Da Yan rule
 
 **When / where:** Qin Jiushao (1202–1261), *Shushu jiuzhang* (*Mathematical Treatise in Nine Sections*), 1247, Southern Song China. He wrote it during the mourning period after his mother's death. According to Strick, it was not printed in his lifetime, and the version read today was published in 1842 from a Korean copy.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`QinJiushao.java`](../../code/era-02-algorithms-travel/09-qin-jiushao/) · **Page:** [topic 9](09-qin-jiushao/README.md)
 
 > **Field note.** This official wrote his mathematics while in mourning, and he put two procedures on the counting board that the West would find again centuries later. The first finds a root of an equation of any degree one digit at a time. Each new digit shifts the whole polynomial, so the next digit is found the same way as the last, and no power is ever computed directly. The second, the Da Yan rule, "searches for unity": it finds the multiplier that leaves remainder 1, and with it a number that fits any set of remainders. Calendar makers had used the rule for centuries. Qin is the first I can find who wrote it out in full.
 
@@ -630,6 +630,14 @@ No video could be verified (see **Gaps**).
 | Scholar | [Ch'in Chiu-shao](https://mathshistory.st-andrews.ac.uk/DSB/Qin_Jiushao.pdf) | Ho Peng-yoke, *Dictionary of Scientific Biography* (via MacTutor) | Standard reference entry: the root-finding method, the *ta-yen ch'iu-i shu*, the zero symbol, the degree-10 equation |
 | Scholar | [Chinese Mathematics in the Thirteenth Century, ch. 14](https://legacy-www.math.harvard.edu/~knill/crt/lib/Libbrecht14.pdf) | Ulrich Libbrecht (MIT Press, 1973), excerpt in [Oliver Knill's CRT library](https://legacy-www.math.harvard.edu/~knill/crt/lib.html), Harvard | The standard English study of the *Shushu jiuzhang*. This chapter surveys first-degree indeterminate analysis outside China and says the problem "finds its culminating point in the work of Ch'in Chiu-shao (1247)" |
 | Scholar | [Horner's method in Chinese mathematics; its origins in the root-extraction procedures of the Han dynasty](https://ilse.kobv.de/KobvIndexRecord/nat_lic_papers_NLM110339983) | Wang Ling and Joseph Needham (1955), library catalogue record | The classic paper arguing that the method grows out of Han root extraction. This is a record only, not the text |
+
+**Added with the topic page** (each opened before it was listed)
+
+| Level | Link | Source | Why |
+|---|---|---|---|
+| Scholar | [s_sin.c (IBM Accurate Mathematical Library)](https://codebrowser.dev/glibc/glibc/sysdeps/ieee754/dbl-64/s_sin.c.html) | GNU C library source, on codebrowser.dev | Its polynomials are written in nested (Horner) form, for example `xx * (cs2 + xx * (cs4 + xx * cs6))` |
+
+The DSB entry gives the quartic −x⁴ + 763,200x² − 40,642,560,000 = 0 and the degree-10 equation x¹⁰ + 15x⁸ + 72x⁶ − 864x⁴ − 11,664x² − 34,992 = 0 without their roots; the topic's program finds 240 and 840 for the first and 3 for the second, which matches MacTutor's 9-li city.
 
 **Gaps:** no video was found. Web searches returned no YouTube pages for Qin Jiushao, Horner's method or the Chinese remainder theorem, so none is listed. No online text or translation of the *Shushu jiuzhang* itself could be opened (ctext.org returned only an anti-scraping notice). Wylie's 1852 paper was not found online. The British Journal for the History of Science review of Libbrecht's book could not be fetched (the URL is too long). The Wang–Needham record does not name its journal (it gives only ISSN 0082-5433). Only chapter 14 of Libbrecht was opened, not his translation of the Da Yan problems.
 

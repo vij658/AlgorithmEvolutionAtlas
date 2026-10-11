@@ -188,3 +188,28 @@ def links_section(ctx, extra=()):
     return dict(id="read", eyebrow="Watch and read", title="Every link was opened before it was listed", toc="Watch and read",
                 blocks=[dict(type="links", items=rows),
                         dict(type="p", text=f"More, with certainty labels and the gaps we could not fill: [Era {ctx['era'].ERA['num']} reference catalog]({ctx['repo_url']}book/{ctx['era'].ERA['folder']}/reference-catalog.md).")])
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# text helpers for numbers and formulas printed by the programs in plain ASCII
+# ----------------------------------------------------------------------------------------------------------------------
+_SUP = str.maketrans("-0123456789", "⁻⁰¹²³⁴⁵⁶⁷⁸⁹")
+
+
+def sci(s: str) -> str:
+    """'2.3E-17' or '2.3e-17' -> '2.3 × 10⁻¹⁷'; a zero error -> '0'."""
+    m = re.match(r"(-?[\d.]+)[eE]([-+]?\d+)$", s.strip())
+    if not m:
+        return s
+    if float(m.group(1)) == 0:
+        return "0"
+    e = int(m.group(2))
+    return m.group(1) if e == 0 else f"{m.group(1)} × 10{str(e).translate(_SUP)}"
+
+
+def pretty(s: str) -> str:
+    """ASCII formulas from program output, for reading: x^3 -> x³, ' - ' -> ' − ', sqrt -> √, long integers grouped."""
+    s = re.sub(r"\^(-?\d+)", lambda m: m.group(1).translate(_SUP), s)
+    s = s.replace(" - ", " − ").replace("sqrt", "√")
+    s = re.sub(r"(?<![\d.,])(\d{5,})(?![\d.])", lambda m: f"{int(m.group(1)):,}", s)
+    return s

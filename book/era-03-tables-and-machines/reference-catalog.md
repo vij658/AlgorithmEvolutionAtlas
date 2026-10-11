@@ -45,7 +45,7 @@ A note on videos: video pages on YouTube could not be opened from the environmen
 ## 1. Cardano's cubic
 
 **When / where:** Scipione del Ferro solved one kind of cubic around 1515 in Bologna and kept it secret; Niccolò Tartaglia found the method again on 13 February 1535 for a public contest with Antonio Fior; Girolamo Cardano published it, with Lodovico Ferrari's solution of the quartic, in *Ars Magna* (Nuremberg, 1545). Rafael Bombelli's *Algebra* (1572) made the formula work when it passes through square roots of negative numbers.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`CardanoCubic.java`](../../code/era-03-tables-and-machines/01-cardanos-cubic/) · **Page:** [topic 1](01-cardanos-cubic/README.md)
 
 > **Field note.** For three thousand years the people I have followed solved equations of the second degree by a recipe. In Italy the third degree fell, in secret, in a contest, and in a quarrel over a broken oath. The recipe that came out of it worked, but it had a trap: for some cubics with three perfectly ordinary answers, the recipe insisted on taking the square root of a negative number. Rather than throw the recipe away, Bombelli wrote rules for these impossible quantities and calculated straight through them to the real answer.
 

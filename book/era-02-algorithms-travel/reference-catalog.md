@@ -251,7 +251,7 @@ Shen (1988) also gives a calendar congruence from Qin's book, 377873 x ≡ 1 (mo
 ## 4. Zero becomes a number
 
 **When / where:** India. Brahmagupta (598–670) wrote the *Brahmasphutasiddhanta* at Bhillamala (modern Bhinmal) in 628 CE. A stone inscription at a temple in Gwalior is dated 933 in an era beginning in 57 BCE, that is 876 CE. It is the earliest dated Indian zero that everyone accepts.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`ZeroAsANumber.java`](../../code/era-02-algorithms-travel/04-zero-becomes-a-number/) · **Page:** [topic 4](04-zero-becomes-a-number/README.md)
 
 > **Field note.** For more than a thousand years the Babylonians wrote place-value numbers without any mark for an empty place, and readers guessed from context. When a placeholder finally came, it was a separator, not a number: nobody added it or multiplied by it. In India the mark became a number. In 628 Brahmagupta wrote down rules for zero next to rules for "fortunes" and "debts", which my hosts now call positive and negative numbers. Two centuries later a temple grant at Gwalior wrote 270 and 50 with a small round 0, in a form any modern child could read. His rule that zero divided by zero is zero was later rejected, and my hosts still give that case no value at all.
 
@@ -300,6 +300,12 @@ Shen (1988) also gives a calendar congruence from Qin's book, 377873 x ≡ 1 (mo
 |---|---|---|---|
 | Scholar | [Algebra, with Arithmetic and Mensuration, from the Sanscrit of Brahmegupta and Bháscara](https://archive.org/details/algebrawitharith00brahuoft/page/n5/mode/2up) | H. T. Colebrooke (trans.), London: J. Murray, 1817, Internet Archive | The classic English translation of Brahmagupta's arithmetic and algebra, the source of his rules for zero |
 | Scholar | [Carbon dating finds Bakhshali manuscript contains oldest recorded origins of the symbol 'zero'](https://www.glam.ox.ac.uk/node/218481) | University of Oxford, Gardens, Libraries and Museums, 14 September 2017 | The original announcement that started the dispute |
+
+**Added with the topic page** (each opened before it was listed)
+
+| Level | Link | Source | Why |
+|---|---|---|---|
+| Deeper | [1/0 = 0](https://hillelwayne.com/post/divide-by-zero/) | Hillel Wayne (10 August 2018; disclaimer added 2024) | Lean and Isabelle define 1/0 = 0, and Coq too; why this is consistent with the field axioms |
 
 **Gaps:** YouTube watch pages could not be opened in this environment, so no YouTube video is listed. The Gresham page embeds its video, but the video itself was not checked. Oxford's research news page on the same announcement was blocked to the fetcher (robots.txt). The Internet Archive page for Colebrooke's 1817 translation does not list its contents, so the chapter numbers of Brahmagupta's zero rules are not given here. No Sanskrit edition of the *Brahmasphutasiddhanta* was found. The *Scientific American* piece shows no date or full author names, and its 685 CE for Sambor conflicts with Swetz's later 682–683 CE. The Oxford page also mentions a paper due "in 2024", which does not fit a 2017 release; this was not resolved. The Mathematical Treasure: Indian Zeros page names no author.
 

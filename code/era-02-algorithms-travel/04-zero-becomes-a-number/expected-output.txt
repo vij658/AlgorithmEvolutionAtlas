@@ -1,0 +1,19 @@
+base10 no mark: of 999999 numbers, 468558 share their written form with another ; largest group 20 (written "1 1 1")
+base60 no mark: of 215999 numbers (three sexagesimal places), 10620 share their written form ; largest group 3
+base60 medial mark: with a placeholder never written at the end, 7139 still share ; largest group 3
+gwalior 933: without a zero it is written "933" ; below 100000 that also means 9 other numbers, starting 9033, 9303, 9330, 90033, 90303
+gwalior 187: without a zero it is written "187" ; below 100000 that also means 9 other numbers, starting 1087, 1807, 1870, 10087, 10807
+gwalior 270: without a zero it is written "27" ; below 100000 that also means 9 other numbers, starting 27, 207, 2007, 2070, 2700
+gwalior 50: without a zero it is written "5" ; below 100000 that also means 4 other numbers, starting 5, 500, 5000, 50000
+brahmagupta: 14641 pairs from -60 to 60 ; addition, subtraction and multiplication agree with modern integers on all 14641 ; division on all 14520 with a non-zero divisor ; 0/0 gives 0 ; 7/0 gives the fraction 7/0
+rule a debt minus zero: a debt of 5
+rule a fortune minus zero: a fortune of 5
+rule zero minus zero: zero
+rule zero minus a debt: a fortune of 5
+rule zero minus a fortune: a debt of 5
+rule zero times a debt: zero
+rule a debt times a debt: a fortune of 15
+rule a debt times a fortune: a debt of 15
+java: 7 / 0 (int) -> ArithmeticException: / by zero ; 7.0 / 0.0 -> Infinity ; -7.0 / 0.0 -> -Infinity ; 0.0 / 0.0 -> NaN ; 0.0 == -0.0 is true ; 1 / -0.0 -> -Infinity ; NaN == NaN is false
+convention: 47 fractions, x/0 = 0 ; (a/b)/c = a/(bc), (a+b)/c = a/c + b/c and a/b + c/b = (a+c)/b hold in all 103823 cases ; (a/b) x b = a holds in 2163 of 2209 pairs, failing only when b = 0 and a is not 0
+ZeroAsANumber: 133043 checks passed

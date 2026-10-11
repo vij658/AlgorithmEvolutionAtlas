@@ -137,7 +137,7 @@ No video could be verified (see **Gaps**).
 ## 3. Markov chains
 
 **When / where:** Andrei Markov, St Petersburg. His first paper on dependent trials was written in 1906 (Kazan journal, printed 1907); papers on chains followed in the Academy's *Bulletin* (1911); on 23 January 1913 he presented to the Imperial Academy of Sciences his count of vowels and consonants in the first 20,000 letters of Pushkin's *Eugene Onegin*.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`MarkovChains.java`](../../code/era-04-what-can-be-computed/03-markov-chains/) · **Page:** [topic 3](03-markov-chains/README.md)
 
 > **Field note.** For two centuries the law of large numbers, that averages settle down over many trials, had been proved only for trials that do not influence each other: coins, dice, independent draws. Another mathematician, Nekrasov, claimed that independence was needed, and drew conclusions about free will from it. Markov, who called this an abuse of mathematics, built the counter-example: a sequence where each step depends on the one before, and whose averages still settle. Then, to show such sequences exist outside mathematics, he counted the letters of a poem. After a vowel, a vowel came only about one time in eight; after a consonant, about two times in three. The letters were not independent, and their averages settled anyway.
 

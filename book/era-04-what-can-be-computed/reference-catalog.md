@@ -286,7 +286,7 @@ No video could be verified (see **Gaps**).
 ## 6. Church's lambda calculus
 
 **When / where:** Alonzo Church and his students Stephen Kleene and J. Barkley Rosser, Princeton, early 1930s. Church presented "An Unsolvable Problem of Elementary Number Theory" to the American Mathematical Society on 19 April 1935 (*American Journal of Mathematics* 58, 345–363, April 1936); "A Note on the Entscheidungsproblem" followed in the first volume of *The Journal of Symbolic Logic* (1936).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`LambdaCalculus.java`](../../code/era-04-what-can-be-computed/06-lambda-calculus/) · **Page:** [topic 6](06-lambda-calculus/README.md)
 
 > **Field note.** Church set out to rebuild logic on a single operation: apply a function to an argument. A function is written λx. followed by what it does with x, and the only rule of computation is substitution: (λx.M) applied to N becomes M with N put in place of x. His logic turned out to be inconsistent, but the part about functions survived, and it was startlingly strong. Numbers can be written as functions (the number 3 is "apply f three times"), and so can addition, multiplication and every calculation his students tried. Church proposed that "effectively calculable" should simply mean "definable in this way", and then proved that one question about it, whether a formula ever finishes simplifying, has no effective answer. Every functional programming language I have read descends from this.
 

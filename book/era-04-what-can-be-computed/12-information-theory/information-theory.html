@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shannon&#x27;s Bits</title>
+<meta name="description" content="Era 4, topic 12 of The Algorithm Evolution Atlas: Shannon&#x27;s switching algebra (1937) and his mathematical theory of communication (1948): bits, entropy and codes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.sh-board select{font:inherit;font-size:13.5px}
+.sh-lamps{display:grid;gap:6px;font-size:13.5px;margin:8px 0}
+.sh-lamps .lamp{display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid var(--ink-2);vertical-align:-2px;margin-right:6px}
+.sh-lamps .lamp.on{background:var(--yellow);border-color:var(--yellow)}
+.sh-text{font:14px var(--mono);min-height:4.5em;padding:10px;border:1px solid var(--axis);background:var(--surface);overflow-wrap:anywhere}
+.sh-steps{margin:6px 0 10px;padding-left:1.4em;font-size:13.5px;display:grid;gap:5px}
+.sh-steps .m{font-family:var(--mono);font-size:12.5px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 4: What Can Be Computed</a><a href="../11-simplex-method/simplex-method.html">← The Simplex Method</a><a href="../13-hamming-codes/hamming-codes.html">Hamming&#x27;s Codes →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 4 · Topic 12 · 1937–1948</div>
+    <h1>Shannon&#x27;s Bits</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">In 1937 Shannon showed that relay circuits obey Boole's algebra, so circuits can be designed and simplified on paper. In 1948 he measured information itself, in bits, and found the limits of compression and of communication over noise.</p>
+  <p class="fieldnote">Field note from the visiting historian. I fed the statistics of this book's own field notes to a machine and asked it to write. With letter pairs it wrote nonsense; with word pairs it wrote "i recorded era topic dug out a polynomial at all keep this one could". Each letter of mine carries about 4.090 bits; given its neighbours, much less. The rest is what lets you read me through noise.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Thesis 1937 (printed 1938); paper 1948</dd></div><div><dt>Where</dt><dd>MIT; Bell Telephone Laboratories</dd></div><div><dt>What hurt</dt><dd>Circuits by trial and error; no measure of information</dd></div><div><dt>The fix</dt><dd>Switching algebra; entropy in bits</dd></div><div><dt>Measure</dt><dd>4.090 bits per letter here, 2.441 with context</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Boole's algebra of 0 and 1 (Era 3, topic 12) had been pure logic for eighty years; telephone exchanges were full of relays, switches that are either open or closed. In 1937 Shannon put the two together. In 1948, working for the telephone company, he asked what a message is worth, and measured it with Markov's statistics (topic 3). Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How Shannon&#x27;s work combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="426.5,170.0 417.7,171.9 419.2,164.7" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,170.0 496.3,161.8 503.7,161.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="573.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,170.0 580.8,164.7 582.3,171.9" style="fill:var(--ink-2)"/><line x1="416.0" y1="256.0" x2="167.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="167.0,330.0 173.8,324.1 175.9,331.2" style="fill:var(--ink-2)"/><line x1="500.0" y1="256.0" x2="500.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,330.0 496.3,321.8 503.7,321.8" style="fill:var(--ink-2)"/><line x1="584.0" y1="256.0" x2="833.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="833.0,330.0 824.1,331.2 826.2,324.1" style="fill:var(--ink-2)"/><line x1="500.0" y1="416.0" x2="500.0" y2="480.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,480.0 496.3,471.8 503.7,471.8" style="fill:var(--ink-2)"/><line x1="833.0" y1="416.0" x2="605.0" y2="523.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="605.0,523.0 610.9,516.2 614.0,522.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Boole&#x27;s algebra</text><text x="32.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">logic with 0 and 1</text><text x="32.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 3 topic 12</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Relay exchanges</text><text x="407.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">telephone switching</text><text x="407.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">early 20th century</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Markov chains</text><text x="782.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">letters depend on letters</text><text x="782.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 3</text><rect x="395" y="170" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="193.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Shannon</text><text x="407.0" y="210.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ circuits as algebra;</text><text x="407.0" y="227.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">information in bits</text><text x="407.0" y="243.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1937, 1948</text><rect x="20" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="353.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Logic design</text><text x="32.0" y="370.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">computers built from</text><text x="32.0" y="387.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">switching algebra</text><text x="32.0" y="403.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1940s on</text><rect x="395" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Compression</text><text x="407.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">codes near the entropy</text><text x="407.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Shannon&#x27;s code, 1948</text><rect x="770" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Error-correcting codes</text><text x="782.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">redundancy put to work</text><text x="782.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 13</text><rect x="395" y="480" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="511.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Communication today</text><text x="407.0" y="529.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">every file, every signal</text><text x="407.0" y="545.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">today</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Shannon&#x27;s 1948 paper names its sources as &quot;discrete Markoff processes&quot;; relays were the switches of the telephone network he worked for.</text></svg></div><figcaption>Red: Shannon's thesis (1937) and paper (1948). Blue: where they led.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">Switches, and imitation English</h2>
+<p class="col">Flip the switches: the eight-contact and five-contact networks always light together, because they are the same Boolean formula. Then generate imitation text from the statistics of this book's own field notes, as Shannon did from English: random letters, then letter frequencies, pairs, triples, and words. Watch the bits per letter fall as the statistics use more context.</p>
+
+<div class="board sh-board">
+  <div style="min-width:0">
+    <div class="eyebrow">Switches</div>
+    <div class="controls" id="sh-sw"></div>
+    <div class="sh-lamps" id="sh-lamps"></div>
+    <div class="eyebrow" style="margin-top:14px">Imitation text</div>
+    <div class="controls"><label for="sh-k">Statistics <select id="sh-k">
+      <option value="-1">none (random letters)</option><option value="0">letter frequencies</option><option value="1">letter pairs</option>
+      <option value="2" selected>letter triples</option><option value="3">four letters</option><option value="w1">word frequencies</option><option value="w2">word pairs</option></select></label>
+      <button class="primary" id="sh-go">Generate</button></div>
+  </div>
+  <div style="min-width:0">
+    <p class="sh-text" id="sh-text" aria-live="polite"></p>
+    <ol class="sh-steps" id="sh-steps"></ol>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 4, what can be computed</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 4: What Can Be Computed, from 1895 to 1950" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1900–1928</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Hilbert&#x27;s questions</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1895–1901</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Runge and Kutta</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1906–1913</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Markov&#x27;s chains</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1926–1930</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Borůvka and</text><text x="428.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Jarník</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1931</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Gödel&#x27;s numbering</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1936</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Church&#x27;s</text><text x="671.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">λ-calculus</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1936</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Turing&#x27;s machines</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1932–1940</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Breaking Enigma</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1945–1948</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">The stored</text><text x="1036.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">program</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1946–1949</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Monte Carlo</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1947</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Dantzig&#x27;s simplex</text><circle cx="1400.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1937–1948</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Shannon&#x27;s bits</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1950</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Hamming&#x27;s codes</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 558" role="img" aria-label="Each fix leaves a new pain: from relays to the measure of information" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="396.0" x2="750.0" y2="446.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,446.0 746.3,437.8 753.7,437.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="492.0" x2="400.0" y2="492.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,492.0 408.2,488.3 408.2,495.7" style="fill:var(--ink-2)"/><rect x="449.2" y="471.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="484.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="61.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Relay circuits designed by trial and error</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Boole&#x27;s algebra for switches: 8 contacts become 5</text><text x="572.0" y="86.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Shannon, 1937</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="203.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">What is information, and how much does a message carry?</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Count it in bits: H = −Σ p log₂ p; this book&#x27;s letters</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">carry 4.090</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Shannon, 1948</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Letters depend on their neighbours, so frequencies</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">overstate the information</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Condition on context: 3.319 bits given one letter, 2.441</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">given two</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Markov sources</text><rect x="560" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="487.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="503.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Noise corrupts the bits on the way</text><rect x="20" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="471.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="487.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Below the channel&#x27;s capacity, errors can be made as</text><text x="32.0" y="503.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">rare as you like</text><text x="32.0" y="520.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Shannon, 1948; topic 13</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Contacts as variables, messages as surprise</h2>
+<p class="col"><strong>Switching algebra (1937).</strong> A contact is a variable: x when it closes as the switch turns on, x' when it closes as the switch turns off. Contacts in series conduct only if all do (x·y); in parallel if any does (x + y). The network x y + x y' z + x' y z needs 8 contacts; Boole's algebra rewrites it as x y + z (x + y), with 5, and the program checks that the two conduct for the same settings, all 8 of them. It is the carry of a binary adder: on whenever at least two inputs are.</p>
+<p class="col"><strong>Entropy (1948).</strong> A source that emits symbol i with probability pᵢ carries H = −Σ pᵢ log₂ pᵢ bits per symbol on average. The program measures a sample of this book's own text, 17,744 letters and spaces from the field notes of Eras 1 to 3:</p>
+<div class="tbl"><table><thead><tr><th class="">What the next letter is predicted from</th><th class="n">Bits per letter</th></tr></thead><tbody><tr class=""><td class="">nothing: 27 equally likely symbols, log₂ 27</td><td class="n">4.755</td></tr><tr class=""><td class="">letter frequencies</td><td class="n">4.090</td></tr><tr class=""><td class="">the letter before</td><td class="n">3.319</td></tr><tr class="hl"><td class="">the two letters before</td><td class="n">2.441</td></tr></tbody></table></div>
+<p class="col">The last figure is too low for real English: in a sample of only 17,744 letters, many three-letter strings occur once, so they look more predictable than they are. Shannon, judging English over about eight letters, put its redundancy at roughly 50 per cent; this small sample gives 49% at three letters, a coincidence rather than a confirmation.</p>
+<p class="col"><strong>Imitations</strong>, generated by the program from the same sample, in the manner of Shannon's series:</p>
+<div class="tbl"><table><thead><tr><th class="">Statistics used</th><th class="">Generated text</th></tr></thead><tbody><tr class=""><td class="">random letters</td><td class=""><code>CHKQP AIUBSPXDUXTUJTYSRFNBEQYXRPWLTSUBG SUSEXGVMTYPZMNOFNRSJNBCCVAVTMGHO</code></td></tr><tr class=""><td class="">letter frequencies</td><td class=""><code>HEOA DAIO Y NETANS DHAENVFT TSTEIIIOIOWTU ECIG O  RILOROA NTRSFIRA  ES O</code></td></tr><tr class=""><td class="">letter pairs</td><td class=""><code>INOWALDE F NYNOUTELSINDOUNK TWE WIGIT FIVA AROWE NT N WIOMUMERUL AVEANID</code></td></tr><tr class=""><td class="">letter triples</td><td class=""><code>I HAT LEARN ALING IN A ROT IT IND TOR THE ROTEN HE CAMENT SE IT FOR DOUT</code></td></tr><tr class=""><td class="">word frequencies</td><td class=""><code>IT SO REASONED IN THE ONE NINE A A ANOTHER THE NEGATIVE WHICH A</code></td></tr><tr class=""><td class="">word pairs</td><td class=""><code>I RECORDED ERA TOPIC DUG OUT A POLYNOMIAL AT ALL KEEP THIS ONE COULD</code></td></tr></tbody></table></div>
+<p class="col"><strong>Coding.</strong> Give each letter a codeword of about −log₂ p bits: Shannon's code takes the first ⌈−log₂ p⌉ binary digits of the running total of the probabilities. Space gets 000, E 0010, T 0100, and Z 11111111101. No codeword begins another, so a string of bits can be read back without separators, and the average length, 4.683 bits, lies between H = 4.090 and H + 1, as Shannon proved it must. The whole sample takes 83,090 bits instead of 88,720 at five bits a letter.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>Information is surprise. A source's entropy, in bits per symbol, is the least any code can average; context lowers it; and the gap between the entropy and the bits actually sent is redundancy, which can be removed to compress or added to protect against noise.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">The commonest letters</h2>
+<div class="tbl"><table><thead><tr><th class="">Symbol</th><th class="n">Share of the sample</th></tr></thead><tbody><tr class=""><td class="">space</td><td class="n">0.184</td></tr><tr class=""><td class="">E</td><td class="n">0.101</td></tr><tr class=""><td class="">T</td><td class="n">0.077</td></tr><tr class=""><td class="">A</td><td class="n">0.070</td></tr><tr class=""><td class="">N</td><td class="n">0.060</td></tr><tr class=""><td class="">O</td><td class="n">0.059</td></tr><tr class=""><td class="">I</td><td class="n">0.057</td></tr><tr class=""><td class="">S</td><td class="n">0.055</td></tr></tbody></table></div>
+<p class="col">The sample has 3,260 words, 980 of them different. Space is the commonest symbol, then E and T.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">A thesis and a paper</h2>
+<p class="col">The thesis was written at MIT in 1937 and published in the <em>Transactions of the American Institute of Electrical Engineers</em> in 1938; Howard Gardner called it "possibly the most important, and also the most famous, master's thesis of the century" (Wikipedia). MIT's catalogue dates it 1940, the year of the degree (DSpace@MIT), and MacTutor gives the MIT master's and PhD both as 1940.</p>
+<p class="col">"A Mathematical Theory of Communication" appeared in the <em>Bell System Technical Journal</em> in July and October 1948 and was reissued as a book with Warren Weaver in 1949 (Wikipedia). In it, units of base 2 "may be called binary digits, or more briefly bits, a word suggested by J. W. Tukey"; Theorem 2 gives H = −K Σ pᵢ log pᵢ, "the entropy of the set of probabilities"; the sources of English text "are known mathematically as discrete Markoff processes"; and below the capacity a noisy channel can carry messages with as few errors as desired (Theorems 11 and 12).</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Every file, every signal</h2>
+<p class="col">Every compressed file is a code that tries to get close to its source's entropy, and every phone call and download is protected by redundancy added on purpose, the subject of Hamming's codes (topic 13). Computers themselves are built from switching algebra: millions of transistors arranged by the rules of the 1937 thesis.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>Five bits a letter would be enough for 32 symbols; this book's letters carry 4.090 bits each on their own, and 2.441 given their neighbours. Everything between is redundancy, which is why a text can still be read with letters missing.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Two switches in series light a lamp when? In parallel?</span></summary><div class="ans"><p>In series, only when both are on (x·y); in parallel, when either is (x + y).</p></div></details><details class="try"><summary><span class="q">2</span><span>How many bits does a fair coin toss carry? A coin that lands heads 90% of the time?</span></summary><div class="ans"><p>1 bit; −0.9 log₂ 0.9 − 0.1 log₂ 0.1 ≈ 0.469 bits: a predictable outcome tells you less.</p></div></details><details class="try"><summary><span class="q">3</span><span>Why can no code average fewer bits than the entropy?</span></summary><div class="ans"><p>That is Shannon's theorem: the entropy is the average surprise, and a code that beats it would let you predict the source better than its own probabilities allow.</p></div></details><details class="try"><summary><span class="q">4</span><span>Why must the codewords be prefix-free?</span></summary><div class="ans"><p>So that a string of bits can be split back into codewords without separators: no codeword may be the start of another.</p></div></details><details class="try"><summary><span class="q">5</span><span>Why does the entropy fall when the previous letter is known?</span></summary><div class="ans"><p>Some pairs are common (TH) and many are rare (QZ): knowing the last letter narrows the choice of the next.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 120" role="img" aria-label="Drawn placeholder of an open printed book" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><path d="M100,20 C80,12 40,12 20,18 V108 C40,102 80,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><path d="M100,20 C120,12 160,12 180,18 V108 C160,102 120,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="32.0" y1="32.0" x2="88.0" y2="32.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="41.0" x2="88.0" y2="41.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="50.0" x2="88.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="59.0" x2="88.0" y2="59.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="68.0" x2="88.0" y2="68.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="77.0" x2="88.0" y2="77.0" style="stroke:var(--axis);stroke-width:2"/><circle cx="140.0" cy="60.0" r="24.0" style="fill:none;stroke:var(--red);stroke-width:2"/><path d="M116,60 L164,60 M140,36 L140,84" style="fill:none;stroke:var(--blue);stroke-width:2"/></svg></div><figcaption class="txt"><b>A Mathematical Theory of Communication (1948)</b><span>The paper, with bits, entropy, the imitations of English and channel capacity.</span><a href="https://people.csail.mit.edu/dmoshkov/courses/codes/shannon1948.pdf">MIT course page</a><span class="lic">Drawn placeholder.</span></figcaption></figure><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>A symbolic analysis of relay and switching circuits</b><span>Shannon's master's thesis, catalogued at MIT.</span><a href="https://dspace.mit.edu/handle/1721.1/11173">DSpace@MIT</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Shannon/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Claude Elwood Shannon · MacTutor</span><span class="w">Shannon's life, the thesis and the 1948 paper</span></a><a href="https://en.wikipedia.org/wiki/A_Symbolic_Analysis_of_Relay_and_Switching_Circuits" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">A Symbolic Analysis of Relay and Switching Circuits · Wikipedia</span><span class="w">Boole's algebra put to work in telephone exchanges</span></a><a href="https://en.wikipedia.org/wiki/A_Mathematical_Theory_of_Communication" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">A Mathematical Theory of Communication · Wikipedia</span><span class="w">The paper, the book, and its reception</span></a><a href="https://spectrum.ieee.org/andrey-markov-and-claude-shannon-built-the-first-language-generation-models" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Andrey Markov &amp; Claude Shannon Counted Letters to Build the First Language-Generation Models · Oscar Schwartz, IEEE Spectrum (11 November 2019)</span><span class="w">How Shannon's imitations of English grew out of Markov's counts</span></a><a href="https://people.csail.mit.edu/dmoshkov/courses/codes/shannon1948.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">A Mathematical Theory of Communication · C. E. Shannon, <em>Bell System Technical Journal</em> 27 (1948), reprint on an MIT course page</span><span class="w">Bits, entropy, the approximations to English, and channel capacity</span></a><a href="https://dspace.mit.edu/handle/1721.1/11173" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">A symbolic analysis of relay and switching circuits · Claude Elwood Shannon, M.S. thesis, MIT Department of Electrical Engineering (catalogued 1940), DSpace@MIT</span><span class="w">The thesis, with a scan of the original</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-04-what-can-be-computed/reference-catalog.md">Era 4 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-04-what-can-be-computed/12-information-theory/InformationTheory.java">InformationTheory.java</a> makes <strong>723 checks</strong>: the two relay networks and the adder on every input, the letter entropy computed two ways and falling with context, the imitations, and Shannon's code (prefix-free, with average length between H and H + 1). Run it with <code>java InformationTheory.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** Entropy of the next letter given the previous k letters, from counts of (k+1)-letter strings. */</span>
+<span class="k-kw">static</span> <span class="k-kw">double</span> conditionalEntropy(String s, <span class="k-kw">int</span> k) {
+    Map&lt;String, Integer&gt; ctx = <span class="k-kw">new</span> HashMap&lt;&gt;(), full = <span class="k-kw">new</span> HashMap&lt;&gt;();
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = k; i &lt; s.length(); i++) {
+        ctx.merge(s.substring(i - k, i), <span class="k-n">1</span>, Integer::sum);
+        full.merge(s.substring(i - k, i + <span class="k-n">1</span>), <span class="k-n">1</span>, Integer::sum);
+    }
+    <span class="k-kw">double</span> total = s.length() - k, h = <span class="k-n">0</span>;
+    <span class="k-kw">for</span> (Map.Entry&lt;String, Integer&gt; e : full.entrySet()) {
+        <span class="k-kw">double</span> pJoint = e.getValue() / total, pCond = (<span class="k-kw">double</span>) e.getValue() / ctx.get(e.getKey().substring(<span class="k-n">0</span>, k));
+        h -= pJoint * log2(pCond);
+    }
+    <span class="k-kw">return</span> h;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>InformationTheory.java</code>.<br><span class="navfoot"><a href="../index.html">Era 4: What Can Be Computed</a><a href="../11-simplex-method/simplex-method.html">← The Simplex Method</a><a href="../13-hamming-codes/hamming-codes.html">Hamming&#x27;s Codes →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const textEl = document.getElementById("sh-text");
+  if (!textEl) return;
+  const RAW = "I came to catalog how this species learned to compute. Before they had writing, they cut notches in bone. By the time they built libraries, they had written down procedures that work for *any* number. Those procedures were their first algorithms. Each entry below records one new development. For each I set down the date as best it can be known, the problem that forced it, what changed, and where to watch, read and check the evidence yourself.\n\nBefore numbers, there is matching: one notch for each animal, each day, each debt. You need no idea of \"seventeen\" to keep this record; you only need to be able to make one mark per thing. It is the first data structure: an append-only log.\n\nFourteen strokes in a row cannot be read at a glance; ten strokes swapped for one new sign can. Once the signs exist, adding is pooling them, and whenever ten of one sign pile up you exchange them for one of the next. The exchange is the carry, and it is older than place value.\n\nHere the same wedge means one, sixty or three thousand six hundred, depending only on *where* it stands. Position does the work that new signs did before. With position comes a new trick: to divide, look up the reciprocal in a table and multiply. Division turns into a lookup, the first precomputed table I have found.\n\nA student drew a square and its diagonals, wrote 30 on a side and two numbers along the diagonal. The first is \u221a2 in base 60, 1;24,51,10, which is 1.41421296\u2026, correct to about six decimal places. No one measures that finely; it had to be computed. *How* it was computed is still argued over, 3,800 years later.\n\nThese scribes had no times table. To multiply 41 by 59 they doubled 59 again and again (59, 118, 236, 472, 944, 1888) and added the rows whose multipliers make 41 = 32 + 8 + 1. They never named base 2, yet every multiplication split the multiplier into powers of two. Swap the addition for multiplication and you have the fast exponentiation that today's encryption runs on.\n\nOn these boards nobody writes a digit. Counters go in columns; adding is pushing more counters on, then settling: any column holding a full group is cleared and one counter goes to the next column. The procedure lives in the hands. Their word *calculus* is Latin for a small pebble, and the English *Exchequer* takes its name from a counting table that looked like a chessboard.\n\nEarlier procedures computed a *value*. This one proves something about *any* two numbers and stops on its own. Take the smaller from the larger, again and again; when the two are equal, that is the greatest common measure. Later readers noticed that one division does many subtractions at once. It still runs, unchanged in spirit, inside every encryption library they use.\n\n\u03c0 cannot be written down exactly. Archimedes traps it instead. A polygon inside the circle is too short, a polygon outside is too long, and every doubling of the sides narrows the gap. After 6, 12, 24, 48 and 96 sides: 223/71 < \u03c0 < 22/7. He does not give *an* answer; he gives an answer with a guaranteed error bound.\n\nTesting each number for divisors repeats the same work again and again. The sieve turns the problem inside out: never ask \"is *n* prime?\" Instead, for each prime, cross out its multiples, and whatever survives is prime. It is the oldest algorithm I have found that trades memory (a whole table of numbers) for speed.\n\nIn the first era, procedures were invented in a few places and written on clay, papyrus and parchment. In this one they travel: from China and India to Baghdad, and from Baghdad to Pisa. Along the way they gain a sign for nothing, a name (\"algorithm\" comes from al-Khwarizmi), and the first infinite series.\n\nThe clerks here faced a knot: several unknown quantities tied together by several conditions, so no single condition gives any one unknown. They did not untie it with words. They laid it out. Each condition became a column of rods on the counting board. Then they multiplied one column by the head of another and subtracted, column against column, until the board was triangular and the last unknown fell out. Subtraction sometimes left less than nothing, so they gave such quantities rods of a different colour and rules of their own. My hosts later named this procedure after Gauss, who was born nearly two thousand years after it was written down.\n\nThe sky-watchers of Alexandria had a geometry problem they met a thousand times a night: given an angle at the centre of a circle, how long is the chord across it? Measuring every chord is impossible, so Ptolemy computed them, in a way I now recognise as an algorithm with a seed and a set of growth rules. The seed is a few chords known exactly from the triangle, square, pentagon, hexagon and decagon. The rules are halving an arc and taking sums and differences of two arcs. Between the entries, a third column tells the reader how much to add for each part of a step. With that, a 360-row table could be built by hand and used for centuries.\n\nA short puzzle in a Chinese primer turned out to hold a whole method. Count some things by threes and two are left; by fives, three; by sevens, two. How many things? Master Sun did not search. He kept three ready-made numbers, 70, 21 and 15. Each is a multiple of the other two divisors that leaves remainder 1 for its own. Multiply each remainder by its number, add, and cast out 105. Eight centuries later Qin Jiushao, who said he learned the rule from the calendar-makers, made it work for any divisors. He found the magic multipliers by a chain of divisions that my hosts would recognise as Euclid's algorithm run backwards.\n\nFor more than a thousand years the Babylonians wrote place-value numbers without any mark for an empty place, and readers guessed from context. When a placeholder finally came, it was a separator, not a number: nobody added it or multiplied by it. In India the mark became a number. In 628 Brahmagupta wrote down rules for zero next to rules for \"fortunes\" and \"debts\", which my hosts now call positive and negative numbers. Two centuries later a temple grant at Gwalior wrote 270 and 50 with a small round 0, in a form any modern child could read. His rule that zero divided by zero is zero was later rejected, and my hosts still give that case no value at all.\n\nThe task is to find whole numbers with x\u00b2 \u2212 Ny\u00b2 = 1. My sources write it Nx\u00b2 + 1 = y\u00b2, with the letters swapped. Guessing is hopeless: for N = 61 the smallest answer is x = 1,766,319,049. Brahmagupta noticed that two near-misses can be multiplied into a new near-miss, so a near-miss that is off by 1, 2 or 4 can be turned into an exact answer. Later Indian mathematicians closed the loop. Choose a multiplier that keeps the error small, compose, divide out, and repeat. The cycle always ends, though Bhaskara II probably could not prove it: the proof came six centuries later, in Europe. Europeans met the same equation five hundred years after Bhaskara and named it after John Pell, by what their own historians call a mix-up.\n\nIn Baghdad I found the man whose name became the word for what I study. Two of his books matter. One teaches the Indian way of writing numbers: nine figures and a sign for an empty place, then rules for each operation, fractions and square roots, carried out step by step in writing. Latin copyists turned his name into \"algorism\", and later writers into \"algorithm\". The other book sorts every linear and quadratic problem into six standard forms and gives a fixed recipe for each. For the hardest forms the recipe is a picture of a square being completed. It has no symbols, only words, and still it is a procedure that works for any numbers. His own species disagrees about whether he was original. Nobody disputes that he was copied.\n\nA substitution cipher hides each letter behind another sign, but it cannot hide how often each sign appears. A philosopher in Baghdad wrote the trick down. Take a long plain text in the same language, count its letters and rank them. Count the signs in the secret text and rank them too. Then pair the two lists. When a message is too short for the counts to settle, he says, look instead at which letters like to stand next to each other. This is the first procedure in my catalog that needs facts about a whole language, gathered in advance, as well as the message itself. The treatise came back to light in an Istanbul archive only in the late twentieth century, and its rediscovery has two different dates.\n\nIn Pisa the merchants still wrote amounts in Roman numerals, which are fine for recording a sum and miserable for working one out. The son of a customs official, who had learned the Indian figures in North Africa, wrote them a manual in fifteen chapters. It begins with nine figures and a zero. Then come written rules for multiplying, adding, subtracting and dividing, then fractions, then problem after problem on prices, barter, partnerships and money changing. In chapter 12, almost in passing, there is a puzzle about rabbits whose answer, 1, 2, 3, 5, 8, \u2026, my hosts now name after him. Sanskrit writers had met that sequence centuries earlier. His real export was the written algorithm itself, put into the hands of people who did sums for a living.\n\nThis official wrote his mathematics while in mourning, and he put two procedures on the counting board that the West would find again centuries later. The first finds a root of an equation of any degree one digit at a time. Each new digit shifts the whole polynomial, so the next digit is found the same way as the last, and no power is ever computed directly. The second, the Da Yan rule, \"searches for unity\": it finds the multiplier that leaves remainder 1, and with it a number that fits any set of remainders. Calendar makers had used the rule for centuries. Qin is the first I can find who wrote it out in full.\n\nArchimedes' polygons cost a new square root for every doubling. In Kerala I found something new: a sum that never ends. One minus a third, plus a fifth, minus a seventh, and so on, gives a quarter of the circumference over the diameter. By itself this sum is hopeless, because a million terms buy only a few digits. So the Kerala astronomers stopped after a few terms and added one correction that estimates everything they left out. That correction is the clever part. It is the first time I have seen anyone compute with an infinite process and then deal honestly with the part they did not compute.\n\nThis calculator did something I had not seen before: he set the error he would accept *before* he began. Take a circle 600,000 times as wide as the Earth. Its computed circumference must be off by no more than the width of a horse's hair. From that target he worked out how far to go: start from a hexagon and keep doubling the sides until the polygon has 3\u00b72^28 = 805,306,368 of them (27 doublings). He did every step in base 60, on a circle of radius 60, and gave the answer in both sexagesimal and decimal fractions. Archimedes' method was already some 1,700 years old. What was new was the accounting: a precision fixed before he started, and a computation planned to meet it.\n\nIn the second era, procedures travelled. In this one they are made to run without a thinking person: printed as tables so that nobody has to compute, built into wheels so that nobody has to carry, turned into rules that correct themselves, and at last written as instructions for a machine. Along the way, logic becomes arithmetic and arithmetic becomes binary.\n\nFor three thousand years the people I have followed solved equations of the second degree by a recipe. In Italy the third degree fell, in secret, in a contest, and in a quarrel over a broken oath. The recipe that came out of it worked, but it had a trap: for some cubics with three perfectly ordinary answers, the recipe insisted on taking the square root of a negative number. Rather than throw the recipe away, Bombelli wrote rules for these impossible quantities and calculated straight through them to the real answer.\n\nAstronomers and navigators of this time spend their nights multiplying long numbers. A Scottish laird spent twenty years on a cure: a table in which every number has a partner, chosen so that adding the partners does the work of multiplying the numbers. A London professor rode for days to meet him, and between them they settled the form that every pocket calculator used until the 1970s. The partners themselves were found by a brutal routine: take the square root of ten, fifty-four times in a row, each time to thirty decimals.\n\nOn the counting boards of the first era (topic 6), the carry was a decision: ten counters become one in the next column, and a person had to notice. In this century three men put the carry into brass. Schickard's machine burned. Pascal's dropped a small weighted lever from one wheel to the next, so a carry could ripple through every column without straining the gears. Leibniz built a drum with nine teeth of different lengths, so that one turn of a crank added a whole number, and a sliding carriage made multiplication into repeated addition.\n\nTwo gamblers stop a game halfway. How should the money be split? Merchants' arithmetic books had offered answers for a century and a half, and they disagreed. In one summer of letters, two Frenchmen settled it, by two different routes. Fermat listed every way the game could have finished and counted. Pascal reasoned one round at a time from the end, filling in a table of fair shares from the finished games back to the stopped one. It is the first time I have seen a hard question answered by building a table of easier answers.\n\nQin Jiushao (Era 2, topic 9) dug out a root one digit at a time. Newton did something bolder: guess, then ask what small correction would make the guess right if the curve were a straight line. The correction is never exactly right, so do it again. With each round the number of correct digits roughly doubles. Newton wrote out a new polynomial at every step; Raphson saw that one could keep correcting the same equation; Simpson saw that the equation need not be a polynomial at all. The method carries Newton's name, though three people made it what it is.\n\nThe Egyptian scribes of the first era (topic 5) multiplied by doubling, and so, without saying it, wrote every number as a sum of powers of two. An Englishman wrote such numbers down with only two signs around 1604 and left them in a drawer. Leibniz, eighty years later, made the system public and said plainly that he was not recommending it for ordinary use. What he saw instead was that its arithmetic needs no memorised tables at all: every rule is \"one and one make ten\". That is exactly what a machine can do.\n\nSeven bridges joined the islands and banks of a Prussian city, and its citizens asked whether a walk could cross each exactly once. Listing every route is hopeless. Euler threw away everything but which land touches which bridge, and counted: every time a walker enters a piece of land he must leave it, so the bridges at each piece pair up, except at the start and the end. Four pieces of land had an odd number of bridges, so no walk exists. He called the question \"so banal\". It is the first time I have seen a problem solved by deciding what to ignore.\n\nAstronomers have more measurements than unknowns, and the measurements disagree. Which answer is right? None of them, exactly. A French geometer said: choose the answer that makes the sum of the squared errors as small as possible, because then the errors balance one another and no single bad measurement takes over. The arithmetic is old (the elimination of Era 2, topic 1); the new thing is a rule for what counts as best. A young German had already used it, he said, to find a planet that everyone else had lost.\n\nAn asteroid goes round and round, so its position is a periodic curve, and Gauss wanted the sines and cosines that fit twelve observations of Pallas. Done directly, every coefficient needs every observation: twelve times twelve products. Gauss noticed that twelve is three times four. Fit the four observations in each of three groups first, then combine the three small fits. The work shrinks, and for long series it shrinks enormously. He left it in Latin among his papers, where it waited for the electronic computer to make it indispensable.\n\nSince Briggs (topic 2), the world has run on printed tables, and the tables are full of mistakes: wrong digits computed, right digits set wrongly in type. An English mathematician noticed that a polynomial's values can be produced with no multiplication at all. Keep its differences in a column, and every new value is a chain of additions. Additions are what wheels do well. So he designed a machine of columns that adds and, at the end, sets the answer straight into type, so that no human hand ever copies a number.\n\nBabbage's second machine (designed in the 1830s, never built) was different in kind: a store of numbered columns, a mill that does arithmetic, and a train of punched cards, borrowed from the Jacquard loom, that says which operation to do on which columns. A translator's notes, longer than the paper they annotate, worked out what such a machine could do: repeat a group of cards (a loop), act on symbols as well as numbers, perhaps compose music. To show it, she laid out every step of a calculation of a Bernoulli number. One step has its division the wrong way round. It is still the first such plan I have found in print.\n\nSince Aristotle, logic had been a list of valid argument forms, learned by heart. A self-taught teacher wrote logic as algebra: letters for classes of things, multiplication for \"and\", and one law that ordinary numbers do not obey, x times x equals x. Only two numbers satisfy it, nothing and everything, 0 and 1. Reasoning became calculation, done by rules a clerk could follow. Eighty years later a student noticed that a switch, too, is either open or closed, and the algebra of thought became the algebra of circuits.\n\nThe young republic counts its people every ten years, and the counting now takes nearly as long as the interval. Clerks made a tally mark in a small square for every person with every property, then counted the marks. An engineer put each person on a card, as holes. A press brings pins down on the card; where there is a hole, a pin dips into a cup of mercury, closes a circuit, and a dial moves on by one. The same cards can be counted again and again for new questions, and sorted into drawers by what is punched on them. Tally marks, the very first algorithm I recorded (Era 1, topic 1), have become electrical.\n", PROG = ["4.090", "3.319", "2.441"];
+  const S = RAW.toUpperCase().replace(/[^A-Z]+/g, " ").trim(), WORDS = S.split(" ");
+  let seed = 1948;
+  const rnd = () => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296; };
+  const sw = {x: false, y: true, z: true};
+  const box = document.getElementById("sh-sw");
+  ["x", "y", "z"].forEach(k => { const b = el("button", {type: "button"}, box, k + ": " + (sw[k] ? "on" : "off")); b.addEventListener("click", () => { sw[k] = !sw[k]; b.textContent = k + ": " + (sw[k] ? "on" : "off"); lamps(); }); });
+  function lamps() {
+    const {x, y, z} = sw;
+    const n8 = (x && y) || (x && !y && z) || (!x && y && z), n5 = (x && y) || (z && (x || y));
+    const L = document.getElementById("sh-lamps"); L.innerHTML = "";
+    el("div", {}, L).innerHTML = `<span class="lamp ${n8 ? "on" : ""}"></span>x y + x y' z + x' y z (8 contacts)`;
+    el("div", {}, L).innerHTML = `<span class="lamp ${n5 ? "on" : ""}"></span>x y + z (x + y) (5 contacts)`;
+    el("div", {}, L).innerHTML = `<span class="lamp ${x !== y ? "on" : ""}"></span>x y' + x' y (the two-way switch: x and y only)`;
+  }
+  function entropy(k) {                     // entropy of the next letter given k letters before, as in the program
+    const ctx = new Map(), full = new Map();
+    for (let i = k; i < S.length; i++) { const c = S.slice(i - k, i), f = S.slice(i - k, i + 1); ctx.set(c, (ctx.get(c) || 0) + 1); full.set(f, (full.get(f) || 0) + 1); }
+    const total = S.length - k; let h = 0;
+    for (const [f, n] of full) h -= (n / total) * Math.log2(n / ctx.get(f.slice(0, k)));
+    return h;
+  }
+  function draw(m) { let t = 0; for (const v of m.values()) t += v; let r = rnd() * t; for (const [k, v] of m) { r -= v; if (r < 0) return k; } return [...m.keys()].pop(); }
+  function gen() {
+    const k = document.getElementById("sh-k").value;
+    let out = "";
+    if (k === "-1") { const A = " ABCDEFGHIJKLMNOPQRSTUVWXYZ"; for (let i = 0; i < 160; i++) out += A[Math.floor(rnd() * 27)]; }
+    else if (k[0] === "w") {
+      const next = new Map(); const counts = new Map();
+      WORDS.forEach((w, i) => { counts.set(w, (counts.get(w) || 0) + 1); if (i) { const p = WORDS[i - 1]; if (!next.has(p)) next.set(p, new Map()); next.get(p).set(w, (next.get(p).get(w) || 0) + 1); } });
+      let w = WORDS[Math.floor(rnd() * WORDS.length)]; const list = [w];
+      for (let i = 1; i < 28; i++) { w = k === "w1" ? draw(counts) : (next.has(w) ? draw(next.get(w)) : WORDS[0]); list.push(w); }
+      out = list.join(" ");
+    } else {
+      const n = +k, next = new Map();
+      for (let i = n; i < S.length; i++) { const c = S.slice(i - n, i); if (!next.has(c)) next.set(c, new Map()); const m = next.get(c); m.set(S[i], (m.get(S[i]) || 0) + 1); }
+      const st = Math.floor(rnd() * (S.length - n)); out = S.slice(st, st + n);
+      while (out.length < 160) { const c = n ? out.slice(-n) : ""; const m = next.get(c); if (!m) { out += " "; continue; } out += draw(m); }
+    }
+    textEl.textContent = out;
+    const ol = document.getElementById("sh-steps"); ol.innerHTML = "";
+    const li = h => { el("li", {}, ol).innerHTML = h; };
+    li(`the sample: ${fmt(S.length)} letters and spaces from this book's field notes`);
+    if (k[0] !== "w") {
+      const n = +k;
+      const h = n < 0 ? Math.log2(27) : entropy(n);
+      li(`entropy of the next letter ${n < 0 ? "with no statistics" : n === 0 ? "from letter frequencies" : "given " + n + " letter" + (n > 1 ? "s" : "") + " before"}: <span class="m">${h.toFixed(3)}</span> bits` +
+         (n >= 0 && n <= 2 ? ` (the program: ${PROG[n]})` : ""));
+    }
+    li("the more context the statistics use, the more the imitation looks like the text, and the fewer bits each letter carries");
+  }
+  document.getElementById("sh-go").addEventListener("click", gen);
+  document.getElementById("sh-k").addEventListener("change", gen);
+  lamps(); gen();
+})();
+
+</script>
+</body>
+</html>

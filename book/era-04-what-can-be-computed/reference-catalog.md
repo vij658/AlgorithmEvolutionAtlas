@@ -541,7 +541,7 @@ No video could be verified (see **Gaps**).
 ## 12. Shannon: switches, bits and entropy
 
 **When / where:** Claude Shannon. At MIT in 1937 he wrote the master's thesis "A Symbolic Analysis of Relay and Switching Circuits" (published in the *Transactions of the American Institute of Electrical Engineers*, 1938; degree 1940). At Bell Telephone Laboratories he published "A Mathematical Theory of Communication" in the *Bell System Technical Journal* 27 (July and October 1948), reissued in 1949 as a book with Warren Weaver.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`InformationTheory.java`](../../code/era-04-what-can-be-computed/12-information-theory/) · **Page:** [topic 12](12-information-theory/README.md)
 
 > **Field note.** Boole's algebra of logic (Era 3) waited more than eighty years for a use. A student noticed that a telephone exchange's relays are Boole's variables: two switches in series conduct when both are closed (and), in parallel when either is (or). Circuit design became algebra, and algebra can simplify a circuit before anyone builds it. Eleven years later the same man asked what a message is. Not its meaning: its surprise. He measured it in binary digits, "bits", proved that a source's average surprise (its entropy) is the least number of bits per symbol any code can achieve, and showed that a noisy line can carry messages almost without error at any rate below its capacity. To make English concrete he generated imitations of it from Markov's letter statistics (topic 3). Every message I have intercepted on this planet since is coded by his rules.
 

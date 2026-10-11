@@ -1,0 +1,10 @@
+relays: x y + x y' z + x' y z needs 8 contacts ; Boole's algebra rewrites it as x y + z (x + y), 5 contacts, the same on all 8 inputs ; the two-way light switch x y' + x' y changes the lamp at every flip of either switch ; the 5-contact network is the carry of a binary adder, on all 8 inputs
+text: 17744 characters of this book's field notes (letters and spaces), 3260 words, 980 different words ; commonest: space 0.184 E 0.101 T 0.077 A 0.070 N 0.060 O 0.059 I 0.057 S 0.055 ; entropy per letter with no statistics log2 27 = 4.755 bits, with letter frequencies 4.090, given one letter before 3.319, given two 2.441 ; redundancy by the last estimate 49%
+imitation: 0 (random letters): CHKQP AIUBSPXDUXTUJTYSRFNBEQYXRPWLTSUBG SUSEXGVMTYPZMNOFNRSJNBCCVAVTMGHO
+imitation: 1 (letter frequencies): HEOA DAIO Y NETANS DHAENVFT TSTEIIIOIOWTU ECIG O  RILOROA NTRSFIRA  ES O
+imitation: 2 (letter pairs): INOWALDE F NYNOUTELSINDOUNK TWE WIGIT FIVA AROWE NT N WIOMUMERUL AVEANID
+imitation: 3 (letter triples): I HAT LEARN ALING IN A ROT IT IND TOR THE ROTEN HE CAMENT SE IT FOR DOUT
+imitation: w1 (word frequencies): IT SO REASONED IN THE ONE NINE A A ANOTHER THE NEGATIVE WHICH A
+imitation: w2 (word pairs): I RECORDED ERA TOPIC DUG OUT A POLYNOMIAL AT ALL KEEP THIS ONE COULD
+code: Shannon's code from the letter frequencies: space 000, E 0010, T 0100, ... Z 11111111101 ; no codeword begins another ; average 4.683 bits per letter, between H = 4.090 and H + 1 ; the whole text in 83090 bits, against 88720 with 5 bits for every letter
+InformationTheory: 723 checks passed

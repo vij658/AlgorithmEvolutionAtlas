@@ -378,7 +378,7 @@ No video could be verified (see **Gaps**).
 ## 8. Breaking Enigma
 
 **When / where:** Marian Rejewski, with Jerzy Różycki and Henryk Zygalski, Polish Cipher Bureau, Warsaw, from 1932: rotor wiring reconstructed by permutation theory in December 1932, a cyclometer and card catalogue (about 1934–1937), the *bomba* (November 1938). The Polish methods were handed to the British and French near Warsaw in July 1939; Alan Turing's design for the British Bombe (1939), with Gordon Welchman's diagonal board (1940), went into service at Bletchley Park from 18 March 1940.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`Enigma.java`](../../code/era-04-what-can-be-computed/08-breaking-enigma/) · **Page:** [topic 8](08-breaking-enigma/README.md)
 
 > **Field note.** The German army's cipher machine scrambled every letter through three wired wheels, a reflector and a board of plug cables, and the wheels turned after every key-press: billions upon billions of settings. Three young Polish mathematicians attacked it with the theory of permutations. Operators typed each message's three-letter key twice; Rejewski noticed that the first and fourth letters, the second and fifth, the third and sixth, are linked by permutations whose cycles always come in pairs, and whose cycle lengths the plug cables cannot change. A catalogue of those lengths for every wheel setting turned a day's indicators into a short list of settings. When the procedure changed, the British, starting from the Polish gift, built machines that tested a guessed word of plain text against every wheel position and stopped only where no contradiction arose. Here, for the first time in this book, searching is done by a machine built for the purpose.
 

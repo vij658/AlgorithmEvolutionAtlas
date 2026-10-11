@@ -1,0 +1,6 @@
+test: rotors I, II, III, reflector B, rings A, start AAA: AAAAA becomes BDZGO
+self: 1000 random 60-letter messages, enciphered and enciphered again, came back unchanged, and no letter was ever enciphered as itself ; at all 17576 positions of rotors I-II-III, none of the 26 letters goes to itself (456976 cases)
+catalogue: 105456 settings (6 rotor orders x 17576 positions), reflector A ; the products AD, BE, CF have cycles in pairs every time (316368 products) ; 20882 different characteristics, 11059 of them belonging to a single setting, at most 1727 settings sharing one ; with 1000 random plugboards of 6 cables the characteristic never changed
+day: 125 intercepted indicators fixed all three products ; their cycle lengths [11, 11, 2, 2] ; the catalogue lists 30 settings with this characteristic, among them the true one
+bombe: crib WETTERVORHERSAGEBISKAYA under cipher ZSZEJDPNERKWXGMMTPEXCFN ; test letter E ; 105456 rotor positions x 26 guesses tested ; 1 stop survives, the true setting among them ; at the true stop the crib forces the plug partners of 23 letters, all correct
+Enigma: 835723 checks passed

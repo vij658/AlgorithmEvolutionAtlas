@@ -398,7 +398,7 @@ No video could be verified (see **Gaps**).
 ## 9. Gauss's fast Fourier transform, 160 years early
 
 **When / where:** Carl Friedrich Gauss, Göttingen, most likely October–November 1805: the unpublished treatise *Theoria interpolationis methodo nova tractata*, on fitting periodic curves to the observed positions of the asteroids Pallas and Juno. It was printed only in volume 3 of his collected works (1866). James W. Cooley and John W. Tukey published the method for computers in *Mathematics of Computation* 19 (1965), 297–301, without knowing of Gauss's version; Heideman, Johnson and Burrus traced it back to Gauss in 1984–1985.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`GaussFFT.java`](../../code/era-03-tables-and-machines/09-gauss-fft/) · **Page:** [topic 9](09-gauss-fft/README.md)
 
 > **Field note.** An asteroid goes round and round, so its position is a periodic curve, and Gauss wanted the sines and cosines that fit twelve observations of Pallas. Done directly, every coefficient needs every observation: twelve times twelve products. Gauss noticed that twelve is three times four. Fit the four observations in each of three groups first, then combine the three small fits. The work shrinks, and for long series it shrinks enormously. He left it in Latin among his papers, where it waited for the electronic computer to make it indispensable.
 

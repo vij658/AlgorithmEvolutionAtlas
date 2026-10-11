@@ -186,7 +186,7 @@ No original source could be opened (see **Gaps**).
 ## 4. The problem of points
 
 **When / where:** letters between Blaise Pascal (Paris) and Pierre de Fermat (Toulouse), summer 1654, on how to divide the stakes of a game stopped before the end; the question came to Pascal from the Chevalier de Méré. Pascal's *Traité du triangle arithmétique* followed (published 1665), and Christiaan Huygens' *De ratiociniis in ludo aleae* (1657).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`ProblemOfPoints.java`](../../code/era-03-tables-and-machines/04-problem-of-points/) · **Page:** [topic 4](04-problem-of-points/README.md)
 
 > **Field note.** Two gamblers stop a game halfway. How should the money be split? Merchants' arithmetic books had offered answers for a century and a half, and they disagreed. In one summer of letters, two Frenchmen settled it, by two different routes. Fermat listed every way the game could have finished and counted. Pascal reasoned one round at a time from the end, filling in a table of fair shares from the finished games back to the stopped one. It is the first time I have seen a hard question answered by building a table of easier answers.
 

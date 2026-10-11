@@ -1,0 +1,7 @@
+pascal: a game to 3 rounds, 32 pistoles each (64 in all) ; at 2 rounds to 1 the leader's share is 3/4 of 64 = 48 pistoles (the other 16) ; at 2 to 0, 56 (the other 8) ; at 1 to 0, 44 (the other 20)
+agree: Fermat's enumeration and Pascal's backward table give the same exact fraction in all 144 positions with up to 12 rounds needed by each player
+three: three players needing 1, 2 and 2 rounds ; the game is over within 3 rounds, 27 equally likely sequences ; the first wins 17, the second 5, the third 5 ; shares 17/27, 5/27, 5/27
+pacioli: a game to 5 rounds, the leader's share of the stakes ; 1 to 0: proportional 100.0%, fair 63.7% ; 2 to 1: proportional 66.7%, fair 65.6% ; 3 to 1: proportional 75.0%, fair 81.3% ; 4 to 3: proportional 57.1%, fair 75.0% ; 4 to 0: proportional 100.0%, fair 96.9%
+triangle: rows 0 to 6: 1 / 1 1 / 1 2 1 / 1 3 3 1 / 1 4 6 4 1 / 1 5 10 10 5 1 / 1 6 15 20 15 6 1 ; when A needs 2 and B needs 3, row 4 gives A 6 + 4 + 1 = 11 of 16 ; the row sums match the table in all 144 positions
+work: 5 rounds each: table 25 cells, enumeration 512 outcomes ; 10 rounds each: table 100 cells, enumeration 524,288 outcomes ; 20 rounds each: table 400 cells, enumeration 549,755,813,888 outcomes ; 30 rounds each: table 900 cells, enumeration 576,460,752,303,423,488 outcomes ; a simulation of 1,000,000 finished games for A needing 3 and B needing 5 estimates 0.7735, the table's exact 99/128 = 0.7734 (error 8.9e-05)
+ProblemOfPoints: 295 checks passed

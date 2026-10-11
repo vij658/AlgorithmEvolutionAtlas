@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Problem of Points</title>
+<meta name="description" content="Era 3, topic 4 of The Algorithm Evolution Atlas: Pascal and Fermat on dividing the stakes of an unfinished game, by enumeration and by a table filled in backward.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.pp-board .controls{flex-wrap:wrap}
+.pp-board input[type=range]{width:min(160px,40vw)}
+.pp-board input[type=number]{width:6em}
+.pp-v{font-family:var(--mono);font-size:13px}
+.pp-grid{border-collapse:collapse;margin:8px 0;font-family:var(--mono);font-size:12px}
+.pp-grid th{color:var(--muted);font-weight:400;padding:3px 5px}
+.pp-grid td{border:1px solid var(--axis);padding:5px 6px;text-align:center;cursor:pointer;min-width:3.6em;background:var(--surface)}
+.pp-grid td.end{color:var(--muted);background:var(--wash);cursor:default}
+.pp-grid td.sel{outline:3px solid var(--red);outline-offset:-3px}
+.pp-grid td.nb{background:color-mix(in srgb,var(--blue) 16%,var(--surface))}
+.pp-note{font-size:12.5px;color:var(--muted)}
+.pp-steps{margin:6px 0 10px;padding-left:1.4em;font-size:13.5px;display:grid;gap:5px}
+.pp-steps .m{font-family:var(--mono);font-size:12.5px}
+.pp-board .say{font-size:14.5px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 3: Tables and Machines</a><a href="../03-mechanical-carry/mechanical-carry.html">← The Carry, Mechanized</a><a href="../05-newtons-method/newtons-method.html">Newton&#x27;s Method →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 3 · Topic 4 · 1654</div>
+    <h1>The Problem of Points</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">Two gamblers stop a game before the end. Merchants' books had disagreed for a century and a half about how to split the money. In one summer of letters, two Frenchmen settled it by two different routes: count every way the game could finish, or reason backward from the end.</p>
+  <p class="fieldnote">Field note from the visiting historian. Pascal never listed the futures. He started from the games that were already over, where the answer is obvious, and filled in a table backward, each answer the average of two easier ones. I have seen the same table, under other names, in every century since.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#table">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Letters of July to September 1654</dd></div><div><dt>Where</dt><dd>Paris and Toulouse</dd></div><div><dt>What hurt</dt><dd>No fair rule for a game stopped early</dd></div><div><dt>The fix</dt><dd>Value a position by what can still happen: count, or work backward</dd></div><div><dt>Cost</dt><dd>One average per position, instead of a list that doubles every round</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Counting cases is as old as tally marks (Era 1, topic 1); merchants' arithmetic books had offered rules for interrupted games since Pacioli (1494); the arithmetic triangle was known in several cultures. In the summer of 1654 two Frenchmen turned the question around: a share should depend on what can still happen, not on what has happened. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How the problem of points combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="426.5,170.0 417.7,171.9 419.2,164.7" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="500.0,170.0 496.3,161.8 503.7,161.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="573.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,170.0 580.8,164.7 582.3,171.9" style="fill:var(--ink-2)"/><line x1="416.0" y1="256.0" x2="167.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="167.0,330.0 173.8,324.1 175.9,331.2" style="fill:var(--ink-2)"/><line x1="500.0" y1="256.0" x2="500.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,330.0 496.3,321.8 503.7,321.8" style="fill:var(--ink-2)"/><line x1="584.0" y1="256.0" x2="833.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="833.0,330.0 824.1,331.2 826.2,324.1" style="fill:var(--ink-2)"/><line x1="875.0" y1="416.0" x2="875.0" y2="480.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="875.0,480.0 871.3,471.8 878.7,471.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Counting cases</text><text x="32.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">tallies and enumeration</text><text x="32.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 1 topic 1</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The merchants&#x27; rule</text><text x="407.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">split in proportion to rounds</text><text x="407.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">won</text><text x="407.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Pacioli, 1494</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The arithmetic triangle</text><text x="782.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">known long before Pascal</text><text x="782.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">many cultures</text><rect x="395" y="170" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="193.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Pascal and Fermat</text><text x="407.0" y="210.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ value a game by what can</text><text x="407.0" y="227.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">still happen</text><text x="407.0" y="243.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">letters of 1654</text><rect x="20" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="353.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Huygens</text><text x="32.0" y="370.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the first treatise on</text><text x="32.0" y="387.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">probability</text><text x="32.0" y="403.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1657</text><rect x="395" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Probability of errors</text><text x="407.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">least squares</text><text x="407.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 8</text><rect x="770" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="782.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Dynamic programming</text><text x="782.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a table of smaller answers</text><text x="782.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Bellman, Era 5</text><rect x="770" y="480" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="782.0" y="503.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Game-playing programs</text><text x="782.0" y="520.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">values computed back from</text><text x="782.0" y="537.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the end</text><text x="782.0" y="553.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">today</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dashed from Pacioli: the rule Pascal and Fermat replaced. Dashed to dynamic programming: the same method, named three centuries later (a reading, not a documented line).</text></svg></div><figcaption>Red: the Pascal–Fermat letters. Blue: where backward reasoning over a table went.</figcaption></figure>
+</section>
+<section id="table" aria-labelledby="table-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="table-h">Fill in Pascal&#x27;s table</h2>
+<p class="col">Each cell is the fair amount for A when A still needs the row's number of rounds and B the column's. The edges are finished games: A has everything or nothing. Every inner cell is the average of its two neighbours one round later (shaded blue). Click a cell to see Pascal's average, Fermat's count and the old proportional rule side by side.</p>
+
+<div class="board pp-board">
+  <div style="min-width:0">
+    <div class="controls">
+      <label for="pp-n">Game to <input id="pp-n" type="range" min="2" max="8" value="3"></label><span class="pp-v" id="pp-nv"></span>
+      <label for="pp-s">Stakes <input id="pp-s" type="number" min="2" max="10000" value="64"></label>
+    </div>
+    <div class="scrollx"><table class="pp-grid" id="pp-grid"></table></div>
+    <p class="pp-note">Rows: rounds A still needs. Columns: rounds B still needs. Click a cell.</p>
+  </div>
+  <div style="min-width:0">
+    <div class="eyebrow">The fair split</div>
+    <ol class="pp-steps" id="pp-steps"></ol>
+    <p class="say" id="pp-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 3, tables and machines</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 3: Tables and Machines, from 1545 to 1890 CE" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1545 CE</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Cardano&#x27;s cubic</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1614–1624</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Napier and Briggs&#x27;s</text><text x="185.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">logarithms</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1623–1694</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Schickard, Pascal,</text><text x="307.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Leibniz</text><circle cx="428.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1654</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Pascal and</text><text x="428.5" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Fermat&#x27;s points</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1669–1740</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Newton&#x27;s method</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1703</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Leibniz&#x27;s binary</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1736</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Euler&#x27;s bridges</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1801–1809</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Least squares</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1805</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Gauss&#x27;s FFT</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1822</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Babbage&#x27;s</text><text x="1157.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">difference engine</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1843</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Lovelace&#x27;s Note G</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1847–1854</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Boole&#x27;s algebra</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1890</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Hollerith&#x27;s</text><text x="1522.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">tabulator</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 558" role="img" aria-label="Each fix leaves a new pain: from a merchants&#x27; rule to a table of fair shares" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="396.0" x2="750.0" y2="446.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,446.0 746.3,437.8 753.7,437.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="492.0" x2="400.0" y2="492.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,492.0 408.2,488.3 408.2,495.7" style="fill:var(--ink-2)"/><rect x="449.2" y="471.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="484.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="61.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A game stopped early: who gets the stakes?</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Split in proportion to rounds won</text><text x="572.0" y="86.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Pacioli, 1494</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">At 1 round to 0 that gives the leader 100.0% of the</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">stakes, though the game is far from won</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Count every way the game could still end</text><text x="32.0" y="228.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Fermat, 1654</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The cases double with every round: 549,755,813,888 for</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a game to 20</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Work backward one round at a time: 400 averages</text><text x="572.0" y="370.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Pascal, 1654</text><rect x="560" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="487.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="503.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">More players, more rounds, unequal chances</text><rect x="20" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="479.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="495.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The same backward rule, in a bigger table</text><text x="32.0" y="512.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Huygens 1657; today</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Two routes to the same fair share</h2>
+<p class="col"><strong>Pascal's example.</strong> In his letter of 29 July 1654, two players have put 32 pistoles each on a game of three. If one leads by two rounds to one and the game stops, Pascal reasons: if the next round went to the leader he would have all 64; if not, they would be level and each deserve 32. Either is equally likely, so he is owed the average, (64 + 32) ÷ 2 = <strong>48</strong>, and the other 16. One round further back, at two to none, the leader is owed the average of 64 and 48, <strong>56</strong>, the other 8. The program's table repeats both figures exactly:</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 800 382" role="img" aria-label="Pascal&#x27;s table of fair shares for a game to three rounds" style="font-family:var(--body);min-width:440px;max-width:800px;margin:0 auto"><text x="490.0" y="30.0" text-anchor="middle" style="fill:var(--muted);font-size:13px;font-weight:400">rounds B still needs</text><text x="265.0" y="56.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">0</text><text x="415.0" y="56.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">1</text><text x="565.0" y="56.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">2</text><text x="715.0" y="56.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">3</text><text x="20.0" y="198.0" text-anchor="start" style="fill:var(--muted);font-size:13px;font-weight:400">rounds A</text><text x="20.0" y="214.0" text-anchor="start" style="fill:var(--muted);font-size:13px;font-weight:400">still needs</text><text x="174.0" y="107.0" text-anchor="end" style="fill:var(--ink);font-size:14px;font-weight:700">0</text><rect x="190.0" y="70.0" width="144.0" height="58.0" rx="0" style="fill:var(--paper);stroke:var(--axis);stroke-width:1"/><rect x="340.0" y="70.0" width="144.0" height="58.0" rx="0" style="fill:var(--surface);stroke:var(--axis);stroke-width:1"/><text x="412.0" y="94.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">64 of 64</text><text x="412.0" y="114.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">A wins</text><rect x="490.0" y="70.0" width="144.0" height="58.0" rx="0" style="fill:var(--surface);stroke:var(--axis);stroke-width:1"/><text x="562.0" y="94.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">64 of 64</text><text x="562.0" y="114.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">A wins</text><rect x="640.0" y="70.0" width="144.0" height="58.0" rx="0" style="fill:var(--surface);stroke:var(--axis);stroke-width:1"/><text x="712.0" y="94.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">64 of 64</text><text x="712.0" y="114.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">A wins</text><text x="174.0" y="171.0" text-anchor="end" style="fill:var(--ink);font-size:14px;font-weight:700">1</text><rect x="190.0" y="134.0" width="144.0" height="58.0" rx="0" style="fill:var(--surface);stroke:var(--axis);stroke-width:1"/><text x="262.0" y="158.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">0 of 64</text><text x="262.0" y="178.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">B wins</text><rect x="340.0" y="134.0" width="144.0" height="58.0" rx="0" style="fill:var(--surface);stroke:var(--axis);stroke-width:1"/><text x="412.0" y="158.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">32 of 64</text><text x="412.0" y="178.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">share 1/2</text><rect x="490.0" y="134.0" width="144.0" height="58.0" rx="0" style="fill:var(--surface);stroke:var(--red);stroke-width:2"/><text x="562.0" y="158.0" text-anchor="middle" style="fill:var(--red);font-size:14px;font-weight:700">48 of 64</text><text x="562.0" y="178.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">share 3/4</text><rect x="640.0" y="134.0" width="144.0" height="58.0" rx="0" style="fill:var(--surface);stroke:var(--red);stroke-width:2"/><text x="712.0" y="158.0" text-anchor="middle" style="fill:var(--red);font-size:14px;font-weight:700">56 of 64</text><text x="712.0" y="178.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">share 7/8</text><text x="174.0" y="235.0" text-anchor="end" style="fill:var(--ink);font-size:14px;font-weight:700">2</text><rect x="190.0" y="198.0" width="144.0" height="58.0" rx="0" style="fill:var(--surface);stroke:var(--axis);stroke-width:1"/><text x="262.0" y="222.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">0 of 64</text><text x="262.0" y="242.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">B wins</text><rect x="340.0" y="198.0" width="144.0" height="58.0" rx="0" style="fill:var(--surface);stroke:var(--axis);stroke-width:1"/><text x="412.0" y="222.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">16 of 64</text><text x="412.0" y="242.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">share 1/4</text><rect x="490.0" y="198.0" width="144.0" height="58.0" rx="0" style="fill:var(--surface);stroke:var(--axis);stroke-width:1"/><text x="562.0" y="222.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">32 of 64</text><text x="562.0" y="242.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">share 1/2</text><rect x="640.0" y="198.0" width="144.0" height="58.0" rx="0" style="fill:var(--surface);stroke:var(--axis);stroke-width:1"/><text x="712.0" y="222.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">44 of 64</text><text x="712.0" y="242.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">share 11/16</text><text x="174.0" y="299.0" text-anchor="end" style="fill:var(--ink);font-size:14px;font-weight:700">3</text><rect x="190.0" y="262.0" width="144.0" height="58.0" rx="0" style="fill:var(--surface);stroke:var(--axis);stroke-width:1"/><text x="262.0" y="286.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">0 of 64</text><text x="262.0" y="306.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">B wins</text><rect x="340.0" y="262.0" width="144.0" height="58.0" rx="0" style="fill:var(--surface);stroke:var(--axis);stroke-width:1"/><text x="412.0" y="286.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">8 of 64</text><text x="412.0" y="306.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">share 1/8</text><rect x="490.0" y="262.0" width="144.0" height="58.0" rx="0" style="fill:var(--surface);stroke:var(--axis);stroke-width:1"/><text x="562.0" y="286.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">20 of 64</text><text x="562.0" y="306.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">share 5/16</text><rect x="640.0" y="262.0" width="144.0" height="58.0" rx="0" style="fill:var(--surface);stroke:var(--axis);stroke-width:1"/><text x="712.0" y="286.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">32 of 64</text><text x="712.0" y="306.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">share 1/2</text><text x="20.0" y="350.0" text-anchor="start" style="fill:var(--muted);font-size:12.5px;font-weight:400">Each inner cell is the average of the cell to its left (A wins the next round) and the cell above (B wins it).</text><text x="20.0" y="368.0" text-anchor="start" style="fill:var(--muted);font-size:12.5px;font-weight:400">Red: Pascal&#x27;s two cases from 29 July 1654, 48 and 56 pistoles to the leader. Numbers checked by ProblemOfPoints.java.</text></svg></div></figure>
+<p class="col"><strong>Fermat's route.</strong> If A needs a rounds and B needs b, the game is surely over within a + b − 1 more. List every way those rounds could fall; each is equally likely; count. The program compared both methods in exact fractions for all 144 positions up to 12 rounds each: they agree every time.</p>
+<p class="col">Fermat's letter of 25 September 1654 counts a game for three players: "I find here only 17 combinations for the first and 5 for each of the others." The case that gives these numbers is one player needing 1 round and the other two needing 2: the game is over within 3 rounds, and of the 27 equally likely sequences the first player wins <strong>17</strong>, the others 5 and 5.</p>
+<p class="col"><strong>Pascal's triangle.</strong> Counting Fermat's cases is reading a row of the arithmetic triangle: when A needs 2 and B needs 3, four more rounds settle it, and A wins whenever A takes at least 2 of the 4: 6 + 4 + 1 = 11 of the 16 equally likely outcomes in row 4.</p>
+<div class="tbl"><table><thead><tr><th class="">Row</th><th class="">Entries</th></tr></thead><tbody><tr class=""><td class="">0</td><td class="">1</td></tr><tr class=""><td class="">1</td><td class="">1 1</td></tr><tr class=""><td class="">2</td><td class="">1 2 1</td></tr><tr class=""><td class="">3</td><td class="">1 3 3 1</td></tr><tr class=""><td class="">4</td><td class="">1 4 6 4 1</td></tr><tr class=""><td class="">5</td><td class="">1 5 10 10 5 1</td></tr><tr class=""><td class="">6</td><td class="">1 6 15 20 15 6 1</td></tr></tbody></table></div>
+<div class="callout key col"><div class="k">Key idea</div><p>Build a table of answers to smaller problems, starting from the ones whose answers are obvious, and fill in each new answer from earlier ones. Pascal's shares are the oldest example in this book of what is now called dynamic programming.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Counting against filling in</h2>
+<div class="tbl"><table><thead><tr><th class="">Rounds each player needs</th><th class="n">Pascal&#x27;s table (cells)</th><th class="n">Fermat&#x27;s list (outcomes)</th></tr></thead><tbody><tr class=""><td class="">5</td><td class="n">25</td><td class="n">512</td></tr><tr class=""><td class="">10</td><td class="n">100</td><td class="n">524,288</td></tr><tr class=""><td class="">20</td><td class="n">400</td><td class="n">549,755,813,888</td></tr><tr class=""><td class="">30</td><td class="n">900</td><td class="n">576,460,752,303,423,488</td></tr></tbody></table></div>
+<p class="col">Fermat's method is the clearest proof that a share is fair; Pascal's is the one that scales. The list of outcomes doubles with every extra round, while the table grows only with the square of the length of the game.</p>
+<div class="tbl"><table><thead><tr><th class="">Score in a game to 5</th><th class="n">Proportional (Pacioli)</th><th class="n">Fair (Pascal, Fermat)</th></tr></thead><tbody><tr class=""><td class="">1 to 0</td><td class="n">100.0%</td><td class="n">63.7%</td></tr><tr class=""><td class="">2 to 1</td><td class="n">66.7%</td><td class="n">65.6%</td></tr><tr class=""><td class="">3 to 1</td><td class="n">75.0%</td><td class="n">81.3%</td></tr><tr class=""><td class="">4 to 3</td><td class="n">57.1%</td><td class="n">75.0%</td></tr><tr class=""><td class="">4 to 0</td><td class="n">100.0%</td><td class="n">96.9%</td></tr></tbody></table></div>
+<p class="col">The proportional rule gives the whole stake to a player who leads 1 to 0, and too little to one who leads 4 to 3. A simulation of 1,000,000 finished games for A needing 3 and B needing 5 estimated 0.7735; the table's exact answer is 99/128 = 0.7734, with no sampling error at all.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">Five letters in one summer</h2>
+<p class="col">Pacioli's <em>Summa</em> (1494) divided the stakes "in proportion to the number of rounds won by each player"; Tartaglia found "counterintuitive results" and wrote that "in whatever way the division is made there will be cause for litigation" (Wikipedia). The question reached Pascal from the Chevalier de Méré around 1654 (Wikipedia; Hart, Gresham College).</p>
+<p class="col">The letters are dated: Pascal's of 29 July 1654 with the 48-to-16 and 56-to-8 divisions; Pascal on 24 August, "your theory which proceeds by combinations is very just"; Fermat's replies of 29 August and 25 September (translation by Vera Sanford, in Smith's <em>Source Book</em>). MacTutor: they "laid the foundation for the theory of probability", solving the problem of points only for two players, and "Pascal was not the first to study the Pascal triangle". Calling Pascal's backward table the first dynamic programming is this book's reading (<strong>conjecture</strong>).</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Values computed backward from the end</h2>
+<p class="col">Pascal's move, reasoning from the finished game backward, one step at a time, is how a computer finds the value of a position in any game of chance or strategy with a known end: start from the positions where the outcome is settled, and fill in the rest from them.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>For a game to 20 rounds, Fermat's list would have 549,755,813,888 entries; Pascal's table has 400. Richard Bellman's dynamic programming (Era 5) gives the method a name and a theory, and it is still how programs plan when each step's value depends on the steps that follow.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>At two rounds to one in a game to three, why is the leader owed 48 of 64?</span></summary><div class="ans"><p>One more round: if he wins, he has 64; if he loses, it is level and he deserves 32. Each is equally likely: (64 + 32) ÷ 2 = 48.</p></div></details><details class="try"><summary><span class="q">2</span><span>Why may Fermat play out a + b − 1 rounds even if the game would have ended sooner?</span></summary><div class="ans"><p>Extra rounds after the end do not change who won, and they make every listed outcome equally likely.</p></div></details><details class="try"><summary><span class="q">3</span><span>Why does Pacioli's rule fail at 1 to 0?</span></summary><div class="ans"><p>It gives everything to the leader, though the other player can easily still win: it measures the past, not the future.</p></div></details><details class="try"><summary><span class="q">4</span><span>How many cells does Pascal need for a game in which each player needs 10 rounds?</span></summary><div class="ans"><p>One per position: 10 × 10 = 100 averages, against 524,288 outcomes to list.</p></div></details><details class="try"><summary><span class="q">5</span><span>Where are the 17, 5 and 5 in Fermat's three-player game?</span></summary><div class="ans"><p>Three more rounds, each won by any of the three players: 27 sequences. The player needing one round wins in 17; each of the others in 5.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Fermat and Pascal on Probability</b><span>The letters of 1654 in English, translated by Vera Sanford and Maxine Merrington.</span><a href="https://www.uu.nl/sites/default/files/correspondentie_fermat_en_pascal.pdf">Utrecht University</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://www.gresham.ac.uk/node/15381" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Lottery-Winning Maths · Gresham College, Sarah Hart, 31 January 2023 (video and transcript)</span><span class="w">How a nobleman's dispute led Pascal and Fermat to the problem of points, and the triangle "known as Pascal's triangle now"</span></a><a href="https://en.wikipedia.org/wiki/Problem_of_points" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Problem of points · Wikipedia</span><span class="w">Pacioli, Tartaglia, de Méré, the two methods, the triangle and Huygens</span></a><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Pascal/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Blaise Pascal · MacTutor</span><span class="w">The 1654 letters, the arithmetical triangle, and the calculating machine</span></a><a href="https://www.uu.nl/sites/default/files/correspondentie_fermat_en_pascal.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Fermat and Pascal on Probability · The 1654 letters, trans. Vera Sanford (Smith, <em>A Source Book in Mathematics</em>) and Maxine Merrington (David, <em>Games, Gods and Gambling</em>), on a Utrecht University page</span><span class="w">Pascal's 64 pistoles divided 48 to 16 and 56 to 8; Fermat's "combinations"</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-03-tables-and-machines/reference-catalog.md">Era 3 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-03-tables-and-machines/04-problem-of-points/ProblemOfPoints.java">ProblemOfPoints.java</a> makes <strong>295 checks</strong>: Pascal's 48 to 16 and 56 to 8, Fermat's enumeration against Pascal's table in exact fractions in 144 positions, the 17, 5 and 5 of Fermat's three-player game, the triangle's row sums in every position, and a million simulated games against the exact share. Run it with <code>java ProblemOfPoints.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** Pascal: A&#x27;s share (as a fraction of the stakes) when A needs a rounds and B needs b, filled backward in a table. */</span>
+<span class="k-kw">static</span> Q[][] pascalTable(<span class="k-kw">int</span> A, <span class="k-kw">int</span> B) {
+    Q[][] t = <span class="k-kw">new</span> Q[A + <span class="k-n">1</span>][B + <span class="k-n">1</span>];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> a = <span class="k-n">0</span>; a &lt;= A; a++)
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> b = <span class="k-n">0</span>; b &lt;= B; b++) {
+            <span class="k-kw">if</span> (a == <span class="k-n">0</span> &amp;&amp; b == <span class="k-n">0</span>) continue;
+            <span class="k-kw">if</span> (a == <span class="k-n">0</span>) t[a][b] = Q.of(<span class="k-n">1</span>, <span class="k-n">1</span>);
+            <span class="k-kw">else</span> <span class="k-kw">if</span> (b == <span class="k-n">0</span>) t[a][b] = Q.of(<span class="k-n">0</span>, <span class="k-n">1</span>);
+            <span class="k-kw">else</span> { t[a][b] = t[a - <span class="k-n">1</span>][b].plus(t[a][b - <span class="k-n">1</span>]).half(); cells++; }
+        }
+    <span class="k-kw">return</span> t;
+}
+
+<span class="k-c">/** Fermat: list every way the next a + b - 1 rounds could fall, and count those in which A wins. */</span>
+<span class="k-kw">static</span> Q fermat(<span class="k-kw">int</span> a, <span class="k-kw">int</span> b) {
+    <span class="k-kw">int</span> n = a + b - <span class="k-n">1</span>;
+    <span class="k-kw">long</span> wins = <span class="k-n">0</span>;
+    <span class="k-kw">for</span> (<span class="k-kw">long</span> mask = <span class="k-n">0</span>; mask &lt; (<span class="k-n">1L</span> &lt;&lt; n); mask++) <span class="k-kw">if</span> (Long.bitCount(mask) &gt;= a) wins++;   <span class="k-c">// A wins the rounds whose bit is 1</span>
+    <span class="k-kw">return</span> Q.of(wins, <span class="k-n">1L</span> &lt;&lt; n);
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>ProblemOfPoints.java</code>.<br><span class="navfoot"><a href="../index.html">Era 3: Tables and Machines</a><a href="../03-mechanical-carry/mechanical-carry.html">← The Carry, Mechanized</a><a href="../05-newtons-method/newtons-method.html">Newton&#x27;s Method →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const grid = document.getElementById("pp-grid");
+  if (!grid) return;
+  let sel = [1, 2];
+  const fmtS = v => (Math.abs(v - Math.round(v)) < 1e-9 ? Math.round(v).toLocaleString("en-US") : v.toFixed(2));
+  const C = (n, k) => { let r = 1; for (let i = 0; i < k; i++) r = r * (n - i) / (i + 1); return Math.round(r); };
+  function show() {
+    const N = +document.getElementById("pp-n").value, S = Math.max(2, +document.getElementById("pp-s").value || 64);
+    document.getElementById("pp-nv").textContent = N;
+    const t = [];
+    for (let a = 0; a <= N; a++) { t.push([]); for (let b = 0; b <= N; b++) t[a].push(a === 0 ? 1 : b === 0 ? 0 : (t[a - 1][b] + t[a][b - 1]) / 2); }
+    if (sel[0] > N || sel[1] > N) sel = [1, Math.min(2, N)];
+    grid.innerHTML = "";
+    const hr = el("tr", {}, grid); el("th", {}, hr, "");
+    for (let b = 0; b <= N; b++) el("th", {}, hr, String(b));
+    for (let a = 0; a <= N; a++) {
+      const tr = el("tr", {}, grid); el("th", {}, tr, String(a));
+      for (let b = 0; b <= N; b++) {
+        const td = el("td", {}, tr, a === 0 && b === 0 ? "" : fmtS(t[a][b] * S));
+        if (a === 0 || b === 0) td.className = "end";
+        else {
+          if (a === sel[0] && b === sel[1]) td.className = "sel";
+          else if ((a === sel[0] - 1 && b === sel[1]) || (a === sel[0] && b === sel[1] - 1)) td.className = "nb";
+          td.addEventListener("click", () => { sel = [a, b]; show(); });
+        }
+      }
+    }
+    const [a, b] = sel, n = a + b - 1;
+    let wins = 0; for (let k = a; k <= n; k++) wins += C(n, k);
+    const ol = document.getElementById("pp-steps"); ol.innerHTML = "";
+    const li = h => { el("li", {}, ol).innerHTML = h; };
+    const scoreA = N - a, scoreB = N - b;
+    li(`score ${scoreA} to ${scoreB} in a game to ${N}: A needs ${a}, B needs ${b}`);
+    li(`Pascal: average of the next two cells, (${fmtS(t[a - 1][b] * S)} + ${fmtS(t[a][b - 1] * S)}) ÷ 2 = <span class="m">${fmtS(t[a][b] * S)}</span> for A`);
+    li(`Fermat: play out ${n} more round${n === 1 ? "" : "s"}: A wins in ${wins.toLocaleString("en-US")} of ${(2 ** n).toLocaleString("en-US")} ways, so A gets ${wins}/${2 ** n} of ${S} = <span class="m">${fmtS(wins / 2 ** n * S)}</span>`);
+    const prop = scoreA + scoreB === 0 ? 0.5 : scoreA / (scoreA + scoreB);
+    li(`proportional to rounds won (Pacioli): <span class="m">${fmtS(prop * S)}</span> for A`);
+    document.getElementById("pp-say").textContent = Math.abs(prop - t[a][b]) < 1e-9 ? "Here the proportional rule happens to agree with the fair share."
+      : `The proportional rule ${prop > t[a][b] ? "overpays" : "underpays"} the leader by ${fmtS(Math.abs(prop - t[a][b]) * S)}: it looks at the past, not at what can still happen.`;
+  }
+  ["pp-n", "pp-s"].forEach(id => document.getElementById(id).addEventListener("input", show));
+  show();
+})();
+
+</script>
+</body>
+</html>

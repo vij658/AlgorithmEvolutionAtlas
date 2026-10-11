@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Madhava&#x27;s Series for Pi</title>
+<meta name="description" content="Era 2, topic 10 of The Algorithm Evolution Atlas: Madhava&#x27;s series for π with its three end corrections, the √12 series, and the series that compute π today.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.md-board input[type=range]{width:min(260px,55vw)}
+.md-nv{font-family:var(--mono);font-size:13px}
+.md-rows{display:grid;gap:8px;margin-top:8px}
+.md-rows .r{display:grid;grid-template-columns:minmax(0,12em) minmax(0,1fr);gap:4px 10px;align-items:center;font-size:13px}
+.md-rows .r .lab{color:var(--ink-2)}
+.md-rows .r .val{font-family:var(--mono);font-size:13px;overflow-wrap:anywhere}
+.md-rows .r .bar{grid-column:2;height:10px;background:var(--wash);position:relative}
+.md-rows .r .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--blue)}
+.md-rows .r.best .bar i{background:var(--red)}
+.md-rows .r .val b{color:var(--blue)} .md-rows .r.best .val b{color:var(--red)}
+.md-pi{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.md-board .say{font-size:14.5px}
+@media (max-width:600px){.md-rows .r{grid-template-columns:1fr}.md-rows .r .bar{grid-column:1}}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 2: Algorithms Travel</a><a href="../09-qin-jiushao/qin-jiushao.html">← Horner&#x27;s Method, Nearly Six Centuries Early</a><a href="../11-al-kashi-pi/al-kashi-pi.html">Al-Kashi&#x27;s Pi →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 2 · Topic 10 · c. 1400 CE</div>
+    <h1>Madhava&#x27;s Series for Pi</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">One minus a third, plus a fifth, minus a seventh: an endless sum for π with no square roots. On its own it is hopeless. Madhava stopped after a few terms and added one correction for everything left out.</p>
+  <p class="fieldnote">Field note from the visiting historian. Archimedes' polygons cost a new square root for every doubling. In Kerala I found a sum that never ends, and astronomers who stopped after a few terms and estimated the rest. It is the first time I have seen anyone compute with an infinite process and deal honestly with the part they did not compute.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#sum">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#series">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Madhava, c. 1350–1425 (<strong>disputed</strong>); his writings lost, known from texts of c. 1500 and c. 1530</dd></div><div><dt>Where</dt><dd>Kerala, southwestern India</dd></div><div><dt>What hurt</dt><dd>Polygons need a square root for every doubling; the plain series converges too slowly</dd></div><div><dt>The fix</dt><dd>An infinite series with an end correction; a faster series with √12</dd></div><div><dt>Cost</dt><dd>20 terms and a correction for 9 decimals; 19 square roots by polygons for 11</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Archimedes trapped π between polygons (Era 1, topic 8), paying a square root for every doubling. Indian astronomers had long built sine tables step by step (topic 2). In Kerala, Madhava replaced the polygons by a sum that never ends, and then found a way not to need all of it. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How Madhava&#x27;s series combined older ideas, and where series for π went" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="426.5,170.0 417.7,171.9 419.2,164.7" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,170.0 496.3,161.8 503.7,161.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="573.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,170.0 580.8,164.7 582.3,171.9" style="fill:var(--ink-2)"/><line x1="416.0" y1="256.0" x2="167.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="167.0,330.0 173.8,324.1 175.9,331.2" style="fill:var(--ink-2)"/><line x1="500.0" y1="256.0" x2="500.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="500.0,330.0 496.3,321.8 503.7,321.8" style="fill:var(--ink-2)"/><line x1="500.0" y1="416.0" x2="500.0" y2="480.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="500.0,480.0 496.3,471.8 503.7,471.8" style="fill:var(--ink-2)"/><line x1="584.0" y1="256.0" x2="833.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="833.0,330.0 824.1,331.2 826.2,324.1" style="fill:var(--ink-2)"/><line x1="875.0" y1="416.0" x2="875.0" y2="480.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="875.0,480.0 871.3,471.8 878.7,471.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Polygons around a circle</text><text x="32.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a square root per doubling</text><text x="32.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Archimedes, Era 1 topic 8</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Indian sine tables</text><text x="407.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">half-chords, step by step</text><text x="407.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Aryabhata; topic 2</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Kerala astronomy</text><text x="782.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">computing for the calendar</text><text x="782.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the Kerala school</text><rect x="395" y="170" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="193.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Madhava&#x27;s series</text><text x="407.0" y="210.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ an endless sum, with an end</text><text x="407.0" y="227.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">correction</text><text x="407.0" y="243.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">c. 1400 (writings lost)</text><rect x="20" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="352.0" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Tantrasangraha;</text><text x="32.0" y="371.8" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Yuktibhasa</text><text x="32.0" y="389.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">where the series survive</text><text x="32.0" y="405.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">c. 1500; c. 1530</text><rect x="395" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Gregory and Leibniz</text><text x="407.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the same series in Europe</text><text x="407.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">two centuries later</text><rect x="395" y="480" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="503.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Whish</text><text x="407.0" y="520.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">reports the Kerala series to</text><text x="407.0" y="537.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Europe</text><text x="407.0" y="553.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1834</text><rect x="770" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="782.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Chudnovsky series</text><text x="782.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ about 14 digits per term</text><text x="782.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1988</text><rect x="770" y="480" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="782.0" y="511.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Record computations</text><text x="782.0" y="529.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">314 trillion digits</text><text x="782.0" y="545.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">November 2025</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dashed: whether the Kerala series reached Europe before Gregory and Leibniz is disputed; Whish&#x27;s report of 1834 is documented.</text></svg></div><figcaption>Red: Madhava's series. Blue: the series that compute π today.</figcaption></figure>
+</section>
+<section id="sum" aria-labelledby="sum-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="sum-h">Add terms, then correct for the rest</h2>
+<p class="col">Move the slider to choose how many terms to add. The top row is the plain series, which creeps toward π. The next three rows add Madhava's three corrections for everything left out. The last row is his faster series with √12. The bold digits are the correct ones.</p>
+
+<div class="board md-board">
+  <div style="min-width:0">
+    <div class="controls">
+      <label for="md-n">Terms <input id="md-n" type="range" min="1" max="60" value="20"></label>
+      <span class="md-nv" id="md-nv"></span>
+    </div>
+    <div class="md-rows" id="md-rows"></div>
+  </div>
+  <div style="min-width:0">
+    <div class="eyebrow">How many digits?</div>
+    <p class="say" id="md-say" aria-live="polite"></p>
+    <p class="md-pi">π = 3.14159265358979…</p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 2, algorithms travel</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1342 132" role="img" aria-label="Era 2: Algorithms Travel, from c. 200 BCE to 1424 CE" style="font-family:var(--body);min-width:966px;max-width:1409px;margin:0 auto"><line x1="34" y1="34" x2="1308" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 200 BCE – 263 CE</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Fangcheng:</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">elimination on the</text><text x="64.0" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">board</text><circle cx="185.4" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.4" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 150 CE</text><text x="185.4" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Ptolemy&#x27;s table of</text><text x="185.4" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">chords</text><circle cx="306.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="306.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">3rd–5th century CE</text><text x="306.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Sunzi&#x27;s remainder</text><text x="306.8" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">problem</text><circle cx="428.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">628 CE</text><text x="428.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Brahmagupta&#x27;s</text><text x="428.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">rules for zero</text><circle cx="549.6" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="549.6" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">628–1150 CE</text><text x="549.6" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">The chakravala</text><circle cx="671.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 820–830 CE</text><text x="671.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">al-Khwarizmi&#x27;s</text><text x="671.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">written</text><text x="671.0" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">procedures</text><circle cx="792.4" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="792.4" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">9th century CE</text><text x="792.4" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">al-Kindi&#x27;s</text><text x="792.4" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">frequency analysis</text><circle cx="913.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="913.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1202 CE</text><text x="913.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Liber Abaci</text><circle cx="1035.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1035.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1247 CE</text><text x="1035.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Qin Jiushao&#x27;s root</text><text x="1035.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">method</text><circle cx="1156.6" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="1156.6" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1400 CE</text><text x="1156.6" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Madhava&#x27;s series</text><text x="1156.6" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">for π</text><circle cx="1278.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1278.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1424 CE</text><text x="1278.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">al-Kashi&#x27;s π</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 558" role="img" aria-label="Each fix leaves a new pain: from polygons to record computations" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="396.0" x2="750.0" y2="446.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,446.0 746.3,437.8 753.7,437.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="492.0" x2="400.0" y2="492.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,492.0 408.2,488.3 408.2,495.7" style="fill:var(--ink-2)"/><rect x="449.2" y="471.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="484.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Polygons cost a square root for every doubling: 19</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">square roots for 11 decimals</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">An endless sum with no square roots: π/4 = 1 − 1/3 + 1/5</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">− …</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Madhava, c. 1400</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="203.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The sum crawls: 200,000 terms for 5 decimals</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Stop early and estimate the rest: 20 terms and one</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">correction give 9 decimals</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Madhava&#x27;s end corrections</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="345.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Even corrected, each digit still costs more terms</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A faster series, √12 (1 − 1/(3·3) + 1/(5·3²) − …): 21</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">terms, error 5.8 × 10^-12</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Madhava</text><rect x="560" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="487.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="503.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Records need trillions of digits</text><rect x="20" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="479.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="495.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Series that gain about 13.8 digits per term</text><text x="32.0" y="512.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the Chudnovskys, 1988</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="series" aria-labelledby="series-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="series-h">An endless sum, and an honest estimate of the rest</h2>
+<p class="col">The series π/4 = 1 − 1/3 + 1/5 − 1/7 + … needs no square roots, only divisions. But its error after n terms is about 1/(4n), so each new decimal costs ten times as many terms:</p>
+<div class="tbl"><table><thead><tr><th class="n">Correct decimals</th><th class="n">Terms of the plain series</th></tr></thead><tbody><tr class=""><td class="n">1</td><td class="n">20</td></tr><tr class=""><td class="n">2</td><td class="n">200</td></tr><tr class=""><td class="n">3</td><td class="n">2,000</td></tr><tr class=""><td class="n">4</td><td class="n">20,000</td></tr><tr class=""><td class="n">5</td><td class="n">200,000</td></tr><tr class=""><td class="n">6</td><td class="n">2,000,000</td></tr><tr class=""><td class="n">7</td><td class="n">20,000,000</td></tr></tbody></table></div>
+<p class="col">The Kerala texts stop after n terms and add one correction R for everything left out, with the sign of the first term omitted. MacTutor gives the three forms: R = 1/(4n), R = n/(4n² + 1) and R = (n² + 1)/(4n³ + 5n). The program applied each, in exact arithmetic:</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 200" role="img" aria-label="Twenty terms of Madhava&#x27;s series, with each of the three end corrections" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="240.0" y1="98.0" x2="265.0" y2="98.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="265.0,98.0 256.8,101.7 256.8,94.3" style="fill:var(--ink-2)"/><line x1="485.0" y1="98.0" x2="510.0" y2="98.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="510.0,98.0 501.8,101.7 501.8,94.3" style="fill:var(--ink-2)"/><line x1="730.0" y1="98.0" x2="755.0" y2="98.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="755.0,98.0 746.8,101.7 746.8,94.3" style="fill:var(--ink-2)"/><rect x="20" y="50" width="220" height="96" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="86.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">20 terms</text><text x="32.0" y="104.1" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1 − 1/3 + … − 1/39</text><text x="32.0" y="120.6" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">1 decimal</text><rect x="265" y="50" width="220" height="96" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="277.0" y="86.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">+ 1/(4n)</text><text x="277.0" y="104.1" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">first correction</text><text x="277.0" y="120.6" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">4 decimals</text><rect x="510" y="50" width="220" height="96" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="522.0" y="86.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">+ n/(4n² + 1)</text><text x="522.0" y="104.1" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">second correction</text><text x="522.0" y="120.6" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">6 decimals</text><rect x="755" y="50" width="220" height="96" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="767.0" y="86.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">+ (n² + 1)/(4n³ + 5n)</text><text x="767.0" y="104.1" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">third correction</text><text x="767.0" y="120.6" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">9 decimals</text><text x="20.0" y="30.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE SAME TWENTY TERMS, EACH TIME WITH A BETTER GUESS FOR EVERYTHING LEFT OUT (n = 20)</text><text x="20.0" y="180.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Each correction is added with the sign of the first term left out. Decimals: correct to within half a unit in the last place.</text></svg></div></figure>
+<div class="tbl"><table><thead><tr><th class="n">Terms</th><th class="n">No correction</th><th class="n">1/(4n)</th><th class="n">n/(4n² + 1)</th><th class="n">(n² + 1)/(4n³ + 5n)</th><th class="">Value with the third</th></tr></thead><tbody><tr class=""><td class="n">5</td><td class="n">0</td><td class="n">2</td><td class="n">3</td><td class="n">4</td><td class="">3.141587301587302</td></tr><tr class=""><td class="n">10</td><td class="n">0</td><td class="n">3</td><td class="n">5</td><td class="n">6</td><td class="">3.141592705349155</td></tr><tr class=""><td class="n">20</td><td class="n">1</td><td class="n">4</td><td class="n">6</td><td class="n">9</td><td class="">3.141592654019864</td></tr><tr class=""><td class="n">50</td><td class="n">1</td><td class="n">5</td><td class="n">8</td><td class="n">11</td><td class="">3.141592653590511</td></tr></tbody></table></div>
+<p class="col">Madhava's other series converges on its own: π = √12 (1 − 1/(3·3) + 1/(5·3²) − 1/(7·3³) + …). Each term is a third the size of the one before. With 21 terms the program gets 3.141592653595635: its first 11 decimals, <strong>3.14159265359</strong>, are the value MacTutor credits to Madhava, and the error is 5.8 × 10^-12.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>Compute with an infinite process, then deal honestly with the part you did not compute. The end correction turns a hopeless series into a practical one, the first time in this book that someone estimates the error of stopping early.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Square roots against terms</h2>
+<div class="tbl"><table><thead><tr><th class="">Method</th><th class="">Work for 11 decimals</th></tr></thead><tbody><tr class=""><td class="">Archimedes' polygons (Era 1, topic 8)</td><td class="">18 doublings, to a 1,572,864-sided polygon: 19 square roots</td></tr><tr class=""><td class="">Plain series</td><td class="">more than 20,000,000 terms (that is only 7 decimals)</td></tr><tr class=""><td class="">Plain series + third correction</td><td class="">50 terms</td></tr><tr class=""><td class="">√12 series</td><td class="">21 terms (error 5.8 × 10^-12)</td></tr></tbody></table></div>
+<p class="col">The polygons trap π between 3.1415926535877 and 3.1415926535940 after 19 square roots, each one a long calculation by hand. The corrected series and the √12 series reach the same accuracy with a few dozen divisions.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">A mathematician known only through his students</h2>
+<p class="col">Madhava of Sangamagrama lived about 1350 to 1425 (other estimates: about 1340–1420, <strong>disputed</strong>). "All the mathematical writings of Madhava have been lost" (MacTutor); his series are known from Nilakantha's <em>Tantrasangraha</em> (about 1500) and Jyesthadeva's Malayalam <em>Yuktibhasa</em> (about 1530, dated anywhere from about 1500 to 1550, <strong>disputed</strong>), which gives the derivations. How he found the correction terms is not recorded: Krishnachandran concludes that "the rationale presented by Kerala authors is not strong enough to convince modern mathematical scholarship" (<strong>conjecture</strong> for the method).</p>
+<p class="col">Did the series reach Europe before Gregory and Leibniz found them in the 17th century? In 2007 the University of Manchester announced "strong circumstantial evidence" that they passed through Jesuit missionaries; Kim Plofker, reviewing the later book, found it "hard to help feeling disappointed that this hypothesis ultimately came to nothing" (<strong>disputed</strong>). Europe learned of the Kerala series in print from Charles Whish in 1834. Whether this counts as "calculus" is a question of framing (<strong>disputed</strong>).</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Series still compute π</h2>
+<p class="col">The fastest way to compute π is still to add up a series, only a far faster one. The Chudnovsky brothers published theirs in 1988; each term adds about 14 correct digits. Wikipedia lists the records computed with it, the latest 314 trillion digits on 18 November 2025, done with the program y-cruncher.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>The program summed 74 terms of the Chudnovsky series and got π to 1,019 decimals, about 13.8 digits a term, checked against an arctangent formula. Madhava's √12 series gains 0.48 digits a term. The idea he wrote down around 1400, that an endless sum can be the best way to a number, is how π is still computed today.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Why does the plain series need ten times as many terms for each new decimal?</span></summary><div class="ans"><p>Its error after n terms is about 1/(4n) of π/4, so to divide the error by ten you must multiply n by ten.</p></div></details><details class="try"><summary><span class="q">2</span><span>The sum 1 − 1/3 + 1/5 − 1/7 is too small or too big?</span></summary><div class="ans"><p>Too small: the next term, +1/9, is positive, so the correction must be added. That is why the correction takes the sign of the first term left out.</p></div></details><details class="try"><summary><span class="q">3</span><span>Why does the √12 series converge so much faster?</span></summary><div class="ans"><p>Each term is divided by 3 more than the last, so the terms shrink geometrically, about half a decimal digit per term.</p></div></details><details class="try"><summary><span class="q">4</span><span>How many square roots did the polygons need for 11 decimals?</span></summary><div class="ans"><p>19, for a polygon of 1,572,864 sides.</p></div></details><details class="try"><summary><span class="q">5</span><span>Is it known how Madhava found his corrections?</span></summary><div class="ans"><p>No. The Kerala texts give a rationale, but modern scholars find it unconvincing; the derivation is reconstructed, not recorded.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 120" role="img" aria-label="Drawn placeholder of an open printed book" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><path d="M100,20 C80,12 40,12 20,18 V108 C40,102 80,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><path d="M100,20 C120,12 160,12 180,18 V108 C160,102 120,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="32.0" y1="32.0" x2="88.0" y2="32.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="41.0" x2="88.0" y2="41.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="50.0" x2="88.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="59.0" x2="88.0" y2="59.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="68.0" x2="88.0" y2="68.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="77.0" x2="88.0" y2="77.0" style="stroke:var(--axis);stroke-width:2"/><circle cx="140.0" cy="60.0" r="24.0" style="fill:none;stroke:var(--red);stroke-width:2"/><path d="M116,60 L164,60 M140,36 L140,84" style="fill:none;stroke:var(--blue);stroke-width:2"/></svg></div><figcaption class="txt"><b>Ganita-Yukti-Bhasa of Jyesthadeva</b><span>The Malayalam text of about 1530 that gives the derivations, in K. V. Sarma's English translation with notes by Ramasubramanian, Srinivas and Sriram (Springer and Hindustan Book Agency, 2008).</span><a href="https://link.springer.com/book/9781848820722">Springer</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Madhava/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Madhava of Sangamagrama · MacTutor</span><span class="w">The series, the √12 form, the correction terms, and how his lost work is known</span></a><a href="https://www.manchester.ac.uk/about/news/indians-predated-newton-discovery-by-250-years/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Indians predated Newton 'discovery' by 250 years · University of Manchester press release (13 Aug 2007)</span><span class="w">The transmission claim in its strongest public form, including the "circumstantial evidence" wording</span></a><a href="https://3quarksdaily.com/?p=143638" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Madhava and the Uninfluential Discovery · Thomas Manuel, 3 Quarks Daily (2018)</span><span class="w">The skeptical side, quoting Plofker's review</span></a><a href="https://en.wikipedia.org/wiki/Chudnovsky_algorithm" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Chudnovsky algorithm · Wikipedia</span><span class="w">Published by the Chudnovsky brothers in 1988; about 14 digits per term; record computations up to 314 trillion digits (18 November 2025, with y-cruncher)</span></a><a href="https://nptel.ac.in/courses/111101080" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Mathematics in India: From Vedic Period to Modern Times · NPTEL video course, IIT Bombay (K. Ramasubramanian, M. D. Srinivas, M. S. Sriram)</span><span class="w">Lectures 30–31, "Kerala School of Astronomy and Development of Calculus", and proofs from the <em>Yuktibhasa</em> (syllabus)</span></a><a href="https://mathunion.org/fileadmin/IMU/ICM2022/Presentation-slides/218-Krishnamurthi%20Ramasubramanian.pdf" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">The History and Historiography of the Discovery of Calculus in India · K. Ramasubramanian, invited talk, ICM 2022 (slides)</span><span class="w">The series, the end-correction, and the Kerala lineage, Madhava to Jyesthadeva</span></a><a href="https://www.dam.brown.edu/people/mumford/beyond/papers/2010a--PlofkerReview-AMS.pdf" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Mathematics in India (review) · David Mumford, <em>Notices of the AMS</em> 57(3) (2010)</span><span class="w">A mathematician's account of the Kerala power series and the <em>Yuktibhasa</em> proofs</span></a><a href="https://maa.org/node/95254" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Ideas of Calculus in Islam and India · Victor J. Katz, <em>Mathematics Magazine</em> 68(3):163–174 (1995), MAA</span><span class="w">The classic survey of the Indian power series for sine, cosine and arctangent</span></a><a href="https://arxiv.org/abs/2405.11134" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">On Mādhava and his correction terms for the Mādhava–Leibniz series for π · V. N. Krishnachandran, arXiv (2024)</span><span class="w">The three correction terms examined critically, and reconstructions of how they were found</span></a><a href="https://link.springer.com/book/9781848820722" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Ganita-Yukti-Bhāṣā (Rationales in Mathematical Astronomy) of Jyeṣṭhadeva · K. V. Sarma (trans.), K. Ramasubramanian, M. D. Srinivas, M. S. Sriram; Springer / Hindustan Book Agency (2008), 2 vols.</span><span class="w">The Malayalam text (c. 1530) that gives the derivations, in English translation with notes</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-02-algorithms-travel/reference-catalog.md">Era 2 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-02-algorithms-travel/10-madhava-series/MadhavaSeries.java">MadhavaSeries.java</a> makes <strong>606 checks</strong>: the three corrections for every n from 2 to 300 (each better than the last), the √12 series against MacTutor's value, Archimedes' polygons trapping π, and the Chudnovsky series against an arctangent formula to 1,000 decimals. Run it with <code>java MadhavaSeries.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** Correct decimals of an approximation: how many places agree with pi before the error shows. */</span>
+<span class="k-kw">static</span> <span class="k-kw">int</span> decimals(BigDecimal approx) {
+    BigDecimal err = approx.subtract(PI).abs();
+    <span class="k-kw">if</span> (err.signum() == <span class="k-n">0</span>) <span class="k-kw">return</span> <span class="k-n">50</span>;
+    <span class="k-kw">int</span> d = <span class="k-n">0</span>;
+    <span class="k-kw">while</span> (d &lt; <span class="k-n">60</span> &amp;&amp; err.compareTo(<span class="k-kw">new</span> BigDecimal(&quot;<span class="k-n">0</span>.<span class="k-n">5</span>&quot;).movePointLeft(d + <span class="k-n">1</span>)) &lt; <span class="k-n">0</span>) d++;
+    <span class="k-kw">return</span> d;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>MadhavaSeries.java</code>.<br><span class="navfoot"><a href="../index.html">Era 2: Algorithms Travel</a><a href="../09-qin-jiushao/qin-jiushao.html">← Horner&#x27;s Method, Nearly Six Centuries Early</a><a href="../11-al-kashi-pi/al-kashi-pi.html">Al-Kashi&#x27;s Pi →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const rows = document.getElementById("md-rows");
+  if (!rows) return;
+  const PI = Math.PI;
+  const digits = v => { const e = Math.abs(v - PI); if (e === 0) return 15; let d = 0; while (d < 15 && e < 0.5 * 10 ** -(d + 1)) d++; return d; };
+  function show() {
+    const n = +document.getElementById("md-n").value;
+    document.getElementById("md-nv").textContent = `${n} term${n === 1 ? "" : "s"}`;
+    let s = 0; for (let k = 1; k <= n; k++) s += (k % 2 ? 1 : -1) / (2 * k - 1);
+    const sg = n % 2 === 0 ? 1 : -1;
+    const r1 = 1 / (4 * n), r2 = n / (4 * n * n + 1), r3 = (n * n + 1) / (4 * n ** 3 + 5 * n);
+    let t = 0; for (let k = 0; k < n; k++) t += (k % 2 ? -1 : 1) / ((2 * k + 1) * 3 ** k);
+    const L = [["1 − 1/3 + 1/5 − …", 4 * s], ["+ 1/(4n)", 4 * (s + sg * r1)], ["+ n/(4n² + 1)", 4 * (s + sg * r2)], ["+ (n² + 1)/(4n³ + 5n)", 4 * (s + sg * r3)], ["√12 (1 − 1/(3·3) + …)", Math.sqrt(12) * t]];
+    rows.innerHTML = "";
+    const ds = L.map(x => digits(x[1])), best = Math.max(...ds);
+    L.forEach(([lab, v], i) => {
+      const r = el("div", { class: "r" + (ds[i] === best ? " best" : "") }, rows);
+      el("span", { class: "lab" }, r, lab);
+      const val = el("span", { class: "val" }, r);
+      const str = v.toFixed(14), cut = Math.min(str.length, 2 + ds[i]);
+      val.innerHTML = `<b>${str.slice(0, cut)}</b>${str.slice(cut)} · ${ds[i]} decimal${ds[i] === 1 ? "" : "s"}`;
+      const bar = el("div", { class: "bar" }, r); const fill = el("i", {}, bar); fill.style.width = `${100 * ds[i] / 15}%`;
+    });
+    document.getElementById("md-say").innerHTML = `With ${n} terms the plain series gives ${ds[0]} correct decimal${ds[0] === 1 ? "" : "s"}; the third correction gives ${ds[3]}, and the √12 series ${ds[4]}. (Double precision stops at about 15.)`;
+  }
+  document.getElementById("md-n").addEventListener("input", show);
+  show();
+})();
+
+</script>
+</body>
+</html>

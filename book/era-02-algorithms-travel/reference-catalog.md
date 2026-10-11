@@ -646,7 +646,7 @@ The DSB entry gives the quartic −x⁴ + 763,200x² − 40,642,560,000 = 0 and 
 ## 10. Madhava's series for π
 
 **When / where:** Madhava of Sangamagrama (c. 1350–1425), founder of the Kerala school, southwestern India. None of his mathematical writings survive. His series are known from later Kerala texts: Nilakantha's *Tantrasangraha* (c. 1500) and Jyesthadeva's Malayalam *Ganita-Yukti-Bhasa* (c. 1530), which gives the derivations.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`MadhavaSeries.java`](../../code/era-02-algorithms-travel/10-madhava-series/) · **Page:** [topic 10](10-madhava-series/README.md)
 
 > **Field note.** Archimedes' polygons cost a new square root for every doubling. In Kerala I found something new: a sum that never ends. One minus a third, plus a fifth, minus a seventh, and so on, gives a quarter of the circumference over the diameter. By itself this sum is hopeless, because a million terms buy only a few digits. So the Kerala astronomers stopped after a few terms and added one correction that estimates everything they left out. That correction is the clever part. It is the first time I have seen anyone compute with an infinite process and then deal honestly with the part they did not compute.
 
@@ -693,6 +693,14 @@ No video could be verified (see **Gaps**).
 | Level | Link | Source | Why |
 |---|---|---|---|
 | Scholar | [Ganita-Yukti-Bhāṣā (Rationales in Mathematical Astronomy) of Jyeṣṭhadeva](https://link.springer.com/book/9781848820722) | K. V. Sarma (trans.), K. Ramasubramanian, M. D. Srinivas, M. S. Sriram; Springer / Hindustan Book Agency (2008), 2 vols. | The Malayalam text (c. 1530) that gives the derivations, in English translation with notes |
+
+**Added with the topic page** (each opened before it was listed)
+
+| Level | Link | Source | Why |
+|---|---|---|---|
+| Start | [Chudnovsky algorithm](https://en.wikipedia.org/wiki/Chudnovsky_algorithm) | Wikipedia | Published by the Chudnovsky brothers in 1988; about 14 digits per term; record computations up to 314 trillion digits (18 November 2025, with y-cruncher) |
+
+MacTutor gives the three correction terms as 1/(4n), n/(4n² + 1) and (n² + 1)/(4n³ + 5n). Its "π correct to 11 decimal places" from 21 terms of the √12 series is the sum truncated to 11 decimals (3.14159265359); the topic's program finds an error of 5.8 × 10⁻¹².
 
 **Gaps:** a Mathologer video, "Powell's Pi Paradox: the genius 14th century Indian solution" (6 May 2023), was found only through a TheTVDB listing. No YouTube page appeared in any search, so the video is not listed. Whish's 1834 paper exists as a PDF on cheenta.com, but the URL was too long to fetch. The full text of Katz (1995) could not be read (only the JSTOR header loaded), so its row relies on the MAA summary page. *The Wire*'s 2018 article returned no body text. The Springer translation of the *Tantrasangraha* was not opened. No text by Madhava himself survives.
 

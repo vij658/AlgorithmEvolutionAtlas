@@ -12,7 +12,7 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 4 | [Zero Becomes a Number](04-zero-becomes-a-number/README.md) | 628 CE | [`ZeroAsANumber.java`](04-zero-becomes-a-number/ZeroAsANumber.java) | 133,043 |
 | 5 | [The Chakravala and Pell's Equation](05-chakravala/README.md) | 628–1150 CE | [`Chakravala.java`](05-chakravala/Chakravala.java) | 34,009 |
 | 6 | [Algorism and Al-Jabr](06-algorism-and-al-jabr/README.md) | c. 820–830 CE | [`AlKhwarizmi.java`](06-algorism-and-al-jabr/AlKhwarizmi.java) | 99,796 |
-| 7 | Frequency Analysis | 9th century CE | planned | |
+| 7 | [Frequency Analysis](07-frequency-analysis/README.md) | 9th century CE | [`FrequencyAnalysis.java`](07-frequency-analysis/FrequencyAnalysis.java) | 246 |
 | 8 | Fibonacci's Liber Abaci | 1202 CE | planned | |
 | 9 | Horner's Method, Nearly Six Centuries Early | 1247 CE | planned | |
 | 10 | Madhava's Series for Pi | c. 1400 CE | planned | |

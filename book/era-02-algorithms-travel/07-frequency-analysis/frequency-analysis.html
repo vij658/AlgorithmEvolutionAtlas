@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Frequency Analysis</title>
+<meta name="description" content="Era 2, topic 7 of The Algorithm Evolution Atlas: al-Kindi&#x27;s frequency analysis, with a cipher to break by ranks and letter pairs, and Friedman&#x27;s index of coincidence.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.fa-board input[type=range]{width:min(260px,55vw)}
+.fa-n{font-family:var(--mono);font-size:13px}
+.fa-bars{display:grid;grid-template-columns:repeat(26,minmax(0,1fr));gap:2px;align-items:end;height:120px;margin:8px 0 2px}
+.fa-bars .col{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;gap:1px}
+.fa-bars .pr{display:flex;align-items:flex-end;justify-content:center;gap:1px;width:100%;flex:1}
+.fa-bars .b1{width:45%;background:var(--red)} .fa-bars .b2{width:45%;background:var(--blue);opacity:.8}
+.fa-bars .l{font-family:var(--mono);font-size:10px;color:var(--ink-2)}
+.fa-legend{font-size:12px;color:var(--muted);margin-bottom:8px}
+.fa-text{font-family:var(--mono);font-size:13px;line-height:1.6;word-break:break-all;background:var(--wash);border:1px solid var(--rule);padding:8px;max-height:220px;overflow:auto}
+.fa-text .ok{color:var(--blue)} .fa-text .no{color:var(--red);font-weight:600}
+.fa-key{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:3px;font-family:var(--mono);font-size:13px}
+.fa-key button{padding:2px 0;font-weight:400;font-size:12px;border-width:1px;display:flex;flex-direction:column;align-items:center;min-width:0}
+.fa-key button i{font-style:normal;color:var(--muted);font-size:10px}
+.fa-key button.sel{background:var(--yellow);color:#000}
+.fa-key button.ok{border-color:var(--blue)} .fa-key button.no{border-color:var(--red)}
+.fa-board .say{font-size:15px}
+.fa-hint{font-size:12.5px;color:var(--muted)}
+@media (max-width:600px){.fa-key{grid-template-columns:repeat(7,minmax(0,1fr))}}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 2: Algorithms Travel</a><a href="../06-algorism-and-al-jabr/algorism-and-al-jabr.html">← Algorism and Al-Jabr</a><a href="../08-liber-abaci/liber-abaci.html">Fibonacci&#x27;s Liber Abaci →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 2 · Topic 7 · 9th century CE</div>
+    <h1>Frequency Analysis</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">A substitution cipher hides each letter but not how often it appears. Al-Kindi counted the secret signs against the letters of a whole language, and for short messages looked at which letters keep company.</p>
+  <p class="fieldnote">Field note from the visiting historian. A philosopher in Baghdad wrote the trick down: count, rank, pair. It is the first procedure in my catalog that needs facts about a whole language, gathered in advance, as well as the message itself.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#break">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#method">How it works</a><a href="#evidence">The evidence</a><a href="#measured">Measured</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Al-Kindi, c. 801–873; the treatise usually dated about 850 (<strong>conjecture</strong>)</dd></div><div><dt>Where</dt><dd>Baghdad, the House of Wisdom</dd></div><div><dt>What hurt</dt><dd>26! substitution keys: far too many to try</dd></div><div><dt>The fix</dt><dd>Count and rank the signs against a language's letters; then use letter company</dd></div><div><dt>Cost</dt><dd>One pass to count; ranking plus letter pairs read 400-letter messages 19 times in 20</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Counting is as old as tally marks (Era 1, topic 1), and substitution ciphers are older than al-Kindi. His step was to count the secret signs against the letters of a whole language, gathered in advance. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How frequency analysis combined older ideas, and the arms race it started" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="437.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="437.0,170.0 428.2,171.9 429.7,164.8" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,170.0 496.3,161.8 503.7,161.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="563.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="563.0,170.0 570.3,164.8 571.8,171.9" style="fill:var(--ink-2)"/><line x1="416.0" y1="256.0" x2="167.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="167.0,330.0 173.8,324.1 175.9,331.2" style="fill:var(--ink-2)"/><line x1="125.0" y1="416.0" x2="125.0" y2="480.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="125.0,480.0 121.3,471.8 128.7,471.8" style="fill:var(--ink-2)"/><line x1="500.0" y1="256.0" x2="500.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="500.0,330.0 496.3,321.8 503.7,321.8" style="fill:var(--ink-2)"/><line x1="584.0" y1="256.0" x2="833.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="833.0,330.0 824.1,331.2 826.2,324.1" style="fill:var(--ink-2)"/><line x1="875.0" y1="416.0" x2="875.0" y2="480.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="875.0,480.0 871.3,471.8 878.7,471.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="60.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Counting</text><text x="32.0" y="77.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">tally marks, Era 1 topic 1</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="60.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Substitution ciphers</text><text x="407.0" y="77.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">one sign for each letter</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Close study of texts</text><text x="782.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">letters of the Qur&#x27;an</text><text x="782.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">a conjecture</text><rect x="395" y="170" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="193.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Al-Kindi&#x27;s method</text><text x="407.0" y="210.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ count, rank, pair; then</text><text x="407.0" y="227.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">letter company</text><text x="407.0" y="243.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Baghdad, c. 850 (estimate)</text><rect x="20" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Polyalphabetic ciphers</text><text x="32.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">many alphabets in turn</text><text x="32.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Alberti, first to propose</text><rect x="20" y="480" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="503.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Index of coincidence</text><text x="32.0" y="520.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ counting finds the key</text><text x="32.0" y="537.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">length</text><text x="32.0" y="553.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Friedman, 1922</text><rect x="395" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Simonetta&#x27;s manual</text><text x="407.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">deciphering Latin and Italian</text><text x="407.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">by 1474</text><rect x="770" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="782.0" y="353.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Markov&#x27;s chained events</text><text x="782.0" y="370.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">vowels and consonants in a</text><text x="782.0" y="387.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">text</text><text x="782.0" y="403.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Ycart 2013</text><rect x="770" y="480" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="782.0" y="511.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Machine decipherment</text><text x="782.0" y="529.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ search by letter pairs</text><text x="782.0" y="545.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">this page&#x27;s program</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dashed: links of ideas whose transmission is not documented (the Qur&#x27;an hypothesis; how Europe learned the method).</text></svg></div><figcaption>Red: al-Kindi's method. Blue: the letter-pair statistics that his second method needs, as Markov later used them and as this page's program does.</figcaption></figure>
+</section>
+<section id="break" aria-labelledby="break-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="break-h">Break a cipher</h2>
+<p class="col">A secret message has been enciphered with a random substitution key. <strong>1. Rank the counts</strong> pairs its signs with English letters by how common they are, al-Kindi's first method. <strong>2. Letter pairs</strong> then swaps letters while the text's letter pairs grow more like English, his second method done by machine. Shorten the message and watch the counts stop working. You can also fix letters by hand: click a cipher letter in the key, then type the plain letter.</p>
+
+<div class="board fa-board">
+  <div style="min-width:0">
+    <div class="controls">
+      <label for="fa-len">Message length <input id="fa-len" type="range" min="40" max="1275" value="400"></label>
+      <span class="fa-n" id="fa-n"></span>
+    </div>
+    <div class="controls">
+      <button id="fa-new" type="button">New key</button>
+      <button id="fa-rank" class="primary" type="button">1. Rank the counts</button>
+      <button id="fa-pairs" type="button">2. Letter pairs</button>
+    </div>
+    <div class="fa-bars" id="fa-bars" aria-label="Letter counts: the cipher against English"></div>
+    <div class="fa-text" id="fa-text" aria-live="polite"></div>
+  </div>
+  <div style="min-width:0">
+    <div class="eyebrow">Your decryption</div>
+    <p class="say" id="fa-say"></p>
+    <p class="fa-hint">To fix a letter by hand, click a cipher letter in the key below, then type the plain letter it stands for.</p>
+    <div class="fa-key" id="fa-key"></div>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 2, algorithms travel</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1342 132" role="img" aria-label="Era 2: Algorithms Travel, from c. 200 BCE to 1424 CE" style="font-family:var(--body);min-width:966px;max-width:1409px;margin:0 auto"><line x1="34" y1="34" x2="1308" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 200 BCE – 263 CE</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Fangcheng:</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">elimination on the</text><text x="64.0" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">board</text><circle cx="185.4" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.4" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 150 CE</text><text x="185.4" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Ptolemy&#x27;s table of</text><text x="185.4" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">chords</text><circle cx="306.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="306.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">3rd–5th century CE</text><text x="306.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Sunzi&#x27;s remainder</text><text x="306.8" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">problem</text><circle cx="428.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">628 CE</text><text x="428.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Brahmagupta&#x27;s</text><text x="428.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">rules for zero</text><circle cx="549.6" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="549.6" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">628–1150 CE</text><text x="549.6" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">The chakravala</text><circle cx="671.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 820–830 CE</text><text x="671.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">al-Khwarizmi&#x27;s</text><text x="671.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">written</text><text x="671.0" y="116" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">procedures</text><circle cx="792.4" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="792.4" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">9th century CE</text><text x="792.4" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">al-Kindi&#x27;s</text><text x="792.4" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">frequency</text><text x="792.4" y="116" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">analysis</text><circle cx="913.8" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="913.8" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1202 CE</text><text x="913.8" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Liber Abaci</text><circle cx="1035.2" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1035.2" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1247 CE</text><text x="1035.2" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Qin Jiushao&#x27;s root</text><text x="1035.2" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">method</text><circle cx="1156.6" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1156.6" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">c. 1400 CE</text><text x="1156.6" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Madhava&#x27;s series</text><text x="1156.6" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">for π</text><circle cx="1278.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1278.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1424 CE</text><text x="1278.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">al-Kashi&#x27;s π</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 700" role="img" aria-label="Each fix leaves a new pain: the arms race between ciphers and counting" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="396.0" x2="750.0" y2="446.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,446.0 746.3,437.8 753.7,437.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="492.0" x2="400.0" y2="492.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,492.0 408.2,488.3 408.2,495.7" style="fill:var(--ink-2)"/><rect x="449.2" y="471.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="484.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="538.0" x2="210.0" y2="588.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,588.0 206.3,579.8 213.7,579.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="634.0" x2="560.0" y2="634.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,634.0 551.8,637.7 551.8,630.3" style="fill:var(--ink-2)"/><rect x="449.2" y="613.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="626.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A substitution cipher has 26! keys, 4.03 × 10^26: trying</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">them all is hopeless</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Count the signs, rank them, and pair them with a</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">language&#x27;s letters</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">al-Kindi, 9th century</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Counts alone never settle: ranking reads only 54.7% of</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">an 800-letter message</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Look at which letters keep company: a search on letter</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">pairs reads 97.8%</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">al-Kindi&#x27;s second method, by machine</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="345.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Ciphers learn to hide the counts</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Polyalphabetic ciphers use several alphabets in turn:</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the index of coincidence falls from 0.0706 to 0.0444</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Alberti</text><rect x="560" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="487.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="503.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">But a repeating key repeats its alphabets</text><rect x="20" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="471.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="487.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The index of coincidence of every k-th letter finds the</text><text x="32.0" y="503.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">key length: 5</text><text x="32.0" y="520.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Friedman, 1922</text><rect x="20" y="588" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="629.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="645.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Any repetition can be counted</text><rect x="560" y="588" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="613.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="629.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A one-time pad, a fresh random key for every letter:</text><text x="572.0" y="645.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">index 0.0383, the uniform 0.0385</text><text x="572.0" y="662.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">nothing left to count</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="method" aria-labelledby="method-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="method-h">Count, rank, pair; then look at the company</h2>
+<p class="col">In al-Kindi's own words, in an English excerpt: "Among the expedients we use in cryptanalyzing a cryptogram if the language is already known, is to acquire a fairly long" sample of plain text, count and rank its letters, and match the ranking to the cryptogram. For short cryptograms, where the counts cannot be trusted, he adds a "qualitative" method: look at which letters occur together.</p>
+<p class="col">The program's reference sample is 5,944 letters of ordinary English written for it. Its letters ranked: <strong>etaonrshidlwcumfgpbyvkxqjz</strong>. The twelve most common, etaonrshidlw, are close to the printers' "etaoin shrdlu", which Wikipedia gives as the twelve most frequent letters of typical English; a different sample shuffles the middle of the list.</p>
+<div class="tbl"><table><thead><tr><th class="n">Letters in the message</th><th class="n">Ranking alone: letters right</th><th class="n">Messages read (95% right)</th><th class="n">Then letter pairs: letters right</th><th class="n">Messages read</th></tr></thead><tbody><tr class=""><td class="n">50</td><td class="n">21.2%</td><td class="n">0 of 20</td><td class="n">42.5%</td><td class="n">0 of 20</td></tr><tr class=""><td class="n">100</td><td class="n">44.9%</td><td class="n">0 of 20</td><td class="n">70.7%</td><td class="n">0 of 20</td></tr><tr class=""><td class="n">200</td><td class="n">39.9%</td><td class="n">0 of 20</td><td class="n">86.7%</td><td class="n">0 of 20</td></tr><tr class=""><td class="n">400</td><td class="n">48.9%</td><td class="n">0 of 20</td><td class="n">93.6%</td><td class="n">19 of 20</td></tr><tr class=""><td class="n">800</td><td class="n">54.7%</td><td class="n">0 of 20</td><td class="n">97.8%</td><td class="n">19 of 20</td></tr><tr class=""><td class="n">1,275</td><td class="n">54.7%</td><td class="n">0 of 20</td><td class="n">100.0%</td><td class="n">20 of 20</td></tr></tbody></table></div>
+<p class="col">Ranking alone never read a message, even the whole one: close letters swap places in the ranking, and every swap garbles a word. Adding letter pairs read 19 of 20 messages at 400 letters, and more as the messages grow. Al-Kindi's two methods, ranks for a first guess and letter company to correct it, are the two halves of a working attack. There are 403,291,461,126,605,635,584,000,000 keys; at a billion keys a second, trying them all would take 12,788,288,341 years.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>A cipher that changes each letter into another hides the letters but not their habits. Facts about a whole language, collected in advance, can be set against the message: the first procedure in this book that needs data as well as the problem in front of it.</p></div>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">A treatise found in an Istanbul archive</h2>
+<p class="col">Abu Yusuf Ya'qub ibn Ishaq al-Kindi was born in Kufa about 801 (MacTutor's page title says 805) and died in Baghdad in 873; al-Ma'mun appointed him to the House of Wisdom (<strong>documented</strong>; the birth year is <strong>disputed</strong>). His <em>Risalah fi Istikhraj al-Mu'amma</em>, "A Manuscript on Deciphering Cryptographic Messages", is usually dated about 850, an estimate (<strong>conjecture</strong>). It is the earliest known description of frequency analysis; who first noticed the idea is unknown.</p>
+<p class="col">The treatise came back to light only recently, and the date of its rediscovery is itself <strong>disputed</strong>: Simon Singh says 1987, in the Süleymaniye Ottoman Archive in Istanbul; Muslim Heritage says a search by Mrayati, Alam and al-Tayyan found it in 1979 and published it in Arabic in 1987. An Arabic–English edition followed in 2002. That close study of the Qur'an first revealed Arabic letter frequencies is a suggestion (<strong>conjecture</strong>). Whether Europe learned the method from Arabic sources is not settled: by 1474 Cicco Simonetta had written a manual on deciphering Latin and Italian (<strong>conjecture</strong> for the transmission).</p>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">The index of coincidence</h2>
+<p class="col">In 1922 William Friedman defined the index of coincidence: the chance that two letters picked at random from a text are the same. It counts letters too, but it ignores which letter is which, so a substitution cannot change it.</p>
+<div class="tbl"><table><thead><tr><th class="">Text</th><th class="n">Index of coincidence</th></tr></thead><tbody><tr class=""><td class="">The message, plain</td><td class="n">0.0706</td></tr><tr class=""><td class="">Substitution cipher</td><td class="n">0.0706</td></tr><tr class=""><td class="">Vigenère cipher, key "kindi"</td><td class="n">0.0444</td></tr><tr class=""><td class="">One-time pad (a random key letter for every letter)</td><td class="n">0.0383</td></tr><tr class=""><td class="">Uniform: every letter equally likely, 1/26</td><td class="n">0.0385</td></tr></tbody></table></div>
+<p class="col">A polyalphabetic cipher flattens the counts, which is what Alberti's idea was for. But if the key repeats, every k-th letter shares one alphabet. Guess a key length, split the text into that many columns, and take the average index of the columns:</p>
+<div class="tbl"><table><thead><tr><th class="">Guessed key length</th><th class="n">1</th><th class="n">2</th><th class="n">3</th><th class="n">4</th><th class="n">5</th><th class="n">6</th><th class="n">7</th><th class="n">8</th><th class="n">9</th><th class="n">10</th></tr></thead><tbody><tr class=""><td class="">Average index</td><td class="n">0.0444</td><td class="n">0.0445</td><td class="n">0.0445</td><td class="n">0.0442</td><td class="n">0.0716</td><td class="n">0.0445</td><td class="n">0.0435</td><td class="n">0.0442</td><td class="n">0.0444</td><td class="n">0.0722</td></tr></tbody></table></div>
+<p class="col">Lengths 5 and 10 jump back to the index of plain English: the key has <strong>5 letters</strong>, and each column is an ordinary substitution cipher, open to al-Kindi's method again.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Letters that keep company</h2>
+<p class="col">Al-Kindi's second method asks which letters follow which. A thousand years later that question became mathematics. Bernard Ycart's history of letter counting notes that "the alternation vowel-consonants was the only example that Markov ever gave of his theory of chained events": a Markov chain, the probability of each symbol given the one before.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>The program's attack is exactly such a chain: it scores a decryption by the probability of each letter given the one before, learned from 5,944 letters of English, and swaps letters until the chain is happy. Al-Kindi's "qualitative" method, mechanized with Markov's chains, read the whole message for 20 keys out of 20.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Why can't the cipher hide which sign is most common?</span></summary><div class="ans"><p>Each letter always becomes the same sign, so the sign for e appears exactly as often as e does.</p></div></details><details class="try"><summary><span class="q">2</span><span>Why does ranking alone fail even on a long message?</span></summary><div class="ans"><p>Letters with similar frequencies (r, s, h, i, n, o) swap places from one text to another, and every swap garbles words. Ranking gets the shape; letter pairs fix the details.</p></div></details><details class="try"><summary><span class="q">3</span><span>A cipher sign appears as a doubled pair, like xx, many times. What might it be?</span></summary><div class="ans"><p>In English, common doubled letters include ll, ee, ss and oo: a hint of the kind al-Kindi's qualitative method uses.</p></div></details><details class="try"><summary><span class="q">4</span><span>Why doesn't a substitution change the index of coincidence?</span></summary><div class="ans"><p>The index only asks how often two letters match. Renaming the letters does not change which positions match.</p></div></details><details class="try"><summary><span class="q">5</span><span>What does a one-time pad leave to count?</span></summary><div class="ans"><p>Nothing useful: its index is 0.0383, the value for letters chosen at random.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Al-Kindi&#x27;s Treatise on Cryptanalysis</b><span>The Arabic–English edition by Mrayati, Meer Alam and at-Tayyan (KFCRIS and KACST), volume 1 of a series on the Arabic origins of cryptology; the treatise's shelfmark in the Süleymaniye library is not given in the sources opened.</span><a href="https://iacr.org/newsletter/v20n3/newbooks.html">IACR Newsletter notice</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://simonsingh.net/The_Black_Chamber/crackingsubstitution.html" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">The Black Chamber: cracking the substitution cipher · Simon Singh</span><span class="w">Plain explanation of frequency analysis and al-Kindi's role, with the 1987 rediscovery claim</span></a><a href="https://muslimheritage.com/arab-origins-of-cryptology/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Arab origins of cryptology · Muslim Heritage, summary of a talk by Mohammed I. Al-Suwaiyel (2018)</span><span class="w">The treatise's title and date, the 1979 manuscript search, and the later Arab cryptologists</span></a><a href="https://en.wikipedia.org/wiki/Frequency_analysis" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Frequency analysis · Wikipedia</span><span class="w">The method, al-Kindi, the Qur'an hypothesis, and the European sequel</span></a><a href="https://www.cs.purdue.edu/homes/ninghui/courses/Fall05/lectures/355_Fall05_lect02.pdf" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Classical Cryptography: Shift Cipher and Substitution Cipher · CS 355 Introduction to Cryptography, lecture 2, Fall 2005 (Purdue computer science site)</span><span class="w">University slides that place al-Kindi's frequency analysis against the substitution cipher</span></a><a href="https://sites.wcsu.edu/mbxml/html/section-24.html" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Chapter 2 quotes · Charles F. Rocca Jr., <em>Cryptology Through History and Inquiry</em>, Appendix D (WCSU site)</span><span class="w">An English excerpt of al-Kindi's own instructions, cited to vol. 1, pp. 121–123 of the book's reference [12]</span></a><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Al-Kindi/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Al-Kindi · MacTutor</span><span class="w">Life, the House of Wisdom, and his works on Indian numbers. Silent on cryptography</span></a><a href="https://en.wikipedia.org/wiki/Index_of_coincidence" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Index of coincidence · Wikipedia</span><span class="w">Invented by William F. Friedman (1922); about 0.067 for English, 1/26 for uniform text; finds the key length of a Vigenère cipher</span></a><a href="https://benjamins.com/catalog/hl.40.3.01yca" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Letter counting: A stem cell for cryptology, quantitative linguistics, and statistics · Bernard Ycart, <em>Historiographia Linguistica</em> 40(3) (2013), 303–330</span><span class="w">The long history of letter counting, from cryptology to Markov. Cites the al-Kindi edition and Al-Kadi (1992)</span></a><a href="https://iacr.org/newsletter/v20n3/newbooks.html" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">New books: <em>Al-Kindi's Treatise on Cryptanalysis</em> · IACR Newsletter 20(3)</span><span class="w">Describes the Arabic–English edition (Mrayati, Meer Alam, at-Tayyan; KFCRIS and KACST), whose Chapter 3 is the translation, with the Arabic alongside</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-02-algorithms-travel/reference-catalog.md">Era 2 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-02-algorithms-travel/07-frequency-analysis/FrequencyAnalysis.java">FrequencyAnalysis.java</a> makes <strong>246 checks</strong>: for every message length and key: the substitution keeps the index of coincidence, the true key reads the message, and the attack's accuracy; then the indexes of the Vigenère cipher and one-time pad, and the key length. Run it with <code>java FrequencyAnalysis.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** Al-Kindi&#x27;s first method: pair the cipher&#x27;s ranking with the language&#x27;s. Returns decrypt[cipher] = plain. */</span>
+<span class="k-kw">static</span> <span class="k-kw">char</span>[] byRanking(String cipher, <span class="k-kw">char</span>[] languageRank) {
+    <span class="k-kw">char</span>[] cr = ranking(counts(cipher));
+    <span class="k-kw">char</span>[] dec = <span class="k-kw">new</span> <span class="k-kw">char</span>[<span class="k-n">26</span>];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; <span class="k-n">26</span>; i++) dec[cr[i] - &#x27;a&#x27;] = languageRank[i];
+    <span class="k-kw">return</span> dec;
+}
+
+<span class="k-kw">static</span> <span class="k-kw">char</span>[] climb(String cipher, <span class="k-kw">char</span>[] start) {
+    <span class="k-kw">char</span>[] dec = start.clone();
+    <span class="k-kw">double</span> best = score(apply(cipher, dec));
+    <span class="k-kw">boolean</span> improved = <span class="k-kw">true</span>;
+    <span class="k-kw">while</span> (improved) {
+        improved = <span class="k-kw">false</span>;
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; <span class="k-n">26</span>; i++) <span class="k-kw">for</span> (<span class="k-kw">int</span> j = i + <span class="k-n">1</span>; j &lt; <span class="k-n">26</span>; j++) {
+            <span class="k-kw">char</span> t = dec[i]; dec[i] = dec[j]; dec[j] = t;
+            <span class="k-kw">double</span> s = score(apply(cipher, dec));
+            <span class="k-kw">if</span> (s &gt; best + 1e-<span class="k-n">9</span>) { best = s; improved = <span class="k-kw">true</span>; }
+            <span class="k-kw">else</span> { t = dec[i]; dec[i] = dec[j]; dec[j] = t; }
+        }
+    }
+    <span class="k-kw">return</span> dec;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>FrequencyAnalysis.java</code>.<br><span class="navfoot"><a href="../index.html">Era 2: Algorithms Travel</a><a href="../06-algorism-and-al-jabr/algorism-and-al-jabr.html">← Algorism and Al-Jabr</a><a href="../08-liber-abaci/liber-abaci.html">Fibonacci&#x27;s Liber Abaci →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const bars = document.getElementById("fa-bars");
+  if (!bars) return;
+  const SAMPLE = "Long before there were machines to carry out instructions, people wrote down ways of doing things that would work every time. A clerk in a temple counted grain with tokens of clay, a scribe in a palace kept tables of reciprocals so that division became multiplication, and a surveyor on the banks of a river measured fields that the flood had washed away. None of them called what they did an algorithm. The word came much later, from the name of a scholar who worked in Baghdad, and it reached the languages of Europe through Latin copies of his book on the Indian way of writing numbers. Yet the habit of writing a procedure so that anyone could follow it is very old, and the history of that habit is the story this book tries to tell. The first procedures were written for people, not for machines, and people make mistakes. A good procedure therefore had to be short, it had to be checked, and it had to tell the reader what to do when something went wrong. The scribes who copied tables of squares and square roots did not explain why the tables were right; they simply wrote the numbers down, row after row, and trusted the next scribe to copy them faithfully. When a copy was wrong, the error travelled with it for centuries. Some of the oldest mathematical documents we have are school exercises, full of corrections, and they show how hard it was to learn even the simplest steps. In China the counting board turned arithmetic into the movement of rods on a grid. A problem with several unknown quantities was laid out in columns, one column for each condition, and the clerks subtracted one column from another until the answer stood alone. When a subtraction left less than nothing, they used rods of a different colour and carried on. In India the empty place in a number became a number of its own, with rules for adding it, taking it away, and multiplying by it, and the same writers gave rules for debts and fortunes, which we now call negative and positive numbers. In Alexandria an astronomer built a table of chords from a handful of exact values, using rules that made new entries from old ones, and the table was copied and used for more than a thousand years. Procedures travel. They cross borders with merchants and with books, and they change as they go. A method for finding a number from its remainders appears in a Chinese primer, then in a treatise written eight centuries later by a man who said he had learned it from the calendar makers, and then again in Europe under another name. A method for solving whole number equations was found in India, lost to Europe, and found again by a French lawyer who set it as a challenge to his friends. Sometimes the same idea is discovered twice, far apart, by people who never heard of each other, and sometimes a borrowing is so complete that nobody remembers where the idea began. The historian has to be careful with both stories, and to say plainly when the evidence runs out. Secrets travel too. Kings and generals have always wanted to send messages that only the right reader could understand, and scribes invented many ways of hiding the meaning of a text. The simplest is to replace every letter by another letter, always the same one, so that the message looks like nonsense to anyone who does not know the rule. There are so many possible rules that nobody could try them all, and for a long time this kind of cipher was thought to be safe. It was not. A philosopher in Baghdad noticed that a cipher of this kind hides the letters but not their habits. Some letters are common and some are rare, some like to stand together and some never meet, and these habits survive the substitution untouched. Count the signs in the secret message, compare them with the letters of an ordinary text in the same language, and the rule begins to show itself. This is the first procedure in our story that needs facts about a whole language, gathered in advance, as well as the message in front of the reader. What follows is a history of such procedures, told in order of time, from the first marks cut into bone to the programs that run on the machines of today. Each step answered a difficulty that the step before it left behind, and each one is written here as a small program that can be run and checked. Where the evidence is firm, the book says so; where scholars disagree, it gives their positions; and where nothing is known, it leaves the gap open rather than filling it with a guess. The reader who wants to go deeper will find, for every step, the lectures, the articles and the original sources that were opened and read while the book was being written, so that every claim can be followed back to the place where it was found. A river town in the dry season is a quiet place. The boats lie on the mud, the ferrymen mend their nets, and the children run along the banks looking for things the water has left behind. Then the rains come in the hills, far away, and one morning the river begins to rise. Within a week it has covered the fields, and within a month the town itself stands like an island in a brown and moving sea. When the water goes down again, the boundary stones are gone, the ditches are full of silt, and nobody can say exactly where one family's land ended and the next began. That is why the surveyors were among the most important people in the kingdom. They carried ropes knotted at equal intervals, and with these ropes they could lay out a right angle, measure a field, and work out its area from a few simple rules. Their rules were not always exact, but they were good enough to settle a quarrel, and a rule that settles quarrels is worth more than a perfect one that nobody can use. Teachers in every age have complained that their students learn the steps without understanding them, and students in every age have answered that the steps are what the examination asks for. Both are right. A procedure that can be followed without understanding is a powerful thing, because it lets a person who has never seen the proof get the right answer, and it lets a machine do the same. But a procedure that is followed without any understanding cannot be repaired when it breaks, or adapted when the problem changes a little. The great teachers of the past gave their readers both: a recipe for the common case, and a picture or an argument that showed why the recipe worked, so that a careful reader could find the way back if the recipe failed. We still teach that way today, and the best programs are still written that way, with the steps for the machine and the reasons for the people who will have to read and change them later. Weather, trade and war decided which books survived. A library could burn in a single night, and a work that existed in only one copy would vanish with it. Other books survived because somebody thought them useful enough to copy again and again, even when the copyist did not understand them, and some of these copies have come down to us full of mistakes that tell us how the text was read. A modern editor compares the surviving copies, notes where they differ, and tries to work out which reading came first. It is slow work, and it rarely ends in certainty, but without it we would not know what most ancient writers actually wrote. Every claim in a history like this one rests, in the end, on the patience of such editors, and on the libraries and museums that keep the objects safe and let anyone look at them.", MESSAGE = "The caravan will leave the city before dawn on the third day of the month, when the gates are opened for the water carriers. Tell the captain of the guard that the cargo is wool and copper, and that the real cargo is in the second wagon, under the sacks of grain. Do not speak of the books to anyone, not even to the merchants who travel with us, for there are men in the market who would pay well to know where the library is going. When we reach the river, we will wait for the boat that carries the green flag, and the boatman will ask you for the name of your father. Give him the name we agreed, and nothing more. If the boat does not come before sunset, return to the inn by the old bridge and wait there for my letter. I will write in the usual way, and you will read it with the usual key. Burn this message when you have read it, and do not keep a copy of the key in the same place as the letters. The scholars who sent the books trust us with work that took them many years, and we must not fail them. Some of these pages exist nowhere else in the world. If they are lost on the road, they are lost for ever, and nobody will know what was written in them or who wrote it. Keep the wagon covered in the rain and away from the fire at night, and count the boxes every morning before the animals are loaded. If anyone asks where we are going, say that we are taking wool to the coast to be sold, and that we will come back in the spring with salt. The road through the hills is longer but safer, and the soldiers there know my name. Travel slowly, rest the animals often, and do not let the drivers drink before the day's work is done.";
+  const letters = s => s.toLowerCase().replace(/[^a-z]/g, "");
+  const ref = letters(SAMPLE), msgAll = letters(MESSAGE);
+  const A = "abcdefghijklmnopqrstuvwxyz";
+  const counts = t => { const c = new Array(26).fill(0); for (const ch of t) c[ch.charCodeAt(0) - 97]++; return c; };
+  const rankOf = c => [...Array(26).keys()].sort((a, b) => c[b] - c[a] || a - b);
+  const rc = counts(ref), refRank = rankOf(rc);
+  const pair = Array.from({ length: 26 }, () => new Array(26).fill(1));
+  for (let i = 1; i < ref.length; i++) pair[ref.charCodeAt(i - 1) - 97][ref.charCodeAt(i) - 97]++;
+  const pl = pair.map(row => { const s = row.reduce((a, b) => a + b, 0); return row.map(v => Math.log(v / s)); });
+  let seed = 7;
+  const rand = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+  let key, plain, cipher, dec, sel = null;
+  function newKey() {
+    const l = A.split(""); for (let i = 25; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [l[i], l[j]] = [l[j], l[i]]; }
+    key = l; // key[plain] = cipher
+    load();
+  }
+  function load() {
+    const n = +document.getElementById("fa-len").value;
+    document.getElementById("fa-n").textContent = `${n} letters`;
+    plain = msgAll.slice(0, n);
+    cipher = [...plain].map(ch => key[ch.charCodeAt(0) - 97]).join("");
+    dec = new Array(26).fill("?");
+    say("A new secret message. Press <b>1. Rank the counts</b>: pair the cipher's most common sign with English's most common letter, and so on down.");
+    paint();
+  }
+  const say = h => { document.getElementById("fa-say").innerHTML = h; };
+  const decoded = () => [...cipher].map(ch => dec[ch.charCodeAt(0) - 97]).join("");
+  const score = t => { let s = 0; for (let i = 1; i < t.length; i++) s += pl[t.charCodeAt(i - 1) - 97][t.charCodeAt(i) - 97]; return s; };
+  function rank() {
+    const cr = rankOf(counts(cipher));
+    for (let i = 0; i < 26; i++) dec[cr[i]] = A[refRank[i]];
+    say(`Ranked: ${acc()}% of the letters are right. Al-Kindi warned that a short message does not settle the counts.`);
+    paint();
+  }
+  function pairs() {
+    if (dec.includes("?")) rank();
+    const tryClimb = start => {
+      const d = start.slice(); let best = score([...cipher].map(ch => d[ch.charCodeAt(0) - 97]).join("")), imp = true;
+      while (imp) { imp = false; for (let i = 0; i < 26; i++) for (let j = i + 1; j < 26; j++) { [d[i], d[j]] = [d[j], d[i]]; const s = score([...cipher].map(ch => d[ch.charCodeAt(0) - 97]).join("")); if (s > best + 1e-9) { best = s; imp = true; } else [d[i], d[j]] = [d[j], d[i]]; } }
+      return [d, best];
+    };
+    let [bd, bs] = tryClimb(dec);
+    for (let r = 0; r < 8; r++) { const s = dec.slice(); for (let k = 0; k < 6; k++) { const i = Math.floor(rand() * 26), j = Math.floor(rand() * 26); [s[i], s[j]] = [s[j], s[i]]; } const [d2, s2] = tryClimb(s); if (s2 > bs) { bs = s2; bd = d2; } }
+    dec = bd;
+    say(`After the letter-pair search: ${acc()}% right. Common pairs such as th, he, in and an pull the letters into place.`);
+    paint();
+  }
+  const acc = () => { const t = decoded(); let ok = 0; for (let i = 0; i < t.length; i++) if (t[i] === plain[i]) ok++; return Math.round(1000 * ok / t.length) / 10; };
+  function paint() {
+    const cc = counts(cipher), cr = rankOf(cc), max = Math.max(cc[cr[0]] / cipher.length, rc[refRank[0]] / ref.length);
+    bars.innerHTML = "";
+    for (let i = 0; i < 26; i++) {
+      const col = el("div", { class: "col" }, bars), pr = el("div", { class: "pr" }, col);
+      const b1 = el("div", { class: "b1" }, pr); b1.style.height = `${96 * cc[cr[i]] / cipher.length / max}%`;
+      const b2 = el("div", { class: "b2" }, pr); b2.style.height = `${96 * rc[refRank[i]] / ref.length / max}%`;
+      el("span", { class: "l" }, col, A[cr[i]]);
+      el("span", { class: "l" }, col, A[refRank[i]]);
+    }
+    let lg = bars.nextElementSibling;
+    if (!lg || !lg.classList.contains("fa-legend")) { lg = el("div", { class: "fa-legend" }); bars.after(lg); }
+    lg.textContent = "Ranked from most to least common. Red bars and top letters: the cipher's signs. Blue bars and bottom letters: English, from the program's sample.";
+    const tx = document.getElementById("fa-text"); tx.innerHTML = "";
+    const t = decoded();
+    for (let i = 0; i < Math.min(t.length, 600); i++) el("span", { class: t[i] === "?" ? "" : (t[i] === plain[i] ? "ok" : "no") }, tx, t[i] === "?" ? cipher[i].toUpperCase() : t[i]);
+    const kb = document.getElementById("fa-key"); kb.innerHTML = "";
+    for (let c = 0; c < 26; c++) {
+      if (!cc[c]) continue;
+      const truth = A[key.indexOf(A[c])];
+      const b = el("button", { type: "button", class: (sel === c ? "sel " : "") + (dec[c] === "?" ? "" : dec[c] === truth ? "ok" : "no") }, kb);
+      b.append(A[c].toUpperCase()); el("i", {}, b, `→ ${dec[c]}`);
+      b.addEventListener("click", () => { sel = sel === c ? null : c; paint(); });
+    }
+  }
+  // manual swap: choose a cipher letter, then type the plain letter on the keyboard
+  document.addEventListener("keydown", e => {
+    if (sel === null || !/^[a-z]$/i.test(e.key)) return;
+    const p = e.key.toLowerCase(), other = dec.indexOf(p);
+    if (other >= 0) dec[other] = dec[sel];
+    dec[sel] = p; sel = null;
+    say(`Swapped by hand: ${acc()}% right.`);
+    paint();
+  });
+  document.getElementById("fa-new").addEventListener("click", newKey);
+  document.getElementById("fa-rank").addEventListener("click", rank);
+  document.getElementById("fa-pairs").addEventListener("click", pairs);
+  document.getElementById("fa-len").addEventListener("change", load);
+  newKey();
+})();
+
+</script>
+</body>
+</html>

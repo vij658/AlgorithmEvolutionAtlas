@@ -448,7 +448,7 @@ Springer's page for the Urgench proceedings could not be read (rate limit), so t
 ## 7. Frequency analysis
 
 **When / where:** Baghdad, 9th century CE. Abu Yusuf Ya'qub ibn Ishaq al-Kindi was born in Kufa about 801 (MacTutor's page title says 805), died in Baghdad in 873, and was appointed to the House of Wisdom by al-Ma'mun. His *Risalah fi Istikhraj al-Mu'amma* ("A Manuscript on Deciphering Cryptographic Messages") is usually dated about 850 CE.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`FrequencyAnalysis.java`](../../code/era-02-algorithms-travel/07-frequency-analysis/) · **Page:** [topic 7](07-frequency-analysis/README.md)
 
 > **Field note.** A substitution cipher hides each letter behind another sign, but it cannot hide how often each sign appears. A philosopher in Baghdad wrote the trick down. Take a long plain text in the same language, count its letters and rank them. Count the signs in the secret text and rank them too. Then pair the two lists. When a message is too short for the counts to settle, he says, look instead at which letters like to stand next to each other. This is the first procedure in my catalog that needs facts about a whole language, gathered in advance, as well as the message itself. The treatise came back to light in an Istanbul archive only in the late twentieth century, and its rediscovery has two different dates.
 
@@ -494,6 +494,14 @@ No video could be verified (see **Gaps**).
 | Level | Link | Source | Why |
 |---|---|---|---|
 | Scholar | [New books: *Al-Kindi's Treatise on Cryptanalysis*](https://iacr.org/newsletter/v20n3/newbooks.html) | IACR Newsletter 20(3) | Describes the Arabic–English edition (Mrayati, Meer Alam, at-Tayyan; KFCRIS and KACST), whose Chapter 3 is the translation, with the Arabic alongside |
+
+**Added with the topic page** (each opened before it was listed)
+
+| Level | Link | Source | Why |
+|---|---|---|---|
+| Deeper | [Index of coincidence](https://en.wikipedia.org/wiki/Index_of_coincidence) | Wikipedia | Invented by William F. Friedman (1922); about 0.067 for English, 1/26 for uniform text; finds the key length of a Vigenère cipher |
+
+The program's English reference sample and secret message were written for it, so no outside text is reproduced.
 
 **Gaps:** YouTube pages could not be opened, so no video is listed. Khan Academy's frequency-analysis video was not found at a URL that could be opened. Ibrahim Al-Kadi's paper "Origins of cryptology: The Arab contributions" (*Cryptologia*, 1992) was found as a PDF on a Grenoble faculty site, but the link redirected and could not be opened. The 2002 English edition of the treatise is not openly available. The only full copy found was on a file-sharing site, which is not listed. No Gresham College or other university lecture devoted to al-Kindi was found. The Purdue slides do not name their instructor on the page. Rocca's book does not identify the translator of its excerpt on that page. Neither the Simon Singh page nor Muslim Heritage gives a manuscript shelfmark, so which Süleymaniye manuscript holds the treatise is unverified.
 

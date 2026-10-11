@@ -267,7 +267,7 @@ No original source could be opened (see **Gaps**).
 ## 6. Binary arithmetic
 
 **When / where:** Thomas Harriot worked out binary notation and arithmetic in unpublished papers, probably between 1601 and 1605 (England). Juan Caramuel printed a binary system in *Mathesis biceps* (1670). Gottfried Wilhelm Leibniz wrote on the "binary progression" in 1679 and published *Explication de l'Arithmétique Binaire* in the Paris Academy's volume for 1703, after Joachim Bouvet sent him the hexagrams attributed to Fuxi from China (1701).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`BinaryArithmetic.java`](../../code/era-03-tables-and-machines/06-binary-arithmetic/) · **Page:** [topic 6](06-binary-arithmetic/README.md)
 
 > **Field note.** The Egyptian scribes of the first era (topic 5) multiplied by doubling, and so, without saying it, wrote every number as a sum of powers of two. An Englishman wrote such numbers down with only two signs around 1604 and left them in a drawer. Leibniz, eighty years later, made the system public and said plainly that he was not recommending it for ordinary use. What he saw instead was that its arithmetic needs no memorised tables at all: every rule is "one and one make ten". That is exactly what a machine can do.
 

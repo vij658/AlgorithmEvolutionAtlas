@@ -460,7 +460,7 @@ No video could be verified (see **Gaps**).
 ## 10. Monte Carlo, and numbers that only look random
 
 **When / where:** Stanisław Ulam, John von Neumann and Nicholas Metropolis, Los Alamos, 1946–1949. Ulam's idea came in 1946; von Neumann outlined a statistical calculation of neutron diffusion in a letter to Robert Richtmyer of 11 March 1947; the first fully automated Monte Carlo calculations ran on the ENIAC in spring 1948; Metropolis and Ulam published "The Monte Carlo Method" in the *Journal of the American Statistical Association* in 1949. Von Neumann's middle-square method for producing random-looking digits was described in 1949 and printed in 1951.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`MonteCarlo.java`](../../code/era-04-what-can-be-computed/10-monte-carlo/) · **Page:** [topic 10](10-monte-carlo/README.md)
 
 > **Field note.** A mathematician recovering from an illness played patience and asked what fraction of games can be won. The combinatorics were hopeless; he realised it would be easier to deal a few hundred games and count. That is a strange idea for a mathematician, since the answer is only approximate, but the new electronic computers could deal millions of games, and the questions at Los Alamos (how many neutrons in a chain go on to cause fission?) were as hopeless as patience. The method needs random numbers by the million, and reading them from cards was too slow, so von Neumann had the machine make its own: square a number and keep its middle digits. He knew perfectly well that such numbers are not random. He called using them a sin, and used them.
 

@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Monte Carlo</title>
+<meta name="description" content="Era 4, topic 10 of The Algorithm Evolution Atlas: the Monte Carlo method at Los Alamos, and von Neumann&#x27;s middle-square random numbers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+#mc-svg{width:100%;max-width:320px;height:auto}
+.mc-board .controls{flex-wrap:wrap;gap:6px}
+.mc-board select{font:inherit;font-size:13.5px}
+.mc-board input[type=number]{width:6em}
+.mc-steps{margin:6px 0 10px;padding-left:1.4em;font-size:13.5px;display:grid;gap:5px}
+.mc-steps .m{font-family:var(--mono);font-size:12.5px}
+.mc-seq{font:12.5px var(--mono);display:flex;flex-wrap:wrap;gap:4px;margin:6px 0}
+.mc-seq span{padding:1px 4px;border:1px solid var(--axis);background:var(--surface)}
+.mc-seq span.cyc{background:var(--red);color:var(--on-red);border-color:var(--red)}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 4: What Can Be Computed</a><a href="../09-stored-program/stored-program.html">← The Stored Program, and Merge Sort</a><a href="../11-simplex-method/simplex-method.html">The Simplex Method →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 4 · Topic 10 · 1946–1949</div>
+    <h1>Monte Carlo</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">A mathematician playing patience asked what fraction of games come out, and realised it was easier to deal many and count. With the first electronic computers, counting random trials became a way to compute, provided the machine could make its own random numbers.</p>
+  <p class="fieldnote">Field note from the visiting historian. Ten million random points told me π to three decimals, 3.141146. Then I tried von Neumann's home-made random numbers, starting from 1234: after 57 numbers they reached 0000 and never left, and my estimate of π became 3.9998. He warned that using them was a sin, and he used them anyway.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#darts">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>1946 idea; ENIAC runs 1948; papers 1949</dd></div><div><dt>Where</dt><dd>Los Alamos</dd></div><div><dt>What hurt</dt><dd>Problems with too many interacting chances</dd></div><div><dt>The fix</dt><dd>Simulate random cases and count; machine-made random digits</dd></div><div><dt>Cost</dt><dd>Error ∝ 1/√N, in any dimension</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Estimating by random trials is old (Buffon's needle); chains of chance events had been studied since Markov (topic 3). What was new in 1946 was a machine fast enough to run the trials by the million, and a problem, neutron chains in a weapon core, too tangled for any formula. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How the Monte Carlo method combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="426.5,170.0 417.7,171.9 419.2,164.7" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,170.0 496.3,161.8 503.7,161.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="573.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,170.0 580.8,164.7 582.3,171.9" style="fill:var(--ink-2)"/><line x1="416.0" y1="256.0" x2="167.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="167.0,330.0 173.8,324.1 175.9,331.2" style="fill:var(--ink-2)"/><line x1="500.0" y1="256.0" x2="500.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,330.0 496.3,321.8 503.7,321.8" style="fill:var(--ink-2)"/><line x1="584.0" y1="256.0" x2="833.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="833.0,330.0 824.1,331.2 826.2,324.1" style="fill:var(--ink-2)"/><line x1="500.0" y1="416.0" x2="500.0" y2="480.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,480.0 496.3,471.8 503.7,471.8" style="fill:var(--ink-2)"/><line x1="833.0" y1="416.0" x2="605.0" y2="523.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="605.0,523.0 610.9,516.2 614.0,522.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Random throws</text><text x="32.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Buffon&#x27;s needle estimates π</text><text x="32.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">an early variant</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Markov chains</text><text x="407.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">chance that depends on the</text><text x="407.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">last step</text><text x="407.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 3</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Electronic computers</text><text x="782.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">millions of operations</text><text x="782.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">ENIAC; topic 9</text><rect x="395" y="170" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="193.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Monte Carlo</text><text x="407.0" y="210.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ simulate many random cases,</text><text x="407.0" y="227.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">by machine</text><text x="407.0" y="243.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1946–1949</text><rect x="20" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="353.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Middle-square</text><text x="32.0" y="370.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">random-looking digits by</text><text x="32.0" y="387.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">arithmetic</text><text x="32.0" y="403.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1949</text><rect x="395" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="353.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Neutron chains</text><text x="407.0" y="370.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the first calculations, on the</text><text x="407.0" y="387.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">ENIAC</text><text x="407.0" y="403.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1948</text><rect x="770" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Sampling by chains</text><text x="782.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">walk randomly to sample</text><text x="782.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">after this era</text><rect x="395" y="480" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="503.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Simulation today</text><text x="407.0" y="520.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">risk, physics, graphics,</text><text x="407.0" y="537.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">machine learning</text><text x="407.0" y="553.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">today</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dashed: Buffon&#x27;s needle is &quot;an early variant&quot; (Wikipedia), not a documented source of the 1946 idea.</text></svg></div><figcaption>Red: the Monte Carlo method at Los Alamos. Blue: simulation today.</figcaption></figure>
+</section>
+<section id="darts" aria-labelledby="darts-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="darts-h">Throw points, and make your own random numbers</h2>
+<p class="col">Add random points to the square. The share that lands inside the quarter circle, times 4, estimates π, and the error shrinks slowly: a hundred times the points for one more correct digit. Then switch to middle-square numbers from seed 1234 and watch the estimate go wrong. Below, enter any 4-digit seed: the sequence always ends in a cycle (red).</p>
+
+<div class="board mc-board">
+  <div style="min-width:0">
+    <svg id="mc-svg" viewBox="0 0 320 320" role="img" aria-label="Random points in a square; those inside the quarter circle are red"></svg>
+    <div class="controls">
+      <button class="primary" id="mc-100">+100 points</button><button id="mc-10k">+10,000</button><button id="mc-1m">+1,000,000</button><button id="mc-clear">Clear</button>
+    </div>
+    <div class="controls"><label for="mc-gen">Random numbers from <select id="mc-gen"><option value="good">a good generator</option><option value="ms">middle-square, seed 1234</option></select></label></div>
+  </div>
+  <div style="min-width:0">
+    <ol class="mc-steps" id="mc-steps"></ol>
+    <div class="eyebrow">Middle-square by hand</div>
+    <div class="controls"><label for="mc-seed">Seed <input id="mc-seed" type="number" min="0" max="9999" value="540"></label></div>
+    <div class="mc-seq" id="mc-seq"></div>
+    <p class="say" id="mc-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 4, what can be computed</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 4: What Can Be Computed, from 1895 to 1950" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1900–1928</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Hilbert&#x27;s questions</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1895–1901</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Runge and Kutta</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1906–1913</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Markov&#x27;s chains</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1926–1930</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Borůvka and</text><text x="428.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Jarník</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1931</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Gödel&#x27;s numbering</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1936</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Church&#x27;s</text><text x="671.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">λ-calculus</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1936</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Turing&#x27;s machines</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1932–1940</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Breaking Enigma</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1945–1948</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">The stored</text><text x="1036.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">program</text><circle cx="1157.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1946–1949</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Monte Carlo</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1947</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Dantzig&#x27;s simplex</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1937–1948</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Shannon&#x27;s bits</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1950</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Hamming&#x27;s codes</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 558" role="img" aria-label="Each fix leaves a new pain: from patience to pseudo-random numbers" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="396.0" x2="750.0" y2="446.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,446.0 746.3,437.8 753.7,437.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="492.0" x2="400.0" y2="492.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,492.0 408.2,488.3 408.2,495.7" style="fill:var(--ink-2)"/><rect x="449.2" y="471.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="484.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Patience, or a chain of neutrons: far too many cases to</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">calculate</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Play many random games by machine and count</text><text x="572.0" y="86.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Ulam and von Neumann, 1946–1947</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="203.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A sample gives only an approximate answer</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Measure the error: four times the points, about half</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the error (0.05270 → 0.02755)</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">error ∝ 1/√N</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Reading random digits from cards is too slow for the</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">machine</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Let the machine make them: square, keep the middle</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">digits</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">von Neumann, middle-square, 1949</text><rect x="560" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="479.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="495.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Middle-square repeats: from seed 1234 only 57 numbers,</text><text x="572.0" y="512.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">then 0000 for ever</text><rect x="20" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="479.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="495.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Better generators, tested before they are trusted</text><text x="32.0" y="512.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">after this era</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Count, and know how wrong you are</h2>
+<p class="col"><strong>Estimate by counting.</strong> Choose random points in a square of side 1; a point (x, y) lies in the quarter circle when x² + y² &lt; 1, which happens with probability π/4. So 4 × (share inside) estimates π. The program's estimates:</p>
+<div class="tbl"><table><thead><tr><th class="n">Points</th><th class="n">Estimate of π</th></tr></thead><tbody><tr class=""><td class="n">100</td><td class="n">3.400000</td></tr><tr class=""><td class="n">1,000</td><td class="n">3.108000</td></tr><tr class=""><td class="n">10,000</td><td class="n">3.114400</td></tr><tr class=""><td class="n">100,000</td><td class="n">3.142160</td></tr><tr class=""><td class="n">1,000,000</td><td class="n">3.140832</td></tr><tr class=""><td class="n">10,000,000</td><td class="n">3.141146</td></tr></tbody></table></div>
+<p class="col"><strong>The error.</strong> Over 200 independent runs, the typical (root-mean-square) error at 1,000 points was 0.05270, close to the theoretical √(π(4 − π)/N) = 0.05193. Each fourfold increase in points roughly halved it (ratios 1.91, 1.99, 2.16). The same holds in any number of dimensions, which is why the method beats a grid in high dimensions:</p>
+<div class="tbl"><table><thead><tr><th class="n">Dimension</th><th class="n">Ball volume estimated from 1,000,000 points</th><th class="n">Exact</th><th class="n">Share of points inside</th></tr></thead><tbody><tr class=""><td class="n">2</td><td class="n">3.1407</td><td class="n">3.1416</td><td class="n">78.52%</td></tr><tr class=""><td class="n">5</td><td class="n">5.2585</td><td class="n">5.2638</td><td class="n">16.43%</td></tr><tr class=""><td class="n">10</td><td class="n">2.6491</td><td class="n">2.5502</td><td class="n">0.26%</td></tr></tbody></table></div>
+<p class="col">A grid with only 10 points per side would need 10¹⁰ points in ten dimensions. The ten-dimensional estimate is the roughest here, because only a quarter of one per cent of the points fall in the ball: the error depends on the number of hits, not the dimension directly.</p>
+<p class="col"><strong>Middle-square.</strong> Square a 4-digit number, pad the square to 8 digits, keep the middle 4. From seed 1234: 1234 5227 3215 3362 3030 1809 2724 4201 6484 0422 1780 1684 … and after 57 different numbers the sequence reaches 0000 and stays there. The program ran every one of the 10,000 seeds: each ends in one of 8 cycles.</p>
+<div class="tbl"><table><thead><tr><th class="">Final cycle</th><th class="n">Seeds that end there</th></tr></thead><tbody><tr class=""><td class="">0000</td><td class="n">1,968</td></tr><tr class=""><td class="">0100</td><td class="n">104</td></tr><tr class=""><td class="">0540 2916 5030 3009</td><td class="n">86</td></tr><tr class=""><td class="">1600 5600 3600 9600</td><td class="n">1,360</td></tr><tr class=""><td class="">2100 4100 8100 6100</td><td class="n">6,291</td></tr><tr class=""><td class="">2500</td><td class="n">130</td></tr><tr class=""><td class="">3792</td><td class="n">1</td></tr><tr class=""><td class="">7600</td><td class="n">60</td></tr></tbody></table></div>
+<div class="callout key col"><div class="k">Key idea</div><p>When a quantity is too tangled to calculate, sample it at random and count, and report the error with the answer: it falls like one over the square root of the number of samples, in any dimension. The random numbers themselves can be made by arithmetic, but only if someone checks that the arithmetic does not repeat or collapse.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">How fast middle-square fails</h2>
+<p class="col">Over all 10,000 seeds, a 4-digit middle-square sequence runs on average 43.7 numbers before repeating; the longest run, from seed 6239, is 111. Estimating π from 100,000 points built from middle-square numbers (seed 1234) gives 3.9998: only 57 different numbers ever appear, and once the sequence reaches 0000 every point is the corner (0, 0), inside the circle.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">Los Alamos, 1946–1949</h2>
+<p class="col">Ulam: the method was "suggested by a question which occurred to me in 1946 as I was convalescing from an illness and playing solitaires" (Eckhardt, <em>Los Alamos Science</em>, 1987). Metropolis places "the spark" at the spring 1946 review of the ENIAC's results, and dates von Neumann's letter to Richtmyer outlining a statistical calculation of neutron diffusion 11 March 1947; Metropolis suggested the name, after Ulam's uncle who "just had to go to Monte Carlo" (Metropolis, 1987). The first fully automated Monte Carlo calculations ran on the ENIAC in spring 1948 (Wikipedia).</p>
+<p class="col">Von Neumann described middle-square in 1949, printed in 1951: "Anyone who considers arithmetical methods of producing random digits is, of course, in a state of sin"; such methods were "hundreds of times faster than reading 'truly' random numbers off punch cards" (Wikipedia, Middle-square method). That a Franciscan friar invented it in the 1240s rests on one book's report of a lost manuscript (<strong>disputed</strong>).</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Simulation is everywhere</h2>
+<p class="col">Monte Carlo methods now price financial risk, render light in films, design reactors and train machine-learning models, and every one of them needs pseudo-random numbers. The generators are better than middle-square, and they are tested statistically before they are trusted, but they are still arithmetic, which is why von Neumann's joke about sin is still quoted.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>Ten million points estimate π as 3.141146: three correct decimals for ten million random numbers. Monte Carlo is slow to converge, and it is still the method of choice when nothing else works.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Why does the share of points inside the quarter circle tend to π/4?</span></summary><div class="ans"><p>The quarter circle has area π/4 and the square area 1; random points land in each region in proportion to its area.</p></div></details><details class="try"><summary><span class="q">2</span><span>You have an estimate with typical error 0.01 from 10,000 points. How many points for error 0.001?</span></summary><div class="ans"><p>A hundred times as many, 1,000,000: the error shrinks like 1/√N.</p></div></details><details class="try"><summary><span class="q">3</span><span>Square 0540 and keep the middle digits. What comes next?</span></summary><div class="ans"><p>540² = 291,600, padded to 00291600; the middle four digits are 2916.</p></div></details><details class="try"><summary><span class="q">4</span><span>Why must every middle-square sequence repeat?</span></summary><div class="ans"><p>There are only 10,000 four-digit numbers, and each one fixes the next, so within 10,001 steps some number recurs and the sequence cycles from there.</p></div></details><details class="try"><summary><span class="q">5</span><span>Why does Monte Carlo beat a grid in ten dimensions?</span></summary><div class="ans"><p>A grid needs (points per side)¹⁰ points; random sampling's error depends on the number of samples, not on the dimension.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 120" role="img" aria-label="Drawn placeholder of an open printed book" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><path d="M100,20 C80,12 40,12 20,18 V108 C40,102 80,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><path d="M100,20 C120,12 160,12 180,18 V108 C160,102 120,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="32.0" y1="32.0" x2="88.0" y2="32.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="41.0" x2="88.0" y2="41.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="50.0" x2="88.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="59.0" x2="88.0" y2="59.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="68.0" x2="88.0" y2="68.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="77.0" x2="88.0" y2="77.0" style="stroke:var(--axis);stroke-width:2"/><circle cx="140.0" cy="60.0" r="24.0" style="fill:none;stroke:var(--red);stroke-width:2"/><path d="M116,60 L164,60 M140,36 L140,84" style="fill:none;stroke:var(--blue);stroke-width:2"/></svg></div><figcaption class="txt"><b>The Beginning of the Monte Carlo Method (1987)</b><span>Metropolis's account in the Los Alamos Science special issue for Ulam.</span><a href="https://mcnpx.lanl.gov/pdf_files/Article_1987_LAS_Metropolis_125--130.pdf">Los Alamos National Laboratory</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://en.wikipedia.org/wiki/Monte_Carlo_method" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Monte Carlo method · Wikipedia</span><span class="w">The idea, its history at Los Alamos, and its accuracy</span></a><a href="https://en.wikipedia.org/wiki/Middle-square_method" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Middle-square method · Wikipedia</span><span class="w">Von Neumann's generator, its short cycles, and the "state of sin"</span></a><a href="https://mcnpx.lanl.gov/pdf_files/Article_1987_LAS_Metropolis_125--130.pdf" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">The Beginning of the Monte Carlo Method · N. Metropolis, <em>Los Alamos Science</em>, Special Issue 1987, 125–130</span><span class="w">A participant's account: ENIAC, the name, the first calculations</span></a><a href="https://mcnp-green.lanl.gov/pdf_files/Article_1987_LAS_Eckhardt_131--141.pdf" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Ulam, von Neumann and the Monte Carlo method · Roger Eckhardt, <em>Los Alamos Science</em>, Special Issue 1987, 131–141 (the extracted title reads "Monte Carlo and the Monte Carlo Method")</span><span class="w">Ulam's solitaire question and von Neumann's letter of 1947, quoted</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-04-what-can-be-computed/reference-catalog.md">Era 4 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-04-what-can-be-computed/10-monte-carlo/MonteCarlo.java">MonteCarlo.java</a> makes <strong>16 checks</strong>: every 4-digit middle-square seed followed to its cycle (including the fixed points and the cycle 0540 2916 5030 3009 that Wikipedia lists), π from ten million points, the error ratio when the points are quadrupled, the ball's volume in 2, 5 and 10 dimensions, and the failure of middle-square numbers. Run it with <code>java MonteCarlo.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** One step of the 4-digit middle-square method. */</span>
+<span class="k-kw">static</span> <span class="k-kw">int</span> middleSquare(<span class="k-kw">int</span> x) { <span class="k-kw">return</span> (<span class="k-kw">int</span>) ((<span class="k-kw">long</span>) x * x / <span class="k-n">100</span> % <span class="k-n">10000</span>); }
+
+<span class="k-c">/** Volume of the unit ball in d dimensions: pi^(d/2) / Gamma(d/2 + 1), with Gamma by its recurrence. */</span>
+<span class="k-kw">static</span> <span class="k-kw">double</span> ballVolume(<span class="k-kw">int</span> d) {
+    <span class="k-kw">double</span> gamma = d % <span class="k-n">2</span> == <span class="k-n">0</span> ? <span class="k-n">1</span> : Math.sqrt(Math.PI);                <span class="k-c">// Gamma(1) or Gamma(1/2)</span>
+    <span class="k-kw">for</span> (<span class="k-kw">double</span> x = d % <span class="k-n">2</span> == <span class="k-n">0</span> ? <span class="k-n">1</span> : <span class="k-n">0</span>.<span class="k-n">5</span>; x &lt; d / <span class="k-n">2</span>.<span class="k-n">0</span> + <span class="k-n">1</span> - 1e-<span class="k-n">9</span>; x++) gamma *= x;
+    <span class="k-kw">return</span> Math.pow(Math.PI, d / <span class="k-n">2</span>.<span class="k-n">0</span>) / gamma;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>MonteCarlo.java</code>.<br><span class="navfoot"><a href="../index.html">Era 4: What Can Be Computed</a><a href="../09-stored-program/stored-program.html">← The Stored Program, and Merge Sort</a><a href="../11-simplex-method/simplex-method.html">The Simplex Method →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const svg = document.getElementById("mc-svg");
+  if (!svg) return;
+  let state = 2026, ms = 1234, n = 0, inside = 0, drawn = 0;
+  const good = () => { state = (Math.imul(state, 1664525) + 1013904223) >>> 0; return state / 4294967296; };
+  const msq = x => Math.floor(x * x / 100) % 10000;
+  const nextMs = () => { const v = ms; ms = msq(ms); return v / 10000; };
+  function reset() { svg.innerHTML = ""; n = 0; inside = 0; drawn = 0; ms = 1234; state = 2026;
+    sv("rect", {x: 10, y: 10, width: 300, height: 300, fill: "var(--surface)", stroke: "var(--ink-2)"}, svg);
+    sv("path", {d: "M10,310 A300,300 0 0 1 310,10", fill: "none", stroke: "var(--blue)", "stroke-width": 2}, svg);
+    show(); }
+  function add(k) {
+    const gen = document.getElementById("mc-gen").value === "ms" ? nextMs : good;
+    for (let i = 0; i < k; i++) {
+      const x = gen(), y = gen(), hit = x * x + y * y < 1;
+      if (hit) inside++; n++;
+      if (drawn < 4000) { sv("circle", {cx: 10 + x * 300, cy: 310 - y * 300, r: 1.6, fill: hit ? "var(--red)" : "var(--muted)"}, svg); drawn++; }
+    }
+    show();
+  }
+  function show() {
+    const ol = document.getElementById("mc-steps"); ol.innerHTML = "";
+    const li = h => { el("li", {}, ol).innerHTML = h; };
+    if (!n) { li("Add points: each lands at a random spot in the square."); return; }
+    const est = 4 * inside / n;
+    li(`${fmt(n)} points, ${fmt(inside)} inside the quarter circle`);
+    li(`estimate of π = 4 × ${fmt(inside)} / ${fmt(n)} = <span class="m">${est.toFixed(6)}</span>`);
+    li(`error <span class="m">${(est - Math.PI).toFixed(6)}</span>; typical error for ${fmt(n)} points is about ${Math.sqrt(Math.PI * (4 - Math.PI) / n).toFixed(5)}`);
+  }
+  function seq() {
+    let x = Math.max(0, Math.min(9999, Math.round(+document.getElementById("mc-seed").value || 0)));
+    const seen = new Map(), list = [];
+    while (!seen.has(x)) { seen.set(x, list.length); list.push(x); x = msq(x); }
+    const start = seen.get(x);
+    const box = document.getElementById("mc-seq"); box.innerHTML = "";
+    list.forEach((v, i) => el("span", {class: i >= start ? "cyc" : ""}, box, String(v).padStart(4, "0")));
+    document.getElementById("mc-say").textContent = `${list.length} different numbers, then ${String(x).padStart(4, "0")} again: a cycle of ${list.length - start} (red). Every seed ends in a cycle, because each number fixes the next.`;
+  }
+  document.getElementById("mc-100").addEventListener("click", () => add(100));
+  document.getElementById("mc-10k").addEventListener("click", () => add(10000));
+  document.getElementById("mc-1m").addEventListener("click", () => add(1000000));
+  document.getElementById("mc-clear").addEventListener("click", reset);
+  document.getElementById("mc-gen").addEventListener("change", reset);
+  document.getElementById("mc-seed").addEventListener("input", seq);
+  reset(); seq();
+})();
+
+</script>
+</body>
+</html>

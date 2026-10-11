@@ -13,7 +13,7 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 5 | [Newton's Method](05-newtons-method/README.md) | 1669–1740 | [`NewtonsMethod.java`](05-newtons-method/NewtonsMethod.java) | 10,016 |
 | 6 | [Binary Arithmetic](06-binary-arithmetic/README.md) | 1703 | [`BinaryArithmetic.java`](06-binary-arithmetic/BinaryArithmetic.java) | 1,248,581 |
 | 7 | [The Bridges of Königsberg](07-konigsberg-bridges/README.md) | 1736 | [`KonigsbergBridges.java`](07-konigsberg-bridges/KonigsbergBridges.java) | 35,090 |
-| 8 | Least Squares, and the Lost Planet | 1801–1809 | planned | |
+| 8 | [Least Squares, and the Lost Planet](08-least-squares/README.md) | 1801–1809 | [`LeastSquares.java`](08-least-squares/LeastSquares.java) | 4,007 |
 | 9 | Gauss's Fast Fourier Transform | 1805 | planned | |
 | 10 | Babbage's Difference Engine | 1822 | planned | |
 | 11 | Lovelace's Note G | 1843 | planned | |

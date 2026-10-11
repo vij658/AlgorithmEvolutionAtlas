@@ -357,7 +357,7 @@ No video could be verified (see **Gaps**).
 ## 8. Least squares, and the lost planet
 
 **When / where:** Giuseppe Piazzi found Ceres in Palermo on 1 January 1801 and lost it in the Sun's glare in February. Carl Friedrich Gauss, aged 24, computed an orbit from Piazzi's observations; Franz Xaver von Zach and Heinrich Olbers found Ceres again in December 1801 close to Gauss's prediction. Adrien-Marie Legendre published the method of least squares in Paris in 1805, in an appendix to his book on comet orbits; Gauss published his version in *Theoria motus corporum coelestium* (1809), saying he had used it since 1795.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`LeastSquares.java`](../../code/era-03-tables-and-machines/08-least-squares/) · **Page:** [topic 8](08-least-squares/README.md)
 
 > **Field note.** Astronomers have more measurements than unknowns, and the measurements disagree. Which answer is right? None of them, exactly. A French geometer said: choose the answer that makes the sum of the squared errors as small as possible, because then the errors balance one another and no single bad measurement takes over. The arithmetic is old (the elimination of Era 2, topic 1); the new thing is a rule for what counts as best. A young German had already used it, he said, to find a planet that everyone else had lost.
 

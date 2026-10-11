@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Build the book's topic pages (GitHub and interactive editions) and the era index from the programs' outputs.
 
-  python3 code/tools/book/build.py            build every topic whose program output exists, then the era index
-  python3 code/tools/book/build.py 1 7        build only topics 1 and 7 (and the era index)
-  python3 code/tools/book/build.py --run 7    run topic 7's program first and save its output as expected-output.txt
+  python3 code/tools/book/build.py                  build every topic of every era whose program output exists, and the era indexes
+  python3 code/tools/book/build.py --era 2          only era 2
+  python3 code/tools/book/build.py --era 1 1 7      only topics 1 and 7 of era 1 (and the era index)
+  python3 code/tools/book/build.py --era 2 --run 1  run era 2 topic 1's program first and save its output as expected-output.txt
 
 Topic modules live in code/tools/book/topics/; each has build(ctx) -> spec (see page.py for the spec format).
 """
@@ -17,7 +18,7 @@ HERE = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE / "topics"))
 import diagrams  # noqa: E402
-import era01  # noqa: E402
+import eras  # noqa: E402
 import page  # noqa: E402
 
 ROOT = HERE.parents[2]
@@ -168,15 +169,23 @@ def all_blocks(spec):
 def main():
     args = sys.argv[1:]
     run = "--run" in args
+    only_era = None
+    if "--era" in args:
+        k = args.index("--era")
+        only_era = int(args[k + 1])
+        del args[k:k + 2]
     nums = {int(a) for a in args if a.isdigit()}
-    era = era01
-    for i, t in enumerate(era.TOPICS):
-        if nums and t[0] not in nums:
-            continue
-        build_topic(era, i, run=run)
-    (CODE / era.ERA["folder"] / "README.md").write_text(era_code_readme(era))
     import era_index
-    era_index.build(era, BOOK, CODE)
+    for era in eras.ERAS:
+        if only_era and era.ERA["num"] != only_era:
+            continue
+        for i, t in enumerate(era.TOPICS):
+            if nums and t[0] not in nums:
+                continue
+            build_topic(era, i, run=run)
+        (CODE / era.ERA["folder"]).mkdir(parents=True, exist_ok=True)
+        (CODE / era.ERA["folder"] / "README.md").write_text(era_code_readme(era))
+        era_index.build(era, BOOK, CODE)
 
 
 if __name__ == "__main__":

@@ -166,12 +166,12 @@ Their product is N. If both were bigger than √N the product would be bigger th
 | Deeper | [YBC 7289 — Analysis](https://personal.math.ubc.ca/~cass/Euclid/ybc/analysis.html) — Bill Casselman, UBC | Works through the numbers on the tablet |
 | Deeper | [Babylonian Pythagoras](https://mathshistory.st-andrews.ac.uk/HistTopics/Babylonian_Pythagoras/) — MacTutor | Two candidate methods, and the admission that there is no evidence of the method being used elsewhere |
 | Deeper | [Square Roots via Newton's Method](https://math.mit.edu/~stevenj/18.335/newton-sqrt.pdf) — MIT 18.335 note (S. G. Johnson) | Quadratic convergence: correct digits roughly double each step. It dates the Babylonians to "circa 1000 BCE", which is too late for this tablet |
+| Deeper | [Heron of Alexandria](https://mathshistory.st-andrews.ac.uk/Biographies/Heron/) — MacTutor History of Mathematics | The Metrica's square root of 720, in Heron's words |
+| Deeper | [q_math.c, Quake III Arena source](https://github.com/id-Software/Quake-III-Arena/blob/master/code/game/q_math.c) — id Software, on GitHub | Q_rsqrt: a bit-trick guess and one Newton step |
 | Scholar | [YBC 07289 (P255048)](https://cdli.earth/artifacts/255048) — CDLI | Catalogue record and transliteration |
 | Scholar | [YBC 7289 exhibition label](https://isaw.nyu.edu/exhibitions/before-pythagoras/items/ybc-7289/) — ISAW, NYU | Museum label from *Before Pythagoras* |
 | Scholar | [A 3,800-year journey from classroom to classroom](https://news.yale.edu/2016/04/11/3800-year-journey-classroom-classroom) — Yale News | Curators on the tablet and its digitisation |
 | Scholar | [Square root approximations in Old Babylonian mathematics: YBC 7289 in context](https://www.sciencedirect.com/science/article/pii/S0315086098922091) — Fowler and Robson, Historia Mathematica 25 (1998) | The standard scholarly study |
-| Deeper | [Heron of Alexandria](https://mathshistory.st-andrews.ac.uk/Biographies/Heron/) — MacTutor History of Mathematics | The Metrica's square root of 720, in Heron's words |
-| Deeper | [q_math.c, Quake III Arena source](https://github.com/id-Software/Quake-III-Arena/blob/master/code/game/q_math.c) — id Software, on GitHub | Q_rsqrt: a bit-trick guess and one Newton step |
 
 More, with certainty labels and the gaps we could not fill: [Era 1 reference catalog](https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-01-the-first-algorithms/reference-catalog.md).
 

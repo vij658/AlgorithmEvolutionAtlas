@@ -43,7 +43,7 @@
 
 | Era | Span | Topics (from the Evolutionary Atlas) |
 |---|---|---|
-| 2 | c. 200 BCE – 1424 CE | **[Plan](era-02-algorithms-travel/plan.md) and [reference catalog](era-02-algorithms-travel/reference-catalog.md) ready.** Elimination in the *Nine Chapters*, Ptolemy's chords, the Chinese remainder problem, zero as a number, the chakravala, al-Khwarizmi, al-Kindi, Fibonacci, Qin Jiushao, Madhava's series, al-Kashi's π |
+| 2 | c. 200 BCE – 1424 CE | **[Front page](era-02-algorithms-travel/README.md) · [interactive](era-02-algorithms-travel/index.html) · [plan](era-02-algorithms-travel/plan.md) · [reference catalog](era-02-algorithms-travel/reference-catalog.md).** Topic pages being built: Elimination in the *Nine Chapters*, Ptolemy's chords, the Chinese remainder problem, zero as a number, the chakravala, al-Khwarizmi, al-Kindi, Fibonacci, Qin Jiushao, Madhava's series, al-Kashi's π |
 | 3 | 1600–1900 | Logarithms and Napier's bones, Pascal's and Leibniz's calculators, binary, Newton's method, Gauss and least squares, Babbage and Lovelace, Boole |
 | 4 | 1900–1950 | Hilbert's program, Gödel, Turing machines, the lambda calculus, Shannon's switching circuits, the stored-program computer, merge sort (von Neumann) |
 | 5 onward | 1950–2026 | The loop and the subroutine, sorting and searching, data structures, graphs, dynamic programming, complexity, cryptography, databases, networks, distributed systems, streaming, machine learning, transformers, and the algorithms of 2026 |

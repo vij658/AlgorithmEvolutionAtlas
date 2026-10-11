@@ -183,6 +183,8 @@ def links_section(ctx, extra=()):
         if r[3] not in seen:                                           # the same link from the catalog and a page extra
             seen.add(r[3])
             rows.append(r)
+    order = {"start": 0, "deeper": 1, "scholar": 2}
+    rows.sort(key=lambda r: order[r[0]])                               # stable: catalog links first within a level
     return dict(id="read", eyebrow="Watch and read", title="Every link was opened before it was listed", toc="Watch and read",
                 blocks=[dict(type="links", items=rows),
-                        dict(type="p", text=f"More, with certainty labels and the gaps we could not fill: [Era 1 reference catalog]({ctx['repo_url']}book/{ctx['era'].ERA['folder']}/reference-catalog.md).")])
+                        dict(type="p", text=f"More, with certainty labels and the gaps we could not fill: [Era {ctx['era'].ERA['num']} reference catalog]({ctx['repo_url']}book/{ctx['era'].ERA['folder']}/reference-catalog.md).")])

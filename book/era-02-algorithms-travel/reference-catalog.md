@@ -41,7 +41,7 @@ The **Atlas** lines will point to the matching chapters of *The Evolutionary Atl
 ## 1. Elimination on the counting board (*fangcheng*)
 
 **When / where:** Han China. The *Nine Chapters on the Mathematical Art* (*Jiuzhang suanshu*) was compiled from older material somewhere between about 200 BCE and 50 CE (the range is disputed, see below). The method is chapter 8, "Rectangular Arrays" (*fangcheng*). Liu Hui wrote his commentary in 263 CE.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`FangCheng.java`](../../code/era-02-algorithms-travel/01-fangcheng/) · **Page:** [topic 1](01-fangcheng/README.md)
 
 > **Field note.** The clerks here faced a knot: several unknown quantities tied together by several conditions, so no single condition gives any one unknown. They did not untie it with words. They laid it out. Each condition became a column of rods on the counting board. Then they multiplied one column by the head of another and subtracted, column against column, until the board was triangular and the last unknown fell out. Subtraction sometimes left less than nothing, so they gave such quantities rods of a different colour and rules of their own. My hosts later named this procedure after Gauss, who was born nearly two thousand years after it was written down.
 
@@ -92,7 +92,21 @@ The **Atlas** lines will point to the matching chapters of *The Evolutionary Atl
 | Scholar | [Rectangular Arrays](https://academic.oup.com/book/52966/chapter/421961670) | Shen Kangshen, J. N. Crossley and A. W.-C. Lun, *The Nine Chapters on the Mathematical Art: Companion and Commentary*, OUP 1999 (chapter page) | The standard English translation of chapter 8 with Liu Hui's commentary (paywalled; abstract free) |
 | Scholar | [Nine Chapters on the Mathematical Art, Vols 7–9](https://sourcelibrary.org/book/nine-chapters-on-the-mathematical-art-vols-7-9) | Source Library: *Siku Quanshu* edition (1773), scanned by Zhejiang University Library | Chinese text of chapter 8, "Rectangular Arrays", from p. 43. The English shown alongside is a machine translation, so do not cite it |
 
-**Gaps:** YouTube watch pages could not be opened in this environment (three attempts, all fetch errors), so no YouTube video is listed. The Gresham page above embeds its video. The Chinese Text Project (ctext.org) returned only a security-check page, and Project MUSE returned a verification page, so neither is listed. MacTutor's Liu Hui biography returned content that did not match the page, so it was left out. The arXiv copy of Grcar's paper does not name the journal it appeared in, so it is cited as a preprint. No source opened here describes the actual rules for signed numbers (*zheng fu shu*) word for word. A translation of those rules is still needed.
+**Added with the topic page** (each opened before it was listed)
+
+| Level | Link | Source | Why |
+|---|---|---|---|
+| Start | [The Linpack Benchmark](https://top500.org/project/linpack/) | TOP500 | The benchmark behind the TOP500 list: a dense linear system by LU factorization with partial pivoting, 2/3 n³ + O(n²) operations |
+| Start | [Fangcheng (mathematics)](https://en.wikipedia.org/wiki/Fangcheng_(mathematics)) | Wikipedia | Problem 1's answer, the procedure for positive and negative numbers, and references |
+| Start | [Counting rods](https://en.wikipedia.org/wiki/Counting_rods) | Wikipedia | Units upright, tens lying flat; red rods positive, black negative; in use from c. 475 BCE to the 16th century |
+| Deeper | [Use of the History of Negative Numbers in Education](https://bibnum.publimath.fr/ACF/ACF11039.pdf) | Lenka Molitorisová, Comenius University, Bratislava | Quotes the cattle, sheep and pigs problem (answer 1200, 500, 300) and Liu Hui on red and black rods, from Shen, Crossley and Lun (1999), p. 405 |
+| Deeper | [Bareiss algorithm](https://en.wikipedia.org/wiki/Bareiss_algorithm) | Wikipedia | Fraction-free elimination with exact divisions (Bareiss, *Mathematics of Computation* 22, 1968) |
+| Deeper | [The Suan shu shu and the Nine Chapters on the Mathematical Art: A Comparison](https://old.maa.org/sites/default/files/images/upload_library/46/HOMSIGMAA/2021-Megan%20Ferguson.pdf) | Megan Ferguson, Adelphi University, 2021 (MAA HOMSIGMAA) | Quotes Martzloff: "negative numbers are never found in the statements of problems" |
+| Scholar | [Alan Turing and the origins of modern Gaussian elimination](https://arbor.revistas.csic.es/index.php/arbor/article/download/1886/2073?inline=1) | Froilán M. Dopico, *Arbor* 189 (764), 2013 | Turing (1948) named the LU factorization and introduced the condition number; Wilkinson named partial pivoting; growth is "almost invariably found to be small" |
+| Scholar | [John von Neumann's Analysis of Gaussian Elimination and the Origins of Modern Numerical Analysis](https://epubs.siam.org/doi/10.1137/080734716) | Joseph F. Grcar, *SIAM Review* 53(4), 2011, 607–682 | Von Neumann and Goldstine's work as "the first modern paper in numerical analysis" (abstract free) |
+| Scholar | [The Chinese Rod Numeral Legacy and its Impact on Mathematics](https://sms.math.nus.edu.sg/smsmedley/Vol-15-2/The%20Chinese%20rod%20numeral%20legacy%20and%20its%20impact%20on%20mathematics(Lam%20Lay%20Yong).pdf) | Lam Lay Yong, presidential address, Singapore Mathematical Society, 1987 | Two sets of rod notations alternating by place; a horizontal rod for five |
+
+**Gaps:** YouTube watch pages could not be opened in this environment (three attempts, all fetch errors), so no YouTube video is listed. The Gresham page above embeds its video. The Chinese Text Project (ctext.org) returned only a security-check page, and Project MUSE returned a verification page, so neither is listed. MacTutor's Liu Hui biography returned content that did not match the page, so it was left out. The arXiv copy of Grcar's paper does not name the journal it appeared in, so it is cited as a preprint. No scholarly translation of the rules for signed numbers (*zheng fu shu*) could be opened in full: the topic page uses Wikipedia's wording and Liu Hui's commentary as quoted by Molitorisová (from Shen, Crossley and Lun, p. 405).
 
 ---
 

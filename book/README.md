@@ -81,11 +81,32 @@
 | 12 | [Boole's Algebra of Logic](era-03-tables-and-machines/12-boolean-algebra/README.md) | Check a syllogism by algebra |
 | 13 | [Hollerith's Tabulator](era-03-tables-and-machines/13-hollerith-tabulator/README.md) | Punch a card, feed the press |
 
+### Era 4 — What Can Be Computed (1895 to 1950)
+
+- **[Era 4 front page](era-04-what-can-be-computed/README.md)**: the time line, a map of how the thirteen ideas combine, and the topics. [Interactive edition](era-04-what-can-be-computed/index.html) (download the folder and open `index.html` in a browser). [Plan](era-04-what-can-be-computed/plan.md).
+- [Reference catalog](era-04-what-can-be-computed/reference-catalog.md): each development with checked lectures, articles and original sources, certainty labels and gaps.
+- The topics, each with a GitHub edition, an interactive edition and a tested program:
+
+| # | Topic | Interactive widget |
+|---|---|---|
+| 1 | [Hilbert's Questions](era-04-what-can-be-computed/01-hilberts-questions/README.md) | Search for a solution, or prove there is none |
+| 2 | [Runge–Kutta](era-04-what-can-be-computed/02-runge-kutta/README.md) | Keep a spring on its circle |
+| 3 | [Markov Chains](era-04-what-can-be-computed/03-markov-chains/README.md) | Write a text with a one-letter memory |
+| 4 | [The Cheapest Network](era-04-what-can-be-computed/04-cheapest-network/README.md) | Wire forty towns, Borůvka's way or Jarník's |
+| 5 | [Gödel's Numbering](era-04-what-can-be-computed/05-godel-numbering/README.md) | Turn a formula into a number |
+| 6 | [Church's Lambda Calculus](era-04-what-can-be-computed/06-lambda-calculus/README.md) | Compute by substitution |
+| 7 | [Turing's Machines](era-04-what-can-be-computed/07-turing-machines/README.md) | Run a machine, and read its number |
+| 8 | [Breaking Enigma](era-04-what-can-be-computed/08-breaking-enigma/README.md) | Type on an Enigma |
+| 9 | [The Stored Program, and Merge Sort](era-04-what-can-be-computed/09-stored-program/README.md) | Run a program that lives in its own data |
+| 10 | [Monte Carlo](era-04-what-can-be-computed/10-monte-carlo/README.md) | Throw points; make your own random numbers |
+| 11 | [The Simplex Method](era-04-what-can-be-computed/11-simplex-method/README.md) | Walk the corners |
+| 12 | [Shannon's Bits](era-04-what-can-be-computed/12-information-theory/README.md) | Switches, and imitation English |
+| 13 | [Hamming's Codes](era-04-what-can-be-computed/13-hamming-codes/README.md) | Flip a bit and watch the checks find it |
+
 ### Coming next (proposed eras; open to change)
 
 | Era | Span | Topics (from the Evolutionary Atlas) |
 |---|---|---|
-| 4 | 1900–1950 | Hilbert's program, Gödel, Turing machines, the lambda calculus, Shannon's switching circuits, the stored-program computer, merge sort (von Neumann) |
 | 5 onward | 1950–2026 | The loop and the subroutine, sorting and searching, data structures, graphs, dynamic programming, complexity, cryptography, databases, networks, distributed systems, streaming, machine learning, transformers, and the algorithms of 2026 |
 
 ### Plans

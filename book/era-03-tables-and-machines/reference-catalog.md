@@ -438,7 +438,7 @@ No video could be verified (see **Gaps**).
 ## 10. Babbage's difference engine
 
 **When / where:** Charles Babbage, London. In 1821, checking astronomical tables with John Herschel, he exclaimed that he wished they had been "executed by steam". On 14 June 1822 he announced a small working model to the Astronomical Society, and in a letter to Sir Humphry Davy described it computing x² + x + 41. Difference Engine No. 1, built with the engineer Joseph Clement, stopped in 1833 with about a seventh assembled. His Difference Engine No. 2 (designed 1847–1849) was built by the Science Museum, London: the calculating section in 1991, the printer in 2002.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`DifferenceEngine.java`](../../code/era-03-tables-and-machines/10-difference-engine/) · **Page:** [topic 10](10-difference-engine/README.md)
 
 > **Field note.** Since Briggs (topic 2), the world has run on printed tables, and the tables are full of mistakes: wrong digits computed, right digits set wrongly in type. An English mathematician noticed that a polynomial's values can be produced with no multiplication at all. Keep its differences in a column, and every new value is a chain of additions. Additions are what wheels do well. So he designed a machine of columns that adds and, at the end, sets the answer straight into type, so that no human hand ever copies a number.
 

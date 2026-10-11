@@ -15,7 +15,7 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 7 | [The Bridges of Königsberg](07-konigsberg-bridges/README.md) | 1736 | [`KonigsbergBridges.java`](07-konigsberg-bridges/KonigsbergBridges.java) | 35,090 |
 | 8 | [Least Squares, and the Lost Planet](08-least-squares/README.md) | 1801–1809 | [`LeastSquares.java`](08-least-squares/LeastSquares.java) | 4,007 |
 | 9 | [Gauss's Fast Fourier Transform](09-gauss-fft/README.md) | 1805 | [`GaussFFT.java`](09-gauss-fft/GaussFFT.java) | 460 |
-| 10 | Babbage's Difference Engine | 1822 | planned | |
+| 10 | [Babbage's Difference Engine](10-difference-engine/README.md) | 1822 | [`DifferenceEngine.java`](10-difference-engine/DifferenceEngine.java) | 411,062 |
 | 11 | Lovelace's Note G | 1843 | planned | |
 | 12 | Boole's Algebra of Logic | 1847–1854 | planned | |
 | 13 | Hollerith's Tabulator | 1890 | planned | |

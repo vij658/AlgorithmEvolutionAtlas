@@ -39,11 +39,30 @@
 - Chapter 1, *Two numbers, one answer*: [outline](era-01-the-first-algorithms/chapter-01-adding-two-numbers/outline.md) · [history fact sheet](era-01-the-first-algorithms/chapter-01-adding-two-numbers/history-fact-sheet.md) · [program](../code/chapter-01-adding-two-numbers/README.md)
 - The pages are built from the programs' outputs by [`code/tools/book/build.py`](../code/tools/book/build.py); see [the tools README](../code/tools/README.md).
 
+### Era 2 — Algorithms travel (c. 200 BCE to 1424 CE)
+
+- **[Era 2 front page](era-02-algorithms-travel/README.md)**: the time line, a map of how the eleven ideas combine, and the topics. [Interactive edition](era-02-algorithms-travel/index.html) (download the folder and open `index.html` in a browser). [Plan](era-02-algorithms-travel/plan.md).
+- [Reference catalog](era-02-algorithms-travel/reference-catalog.md): each development with checked videos, lectures, articles and original sources, certainty labels and gaps.
+- The topics, each with a GitHub edition, an interactive edition and a tested program:
+
+| # | Topic | Interactive widget |
+|---|---|---|
+| 1 | [Elimination on the Counting Board](era-02-algorithms-travel/01-fangcheng/README.md) | Work the board |
+| 2 | [Ptolemy's Table of Chords](era-02-algorithms-travel/02-ptolemys-chords/README.md) | Read the table, and walk Ptolemy's route |
+| 3 | [The Chinese Remainder Problem](era-02-algorithms-travel/03-chinese-remainder-problem/README.md) | Count in threes, fives and sevens |
+| 4 | [Zero Becomes a Number](era-02-algorithms-travel/04-zero-becomes-a-number/README.md) | Read it without a zero |
+| 5 | [The Chakravala and Pell's Equation](era-02-algorithms-travel/05-chakravala/README.md) | Run the cycle |
+| 6 | [Algorism and Al-Jabr](era-02-algorithms-travel/06-algorism-and-al-jabr/README.md) | Restore, balance, and follow the recipe |
+| 7 | [Frequency Analysis](era-02-algorithms-travel/07-frequency-analysis/README.md) | Break a cipher |
+| 8 | [Fibonacci's Liber Abaci](era-02-algorithms-travel/08-liber-abaci/README.md) | Breed the rabbits; multiply like a merchant |
+| 9 | [Horner's Method, Nearly Six Centuries Early](era-02-algorithms-travel/09-qin-jiushao/README.md) | Find a root one digit at a time |
+| 10 | [Madhava's Series for Pi](era-02-algorithms-travel/10-madhava-series/README.md) | Add terms, then correct for the rest |
+| 11 | [Al-Kashi's Pi](era-02-algorithms-travel/11-al-kashi-pi/README.md) | Double the sides until the error is a horse's hair |
+
 ### Coming next (proposed eras; open to change)
 
 | Era | Span | Topics (from the Evolutionary Atlas) |
 |---|---|---|
-| 2 | c. 200 BCE – 1424 CE | **[Front page](era-02-algorithms-travel/README.md) · [interactive](era-02-algorithms-travel/index.html) · [plan](era-02-algorithms-travel/plan.md) · [reference catalog](era-02-algorithms-travel/reference-catalog.md).** Topic pages being built: Elimination in the *Nine Chapters*, Ptolemy's chords, the Chinese remainder problem, zero as a number, the chakravala, al-Khwarizmi, al-Kindi, Fibonacci, Qin Jiushao, Madhava's series, al-Kashi's π |
 | 3 | 1600–1900 | Logarithms and Napier's bones, Pascal's and Leibniz's calculators, binary, Newton's method, Gauss and least squares, Babbage and Lovelace, Boole |
 | 4 | 1900–1950 | Hilbert's program, Gödel, Turing machines, the lambda calculus, Shannon's switching circuits, the stored-program computer, merge sort (von Neumann) |
 | 5 onward | 1950–2026 | The loop and the subroutine, sorting and searching, data structures, graphs, dynamic programming, complexity, cryptography, databases, networks, distributed systems, streaming, machine learning, transformers, and the algorithms of 2026 |

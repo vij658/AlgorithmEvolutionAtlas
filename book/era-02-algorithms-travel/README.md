@@ -34,6 +34,6 @@
 | 8 | **Fibonacci's Liber Abaci** | 1202 CE | Merchants reckoned with Roman numerals and counting boards | [page](08-liber-abaci/README.md) · [interactive](08-liber-abaci/liber-abaci.html) · [program](../../code/era-02-algorithms-travel/08-liber-abaci/README.md) |
 | 9 | **Horner's Method, Nearly Six Centuries Early** | Qin Jiushao, 1247 CE | Roots of higher-degree equations | [page](09-qin-jiushao/README.md) · [interactive](09-qin-jiushao/qin-jiushao.html) · [program](../../code/era-02-algorithms-travel/09-qin-jiushao/README.md) |
 | 10 | **Madhava's Series for Pi** | c. 1350–1425 CE (Kerala school) | Polygons need more square roots for every digit of π | [page](10-madhava-series/README.md) · [interactive](10-madhava-series/madhava-series.html) · [program](../../code/era-02-algorithms-travel/10-madhava-series/README.md) |
-| 11 | **Al-Kashi's Pi** | 1424 CE | Astronomical tables needed π to more places than ever | planned · [references](reference-catalog.md#11-al-kashis-π) |
+| 11 | **Al-Kashi's Pi** | 1424 CE | Astronomical tables needed π to more places than ever | [page](11-al-kashi-pi/README.md) · [interactive](11-al-kashi-pi/al-kashi-pi.html) · [program](../../code/era-02-algorithms-travel/11-al-kashi-pi/README.md) |
 
 The interactive edition is a single HTML file per topic: download it and open it in a browser, or use the published copy linked from the [book contents](../README.md).

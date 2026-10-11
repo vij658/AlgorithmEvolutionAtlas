@@ -1,0 +1,9 @@
+example a square and 10 roots equal 39: type 4, squares and roots equal numbers ; recipe: halve the roots, 5 ; square it, 25 ; add the number, 64 ; take the root ; take away half the roots ; x = 3
+example a square and 21 equal 10 roots: type 5, squares and numbers equal roots ; recipe: halve the roots, 5 ; square it, 25 ; take away the number, 4 ; its root added to or taken from half the roots ; x = 3 or 7
+example 3 roots and 4 equal a square: type 6, roots and numbers equal squares ; recipe: halve the roots, 1 1/2 ; square it, 2 1/4 ; add the number, 6 1/4 ; take the root ; add half the roots ; x = 4
+random: 100000 equations with terms subtracted on both sides ; 212 reduce to nothing ; 21798 have every term on one side ; 77990 sorted into the six types, all agreeing with the quadratic formula: squares equal roots 4413 ; squares equal numbers 4598 ; roots equal numbers 4428 ; squares and roots equal numbers 21464 ; squares and numbers equal roots 21484 ; roots and numbers equal squares 21603
+reduce: 10 roots - 1 square = 4 roots + 9 ; al-jabr: 10 roots = 1 square + 4 roots + 9 ; al-muqabala: 6 roots = 1 square + 9 ; recipe: halve the roots, 3 ; square it, 9 ; take away the number, 0 ; its root added to or taken from half the roots ; x = 3
+sqrt2: 61 digits of the root of 2 ; digit by digit 61 steps (312 trial digits) ; averaging 8 steps ; 1.41421356237309504880...
+float x^2 + 1 = 1e+05 x: small root by the recipe 1.0000003385357559E-5 ; rearranged 1.0000000001000001E-5 ; recipe error 3.4e-07 of the answer
+float x^2 + 1 = 1e+09 x: small root by the recipe 0.0 ; rearranged 1.0E-9 ; recipe error 1.0e+00 of the answer
+AlKhwarizmi: 99796 checks passed

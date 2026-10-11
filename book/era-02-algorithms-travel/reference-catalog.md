@@ -383,7 +383,7 @@ Dutta's worked N = 61 reaches (5, 39; −4) in one chakravala step and finishes 
 ## 6. Algorism and al-jabr
 
 **When / where:** Baghdad. Muhammad ibn Musa al-Khwarizmi (about 780 – about 850) worked at the House of Wisdom under the caliph al-Ma'mun, who ruled from 813. His algebra, *Hisab al-jabr w'al-muqabala*, is dedicated to al-Ma'mun and is dated anywhere from 813 to 833, and often to about 820. His treatise on Hindu numerals refers back to the algebra, so it came later. Its Arabic original is lost. It survives in Latin, in a 13th-century copy at Cambridge whose opening words are "Dixit Algorizmi", and in a second copy in New York.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`AlKhwarizmi.java`](../../code/era-02-algorithms-travel/06-algorism-and-al-jabr/) · **Page:** [topic 6](06-algorism-and-al-jabr/README.md)
 
 > **Field note.** In Baghdad I found the man whose name became the word for what I study. Two of his books matter. One teaches the Indian way of writing numbers: nine figures and a sign for an empty place, then rules for each operation, fractions and square roots, carried out step by step in writing. Latin copyists turned his name into "algorism", and later writers into "algorithm". The other book sorts every linear and quadratic problem into six standard forms and gives a fixed recipe for each. For the hardest forms the recipe is a picture of a square being completed. It has no symbols, only words, and still it is a procedure that works for any numbers. His own species disagrees about whether he was original. Nobody disputes that he was copied.
 
@@ -430,6 +430,16 @@ Dutta's worked N = 61 reaches (5, 39; −4) in one chakravala step and finishes 
 |---|---|---|---|
 | Scholar | [The Algebra of Mohammed ben Musa](https://archive.org/details/algebraofmohamme00khuwuoft/algebraofmohamme00khuwuoft) | Frederic Rosen (ed. and trans.), London: Oriental Translation Fund, 1831. Internet Archive (University of Toronto copy) | Rosen's edition and English translation of the algebra |
 | Scholar | [Cambridge University Library MS Ii.6.5](https://cudl.lib.cam.ac.uk/view/MS-II-00006-00005/1) | Cambridge Digital Library | Full digitization, including the 13th-century Latin copy of the *Arithmetic* (first half only), one of the two known copies |
+
+**Added with the topic page** (each opened before it was listed)
+
+| Level | Link | Source | Why |
+|---|---|---|---|
+| Deeper | [Pitfalls in Computation, or Why a Math Book Isn't Enough](https://apps.dtic.mil/sti/pdfs/AD0699897.pdf) | George E. Forsythe, Stanford CS Technical Report 147, January 1970 (DTIC) | The quadratic formula gives one root "100 percent wrong" by catastrophic cancellation; alternative formulas avoid it |
+| Scholar | [Algorithms in modern mathematics and computer science: proceedings, Urgench, Uzbek SSR, September 16–22, 1979](https://ci.nii.ac.jp/ncid/BA02973768) | A. P. Ershov and D. E. Knuth (eds.), *Lecture Notes in Computer Science* 122, Springer, 1981 (CiNii record) | The symposium organized by the Academy of Sciences of the Uzbek SSR in Urgench |
+| Start | [Urgench](https://en.wikipedia.org/wiki/Urgench) | Wikipedia | Capital of the Xorazm region, with a large statue of al-Khwarizmi |
+
+Springer's page for the Urgench proceedings could not be read (rate limit), so the CiNii library record is cited instead.
 
 **Gaps:** YouTube pages could not be opened, so no video beyond the Gresham page is listed. The MAA page "Completing the square in a manuscript copy of Al-Khwarizmi's 9th century algebra text" (maa.org/node/29787) loaded with navigation only, so its manuscript details could not be checked. A Cambridge University Press article, "Arabic origins and development of Latin algorisms in the twelfth century" (*Arabic Sciences and Philosophy*), redirected and could not be opened. Rashed's 2009 English edition of the algebra and the Crossley–Henry (1990) and Folkerts (1997) editions of the arithmetic are known only from Hogendijk's list. The New York manuscript (Hispanic Society HC 397/726) was not viewed. The CUDL page uses the identifier MS-II-00006-00005 rather than printing "Ii.6.5", and its text calls the work the *Arithmetic* or "Ars algorismi", not "Dixit Algorizmi". The column-by-column written methods themselves were not described step by step on any page opened, beyond Toomer's list of contents.
 

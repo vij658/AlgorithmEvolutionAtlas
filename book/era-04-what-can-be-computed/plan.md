@@ -7,7 +7,7 @@
 | # | Topic | Working date | Where | What hurt | The step forward | Builds on |
 |---|---|---|---|---|---|---|
 | 1 | Hilbert's questions | Paris 1900; Hilbert and Ackermann 1928; Matiyasevich 1970 | Paris, Göttingen | "A process ... by a finite number of operations" had no definition | Ask for it: the tenth problem and the Entscheidungsproblem; a search halts on every solvable equation | Pell's equation (Era 2, 5) |
-| 2 | Runge–Kutta | Runge 1895; Heun 1900; Kutta 1901 | Göttingen, Munich | Euler's steps need to be tiny to be accurate | Sample the slope several times inside each step, with weights that cancel the error up to h⁴ | Euler's method; Newton's method (Era 3, 5) |
+| 2 | Runge–Kutta | Runge 1895; Heun 1900; Kutta 1901 | Germany | Euler's steps need to be tiny to be accurate | Sample the slope several times inside each step, with weights that cancel the error up to h⁴ | Euler's method; Newton's method (Era 3, 5) |
 | 3 | Markov chains | Markov 1906; *Eugene Onegin* 1913 | St Petersburg | Probability theory assumed independent trials | The next state depends on the present one; averages still settle | The problem of points (Era 3, 4) |
 | 4 | The cheapest network | Borůvka 1926; Jarník 1930 | Brno, Prague | Connecting towns with the least wire | Every group of towns takes its shortest outgoing line, round after round | Euler's bridges (Era 3, 7) |
 | 5 | Gödel's numbering | Königsberg 1930; printed 1931 | Königsberg | Hilbert wanted every statement settled by a proof | Formulas and proofs coded as numbers; a formula that says it is unprovable | Hilbert (1) |

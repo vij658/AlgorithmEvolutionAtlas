@@ -1,0 +1,14 @@
+tableau: Euler (Euler, 1768) ; 1 slope ; weights 1 ; order conditions met 1 of 8 ; order 1 ; first failure 0 instead of 1/2
+tableau: Midpoint (Runge, 1895) ; 2 slopes ; weights 0, 1 ; order conditions met 2 of 8 ; order 2 ; first failure 1/4 instead of 1/3
+tableau: Heun3 (third order, of the kind Heun gave in 1900) ; 3 slopes ; weights 1/4, 0, 3/4 ; order conditions met 4 of 8 ; order 3 ; first failure 2/9 instead of 1/4
+tableau: Classical (Kutta, 1901) ; 4 slopes ; weights 1/6, 1/3, 1/3, 1/6 ; order conditions met 8 of 8 ; order 4
+tableau: ThreeEighths (Kutta, 1901) ; 4 slopes ; weights 1/8, 3/8, 3/8, 1/8 ; order conditions met 8 of 8 ; order 4
+order: Euler ; y' = y from y(0) = 1 to t = 1 ; steps 10, 20, 40, 80, 160 ; errors 1.25e-01, 6.50e-02, 3.32e-02, 1.68e-02, 8.45e-03 ; ratios 1.92, 1.96, 1.98, 1.99 ; measured order 0.992
+order: Midpoint ; y' = y from y(0) = 1 to t = 1 ; steps 10, 20, 40, 80, 160 ; errors 4.20e-03, 1.09e-03, 2.78e-04, 7.01e-05, 1.76e-05 ; ratios 3.85, 3.93, 3.96, 3.98 ; measured order 1.993
+order: Heun3 ; y' = y from y(0) = 1 to t = 1 ; steps 10, 20, 40, 80, 160 ; errors 1.05e-04, 1.36e-05, 1.73e-06, 2.19e-07, 2.75e-08 ; ratios 7.69, 7.84, 7.92, 7.96 ; measured order 2.993
+order: Classical ; y' = y from y(0) = 1 to t = 1 ; steps 10, 20, 40, 80, 160 ; errors 2.08e-06, 1.36e-07, 8.67e-09, 5.47e-10, 3.44e-11 ; ratios 15.35, 15.67, 15.83, 15.92 ; measured order 3.992
+order: ThreeEighths ; y' = y from y(0) = 1 to t = 1 ; steps 10, 20, 40, 80, 160 ; errors 2.08e-06, 1.36e-07, 8.67e-09, 5.47e-10, 3.44e-11 ; ratios 15.35, 15.67, 15.83, 15.92 ; measured order 3.992
+oscillator: x'' = -x, start (1, 0), 32 steps per period, 20 periods ; x^2 + v^2 should stay 1 ; Euler x^2 + v^2 = 32687626830.3216, predicted (1 + h^2)^640 = 32687626830.3219 ; Midpoint 1.26841868 ; Heun3 0.92472602 ; Classical 0.99949322 ; ThreeEighths 0.99949322
+cost: y' = y to t = 1 with error below 10^-6 ; Euler 1359140 steps, 1359140 slope evaluations ; Midpoint 673 steps, 1346 slope evaluations ; Heun3 49 steps, 147 slope evaluations ; Classical 13 steps, 52 slope evaluations ; ThreeEighths 13 steps, 52 slope evaluations
+pendulum: theta'' = -sin theta from 90 degrees ; classical method, h = 1/1024, 15432 slope evaluations: period 7.416298709206 ; Gauss's AGM formula 2 pi / M(1, cos 45 deg) = 7.416298709205 ; difference 4.1e-14 ; small-swing value 2 pi = 6.283185307180
+RungeKutta: 42 checks passed

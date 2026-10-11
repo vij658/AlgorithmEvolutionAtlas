@@ -45,7 +45,7 @@ A note on videos: video pages on YouTube could not be opened from the environmen
 ## 1. Hilbert's questions
 
 **When / where:** David Hilbert's address to the International Congress of Mathematicians in Paris, 1900, listed his problems for the coming century; the tenth asks for a process to decide whether any Diophantine equation has a whole-number solution. In 1928 Hilbert and Wilhelm Ackermann posed the *Entscheidungsproblem*: an algorithm that decides whether any statement of logic is universally valid. Both were answered in the negative: the Entscheidungsproblem by Church and Turing in 1936, the tenth problem by Matiyasevich in 1970, building on Davis, Putnam and Robinson.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`HilbertsQuestions.java`](../../code/era-04-what-can-be-computed/01-hilberts-questions/) · **Page:** [topic 1](01-hilberts-questions/README.md)
 
 > **Field note.** For three eras I have watched people invent procedures, each for one kind of question. At the start of this century a Göttingen mathematician asked for more: a procedure that would settle every question of a given kind, by a finite number of operations. He was sure it existed: "in mathematics there is no ignorabimus". Within forty years his own question had been turned into mathematics, and the answer was no. Some questions have no procedure at all.
 
@@ -94,8 +94,8 @@ No video could be verified (see **Gaps**).
 
 ## 2. Runge–Kutta
 
-**When / where:** Carl Runge, "Ueber die numerische Auflösung von Differentialgleichungen" (1895), extended Euler's step-by-step method (1768–1770) using the midpoint and trapezoidal rules. Karl Heun (1900) carried the conditions to order 4; Wilhelm Kutta's thesis (1901) classified the methods of order 4 and gave the classical one; E. J. Nyström (1925) completed order 5. Göttingen and Munich.
-**Atlas:** to be mapped · **Code:** planned
+**When / where:** Carl Runge, "Ueber die numerische Auflösung von Differentialgleichungen" (1895), extended Euler's step-by-step method (1768–1770) using the midpoint and trapezoidal rules. Karl Heun (1900) carried the conditions to order 4; Wilhelm Kutta's thesis (1901) classified the methods of order 4 and gave the classical one; E. J. Nyström (1925) completed order 5.
+**Atlas:** to be mapped · **Code:** [`RungeKutta.java`](../../code/era-04-what-can-be-computed/02-runge-kutta/) · **Page:** [topic 2](02-runge-kutta/README.md)
 
 > **Field note.** Since Newton, the laws of motion have been written as differential equations: how fast a quantity changes, given where it is now. Most of them cannot be solved by formula. Euler had shown how to creep forward in small steps, each step following the slope at its start, but the errors pile up. Two Germans improved the step itself: sample the slope a few times inside the step, at the start, the middle and the end, and take a weighted average. With four samples, halving the step divides the error by sixteen.
 
@@ -123,7 +123,7 @@ No video could be verified (see **Gaps**).
 | Start | [Euler method](https://en.wikipedia.org/wiki/Euler_method) | Wikipedia | The first-order method that Runge improved |
 | Start | [Martin Wilhelm Kutta](https://mathshistory.st-andrews.ac.uk/Biographies/Kutta/) | MacTutor | Kutta's thesis of 1901 and his aerofoil theorem |
 | Start | [Carl Runge](https://mathshistory.st-andrews.ac.uk/Biographies/Runge/) | MacTutor | Runge's applied mathematics at Göttingen |
-| Deeper | [A history of Runge–Kutta methods](https://tlakoba.w3.uvm.edu/math337/paper_1996_Butcher_RKhistory.pdf) | J. C. Butcher, *Applied Numerical Mathematics* 20:247–260 (1996), on a University of Vermont course page | From Euler and Runge to Heun, Kutta and Nyström, by the founder of the modern theory |
+| Deeper | [A history of Runge–Kutta methods](https://tlakoba.w3.uvm.edu/math337/paper_1996_Butcher_RKhistory.pdf) | J. C. Butcher, *Applied Numerical Mathematics* 20:247–260 (1996), on a University of Vermont course page | From Euler and Runge to Heun, Kutta and Nyström |
 
 **Original sources**
 

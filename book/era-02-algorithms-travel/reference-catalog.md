@@ -183,7 +183,7 @@ The **Atlas** lines will point to the matching chapters of *The Evolutionary Atl
 ## 3. The Chinese remainder problem
 
 **When / where:** China. The *Sunzi Suanjing* (*Master Sun's Mathematical Classic*), Volume 3, Problem 26. The book's date is uncertain: modern sources place it anywhere from the 3rd to the 5th century CE. The general method came later, in Qin Jiushao's *Shushu jiuzhang* (1247).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`ChineseRemainder.java`](../../code/era-02-algorithms-travel/03-chinese-remainder-problem/) · **Page:** [topic 3](03-chinese-remainder-problem/README.md)
 
 > **Field note.** A short puzzle in a Chinese primer turned out to hold a whole method. Count some things by threes and two are left; by fives, three; by sevens, two. How many things? Master Sun did not search. He kept three ready-made numbers, 70, 21 and 15. Each is a multiple of the other two divisors that leaves remainder 1 for its own. Multiply each remainder by its number, add, and cast out 105. Eight centuries later Qin Jiushao, who said he learned the rule from the calendar-makers, made it work for any divisors. He found the magic multipliers by a chain of divisions that my hosts would recognise as Euclid's algorithm run backwards.
 
@@ -233,6 +233,14 @@ The **Atlas** lines will point to the matching chapters of *The Evolutionary Atl
 | Level | Link | Source | Why |
 |---|---|---|---|
 | Scholar | [孫子算經 (Sunzi Suan Jing)](https://m.gutenberg.org/ebooks/24038) | Project Gutenberg eBook #24038 (Chinese text; the catalogue lists Li Chunfeng, 602–670) | The whole book in Chinese. The remainder problem is Volume 3 (下), Problem 26 |
+
+**Added with the topic page** (each opened before it was listed)
+
+| Level | Link | Source | Why |
+|---|---|---|---|
+| Deeper | [RFC 8017: PKCS #1: RSA Cryptography Specifications Version 2.2](https://rfc-editor.org/rfc/rfc8017) | K. Moriarty (ed.), B. Kaliski, J. Jonsson, A. Rusch, November 2016 | Section 3.2 stores the private key as p, q, dP, dQ, qInv; section 5.1.2 decrypts by the remainder theorem |
+
+Shen (1988) also gives a calendar congruence from Qin's book, 377873 x ≡ 1 (mod 499067), with the answer 457999; the topic's program reproduces it with the dayan rule.
 
 **Gaps:** YouTube watch pages could not be opened in this environment, so no YouTube video is listed. The Chinese Text Project (ctext.org) returned only a security-check page. The Gutenberg catalogue page was opened, but the e-text itself could not be fetched, so the presence of Problem 26 in that copy was not checked directly. No English translation of the whole *Sunzi Suanjing* was found online. Lam Lay Yong and Ang Tian Se's *Fleeting Footsteps* is the usual one, and it was not searched. The PDF copy of Shen (1988) does not show the journal, so the citation comes from Springer's page. The Mathiesen 1874 attribution rests on one source.
 

@@ -1,0 +1,6 @@
+plan: maximize 3x + 5y with x <= 4, 2y <= 12, 3x + 2y <= 18, x, y >= 0 ; Dantzig's rule walks (0, 0) earning 0 -> (0, 6) earning 30 -> (2, 6) earning 36 ; 2 pivots ; dual prices of the three limits (0, 3/2, 1), and 4, 12, 18 priced at them come to 36, the same as the best plan
+random: 2000 random programs with 2 to 4 variables and 2 to 5 limits ; the simplex answer equalled the best of all corners every time, Bland's rule agreed, and the dual's value equalled it (strong duality) ; 1.67 pivots on average, at most 5
+grow: random dense programs (10 of each size), Dantzig's rule ; 10 x 10: 3.1 pivots ; 20 x 20: 6.0 pivots ; 40 x 40: 8.2 pivots ; 80 x 80: 13.2 pivots ; 160 x 160: 26.5 pivots
+kleeminty: maximize sum 2^(n-j) x_j with sum_{j<i} 2^(i-j+1) x_j + x_i <= 5^i ; Dantzig's rule pivots for n = 1: 1, 2: 3, 3: 7, 4: 15, 5: 31, 6: 63, 7: 127, 8: 255, 9: 511, 10: 1023 ; always 2^n - 1, every corner of the squashed cube
+assign: 10 people, 10 jobs, random costs 1 to 99 ; the simplex method (Bland's rule, 201 pivots) assigns everyone at total cost 144 ; checking all 3628800 assignments finds the same minimum ; for 70 people there are 70! = 11978571669969891796072783721689098736458938142546425857555362864628009582789845319680000000000000000 assignments, a number of 101 digits
+SimplexMethod: 19025 checks passed

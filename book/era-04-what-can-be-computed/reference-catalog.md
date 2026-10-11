@@ -498,7 +498,7 @@ No video could be verified (see **Gaps**).
 ## 11. The simplex method
 
 **When / where:** George Dantzig, mathematical adviser to the comptroller of the U.S. Air Force, the Pentagon, 1947. In the fall of 1947 he visited von Neumann in Princeton and had the National Bureau of Standards test the method on Stigler's diet problem; the method was presented at symposia in 1948 and 1951. Leonid Kantorovich (late 1930s) and Tjalling Koopmans had formulated similar problems independently.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`SimplexMethod.java`](../../code/era-04-what-can-be-computed/11-simplex-method/) · **Page:** [topic 11](11-simplex-method/README.md)
 
 > **Field note.** After the war the American Air Force wanted its plans (how many people, aircraft and supplies, where and when) worked out by machine. Dantzig wrote the rules of such plans as linear inequalities, and the goal as a linear quantity to maximize. The possible plans form a many-sided solid, and the best plan sits at one of its corners; but the corners are uncountably many in human terms (Dantzig liked to point out that assigning 70 people to 70 jobs has more arrangements than the universe has particles). His method walks from corner to neighbouring corner, always uphill, and stops when no neighbour is better. Nobody could explain why it needed so few steps; for twenty-five years it simply did. Then someone built a solid on which it visits every corner.
 

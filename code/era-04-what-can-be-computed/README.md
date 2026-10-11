@@ -16,6 +16,6 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 8 | [Breaking Enigma](08-breaking-enigma/README.md) | 1932–1940 | [`Enigma.java`](08-breaking-enigma/Enigma.java) | 835,723 |
 | 9 | [The Stored Program, and Merge Sort](09-stored-program/README.md) | 1945–1948 | [`StoredProgram.java`](09-stored-program/StoredProgram.java) | 1,473,898 |
 | 10 | [Monte Carlo](10-monte-carlo/README.md) | 1946–1949 | [`MonteCarlo.java`](10-monte-carlo/MonteCarlo.java) | 16 |
-| 11 | The Simplex Method | 1947 | planned | |
+| 11 | [The Simplex Method](11-simplex-method/README.md) | 1947 | [`SimplexMethod.java`](11-simplex-method/SimplexMethod.java) | 19,025 |
 | 12 | Shannon's Bits | 1937–1948 | planned | |
 | 13 | Hamming's Codes | 1950 | planned | |

@@ -189,7 +189,7 @@ No video could be verified (see **Gaps**).
 ## 4. The cheapest network: Borůvka and Jarník
 
 **When / where:** Otakar Borůvka, Brno, 1926: "O jistém problému minimálním" (*Práce moravské přírodovědecké společnosti* 3, 37–58) and a short note for engineers in *Elektrotechnický obzor* 15. Vojtěch Jarník, Prague, 1930: a reply written as a letter to Borůvka, under the same title (*Práce moravské přírodovědecké společnosti* 6, 57–63).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`CheapestNetwork.java`](../../code/era-04-what-can-be-computed/04-cheapest-network/) · **Page:** [topic 4](04-cheapest-network/README.md)
 
 > **Field note.** Southern Moravia was being wired for electricity, and a friend at the power company put a question to a young mathematician: how do you connect every town using the least total length of line? Borůvka's answer is the gentlest algorithm I have met. Every town reaches for its nearest neighbour. That leaves small clusters; every cluster reaches for its nearest cluster, and so on, until one network remains. Four years later Jarník wrote to him with a different way: start at one town and keep adding the cheapest line from the growing network to a town not yet in it. Both are still taught. In the 1950s, Americans found the same methods again, and for a long time they were called by the Americans' names.
 

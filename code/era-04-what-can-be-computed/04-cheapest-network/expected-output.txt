@@ -1,0 +1,8 @@
+towns: 302,804 897,588 320,228 509,431 718,507 66,447 246,243 88,255 45,716 538,57 893,89 135,734 436,723 680,473 320,205 728,47 43,505 279,553 667,141 529,169 701,811 818,755 43,464 669,9 877,454 356,344 733,661 132,846 324,109 552,369 571,315 101,173 656,513 66,193 954,726 39,138 528,276 21,111 370,361 437,388
+boruvka: pieces after each round 40 -> 12 -> 4 -> 1 ; 3 rounds, 2340 comparisons of a line
+same: Boruvka, Jarnik (1521 comparisons) and Kruskal (780 lines examined after sorting 780) choose the same 39 lines, total length 4074.008 ; lines 0-12 0-27 1-24 1-34 2-6 2-14 2-25 3-29 3-39 4-13 4-26 5-7 5-22 6-7 7-33 8-11 8-16 9-19 9-23 10-15 11-27 13-29 13-32 14-28 15-18 15-23 16-22 17-38 19-36 20-21 21-26 21-34 25-38 29-30 30-36 31-33 33-35 35-37 38-39
+rounds: 1000 more sets of 40 towns ; 2 rounds: 10, 3 rounds: 846, 4 rounds: 144 ; every round at least halved the number of pieces
+brute: 200 sets of 7 towns, every one of the 16807 possible networks each (3361400 in all) ; the network the algorithms choose was the unique cheapest every time
+cut: 10000 random splits of 40 towns into two groups ; the shortest line between the groups was in the cheapest network every time
+ties: three towns at equal distances ; each town breaking ties its own way picks lines 0-1, 1-2, 2-0, a closed loop ; one shared rule picks 0-1 and 0-2, a network
+CheapestNetwork: 14341 checks passed

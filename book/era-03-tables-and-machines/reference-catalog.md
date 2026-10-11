@@ -308,7 +308,7 @@ No video could be verified (see **Gaps**).
 ## 7. The bridges of Königsberg
 
 **When / where:** Leonhard Euler presented his solution to the St Petersburg Academy on 26 August 1735; the paper, *Solutio problematis ad geometriam situs pertinentis*, is dated 1736 (*Commentarii* 8, pp. 128–140) but was printed in 1741. Carl Hierholzer's proof that Euler's condition is also sufficient, with a way to construct the route, appeared in *Mathematische Annalen* 6 (1873).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`KonigsbergBridges.java`](../../code/era-03-tables-and-machines/07-konigsberg-bridges/) · **Page:** [topic 7](07-konigsberg-bridges/README.md)
 
 > **Field note.** Seven bridges joined the islands and banks of a Prussian city, and its citizens asked whether a walk could cross each exactly once. Listing every route is hopeless. Euler threw away everything but which land touches which bridge, and counted: every time a walker enters a piece of land he must leave it, so the bridges at each piece pair up, except at the start and the end. Four pieces of land had an odd number of bridges, so no walk exists. He called the question "so banal". It is the first time I have seen a problem solved by deciding what to ignore.
 

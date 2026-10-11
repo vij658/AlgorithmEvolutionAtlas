@@ -7,7 +7,7 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | # | Topic | When | Program | Checks |
 |---|---|---|---|---|
 | 1 | [Elimination on the Counting Board](01-fangcheng/README.md) | c. 200 BCE – 263 CE | [`FangCheng.java`](01-fangcheng/FangCheng.java) | 5,447 |
-| 2 | Ptolemy's Table of Chords | c. 150 CE | planned | |
+| 2 | [Ptolemy's Table of Chords](02-ptolemys-chords/README.md) | c. 150 CE | [`PtolemyChords.java`](02-ptolemys-chords/PtolemyChords.java) | 20,018 |
 | 3 | The Chinese Remainder Problem | 3rd–5th century CE | planned | |
 | 4 | Zero Becomes a Number | 628 CE | planned | |
 | 5 | The Chakravala and Pell's Equation | 628–1150 CE | planned | |

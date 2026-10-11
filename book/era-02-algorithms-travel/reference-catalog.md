@@ -115,7 +115,7 @@ The **Atlas** lines will point to the matching chapters of *The Evolutionary Atl
 ## 2. Ptolemy's table of chords
 
 **When / where:** Claudius Ptolemy, Alexandria. The table is in Book I of the *Almagest* (*Syntaxis mathematica*), written after his dated observations of 127–141 CE and usually placed about 150 CE.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`PtolemyChords.java`](../../code/era-02-algorithms-travel/02-ptolemys-chords/) · **Page:** [topic 2](02-ptolemys-chords/README.md)
 
 > **Field note.** The sky-watchers of Alexandria had a geometry problem they met a thousand times a night: given an angle at the centre of a circle, how long is the chord across it? Measuring every chord is impossible, so Ptolemy computed them, in a way I now recognise as an algorithm with a seed and a set of growth rules. The seed is a few chords known exactly from the triangle, square, pentagon, hexagon and decagon. The rules are halving an arc and taking sums and differences of two arcs. Between the entries, a third column tells the reader how much to add for each part of a step. With that, a 360-row table could be built by hand and used for centuries.
 
@@ -164,6 +164,15 @@ The **Atlas** lines will point to the matching chapters of *The Evolutionary Atl
 |---|---|---|---|
 | Scholar | [Ptolemy's Almagest](https://press.princeton.edu/isbn/9780691002606) | G. J. Toomer (trans.), Princeton University Press, 1998 | The standard English translation, from Heiberg's Greek text (publisher's page) |
 | Scholar | [Syntaxis Mathematica](https://catalog.perseus.org/catalog/urn:cts:greekLit:tlg0363.tlg001) | Perseus Catalog record | Heiberg's Greek edition (Teubner, 1898–1903) and Manitius's German translation (1912–13), with links to scans |
+
+**Added with the topic page** (each opened before it was listed)
+
+| Level | Link | Source | Why |
+|---|---|---|---|
+| Deeper | [Euclid's Elements, Book XIII, Proposition 10](https://mathcs.clarku.edu/~djoyce/elements/bookXIII/propXIII10.html) | David E. Joyce, Clark University | The pentagon's side squared equals the hexagon's plus the decagon's: the seed chord of 72° |
+| Scholar | [s_sin.c (IBM Accurate Mathematical Library)](https://codebrowser.dev/glibc/glibc/sysdeps/ieee754/dbl-64/s_sin.c.html) | GNU C library source, on codebrowser.dev | `do_sin` combines a sin/cos table with the sum rule; its comment states a worst case of 0.518 units in the last place |
+| Scholar | [Vat. lat. 2054](https://ptolemaeus.badw.de/ms/446) | Ptolemaeus Arabus et Latinus, Bavarian Academy of Sciences and Humanities | George of Trebizond's 15th-century Latin *Almagest*, a paper codex of 235 folios, with images |
+| Scholar | [Ptolemy, Almagest (Syntaxis Mathematica), Vat. gr. 1594](https://sourcelibrary.org/book/vat-gr-1594-ptolemy) | Source Library, from the Vatican Library's digitization | A Greek manuscript dated about 900 in its record. The English shown is an AI translation, and the page's licence fields conflict |
 
 **Gaps:** YouTube watch pages could not be opened in this environment (fetch errors on every attempt), so no YouTube video is listed, including "Ptolemy and Trigonometry, Part One", which turned up in search. Van Brummelen's book itself was not opened, only the MAA review and its table of contents. An Internet Archive scan of Heiberg's *Opera* (1898) was opened, but the page did not say which volume it holds, so it is not listed. A 19th-century tract on the history of trigonometric tables (Düsseldorf University Library PDF) describes the three-column table, but its author and date could not be confirmed, so it is not listed. The exact Ptolemaic inequality used to bound Crd 1° is not quoted, because no opened page states it.
 

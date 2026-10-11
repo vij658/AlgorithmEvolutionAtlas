@@ -1,0 +1,28 @@
+theorem: 20000 random quadrilaterals in a circle, largest relative gap 6.7e-16
+seed 36: 37;4,55 ; true 37;4,55,20
+seed 60: 60;0,0 ; true 60;0,0,0
+seed 72: 70;32,3 ; true 70;32,3,14
+seed 90: 84;51,10 ; true 84;51,10,8
+seed 120: 103;55,23 ; true 103;55,22,58
+derive 12: 12;32,36,1 (difference of 72 and 60) ; to the second 12;32,36 ; true 12;32,36,18
+derive 6: 6;16,49,0 (half of 12) ; to the second 6;16,49 ; true 6;16,49,8
+derive 3: 3;8,28,23 (half of 6) ; to the second 3;8,28 ; true 3;8,28,27
+derive 1 1/2: 1;34,14,41 (half of 3) ; to the second 1;34,15 ; true 1;34,14,42
+derive 3/4: 0;47,7,24 (half of 1 1/2) ; to the second 0;47,7 ; true 0;47,7,25
+squeeze 1: between 1;2,49,47 and 1;2,49,52, so 1;2,50 ; true 1;2,49,52
+derive 1/2: 0;31,25 (half of 1) ; true 0;31,24,57
+chain: 360 entries by adding 1/2 degree each time: 34 right to the second, 36 one second off, worst 9 seconds off at 94 1/2
+anchored: restarting the sums at each known chord: 134 of 360 right to the second, worst 3 seconds off
+row 1/2: chord 0;31,25 ; increment per minute 0;1,2,50
+row 1: chord 1;2,50 ; increment per minute 0;1,2,50
+row 1 1/2: chord 1;34,15 ; increment per minute 0;1,2,48
+row 30: chord 31;3,30 ; increment per minute 0;1,0,38
+row 60: chord 60;0,0 ; increment per minute 0;0,54,20
+row 120: chord 103;55,23 ; increment per minute 0;0,31,18
+row 179 1/2: chord 119;59,56 ; increment per minute 0;0,0,8
+row 180: chord 120;0,0 ; increment per minute 0;0,0,0
+interpolate: every minute of arc from 0 to 180 degrees: worst error 1.45 seconds at 168 degrees 15 minutes ; curvature alone allows 1.03 seconds, rounding half a second
+pi: 360 x 1;2,50 / 120 = 3;8,30 = 377/120 = 3.141667 (true 3.141593)
+root3: 103;55,23 / 60 = 1;43,55,23 = 1.7320509 (true 1.7320508)
+library: 1000000 random angles: table of 257 sines and cosines plus the sum rule, worst 3.00 units in the last place ; half-degree table with interpolation, worst error 9.5e-06
+PtolemyChords: 20018 checks passed

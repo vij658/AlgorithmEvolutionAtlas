@@ -25,7 +25,7 @@
 | # | Topic | When | What hurt | Read |
 |---|---|---|---|---|
 | 1 | **Elimination on the Counting Board** | *Nine Chapters*, c. 200 BCE – 50 CE (disputed); Liu Hui's commentary 263 CE | Several unknowns tied together by several conditions | [page](01-fangcheng/README.md) · [interactive](01-fangcheng/fangcheng.html) · [program](../../code/era-02-algorithms-travel/01-fangcheng/README.md) |
-| 2 | **Ptolemy's Table of Chords** | *Almagest*, c. 150 CE | Astronomy needs the chord of every angle | planned · [references](reference-catalog.md#2-ptolemys-table-of-chords) |
+| 2 | **Ptolemy's Table of Chords** | *Almagest*, c. 150 CE | Astronomy needs the chord of every angle | [page](02-ptolemys-chords/README.md) · [interactive](02-ptolemys-chords/ptolemys-chords.html) · [program](../../code/era-02-algorithms-travel/02-ptolemys-chords/README.md) |
 | 3 | **The Chinese Remainder Problem** | *Sunzi Suanjing*, 3rd–5th century CE (disputed) | Find a number from its remainders | planned · [references](reference-catalog.md#3-the-chinese-remainder-problem) |
 | 4 | **Zero Becomes a Number** | Brahmagupta, 628 CE; Gwalior inscription, 876 CE | An empty place needs a sign, and arithmetic needs rules for it | planned · [references](reference-catalog.md#4-zero-becomes-a-number) |
 | 5 | **The Chakravala and Pell's Equation** | Brahmagupta, 628; Jayadeva (quoted 1073); Bhaskara II, 1150 | Whole-number solutions of x² − Ny² = 1 | planned · [references](reference-catalog.md#5-the-chakravala-and-pells-equation) |

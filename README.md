@@ -25,7 +25,7 @@ The repository has two halves:
 | Era 1 topic pages, all 9 | Done: GitHub and interactive editions with diagrams and widgets ([front page](book/era-01-the-first-algorithms/README.md)); 9 programs verified (30,741,065 checks) |
 | Chapter 1, *Two numbers, one answer* | Program verified (14,072,170 checks); history checked; outline written; chapter text not written |
 | Reference catalog, Era 2 (fangcheng to al-Kashi, 11 topics) | Done: 130 checked links ([read it](book/era-02-algorithms-travel/reference-catalog.md)) |
-| Era 2 topic pages | In progress ([front page](book/era-02-algorithms-travel/README.md)): 1 of 11 built, 1 program verified (5,447 checks) |
+| Era 2 topic pages | In progress ([front page](book/era-02-algorithms-travel/README.md)): 2 of 11 built, 2 programs verified (25,465 checks) |
 | Principles catalog, Parts 1–2 (entries 1–42) | Pages written; 42 programs verified (8,135,522 checks) |
 | Principles catalog, Part 3 (entries 43–62) | 20 programs verified (154,369,152 checks); page not written |
 

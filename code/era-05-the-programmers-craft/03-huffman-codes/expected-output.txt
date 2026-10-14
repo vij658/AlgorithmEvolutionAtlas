@@ -1,0 +1,7 @@
+phrase: MISSISSIPPI RIVER (17 characters, _ is the space) ; merges: M(1) + _(1) = M_(2) ; V(1) + E(1) = VE(2) ; P(2) + R(2) = PR(4) ; M_(2) + VE(2) = M_VE(4) ; S(4) + PR(4) = SPR(8) ; M_VE(4) + I(5) = M_VEI(9) ; SPR(8) + M_VEI(9) = SPRM_VEI(17) ; code: I=11 S=00 P=010 R=011 M=1000 _=1001 V=1010 E=1011 ; 46 bits, against 51 with 3 bits each
+bits: 1000110000110000110100101110010111110101011011
+corpus: 17,744 letters and spaces from the field notes of Eras 1 to 3 ; entropy H = 4.090 bits per letter ; five bits each: 88,720 bits ; Shannon's code: 83,090 (4.683 per letter) ; Fano's splitting: 73,551 (4.145) ; Huffman: 73,241 (4.128) ; Huffman's codewords: space 111 E 001 T 1101 A 1011 N 1001 O 1000 Z 11001011101 J 11001011100
+roundtrip: the text encoded into 73,241 bits and decoded again, letter for letter, by walking the tree from the top: 0 left, 1 right, back to the top at each leaf
+optimal: 20,000 random alphabets of 2 to 8 symbols ; Huffman's total length equalled the best over all prefix codes (exhaustive search) every time ; Fano's splitting was worse in 1,158 of them (5.8%) ; smallest such case, counts 13 13 12 16 34: Fano 10 110 111 01 00 = 201 bits, Huffman 101 110 100 111 0 = 196 bits
+fibonacci: counts 1, 1, 2, 3, 5, ... 6765 for 20 symbols: each merge joins the newest node with the next count, the tree is one long branch, and the rarest symbols get 19-bit codewords, the most any 20-symbol code can need
+HuffmanCodes: 40007 checks passed

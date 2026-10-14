@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hoare&#x27;s Quicksort</title>
+<meta name="description" content="Era 5, topic 10 of The Algorithm Evolution Atlas: Hoare&#x27;s Quicksort, invented in Moscow in 1959 to sort words before a dictionary look-up, with its exact average and its bad case.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.qs-bars{display:flex;align-items:flex-end;gap:2px;height:180px;padding:4px;border:1px solid var(--rule);border-radius:6px;background:var(--surface)}
+.qs-bars span{flex:1 1 0;min-width:0;background:var(--axis);border-radius:2px 2px 0 0}
+.qs-bars span.bound{background:var(--red)}
+.qs-bars span.i{background:var(--blue)}
+.qs-bars span.j{background:var(--yellow)}
+.qs-bars span.done{opacity:.45}
+.qs-bars span.out{opacity:.25}
+.qs-btns,.qs-mode{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.qs-mode button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.qs-stats{font:13px var(--mono);display:grid;gap:4px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 5: The Programmer&#x27;s Craft</a><a href="../09-perceptron/perceptron.html">← Rosenblatt&#x27;s Perceptron</a><a href="../11-avl-trees/avl-trees.html">AVL Trees →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 5 · Topic 10 · 1959–1962</div>
+    <h1>Hoare&#x27;s Quicksort</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">A visiting student in Moscow needed to sort the words of Russian sentences before looking them up. His first idea was too slow; his second was to split the list around one word, in place, and sort each side the same way.</p>
+  <p class="fieldnote">Field note from the visiting historian. I sorted the sentence in which Hoare explained why he needed a sort: 132 comparisons. On a million random items his method needed 31,244,635; on 50,000, insertion sort needed 627,111,472. He called it the second thing he thought of. He died in March 2026, sixty-seven years after Moscow.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#part">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Moscow 1959; CACM 1961; paper 1962</dd></div><div><dt>Where</dt><dd>Moscow State University; Elliott Brothers</dd></div><div><dt>What hurt</dt><dd>Insertion sort's n² comparisons; merging needs a copy</dd></div><div><dt>The fix</dt><dd>Partition around a bound, in place; recurse</dd></div><div><dt>Cost</dt><dd>About 1.57 n log₂ n here; n²/2 in the bad case</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Merge sort (Era 4) divided a list into halves, sorted them, and merged, but merging needs a second list as large as the first. Hoare divided differently: around one item, the bound, swapping items between the two ends of the list itself. Recursion, from ALGOL, made the rest a few lines. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How Quicksort combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="426.5,170.0 417.7,171.9 419.2,164.7" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,170.0 496.3,161.8 503.7,161.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="573.5" y2="170.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,170.0 580.8,164.7 582.3,171.9" style="fill:var(--ink-2)"/><line x1="416.0" y1="256.0" x2="167.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="167.0,330.0 173.8,324.1 175.9,331.2" style="fill:var(--ink-2)"/><line x1="500.0" y1="256.0" x2="500.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,330.0 496.3,321.8 503.7,321.8" style="fill:var(--ink-2)"/><line x1="584.0" y1="256.0" x2="833.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="833.0,330.0 824.1,331.2 826.2,324.1" style="fill:var(--ink-2)"/><line x1="500.0" y1="416.0" x2="500.0" y2="480.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,480.0 496.3,471.8 503.7,471.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Insertion sort</text><text x="32.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Hoare&#x27;s first idea: too slow</text><text x="32.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">about n²/4 comparisons</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Merge sort</text><text x="407.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">divide, sort the halves, merge</text><text x="407.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 4 topic 9</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Recursion</text><text x="782.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a procedure that calls itself</text><text x="782.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">ALGOL, 1960</text><rect x="395" y="170" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="193.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Quicksort</text><text x="407.0" y="210.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ divide by a bound, in place,</text><text x="407.0" y="227.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">from both ends</text><text x="407.0" y="243.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Hoare, 1959–1962</text><rect x="20" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="353.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Sort, then look up</text><text x="32.0" y="370.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">sorted words meet the</text><text x="32.0" y="387.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">dictionary in order</text><text x="32.0" y="403.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">machine translation</text><rect x="395" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">A random bound</text><text x="407.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">makes the bad case</text><text x="407.0" y="395.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">vanishingly rare</text><rect x="770" y="330" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="361.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Heapsort</text><text x="782.0" y="379.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">n log n on every input</text><text x="782.0" y="395.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 12, 1964</text><rect x="395" y="480" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="511.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Sorting today</text><text x="407.0" y="529.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">library sorts built around</text><text x="407.0" y="545.6" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">partitioning</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dashed: a contrast, not a descent. Insertion sort was what Quicksort replaced; heapsort answered Quicksort&#x27;s bad case.</text></svg></div><figcaption>Red: Quicksort. Blue: sorting today.</figcaption></figure>
+</section>
+<section id="part" aria-labelledby="part-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="part-h">Watch the two fingers</h2>
+<p class="col">Thirty-two bars. Step through Hoare's partition: the bound is red; the left finger (blue) moves right until it finds a bar not shorter than the bound, the right finger (yellow) moves left until it finds one not taller; the two are swapped, and so on until the fingers meet. Then each part is sorted the same way. Try a sorted input with each kind of bound, and compare the comparisons.</p>
+
+<div class="board qs-board">
+  <div style="min-width:0">
+    <div class="qs-bars" id="qs-bars"></div>
+    <div class="qs-btns"><button type="button" id="qs-step">Step</button><button type="button" id="qs-run">Run to the end</button>
+      <button type="button" id="qs-shuf">Shuffle</button><button type="button" id="qs-sorted">Sorted input</button></div>
+    <div class="qs-mode" id="qs-mode"></div>
+  </div>
+  <div style="min-width:0">
+    <div class="qs-stats" id="qs-stats"></div>
+    <p class="say" id="qs-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 5, the programmer&#x27;s craft</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 5: The Programmer&#x27;s Craft, from 1949 to 1965" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1949–1952</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Wheeler&#x27;s</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">subroutine</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1951</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Kleene&#x27;s regular</text><text x="185.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">events</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1951–1952</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Huffman&#x27;s codes</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1953–1957</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Hashing</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1952–1957</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Bellman&#x27;s dynamic</text><text x="550.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">programming</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1956–1960</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Lists and garbage</text><text x="671.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">collection</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1956–1959</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Dijkstra&#x27;s</text><text x="793.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">shortest paths</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1954–1960</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">FORTRAN and BNF</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1957–1958</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">The perceptron</text><circle cx="1157.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1959–1962</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Quicksort</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1962</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AVL trees</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1964</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Heapsort</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1965</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Edmonds&#x27;s matching</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 416" role="img" aria-label="Each fix leaves a new pain: from insertion to partition" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Sorting the words before looking them up: insertion</text><text x="32.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">sort needs about n²/4 comparisons (627,111,472 for</text><text x="32.0" y="94.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">50,000 items)</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Partition around one word and sort each side: 1,212,851</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">comparisons</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Hoare, Moscow, 1959</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The pieces still to be sorted were hard to keep track of</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">in Mercury Autocode</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">ALGOL&#x27;s recursion: the procedure sorts each part by</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">calling itself</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Algorithm 64, CACM 1961</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A sorted list with the first item as the bound:</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">200,029,998 comparisons for 20,000 items</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Choose the bound at random: 412,344</text><text x="572.0" y="370.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">a fix, not a guarantee</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Partition, then do it again</h2>
+<p class="col"><strong>Hoare's own sentence.</strong> He recalled that "it paid to sort the words of the sentence into the same alphabetical order before consulting the dictionary". The program sorts that very sentence. The first word, "it", is the bound; after one partition the words [dictionary consulting before alphabetical into] come before it, and [words of the sentence the the same sort order to paid the it] do not. Each part is sorted the same way: 132 comparisons in all, ending alphabetical before consulting dictionary into it of order paid same sentence sort the the the the to words.</p>
+<p class="col"><strong>Why it is fast.</strong> A partition looks at each item about once. If the bound splits the list roughly in half each time, there are about log₂ n levels of halving, so the work is about n log n comparisons. If every bound is the smallest item, each partition peels off one item and the work is about n²/2.</p>
+<div class="tbl"><table><thead><tr><th class="n">Items</th><th class="n">Orderings (all tried)</th><th class="n">Average comparisons</th></tr></thead><tbody><tr class=""><td class="n">3</td><td class="n">6</td><td class="n">2.6667</td></tr><tr class=""><td class="n">4</td><td class="n">24</td><td class="n">4.8333</td></tr><tr class=""><td class="n">5</td><td class="n">120</td><td class="n">7.4000</td></tr><tr class=""><td class="n">6</td><td class="n">720</td><td class="n">10.3000</td></tr><tr class=""><td class="n">7</td><td class="n">5,040</td><td class="n">13.4857</td></tr><tr class=""><td class="n">8</td><td class="n">40,320</td><td class="n">16.9214</td></tr><tr class=""><td class="n">9</td><td class="n">362,880</td><td class="n">20.5794</td></tr></tbody></table></div>
+<p class="col">Sorting every ordering of up to 9 items, with each item compared with the bound once per partition: each average equals 2(n+1)(1 + 1/2 + … + 1/n) − 4n exactly, which grows like 2n ln n ≈ 1.39 n log₂ n.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>Split the list in place around one item, so that everything on the left is no larger than everything on the right; then the two parts can be sorted separately, and nothing ever has to be merged.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Large lists, bad lists</h2>
+<div class="tbl"><table><thead><tr><th class="n">Items (random order)</th><th class="n">Comparisons</th><th class="n">× n log₂ n</th><th class="n">Lower bound log₂ n! (× n log₂ n)</th></tr></thead><tbody><tr class=""><td class="n">1,000</td><td class="n">15,255</td><td class="n">1.53</td><td class="n">0.86</td></tr><tr class=""><td class="n">10,000</td><td class="n">205,361</td><td class="n">1.55</td><td class="n">0.89</td></tr><tr class=""><td class="n">100,000</td><td class="n">2,535,082</td><td class="n">1.53</td><td class="n">0.91</td></tr><tr class=""><td class="n">1,000,000</td><td class="n">31,244,635</td><td class="n">1.57</td><td class="n">0.93</td></tr></tbody></table></div>
+<p class="col">The two-finger partition keeps the bound inside one of the parts and compares the items where the fingers meet twice, so it needs somewhat more than the 1.39 n log₂ n of the exact count above. No method that compares items can sort every list with fewer than log₂ n! comparisons.</p>
+<div class="tbl"><table><thead><tr><th class="n">Items</th><th class="n">Insertion sort (Hoare&#x27;s first idea)</th><th class="n">Quicksort</th></tr></thead><tbody><tr class=""><td class="n">1,000</td><td class="n">254,227</td><td class="n">16,353</td></tr><tr class=""><td class="n">10,000</td><td class="n">25,254,112</td><td class="n">209,960</td></tr><tr class="hl"><td class="n">50,000</td><td class="n">627,111,472</td><td class="n">1,212,851</td></tr></tbody></table></div>
+<p class="col"><strong>The bad case.</strong> An already sorted list of 20,000 items, with the first item as the bound: 200,029,998 comparisons, more than n²/2 = 200,000,000. With the bound chosen at random, the same list takes 412,344 (1.44 n log₂ n).</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">Moscow, a dictionary, and a sixpence</h2>
+<p class="col">"The quicksort algorithm was developed in 1959 by Tony Hoare while he was a visiting student at Moscow State University", on a machine translation project for the National Physical Laboratory; his first idea, insertion sort, was too slow; he wrote the partition in Mercury Autocode but "had trouble dealing with the list of unsorted segments"; "Later, Hoare learned about ALGOL and its ability to do recursion". Back in England, asked to write Shellsort, he said he knew a faster algorithm, and "his boss bet a sixpence that he did not" (Wikipedia). The algorithms appeared as "Algorithm 63: partition and Algorithm 64: Quicksort" in <em>Communications of the ACM</em> in July 1961, and the analysis in <em>The Computer Journal</em> 5(1): 10–15 (1962).</p>
+<p class="col">Hoare, interviewed in 2006: "I thought of Quicksort as the second thing. It didn't occur to me that this was anything very difficult"; "I think Quicksort is the only really interesting algorithm that I ever developed." He died on 5 March 2026, at the age of 92 (Wolfson College, Oxford; Computer History Museum).</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">The second thing he thought of</h2>
+<p class="col">Hoare called Quicksort the second thing he thought of, after insertion sort, and the only really interesting algorithm he ever developed. The bad case he analysed is why a careful implementation chooses its bound at random or with care, and why heapsort (topic 12) was welcome two years later.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>The sentence Hoare used to explain why he needed a sort, sorted by his own method: 132 comparisons.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Partition 5 3 8 1 9 2 around the bound 5 with two fingers. What happens first?</span></summary><div class="ans"><p>The left finger stops at 5 itself (not smaller), the right finger at 2 (not larger): swap them, giving 2 3 8 1 9 5, and continue.</p></div></details><details class="try"><summary><span class="q">2</span><span>Why does a bound that splits the list in half give about n log₂ n comparisons?</span></summary><div class="ans"><p>Each level of splitting looks at all n items once, and halving reaches single items after about log₂ n levels.</p></div></details><details class="try"><summary><span class="q">3</span><span>What does a sorted list do to Quicksort with the first item as the bound?</span></summary><div class="ans"><p>Every partition splits off just the bound itself; there are n levels, and the work is about n²/2.</p></div></details><details class="try"><summary><span class="q">4</span><span>Why does a random bound help?</span></summary><div class="ans"><p>No particular input is bad any more; a bad run needs bad luck at many levels, which is vanishingly rare.</p></div></details><details class="try"><summary><span class="q">5</span><span>What does Quicksort need that merge sort does not, and the other way round?</span></summary><div class="ans"><p>Quicksort needs no second list, but it has a bad case; merge sort is n log n always, but needs room for a copy.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Quicksort (1962)</b><span>Hoare's paper in The Computer Journal 5(1): 10–15, with the analysis.</span><a href="https://www.cs.ox.ac.uk/publications/publication8195-abstract.html">Oxford record</a><span class="lic">Drawn placeholder.</span></figcaption></figure><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 120" role="img" aria-label="Drawn placeholder of an open printed book" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><path d="M100,20 C80,12 40,12 20,18 V108 C40,102 80,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><path d="M100,20 C120,12 160,12 180,18 V108 C160,102 120,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="32.0" y1="32.0" x2="88.0" y2="32.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="41.0" x2="88.0" y2="41.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="50.0" x2="88.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="59.0" x2="88.0" y2="59.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="68.0" x2="88.0" y2="68.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="77.0" x2="88.0" y2="77.0" style="stroke:var(--axis);stroke-width:2"/><circle cx="140.0" cy="60.0" r="24.0" style="fill:none;stroke:var(--red);stroke-width:2"/><path d="M116,60 L164,60 M140,36 L140,84" style="fill:none;stroke:var(--blue);stroke-width:2"/></svg></div><figcaption class="txt"><b>Oral history of Sir Antony Hoare (2006)</b><span>Interviewed by Jonathan P. Bowen for the Computer History Museum.</span><a href="https://www.computerhistory.org/collections/catalog/102658017">CHM catalogue</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://en.wikipedia.org/wiki/Quicksort" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Quicksort · Wikipedia</span><span class="w">Moscow, Mercury Autocode, the sixpence, and the analysis</span></a><a href="https://computerhistory.org/blog/in-memoriam-sir-antony-hoare-1934-2026/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">In Memoriam: Sir Antony Hoare (1934–2026) · Dag Spicer, Computer History Museum (2026)</span><span class="w">His life and work, from Quicksort to the null reference</span></a><a href="https://cacm.acm.org/?p=20664" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">An Interview With C.A.R. Hoare · Jonathan P. Bowen (2006), edited for <em>Communications of the ACM</em></span><span class="w">Quicksort in Hoare's own words</span></a><a href="https://www.cs.ox.ac.uk/people/tony.hoare" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Tony Hoare · University of Oxford, Department of Computer Science</span><span class="w">Career outline</span></a><a href="https://www.wolfson.ox.ac.uk/news/wolfson-emeritus-fellow-professor-sir-tony-hoare-dies/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Wolfson Emeritus Fellow Professor Sir Tony Hoare dies · Wolfson College, Oxford (16 March 2026)</span><span class="w">The college's notice</span></a><a href="https://www.cs.ox.ac.uk/publications/publication8195-abstract.html" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Quicksort · C. A. R. Hoare, <em>The Computer Journal</em> 5(1): 10–15 (1962), Oxford publication record</span><span class="w">The paper with the analysis</span></a><a href="https://www.computerhistory.org/collections/catalog/102658017" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Oral history of Sir Antony Hoare · Interview by Jonathan P. Bowen, 8 September 2006, Computer History Museum</span><span class="w">The recorded interview behind the CACM excerpt</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-05-the-programmers-craft/reference-catalog.md">Era 5 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-05-the-programmers-craft/10-quicksort/Quicksort.java">Quicksort.java</a> makes <strong>4,800,817 checks</strong>: Hoare's sentence sorted, every ordering of up to 9 items against the exact formula, random lists up to a million items, insertion sort, and the sorted-input worst case with both kinds of bound. Run it with <code>java Quicksort.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** Hoare&#x27;s partition with two fingers; returns j such that a[lo..j] &lt;= a[j+1..hi]. */</span>
+<span class="k-kw">static</span> &lt;T extends Comparable&lt;T&gt;&gt; <span class="k-kw">int</span> partition(T[] a, <span class="k-kw">int</span> lo, <span class="k-kw">int</span> hi) {
+    <span class="k-kw">if</span> (randomBound) swap(a, lo, lo + rnd(hi - lo + <span class="k-n">1</span>));
+    T bound = a[lo];
+    <span class="k-kw">int</span> i = lo - <span class="k-n">1</span>, j = hi + <span class="k-n">1</span>;
+    <span class="k-kw">while</span> (<span class="k-kw">true</span>) {
+        do i++; <span class="k-kw">while</span> (less(a[i], bound));
+        do j--; <span class="k-kw">while</span> (less(bound, a[j]));
+        <span class="k-kw">if</span> (i &gt;= j) <span class="k-kw">return</span> j;
+        swap(a, i, j);
+    }
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>Quicksort.java</code>.<br><span class="navfoot"><a href="../index.html">Era 5: The Programmer&#x27;s Craft</a><a href="../09-perceptron/perceptron.html">← Rosenblatt&#x27;s Perceptron</a><a href="../11-avl-trees/avl-trees.html">AVL Trees →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const bars = document.getElementById("qs-bars");
+  if (!bars) return;
+  const N = 32;
+  let a, stack, cur, comps, swaps, randomBound = false, seed = 1959, state, msg;
+  const rnd = k => { seed = (seed * 1103515245 + 12345) % 2147483648; return Math.floor(seed / 2147483648 * k); };
+  function load(kind) {
+    a = Array.from({length: N}, (_, i) => i + 1);
+    if (kind === "shuffle") for (let i = N - 1; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; }
+    stack = [[0, N - 1]]; cur = null; comps = 0; swaps = 0; state = "pick"; msg = "Press Step: pick a bound, then move the two fingers inward.";
+  }
+  // one small step of Hoare's partition, so it can be watched
+  function step() {
+    if (state === "pick") {
+      while (stack.length && stack[stack.length - 1][0] >= stack[stack.length - 1][1]) stack.pop();
+      if (!stack.length) { state = "done"; msg = `Sorted, with ${comps} comparisons.`; return; }
+      const [lo, hi] = stack.pop();
+      if (randomBound) { const k = lo + rnd(hi - lo + 1); [a[lo], a[k]] = [a[k], a[lo]]; }
+      cur = {lo, hi, bound: a[lo], i: lo - 1, j: hi + 1, phase: "i"};
+      state = "part"; msg = `Partition positions ${lo} to ${hi} around the bound ${cur.bound} (red).`; return;
+    }
+    if (state === "part") {
+      const c = cur;
+      if (c.phase === "i") { do { c.i++; comps++; } while (a[c.i] < c.bound); c.phase = "j"; msg = `Left finger (blue) stops at ${a[c.i]}, not smaller than ${c.bound}.`; return; }
+      if (c.phase === "j") {
+        do { c.j--; comps++; } while (c.bound < a[c.j]);
+        if (c.i >= c.j) { stack.push([c.j + 1, c.hi]); stack.push([c.lo, c.j]); msg = `Right finger (yellow) stops at ${a[c.j]}. The fingers have met: everything up to position ${c.j} is no larger than everything after it. Sort the two parts.`; state = "pick"; return; }
+        [a[c.i], a[c.j]] = [a[c.j], a[c.i]]; swaps++;
+        c.phase = "i"; msg = `Right finger stops at ${a[c.i]}; the two items are swapped.`; return;
+      }
+    }
+  }
+  function show() {
+    bars.innerHTML = "";
+    const pending = new Set(); stack.forEach(([lo, hi]) => { for (let k = lo; k <= hi; k++) pending.add(k); });
+    a.forEach((v, k) => {
+      let cls = "";
+      if (state === "part" && k >= cur.lo && k <= cur.hi) cls = v === cur.bound ? "bound" : k === cur.i ? "i" : k === cur.j ? "j" : "";
+      else if (state !== "part" && !pending.has(k)) cls = "done";
+      if (state === "part" && (k < cur.lo || k > cur.hi) && !pending.has(k)) cls = "done";
+      const s = el("span", {class: cls}, bars); s.style.height = (v / N * 100) + "%";
+    });
+    const st = document.getElementById("qs-stats"); st.innerHTML = "";
+    el("div", {}, st).textContent = `comparisons ${comps}`;
+    el("div", {}, st).textContent = `swaps ${swaps}`;
+    el("div", {}, st).textContent = `pieces waiting ${stack.length}`;
+    document.getElementById("qs-say").textContent = msg;
+  }
+  const mode = document.getElementById("qs-mode");
+  [["first item as the bound", false], ["bound chosen at random", true]].forEach(([label, r]) => {
+    const b = el("button", {type: "button", "aria-pressed": String(r === randomBound)}, mode); b.textContent = label;
+    b.addEventListener("click", () => { randomBound = r; mode.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b))); });
+  });
+  document.getElementById("qs-step").addEventListener("click", () => { if (state !== "done") step(); show(); });
+  document.getElementById("qs-run").addEventListener("click", () => { let k = 0; while (state !== "done" && k++ < 100000) step(); show(); });
+  document.getElementById("qs-shuf").addEventListener("click", () => { load("shuffle"); show(); });
+  document.getElementById("qs-sorted").addEventListener("click", () => { load("sorted"); msg = "Already sorted. With the first item as the bound, each partition peels off one item; try Run to the end with each kind of bound."; show(); });
+  load("shuffle"); show();
+})();
+
+</script>
+</body>
+</html>

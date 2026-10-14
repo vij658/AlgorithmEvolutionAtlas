@@ -45,7 +45,7 @@ A note on videos: YouTube pages could not be opened from the environment used to
 ## 1. The subroutine
 
 **When / where:** EDSAC, University of Cambridge Mathematical Laboratory: the machine ran its first programs on 6 May 1949. David Wheeler, with Maurice Wilkes and Stanley Gill, devised the "closed subroutine" and the jump to it later called the Wheeler jump; Wheeler's PhD, "Automatic Computing with the EDSAC", was accepted in 1951; *The Preparation of Programs for an Electronic Digital Computer* (Wilkes, Wheeler and Gill, 1951) described a library of subroutines; Wheeler's "The use of sub-routines in programmes" was read at the ACM national meeting in Pittsburgh in 1952.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`Subroutines.java`](../../code/era-05-the-programmers-craft/01-the-subroutine/) · **Page:** [topic 1](01-the-subroutine/README.md)
 
 > **Field note.** The first stored-program computers were set to work at once, and their programmers immediately noticed that they were writing the same pieces again and again: a square root here, a sine there. The Cambridge group's answer was to write each piece once, keep it on punched tape in a library, and let any program call it. The trick is getting back: the machine had no instruction for "return to where you came from", so the caller put its own address in the accumulator and the subroutine wrote that address into the jump at its own end. With that, programs could be built from parts that other people had written and tested. This is where the craft of programming, as opposed to computing, begins.
 
@@ -92,7 +92,7 @@ A note on videos: YouTube pages could not be opened from the environment used to
 ## 2. Regular expressions
 
 **When / where:** Stephen Cole Kleene, for the RAND Corporation, Santa Monica: *Representation of Events in Nerve Nets and Finite Automata*, research memorandum RM-704, 15 December 1951, defines the "regular events" with three operations. Michael Rabin and Dana Scott, "Finite Automata and Their Decision Problems", *IBM Journal* (April 1959), 114–125: nondeterministic automata and the subset construction. Ken Thompson, "Regular expression search algorithm", *Communications of the ACM* 11(6): 419–422 (June 1968).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`RegularExpressions.java`](../../code/era-05-the-programmers-craft/02-regular-expressions/) · **Page:** [topic 2](02-regular-expressions/README.md)
 
 > **Field note.** Kleene took up a question about networks of idealised neurons, the kind McCulloch and Pitts had drawn: which patterns of input can such a network recognise? His answer was a small algebra. Start from single events; join two patterns with "or"; put one after another; repeat one any number of times. Everything a finite network can recognise is built from those three operations, and everything built from them can be recognised by a finite network. Kleene apologised for the name he gave the result, "regular", and asked for a better one; nobody supplied it. Eight years later Rabin and Scott let a machine be in several states at once and showed it was no stronger, only shorter to write down. Seventeen years after Kleene, Thompson turned the algebra into a program that searched text, and the notation has been in every programmer's hands since.
 
@@ -135,7 +135,7 @@ No video page could be opened (see **Gaps**).
 ## 3. Huffman's codes
 
 **When / where:** David A. Huffman, a graduate student at MIT, in Robert Fano's information theory course, 1951: a term paper in place of the final exam. "A Method for the Construction of Minimum-Redundancy Codes", *Proceedings of the IRE* 40(9): 1098–1101 (1952).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`HuffmanCodes.java`](../../code/era-05-the-programmers-craft/03-huffman-codes/) · **Page:** [topic 3](03-huffman-codes/README.md)
 
 > **Field note.** Shannon had shown (Era 4, topic 12) that a message needs, on average, at least its entropy in bits per symbol, and that codes can come within one bit of it. Which code comes closest? Fano split the alphabet into two halves of nearly equal probability, then split the halves, and so on from the top; it was good but not always best. His student Huffman, offered a paper instead of an exam, nearly gave up on proving any code best, and then turned the problem upside down: take the two rarest symbols, which must have the longest codewords, join them into one, and repeat. The tree grows from the leaves to the root, and no other prefix code is shorter. Every compressed file the species exchanges still passes through some descendant of that term paper.
 
@@ -174,7 +174,7 @@ No copy of the 1952 paper could be opened (see **Gaps**).
 ## 4. Hashing
 
 **When / where:** IBM, New York: Hans Peter Luhn's internal memorandum of January 1953 (buckets and chaining); Gene Amdahl, Elaine M. Boehme (later McGraw), Nathaniel Rochester and Arthur Samuel, building an assembler for the IBM 701 (open addressing with linear probing, 1954); Arnold Dumey, *Computers and Automation*, December 1956 (the first published description); W. W. Peterson, "Addressing for Random-Access Storage", *IBM Journal*, April 1957.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`Hashing.java`](../../code/era-05-the-programmers-craft/04-hashing/) · **Page:** [topic 4](04-hashing/README.md)
 
 > **Field note.** The new machines could reach any word of their memory in the same short time, and their owners began to store files too large to search from end to end. Sorting a file and searching it by halves took one more step every time the file doubled. An engineer at IBM proposed something stranger: compute where a record lives from the record itself. Chop the key into pieces, add them, keep the last digits, and go straight to that bucket. Two keys sometimes land together, so each bucket holds a short list, or, in a colleague's version, the record moves on to the next free place. Either way, a search costs a few looks whether the file holds a thousand records or a million. The method was old jargon before anyone printed its name.
 
@@ -218,7 +218,7 @@ No video page could be opened (see **Gaps**).
 ## 5. Dynamic programming
 
 **When / where:** Richard Bellman at the RAND Corporation, Santa Monica: research mathematician there from 1952; first publication on dynamic programming 1952; RAND memoranda from 1952 (RM-813, "On a problem in dynamic programming"); "Dynamic programming and a new formalism in the calculus of variations", *PNAS* 40(4): 231–235 (April 1954); the book *Dynamic Programming* (Princeton, 1957).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`DynamicProgramming.java`](../../code/era-05-the-programmers-craft/05-dynamic-programming/) · **Page:** [topic 5](05-dynamic-programming/README.md)
 
 > **Field note.** The Air Force paid a think-tank, and the think-tank set a mathematician to study "multistage decision processes": decisions taken one after another, each changing the situation for the next. Every stage multiplied the number of complete plans, and trying them all was out of the question. Bellman's observation sounds almost too simple: the remainder of a best plan must itself be best for wherever the first step leaves you. So he started at the end, valued every situation there, and worked backwards one stage at a time, keeping each value in a table. He chose the name, he said later, so that no official could object to it; the story does not quite fit the calendar. Pascal had already done the same thing with a gambling problem (Era 3, topic 4). Bellman made it a method for everything.
 
@@ -260,7 +260,7 @@ No video page could be opened (see **Gaps**).
 ## 6. Linked lists and garbage collection
 
 **When / where:** Allen Newell, Cliff Shaw and Herbert A. Simon, RAND Corporation and the Carnegie Institute of Technology, about 1956: the Information Processing Language (IPL), built on linked lists, for the Logic Theorist; "Programming the Logic Theory Machine" (Newell and Shaw, Western Joint Computer Conference, February 1957). John McCarthy, MIT: Lisp, from 1958; garbage collection, around 1959; "Recursive Functions of Symbolic Expressions and Their Computation by Machine, Part I", *Communications of the ACM* 3(4): 184–195 (1960).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`ListsAndGarbage.java`](../../code/era-05-the-programmers-craft/06-linked-lists/) · **Page:** [topic 6](06-linked-lists/README.md)
 
 > **Field note.** Programs that tried to reason (proving theorems, playing chess) needed memory that changed shape as they ran: a list of goals that grew and shrank, a formula rebuilt at every step. Arrays could not stretch. The RAND group gave every item a small cell holding the address of the next, so that a list could be spliced anywhere by rewriting an address or two, and they kept the unused cells on a list of their own. McCarthy built a whole language from cells with two addresses. It brought a new problem: programs left cells behind that nothing pointed to. Rather than make the programmer return each one, McCarthy let the machine do it: when the free cells ran out, it marked everything still reachable and took back the rest. He called it garbage collection, though not in print.
 
@@ -301,7 +301,7 @@ No video page could be opened (see **Gaps**).
 ## 7. Dijkstra's shortest paths
 
 **When / where:** Edsger W. Dijkstra, programmer at the Mathematical Centre, Amsterdam: the shortest-path method designed in 1956 for the public inauguration of the ARMAC computer, and a shortest-wiring method for the X1 computer; both in "A note on two problems in connexion with graphs", *Numerische Mathematik* 1: 269–271 (1959).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`ShortestPaths.java`](../../code/era-05-the-programmers-craft/07-shortest-paths/) · **Page:** [topic 7](07-shortest-paths/README.md)
 
 > **Field note.** A machine was to be shown to the public, and its programmer wanted a problem that visitors could understand, with an answer they could check: the shortest road between two Dutch cities. He worked out the method in his head, he said, in about twenty minutes, at a café table, without pencil or paper. Grow the set of cities whose distance is settled one at a time, always taking next the nearest of the cities on its edge; nothing reached later can undercut it. The same short paper joined points with the least wire, a problem from the next machine's wiring panel. He waited three years to publish, because there were hardly any journals for such things; the method now runs, in some form, whenever one of the species asks a telephone for directions.
 
@@ -344,7 +344,7 @@ No video page could be opened (see **Gaps**).
 ## 8. The compiler, and a grammar for languages
 
 **When / where:** John Backus and a team at IBM, New York: the FORTRAN project from the summer of 1954; the manual for the IBM 704, October 1956; "The FORTRAN Automatic Coding System", Western Joint Computer Conference, Los Angeles, 26–28 February 1957; the first compiler delivered in April 1957. Backus's notation for syntax, UNESCO conference, Paris, 1959; the ALGOL 60 report, edited by Peter Naur (1960).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`Compiler.java`](../../code/era-05-the-programmers-craft/08-the-compiler/) · **Page:** [topic 8](08-the-compiler/README.md)
 
 > **Field note.** Programming the first machines meant writing their instructions one by one, and most of a programmer's time went on the bookkeeping: which word holds what, which register counts the loop. A team at IBM proposed that the machine translate formulas written almost as a mathematician writes them. The team set itself a hard condition, that the translated program be as good as a careful coder's, and spent two and a half years meeting it. One of its first users wrote 47 statements in four hours; the machine turned them into about a thousand instructions in six minutes. Two years later Backus found a way to define such a language exactly: a handful of rules, each saying what a phrase may be made of. With rules like that, the translator could be written from the definition.
 
@@ -387,7 +387,7 @@ No video page could be opened (see **Gaps**).
 ## 9. Rosenblatt's perceptron
 
 **When / where:** Frank Rosenblatt, research psychologist and project engineer at the Cornell Aeronautical Laboratory, Buffalo, New York: the perceptron simulated on an IBM 704 in 1957; demonstrated by the U.S. Office of Naval Research in July 1958; "The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain", *Psychological Review* 65(6): 386–408 (1958); the Mark I Perceptron, a machine with 400 photocells, built by 1960.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`Perceptron.java`](../../code/era-05-the-programmers-craft/09-perceptron/) · **Page:** [topic 9](09-perceptron/README.md)
 
 > **Field note.** Every procedure so far had been written down by someone who understood the problem. Rosenblatt, a psychologist, wanted a machine that would find its own procedure from examples, as he supposed a brain must. His unit adds up weighted inputs and answers yes or no; when it is wrong, it shifts its weights toward the right answer, and when it is right it leaves them alone. Shown cards marked on the left or the right, it learned to tell them apart. The Navy's press conference promised far more, and the newspapers repeated it. Eleven years later two critics proved what a single unit could never learn, and interest collapsed for a decade. The learning rule itself survived, and in layered form it is how the species now trains its largest machines.
 
@@ -427,7 +427,7 @@ No video page could be opened (see **Gaps**).
 ## 10. Hoare's Quicksort
 
 **When / where:** Tony Hoare, a visiting student at Moscow State University, 1959, working towards machine translation for the National Physical Laboratory; "Algorithm 63: Partition" and "Algorithm 64: Quicksort", *Communications of the ACM* 4(7): 321 (July 1961); "Quicksort", *The Computer Journal* 5(1): 10–15 (1962).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`Quicksort.java`](../../code/era-05-the-programmers-craft/10-quicksort/) · **Page:** [topic 10](10-quicksort/README.md)
 
 > **Field note.** A young Englishman studying in Moscow wanted a machine to translate Russian. Looking words up in the dictionary went faster if the words of each sentence were sorted first, and his first idea for sorting them was too slow. His second was to pick one word, throw the smaller words to one side and the larger to the other, and do the same to each side. He could write the splitting in the language he had, but not, at first, the bookkeeping of all the pieces still waiting to be sorted; when he met ALGOL, in which a procedure may call itself, the whole method took a few lines. Back in England, asked to program another sorting method, he told his employer he knew a faster one, and the employer bet him sixpence that he did not. He later called it the only really interesting algorithm he ever developed. He died in March 2026, at the age of 92.
 
@@ -469,7 +469,7 @@ No video page could be opened (see **Gaps**).
 ## 11. AVL trees
 
 **When / where:** Georgy Adelson-Velsky and Evgenii Landis, Moscow: "An algorithm for the organization of information", *Doklady Akademii Nauk SSSR* 146(2): 263–266 (1962), received 13 April 1962; English translation by Myron J. Ricci in *Soviet Mathematics – Doklady* 3: 1259–1263 (1962).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`AvlTrees.java`](../../code/era-05-the-programmers-craft/11-avl-trees/) · **Page:** [topic 11](11-avl-trees/README.md)
 
 > **Field note.** A search tree finds a key by asking, at each fork, smaller or larger? With luck the tree is bushy and a million keys are found in twenty questions. Without luck, keys arriving in order, it is a single long branch and the questions number in the millions. Two Moscow mathematicians, one of whom would soon lead a chess program, proposed a rule that luck cannot break: at every fork the two branches may differ in height by at most one. When an insertion breaks the rule, a turn of three links restores it. The worst tree the rule allows is shaped by the Fibonacci numbers, and even it is no more than about one and a half times as tall as the best. It was the first search tree that kept itself in balance.
 
@@ -506,7 +506,7 @@ No video page could be opened (see **Gaps**).
 ## 12. Heapsort and the heap
 
 **When / where:** J. W. J. Williams, programmer at Elliott Automation (formerly Elliott Brothers), England: "Algorithm 232 – Heapsort", *Communications of the ACM* 7(6): 347–348 (June 1964). Robert W. Floyd, the same year: "Algorithm 245 – Treesort 3", *Communications of the ACM* 7(12): 701 (December 1964).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`Heapsort.java`](../../code/era-05-the-programmers-craft/12-heapsort/) · **Page:** [topic 12](12-heapsort/README.md)
 
 > **Field note.** Quicksort was fast on average and dreadful on bad days. A programmer at an English computer firm found a method with no bad days. Arrange the list as a family tree squeezed into an array, every parent at least as large as its two children, so that the largest item always sits at the front. Take it, put it at the back, let the item that replaced it sink to its proper level, and repeat: the list sorts itself from the back forward, in its own space, in time proportional to n log n whatever order it arrived in. Within the year Floyd showed that the first step, arranging the heap, can be done in fewer than two comparisons per item. The heap outlived the sort: any program that must keep taking out the most urgent of many waiting tasks uses one.
 
@@ -543,8 +543,8 @@ No video page could be opened (see **Gaps**).
 
 ## 13. Edmonds's matching and the "good" algorithm
 
-**When / where:** Jack Edmonds, Operations Research Section of the National Bureau of Standards, Washington: the blossom algorithm developed in 1961 and published as "Paths, trees, and flowers", *Canadian Journal of Mathematics* 17: 449–467 (1965). Alan Cobham, "The intrinsic computational difficulty of functions", the same year.
-**Atlas:** to be mapped · **Code:** planned
+**When / where:** Jack Edmonds, Operations Research Section of the National Bureau of Standards: the blossom algorithm developed in 1961 and published as "Paths, trees, and flowers", *Canadian Journal of Mathematics* 17: 449–467 (1965). Alan Cobham, "The intrinsic computational difficulty of functions", the same year.
+**Atlas:** to be mapped · **Code:** [`Matching.java`](../../code/era-05-the-programmers-craft/13-matching/) · **Page:** [topic 13](13-matching/README.md)
 
 > **Field note.** Pairing people off along the links of a network so that as many as possible have partners looks easy, and for two-sided networks the search was already understood. Add triangles and pentagons, odd cycles, and the obvious search goes round the wrong side and misses the improvement it is looking for. Edmonds saw that each odd cycle, a "blossom", could be shrunk to a single point while the search went on, and expanded again afterwards. His paper did something rarer than solve a problem: it asked what solving should mean. Trying every possibility is a finite procedure, but the possibilities grow faster than any power of the size; he called an algorithm "good" if its work grew only like a power. That distinction, polynomial or not, became a dividing line of the whole subject, and its hardest question, whether the two sides really differ, is still open.
 

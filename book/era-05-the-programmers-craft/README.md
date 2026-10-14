@@ -18,7 +18,7 @@
   <img src="assets/era-map-light.svg" alt="How the ideas of Era 5 combined: The Programmer&#x27;s Craft">
 </picture>
 
-*An arrow means the later development reuses the earlier idea; it is not a claim that one inventor learned from the other. Dashed lines join related developments: two that start from the same model of the neuron, Luhn's chained buckets and the lists of cells, two sorting methods for the same task, and the heap that later kept Dijkstra's set B. Boxes without arrows build on earlier eras: Huffman on Shannon's entropy, Dijkstra's tree problem on Jarník, and Edmonds's matching on the search for paths in graphs.*
+*An arrow means the later development reuses the earlier idea; it is not a claim that one inventor learned from the other. Dashed lines join related developments: two that start from the same model of the neuron, Luhn's chained buckets and the lists of cells, two sorting methods for the same task, the heap that later kept Dijkstra's set B, and two searches that grow a tree from a starting point. The box without an arrow, Huffman's codes, builds on an earlier era: Shannon's entropy (Era 4).*
 
 ## The topics
 
@@ -33,9 +33,9 @@
 | 7 | **Dijkstra's Shortest Paths** | Amsterdam 1956; published 1959 | Route-finding kept data for every road at once | [page](07-shortest-paths/README.md) · [interactive](07-shortest-paths/shortest-paths.html) · [program](../../code/era-05-the-programmers-craft/07-shortest-paths/README.md) |
 | 8 | **The Compiler, and a Grammar for Languages** | FORTRAN 1954–1957; BNF 1959–1960 | Programs written instruction by instruction | [page](08-the-compiler/README.md) · [interactive](08-the-compiler/the-compiler.html) · [program](../../code/era-05-the-programmers-craft/08-the-compiler/README.md) |
 | 9 | **Rosenblatt's Perceptron** | 1957–1958 | Recognising patterns needed a hand-written rule for every case | [page](09-perceptron/README.md) · [interactive](09-perceptron/perceptron.html) · [program](../../code/era-05-the-programmers-craft/09-perceptron/README.md) |
-| 10 | **Hoare's Quicksort** | Moscow 1959; published 1961–1962 | Simple sorts take n^2 steps; merging needs a second memory | planned · [references](reference-catalog.md#10-hoares-quicksort) |
-| 11 | **AVL Trees** | Moscow 1962 | Search trees degenerate into lists | planned · [references](reference-catalog.md#11-avl-trees) |
-| 12 | **Heapsort and the Heap** | Williams 1964; Floyd 1964 | Quicksort's bad cases; finding the largest of a changing set | planned · [references](reference-catalog.md#12-heapsort-and-the-heap) |
-| 13 | **Edmonds's Matching** | 1961; published 1965 | No agreed meaning of "efficient"; odd cycles defeat the matching search | planned · [references](reference-catalog.md#13-edmondss-matching-and-the-good-algorithm) |
+| 10 | **Hoare's Quicksort** | Moscow 1959; published 1961–1962 | Simple sorts take n^2 steps; merging needs a second memory | [page](10-quicksort/README.md) · [interactive](10-quicksort/quicksort.html) · [program](../../code/era-05-the-programmers-craft/10-quicksort/README.md) |
+| 11 | **AVL Trees** | Moscow 1962 | Search trees degenerate into lists | [page](11-avl-trees/README.md) · [interactive](11-avl-trees/avl-trees.html) · [program](../../code/era-05-the-programmers-craft/11-avl-trees/README.md) |
+| 12 | **Heapsort and the Heap** | Williams 1964; Floyd 1964 | Quicksort's bad cases; finding the largest of a changing set | [page](12-heapsort/README.md) · [interactive](12-heapsort/heapsort.html) · [program](../../code/era-05-the-programmers-craft/12-heapsort/README.md) |
+| 13 | **Edmonds's Matching** | 1961; published 1965 | No agreed meaning of "efficient"; odd cycles defeat the matching search | [page](13-matching/README.md) · [interactive](13-matching/matching.html) · [program](../../code/era-05-the-programmers-craft/13-matching/README.md) |
 
 The interactive edition is a single HTML file per topic: download it and open it in a browser, or use the published copy linked from the [book contents](../README.md).

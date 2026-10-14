@@ -144,7 +144,7 @@ def family():
     W = 210
     nodes = {
         "jar": (20, 20, "Jarník's tree", "grow one tree, shortest edge first", "Era 4 topic 4", "ink"),
-        "dp": (395, 20, "The principle of optimality", "parts of a best route are best routes", "topic 5", "ink"),
+        "dp": (395, 20, "Bellman's principle", "parts of a best route are best", "topic 5", "ink"),
         "ford": (770, 20, "Ford's method", "improve every road until nothing changes", "1950s", "ink"),
         "dij": (395, 170, "Dijkstra's method", "⊕ settle the nearest frontier town, one at a time", "1956; published 1959", "red"),
         "mst": (20, 330, "Shortest wiring", "the same paper: least wire for the X1", "1959", "ink"),

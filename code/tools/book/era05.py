@@ -47,13 +47,14 @@ MAP = dict(
         (5, 7, "⊕ the principle of optimality", dict(ports=("bottom", "top"), dx=8, anchor="start")),
         (10, 12, "same task, no bad cases", dict(ports=("bottom", "top"), dashed=True, dx=8, anchor="start")),
         (7, 12, "a heap holds set B", dict(ports=("right", "left"), dashed=True, dy=-10)),
-        (6, 11, "⊕ nodes with two links", dict(ports=("bottom", "top"), dx=8, anchor="start")),
+        (6, 11, "⊕ nodes with two links", dict(ports=("bottom", "top"), dx=-8, anchor="end")),
+        (7, 13, "both grow a search tree", dict(ports=("bottom", "left"), dashed=True, at=0.35, dx=-8, anchor="end")),
     ],
     caption="An arrow means the later development reuses the earlier idea; it is not a claim that one inventor learned "
             "from the other. Dashed lines join related developments: two that start from the same model of the neuron, "
-            "Luhn's chained buckets and the lists of cells, two sorting methods for the same task, and the heap that "
-            "later kept Dijkstra's set B. Boxes without arrows build on earlier eras: Huffman on Shannon's entropy, "
-            "Dijkstra's tree problem on Jarník, and Edmonds's matching on the search for paths in graphs.",
+            "Luhn's chained buckets and the lists of cells, two sorting methods for the same task, the heap that "
+            "later kept Dijkstra's set B, and two searches that grow a tree from a starting point. "
+            "The box without an arrow, Huffman's codes, builds on an earlier era: Shannon's entropy (Era 4).",
 )
 
 

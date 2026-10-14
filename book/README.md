@@ -103,11 +103,33 @@
 | 12 | [Shannon's Bits](era-04-what-can-be-computed/12-information-theory/README.md) | Switches, and imitation English |
 | 13 | [Hamming's Codes](era-04-what-can-be-computed/13-hamming-codes/README.md) | Flip a bit and watch the checks find it |
 
+### Era 5 — The Programmer's Craft (1949 to 1965)
+
+- **[Era 5 front page](era-05-the-programmers-craft/README.md)**: the time line, a map of how the thirteen ideas combine, and the topics. [Interactive edition](era-05-the-programmers-craft/index.html) (download the folder and open `index.html` in a browser). [Plan](era-05-the-programmers-craft/plan.md).
+- [Reference catalog](era-05-the-programmers-craft/reference-catalog.md): each development with checked lectures, articles and original sources, certainty labels and gaps.
+- The topics, each with a GitHub edition, an interactive edition and a tested program:
+
+| # | Topic | Interactive widget |
+|---|---|---|
+| 1 | [The Subroutine](era-05-the-programmers-craft/01-the-subroutine/README.md) | Step through a call and watch the way home being written |
+| 2 | [Regular Expressions](era-05-the-programmers-craft/02-regular-expressions/README.md) | Type a pattern and watch the machine read |
+| 3 | [Huffman's Codes](era-05-the-programmers-craft/03-huffman-codes/README.md) | Type a phrase and grow its tree |
+| 4 | [Hashing](era-05-the-programmers-craft/04-hashing/README.md) | Store keys, make them collide, find them again |
+| 5 | [Dynamic Programming](era-05-the-programmers-craft/05-dynamic-programming/README.md) | Roll, or stop? Ask the table |
+| 6 | [Linked Lists and Garbage Collection](era-05-the-programmers-craft/06-linked-lists/README.md) | Make garbage, then collect it |
+| 7 | [Dijkstra's Shortest Paths](era-05-the-programmers-craft/07-shortest-paths/README.md) | Grow the settled set, one town at a time |
+| 8 | [The Compiler, and a Grammar for Languages](era-05-the-programmers-craft/08-the-compiler/README.md) | Type a formula and compile it two ways |
+| 9 | [Rosenblatt's Perceptron](era-05-the-programmers-craft/09-perceptron/README.md) | Watch a line learn where to fall |
+| 10 | [Hoare's Quicksort](era-05-the-programmers-craft/10-quicksort/README.md) | Watch the two fingers |
+| 11 | [AVL Trees](era-05-the-programmers-craft/11-avl-trees/README.md) | Insert keys and watch the rotations |
+| 12 | [Heapsort and the Heap](era-05-the-programmers-craft/12-heapsort/README.md) | Build a heap, then take it apart |
+| 13 | [Edmonds's Matching](era-05-the-programmers-craft/13-matching/README.md) | Find the path that the simple search misses |
+
 ### Coming next (proposed eras; open to change)
 
 | Era | Span | Topics (from the Evolutionary Atlas) |
 |---|---|---|
-| 5 onward | 1950–2026 | The loop and the subroutine, sorting and searching, data structures, graphs, dynamic programming, complexity, cryptography, databases, networks, distributed systems, streaming, machine learning, transformers, and the algorithms of 2026 |
+| 6 onward | 1965–2026 | The fast Fourier transform, objects and concurrency, complexity and NP-completeness, cryptography, databases, networks, distributed systems, streaming, machine learning, transformers, and the algorithms of 2026 |
 
 ### Plans
 

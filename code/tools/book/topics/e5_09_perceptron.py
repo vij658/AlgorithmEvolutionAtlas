@@ -145,7 +145,7 @@ def family():
     nodes = {
         "mp": (20, 20, "The artificial neuron", "fire if the weighted inputs are enough", "McCulloch and Pitts, 1943", "ink"),
         "rf": (395, 20, "Reinforcement", "strengthen what led to the right answer", "psychology", "ink"),
-        "ibm": (770, 20, "A stored-program computer", "simulate the network on an IBM 704", "1957", "ink"),
+        "ibm": (770, 20, "An IBM 704", "the network simulated first", "1957", "ink"),
         "pc": (395, 170, "The perceptron", "⊕ weights corrected after each wrong answer", "Rosenblatt, 1957–1958", "red"),
         "mk": (20, 330, "The Mark I", "400 photocells, motor-driven weights", "built by 1960", "ink"),
         "conv": (395, 330, "Convergence", "finitely many mistakes if a cut exists", "Novikoff, 1962", "ink"),

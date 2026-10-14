@@ -30,6 +30,8 @@ The repository has two halves:
 | Era 3 topic pages, all 13 | Done: GitHub and interactive editions with diagrams and widgets ([front page](book/era-03-tables-and-machines/README.md)); 13 programs verified (4,753,919 checks) |
 | Reference catalog, Era 4 (Hilbert's questions to Hamming's codes, 13 topics) | Done: 86 checked links ([read it](book/era-04-what-can-be-computed/reference-catalog.md)) |
 | Era 4 topic pages, all 13 | Done: GitHub and interactive editions with diagrams and widgets ([front page](book/era-04-what-can-be-computed/README.md)); 13 programs verified (16,845,035 checks) |
+| Reference catalog, Era 5 (the subroutine to Edmonds's matching, 13 topics) | Done: 77 checked links ([read it](book/era-05-the-programmers-craft/reference-catalog.md)) |
+| Era 5 topic pages, all 13 | Done: GitHub and interactive editions with diagrams and widgets ([front page](book/era-05-the-programmers-craft/README.md)); 13 programs verified (12,505,489 checks) |
 | Principles catalog, Parts 1–2 (entries 1–42) | Pages written; 42 programs verified (8,135,522 checks) |
 | Principles catalog, Part 3 (entries 43–62) | 20 programs verified (154,369,152 checks); page not written |
 

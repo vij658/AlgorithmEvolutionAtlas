@@ -162,7 +162,7 @@ def family():
         "alg": (770, 20, "Algebra", "operations that build objects from smaller ones", "Era 3", "ink"),
         "kl": (395, 170, "Kleene's regular events", "⊕ three operations: either, then, repeat", "RAND, 1951", "red"),
         "rs": (20, 330, "Machines that guess", "several states at once; subsets as states", "Rabin and Scott, 1959", "ink"),
-        "th": (395, 330, "Thompson's construction", "pattern to machine, piece by piece", "1968", "ink"),
+        "th": (395, 330, "Thompson's method", "pattern to machine, piece by piece", "1968", "ink"),
         "per": (770, 330, "The perceptron", "the same neurons, learning their weights", "topic 9", "ink"),
         "today": (395, 480, "Search tools", "ed, grep, every editor's find", "1970s to today", "blue"),
     }

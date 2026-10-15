@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Relational Model of Data</title>
+<meta name="description" content="Era 6, topic 6 of The Algorithm Evolution Atlas: Codd&#x27;s relations, restriction, projection and join, normal form, and why questions should say what and not how.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.rl-tables{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;font:12px var(--mono)}
+.rl-tables table{border-collapse:collapse;width:100%}
+.rl-tables caption{font-weight:700;text-align:left;padding-bottom:3px}
+.rl-tables td,.rl-tables th{border:1px solid var(--rule);padding:1px 3px;text-align:left}
+.rl-tables tr.hit td{background:var(--blue);color:var(--on-blue)}
+.rl-tables tr.read td{background:var(--wash)}
+.rl-row{display:grid;gap:2px;font-size:14px;margin:6px 0}
+.rl-row select{width:100%;font:inherit}
+.rl-stats{font:13px var(--mono);display:grid;gap:3px;margin-top:8px}
+@media (max-width:560px){.rl-tables{grid-template-columns:1fr 1fr}}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 6: Hard Problems and Public Keys</a><a href="../05-strassen/strassen.html">← Fast Matrix Multiplication</a><a href="../07-b-trees/b-trees.html">B-Trees →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 6 · Topic 6 · 1970</div>
+    <h1>The Relational Model of Data</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">The databases of the 1960s were trees and chains that programs walked one link at a time; change the storage and the programs broke. Codd proposed that users see only tables, and ask for what they want.</p>
+  <p class="fieldnote">Field note from the visiting historian. Asked of a tree against its grain, "who sends part 42?" cost 20,200 reads. Asked of tables with an index, the same question, written once, cost 15. The storage changed; the question did not.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>1970</dd></div><div><dt>Where</dt><dd>IBM Research Laboratory, San Jose</dd></div><div><dt>What hurt</dt><dd>Programs depended on how the data were stored</dd></div><div><dt>The fix</dt><dd>Relations, and operations on whole tables</dd></div><div><dt>Measured</dt><dd>15 rows read instead of 20,200, same answer</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. The databases of the 1960s were trees and chains of records that programs walked link by link. Mathematics already had relations, sets of tuples, and logic already had conditions that are true or false. Codd proposed that users should see nothing but relations, and ask for what they want, never how to find it. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How the relational model combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="426.5,180.0 417.6,181.6 419.4,174.5" style="fill:var(--ink-2)"/><rect x="211.1" y="130.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="267.8" y="143.0" text-anchor="end" style="fill:var(--ink);font-size:12.5px;font-weight:600">the pain</text><line x1="500.0" y1="106.0" x2="500.0" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,180.0 496.3,171.8 503.7,171.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="573.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,180.0 580.6,174.5 582.4,181.6" style="fill:var(--ink-2)"/><line x1="426.5" y1="266.0" x2="125.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="125.0,340.0 132.1,334.5 133.9,341.6" style="fill:var(--ink-2)"/><line x1="500.0" y1="266.0" x2="500.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,340.0 496.3,331.8 503.7,331.8" style="fill:var(--ink-2)"/><line x1="573.5" y1="266.0" x2="875.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="875.0,340.0 866.1,341.6 867.9,334.5" style="fill:var(--ink-2)"/><line x1="500.0" y1="426.0" x2="500.0" y2="490.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,490.0 496.3,481.8 503.7,481.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Trees and chains</text><text x="32.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">programs walk the links,</text><text x="32.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">record by record</text><text x="32.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1960s databases</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Relations in mathematics</text><text x="407.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a relation is a set of</text><text x="407.0" y="85.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">n-tuples</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Boole&#x27;s algebra of logic</text><text x="782.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">conditions that are true or</text><text x="782.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">false</text><text x="782.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 3, topic 12</text><rect x="395" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="203.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The relational model</text><text x="407.0" y="220.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ users see only tables; they</text><text x="407.0" y="237.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">say what, not how</text><text x="407.0" y="253.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Codd, 1970</text><rect x="20" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="371.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">System R</text><text x="32.0" y="389.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">IBM&#x27;s research prototype</text><text x="32.0" y="405.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">from 1973</text><rect x="395" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="363.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">SQL</text><text x="407.0" y="380.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Chamberlin and Boyce&#x27;s query</text><text x="407.0" y="397.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">language</text><text x="407.0" y="413.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">first called SEQUEL</text><rect x="770" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="362.0" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">B-trees under the</text><text x="782.0" y="381.8" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">tables</text><text x="782.0" y="399.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">indexes the user never sees</text><text x="782.0" y="415.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 7</text><rect x="395" y="490" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="513.6" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Today</text><text x="407.0" y="530.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">relational databases, &quot;the</text><text x="407.0" y="547.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">standard for processing</text><text x="407.0" y="563.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">financial records&quot;</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dashed: B-trees were invented separately (topic 7) and became the usual index under relational tables. Quotes: Codd 1970; IBM History.</text></svg></div><figcaption>Red: the relational model. Blue: where it is today.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">Same question, different storage</h2>
+<p class="col">A tiny supplier-and-part database, five suppliers, six parts, twelve shipments. Choose a question and a way of storing the data. Grey rows are read; blue rows are the answer. In a tree, a question against the grain reads everything; in tables, the question is the same whatever the storage, and an index only changes how much is read.</p>
+
+<div class="board rl-board">
+  <div style="min-width:0">
+    <div class="rl-tables" id="rl-tables"></div>
+  </div>
+  <div style="min-width:0">
+    <label class="rl-row">Question <select id="rl-q">
+      <option value="q1">Which parts does supplier S3 send?</option>
+      <option value="q2">Who sends part P5?</option>
+      <option value="q3">Which suppliers in Genoa send a gold part?</option></select></label>
+    <label class="rl-row">How the data are stored <select id="rl-st">
+      <option value="ts">A tree, suppliers on top</option>
+      <option value="tp">A tree, parts on top</option>
+      <option value="rn">Tables (relations), no index</option>
+      <option value="ri">Tables, with indexes</option></select></label>
+    <div class="rl-stats" id="rl-stats"></div>
+    <p class="say" id="rl-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 6, hard problems and public keys</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 6: Hard Problems and Public Keys, from 1965 to 1978" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1964–1965</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Cooley and Tukey&#x27;s</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">FFT</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1962–1965</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Dijkstra&#x27;s</text><text x="185.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">semaphore</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1961–1967</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Simula&#x27;s objects</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1968</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">A* search</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1969</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Strassen&#x27;s seven</text><text x="550.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">products</text><circle cx="671.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1970</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Codd&#x27;s relations</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1969–1972</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">B-trees</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1971–1973</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">NP-completeness</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1970–1974</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Depth-first</text><text x="1036.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">search</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1976–1977</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Public keys</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1969–1977</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">KMP and</text><text x="1279.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Boyer–Moore</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1977–1978</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Lempel–Ziv</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1978</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Lamport&#x27;s clocks</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 558" role="img" aria-label="Each fix leaves a new pain: from walking trees to asking tables" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="396.0" x2="750.0" y2="446.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,446.0 746.3,437.8 753.7,437.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="492.0" x2="400.0" y2="492.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,492.0 408.2,488.3 408.2,495.7" style="fill:var(--ink-2)"/><rect x="449.2" y="471.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="484.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A tree with suppliers on top: &quot;who sends part 42?&quot;</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">reads 20,200 records</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Turn the tree over: 16; but now &quot;what does supplier 7</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">send?&quot; reads 21,000</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">a new program for each</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Every way of storing the data favours some questions</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">and breaks the programs written for others</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Relations: one line per question; with indexes 106 and 15</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">rows read</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Codd, 1970</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Joining three tables by comparing every pair: 334,184</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">steps</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The system chooses how: hashing, 21,601 steps</text><text x="572.0" y="370.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">say what, not how</text><rect x="560" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="479.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="495.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A city stored in every shipment: change it in 106 rows or</text><text x="572.0" y="512.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the table says both Bergen and Jaffa</text><rect x="20" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="471.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="487.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Store each fact once: supplier(s, city), one row to</text><text x="32.0" y="503.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">change</text><text x="32.0" y="520.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">normal forms</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Tables, and three operations on them</h2>
+<p class="col"><strong>Relations.</strong> A relation is a table: each row a tuple of values, the rows in no particular order, with no pointers from one row to another. The supplier-and-part data become supplier(s, city), part(p, color) and supply(s, p, qty).</p>
+<p class="col"><strong>Operations on whole tables.</strong> <em>Restriction</em> keeps the rows that satisfy a condition. <em>Projection</em> keeps some columns and drops duplicate rows. <em>Join</em> combines the rows of two tables that agree on a column. "Which parts does supplier 7 send?" is the projection on p of the restriction of supply to s = 7.</p>
+<p class="col"><strong>Normal form.</strong> Records with lists inside them (an employee with a job history, each job with a salary history) are flattened by copying each parent's key into its children.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 780 346" role="img" aria-label="A nested record and its normal form" style="font-family:var(--body);min-width:429px;max-width:780px;margin:0 auto"><text x="20.0" y="24.0" text-anchor="start" style="fill:var(--ink);font-size:13px;font-weight:700">A nested record, and the same facts in normal form</text><rect x="20.0" y="40.0" width="250.0" height="250.0" rx="4" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.4"/><text x="34.0" y="64.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">employee: man#, born</text><text x="52.0" y="85.0" text-anchor="start" style="fill:var(--blue);font-size:12px;font-weight:700">job history</text><text x="70.0" y="106.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">jobdate, title</text><text x="70.0" y="127.0" text-anchor="start" style="fill:var(--blue);font-size:12px;font-weight:700">salary history</text><text x="88.0" y="148.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">saldate, salary</text><text x="88.0" y="169.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">saldate, salary</text><text x="70.0" y="190.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">jobdate, title</text><text x="70.0" y="211.0" text-anchor="start" style="fill:var(--blue);font-size:12px;font-weight:700">salary history …</text><text x="52.0" y="232.0" text-anchor="start" style="fill:var(--red);font-size:12px;font-weight:700">children</text><text x="70.0" y="253.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">childname, childborn</text><text x="70.0" y="274.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">childname, childborn</text><path d="M285,165 L325,165" style="fill:none;stroke:var(--ink-2);stroke-width:1.8"/><path d="M318,159 L326,165 L318,171" style="fill:none;stroke:var(--ink-2);stroke-width:1.8"/><rect x="340.0" y="40.0" width="420.0" height="52.0" rx="4" style="fill:var(--surface);stroke:var(--ink);stroke-width:1.6"/><text x="352.0" y="61.0" text-anchor="start" style="fill:var(--ink);font-size:13px;font-weight:700">employee</text><text x="352.0" y="81.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">(man#, born)</text><text x="748.0" y="61.0" text-anchor="end" style="fill:var(--muted);font-size:12px;font-weight:400">60 rows</text><rect x="340.0" y="104.0" width="420.0" height="52.0" rx="4" style="fill:var(--surface);stroke:var(--blue);stroke-width:1.6"/><text x="352.0" y="125.0" text-anchor="start" style="fill:var(--blue);font-size:13px;font-weight:700">jobhistory</text><text x="352.0" y="145.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">(man#, jobdate, title)</text><text x="748.0" y="125.0" text-anchor="end" style="fill:var(--muted);font-size:12px;font-weight:400">166 rows</text><rect x="340.0" y="168.0" width="420.0" height="52.0" rx="4" style="fill:var(--surface);stroke:var(--blue);stroke-width:1.6"/><text x="352.0" y="189.0" text-anchor="start" style="fill:var(--blue);font-size:13px;font-weight:700">salaryhistory</text><text x="352.0" y="209.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">(man#, jobdate, saldate, salary)</text><text x="748.0" y="189.0" text-anchor="end" style="fill:var(--muted);font-size:12px;font-weight:400">327 rows</text><rect x="340.0" y="232.0" width="420.0" height="52.0" rx="4" style="fill:var(--surface);stroke:var(--red);stroke-width:1.6"/><text x="352.0" y="253.0" text-anchor="start" style="fill:var(--red);font-size:13px;font-weight:700">children</text><text x="352.0" y="273.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">(man#, childname, childborn)</text><text x="748.0" y="253.0" text-anchor="end" style="fill:var(--muted);font-size:12px;font-weight:400">82 rows</text><text x="20.0" y="316.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">Each parent&#x27;s key (man#, and for salaries also jobdate) is copied into its children.</text><text x="20.0" y="334.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">The program flattened 60 employees this way and rebuilt all 60 exactly from the four tables.</text></svg></div></figure>
+<p class="col"><strong>Independence.</strong> Because a question names only tables and columns, the system may store the rows in any order, add or drop indexes, and choose how to compute a join, without changing a single question.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>Separate what is wanted from how to find it. A program that says only what it wants survives every reorganization of the data underneath it.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Records read, steps taken</h2>
+<p class="col">The program's database: 200 suppliers, 1,000 parts, 20,000 shipments. Supplier 7 sends 106 parts; part 42 comes from 15 suppliers. Every way of storing gave the same answers.</p>
+<div class="tbl"><table><thead><tr><th class="">Storage</th><th class="n">&quot;What does supplier 7 send?&quot;: records read</th><th class="n">&quot;Who sends part 42?&quot;: records read</th><th class="">Programs</th></tr></thead><tbody><tr class=""><td class="">Tree, suppliers on top</td><td class="n">107</td><td class="n">20,200</td><td class="">two programs</td></tr><tr class=""><td class="">Tree, parts on top</td><td class="n">21,000</td><td class="n">16</td><td class="">two more programs</td></tr><tr class=""><td class="">Relations, no index</td><td class="n">20,000</td><td class="n">20,000</td><td class="">two one-line questions</td></tr><tr class="hl"><td class="">Relations, with indexes</td><td class="n">106</td><td class="n">15</td><td class="">the same two lines</td></tr></tbody></table></div>
+<p class="col"><strong>A join.</strong> "Which suppliers in Genoa send a gold part?": restrict supplier to Genoa (16 rows) and part to gold (9 rows), and join both with supply (20,000 rows). Three methods, the same 9 suppliers, checked against every shipment:</p>
+<div class="tbl"><table><thead><tr><th class="">Join method</th><th class="n">Steps</th></tr></thead><tbody><tr class=""><td class="">Nested loops (compare every pair)</td><td class="n">334,184</td></tr><tr class=""><td class="">Sort both tables and merge</td><td class="n">263,223</td></tr><tr class="hl"><td class="">Hashing (put one table in buckets by key)</td><td class="n">21,601</td></tr></tbody></table></div>
+<p class="col"><strong>Normal form.</strong> 60 nested employee records became employee (60 rows), jobhistory (166), salaryhistory (327) and children (82), and all 60 employees were rebuilt exactly from the flat tables.</p>
+<p class="col"><strong>One fact, one place.</strong> In a single wide table, supplier 7's city is repeated in 106 rows. An update that changes only one of them leaves the table saying both Bergen and Jaffa. Stored once, in supplier(s, city), the city has one row to change.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">San Jose, 1970</h2>
+<p class="col">E. F. Codd, "A Relational Model of Data for Large Shared Data Banks" (IBM Research Laboratory, San Jose; <em>Communications of the ACM</em> 13(6): 377–387, June 1970), opens: "Future users of large data banks must be protected from having to know how the data is organized in the machine." It names the dependences it wants to remove, "ordering dependence, indexing dependence, and access path dependence"; defines a relation as "a set of ntuples" [sic]; describes normalization from the top of a tree, taking "its primary key" and expanding "each of the immediately subordinate relations"; and offers the model as a basis for "treating derivability, redundancy, and consistency of relations".</p>
+<p class="col">IBM's history pages: Codd was "an Oxford-educated mathematician working at the IBM San Jose Research Lab"; "The early databases used rigid hierarchical structures and convoluted navigational plans"; "A group of programmers in 1973 undertook an industrial-strength implementation: the System R project"; Chamberlin and Boyce "developed SQL" (first named SEQUEL, renamed "because of a trademark issue", according to LearnSQL); Codd received the Turing Award in 1981. Born on the Isle of Portland in 1923, he had flown in the Royal Air Force in the Second World War and joined IBM in 1949 as a mathematical programmer.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Boole&#x27;s conditions, on whole tables</h2>
+<p class="col">A restriction keeps the rows for which a condition is true: city = Genoa and color = gold. Such conditions are Boole's algebra of logic (Era 3, topic 12), now applied to millions of rows at once. And the index under the table, which the user never sees, is usually the next topic's B-tree.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>The same one-line question read 20,000 rows without an index and 15 with one. Nothing in the question changed.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Write "which cities have a supplier?" with the operations above.</span></summary><div class="ans"><p>The projection of supplier on city (duplicates dropped).</p></div></details><details class="try"><summary><span class="q">2</span><span>Why does a tree with suppliers on top make "who sends part 42?" expensive?</span></summary><div class="ans"><p>Shipments are reached only through their supplier, so every supplier and every shipment must be read.</p></div></details><details class="try"><summary><span class="q">3</span><span>What does adding an index change, and what does it not?</span></summary><div class="ans"><p>It changes how many rows are read; it does not change any question or any answer.</p></div></details><details class="try"><summary><span class="q">4</span><span>In normal form, which key is copied into salaryhistory?</span></summary><div class="ans"><p>The employee's man# and the job's jobdate: together they say which job the salary belongs to.</p></div></details><details class="try"><summary><span class="q">5</span><span>Why can repeating a fact in many rows lead to a contradiction?</span></summary><div class="ans"><p>An update may change some copies and miss others.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>A Relational Model of Data for Large Shared Data Banks (1970)</b><span>Codd's paper, <em>Communications of the ACM</em> 13(6): 377–387.</span><a href="https://cs-people.bu.edu/mathan/reading-groups/papers-classics/codd.pdf">The paper (PDF, on a Boston University page)</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://www.ibm.com/history/relational-database" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">The relational database · IBM History</span><span class="w">The idea, System R, SQL and DB2, from the company where it began</span></a><a href="https://learnsql.com/blog/history-of-sql/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">The History of SQL · Agnieszka Kozubek-Krycuń, LearnSQL (2020)</span><span class="w">From SEQUEL to SQL</span></a><a href="https://www.ibm.com/es-es/history/edgar-codd" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Edgar F. Codd · IBM History</span><span class="w">The life of the man behind the model</span></a><a href="https://cs-people.bu.edu/mathan/reading-groups/papers-classics/codd.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">A Relational Model of Data for Large Shared Data Banks · E. F. Codd, <em>Communications of the ACM</em> 13(6): 377–387 (1970), on a Boston University page</span><span class="w">The eleven-page paper</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-06-hard-problems-and-public-keys/reference-catalog.md">Era 6 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-06-hard-problems-and-public-keys/06-relational-model/Relational.java">Relational.java</a> makes <strong>71 checks</strong>: the same two questions on two trees and on tables with and without indexes, a three-table join by three methods against a check of every shipment, nested records flattened and rebuilt exactly, and a contradiction made by a careless update. Run it with <code>java Relational.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code">    <span class="k-c">/** Restriction: the rows whose column c equals v. Uses an index if one exists; the caller cannot tell. */</span>
+    Relation where(String c, <span class="k-kw">int</span> v) {
+        <span class="k-kw">int</span> k = col(c);
+        Relation out = <span class="k-kw">new</span> Relation(cols);
+        <span class="k-kw">if</span> (index.containsKey(k)) {
+            <span class="k-kw">for</span> (<span class="k-kw">int</span>[] r : index.get(k).getOrDefault(v, <span class="k-kw">List</span>.of())) { reads++; out.rows.add(r); }
+        } <span class="k-kw">else</span> {
+            <span class="k-kw">for</span> (<span class="k-kw">int</span>[] r : rows) { reads++; <span class="k-kw">if</span> (r[k] == v) out.rows.add(r); }
+        }
+        <span class="k-kw">return</span> out;
+    }
+
+<span class="k-c">/** Join of R and S on R.a = S.b, by one of three methods; returns rows of R&#x27;s columns followed by S&#x27;s. */</span>
+<span class="k-kw">static</span> <span class="k-kw">List</span>&lt;<span class="k-kw">int</span>[]&gt; join(<span class="k-kw">List</span>&lt;<span class="k-kw">int</span>[]&gt; R, <span class="k-kw">int</span> a, <span class="k-kw">List</span>&lt;<span class="k-kw">int</span>[]&gt; S, <span class="k-kw">int</span> b, String method) {
+    <span class="k-kw">List</span>&lt;<span class="k-kw">int</span>[]&gt; out = <span class="k-kw">new</span> ArrayList&lt;&gt;();
+    switch (method) {
+        case &quot;nested&quot; -&gt; {
+            <span class="k-kw">for</span> (<span class="k-kw">int</span>[] r : R) <span class="k-kw">for</span> (<span class="k-kw">int</span>[] s : S) { work++; <span class="k-kw">if</span> (r[a] == s[b]) out.add(concat(r, s)); }
+        }
+        case &quot;hash&quot; -&gt; {
+            Map&lt;Integer, <span class="k-kw">List</span>&lt;<span class="k-kw">int</span>[]&gt;&gt; h = <span class="k-kw">new</span> HashMap&lt;&gt;();
+            <span class="k-kw">for</span> (<span class="k-kw">int</span>[] r : R) { work++; h.computeIfAbsent(r[a], x -&gt; <span class="k-kw">new</span> ArrayList&lt;&gt;()).add(r); }
+            <span class="k-kw">for</span> (<span class="k-kw">int</span>[] s : S) { work++; <span class="k-kw">for</span> (<span class="k-kw">int</span>[] r : h.getOrDefault(s[b], <span class="k-kw">List</span>.of())) out.add(concat(r, s)); }
+        }
+        case &quot;merge&quot; -&gt; {
+            <span class="k-kw">List</span>&lt;<span class="k-kw">int</span>[]&gt; r2 = <span class="k-kw">new</span> ArrayList&lt;&gt;(R), s2 = <span class="k-kw">new</span> ArrayList&lt;&gt;(S);
+            r2.sort((x, y) -&gt; { work++; <span class="k-kw">return</span> Integer.compare(x[a], y[a]); });
+            s2.sort((x, y) -&gt; { work++; <span class="k-kw">return</span> Integer.compare(x[b], y[b]); });
+            <span class="k-kw">int</span> i = <span class="k-n">0</span>, j = <span class="k-n">0</span>;
+            <span class="k-kw">while</span> (i &lt; r2.size() &amp;&amp; j &lt; s2.size()) {
+                work++;
+                <span class="k-kw">int</span> c = Integer.compare(r2.get(i)[a], s2.get(j)[b]);
+                <span class="k-kw">if</span> (c &lt; <span class="k-n">0</span>) i++;
+                <span class="k-kw">else</span> <span class="k-kw">if</span> (c &gt; <span class="k-n">0</span>) j++;
+                <span class="k-kw">else</span> {
+                    <span class="k-kw">int</span> v = r2.get(i)[a], j0 = j;
+                    <span class="k-kw">while</span> (i &lt; r2.size() &amp;&amp; r2.get(i)[a] == v) {
+                        <span class="k-kw">for</span> (j = j0; j &lt; s2.size() &amp;&amp; s2.get(j)[b] == v; j++) { work++; out.add(concat(r2.get(i), s2.get(j))); }
+                        i++;
+                    }
+                }
+            }
+        }
+    }
+    <span class="k-kw">return</span> out;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>Relational.java</code>.<br><span class="navfoot"><a href="../index.html">Era 6: Hard Problems and Public Keys</a><a href="../05-strassen/strassen.html">← Fast Matrix Multiplication</a><a href="../07-b-trees/b-trees.html">B-Trees →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const tb = document.getElementById("rl-tables");
+  if (!tb) return;
+  const cities = ["Genoa", "Bergen", "Cork"], colors = ["red", "gold", "blue"];
+  const supplier = [["S1", "Genoa"], ["S2", "Bergen"], ["S3", "Genoa"], ["S4", "Cork"], ["S5", "Bergen"]];
+  const part = [["P1", "red"], ["P2", "blue"], ["P3", "gold"], ["P4", "red"], ["P5", "gold"], ["P6", "blue"]];
+  const supply = [["S1", "P1"], ["S1", "P3"], ["S2", "P5"], ["S2", "P2"], ["S3", "P1"], ["S3", "P4"], ["S3", "P5"], ["S4", "P5"], ["S4", "P6"], ["S5", "P2"], ["S5", "P3"], ["S1", "P6"]];
+  function render(hits, reads) {
+    tb.innerHTML = "";
+    const draw = (name, head, rows, key) => {
+      const t = el("table", {}, tb); el("caption", {}, t, name);
+      const hr = el("tr", {}, t); head.forEach(h => el("th", {}, hr, h));
+      rows.forEach((r, i) => { const tr = el("tr", {class: hits.has(key + i) ? "hit" : reads.has(key + i) ? "read" : ""}, t); r.forEach(c => el("td", {}, tr, c)); });
+    };
+    draw("supplier", ["s", "city"], supplier, "s"); draw("part", ["p", "color"], part, "p"); draw("supply", ["s", "p"], supply, "y");
+  }
+  function run() {
+    const q = document.getElementById("rl-q").value, st = document.getElementById("rl-st").value;
+    const hits = new Set(), reads = new Set(); let n = 0, answer = [], note = "";
+    if (q === "q3" && (st === "ts" || st === "tp")) {
+      render(hits, reads);
+      out(["—"], "?", "In a tree the program walks one fixed path. Combining suppliers, shipments and parts needs a new program, written for this tree.");
+      return;
+    }
+    if (q === "q1" || q === "q2") {
+      const [col, val] = q === "q1" ? [0, "S3"] : [1, "P5"];
+      const grain = (q === "q1" && st === "ts") || (q === "q2" && st === "tp");
+      supply.forEach((r, i) => {
+        if (st === "rn" || (!grain && (st === "ts" || st === "tp"))) { reads.add("y" + i); n++; if (r[col] === val) hits.add("y" + i); }
+        else if (r[col] === val) { hits.add("y" + i); n++; }
+      });
+      if (grain) n += 1;
+      if ((st === "ts" || st === "tp") && !grain) n += st === "ts" ? supplier.length : part.length;
+      answer = supply.filter(r => r[col] === val).map(r => r[1 - col]);
+      note = st === "rn" ? "With no index the system reads every row; the question is still one line." :
+        st === "ri" ? "The system added an index; the question did not change, but only matching rows are read." :
+        grain ? "With the grain of the tree: go to the record, read its children." :
+        "Against the grain: every record and every child must be read, and the program is a different one.";
+    } else {
+      // join: Genoa suppliers, gold parts, supply
+      supplier.forEach((r, i) => { reads.add("s" + i); n++; });
+      part.forEach((r, i) => { reads.add("p" + i); n++; });
+      const g = new Set(supplier.filter(r => r[1] === "Genoa").map(r => r[0])), au = new Set(part.filter(r => r[1] === "gold").map(r => r[0]));
+      supply.forEach((r, i) => { if (st === "rn") { reads.add("y" + i); n++; } if (g.has(r[0]) && au.has(r[1])) { hits.add("y" + i); if (st === "ri") n++; } });
+      supplier.forEach((r, i) => { if (g.has(r[0]) && supply.some(y => y[0] === r[0] && au.has(y[1]))) hits.add("s" + i); });
+      answer = [...new Set(supply.filter(r => g.has(r[0]) && au.has(r[1])).map(r => r[0]))];
+      note = "Restrict suppliers to Genoa, parts to gold, and join both with supply: the system decides the order and the method.";
+    }
+    render(hits, reads);
+    out(answer, n, note);
+  }
+  function out(ans, n, note) {
+    const s = document.getElementById("rl-stats"); s.innerHTML = "";
+    el("div", {}, s, `answer: ${ans.join(", ") || "none"}`);
+    el("div", {}, s, `records or rows read: ${n}`);
+    document.getElementById("rl-say").textContent = note;
+  }
+  document.getElementById("rl-q").addEventListener("change", run);
+  document.getElementById("rl-st").addEventListener("change", run);
+  run();
+})();
+
+</script>
+</body>
+</html>

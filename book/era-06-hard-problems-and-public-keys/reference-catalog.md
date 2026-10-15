@@ -239,7 +239,7 @@ No video page could be opened (see **Gaps**).
 ## 6. The relational model of data
 
 **When / where:** Edgar F. Codd, IBM Research Laboratory, San Jose, California; "A Relational Model of Data for Large Shared Data Banks", *Communications of the ACM* 13(6): 377–387 (June 1970).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`Relational.java`](../../code/era-06-hard-problems-and-public-keys/06-relational-model/) · **Page:** [topic 6](06-relational-model/README.md)
 
 > **Field note.** Codd was an Oxford-trained mathematician who had flown with the Royal Air Force in the war and joined IBM as a programmer in 1949. By the late 1960s the databases he saw kept their records in trees and chains, and a program reached its data by walking them, one link at a time, in an order fixed when the database was designed. Change the order, and the programs broke. His paper opens with a demand: "Future users of large data banks must be protected from having to know how the data is organized in the machine." He proposed that users see only relations, tables of rows with no order and no pointers, and ask for what they want with a few operations on whole tables, leaving the machine to decide how to find it. A research group at IBM began building it, as System R, in 1973, and two of its members, Chamberlin and Boyce, designed the query language now called SQL. Codd received the Turing Award in 1981.
 
@@ -276,7 +276,7 @@ No video page could be opened (see **Gaps**).
 ## 7. B-trees
 
 **When / where:** Rudolf Bayer and Edward M. McCreight, Boeing Scientific Research Laboratories: the idea in autumn 1969 (by Bayer's account); a Boeing technical report, circulated in July 1970 and presented at the 1970 ACM SIGFIDET Workshop on Data Description and Access; "Organization and Maintenance of Large Ordered Indexes", *Acta Informatica* 1(3): 173–189 (1972).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`BTrees.java`](../../code/era-06-hard-problems-and-public-keys/07-b-trees/) · **Page:** [topic 7](07-b-trees/README.md)
 
 > **Field note.** At Boeing in the late 1960s the data of its "Jumbo" programme, its many parts and the history of how each was made, had pushed the data processing of the day to its limits; that is how Bayer remembered it. A balanced tree (Era 5, topic 11) finds a key in about twenty steps among a million, but when the index is too large for memory and lives on a disk, each step may be a separate trip to the disk. Bayer walked into his colleague McCreight's office with an idea: make every node of the tree a whole page of the disk, holding many keys, so that each trip brings back a great deal and a search needs only a few. A page that overflows splits in two and passes its middle key up; the tree grows at the root, never at the leaves, so it stays perfectly balanced. They never said what the B stands for. McCreight later said only that "It has to do with Balance"; Bayer's view, as McCreight reported it, was that "the more you think about what the B in B-Tree means, the better you understand B-Trees!" The structure became, in Wikipedia's words, "the standard index implementation in almost all relational databases".
 

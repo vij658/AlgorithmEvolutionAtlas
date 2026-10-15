@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Public-Key Cryptography</title>
+<meta name="description" content="Era 6, topic 10 of The Algorithm Evolution Atlas: Diffie and Hellman&#x27;s key exchange, RSA with the paper&#x27;s own example, Solovay and Strassen&#x27;s primality test, and the secret history at GCHQ.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.pk-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pk-row2 label,.pk-row{display:grid;gap:2px;font-size:14px;margin:4px 0}
+.pk-row2 select,.pk-row input{font:inherit;width:100%}
+.pk-out{font:12.5px var(--mono);display:grid;gap:4px;margin-top:8px;word-break:break-all}
+.pk-out b{font-family:var(--body)}
+.pk-keys{font:13px var(--mono);display:grid;gap:3px;margin-bottom:8px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 6: Hard Problems and Public Keys</a><a href="../09-depth-first-search/depth-first-search.html">← Depth-First Search</a><a href="../11-string-search/string-search.html">Fast String Searching →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 6 · Topic 10 · 1976–1977</div>
+    <h1>Public-Key Cryptography</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">Every cipher the species had used needed a secret key shared in advance. Diffie and Hellman showed how strangers could agree on one in public; Rivest, Shamir and Adleman made a key that locks but cannot unlock.</p>
+  <p class="fieldnote">Field note from the visiting historian. I ran the RSA paper's own example and got its message back. Then I made a key of 309 digits from two random primes: encrypting took 19 multiplications, and picking the lock by trial division would take about 2^510. The secret is safe for exactly as long as nobody finds a fast way to factor.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Diffie and Hellman 1976; RSA 1977 (GCHQ in secret, 1970–1974)</dd></div><div><dt>Where</dt><dd>Stanford; MIT</dd></div><div><dt>What hurt</dt><dd>Every cipher needed a key shared in advance</dd></div><div><dt>The fix</dt><dd>A public key to encrypt, a private key to decrypt</dd></div><div><dt>Rests on</dt><dd>Factoring and discrete logarithms being slow</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Raising numbers to powers modulo a prime is fast; undoing it seems not to be. Diffie and Hellman used that to let two strangers agree on a key in public, and asked for a way to encrypt with a public key. Rivest, Shamir and Adleman found one in the arithmetic of two large primes, with Euclid's algorithm to make the private key and a new probabilistic test to find the primes. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How public-key cryptography combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="188.0" y1="106.0" x2="426.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="426.5,180.0 417.6,181.1 419.7,174.1" style="fill:var(--ink-2)"/><line x1="437.0" y1="106.0" x2="125.0" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="125.0,180.0 132.1,174.5 133.8,181.7" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,180.0 496.3,171.8 503.7,171.8" style="fill:var(--ink-2)"/><line x1="812.0" y1="106.0" x2="573.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="573.5,180.0 580.3,174.1 582.4,181.1" style="fill:var(--ink-2)"/><line x1="770.0" y1="223.0" x2="605.0" y2="223.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="605.0,223.0 613.2,219.3 613.2,226.7" style="fill:var(--ink-2)"/><line x1="230.0" y1="223.0" x2="395.0" y2="223.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="395.0,223.0 386.8,226.7 386.8,219.3" style="fill:var(--ink-2)"/><rect x="281.7" y="202.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="312.5" y="215.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">the idea</text><line x1="500.0" y1="266.0" x2="500.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,340.0 496.3,331.8 503.7,331.8" style="fill:var(--ink-2)"/><line x1="230.0" y1="383.0" x2="395.0" y2="383.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="395.0,383.0 386.8,386.7 386.8,379.3" style="fill:var(--ink-2)"/><rect x="255.9" y="362.0" width="113.2" height="19" rx="3" style="fill:var(--surface)"/><text x="312.5" y="375.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">unknown to them</text><line x1="500.0" y1="426.0" x2="500.0" y2="490.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,490.0 496.3,481.8 503.7,481.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Euclid&#x27;s algorithm</text><text x="32.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the inverse d of e, modulo</text><text x="32.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">(p−1)(q−1)</text><text x="32.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 1, topic 7</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Powers modulo a prime</text><text x="407.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">fast to compute, hard to</text><text x="407.0" y="85.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">undo</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Problems believed hard</text><text x="782.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">factoring, discrete</text><text x="782.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">logarithms</text><text x="782.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 8, in spirit</text><rect x="20" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="203.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Key exchange in public</text><text x="32.0" y="220.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ g^a, g^b, and g^(ab) for</text><text x="32.0" y="237.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">both</text><text x="32.0" y="253.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Diffie and Hellman, 1976</text><rect x="395" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="203.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">RSA</text><text x="407.0" y="220.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ a public key to encrypt, a</text><text x="407.0" y="237.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">private one to decrypt</text><text x="407.0" y="253.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Rivest, Shamir, Adleman, 1977</text><rect x="770" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="211.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Probabilistic primality</text><text x="782.0" y="229.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">random bases that rarely lie</text><text x="782.0" y="245.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Solovay and Strassen</text><rect x="395" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="371.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Digital signatures</text><text x="407.0" y="389.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">anyone can check, one person</text><text x="407.0" y="405.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">can make</text><rect x="20" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="371.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Found first, in secret</text><text x="32.0" y="389.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Ellis, Cocks, Williamson</text><text x="32.0" y="405.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">GCHQ, 1970–1974; revealed 1997</text><rect x="395" y="490" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="521.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Today</text><text x="407.0" y="539.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">keys agreed in public;</text><text x="407.0" y="555.6" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">signatures anyone can check</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dashed: RSA rests on factoring being hard, which is believed, not proved; the GCHQ work stayed secret until 1997.</text></svg></div><figcaption>Red: RSA. Blue: what public keys made possible.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">The RSA paper&#x27;s own example</h2>
+<p class="col">The paper worked a small example: p = 47, q = 59, n = 2773, e = 17, d = 157, encoding "ITS ALL GREEK TO ME" two digits per letter. Change the primes or the message; the public key (n, e) encrypts, the private key d decrypts. Then break it: with numbers this small, factoring n takes a few divisions.</p>
+
+<div class="board pk-board">
+  <div style="min-width:0">
+    <div class="pk-row2">
+      <label>Prime p <select id="pk-p"></select></label>
+      <label>Prime q <select id="pk-q"></select></label>
+    </div>
+    <label class="pk-row">Message (letters and spaces) <input type="text" id="pk-msg" maxlength="40"></label>
+    <div class="pk-out" id="pk-out"></div>
+  </div>
+  <div style="min-width:0">
+    <div class="pk-keys" id="pk-keys"></div>
+    <button type="button" id="pk-break">Break it: factor n</button>
+    <p class="say" id="pk-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 6, hard problems and public keys</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 6: Hard Problems and Public Keys, from 1965 to 1978" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1964–1965</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Cooley and Tukey&#x27;s</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">FFT</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1962–1965</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Dijkstra&#x27;s</text><text x="185.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">semaphore</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1961–1967</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Simula&#x27;s objects</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1968</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">A* search</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1969</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Strassen&#x27;s seven</text><text x="550.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">products</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1970</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Codd&#x27;s relations</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1969–1972</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">B-trees</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1971–1973</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">NP-completeness</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1970–1974</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Depth-first</text><text x="1036.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">search</text><circle cx="1157.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1976–1977</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Public keys</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1969–1977</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">KMP and</text><text x="1279.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Boyer–Moore</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1977–1978</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Lempel–Ziv</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1978</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Lamport&#x27;s clocks</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 558" role="img" aria-label="Each fix leaves a new pain: from shared secrets to public keys" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="396.0" x2="750.0" y2="446.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,446.0 746.3,437.8 753.7,437.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="492.0" x2="400.0" y2="492.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,492.0 408.2,488.3 408.2,495.7" style="fill:var(--ink-2)"/><rect x="449.2" y="471.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="484.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Every cipher needs a secret key shared in advance, by</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">courier or by hand</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Diffie and Hellman: agree on a key in public; here a</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">256-bit key, 385 multiplications each</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1976</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="203.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Key agreement is not yet encryption, nor a signature</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">RSA: publish n and e, keep d; the paper&#x27;s n = 2773, e = 17,</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">d = 157</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1977</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Keys need large primes, and Fermat&#x27;s test is fooled by</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">16 Carmichael numbers below 100,000</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Solovay and Strassen&#x27;s test: at most half the bases</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">ever lie (worst 0.375, at 1,729)</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">recommended in the RSA paper</text><rect x="560" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="479.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="495.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Everything rests on factoring being slow: 22,941,399</text><text x="572.0" y="512.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">divisions for a 51-bit n</text><rect x="20" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="471.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="487.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">For a 1,024-bit n, about 2^510 divisions; encrypting</text><text x="32.0" y="503.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">takes a few dozen multiplications</text><text x="32.0" y="520.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">a belief, not a proof</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Easy one way, hard the other</h2>
+<p class="col"><strong>Powers are fast.</strong> To compute x^e mod n, square and multiply, one bit of e at a time: at most two multiplications per bit, so a few hundred multiplications even for numbers hundreds of digits long. Undoing it, finding e from x^e mod p (a <em>discrete logarithm</em>), has no known fast method.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 780 330" role="img" aria-label="Diffie and Hellman&#x27;s key exchange" style="font-family:var(--body);min-width:429px;max-width:780px;margin:0 auto"><text x="20.0" y="24.0" text-anchor="start" style="fill:var(--ink);font-size:13px;font-weight:700">Agreeing on a secret key with everyone listening (Diffie and Hellman)</text><rect x="20.0" y="50.0" width="220.0" height="210.0" rx="6" style="fill:var(--surface);stroke:var(--blue);stroke-width:1.8"/><rect x="540.0" y="50.0" width="220.0" height="210.0" rx="6" style="fill:var(--surface);stroke:var(--blue);stroke-width:1.8"/><rect x="290.0" y="50.0" width="200.0" height="210.0" rx="6" style="fill:var(--wash);stroke:var(--axis);stroke-width:1.2"/><text x="130.0" y="74.0" text-anchor="middle" style="fill:var(--blue);font-size:14px;font-weight:700">Alice</text><text x="650.0" y="74.0" text-anchor="middle" style="fill:var(--blue);font-size:14px;font-weight:700">Bob</text><text x="390.0" y="74.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:700">Public: everyone sees</text><text x="130.0" y="110.0" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:400">picks a secret a</text><text x="390.0" y="110.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">p and g</text><text x="650.0" y="110.0" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:400">picks a secret b</text><text x="130.0" y="150.0" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:400">computes A = g^a mod p</text><text x="390.0" y="150.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">A  →</text><text x="650.0" y="150.0" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:400">computes B = g^b mod p</text><text x="130.0" y="190.0" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:400"></text><text x="390.0" y="190.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">←  B</text><text x="650.0" y="190.0" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:400"></text><text x="130.0" y="230.0" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:400">key = B^a mod p</text><text x="390.0" y="230.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700"></text><text x="650.0" y="230.0" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:400">key = A^b mod p</text><text x="390.0" y="250.0" text-anchor="middle" style="fill:var(--red);font-size:12px;font-weight:700">an eavesdropper sees p, g, A, B; not a or b</text><text x="20.0" y="290.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">Both keys equal g^(ab) mod p. In the program: a 256-bit prime p, g = 2; both sides got the same 256-bit key,</text><text x="20.0" y="310.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">beginning 925b2a6187676e35…; each power took 385 multiplications. Finding a from A means a discrete logarithm.</text></svg></div></figure>
+<p class="col"><strong>RSA.</strong> Pick two large primes p and q and publish n = pq and a number e. Keep d, the inverse of e modulo (p − 1)(q − 1), found by Euclid's algorithm. Anyone encrypts a block M as C = M^e mod n; the holder of d decrypts M = C^d mod n. Run the other way, the holder of d <em>signs</em> (S = M^d mod n) and anyone checks with e. Finding d from n and e seems to require factoring n.</p>
+<p class="col"><strong>Finding the primes.</strong> Pick random odd numbers and test them. Fermat's test (a^(n−1) = 1 mod n for every prime) is fooled by Carmichael numbers. Solovay and Strassen's test compares a^((n−1)/2) with the Jacobi symbol (a/n): every base passes for a prime, and for a composite at most half do, so 100 random bases mistake a composite for a prime with chance at most 2^−100.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>Use a calculation that is easy to do and, as far as anyone knows, hard to undo, with a secret that makes it easy to undo for one person. Then the key that locks can be published, and only the key that unlocks kept secret.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Fast to lock, slow to pick</h2>
+<p class="col"><strong>Key exchange.</strong> A 256-bit prime p = 2q + 1 (found after testing 6,700 candidates for q) and g = 2: Alice and Bob got the same 256-bit key, beginning 925b2a6187676e35…, with 385 multiplications for each power.</p>
+<div class="tbl"><table><thead><tr><th class="n">Prime of</th><th class="n">Power by squaring: multiplications</th><th class="n">Logarithm by trying exponents: tries</th></tr></thead><tbody><tr class=""><td class="n">16 bits</td><td class="n">23</td><td class="n">19,404</td></tr><tr class=""><td class="n">20 bits</td><td class="n">29</td><td class="n">604,246</td></tr><tr class=""><td class="n">24 bits</td><td class="n">35</td><td class="n">2,730,745</td></tr><tr class=""><td class="n">28 bits</td><td class="n">37</td><td class="n">142,914,065</td></tr><tr class=""><td class="n">32 bits</td><td class="n">50</td><td class="n">1,818,175,979</td></tr></tbody></table></div>
+<p class="col"><strong>The paper's example.</strong> "ITS ALL GREEK TO ME" as blocks 0920 1900 0112 1200 0718 0505 1100 2015 0013 0500; sent as 0948 2342 1084 1444 2663 2390 0778 0774 0219 1655; turned back by C^157 mod 2773: "ITS ALL GREEK TO ME".</p>
+<p class="col"><strong>Primality.</strong> Fermat's test is passed, for every base sharing no factor with n, by the 16 Carmichael numbers below 100,000 (561, 1,105, 1,729, 2,465, 2,821, 6,601, 8,911, 10,585, …). Solovay and Strassen's test was checked for every base and every odd number below 3,000: every prime passes; of the 1,070 odd composites, at most half the bases ever pass, the largest share being 0.375 for n = 1,729. It catches all 16 Carmichael numbers.</p>
+<p class="col"><strong>A real-sized key.</strong> Two random 512-bit primes (found after testing 367 and 209 odd candidates) give an n of 1024 bits, 309 decimal digits. 100 random messages were encrypted and decrypted, signed and verified, and a signature changed by 1 was always rejected. Average multiplications: encrypting 19 (with e = 65537), decrypting 1532.</p>
+<div class="tbl"><table><thead><tr><th class="n">n (p and q of equal size)</th><th class="n">Trial divisions to factor it</th></tr></thead><tbody><tr class=""><td class="n">19-bit 341,741</td><td class="n">281</td></tr><tr class=""><td class="n">27-bit 109,151,993</td><td class="n">4,520</td></tr><tr class=""><td class="n">36-bit 43,678,660,733</td><td class="n">93,830</td></tr><tr class=""><td class="n">44-bit 10,843,852,218,131</td><td class="n">1,546,505</td></tr><tr class=""><td class="n">51-bit 2,213,357,638,776,223</td><td class="n">22,941,399</td></tr></tbody></table></div>
+<p class="col">Each 8 more bits multiplied the work by 16.9 on average. For the 1024-bit n, trial division would need about 2^510 divisions. Faster factoring methods than trial division exist; this one only shows how the work grows with the size.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">Stanford, MIT, and a secret kept by GCHQ</h2>
+<p class="col">Diffie and Hellman, "New Directions in Cryptography" (Stanford University; <em>IEEE Transactions on Information Theory</em> IT-22(6): 644–654, November 1976), opens: "We stand today on the brink of a revolution in cryptography." It proposes public key cryptosystems, key exchange by exponentiation modulo a prime, and a digital equivalent of a signature, "a digital phenomenon with the same properties as a written signature"; it notes that "Merkle [1] has independently studied the problem" of distributing keys over an insecure channel.</p>
+<p class="col">Rivest, Shamir and Adleman (MIT; received 4 April 1977; <em>Communications of the ACM</em> 21: 120–126, 1978) give C ≡ M^e (mod n) and M ≡ C^d (mod n), recommend "100-digit (decimal) prime numbers p and q", recommend "the elegant 'probabilistic' algorithm due to Solovay and Strassen" for finding them, work the example with p = 47 and q = 59, credit public keys to "an elegant concept invented by Diffie and Hellman", and end with a dare: "The reader is challenged to find a way to 'break' our method."</p>
+<p class="col">On 1 December 1997 GCHQ, the British signals agency, released a document claiming the invention years earlier (Bruce Schneier, 1998): James Ellis's idea of "non-secret encryption" (a report of January 1970; the sources give 1960, 1969 and 1970 for the idea itself, and the catalog marks the date as disputed), Clifford Cocks's 1973 note describing "what was essentially RSA", and Malcolm Williamson's 1974 method "remarkably similar to Diffie-Hellman". Ellis died on 25 November 1997, a month before the announcement. Schneier's verdict: "while they may have discovered the mathematics, it is clear that they never understood its significance."</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Euclid holds the key</h2>
+<p class="col">The private key d is the inverse of e modulo (p − 1)(q − 1), and it is found by extending Euclid's algorithm (Era 1, topic 7), two thousand years old. The ciphers that frequency analysis broke (Era 2, topic 7) and the Enigma that the Bombe broke (Era 4, topic 8) both needed a key shared in advance; public keys do not. And the hardness they rely on is of the kind topic 8 describes, believed but not proved.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>In the paper's example, Euclid's algorithm turns e = 17 into d = 157, because 17 × 157 is 1 more than a multiple of 2668.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>With p = 5, q = 11, e = 3: what are n, (p − 1)(q − 1) and d?</span></summary><div class="ans"><p>n = 55, (p − 1)(q − 1) = 40, d = 27, since 3 × 27 = 81 = 2 × 40 + 1.</p></div></details><details class="try"><summary><span class="q">2</span><span>Encrypt M = 2 with n = 55, e = 3, then decrypt.</span></summary><div class="ans"><p>C = 2³ mod 55 = 8; 8²⁷ mod 55 = 2.</p></div></details><details class="try"><summary><span class="q">3</span><span>Why may e be public but not d?</span></summary><div class="ans"><p>From e and n alone, finding d seems to need p and q, that is, factoring n; with d, anyone could decrypt.</p></div></details><details class="try"><summary><span class="q">4</span><span>Why does a signature made with d prove who made it?</span></summary><div class="ans"><p>Only the holder of d could produce S with S^e mod n = M; anyone can check that with the public e.</p></div></details><details class="try"><summary><span class="q">5</span><span>Why is 561 dangerous for Fermat's test?</span></summary><div class="ans"><p>It is composite (3 × 11 × 17), yet a^560 = 1 mod 561 for every a sharing no factor with it.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>New Directions in Cryptography (1976)</b><span>Diffie and Hellman's paper, on Hellman's Stanford page.</span><a href="https://ee.stanford.edu/~hellman/publications/24.pdf">The paper (PDF)</a><span class="lic">Drawn placeholder.</span></figcaption></figure><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>A Method for Obtaining Digital Signatures and Public-Key Cryptosystems (1978)</b><span>The RSA paper, with its worked example and its challenge.</span><a href="https://people.csail.mit.edu/vinodv/COURSES/MAT302-S13/RSApaper.pdf">The paper (PDF, on an MIT course page)</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://www.schneier.com/essays/archives/1998/04/the_secret_story_of.html" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">The Secret Story of Nonsecret Encryption · Bruce Schneier (1998)</span><span class="w">The public inventions and the secret ones, and how to credit them</span></a><a href="https://en.wikipedia.org/wiki/Clifford_Cocks" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Clifford Cocks · Wikipedia</span><span class="w">RSA, found first and kept secret</span></a><a href="https://en.wikipedia.org/wiki/James_H._Ellis" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">James H. Ellis · Wikipedia</span><span class="w">The idea of non-secret encryption, inside GCHQ</span></a><a href="https://ee.stanford.edu/~hellman/publications/24.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">New Directions in Cryptography · W. Diffie and M. E. Hellman, <em>IEEE Trans. Information Theory</em> (1976)</span><span class="w">Key exchange, public keys and signatures, proposed</span></a><a href="https://people.csail.mit.edu/vinodv/COURSES/MAT302-S13/RSApaper.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">A Method for Obtaining Digital Signatures and Public-Key Cryptosystems · R. L. Rivest, A. Shamir and L. Adleman, <em>Communications of the ACM</em> (1978)</span><span class="w">The first practical public-key system, with its small worked example</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-06-hard-problems-and-public-keys/reference-catalog.md">Era 6 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-06-hard-problems-and-public-keys/10-public-key-cryptography/PublicKey.java">PublicKey.java</a> makes <strong>594,590 checks</strong>: a Diffie-Hellman exchange, discrete logarithms by search for growing primes, the RSA paper's example, Solovay and Strassen's test against every base for every odd number below 3,000, Carmichael numbers below 100,000, a 1,024-bit key with 100 round trips and signatures, and factoring by trial division. Run it with <code>java PublicKey.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** x^e mod m by squaring and multiplying, counting multiplications. */</span>
+<span class="k-kw">static</span> BigInteger power(BigInteger x, BigInteger e, BigInteger m) {
+    BigInteger r = BigInteger.ONE;
+    x = x.mod(m);
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = e.bitLength() - <span class="k-n">1</span>; i &gt;= <span class="k-n">0</span>; i--) {
+        r = r.multiply(r).mod(m); mults++;
+        <span class="k-kw">if</span> (e.testBit(i)) { r = r.multiply(x).mod(m); mults++; }
+    }
+    <span class="k-kw">return</span> r;
+}
+
+<span class="k-c">/** One round of Solovay and Strassen&#x27;s test with base a: a prime always passes. */</span>
+<span class="k-kw">static</span> <span class="k-kw">boolean</span> solovayStrassen(<span class="k-kw">long</span> n, <span class="k-kw">long</span> a) {
+    <span class="k-kw">int</span> j = jacobi(a, n);
+    <span class="k-kw">if</span> (j == <span class="k-n">0</span>) <span class="k-kw">return</span> <span class="k-kw">false</span>;
+    <span class="k-kw">return</span> power(a, (n - <span class="k-n">1</span>) / <span class="k-n">2</span>, n) == (j == <span class="k-n">1</span> ? <span class="k-n">1</span> : n - <span class="k-n">1</span>);
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>PublicKey.java</code>.<br><span class="navfoot"><a href="../index.html">Era 6: Hard Problems and Public Keys</a><a href="../09-depth-first-search/depth-first-search.html">← Depth-First Search</a><a href="../11-string-search/string-search.html">Fast String Searching →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const pSel = document.getElementById("pk-p");
+  if (!pSel) return;
+  const PAPER = {"p":47,"q":59,"e":17,"msg":"ITS ALL GREEK TO ME"};
+  const primes = [];
+  for (let n = 31; primes.length < 40; n += 2) { let ok = true; for (let d = 3; d * d <= n; d += 2) if (n % d === 0) { ok = false; break; } if (ok) primes.push(n); }
+  [pSel, document.getElementById("pk-q")].forEach((s, k) => primes.forEach(x => { const o = el("option", {value: x}, s, x); if (x === (k ? PAPER.q : PAPER.p)) o.selected = true; }));
+  document.getElementById("pk-msg").value = PAPER.msg;
+  const gcd = (a, b) => b ? gcd(b, a % b) : a;
+  function inverse(e, m) { let [a, b, x0, x1] = [e, m, 1n, 0n]; while (b) { const q = a / b; [a, b] = [b, a - q * b]; [x0, x1] = [x1, x0 - q * x1]; } return ((x0 % m) + m) % m; }
+  function pow(b, e, m) { let r = 1n; b %= m; while (e > 0n) { if (e & 1n) r = r * b % m; b = b * b % m; e >>= 1n; } return r; }
+  let n, e, d;
+  function update() {
+    const p = BigInt(pSel.value), q = BigInt(document.getElementById("pk-q").value);
+    const say = document.getElementById("pk-say"), out = document.getElementById("pk-out"), keys = document.getElementById("pk-keys");
+    out.innerHTML = ""; keys.innerHTML = "";
+    if (p === q) { say.textContent = "Choose two different primes."; return; }
+    n = p * q; const phi = (p - 1n) * (q - 1n);
+    e = 3n; while (gcd(Number(phi), Number(e)) !== 1) e += 2n;
+    if (p === BigInt(PAPER.p) && q === BigInt(PAPER.q)) e = BigInt(PAPER.e);
+    d = inverse(e, phi);
+    el("div", {}, keys, `public key: n = ${n}, e = ${e}`);
+    el("div", {}, keys, `private key: d = ${d}`);
+    el("div", {}, keys, `check: e × d = ${e * d} = 1 more than a multiple of (p−1)(q−1) = ${phi}`);
+    const msg = document.getElementById("pk-msg").value.toUpperCase().replace(/[^A-Z ]/g, "");
+    let digits = [...msg].map(c => c === " " ? "00" : String(c.charCodeAt(0) - 64).padStart(2, "0")).join("");
+    const w = n > 2626n ? 4 : 2;
+    while (digits.length % w) digits += "0";
+    const blocks = []; for (let i = 0; i < digits.length; i += w) blocks.push(BigInt(digits.slice(i, i + w)));
+    const enc = blocks.map(m => pow(m, e, n)), dec = enc.map(c => pow(c, d, n));
+    const text = dec.map(x => x.toString().padStart(w, "0")).join("").match(/../g) || [];
+    const back = text.map(t => t === "00" ? " " : String.fromCharCode(64 + +t)).join("").trimEnd();
+    el("div", {}, out).innerHTML = `<b>as numbers:</b> ${blocks.map(x => x.toString().padStart(w, "0")).join(" ")}`;
+    el("div", {}, out).innerHTML = `<b>sent, M^e mod n:</b> ${enc.map(x => x.toString().padStart(4, "0")).join(" ")}`;
+    el("div", {}, out).innerHTML = `<b>received, C^d mod n:</b> ${back}`;
+    say.textContent = (p === BigInt(PAPER.p) && q === BigInt(PAPER.q) ? "These are the paper's own numbers. " : "") + "Anyone may encrypt with n and e; only d decrypts.";
+  }
+  document.getElementById("pk-break").addEventListener("click", () => {
+    let k = 0, f = 0n; for (let x = 3n; x * x <= n; x += 2n) { k++; if (n % x === 0n) { f = x; break; } }
+    document.getElementById("pk-say").textContent = `Dividing by 3, 5, 7, … found ${f} × ${n / f} after ${k} divisions. From p and q, d follows at once. With the 100-digit primes the RSA paper recommended, there would be about 10^100 divisions to try.`;
+  });
+  [pSel, document.getElementById("pk-q")].forEach(s => s.addEventListener("change", update));
+  document.getElementById("pk-msg").addEventListener("input", update);
+  update();
+})();
+
+</script>
+</body>
+</html>

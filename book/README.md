@@ -125,11 +125,33 @@
 | 12 | [Heapsort and the Heap](era-05-the-programmers-craft/12-heapsort/README.md) | Build a heap, then take it apart |
 | 13 | [Edmonds's Matching](era-05-the-programmers-craft/13-matching/README.md) | Find the path that the simple search misses |
 
+### Era 6 — Hard Problems and Public Keys (1965 to 1978)
+
+- **[Era 6 front page](era-06-hard-problems-and-public-keys/README.md)**: the time line, a map of how the thirteen ideas combine, and the topics. [Interactive edition](era-06-hard-problems-and-public-keys/index.html) (download the folder and open `index.html` in a browser). [Plan](era-06-hard-problems-and-public-keys/plan.md).
+- [Reference catalog](era-06-hard-problems-and-public-keys/reference-catalog.md): each development with checked lectures, articles and original sources, certainty labels and gaps.
+- The topics, each with a GitHub edition, an interactive edition and a tested program:
+
+| # | Topic | Interactive widget |
+|---|---|---|
+| 1 | [The Fast Fourier Transform](era-06-hard-problems-and-public-keys/01-fast-fourier-transform/README.md) | Hide two waves in noise and watch the FFT find them |
+| 2 | [Mutual Exclusion and the Semaphore](era-06-hard-problems-and-public-keys/02-semaphores/README.md) | Be the scheduler and try to break each algorithm |
+| 3 | [Objects, Classes and Subclasses](era-06-hard-problems-and-public-keys/03-objects/README.md) | Run a post office of letters and parcels |
+| 4 | [A*: Search Guided by an Estimate](era-06-hard-problems-and-public-keys/04-a-star/README.md) | Draw walls and race three searches |
+| 5 | [Fast Matrix Multiplication](era-06-hard-problems-and-public-keys/05-strassen/README.md) | Seven products instead of eight |
+| 6 | [The Relational Model of Data](era-06-hard-problems-and-public-keys/06-relational-model/README.md) | Ask the same question of four kinds of storage |
+| 7 | [B-Trees](era-06-hard-problems-and-public-keys/07-b-trees/README.md) | Insert and delete keys; watch pages split and merge |
+| 8 | [NP-Completeness](era-06-hard-problems-and-public-keys/08-np-completeness/README.md) | Try to satisfy a random formula |
+| 9 | [Depth-First Search](era-06-hard-problems-and-public-keys/09-depth-first-search/README.md) | Watch the lowpoints find the weak points |
+| 10 | [Public-Key Cryptography](era-06-hard-problems-and-public-keys/10-public-key-cryptography/README.md) | Encrypt with the RSA paper's own key, then break it |
+| 11 | [Fast String Searching](era-06-hard-problems-and-public-keys/11-string-search/README.md) | Step through three searches for one word |
+| 12 | [Universal Compression](era-06-hard-problems-and-public-keys/12-lempel-ziv/README.md) | Copy from what was already sent |
+| 13 | [Logical Clocks](era-06-hard-problems-and-public-keys/13-logical-clocks/README.md) | Before, after, or neither? |
+
 ### Coming next (proposed eras; open to change)
 
 | Era | Span | Topics (from the Evolutionary Atlas) |
 |---|---|---|
-| 6 onward | 1965–2026 | The fast Fourier transform, objects and concurrency, complexity and NP-completeness, cryptography, databases, networks, distributed systems, streaming, machine learning, transformers, and the algorithms of 2026 |
+| 7 onward | 1978–2026 | Randomized and approximation algorithms, the algorithms of networks and the Internet, distributed agreement, streaming, machine learning, transformers, and the algorithms of 2026 |
 
 ### Plans
 

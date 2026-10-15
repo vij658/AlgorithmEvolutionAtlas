@@ -506,7 +506,7 @@ No video page could be opened (see **Gaps**).
 ## 13. Logical clocks and the order of events
 
 **When / where:** Leslie Lamport, Massachusetts Computer Associates (where he worked from 1970 to 1977; the paper also gives an address at SRI International); "Time, Clocks, and the Ordering of Events in a Distributed System", *Communications of the ACM* 21(7): 558–565 (July 1978).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`LogicalClocks.java`](../../code/era-06-hard-problems-and-public-keys/13-logical-clocks/) · **Page:** [topic 13](13-logical-clocks/README.md)
 
 > **Field note.** As the species' computers came to be joined into networks, a question that had seemed philosophical became practical: when two machines with separate clocks each record an event, which came first? Lamport answered by refusing to trust clocks at all. One event "happened before" another only if information could have flowed from the first to the second, along a process or through a message; otherwise the two are concurrent, and no observer inside the system can tell their order. He noted that the definition resembles the way special relativity treats space and time. A simple counter in each machine, advanced at every event and pushed forward whenever a message arrives with a larger stamp, is enough to give every event a number consistent with this order; breaking ties by machine number turns it into one total order that every machine can compute for itself. With it Lamport showed how machines can share a resource fairly with no one in charge. Thirty-six years later the citation for his Turing Award spoke of "imposing clear, well-defined coherence on the seemingly chaotic behavior of distributed computing systems".
 

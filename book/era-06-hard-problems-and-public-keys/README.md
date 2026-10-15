@@ -24,9 +24,9 @@
 
 | # | Topic | When | What hurt | Read |
 |---|---|---|---|---|
-| 1 | **The Fast Fourier Transform** | 1963 meeting; demonstrated 1964; published 1965 | A transform of N samples took about N² operations | planned · [references](reference-catalog.md#1-the-fast-fourier-transform-for-machines) |
-| 2 | **Mutual Exclusion and the Semaphore** | Dekker about 1962; semaphore 1962; EWD 123, 1965 | Processes sharing memory corrupt data or wait for ever | planned · [references](reference-catalog.md#2-mutual-exclusion-and-the-semaphore) |
-| 3 | **Objects, Classes and Subclasses** | Simula begun 1961; Simula 67, 1967 | A model of many interacting things was a heap of arrays and scattered code | planned · [references](reference-catalog.md#3-objects-classes-and-subclasses) |
+| 1 | **The Fast Fourier Transform** | 1963 meeting; demonstrated 1964; published 1965 | A transform of N samples took about N² operations | [page](01-fast-fourier-transform/README.md) · [interactive](01-fast-fourier-transform/fast-fourier-transform.html) · [program](../../code/era-06-hard-problems-and-public-keys/01-fast-fourier-transform/README.md) |
+| 2 | **Mutual Exclusion and the Semaphore** | Dekker about 1962; semaphore 1962; EWD 123, 1965 | Processes sharing memory corrupt data or wait for ever | [page](02-semaphores/README.md) · [interactive](02-semaphores/semaphores.html) · [program](../../code/era-06-hard-problems-and-public-keys/02-semaphores/README.md) |
+| 3 | **Objects, Classes and Subclasses** | Simula begun 1961; Simula 67, 1967 | A model of many interacting things was a heap of arrays and scattered code | [page](03-objects/README.md) · [interactive](03-objects/objects.html) · [program](../../code/era-06-hard-problems-and-public-keys/03-objects/README.md) |
 | 4 | **A*: Search Guided by an Estimate** | Shakey project; received 1967; published 1968 | Dijkstra's method explores every direction; greedy search returns long paths | planned · [references](reference-catalog.md#4-a-search-guided-by-an-estimate) |
 | 5 | **Fast Matrix Multiplication** | 1969 | Multiplying and inverting matrices took n³ operations | planned · [references](reference-catalog.md#5-fast-matrix-multiplication) |
 | 6 | **The Relational Model of Data** | 1970 | Programs depended on how the data was stored | planned · [references](reference-catalog.md#6-the-relational-model-of-data) |

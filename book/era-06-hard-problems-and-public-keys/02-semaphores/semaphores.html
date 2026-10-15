@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mutual Exclusion and the Semaphore</title>
+<meta name="description" content="Era 6, topic 2 of The Algorithm Evolution Atlas: critical sections, Dekker&#x27;s algorithm, Dijkstra&#x27;s semaphore and the deadly embrace, checked over every reachable state.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.sm-pick{display:grid;gap:4px;font-size:14px}
+.sm-pick select{font:inherit;padding:4px;max-width:100%}
+.sm-procs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.sm-proc{border:1px solid var(--rule);padding:8px;min-width:0}
+.sm-proc b{display:block;margin-bottom:4px}
+.sm-proc ol{margin:0;padding-left:22px;font:12.5px var(--mono)}
+.sm-proc li{padding:2px 4px;border-radius:3px}
+.sm-proc li.pc{background:var(--blue);color:var(--on-blue)}
+.sm-proc li.pc.cs{background:var(--red);color:var(--on-red)}
+.sm-btns{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.sm-shared{font:13px var(--mono);display:grid;gap:3px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 6: Hard Problems and Public Keys</a><a href="../01-fast-fourier-transform/fast-fourier-transform.html">← The Fast Fourier Transform</a><a href="../03-objects/objects.html">Objects, Classes and Subclasses →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 6 · Topic 2 · 1962–1965</div>
+    <h1>Mutual Exclusion and the Semaphore</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">Two programs that share memory can each be correct and still be wrong together. Dijkstra stated the problem, credited Dekker with the first solution, and gave the species a simpler tool: the semaphore.</p>
+  <p class="fieldnote">Field note from the visiting historian. Two processes adding one to a counter can interleave in 20 ways; 18 of them lose an addition. No test run would show me which, so the program tried them all, and then tried every state of every remedy.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Dekker about 1962; semaphore 1962; EWD 123, 1965</dd></div><div><dt>Where</dt><dd>Amsterdam and Eindhoven</dd></div><div><dt>What hurt</dt><dd>Lost updates and processes waiting for ever</dd></div><div><dt>The fix</dt><dd>Critical sections guarded by P and V</dd></div><div><dt>Checked</dt><dd>32 states for three processes, none unsafe</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Machines of the 1960s ran several programs at once, and programs that share memory can trip over each other. Dekker found a correct way for two processes to take turns using nothing but shared variables; Dijkstra replaced it with a new kind of variable whose two operations cannot be interrupted. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How mutual exclusion and the semaphore combined older ideas, and where they led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="125.0" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="125.0,180.0 121.3,171.8 128.7,171.8" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,180.0 496.3,171.8 503.7,171.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="573.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,180.0 580.6,174.5 582.4,181.6" style="fill:var(--ink-2)"/><line x1="230.0" y1="223.0" x2="395.0" y2="223.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="395.0,223.0 386.8,226.7 386.8,219.3" style="fill:var(--ink-2)"/><rect x="285.4" y="202.0" width="54.2" height="19" rx="3" style="fill:var(--surface)"/><text x="312.5" y="215.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">simpler</text><line x1="605.0" y1="223.0" x2="770.0" y2="223.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="770.0,223.0 761.8,226.7 761.8,219.3" style="fill:var(--ink-2)"/><line x1="437.0" y1="266.0" x2="188.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="188.0,340.0 194.8,334.1 196.9,341.2" style="fill:var(--ink-2)"/><line x1="500.0" y1="266.0" x2="500.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,340.0 496.3,331.8 503.7,331.8" style="fill:var(--ink-2)"/><line x1="563.0" y1="266.0" x2="812.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="812.0,340.0 803.1,341.2 805.2,334.1" style="fill:var(--ink-2)"/><line x1="500.0" y1="426.0" x2="500.0" y2="490.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,490.0 496.3,481.8 503.7,481.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Multiprogramming</text><text x="32.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">several programs share one</text><text x="32.0" y="85.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">machine</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Shared memory</text><text x="407.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">both read and write the same</text><text x="407.0" y="85.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">words</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Indivisible steps</text><text x="782.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a load or a store happens</text><text x="782.0" y="85.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">whole</text><rect x="20" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="203.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Dekker&#x27;s algorithm</text><text x="32.0" y="220.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ flags and a turn: the first</text><text x="32.0" y="237.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">correct solution</text><text x="32.0" y="253.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">about 1962</text><rect x="395" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="203.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The semaphore</text><text x="407.0" y="220.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ P waits and lowers, V raises,</text><text x="407.0" y="237.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">indivisibly</text><text x="407.0" y="253.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dijkstra, 1962–1965</text><rect x="770" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="203.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The deadly embrace</text><text x="782.0" y="220.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">two processes, each holding</text><text x="782.0" y="237.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">what the other needs</text><text x="782.0" y="253.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">named in EWD 123</text><rect x="20" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="371.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Producer and consumer</text><text x="32.0" y="389.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a buffer guarded by two</text><text x="32.0" y="405.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">semaphores</text><rect x="395" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="380.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Operating systems</text><text x="407.0" y="397.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">locks, queues, schedulers</text><rect x="770" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="371.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Exclusion by messages</text><text x="782.0" y="389.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">no shared memory at all</text><text x="782.0" y="405.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Lamport, topic 13</text><rect x="395" y="490" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="513.6" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Today</text><text x="407.0" y="530.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">locks and semaphores in</text><text x="407.0" y="547.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">operating systems and</text><text x="407.0" y="563.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">language libraries</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dashed: Lamport&#x27;s mutual exclusion (topic 13) solves the same problem with messages instead of shared memory.</text></svg></div><figcaption>Red: the semaphore. Blue: where it is used today.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">You are the scheduler</h2>
+<p class="col">Two processes, P and Q, run the same little program. You decide which one takes the next step, as an operating system would, and you are allowed to be unlucky. Can you make the counter lose an update? Can you get both processes into the critical section (red) at once, or make both wait for ever? Then try the semaphore.</p>
+
+<div class="board sm-board">
+  <div style="min-width:0">
+    <label class="sm-pick">Algorithm
+      <select id="sm-alg">
+        <option value="race">No protection: add one to a shared counter</option>
+        <option value="sem">Semaphore: P(s), add one, V(s)</option>
+        <option value="look">Look at the other's flag, then raise yours</option>
+        <option value="raise">Raise your flag, then wait for the other's to fall</option>
+      </select></label>
+    <div class="sm-procs" id="sm-procs"></div>
+  </div>
+  <div style="min-width:0">
+    <div class="sm-btns"><button type="button" id="sm-p">Step P</button><button type="button" id="sm-q">Step Q</button><button type="button" id="sm-reset">Start again</button></div>
+    <div class="sm-shared" id="sm-shared"></div>
+    <p class="say" id="sm-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 6, hard problems and public keys</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 6: Hard Problems and Public Keys, from 1965 to 1978" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1964–1965</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Cooley and Tukey&#x27;s</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">FFT</text><circle cx="185.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1962–1965</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Dijkstra&#x27;s</text><text x="185.5" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">semaphore</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1961–1967</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Simula&#x27;s objects</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1968</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">A* search</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1969</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Strassen&#x27;s seven</text><text x="550.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">products</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1970</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Codd&#x27;s relations</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1969–1972</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">B-trees</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1971–1973</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">NP-completeness</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1970–1974</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Depth-first</text><text x="1036.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">search</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1976–1977</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Public keys</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1969–1977</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">KMP and</text><text x="1279.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Boyer–Moore</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1977–1978</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Lempel–Ziv</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1978</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Lamport&#x27;s clocks</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 558" role="img" aria-label="Each fix leaves a new pain: from lost updates to deadlock" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="396.0" x2="750.0" y2="446.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,446.0 746.3,437.8 753.7,437.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="492.0" x2="400.0" y2="492.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,492.0 408.2,488.3 408.2,495.7" style="fill:var(--ink-2)"/><rect x="449.2" y="471.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="484.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Two processes add one to a counter: 18 of 20</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">interleavings lose an update</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A critical section that only one process may enter at a</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">time</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the problem, stated by Dijkstra</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Obvious flag schemes fail: both inside in 1 state, or</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">stuck for ever in 1</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Dekker&#x27;s flags and a turn: 134 states, all safe</text><text x="32.0" y="228.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dekker, credited in EWD 123</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="345.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Dekker&#x27;s method is long and only for two processes</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The semaphore: P(s) before, V(s) after; three processes,</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">32 states, all safe</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Dijkstra</text><rect x="560" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="479.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="495.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Two semaphores taken in opposite orders: 1 state stuck</text><text x="572.0" y="512.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">for ever</text><rect x="20" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="479.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="495.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Take them in the same order: 33 states, none stuck</text><text x="32.0" y="512.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the deadly embrace, named</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Try every interleaving</h2>
+<p class="col"><strong>The trouble.</strong> A process that adds one to a shared counter does three steps: load the counter into a register, add one, store it back. If two processes interleave those steps, both may load the same old value, and one addition vanishes. The error appears only for some orders of the steps, which is why it is so hard to find by testing.</p>
+<p class="col"><strong>The critical section.</strong> Mark the steps that must not overlap. The task is a protocol before and after the critical section that guarantees, for every possible order of steps, that at most one process is inside, and that neither waits for ever while the other is not even interested.</p>
+<p class="col"><strong>The semaphore.</strong> A shared non-negative integer s with two operations that happen indivisibly. P(s) waits until s is positive, then lowers it by one; V(s) raises it by one. Start s at 1, put P(s) before the critical section and V(s) after it: the first process to arrive lowers s to 0, and every other waits in P until the V.</p>
+<p class="col"><strong>How the program checks it.</strong> Rather than run the processes and hope for a bad order, the program explores every state the processes can reach, taking every possible next step from every state, and checks each state.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>Programs that share memory must be correct for every order in which their steps can interleave, not just the orders seen in testing. A small set of indivisible operations, used by a fixed protocol, makes that checkable.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Every state searched</h2>
+<p class="col"><strong>The lost update.</strong> Two processes, three steps each: all 20 interleavings tried. The counter ends at 2 in 2 of them and at 1 in 18. With P(s) before and V(s) after, only 2 orders are possible, and both end at 2.</p>
+<div class="tbl"><table><thead><tr><th class="">Attempt at mutual exclusion (two processes)</th><th class="n">Reachable states</th><th class="n">States with both inside</th><th class="n">States where both wait for ever</th><th class="">Verdict</th></tr></thead><tbody><tr class=""><td class="">Take turns (a turn variable)</td><td class="n">16</td><td class="n">0</td><td class="n">0</td><td class="">a process waits for the other's turn even when the other is not interested</td></tr><tr class=""><td class="">Look at the other's flag, then raise yours</td><td class="n">25</td><td class="n">1</td><td class="n">0</td><td class="">both look, both see 0, both go in</td></tr><tr class=""><td class="">Raise your flag, then wait for the other's to fall</td><td class="n">21</td><td class="n">0</td><td class="n">1</td><td class="">both raise, both wait for ever</td></tr><tr class="hl"><td class="">Dekker: flags and a turn</td><td class="n">134</td><td class="n">0</td><td class="n">0</td><td class="">correct; every process can always still get in</td></tr></tbody></table></div>
+<p class="col"><strong>One semaphore, three processes.</strong> P(s), critical section, V(s), with s = 1 at the start: 32 reachable states, never two inside, never stuck, and every process can always still get in. Four instructions instead of Dekker's ten, and for any number of processes.</p>
+<p class="col"><strong>The deadly embrace.</strong> Process 1 takes semaphore A then B; process 2 takes B then A. Of 36 reachable states, 1 is stuck for ever: each holds one and waits for the other. If both take A first: 33 states, none stuck.</p>
+<p class="col"><strong>Producer and consumer.</strong> A producer makes items 1 to 5, a consumer takes them, through 2 places, with two semaphores counting the empty and the full places. All 148 reachable states were checked: the producer never gets more than 2 ahead, the consumer never takes from an empty place, and every item arrives in order.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">Cooperating sequential processes</h2>
+<p class="col">Dijkstra's essay "Cooperating sequential processes" (manuscript EWD 123, Technological University, Eindhoven, finalized in September 1965 and published in 1968) states the problem: in each cycle "a so-called 'critical section' occurs", and "at any moment at most one of the two is engaged in its critical section". It credits a colleague: "To the Dutch mathematician Th.J.Dekker the credit is due for the first correct solution". It defines semaphores as "essentially non-negative integers", with the V-operation "to increase the value of its argument semaphore by 1" and the P-operation "to decrease the value of its argument semaphore by 1 as soon as the resulting value would be non-negative". Its section 6 is "The Problem of the Deadly Embrace".</p>
+<p class="col">Krzysztof Apt's portrait of Dijkstra dates the semaphore to 1962 (EWD 51) and says the essay "originated the field of concurrent programming". What the letters P and V stand for is disputed: Apt gives the invented word "Prolaag", for lowering; a note at New York University, quoting Gert Vegter, gives <em>Probeer</em> (try) and <em>Verhoog</em> (increase). EWD 123 itself does not say.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Correct on paper, wrong on a chip</h2>
+<p class="col">Dekker's algorithm assumes that every load and store happens whole and in program order. Modern processors reorder memory operations for speed, and Wikipedia notes that the algorithm "won't work on SMP machines equipped with these CPUs without the use of memory barriers". The semaphore survived because it puts the indivisibility where it belongs: in one operation that the hardware and the operating system promise to perform whole.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>Thirteen years later Lamport solved the same problem for computers that share no memory at all, only messages (topic 13).</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Two processes each add one to a counter that starts at 5. What values can it end with?</span></summary><div class="ans"><p>7 if the additions do not overlap; 6 if both load 5 before either stores.</p></div></details><details class="try"><summary><span class="q">2</span><span>A semaphore starts at 3. What does P, P, P, P do?</span></summary><div class="ans"><p>The first three lower it to 2, 1, 0; the fourth waits until some process does V.</p></div></details><details class="try"><summary><span class="q">3</span><span>Why is "take turns" not good enough, though it never lets both in?</span></summary><div class="ans"><p>A process that wants to enter must wait for the other's turn, even if the other never wants to enter again.</p></div></details><details class="try"><summary><span class="q">4</span><span>How do you avoid the deadly embrace with two semaphores?</span></summary><div class="ans"><p>Make every process take them in the same order.</p></div></details><details class="try"><summary><span class="q">5</span><span>In the producer and consumer, what do the two semaphores count?</span></summary><div class="ans"><p>One counts empty places (the producer does P on it), the other full places (the consumer does P on it).</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>EWD 123, Cooperating sequential processes (1965)</b><span>Dijkstra's handwritten-and-typed essay, numbered in his own series of manuscripts.</span><a href="https://www.cs.utexas.edu/~EWD/transcriptions/EWD01xx/EWD123.html">Transcription, E. W. Dijkstra Archive</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://en.wikipedia.org/wiki/Dekker%27s_algorithm" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Dekker's algorithm · Wikipedia</span><span class="w">Flags and a turn: the first correct solution, and why modern processors need more</span></a><a href="https://arxiv.org/pdf/cs/0210001" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Edsger Wybe Dijkstra (1930–2002): A Portrait of a Genius · Krzysztof R. Apt (2002), arXiv</span><span class="w">Semaphores, THE, the deadly embrace and the dining philosophers, in context</span></a><a href="https://cs.nyu.edu/~yap/classes/os/resources/origin_of_PV.html" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Origin of P and V · New York University course page</span><span class="w">One account of the Dutch words behind P and V</span></a><a href="https://www.cs.utexas.edu/~EWD/transcriptions/EWD01xx/EWD123.html" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Cooperating sequential processes (EWD 123) · E. W. Dijkstra (1965), transcription at the E. W. Dijkstra Archive</span><span class="w">The essay that stated the problem and introduced P and V to a wide audience</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-06-hard-problems-and-public-keys/reference-catalog.md">Era 6 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-06-hard-problems-and-public-keys/02-semaphores/Semaphores.java">Semaphores.java</a> makes <strong>13 checks</strong>: every interleaving of two processes adding to a counter, every reachable state of four attempts at mutual exclusion (Dekker's among them), a semaphore with three processes, the deadly embrace, and a producer and consumer. Run it with <code>java Semaphores.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-kw">static</span> Instr P(<span class="k-kw">int</span> s) { <span class="k-kw">return</span> (sh, loc, me) -&gt; { <span class="k-kw">if</span> (sh[s] == <span class="k-n">0</span>) <span class="k-kw">return</span> BLOCKED; sh[s]--; <span class="k-kw">return</span> -<span class="k-n">99</span>; }; }
+
+<span class="k-kw">static</span> Instr V(<span class="k-kw">int</span> s) { <span class="k-kw">return</span> (sh, loc, me) -&gt; { sh[s]++; <span class="k-kw">return</span> -<span class="k-n">99</span>; }; }
+
+    <span class="k-kw">long</span> bothInCS() {
+        <span class="k-kw">long</span> c = <span class="k-n">0</span>;
+        <span class="k-kw">for</span> (State s : seen.values()) { <span class="k-kw">int</span> k = <span class="k-n">0</span>; <span class="k-kw">for</span> (<span class="k-kw">int</span> p = <span class="k-n">0</span>; p &lt; procs.size(); p++) <span class="k-kw">if</span> (inCS(s, p)) k++; <span class="k-kw">if</span> (k &gt; <span class="k-n">1</span>) c++; }
+        <span class="k-kw">return</span> c;
+    }</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>Semaphores.java</code>.<br><span class="navfoot"><a href="../index.html">Era 6: Hard Problems and Public Keys</a><a href="../01-fast-fourier-transform/fast-fourier-transform.html">← The Fast Fourier Transform</a><a href="../03-objects/objects.html">Objects, Classes and Subclasses →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const box = document.getElementById("sm-procs");
+  if (!box) return;
+  const BLOCK = -2, DONE = -1;
+  const A = {
+    race: {sh: {counter: 0}, cs: [], loop: false, code: [
+      ["r = counter", (s, l) => { l.r = s.counter; }],
+      ["r = r + 1", (s, l) => { l.r++; }],
+      ["counter = r", (s, l) => { s.counter = l.r; }]]},
+    sem: {sh: {counter: 0, s: 1}, cs: [1, 2, 3], loop: false, code: [
+      ["P(s): wait until s > 0, then s = s - 1", s => s.s > 0 ? (s.s--, undefined) : BLOCK],
+      ["r = counter", (s, l) => { l.r = s.counter; }],
+      ["r = r + 1", (s, l) => { l.r++; }],
+      ["counter = r", (s, l) => { s.counter = l.r; }],
+      ["V(s): s = s + 1", s => { s.s++; }]]},
+    look: {sh: {flagP: 0, flagQ: 0}, cs: [2], loop: true, code: [
+      ["wait until the other's flag = 0", (s, l, me) => s[me === 0 ? "flagQ" : "flagP"] === 0 ? undefined : BLOCK],
+      ["my flag = 1", (s, l, me) => { s[me === 0 ? "flagP" : "flagQ"] = 1; }],
+      ["critical section", () => {}],
+      ["my flag = 0", (s, l, me) => { s[me === 0 ? "flagP" : "flagQ"] = 0; }]]},
+    raise: {sh: {flagP: 0, flagQ: 0}, cs: [2], loop: true, code: [
+      ["my flag = 1", (s, l, me) => { s[me === 0 ? "flagP" : "flagQ"] = 1; }],
+      ["wait until the other's flag = 0", (s, l, me) => s[me === 0 ? "flagQ" : "flagP"] === 0 ? undefined : BLOCK],
+      ["critical section", () => {}],
+      ["my flag = 0", (s, l, me) => { s[me === 0 ? "flagP" : "flagQ"] = 0; }]]},
+  };
+  let alg, sh, pc, loc, log;
+  function reset() {
+    alg = A[document.getElementById("sm-alg").value];
+    sh = {...alg.sh}; pc = [0, 0]; loc = [{r: 0}, {r: 0}]; log = "You are the scheduler: choose which process takes its next step.";
+    show();
+  }
+  function canMove(p) {
+    if (pc[p] === DONE) return false;
+    const trial = {...sh}, tl = {...loc[p]};
+    return alg.code[pc[p]][1](trial, tl, p) !== BLOCK;
+  }
+  function move(p) {
+    if (!canMove(p)) return;
+    const [txt, f] = alg.code[pc[p]];
+    f(sh, loc[p], p);
+    pc[p]++;
+    if (pc[p] === alg.code.length) pc[p] = alg.loop ? 0 : DONE;
+    log = `${p === 0 ? "P" : "Q"}: ${txt}.`;
+    show();
+  }
+  const inCS = p => pc[p] >= 0 && alg.cs.includes(pc[p]);
+  function show() {
+    box.innerHTML = "";
+    ["P", "Q"].forEach((name, p) => {
+      const d = el("div", {class: "sm-proc"}, box);
+      el("b", {}, d, `Process ${name}` + (pc[p] === DONE ? " (finished)" : "") + (alg.code.length && "r" in loc[p] && !alg.loop ? `, r = ${loc[p].r}` : ""));
+      const ol = el("ol", {}, d);
+      alg.code.forEach(([txt], i) => el("li", {class: (pc[p] === i ? "pc" : "") + (alg.cs.includes(i) || (alg.cs.length === 0 && i < 3) ? " cs" : "")}, ol, txt));
+    });
+    const st = document.getElementById("sm-shared"); st.innerHTML = "";
+    el("div", {}, st, "shared: " + Object.entries(sh).map(([k, v]) => `${k} = ${v}`).join(", "));
+    document.getElementById("sm-p").disabled = !canMove(0);
+    document.getElementById("sm-q").disabled = !canMove(1);
+    let msg = log;
+    if (inCS(0) && inCS(1)) msg += " Both processes are in the critical section at once: mutual exclusion has failed.";
+    else if (!canMove(0) && !canMove(1) && !(pc[0] === DONE && pc[1] === DONE)) msg += " Neither process can move: each waits for the other for ever (a deadlock).";
+    if (pc[0] === DONE && pc[1] === DONE) msg += sh.counter === 2 ? " Both added one: the counter is 2." : ` Both added one, but the counter is ${sh.counter}: an update was lost.`;
+    document.getElementById("sm-say").textContent = msg;
+  }
+  document.getElementById("sm-p").addEventListener("click", () => move(0));
+  document.getElementById("sm-q").addEventListener("click", () => move(1));
+  document.getElementById("sm-reset").addEventListener("click", reset);
+  document.getElementById("sm-alg").addEventListener("change", reset);
+  reset();
+})();
+
+</script>
+</body>
+</html>

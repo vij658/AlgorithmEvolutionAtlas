@@ -45,7 +45,7 @@ A note on videos: no video page could be opened from the environment used to bui
 ## 1. The fast Fourier transform, for machines
 
 **When / where:** John W. Tukey (Princeton University and Bell Telephone Laboratories) and James W. Cooley (IBM Watson Research Center, Yorktown Heights), brought together by Richard Garwin of IBM after a 1963 meeting of President Kennedy's Science Advisory Committee; a program demonstrated at IBM Research in 1964; "An Algorithm for the Machine Calculation of Complex Fourier Series", received 17 August 1964, *Mathematics of Computation* 19: 297–301 (April 1965).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`FastFourier.java`](../../code/era-06-hard-problems-and-public-keys/01-fast-fourier-transform/) · **Page:** [topic 1](01-fast-fourier-transform/README.md)
 
 > **Field note.** Gauss had found the trick in 1805 and left it in Latin among his papers (Era 3, topic 9). A hundred and sixty years later it was found again, by people who needed it badly: a committee advising the American president wanted to detect underground nuclear tests from the shaking of the ground, and the arithmetic of turning a seismogram into its frequencies was too slow for the machines of the day. A statistician mentioned that he knew a shortcut; a physicist who heard him asked IBM for a programmer to make it work. The shortcut, halving and halving again, turns a million-point transform from a trillion multiplications into some tens of millions. It went on to wherever a signal had to be taken apart: the compression of sound and video, the scanners that see inside a body, and, by a turn the committee never imagined, the multiplication of very large numbers.
 
@@ -83,7 +83,7 @@ No video page could be opened (see **Gaps**).
 ## 2. Mutual exclusion and the semaphore
 
 **When / where:** Edsger W. Dijkstra, Mathematical Centre, Amsterdam, then the Technological University, Eindhoven: Th. J. Dekker's solution for two processes, reported in Dijkstra's manuscript EWD 35 (1962 or 1963); the semaphore, introduced in 1962 (EWD 51, "Multiprogrammering en X8"); "Cooperating sequential processes", manuscript EWD 123, finalized in September 1965 and published in 1968.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`Semaphores.java`](../../code/era-06-hard-problems-and-public-keys/02-semaphores/) · **Page:** [topic 2](02-semaphores/README.md)
 
 > **Field note.** The machines of the 1960s were fast enough to be shared: while one program waited for a tape, another could compute, and a third could print. Programs that run side by side and use the same memory meet a new kind of error, one that appears only when their steps happen to interleave badly, and disappears when anyone looks. Dijkstra set out the problem plainly: two processes, each with a section that the other must not enter at the same time. Several obvious answers are wrong, in ways that take some finding; a colleague, Dekker, found one that is right. Dijkstra then gave the species a simpler tool, a counter that a process can lower only when it is above zero, and with it a vocabulary (the critical section, the semaphore, and the "deadly embrace" now called deadlock) that operating systems still use.
 
@@ -120,7 +120,7 @@ No video page could be opened (see **Gaps**).
 ## 3. Objects, classes and subclasses
 
 **When / where:** Ole-Johan Dahl and Kristen Nygaard, Norwegian Computing Center, Oslo: work begun in 1961 on "a description language for computer simulations"; Simula I, a simulation language; "Class and subclass declarations", presented at the IFIP working conference on simulation languages at Lysebu, near Oslo, in 1967 (published in *Simulation Programming Languages*, ed. J. N. Buxton, pp. 158–174); Simula 67, a general programming language built as an extension of Algol 60.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`Objects.java`](../../code/era-06-hard-problems-and-public-keys/03-objects/) · **Page:** [topic 3](03-objects/README.md)
 
 > **Field note.** Nygaard studied complicated systems by simulating them, and found that the languages of the day made such systems hard even to describe. A harbour or a post office is made of many things, each acting on its own and meeting the others now and then; in a program about it, each thing's data sat in separate arrays and its behaviour in scattered code. He persuaded his colleague Dahl to help him build a language for it. Their answer was to let the program contain the things: a *class* describes one kind of thing, its data and what it can do; any number of *objects* of that class can be made while the program runs; and a *subclass* inherits everything from its class and changes only what differs. A procedure declared *virtual* is looked up in the object's own class when it is called, so a program written for customers in general works unchanged for letters and parcels. Dahl later wrote that this last idea was "a last minute extension". Through Smalltalk, C++ and Java it became, in the words of its IEEE Milestone, "dominant in systems development".
 

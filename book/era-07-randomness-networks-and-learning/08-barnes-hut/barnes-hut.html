@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Barnes–Hut Tree Code</title>
+<meta name="description" content="Era 7, topic 8 of The Algorithm Evolution Atlas: Barnes and Hut&#x27;s octree for gravity, the opening angle θ, N log N interactions, and the fast multipole method that followed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.bh-view svg{display:block;width:100%;height:auto;background:var(--wash);cursor:crosshair}
+.bh-btns{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.bh-stats{font:13px var(--mono);display:grid;gap:3px;margin-top:8px}
+.bh-board input[type=range]{width:12em;padding:0;border:none;background:none}
+.bh-tv{font:14px var(--mono)}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 7: Randomness, Networks and Learning</a><a href="../07-backpropagation/backpropagation.html">← Backpropagation</a><a href="../09-karp-rabin/karp-rabin.html">Karp–Rabin Fingerprints →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 7 · Topic 8 · 1986</div>
+    <h1>The Barnes–Hut Tree Code</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">To move a galaxy's stars, every star must feel every other: the work grows with the square of their number. Barnes and Hut grouped the stars in a tree of cubes and let distant cubes pull as one.</p>
+  <p class="fieldnote">Field note from the visiting historian. For 100,000 stars, the direct sum needs 9,999,900,000 interactions per step. The tree needed 147,046,262, and each force came out within a fraction of a percent. This species learned to simulate its galaxies by agreeing not to look too closely at the far side.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>1986</dd></div><div><dt>Where</dt><dd>Published in Nature</dd></div><div><dt>What hurt</dt><dd>N(N − 1) interactions per time step</dd></div><div><dt>The fix</dt><dd>An octree; distant cubes as one mass; the opening angle θ</dd></div><div><dt>Checked</dt><dd>68 times fewer interactions at N = 100,000</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. A distant crowd of stars pulls almost like one heavy star at its centre of mass, an approximation as old as Newton. Barnes and Hut made it systematic: a tree of cubes, each split into eight, and one rule (the opening angle θ) for when a cube is far enough away to be summarized. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How the Barnes–Hut tree code combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="426.5,180.0 417.6,181.6 419.4,174.5" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,180.0 496.3,171.8 503.7,171.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="573.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,180.0 580.6,174.5 582.4,181.6" style="fill:var(--ink-2)"/><line x1="426.5" y1="266.0" x2="125.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="125.0,340.0 132.1,334.5 133.9,341.6" style="fill:var(--ink-2)"/><line x1="573.5" y1="266.0" x2="875.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="875.0,340.0 866.1,341.6 867.9,334.5" style="fill:var(--ink-2)"/><line x1="875.0" y1="426.0" x2="573.5" y2="490.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,490.0 580.8,484.7 582.3,491.9" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Centre of mass</text><text x="32.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a distant body pulls like one</text><text x="32.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">point</text><text x="32.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">&quot;not new&quot;: Newton</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="60.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Trees that divide space</text><text x="407.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">split a box into smaller boxes</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Divide and conquer</text><text x="782.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">split the problem, solve the</text><text x="782.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">parts</text><text x="782.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 6</text><rect x="395" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="203.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Barnes–Hut</text><text x="407.0" y="220.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ an opening angle θ decides</text><text x="407.0" y="237.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which cells to summarize</text><text x="407.0" y="253.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Barnes and Hut, 1986</text><rect x="20" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="363.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Fast multipole method</text><text x="32.0" y="380.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ boxes exchange expansions:</text><text x="32.0" y="397.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">O(N)</text><text x="32.0" y="413.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Greengard and Rokhlin, 1987</text><rect x="770" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="371.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Parallel tree codes</text><text x="782.0" y="389.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">trees split across many</text><text x="782.0" y="405.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">processors</text><rect x="395" y="490" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="513.6" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Today</text><text x="407.0" y="530.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">1992 Gordon Bell Prize: 17</text><text x="407.0" y="547.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">million particles on the Intel</text><text x="407.0" y="563.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Delta</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Today: from Demmel&#x27;s Berkeley lecture (Warren and Salmon). The fast multipole method is separate work by other authors.</text></svg></div><figcaption>Red: Barnes and Hut's step. Blue: where tree codes went.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">Which cells does one star feel?</h2>
+<p class="col">Four hundred stars in three clusters, in a quadtree (the flat version of Barnes and Hut's octree). The red star needs the pull of all the others. Each blue square is a whole cell that, seen from the red star, looks small enough (its width divided by its distance below θ) to be felt as one mass at its centre of mass, the blue ring; everything else is felt star by star. Move θ, click other stars, and compare the number of interactions and the error with the exact sum. These are the widget's own stars, so its numbers are not the program's.</p>
+
+<div class="board bh-board">
+  <div style="min-width:0">
+    <div class="bh-view" id="bh-view"></div>
+  </div>
+  <div style="min-width:0">
+    <div class="controls"><label>θ <input type="range" id="bh-theta" min="0" max="1.5" step="0.05" value="0.5"></label><span id="bh-tv" class="bh-tv">0.50</span></div>
+    <div class="bh-btns"><button type="button" id="bh-new">New cluster</button></div>
+    <div class="bh-stats" id="bh-stats"></div>
+    <p class="say" id="bh-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 7, randomness, networks and learning</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 7: Randomness, Networks and Learning, from 1979 to 1995" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1979–1984</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Khachiyan and</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Karmarkar</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1979</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Merkle trees</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1980–1982</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Byzantine</text><text x="307.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">agreement</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1983–1985</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Simulated annealing</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1985</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Splay trees</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1985–1986</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Zero knowledge</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1970–1986</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Backpropagation</text><circle cx="914.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1986</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Barnes–Hut</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1985–1987</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Karp–Rabin</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1986–1989</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Congestion control</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1994</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Shor&#x27;s algorithm</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1983–1994</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Burrows–Wheeler</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1995–1997</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AdaBoost</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 416" role="img" aria-label="Each fix leaves a new pain: from every pair to a tree of summaries" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Direct gravity takes N(N − 1) interactions: 9,999,900,000</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">for 100,000 stars, every time step</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A tree of cubes, distant cubes felt as one mass:</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">147,046,262, 68 times fewer</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Barnes and Hut, 1986</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">An approximation has an error, and no single error suits</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">every problem</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">One knob, θ: at θ = 0.5 the median force error was</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">0.1735%; θ = 0 gives the exact sum</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the opening angle</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="345.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Still N log N, and &quot;Good for low accuracy calculations&quot;</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The fast multipole method: O(N), with more information</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">per box for more accuracy</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Greengard and Rokhlin, 1987</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">A tree of cubes</h2>
+<p class="col"><strong>Build.</strong> Put all the stars in one box. Split any box holding more than one star into eight equal cubes, and repeat until every cube holds at most one star. Each cube records its total mass and its centre of mass.</p>
+<p class="col"><strong>Walk.</strong> To find the pull on one star, start at the top:</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 760 340" role="img" aria-label="The Barnes-Hut opening criterion" style="font-family:var(--body);min-width:418px;max-width:760px;margin:0 auto"><text x="20.0" y="26.0" text-anchor="start" style="fill:var(--ink);font-size:13px;font-weight:700">The opening test: seen from the star, does the cube look small?</text><circle cx="110.0" cy="170.0" r="8.0" style="fill:var(--red)"/><text x="110.0" y="198.0" text-anchor="middle" style="fill:var(--red);font-size:12px;font-weight:700">the star</text><rect x="490.0" y="80.0" width="140.0" height="140.0" rx="0" style="fill:var(--wash);stroke:var(--ink);stroke-width:1.8"/><circle cx="520.0" cy="110.0" r="3.5" style="fill:var(--ink)"/><circle cx="545.0" cy="175.0" r="3.5" style="fill:var(--ink)"/><circle cx="590.0" cy="125.0" r="3.5" style="fill:var(--ink)"/><circle cx="600.0" cy="190.0" r="3.5" style="fill:var(--ink)"/><circle cx="530.0" cy="200.0" r="3.5" style="fill:var(--ink)"/><circle cx="575.0" cy="150.0" r="3.5" style="fill:var(--ink)"/><circle cx="610.0" cy="105.0" r="3.5" style="fill:var(--ink)"/><circle cx="567.1" cy="150.7" r="6.0" style="fill:var(--blue)"/><text x="577.1" y="142.7" text-anchor="start" style="fill:var(--blue);font-size:12px;font-weight:700">centre of mass</text><line x1="120.0" y1="170.0" x2="559.1" y2="150.7" style="stroke:var(--axis);stroke-width:1.4;stroke-dasharray:5 4"/><text x="338.6" y="150.4" text-anchor="middle" style="fill:var(--ink);font-size:15px;font-weight:700">d</text><line x1="490.0" y1="238.0" x2="630.0" y2="238.0" style="stroke:var(--ink);stroke-width:1.4"/><line x1="490.0" y1="232.0" x2="490.0" y2="244.0" style="stroke:var(--ink);stroke-width:1.4"/><line x1="630.0" y1="232.0" x2="630.0" y2="244.0" style="stroke:var(--ink);stroke-width:1.4"/><text x="560.0" y="258.0" text-anchor="middle" style="fill:var(--ink);font-size:15px;font-weight:700">s</text><text x="20.0" y="310.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">If s / d &lt; θ, the star feels the cube as one point with the cube&#x27;s total mass at its centre of mass.</text><text x="20.0" y="328.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">If not, the cube is opened and its eight smaller cubes are tested the same way. θ = 0 opens everything: the exact sum.</text></svg></div></figure>
+<p class="col">A star meets a few cubes at each level of the tree, so it feels about log N of them instead of N − 1 stars, and a whole time step costs about N log N.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>You do not need to know every star in a far-away cluster to feel its pull: its total mass and centre are enough. A tree lets each star decide, cube by cube, how much detail it needs.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Interactions and errors</h2>
+<p class="col"><strong>The tree.</strong> 2,000 stars in a Plummer sphere (a standard model of a star cluster) gave a tree of 2,961 cubes, 10 levels deep. With θ = 0 every cube is opened: 3,998,000 interactions, exactly N(N − 1), and forces equal to the direct sum to a relative difference of 2.4 × 10⁻¹⁴.</p>
+<p class="col"><strong>Interactions,</strong> θ = 0.5. The direct count per star grows like N; the tree's grows far more slowly:</p>
+<div class="tbl"><table><thead><tr><th class="n">Stars N</th><th class="n">Direct, per star</th><th class="n">Tree, per star</th><th class="n">Times fewer</th></tr></thead><tbody><tr class=""><td class="n">1,000</td><td class="n">999</td><td class="n">353</td><td class="n">3</td></tr><tr class=""><td class="n">3,000</td><td class="n">2,999</td><td class="n">615</td><td class="n">5</td></tr><tr class=""><td class="n">10,000</td><td class="n">9,999</td><td class="n">959</td><td class="n">10</td></tr><tr class=""><td class="n">30,000</td><td class="n">29,999</td><td class="n">1,241</td><td class="n">24</td></tr><tr class=""><td class="n">100,000</td><td class="n">99,999</td><td class="n">1,470</td><td class="n">68</td></tr></tbody></table></div>
+<p class="col"><strong>Accuracy,</strong> 10,000 stars, every star's tree force against the exact sum:</p>
+<div class="tbl"><table><thead><tr><th class="n">θ</th><th class="n">Interactions per star</th><th class="n">Median force error</th><th class="n">99th percentile</th></tr></thead><tbody><tr class=""><td class="n">0.2</td><td class="n">4,075</td><td class="n">0.0162%</td><td class="n">0.067%</td></tr><tr class=""><td class="n">0.3</td><td class="n">2,352</td><td class="n">0.0461%</td><td class="n">0.239%</td></tr><tr class=""><td class="n">0.5</td><td class="n">954</td><td class="n">0.1735%</td><td class="n">1.054%</td></tr><tr class=""><td class="n">0.7</td><td class="n">470</td><td class="n">0.4214%</td><td class="n">2.654%</td></tr><tr class=""><td class="n">1.0</td><td class="n">235</td><td class="n">1.2258%</td><td class="n">8.331%</td></tr></tbody></table></div>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">A letter to Nature</h2>
+<p class="col">Josh Barnes and Piet Hut, "A hierarchical O(N log N) force-calculation algorithm", <em>Nature</em> 324 (6096): 446–449, published 4 December 1986, a letter. Wikipedia's account: the method "is notable for having order O(n log n) compared to a direct-sum algorithm which would be O(n2)"; "The space is recursively subdivided into octants until each subdivision contains 0 or 1 bodies"; a cell is far enough away when the ratio of its width to its distance is "smaller than a threshold value θ"; "larger values of θ increase the speed of the simulation but decreases its accuracy", and with θ = 0 it "degenerates to a direct-sum algorithm".</p>
+<p class="col">Demmel's Berkeley lecture (2016) calls Barnes–Hut "An O(N log N) approximate algorithm for the N-Body problem", "Good for low accuracy calculations", and Greengard and Rokhlin's fast multipole method (1987) "An O(N) approximate algorithm", noting that the centre-of-mass approximation is "not new", going back to Newton, and that Warren and Salmon won the 1992 Gordon Bell Prize for a 17-million-particle simulation. Greengard's Wikipedia article says the fast multipole method is "recognized as one of the top-ten algorithms of the 20th century". The NEMO toolkit still distributes a tree code by Joshua E. Barnes, <code>hackforce</code>, whose opening tolerance defaults to 1.0.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Divide and conquer, in space</h2>
+<p class="col">Era 6's fast algorithms split a problem into halves (the FFT) or blocks (Strassen) and combined the answers. Barnes and Hut split space itself, and combine not answers but summaries: a mass and a centre for each cube.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>For 100,000 stars the direct sum needs 9,999,900,000 interactions per step; the tree, 147,046,262. The cost of that saving, at θ = 0.5, is a median error of 0.1735% in each force.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>A cube 1 light-year wide is 10 light-years away. Is it opened at θ = 0.5?</span></summary><div class="ans"><p>No: s/d = 0.1 &lt; 0.5, so it is felt as one mass.</p></div></details><details class="try"><summary><span class="q">2</span><span>What happens with θ = 0?</span></summary><div class="ans"><p>No cube passes the test, so every cube is opened down to single stars: the exact direct sum.</p></div></details><details class="try"><summary><span class="q">3</span><span>Doubling N roughly doubles the direct work per star. What does it do to the tree's work per star?</span></summary><div class="ans"><p>Adds roughly a constant: in the program, 100 times more stars took about 4 times more interactions per star.</p></div></details><details class="try"><summary><span class="q">4</span><span>Why does the error grow with θ?</span></summary><div class="ans"><p>Larger θ summarizes nearer and bigger cubes, where the centre-of-mass approximation is cruder.</p></div></details><details class="try"><summary><span class="q">5</span><span>Why would astronomers accept any error at all?</span></summary><div class="ans"><p>Because the direct sum limited simulations to a few thousand stars, far too few to look like a galaxy; a small, controlled error buys many more stars.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Barnes and Hut&#x27;s letter (1986)</b><span><em>Nature</em> 324: 446–449, 4 December 1986; only its record was opened for this book.</span><a href="https://isidore.co/misc/Physics%20papers%20and%20books/Zotero/storage/IMT92TIC/324446a0.html">A saved copy of the Nature page</a><span class="lic">Drawn placeholder.</span></figcaption></figure><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 120" role="img" aria-label="Drawn placeholder of an open printed book" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><path d="M100,20 C80,12 40,12 20,18 V108 C40,102 80,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><path d="M100,20 C120,12 160,12 180,18 V108 C160,102 120,102 100,110 Z" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="32.0" y1="32.0" x2="88.0" y2="32.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="41.0" x2="88.0" y2="41.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="50.0" x2="88.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="59.0" x2="88.0" y2="59.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="68.0" x2="88.0" y2="68.0" style="stroke:var(--axis);stroke-width:2"/><line x1="32.0" y1="77.0" x2="88.0" y2="77.0" style="stroke:var(--axis);stroke-width:2"/><circle cx="140.0" cy="60.0" r="24.0" style="fill:none;stroke:var(--red);stroke-width:2"/><path d="M116,60 L164,60 M140,36 L140,84" style="fill:none;stroke:var(--blue);stroke-width:2"/></svg></div><figcaption class="txt"><b>hackforce, a tree code by J. E. Barnes</b><span>Part of the NEMO stellar dynamics toolkit.</span><a href="https://bima.astro.umd.edu/nemo/man_html/hackforce.1.html">The manual page</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://en.wikipedia.org/wiki/Barnes%E2%80%93Hut_simulation" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Barnes–Hut simulation · Wikipedia</span><span class="w">The tree, the opening angle, and the speed–accuracy trade-off</span></a><a href="https://beltoforion.de/en/barnes-hut-galaxy-simulator/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">The Barnes-Hut Galaxy Simulator · Ingo Berg</span><span class="w">Diagrams, pseudocode, an animation of θ and a video of two colliding galaxies (its remarks on θ are not consistent throughout)</span></a><a href="https://people.eecs.berkeley.edu/%7Edemmel/cs267_Spr16/Lectures/lecture25_NBody_jwd16_4pp.pdf" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Hierarchical Methods for the N-Body problem · J. Demmel, UC Berkeley CS 267 (2016)</span><span class="w">Barnes–Hut beside the fast multipole method, and running both in parallel</span></a><a href="https://bima.astro.umd.edu/nemo/man_html/hackforce.1.html" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">hackforce manual page · NEMO toolkit, J. E. Barnes</span><span class="w">A working tree code by one of the inventors, still distributed</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-07-randomness-networks-and-learning/reference-catalog.md">Era 7 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-07-randomness-networks-and-learning/08-barnes-hut/BarnesHut.java">BarnesHut.java</a> makes <strong>2,022 checks</strong>: the exact forces with θ = 0 on 2,000 stars, the interaction counts for 1,000 to 100,000 stars, and the force error of every one of 10,000 stars at five values of θ. Run it with <code>java BarnesHut.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** The acceleration on star b from the tree, opening cubes with s / d &gt;= theta. */</span>
+<span class="k-kw">static</span> <span class="k-kw">void</span> force(Cell c, <span class="k-kw">int</span> b, <span class="k-kw">double</span> theta, <span class="k-kw">double</span>[] acc) {
+    <span class="k-kw">if</span> (c.mass == <span class="k-n">0</span> || c.body == b) <span class="k-kw">return</span>;
+    <span class="k-kw">double</span> gx = c.mx / c.mass, gy = c.my / c.mass, gz = c.mz / c.mass;
+    <span class="k-kw">double</span> dx = gx - pos[b][<span class="k-n">0</span>], dy = gy - pos[b][<span class="k-n">1</span>], dz = gz - pos[b][<span class="k-n">2</span>];
+    <span class="k-kw">double</span> d2 = dx * dx + dy * dy + dz * dz;
+    <span class="k-kw">if</span> (c.child == <span class="k-kw">null</span> || <span class="k-n">4</span> * c.half * c.half &lt; theta * theta * d2) {     <span class="k-c">// width^2 = 4 half^2; (s/d)^2 &lt; theta^2</span>
+        <span class="k-kw">if</span> (c.child != <span class="k-kw">null</span> || c.body != b) {
+            <span class="k-kw">double</span> inv = <span class="k-n">1</span> / Math.sqrt(d2 + SOFT2);
+            <span class="k-kw">double</span> f = c.mass * inv * inv * inv;
+            acc[<span class="k-n">0</span>] += f * dx; acc[<span class="k-n">1</span>] += f * dy; acc[<span class="k-n">2</span>] += f * dz;
+            interactions++;
+        }
+        <span class="k-kw">return</span>;
+    }
+    <span class="k-kw">for</span> (Cell ch : c.child) <span class="k-kw">if</span> (ch != <span class="k-kw">null</span>) force(ch, b, theta, acc);
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>BarnesHut.java</code>.<br><span class="navfoot"><a href="../index.html">Era 7: Randomness, Networks and Learning</a><a href="../07-backpropagation/backpropagation.html">← Backpropagation</a><a href="../09-karp-rabin/karp-rabin.html">Karp–Rabin Fingerprints →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const view = document.getElementById("bh-view");
+  if (!view) return;
+  const N = 400;
+  let seed = 1986, P = [], root, chosen = 0;
+  const rnd = () => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296; };
+  function cluster() {
+    P = [];
+    const centres = [[0.32, 0.4, 0.09], [0.7, 0.62, 0.12], [0.55, 0.22, 0.05]];
+    while (P.length < N) {
+      const c = centres[P.length % 3], r = c[2] * Math.sqrt(-2 * Math.log(rnd() + 1e-12)), a = 2 * Math.PI * rnd();
+      const x = c[0] + r * Math.cos(a), y = c[1] + r * Math.sin(a);
+      if (x > 0.01 && x < 0.99 && y > 0.01 && y < 0.99) P.push([x, y]);
+    }
+    build();
+    let bd = 1e9; P.forEach((p, i) => { const dd = (p[0] - 0.36) ** 2 + (p[1] - 0.44) ** 2; if (dd < bd) { bd = dd; chosen = i; } });
+  }
+  // a quadtree: each cell has a centre, half-width, mass and mass-weighted position
+  function cell(cx, cy, h) { return {cx, cy, h, m: 0, mx: 0, my: 0, body: -1, kids: null}; }
+  function insert(c, b) {
+    if (!c.kids && c.body < 0 && c.m === 0) { c.body = b; c.m = 1; c.mx = P[b][0]; c.my = P[b][1]; return; }
+    if (!c.kids) { c.kids = [null, null, null, null]; const old = c.body; c.body = -1; place(c, old); }
+    place(c, b); c.m += 1; c.mx += P[b][0]; c.my += P[b][1];
+  }
+  function place(c, b) {
+    const k = (P[b][0] > c.cx ? 1 : 0) | (P[b][1] > c.cy ? 2 : 0);
+    if (!c.kids[k]) { const h = c.h / 2; c.kids[k] = cell(c.cx + (k & 1 ? h : -h), c.cy + (k & 2 ? h : -h), h); }
+    insert(c.kids[k], b);
+  }
+  function build() { root = cell(0.5, 0.5, 0.5); P.forEach((_, b) => insert(root, b)); }
+  const SOFT = 1e-4;
+  function force(c, b, theta, acc, used) {
+    if (c.m === 0 || c.body === b) return;
+    const gx = c.mx / c.m, gy = c.my / c.m, dx = gx - P[b][0], dy = gy - P[b][1], d2 = dx * dx + dy * dy;
+    if (!c.kids || 4 * c.h * c.h < theta * theta * d2) {
+      const inv = 1 / Math.sqrt(d2 + SOFT), f = c.m * inv * inv * inv;
+      acc[0] += f * dx; acc[1] += f * dy; used.push(c); return;
+    }
+    c.kids.forEach(k => k && force(k, b, theta, acc, used));
+  }
+  function direct(b) {
+    const a = [0, 0];
+    P.forEach((p, j) => { if (j === b) return; const dx = p[0] - P[b][0], dy = p[1] - P[b][1], inv = 1 / Math.sqrt(dx * dx + dy * dy + SOFT), f = inv * inv * inv; a[0] += f * dx; a[1] += f * dy; });
+    return a;
+  }
+  function draw() {
+    const theta = parseFloat(document.getElementById("bh-theta").value);
+    document.getElementById("bh-tv").textContent = theta.toFixed(2);
+    view.innerHTML = "";
+    const S = 400, svg = sv("svg", {viewBox: `0 0 ${S} ${S}`}, view);
+    svg.addEventListener("click", ev => {
+      const r = svg.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width, y = 1 - (ev.clientY - r.top) / r.height;
+      let best = 0, bd = 1e9; P.forEach((p, i) => { const dd = (p[0] - x) ** 2 + (p[1] - y) ** 2; if (dd < bd) { bd = dd; best = i; } });
+      chosen = best; draw();
+    });
+    const acc = [0, 0], used = [];
+    force(root, chosen, theta, acc, used);
+    const ex = direct(chosen), err = Math.hypot(acc[0] - ex[0], acc[1] - ex[1]) / Math.hypot(ex[0], ex[1]);
+    used.forEach(c => {
+      if (c.kids) sv("rect", {x: (c.cx - c.h) * S, y: (1 - c.cy - c.h) * S, width: 2 * c.h * S, height: 2 * c.h * S, fill: "var(--blue)", "fill-opacity": 0.12, stroke: "var(--blue)", "stroke-width": 1}, svg);
+    });
+    P.forEach((p, i) => sv("circle", {cx: p[0] * S, cy: (1 - p[1]) * S, r: i === chosen ? 6 : 1.9, fill: i === chosen ? "var(--red)" : "var(--ink)"}, svg));
+    used.forEach(c => { if (c.kids) sv("circle", {cx: c.mx / c.m * S, cy: (1 - c.my / c.m) * S, r: 2 + Math.sqrt(c.m) * 0.6, fill: "none", stroke: "var(--blue)", "stroke-width": 1.4}, svg); });
+    const cells = used.filter(c => c.kids).length, singles = used.length - cells;
+    const st = document.getElementById("bh-stats"); st.innerHTML = "";
+    el("div", {}, st, `stars: ${N}`);
+    el("div", {}, st, `interactions for the red star: ${used.length} (direct: ${N - 1})`);
+    el("div", {}, st, `  of which ${cells} blue cells used as one mass, ${singles} single stars`);
+    el("div", {}, st, `force error against the exact sum: ${(100 * err).toFixed(3)}%`);
+    document.getElementById("bh-say").textContent = theta === 0
+      ? "θ = 0: every cell is opened, so the red star meets every other star one by one: the exact sum."
+      : `Each blue square is a whole cell felt as one mass at its centre of mass (blue ring). Click another star, or move θ: larger θ uses bigger cells, fewer interactions, larger error.`;
+  }
+  document.getElementById("bh-theta").addEventListener("input", draw);
+  document.getElementById("bh-new").addEventListener("click", () => { cluster(); draw(); });
+  cluster(); draw();
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Byzantine Generals</title>
+<meta name="description" content="Era 7, topic 3 of The Algorithm Evolution Atlas: agreement when some parts lie, the 3m + 1 bound, the OM and SM algorithms, and how the problem got its name.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.bz-view svg{display:block;width:100%;height:auto;background:var(--wash)}
+.bz-board select{font:inherit;font-family:var(--mono);font-size:14px;padding:3px 6px;border:1px solid var(--axis);background:var(--paper);color:var(--ink)}
+.bz-lies{display:grid;gap:4px;margin:8px 0}
+.bz-lies button{font-weight:400;font-size:12.5px;padding:3px 8px;border-width:1px;text-align:left}
+.bz-lies button.a{border-color:var(--red);color:var(--red)} .bz-lies button.r{border-color:var(--blue);color:var(--blue)}
+.bz-btns{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.bz-stats{font:13px var(--mono);display:grid;gap:3px;margin-top:8px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 7: Randomness, Networks and Learning</a><a href="../02-merkle-trees/merkle-trees.html">← Merkle&#x27;s Hash Trees</a><a href="../04-simulated-annealing/simulated-annealing.html">Simulated Annealing →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 7 · Topic 3 · 1980–1982</div>
+    <h1>The Byzantine Generals</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">A broken computer that stops is easy to spot. One that keeps running and tells different parts of a system different things is not. Pease, Shostak and Lamport found exactly how many parts it takes to agree anyway.</p>
+  <p class="fieldnote">Field note from the visiting historian. I played the traitor among three generals, and 2 of my 16 possible lies split the loyal ones. Among four, none of my lies worked. With signatures, even three were enough. This species named the problem after an empire known for its intrigues, and the name stuck.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>1980 (the proof); 1982 (the story)</dd></div><div><dt>Where</dt><dd>SRI International</dd></div><div><dt>What hurt</dt><dd>Parts that send conflicting information</dd></div><div><dt>The fix</dt><dd>n ≥ 3m + 1 with OM(m); any n with signatures</dd></div><div><dt>Checked</dt><dd>2 of 16 lies break 3 generals; 0 of 40 break 4</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Fault-tolerant computers voted among copies of a computation, assuming a broken copy would simply give a wrong answer. Engineers at SRI saw that a broken part might give different answers to different voters. Pease, Shostak and Lamport worked out exactly how many parts are needed to survive that, and Lamport later told it as a story about generals. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How Byzantine agreement combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="426.5,180.0 417.6,181.6 419.4,174.5" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,180.0 496.3,171.8 503.7,171.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="875.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="875.0,340.0 871.3,331.8 878.7,331.8" style="fill:var(--ink-2)"/><line x1="426.5" y1="266.0" x2="125.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="125.0,340.0 132.1,334.5 133.9,341.6" style="fill:var(--ink-2)"/><line x1="573.5" y1="266.0" x2="875.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="875.0,340.0 866.1,341.6 867.9,334.5" style="fill:var(--ink-2)"/><line x1="500.0" y1="266.0" x2="500.0" y2="490.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,490.0 496.3,481.8 503.7,481.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Two generals</text><text x="32.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">agree to attack over an</text><text x="32.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">unreliable link</text><text x="32.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the &quot;Chinese generals&quot; problem</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">SIFT at SRI</text><text x="407.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a fault-tolerant computer</text><text x="407.0" y="85.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">that votes among copies</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Digital signatures</text><text x="782.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">messages that cannot be</text><text x="782.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">forged</text><text x="782.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 6, topic 10</text><rect x="395" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="203.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Byzantine agreement</text><text x="407.0" y="220.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ a faulty part may lie to</text><text x="407.0" y="237.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">anyone</text><text x="407.0" y="253.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Pease, Shostak, Lamport, 1980</text><rect x="20" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="363.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The story</text><text x="32.0" y="380.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ generals around a city: a</text><text x="32.0" y="397.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">name that stuck</text><text x="32.0" y="413.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Lamport, Shostak, Pease, 1982</text><rect x="770" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="363.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Signed messages</text><text x="782.0" y="380.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ SM(m): any number of</text><text x="782.0" y="397.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">generals</text><text x="782.0" y="413.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Lamport&#x27;s part of the 1980 work</text><rect x="395" y="490" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="513.6" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Today</text><text x="407.0" y="530.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">&quot;in a system with 3f + 1</text><text x="407.0" y="547.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">generals, no more than f may</text><text x="407.0" y="563.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">be malicious&quot;</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Today: as Kleppmann&#x27;s Cambridge lecture notes state the theorem. Who did what comes from Lamport&#x27;s own note on the 1980 paper.</text></svg></div><figcaption>Red: Byzantine agreement. Blue: how it is taught today.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">Be the traitor</h2>
+<p class="col">OM(1), exactly as the program runs it. The commander C sends an order to each lieutenant; each lieutenant then tells the others what it heard; each loyal lieutenant takes the majority (RETREAT on a tie). Choose a traitor and make it lie by clicking its messages. With four generals the loyal lieutenants always agree, and obey a loyal commander. With three, find the lies that split them. Then press "Try every lie": the widget runs every traitor, both orders and every combination of lies, and counts the failures, as the program does.</p>
+
+<div class="board bz-board">
+  <div style="min-width:0">
+    <div class="bz-view" id="bz-view"></div>
+  </div>
+  <div style="min-width:0">
+    <div class="controls">
+      <label>Generals <select id="bz-n"><option value="3">3</option><option value="4" selected>4</option></select></label>
+      <label>Traitor <select id="bz-t"></select></label>
+      <label>Order <select id="bz-v"><option value="1">ATTACK</option><option value="0">RETREAT</option></select></label>
+    </div>
+    <div class="bz-lies" id="bz-lies"></div>
+    <div class="bz-btns"><button type="button" id="bz-all">Try every lie</button></div>
+    <div class="bz-stats" id="bz-stats"></div>
+    <p class="say" id="bz-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 7, randomness, networks and learning</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 7: Randomness, Networks and Learning, from 1979 to 1995" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1979–1984</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Khachiyan and</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Karmarkar</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1979</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Merkle trees</text><circle cx="307.0" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1980–1982</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Byzantine</text><text x="307.0" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">agreement</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1983–1985</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Simulated annealing</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1985</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Splay trees</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1985–1986</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Zero knowledge</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1970–1986</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Backpropagation</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1986</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Barnes–Hut</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1985–1987</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Karp–Rabin</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1986–1989</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Congestion control</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1994</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Shor&#x27;s algorithm</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1983–1994</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Burrows–Wheeler</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1995–1997</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AdaBoost</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 416" role="img" aria-label="Each fix leaves a new pain: from lying parts to a bound, and around it" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A faulty part can tell different parts different things,</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">and simple voting is fooled</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">OM(m): relay what you heard and take the majority; with n</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">≥ 3m + 1, none of 244,136 runs failed</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Pease, Shostak and Lamport, 1980</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Three generals cannot survive one traitor: 2 of 16</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">possible lies break OM(1)</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Signed messages, SM(m): a traitor cannot forge a loyal</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">general&#x27;s signature, so any number of generals suffices</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Lamport&#x27;s signed-message solution</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="345.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">OM(m)&#x27;s messages multiply: 108,384 for m = 4</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">SM passes each order on once: 144 messages for the</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">same 13 generals</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the 1982 paper</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Relay, then vote</h2>
+<p class="col"><strong>The problem.</strong> A commander sends ATTACK or RETREAT to n − 1 lieutenants. Up to m of the n generals, possibly the commander, are traitors who may say anything to anyone. IC1: all loyal lieutenants decide the same. IC2: if the commander is loyal, they decide what he ordered.</p>
+<p class="col"><strong>Why three are not enough.</strong> Lieutenant 1 cannot tell these two situations apart:</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 780 330" role="img" aria-label="Two situations that look the same to lieutenant 1" style="font-family:var(--body);min-width:429px;max-width:780px;margin:0 auto"><text x="20.0" y="26.0" text-anchor="start" style="fill:var(--ink);font-size:13px;font-weight:700">Three generals, one traitor: lieutenant 1 sees the same thing in both situations</text><text x="190.0" y="54.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">A: the commander is loyal</text><circle cx="190.0" cy="100.0" r="22.0" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="190.0" y="105.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">C</text><circle cx="80.0" cy="240.0" r="22.0" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="80.0" y="245.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">L1</text><circle cx="300.0" cy="240.0" r="22.0" style="fill:var(--ink);stroke:var(--ink);stroke-width:2"/><text x="300.0" y="245.0" text-anchor="middle" style="fill:var(--paper);font-size:13px;font-weight:700">L2</text><text x="300.0" y="280.0" text-anchor="middle" style="fill:var(--red);font-size:12px;font-weight:700">traitor</text><line x1="173.9" y1="120.4" x2="96.1" y2="219.6" style="stroke:var(--red);stroke-width:2"/><path d="M96.1,219.6 L98.3,208.6 L106.2,214.8 Z" style="fill:var(--red)"/><text x="110.0" y="160.0" text-anchor="end" style="fill:var(--red);font-size:12px;font-weight:700">&quot;ATTACK&quot;</text><line x1="206.1" y1="120.4" x2="283.9" y2="219.6" style="stroke:var(--red);stroke-width:2"/><path d="M283.9,219.6 L273.8,214.8 L281.7,208.6 Z" style="fill:var(--red)"/><text x="270.0" y="160.0" text-anchor="start" style="fill:var(--red);font-size:12px;font-weight:700">&quot;ATTACK&quot;</text><line x1="274.0" y1="240.0" x2="106.0" y2="240.0" style="stroke:var(--blue);stroke-width:2"/><path d="M106.0,240.0 L116.0,235.0 L116.0,245.0 Z" style="fill:var(--blue)"/><text x="190.0" y="228.0" text-anchor="middle" style="fill:var(--blue);font-size:12px;font-weight:700">&quot;he said RETREAT&quot;</text><text x="580.0" y="54.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">B: the commander is a traitor</text><circle cx="580.0" cy="100.0" r="22.0" style="fill:var(--ink);stroke:var(--ink);stroke-width:2"/><text x="580.0" y="105.0" text-anchor="middle" style="fill:var(--paper);font-size:13px;font-weight:700">C</text><text x="610.0" y="86.0" text-anchor="start" style="fill:var(--red);font-size:12px;font-weight:700">traitor</text><circle cx="470.0" cy="240.0" r="22.0" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="470.0" y="245.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">L1</text><circle cx="690.0" cy="240.0" r="22.0" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="690.0" y="245.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">L2</text><line x1="563.9" y1="120.4" x2="486.1" y2="219.6" style="stroke:var(--red);stroke-width:2"/><path d="M486.1,219.6 L488.3,208.6 L496.2,214.8 Z" style="fill:var(--red)"/><text x="500.0" y="160.0" text-anchor="end" style="fill:var(--red);font-size:12px;font-weight:700">&quot;ATTACK&quot;</text><line x1="596.1" y1="120.4" x2="673.9" y2="219.6" style="stroke:var(--blue);stroke-width:2"/><path d="M673.9,219.6 L663.8,214.8 L671.7,208.6 Z" style="fill:var(--blue)"/><text x="660.0" y="160.0" text-anchor="start" style="fill:var(--blue);font-size:12px;font-weight:700">&quot;RETREAT&quot;</text><line x1="664.0" y1="240.0" x2="496.0" y2="240.0" style="stroke:var(--blue);stroke-width:2"/><path d="M496.0,240.0 L506.0,235.0 L506.0,245.0 Z" style="fill:var(--blue)"/><text x="580.0" y="228.0" text-anchor="middle" style="fill:var(--blue);font-size:12px;font-weight:700">&quot;he said RETREAT&quot;</text><line x1="390.0" y1="50.0" x2="390.0" y2="280.0" style="stroke:var(--axis);stroke-width:1.2"/><text x="20.0" y="302.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">In both, L1 hears ATTACK from the commander and &quot;he said RETREAT&quot; from L2. In A it must attack (it must obey a loyal commander),</text><text x="20.0" y="320.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">so it attacks in B too; by the same reasoning L2 must retreat in B, and the two loyal lieutenants disagree.</text></svg></div></figure>
+<p class="col"><strong>OM(m).</strong> The commander sends his order. Each lieutenant then acts as commander in OM(m − 1), passing on what it heard to the others, and finally takes the majority of the value it heard directly and the values the others report. With n ≥ 3m + 1 the loyal majority always outweighs the lies; the price is messages: (n − 1) + (n − 1)(n − 2) + … + (n − 1)(n − 2)…(n − m − 1).</p>
+<p class="col"><strong>SM(m), with signatures.</strong> The commander signs his order. A lieutenant who receives an order with a valid chain of signatures adds it to its set and, if fewer than m lieutenants have signed, signs it and passes it on. At the end it obeys if it received exactly one order, and retreats otherwise. A traitor can sign anything with its own key, but cannot forge a loyal general's signature, so a traitorous commander who sends two orders is exposed: every loyal lieutenant ends with the same set.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>When a part can lie, two out of three is not a majority you can trust: you need more than two thirds honest. Unforgeable signatures change the arithmetic, because a lie about what someone else said can be caught.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Every lie a traitor can tell</h2>
+<p class="col"><strong>OM(m).</strong> Traitors placed in every possible way, both orders, and the traitors' messages chosen by an adversary: every combination when there are few enough, otherwise many random ones. Failures appear exactly when n = 3m:</p>
+<div class="tbl"><table><thead><tr><th class="n">Generals n</th><th class="n">Traitors m</th><th class="">Condition</th><th class="">Lies tried</th><th class="n">Runs</th><th class="n">Broke IC1 or IC2</th></tr></thead><tbody><tr class=""><td class="n">3</td><td class="n">1</td><td class="">n = 3m</td><td class="">every behaviour</td><td class="n">16</td><td class="n">2</td></tr><tr class=""><td class="n">4</td><td class="n">1</td><td class="">n ≥ 3m + 1</td><td class="">every behaviour</td><td class="n">40</td><td class="n">0</td></tr><tr class=""><td class="n">5</td><td class="n">1</td><td class="">n ≥ 3m + 1</td><td class="">every behaviour</td><td class="n">96</td><td class="n">0</td></tr><tr class=""><td class="n">6</td><td class="n">2</td><td class="">n = 3m</td><td class="">random behaviours</td><td class="n">60,000</td><td class="n">10,100</td></tr><tr class=""><td class="n">7</td><td class="n">2</td><td class="">n ≥ 3m + 1</td><td class="">random behaviours</td><td class="n">84,000</td><td class="n">0</td></tr><tr class=""><td class="n">8</td><td class="n">2</td><td class="">n ≥ 3m + 1</td><td class="">random behaviours</td><td class="n">112,000</td><td class="n">0</td></tr><tr class=""><td class="n">9</td><td class="n">3</td><td class="">n = 3m</td><td class="">random behaviours</td><td class="n">33,600</td><td class="n">3,799</td></tr><tr class=""><td class="n">10</td><td class="n">3</td><td class="">n ≥ 3m + 1</td><td class="">random behaviours</td><td class="n">48,000</td><td class="n">0</td></tr></tbody></table></div>
+<p class="col"><strong>Messages,</strong> with no traitors present, when n = 3m + 1. OM's count grows like n to the power m; SM sends each order on once, (n − 1)² in all:</p>
+<div class="tbl"><table><thead><tr><th class="n">m</th><th class="n">n</th><th class="n">OM messages</th><th class="n">SM messages</th></tr></thead><tbody><tr class=""><td class="n">1</td><td class="n">4</td><td class="n">9</td><td class="n">9</td></tr><tr class=""><td class="n">2</td><td class="n">7</td><td class="n">156</td><td class="n">36</td></tr><tr class=""><td class="n">3</td><td class="n">10</td><td class="n">3,609</td><td class="n">81</td></tr><tr class=""><td class="n">4</td><td class="n">13</td><td class="n">108,384</td><td class="n">144</td></tr></tbody></table></div>
+<p class="col"><strong>SM(m).</strong> Traitors may sign anything with their own keys and send it to anyone in any round, or not at all, but cannot forge a loyal signature. No failures, even with three generals and one traitor. As a control, the same traitors against lieutenants who never pass orders on: 238 failures in 1,800 runs, so the adversary is strong enough to break a weaker rule.</p>
+<div class="tbl"><table><thead><tr><th class="n">Generals n</th><th class="n">Traitors m</th><th class="n">Runs</th><th class="n">Failures</th></tr></thead><tbody><tr class=""><td class="n">3</td><td class="n">1</td><td class="n">1,800</td><td class="n">0</td></tr><tr class=""><td class="n">4</td><td class="n">2</td><td class="n">3,600</td><td class="n">0</td></tr><tr class=""><td class="n">5</td><td class="n">3</td><td class="n">6,000</td><td class="n">0</td></tr><tr class=""><td class="n">6</td><td class="n">2</td><td class="n">9,000</td><td class="n">0</td></tr><tr class=""><td class="n">7</td><td class="n">5</td><td class="n">12,600</td><td class="n">0</td></tr></tbody></table></div>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">A problem renamed on purpose</h2>
+<p class="col">Lamport, Shostak and Pease, "The Byzantine Generals Problem" (SRI International; <em>ACM Transactions on Programming Languages and Systems</em> 4(3): 382–401, July 1982): "Reliable computer systems must handle malfunctioning components that give conflicting information"; "no solution with fewer than 3m + 1 generals can cope with m traitors"; OM(m) and SM(m) "involve sending up to (n - 1)(n - 2) ... (n - m - 1) messages". The abstract states that with oral messages the problem "is solvable if and only if more than two-thirds of the generals are loyal", and that "With unforgeable written messages, the problem is solvable for any number of generals and possible traitors".</p>
+<p class="col">Lamport's own note explains the name: "the best way to attract attention to a problem is to present it in terms of a story"; "the original title of this paper was The Albanian Generals Problem", until Jack Goldberg pointed out "that there were Albanians in the world outside Albania"; "The obviously more appropriate Byzantine generals then occurred to me." "The main reason for writing this paper was to assign the new name to the problem."</p>
+<p class="col">On the 1980 paper, "Reaching Agreement in the Presence of Faults" (<em>Journal of the ACM</em>), which won the 2005 Dijkstra Prize, Lamport writes that the problem was posed by people working on SIFT at SRI before he arrived; Shostak found the 4-processor solution and the impossibility result, Pease the general 3n + 1 solution, and Lamport the signed-message solution. He adds that a former Boeing engineer told him in 1997 that Boeing's commercial-aircraft designers knew of the work by 1986.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Logical clocks, then lying clocks</h2>
+<p class="col">Era 6 ended with Lamport's logical clocks: separate computers agreeing on an order of events, assuming each one follows the rules. Here the same author asks what happens when some of them do not. The answer has the same flavour: agreement is possible, but only within limits that can be proved, and only by sending more messages.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>Three generals and one traitor: impossible with spoken messages (2 of 16 possible lies succeed), possible with signatures. A tool from Era 6's public-key cryptography rescues a problem from distributed computing.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>How many generals are needed to survive 2 traitors with spoken messages?</span></summary><div class="ans"><p>7, since n ≥ 3m + 1 = 7.</p></div></details><details class="try"><summary><span class="q">2</span><span>In OM(1) with 4 generals, a traitorous lieutenant lies to everyone. Why do the loyal lieutenants still obey a loyal commander?</span></summary><div class="ans"><p>Each hears the true order from the commander and from the other loyal lieutenant: two votes against one lie.</p></div></details><details class="try"><summary><span class="q">3</span><span>Why does a tie go to RETREAT?</span></summary><div class="ans"><p>Any fixed default works, as long as every loyal lieutenant uses the same one; RETREAT is the safe choice for an army.</p></div></details><details class="try"><summary><span class="q">4</span><span>How many messages does OM(2) send with 7 generals?</span></summary><div class="ans"><p>6 + 6 × 5 + 6 × 5 × 4 = 156, as the program counted (156).</p></div></details><details class="try"><summary><span class="q">5</span><span>What can a traitorous commander do in SM(m), and what happens?</span></summary><div class="ans"><p>Sign two different orders and send them to different lieutenants; the loyal ones pass both on, all end with both, and all retreat.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>The Byzantine Generals Problem (1982)</b><span><em>ACM TOPLAS</em> 4(3): 382–401, by Lamport, Shostak and Pease of SRI International.</span><a href="https://people.cs.umass.edu/~arun/cs677/reading/LSP.pdf">The paper (PDF, on a UMass course page)</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://www.microsoft.com/en-us/research/publication/byzantine-generals-problem/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">The Byzantine Generals Problem · Microsoft Research, with Leslie Lamport's note</span><span class="w">How the story and the name were chosen</span></a><a href="https://www.cl.cam.ac.uk/teaching/2122/ConcDisSys/dist-sys-notes.pdf" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Distributed Systems lecture notes · M. Kleppmann, University of Cambridge (2021/22)</span><span class="w">Section 2.2 puts the generals beside the two generals problem and modern systems</span></a><a href="https://www.microsoft.com/en-us/research/?p=338426" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Reaching Agreement in the Presence of Faults · Microsoft Research, with Lamport's note</span><span class="w">Who proved what, and the Boeing story</span></a><a href="https://people.cs.umass.edu/~arun/cs677/reading/LSP.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">The Byzantine Generals Problem · L. Lamport, R. Shostak, M. Pease, <em>ACM TOPLAS</em> (1982), on a UMass course page</span><span class="w">OM(m), SM(m) and the 3m + 1 bound</span></a><a href="https://sri.com/?p=12386" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">The Byzantine Generals Problem (abstract) · SRI International</span><span class="w">The abstract as SRI publishes it</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-07-randomness-networks-and-learning/reference-catalog.md">Era 7 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-07-randomness-networks-and-learning/03-byzantine-generals/ByzantineGenerals.java">ByzantineGenerals.java</a> makes <strong>277,153 checks</strong>: OM(m) against every possible traitor placement and adversarial lies (every combination for small cases, random ones for larger), the message counts against the formula, SM(m) against traitors who sign anything they can, and a control showing those traitors break a weaker rule. Run it with <code>java ByzantineGenerals.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/**</span>
+<span class="k-c"> * OM(m): the commander sends v (if loyal) to the lieutenants; returns, for each lieutenant, the value he decides</span>
+<span class="k-c"> * on for this commander&#x27;s order.</span>
+<span class="k-c"> */</span>
+<span class="k-kw">static</span> <span class="k-kw">int</span>[] om(<span class="k-kw">int</span> m, <span class="k-kw">int</span> commander, <span class="k-kw">int</span>[] lieutenants, <span class="k-kw">int</span> v, <span class="k-kw">int</span> n) {
+    <span class="k-kw">int</span>[] received = <span class="k-kw">new</span> <span class="k-kw">int</span>[n];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> l : lieutenants) {
+        received[l] = traitor[commander] ? traitorSays() : v;
+        messages++;
+    }
+    <span class="k-kw">int</span>[] decided = <span class="k-kw">new</span> <span class="k-kw">int</span>[n];
+    <span class="k-kw">if</span> (m == <span class="k-n">0</span>) {
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> l : lieutenants) decided[l] = received[l];
+        <span class="k-kw">return</span> decided;
+    }
+    <span class="k-c">// relayed[j][i]: what lieutenant j concludes lieutenant i was told</span>
+    <span class="k-kw">int</span>[][] relayed = <span class="k-kw">new</span> <span class="k-kw">int</span>[n][n];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i : lieutenants) {
+        <span class="k-kw">int</span>[] others = Arrays.stream(lieutenants).filter(x -&gt; x != i).toArray();
+        <span class="k-kw">int</span>[] sub = om(m - <span class="k-n">1</span>, i, others, received[i], n);
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> j : others) relayed[j][i] = sub[j];
+    }
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> j : lieutenants) {
+        <span class="k-kw">int</span> attack = received[j] == ATTACK ? <span class="k-n">1</span> : <span class="k-n">0</span>, total = <span class="k-n">1</span>;
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i : lieutenants) <span class="k-kw">if</span> (i != j) { attack += relayed[j][i]; total++; }
+        decided[j] = <span class="k-n">2</span> * attack &gt; total ? ATTACK : RETREAT;      <span class="k-c">// majority, RETREAT on a tie</span>
+    }
+    <span class="k-kw">return</span> decided;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>ByzantineGenerals.java</code>.<br><span class="navfoot"><a href="../index.html">Era 7: Randomness, Networks and Learning</a><a href="../02-merkle-trees/merkle-trees.html">← Merkle&#x27;s Hash Trees</a><a href="../04-simulated-annealing/simulated-annealing.html">Simulated Annealing →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const view = document.getElementById("bz-view");
+  if (!view) return;
+  const PROG = {"3": {"runs": "16", "broke": "2"}, "4": {"runs": "40", "broke": "0"}};
+  const nSel = document.getElementById("bz-n"), tSel = document.getElementById("bz-t"), vSel = document.getElementById("bz-v");
+  let lies = [];                         // the traitor's messages, in the order the algorithm sends them: 1 = ATTACK
+  // OM(m), exactly as the program runs it: traitors' messages are read from `src` in the order they are sent
+  function run(n, traitor, v, src) {
+    let used = 0; const log = [];
+    function om(m, cmd, lts, val, path) {
+      const rec = new Array(n).fill(0);
+      lts.forEach(l => {
+        const lie = traitor === cmd, x = lie ? src(used++) : val;
+        rec[l] = x; log.push({from: cmd, to: l, val: x, lie, path});
+      });
+      const dec = new Array(n).fill(0);
+      if (m === 0) { lts.forEach(l => dec[l] = rec[l]); return dec; }
+      const rel = Array.from({length: n}, () => new Array(n).fill(0));
+      lts.forEach(i => { const others = lts.filter(x => x !== i), sub = om(m - 1, i, others, rec[i], path.concat([cmd])); others.forEach(j => rel[j][i] = sub[j]); });
+      lts.forEach(j => { let att = rec[j], tot = 1; lts.forEach(i => { if (i !== j) { att += rel[j][i]; tot++; } }); dec[j] = 2 * att > tot ? 1 : 0; });
+      return dec;
+    }
+    const lts = Array.from({length: n - 1}, (_, i) => i + 1);
+    const dec = om(1, 0, lts, v, []);
+    let ok = true, first = -1;
+    lts.forEach(l => { if (l === traitor) return; if (first < 0) first = dec[l]; if (dec[l] !== first) ok = false; if (traitor !== 0 && dec[l] !== v) ok = false; });
+    return {dec, ok, log, used};
+  }
+  const NAME = i => i === 0 ? "C" : "L" + i, WORD = x => x ? "ATTACK" : "RETREAT";
+  function setup() {
+    const n = +nSel.value, keep = tSel.value;
+    tSel.innerHTML = "";
+    ["none"].concat(Array.from({length: n}, (_, i) => NAME(i))).forEach((s, i) => { const o = document.createElement("option"); o.value = i - 1; o.textContent = s === "none" ? "none" : (s === "C" ? "C (the commander)" : s); tSel.appendChild(o); });
+    tSel.value = [...tSel.options].some(o => o.value === keep) ? keep : (n === 3 ? "2" : "3");
+    const t = +tSel.value, probe = run(n, t, +vSel.value, () => 0);
+    lies = new Array(probe.used).fill(0).map((_, k) => k % 2);
+    draw();
+  }
+  function draw(extra) {
+    const n = +nSel.value, t = +tSel.value, v = +vSel.value;
+    const r = run(n, t, v, k => lies[k]);
+    view.innerHTML = "";
+    const svg = sv("svg", {viewBox: "0 0 420 330"}, view);
+    const pos = n === 4 ? [[210, 45], [80, 185], [210, 245], [340, 185]] : [[210, 45], [110, 215], [310, 215]];
+    // every message as an arrow; the two directions between two lieutenants bow to opposite sides
+    r.log.forEach(msg => {
+      const a = pos[msg.from], b = pos[msg.to], col = msg.val ? "var(--red)" : "var(--blue)";
+      const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy), ux = dx / L, uy = dy / L, px = -uy, py = ux;
+      const bow = msg.from === 0 ? 0 : 16, cx = (a[0] + b[0]) / 2 + px * bow, cy = (a[1] + b[1]) / 2 + py * bow;
+      const sx = a[0] + ux * 24 + px * bow * 0.4, sy = a[1] + uy * 24 + py * bow * 0.4;
+      const ex = b[0] - ux * 26 + px * bow * 0.4, ey = b[1] - uy * 26 + py * bow * 0.4;
+      sv("path", {d: `M${sx},${sy} Q${cx},${cy} ${ex},${ey}`, fill: "none", stroke: col, "stroke-width": msg.lie ? 3 : 1.8, "stroke-dasharray": msg.lie ? "6 4" : ""}, svg);
+      const tx = ex - cx, ty = ey - cy, tl = Math.hypot(tx, ty), vx = tx / tl, vy = ty / tl;
+      sv("path", {d: `M${ex},${ey} L${ex - vx * 10 - vy * 5},${ey - vy * 10 + vx * 5} L${ex - vx * 10 + vy * 5},${ey - vy * 10 - vx * 5} Z`, fill: col}, svg);
+    });
+    pos.forEach((p, i) => {
+      const traitor = i === t;
+      sv("circle", {cx: p[0], cy: p[1], r: 22, fill: traitor ? "var(--ink)" : "var(--surface)", stroke: "var(--ink)", "stroke-width": 2}, svg);
+      const tx = sv("text", {x: p[0], y: p[1] + 5, "text-anchor": "middle", "font-size": 14, "font-weight": 700, fill: traitor ? "var(--paper)" : "var(--ink)"}, svg); tx.textContent = NAME(i);
+      if (i > 0 && !traitor) { const dx = sv("text", {x: p[0], y: p[1] + 46, "text-anchor": "middle", "font-size": 13, "font-weight": 700, fill: r.dec[i] ? "var(--red)" : "var(--blue)"}, svg); dx.textContent = "decides " + WORD(r.dec[i]); }
+      if (traitor) { const dx = sv("text", {x: p[0], y: p[1] + 46, "text-anchor": "middle", "font-size": 13, "font-weight": 700, fill: "var(--ink)"}, svg); dx.textContent = "traitor"; }
+    });
+    const key = sv("text", {x: 10, y: 322, "font-size": 12, fill: "var(--muted)"}, svg); key.textContent = "red: ATTACK · blue: RETREAT · dashed: a lie";
+    // the traitor's choices
+    const box = document.getElementById("bz-lies"); box.innerHTML = "";
+    if (t >= 0) {
+      el("div", {style: "font-size:12.5px;color:var(--muted)"}, box, "The traitor's messages (click to change what it says):");
+      r.log.filter(m => m.lie).forEach((m, k) => {
+        const what = m.path.length === 0 ? `${NAME(m.from)} → ${NAME(m.to)}: "${WORD(m.val)}"` : `${NAME(m.from)} → ${NAME(m.to)}: "the commander said ${WORD(m.val)}"`;
+        const b = el("button", {type: "button", class: m.val ? "a" : "r"}, box, what);
+        b.addEventListener("click", () => { lies[k] = 1 - lies[k]; draw(); });
+      });
+    }
+    const st = document.getElementById("bz-stats"); st.innerHTML = "";
+    el("div", {}, st, `messages sent: ${r.log.length}`);
+    el("div", {}, st, `loyal lieutenants ${r.ok ? "agree" + (t !== 0 ? " and obey" : "") : "FAIL: " + (t !== 0 ? "they disagree or disobey" : "they disagree")}`);
+    if (extra) el("div", {}, st, extra);
+    document.getElementById("bz-say").textContent = r.ok
+      ? `OM(1) with ${n} generals: each lieutenant takes the majority of what it heard from the commander and what the others say they heard.`
+      : `Broken: with ${n} generals, this traitor's lies split the loyal lieutenants. That is why ${n === 3 ? "three generals cannot survive one traitor" : "the bound is n ≥ 3m + 1"}.`;
+  }
+  document.getElementById("bz-all").addEventListener("click", () => {
+    const n = +nSel.value; let runs = 0, broke = 0;
+    for (let t = 0; t < n; t++) for (let v = 0; v <= 1; v++) {
+      const k = run(n, t, v, () => 0).used;
+      for (let mask = 0; mask < (1 << k); mask++) { runs++; if (!run(n, t, v, b => (mask >> b) & 1).ok) broke++; }
+    }
+    const p = PROG[n];
+    draw(`every traitor, both orders, every lie: ${runs} runs, ${broke} broke IC1 or IC2 (the program: ${p.runs} runs, ${p.broke} broke)`);
+  });
+  nSel.addEventListener("change", setup); tSel.addEventListener("change", setup); vSel.addEventListener("change", () => draw());
+  setup();
+})();
+
+</script>
+</body>
+</html>

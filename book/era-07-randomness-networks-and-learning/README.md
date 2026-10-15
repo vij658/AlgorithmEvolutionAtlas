@@ -26,7 +26,7 @@
 |---|---|---|---|---|
 | 1 | **Linear Programming in Polynomial Time** | Klee–Minty 1972; Khachiyan 1979; Karmarkar 1984 | The simplex method had no polynomial guarantee | [page](01-linear-programming/README.md) · [interactive](01-linear-programming/linear-programming.html) · [program](../../code/era-07-randomness-networks-and-learning/01-linear-programming/README.md) |
 | 2 | **Merkle's Hash Trees** | Thesis and patent filing 1979; patent 1982 | Checking one block meant a fingerprint for every block | [page](02-merkle-trees/README.md) · [interactive](02-merkle-trees/merkle-trees.html) · [program](../../code/era-07-randomness-networks-and-learning/02-merkle-trees/README.md) |
-| 3 | **The Byzantine Generals** | 1980 and 1982 | A faulty part could tell different parts different things | planned · [references](reference-catalog.md#3-the-byzantine-generals) |
+| 3 | **The Byzantine Generals** | 1980 and 1982 | A faulty part could tell different parts different things | [page](03-byzantine-generals/README.md) · [interactive](03-byzantine-generals/byzantine-generals.html) · [program](../../code/era-07-randomness-networks-and-learning/03-byzantine-generals/README.md) |
 | 4 | **Simulated Annealing** | 1983; Černý 1985 | Improving by small steps stops at the first local optimum | planned · [references](reference-catalog.md#4-simulated-annealing) |
 | 5 | **Splay Trees and Amortized Analysis** | 1985 | Balanced trees needed bookkeeping and judged each operation alone | planned · [references](reference-catalog.md#5-splay-trees-and-amortized-analysis) |
 | 6 | **Zero-Knowledge Proofs** | 1985; all of NP 1986 | Proving you know a secret meant revealing it | planned · [references](reference-catalog.md#6-zero-knowledge-proofs) |

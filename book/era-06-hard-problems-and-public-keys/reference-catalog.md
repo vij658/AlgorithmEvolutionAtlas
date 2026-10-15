@@ -160,7 +160,7 @@ No video page could be opened (see **Gaps**).
 ## 4. A*: search guided by an estimate
 
 **When / where:** Peter E. Hart, Nils J. Nilsson and Bertram Raphael, Artificial Intelligence Group, Stanford Research Institute, Menlo Park, California, for the mobile robot Shakey; "A Formal Basis for the Heuristic Determination of Minimum Cost Paths", manuscript received 24 November 1967, *IEEE Transactions on Systems Science and Cybernetics* SSC-4(2): 100–107 (July 1968).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`AStar.java`](../../code/era-06-hard-problems-and-public-keys/04-a-star/) · **Page:** [topic 4](04-a-star/README.md)
 
 > **Field note.** The researchers at Stanford Research Institute were building a robot, Shakey, that was to find its own way across a room full of obstacles. Dijkstra's method (Era 5, topic 7) would find the shortest route, but it spreads out evenly in every direction, though the robot knows roughly where its goal lies. Nilsson first proposed a method that always steps towards the place that looks nearest the goal; it is quick, but a wall can lead it astray. Raphael suggested adding the distance already travelled to the estimate of the distance still to go; Hart suspected the result might be the best possible, and the three proved under what conditions it is. Nilsson had called his own method "Algorithm A"; the improved one became A*. Their proof needs one thing of the estimate: that it never overestimate. The method is now, in the words of its IEEE Milestone page, "the path-finding algorithm of choice for a wide variety of applications", among them computing driving directions.
 
@@ -198,7 +198,7 @@ No video page could be opened (see **Gaps**).
 ## 5. Fast matrix multiplication
 
 **When / where:** Volker Strassen (born 1936 in Düsseldorf-Gerresheim), who had joined the Institute of Applied Mathematics of the University of Zürich in 1968; "Gaussian elimination is not optimal", *Numerische Mathematik* 13: 354–356 (1969).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`Strassen.java`](../../code/era-06-hard-problems-and-public-keys/05-strassen/) · **Page:** [topic 5](05-strassen/README.md)
 
 > **Field note.** Tables of numbers, matrices, are multiplied by a rule taught in school: every row against every column, n³ multiplications for tables of size n. For two-by-two tables that is eight, and it looked as if it had to be. In 1969 Strassen published a three-page paper with a title that was itself a claim: "Gaussian elimination is not optimal". He had found seven products that are enough for two-by-two tables, and because his formulas never use the fact that ab = ba, the letters may be blocks of a larger table and the trick repeats at every level. One multiplication saved at each level lowers the exponent from 3 to log₂ 7 ≈ 2.807, and with it the cost of inverting matrices and solving systems of equations. The paper turned a settled question into an open one: how small can the exponent be? It has been lowered many times since, most recently in 2026, though none of the later methods is practical; Strassen's own is still used.
 

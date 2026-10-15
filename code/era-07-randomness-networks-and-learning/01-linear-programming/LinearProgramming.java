@@ -47,6 +47,13 @@ public class LinearProgramming {
 
     // ---- the simplex method on a tableau: maximize c.x, A x <= b, x >= 0, b >= 0 ---------------------------------------
     static long pivots;
+    static List<double[]> path;                                   // when not null: the corner after each pivot
+
+    static double[] corner(double[][] T, int[] basis, int n, int m) {
+        double[] x = new double[n];
+        for (int i = 0; i < m; i++) if (basis[i] < n) x[basis[i]] = T[i][n + m];
+        return x;
+    }
 
     static double simplex(double[][] A, double[] b, double[] c) {
         int m = A.length, n = c.length;
@@ -57,7 +64,10 @@ public class LinearProgramming {
             T[i][n + m] = b[i];
         }
         for (int j = 0; j < n; j++) T[m][j] = -c[j];               // objective row: reduced costs, negated
+        int[] basis = new int[m];
+        for (int i = 0; i < m; i++) basis[i] = n + i;              // start at the corner x = 0, the slacks basic
         pivots = 0;
+        if (path != null) path.add(corner(T, basis, n, m));
         while (true) {
             int e = -1;
             double most = -1e-12;
@@ -74,7 +84,9 @@ public class LinearProgramming {
                 double f = T[i][e];
                 for (int j = 0; j <= n + m; j++) T[i][j] -= f * T[l][j];
             }
+            basis[l] = e;
             pivots++;
+            if (path != null) path.add(corner(T, basis, n, m));
         }
     }
 
@@ -253,6 +265,15 @@ public class LinearProgramming {
             if (n == 1 || n == 2 || n == 3 || n % 2 == 0)
                 kj.add(String.format("n=%d: simplex %,d pivot%s, interior point %d iterations", n, piv, piv == 1 ? "" : "s", iterations));
         }
+        // the corners the simplex method visits on the three-dimensional cube
+        Object[] km3 = kleeMinty(3);
+        path = new ArrayList<>();
+        simplex((double[][]) km3[0], (double[]) km3[1], (double[]) km3[2]);
+        StringJoiner pj = new StringJoiner(" ");
+        for (double[] x : path) pj.add(String.format("(%.0f,%.0f,%.0f)", x[0], x[1], x[2]));
+        check(path.size() == 8 && new HashSet<>(Arrays.asList(pj.toString().split(" "))).size() == 8, "all 8 corners, each once");
+        path = null;
+        System.out.printf("kmpath: n = 3, constraints x1 <= 5, 4 x1 + x2 <= 25, 8 x1 + 4 x2 + x3 <= 125 ; the corners in the order the simplex method visits them: %s%n", pj);
         System.out.printf("kleeminty: maximize sum of 2^(n-j) x_j subject to 2 sum_{j<i} 2^(i-j) x_j + x_i <= 5^i ; the simplex method with Dantzig's rule (enter the largest coefficient) against a primal-dual interior-point method (Mehrotra's predictor-corrector), both reaching the optimum 5^n ; %s ; the simplex pivots are exactly 2^n - 1 every time, the interior-point iterations never more than %d%n",
                 kj, maxIpm);
 

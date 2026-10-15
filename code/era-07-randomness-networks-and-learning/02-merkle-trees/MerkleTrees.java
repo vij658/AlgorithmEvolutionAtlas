@@ -195,6 +195,17 @@ public class MerkleTrees {
         System.out.printf("proofs: trees of 1 to 200 leaves, hashed as in Certificate Transparency (RFC 6962) ; %,d inclusion proofs checked, every one accepted ; %,d forged ones (changed leaf, wrong position, wrong root) all rejected ; the longest proof in a tree of n leaves is always ceil(log2 n) hashes%n",
                 proofs, rejected);
 
+        // the eight-block tree the book's widget rebuilds: every node's hash, level by level (first 8 hex digits)
+        byte[][] eight = new byte[8][];
+        for (int i = 0; i < 8; i++) eight[i] = leafHash(block("log", i));
+        StringJoiner lv = new StringJoiner(" | ");
+        for (int size = 1; size <= 8; size *= 2) {
+            StringJoiner row = new StringJoiner(" ");
+            for (int lo = 0; lo < 8; lo += size) row.add(hex(root(eight, lo, lo + size), 4));
+            lv.add(row.toString());
+        }
+        System.out.printf("eight: the blocks \"log block 0\" ... \"log block 7\" ; node hashes from the leaves up, first 8 hex digits, levels separated by | : %s ; root %s%n", lv, hex(root(eight, 0, 8), 32));
+
         StringJoiner pj = new StringJoiner(" ; ");
         for (long n : new long[]{8, 1_000, 1_000_000, 1_000_000_000L}) {
             pj.add(String.format("%,d blocks: a proof needs %d hashes plus the leaf's own, a plain list of fingerprints needs all %,d", n, ceilLog2(n), n));

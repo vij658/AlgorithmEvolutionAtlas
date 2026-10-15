@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Depth-First Search</title>
+<meta name="description" content="Era 6, topic 9 of The Algorithm Evolution Atlas: Hopcroft and Tarjan&#x27;s depth-first search, fronds and lowpoints, cut vertices and strong components in linear time.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.df-graph svg{display:block;width:100%;max-width:420px;height:auto;margin:0 auto}
+.df-btns{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.df-stats{font:13px var(--mono);display:grid;gap:3px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 6: Hard Problems and Public Keys</a><a href="../08-np-completeness/np-completeness.html">← NP-Completeness</a><a href="../10-public-key-cryptography/public-key-cryptography.html">Public-Key Cryptography →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 6 · Topic 9 · 1970–1974</div>
+    <h1>Depth-First Search</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">Go as deep as you can, and back up only at a dead end: an old way through a maze. Hopcroft and Tarjan noticed what the walk leaves behind, and answered in one pass questions that had needed many.</p>
+  <p class="fieldnote">Field note from the visiting historian. Finding who can reach whom on a graph of 2,000 vertices took 10,712,681 steps by searching from every vertex, and 8,000 by Tarjan's single search. On a million vertices the count was exactly V + E, as the paper promised.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Planarity work from 1970; paper 1972; planarity test 1974</dd></div><div><dt>Where</dt><dd>Stanford and Cornell</dd></div><div><dt>What hurt</dt><dd>Graph structure took repeated searches</dd></div><div><dt>The fix</dt><dd>Search order, fronds and lowpoints</dd></div><div><dt>Cost</dt><dd>V + E steps</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Exploring a maze by going as deep as possible and backing up only at dead ends is old. Hopcroft and Tarjan, looking for a fast test of whether a network can be drawn without crossings, studied what such a search leaves behind: the order of arrival, and the few edges that lead back up. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How depth-first search combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="426.5,180.0 417.6,181.6 419.4,174.5" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,180.0 496.3,171.8 503.7,171.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="573.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,180.0 580.6,174.5 582.4,181.6" style="fill:var(--ink-2)"/><rect x="727.2" y="130.0" width="65.3" height="19" rx="3" style="fill:var(--surface)"/><text x="732.2" y="143.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the need</text><line x1="426.5" y1="266.0" x2="125.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="125.0,340.0 132.1,334.5 133.9,341.6" style="fill:var(--ink-2)"/><line x1="500.0" y1="266.0" x2="500.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,340.0 496.3,331.8 503.7,331.8" style="fill:var(--ink-2)"/><line x1="573.5" y1="266.0" x2="875.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="875.0,340.0 866.1,341.6 867.9,334.5" style="fill:var(--ink-2)"/><line x1="500.0" y1="426.0" x2="500.0" y2="490.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,490.0 496.3,481.8 503.7,481.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Trémaux&#x27;s mazes</text><text x="32.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">go deep, back up at dead ends</text><text x="32.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">19th century</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Graph search</text><text x="407.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Euler&#x27;s bridges to Dijkstra&#x27;s</text><text x="407.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">paths</text><text x="407.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Eras 3 and 5</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Planarity</text><text x="782.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">can this network be drawn</text><text x="782.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">without crossings?</text><text x="782.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the problem that started it</text><rect x="395" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="203.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Depth-first search</text><text x="407.0" y="220.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ numbers, fronds and</text><text x="407.0" y="237.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">lowpoints</text><text x="407.0" y="253.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Tarjan, Hopcroft, 1972</text><rect x="20" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="362.0" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Cut vertices,</text><text x="32.0" y="381.8" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">components</text><text x="32.0" y="399.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">in one pass, time V + E</text><text x="32.0" y="415.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1972</text><rect x="395" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="371.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Strong components</text><text x="407.0" y="389.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">who can reach whom, one-way</text><text x="407.0" y="405.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1972</text><rect x="770" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="371.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Linear-time planarity</text><text x="782.0" y="389.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the first such test</text><text x="782.0" y="405.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Hopcroft and Tarjan, 1974</text><rect x="395" y="490" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="521.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Today</text><text x="407.0" y="539.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">components, planarity tests,</text><text x="407.0" y="555.6" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">topological sorting</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Uses after Wikipedia (Depth-first search), which lists components, planarity testing and topological sorting among them.</text></svg></div><figcaption>Red: depth-first search as a tool. Blue: where it is used today.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">Watch the lowpoints find the weak points</h2>
+<p class="col">The program's small graph. Step through the search from A: each new vertex gets the next number; an edge to a vertex not yet reached is a tree edge (blue), an edge back to an earlier vertex is a frond (dashed). When a vertex is finished, its lowpoint passes to its parent, and if nothing below a vertex reaches above it, that vertex is a cut vertex (red).</p>
+
+<div class="board df-board">
+  <div style="min-width:0">
+    <div class="df-graph" id="df-graph"></div>
+  </div>
+  <div style="min-width:0">
+    <div class="df-btns"><button type="button" id="df-step">Step</button><button type="button" id="df-run">Run to the end</button><button type="button" id="df-reset">Start again</button></div>
+    <div class="df-stats" id="df-stats"></div>
+    <p class="say" id="df-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 6, hard problems and public keys</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 6: Hard Problems and Public Keys, from 1965 to 1978" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1964–1965</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Cooley and Tukey&#x27;s</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">FFT</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1962–1965</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Dijkstra&#x27;s</text><text x="185.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">semaphore</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1961–1967</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Simula&#x27;s objects</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1968</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">A* search</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1969</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Strassen&#x27;s seven</text><text x="550.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">products</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1970</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Codd&#x27;s relations</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1969–1972</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">B-trees</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1971–1973</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">NP-completeness</text><circle cx="1036.0" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1970–1974</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Depth-first</text><text x="1036.0" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">search</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1976–1977</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Public keys</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1969–1977</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">KMP and</text><text x="1279.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Boyer–Moore</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1977–1978</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Lempel–Ziv</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1978</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Lamport&#x27;s clocks</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 558" role="img" aria-label="Each fix leaves a new pain: from repeated searches to one" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="396.0" x2="750.0" y2="446.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,446.0 746.3,437.8 753.7,437.8" style="fill:var(--ink-2)"/><line x1="560.0" y1="492.0" x2="400.0" y2="492.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,492.0 408.2,488.3 408.2,495.7" style="fill:var(--ink-2)"/><rect x="449.2" y="471.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="484.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Is a network still connected if any one point fails?</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Remove each point and search again</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">One depth-first search: a point is a cut vertex if a</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">child&#x27;s lowpoint does not reach above it</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Hopcroft and Tarjan</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Who can reach whom in a one-way network: 10,712,681</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">steps by searching from every vertex (2,000 vertices)</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Tarjan&#x27;s strong components in one search: 8,000 steps</text><text x="32.0" y="228.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Tarjan, 1972</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="345.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Can one trust a clever one-pass method?</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Checked on 2,000 undirected and 2,000 directed random</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">graphs against the slow methods: no disagreement</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">this program</text><rect x="560" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="487.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="503.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">How does the work grow with the graph?</text><rect x="20" y="446" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="479.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="495.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Exactly V + E steps, from 1,000 to 1,000,000 vertices</text><text x="32.0" y="512.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">linear time</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">One pass, and one extra number</h2>
+<p class="col"><strong>The search.</strong> Number the vertices in the order the search reaches them. The edges used to arrive form a tree; in an undirected graph every other edge (a <em>frond</em>) leads from a vertex back to one of its ancestors, never sideways. Each edge is examined from each end once, so the search takes time proportional to V + E.</p>
+<p class="col"><strong>Lowpoints.</strong> The lowpoint of v is the smallest number that can be reached from v by going down the tree and then along at most one frond. It is computed as the search backs up: a vertex's lowpoint is the least of its own number, the numbers its fronds reach, and its children's lowpoints. A vertex u other than the root is a cut vertex exactly when some child v has lowpoint(v) ≥ number(u): nothing below v can get round u.</p>
+<p class="col"><strong>Strong components.</strong> In a directed graph the same bookkeeping (Tarjan's LOWLINK) finds the strongly connected components: the search completes a component when it backs out of the first vertex it reached in it.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 800 500" role="img" aria-label="Depth-first search on the program&#x27;s two small graphs" style="font-family:var(--body);min-width:440px;max-width:800px;margin:0 auto"><text x="20.0" y="22.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:700">Undirected: tree edges solid, fronds dashed, cut vertices red</text><text x="440.0" y="22.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:700">Directed: the four strong components</text><line x1="60.0" y1="150.0" x2="140.0" y2="90.0" style="stroke:var(--ink-2);stroke-width:2"/><line x1="140.0" y1="90.0" x2="140.0" y2="210.0" style="stroke:var(--ink-2);stroke-width:2"/><line x1="140.0" y1="210.0" x2="60.0" y2="150.0" style="stroke:var(--axis);stroke-width:1.5;stroke-dasharray:5 4"/><line x1="140.0" y1="210.0" x2="240.0" y2="230.0" style="stroke:var(--ink-2);stroke-width:2"/><line x1="240.0" y1="230.0" x2="325.0" y2="180.0" style="stroke:var(--ink-2);stroke-width:2"/><line x1="325.0" y1="180.0" x2="330.0" y2="290.0" style="stroke:var(--ink-2);stroke-width:2"/><line x1="330.0" y1="290.0" x2="240.0" y2="230.0" style="stroke:var(--axis);stroke-width:1.5;stroke-dasharray:5 4"/><line x1="240.0" y1="230.0" x2="230.0" y2="330.0" style="stroke:var(--ink-2);stroke-width:2"/><line x1="230.0" y1="330.0" x2="160.0" y2="400.0" style="stroke:var(--ink-2);stroke-width:2"/><line x1="160.0" y1="400.0" x2="300.0" y2="410.0" style="stroke:var(--ink-2);stroke-width:2"/><line x1="300.0" y1="410.0" x2="230.0" y2="330.0" style="stroke:var(--axis);stroke-width:1.5;stroke-dasharray:5 4"/><line x1="140.0" y1="90.0" x2="230.0" y2="70.0" style="stroke:var(--ink-2);stroke-width:2"/><circle cx="60.0" cy="150.0" r="17.0" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.6"/><text x="60.0" y="155.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">A</text><text x="81.0" y="138.0" text-anchor="start" style="fill:var(--blue);font-size:11px;font-weight:700">0/0</text><circle cx="140.0" cy="90.0" r="17.0" style="fill:var(--red);stroke:var(--red);stroke-width:1.6"/><text x="140.0" y="95.0" text-anchor="middle" style="fill:var(--on-red);font-size:13px;font-weight:700">B</text><text x="161.0" y="78.0" text-anchor="start" style="fill:var(--blue);font-size:11px;font-weight:700">1/0</text><circle cx="140.0" cy="210.0" r="17.0" style="fill:var(--red);stroke:var(--red);stroke-width:1.6"/><text x="140.0" y="215.0" text-anchor="middle" style="fill:var(--on-red);font-size:13px;font-weight:700">C</text><text x="161.0" y="198.0" text-anchor="start" style="fill:var(--blue);font-size:11px;font-weight:700">2/0</text><circle cx="230.0" cy="70.0" r="17.0" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.6"/><text x="230.0" y="75.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">J</text><text x="251.0" y="58.0" text-anchor="start" style="fill:var(--blue);font-size:11px;font-weight:700">9/9</text><circle cx="240.0" cy="230.0" r="17.0" style="fill:var(--red);stroke:var(--red);stroke-width:1.6"/><text x="240.0" y="235.0" text-anchor="middle" style="fill:var(--on-red);font-size:13px;font-weight:700">D</text><text x="261.0" y="218.0" text-anchor="start" style="fill:var(--blue);font-size:11px;font-weight:700">3/3</text><circle cx="325.0" cy="180.0" r="17.0" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.6"/><text x="325.0" y="185.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">E</text><text x="346.0" y="168.0" text-anchor="start" style="fill:var(--blue);font-size:11px;font-weight:700">4/3</text><circle cx="330.0" cy="290.0" r="17.0" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.6"/><text x="330.0" y="295.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">F</text><text x="351.0" y="278.0" text-anchor="start" style="fill:var(--blue);font-size:11px;font-weight:700">5/3</text><circle cx="230.0" cy="330.0" r="17.0" style="fill:var(--red);stroke:var(--red);stroke-width:1.6"/><text x="230.0" y="335.0" text-anchor="middle" style="fill:var(--on-red);font-size:13px;font-weight:700">G</text><text x="251.0" y="318.0" text-anchor="start" style="fill:var(--blue);font-size:11px;font-weight:700">6/6</text><circle cx="160.0" cy="400.0" r="17.0" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.6"/><text x="160.0" y="405.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">H</text><text x="181.0" y="388.0" text-anchor="start" style="fill:var(--blue);font-size:11px;font-weight:700">7/6</text><circle cx="300.0" cy="410.0" r="17.0" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.6"/><text x="300.0" y="415.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">I</text><text x="321.0" y="398.0" text-anchor="start" style="fill:var(--blue);font-size:11px;font-weight:700">8/6</text><text x="20.0" y="470.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:400">Blue: number / lowpoint.</text><rect x="632.0" y="42.0" width="146.0" height="166.0" rx="14" style="fill:var(--wash);stroke:var(--blue);stroke-width:1.4"/><rect x="442.0" y="42.0" width="146.0" height="156.0" rx="14" style="fill:var(--wash);stroke:var(--blue);stroke-width:1.4"/><rect x="562.0" y="372.0" width="186.0" height="56.0" rx="14" style="fill:var(--wash);stroke:var(--blue);stroke-width:1.4"/><rect x="582.0" y="262.0" width="166.0" height="56.0" rx="14" style="fill:var(--wash);stroke:var(--blue);stroke-width:1.4"/><line x1="487.6" y1="86.1" x2="540.5" y2="74.3" style="stroke:var(--ink-2);stroke-width:1.5"/><path d="M540.5,74.3 L532.7,80.7 L530.7,71.9 Z" style="fill:var(--ink-2)"/><line x1="553.3" y1="86.7" x2="527.4" y2="151.4" style="stroke:var(--ink-2);stroke-width:1.5"/><path d="M527.4,151.4 L526.6,141.4 L534.9,144.7 Z" style="fill:var(--ink-2)"/><line x1="510.5" y1="154.7" x2="480.6" y2="107.0" style="stroke:var(--ink-2);stroke-width:1.5"/><path d="M480.6,107.0 L489.2,112.2 L481.6,117.0 Z" style="fill:var(--ink-2)"/><line x1="577.7" y1="73.5" x2="640.4" y2="86.1" style="stroke:var(--ink-2);stroke-width:1.5"/><path d="M640.4,86.1 L630.7,88.7 L632.4,79.9 Z" style="fill:var(--ink-2)"/><line x1="677.6" y1="86.1" x2="730.5" y2="74.3" style="stroke:var(--ink-2);stroke-width:1.5"/><path d="M730.5,74.3 L722.7,80.7 L720.7,71.9 Z" style="fill:var(--ink-2)"/><line x1="745.3" y1="87.4" x2="725.3" y2="160.7" style="stroke:var(--ink-2);stroke-width:1.5"/><path d="M725.3,160.7 L723.3,150.8 L732.0,153.2 Z" style="fill:var(--ink-2)"/><line x1="710.0" y1="165.0" x2="671.1" y2="106.6" style="stroke:var(--ink-2);stroke-width:1.5"/><path d="M671.1,106.6 L679.8,111.6 L672.3,116.6 Z" style="fill:var(--ink-2)"/><line x1="720.0" y1="272.0" x2="720.0" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><path d="M720.0,200.0 L724.5,209.0 L715.5,209.0 Z" style="fill:var(--ink-2)"/><line x1="702.0" y1="285.0" x2="630.0" y2="285.0" style="stroke:var(--ink-2);stroke-width:1.5"/><path d="M630.0,285.0 L639.0,280.5 L639.0,289.5 Z" style="fill:var(--ink-2)"/><line x1="628.0" y1="295.0" x2="700.0" y2="295.0" style="stroke:var(--ink-2);stroke-width:1.5"/><path d="M700.0,295.0 L691.0,299.5 L691.0,290.5 Z" style="fill:var(--ink-2)"/><line x1="606.8" y1="307.7" x2="593.6" y2="380.3" style="stroke:var(--ink-2);stroke-width:1.5"/><path d="M593.6,380.3 L590.8,370.7 L599.6,372.3 Z" style="fill:var(--ink-2)"/><line x1="608.0" y1="405.0" x2="700.0" y2="405.0" style="stroke:var(--ink-2);stroke-width:1.5"/><path d="M700.0,405.0 L691.0,409.5 L691.0,400.5 Z" style="fill:var(--ink-2)"/><line x1="702.0" y1="395.0" x2="610.0" y2="395.0" style="stroke:var(--ink-2);stroke-width:1.5"/><path d="M610.0,395.0 L619.0,390.5 L619.0,399.5 Z" style="fill:var(--ink-2)"/><circle cx="470.0" cy="90.0" r="16.0" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.6"/><text x="470.0" y="95.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">A</text><circle cx="560.0" cy="70.0" r="16.0" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.6"/><text x="560.0" y="75.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">B</text><circle cx="520.0" cy="170.0" r="16.0" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.6"/><text x="520.0" y="175.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">C</text><circle cx="660.0" cy="90.0" r="16.0" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.6"/><text x="660.0" y="95.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">D</text><circle cx="750.0" cy="70.0" r="16.0" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.6"/><text x="750.0" y="75.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">E</text><circle cx="720.0" cy="180.0" r="16.0" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.6"/><text x="720.0" y="185.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">F</text><circle cx="720.0" cy="290.0" r="16.0" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.6"/><text x="720.0" y="295.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">G</text><circle cx="610.0" cy="290.0" r="16.0" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.6"/><text x="610.0" y="295.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">H</text><circle cx="590.0" cy="400.0" r="16.0" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.6"/><text x="590.0" y="405.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">I</text><circle cx="720.0" cy="400.0" r="16.0" style="fill:var(--surface);stroke:var(--ink-2);stroke-width:1.6"/><text x="720.0" y="405.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">J</text><text x="430.0" y="470.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:400">Inside a box every vertex can reach every other.</text><text x="20.0" y="490.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:400">Cut vertices B, C, D, G; strong components completed in the order {DEF} {ABC} {IJ} {GH}.</text></svg></div></figure>
+<div class="callout key col"><div class="k">Key idea</div><p>Don't search again for each question. One search, with a number or two recorded at each vertex, already holds the answers to questions that seemed to need many searches.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Exactly V + E</h2>
+<p class="col"><strong>The small graph.</strong> Edges AB BC CA CD DE EF FD DG GH HI IG BJ; the search from A reached A B C D E F G H I J. Tree edges AB BC CD DE EF DG GH HI BJ; fronds CA FD IG. Cut vertices B, C, D, G; biconnected components DEF, GHI, DG, CD, BJ, ABC.</p>
+<div class="tbl"><table><thead><tr><th class="">Vertex (in the order reached)</th><th class="n">Number</th><th class="n">Lowpoint</th><th class=""></th></tr></thead><tbody><tr class=""><td class="">A</td><td class="n">0</td><td class="n">0</td><td class=""></td></tr><tr class=""><td class="">B</td><td class="n">1</td><td class="n">0</td><td class="">cut vertex</td></tr><tr class=""><td class="">C</td><td class="n">2</td><td class="n">0</td><td class="">cut vertex</td></tr><tr class=""><td class="">D</td><td class="n">3</td><td class="n">3</td><td class="">cut vertex</td></tr><tr class=""><td class="">E</td><td class="n">4</td><td class="n">3</td><td class=""></td></tr><tr class=""><td class="">F</td><td class="n">5</td><td class="n">3</td><td class=""></td></tr><tr class=""><td class="">G</td><td class="n">6</td><td class="n">6</td><td class="">cut vertex</td></tr><tr class=""><td class="">H</td><td class="n">7</td><td class="n">6</td><td class=""></td></tr><tr class=""><td class="">I</td><td class="n">8</td><td class="n">6</td><td class=""></td></tr><tr class=""><td class="">J</td><td class="n">9</td><td class="n">9</td><td class=""></td></tr></tbody></table></div>
+<p class="col"><strong>The directed graph.</strong> Edges AB BC CA BD DE EF FD GF GH HG HI IJ JI: strong components {DEF}, {ABC}, {IJ}, {GH}, in the order Tarjan's method completes them.</p>
+<p class="col"><strong>Checked.</strong> 2,000 random undirected graphs and 2,000 random directed graphs of 4 to 30 vertices: every cut vertex found by lowpoints was one whose removal splits the graph, and no other (5,806 in all); every pair of vertices was in the same strong component exactly when each can reach the other (28,070 components in all).</p>
+<div class="tbl"><table><thead><tr><th class="n">Vertices V</th><th class="n">Edges E</th><th class="n">Steps (numbering a vertex or examining an edge)</th></tr></thead><tbody><tr class=""><td class="n">1,000</td><td class="n">3,000</td><td class="n">4,000</td></tr><tr class=""><td class="n">10,000</td><td class="n">30,000</td><td class="n">40,000</td></tr><tr class=""><td class="n">100,000</td><td class="n">300,000</td><td class="n">400,000</td></tr><tr class=""><td class="n">1,000,000</td><td class="n">3,000,000</td><td class="n">4,000,000</td></tr></tbody></table></div>
+<p class="col">On the graph of 2,000 vertices, finding everything each vertex can reach, one search per vertex, took 10,712,681 steps against 8,000 (1,339 times more).</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">A sabbatical at Stanford</h2>
+<p class="col">Tarjan's Turing Award lecture, "Algorithm Design" (<em>Communications of the ACM</em>, March 1987), tells it: he entered Stanford after Caltech in 1969, and in June 1970 "John Hopcroft arrived from Cornell to begin a sabbatical year at Stanford". "The focus of our activities became the problem of testing the planarity of a graph." "After carefully studying the properties of depth-first search, we developed a way to generate paths in O(n) time using depth-first search."</p>
+<p class="col">Tarjan's paper "Depth-First Search and Linear Graph Algorithms" (Cornell University; <em>SIAM Journal on Computing</em> 1(2), June 1972; received 30 August 1971) bounds the time and space of its two algorithms by k₁V + k₂E + k₃, and defines LOWLINK(v) as "the smallest vertex which is in the same component as v and is reachable by traversing zero or more tree arcs followed by at most one frond or cross-link". Hopcroft and Tarjan's planarity test followed in the <em>Journal of the ACM</em> in 1974, "the first linear-time algorithm for planarity testing" (Wikipedia). They shared the 1986 Turing Award "For fundamental achievements in the design and analysis of algorithms and data structures".</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Back to the maze</h2>
+<p class="col">"A version of depth-first search was investigated in the 19th century by French mathematician Charles Pierre Trémaux as a strategy for solving mazes" (Wikipedia), and every depth-first search tree is what graph theorists now call a Trémaux tree. What Hopcroft and Tarjan added was not the walk but the bookkeeping, and the insistence that the whole job be done in one pass.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>Euler asked of seven bridges whether a walk could cross each once (Era 3, topic 7). Here a walk that crosses each of 3,000,000 one-way roads once finds who can reach whom, in 4,000,000 steps.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>In an undirected graph, why can a non-tree edge never join two different branches of the search tree?</span></summary><div class="ans"><p>When the search first reached the earlier of the two vertices, it would have followed that edge before backing out, making it a tree edge.</p></div></details><details class="try"><summary><span class="q">2</span><span>Vertex D has number 3; its child E has lowpoint 3. What does that tell you?</span></summary><div class="ans"><p>Nothing below E reaches above D, so removing D cuts E's part off: D is a cut vertex.</p></div></details><details class="try"><summary><span class="q">3</span><span>Why is the root a special case?</span></summary><div class="ans"><p>It has nothing above it; it is a cut vertex exactly when it has two or more children in the search tree.</p></div></details><details class="try"><summary><span class="q">4</span><span>How many steps does the search take on a graph with 100 vertices and 300 edges?</span></summary><div class="ans"><p>About V + E = 400 for a directed graph (each edge examined once).</p></div></details><details class="try"><summary><span class="q">5</span><span>What are the strong components of a one-way cycle A → B → C → A plus an edge C → D?</span></summary><div class="ans"><p>{A, B, C} and {D}: D cannot get back.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Depth-First Search and Linear Graph Algorithms (1972)</b><span>Tarjan's paper, <em>SIAM Journal on Computing</em> 1(2).</span><a href="https://www.cs.cmu.edu/~cdm/resources/Tarjan1972-sccs.pdf">The paper (PDF, on a Carnegie Mellon page)</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://en.wikipedia.org/wiki/Depth-first_search" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Depth-first search · Wikipedia</span><span class="w">The search, its orders, and its uses</span></a><a href="https://en.wikipedia.org/wiki/Robert_Tarjan" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Robert Tarjan · Wikipedia</span><span class="w">The many algorithms of one designer</span></a><a href="https://www.cs.williams.edu/~heeringa/classes/cs256/s07/tarjan-turing.pdf" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Algorithm Design (Turing Award lecture) · R. E. Tarjan, <em>Communications of the ACM</em> (1987)</span><span class="w">How planarity led him and Hopcroft to depth-first search, in his own words</span></a><a href="https://en.wikipedia.org/wiki/Tr%C3%A9maux_tree" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Trémaux tree · Wikipedia</span><span class="w">The maze-solver's tree, and why every depth-first search builds one</span></a><a href="https://www.cs.cmu.edu/~cdm/resources/Tarjan1972-sccs.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Depth-First Search and Linear Graph Algorithms · R. Tarjan, <em>SIAM Journal on Computing</em> 1(2) (1972), on a Carnegie Mellon page</span><span class="w">Strong components and biconnected components in linear time</span></a><a href="https://projects.csail.mit.edu/jacm/References/hopcroftt1974:549.html" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Efficient planarity testing (bibliographic entry) · J. Hopcroft and R. Tarjan, <em>Journal of the ACM</em> 21(4): 549–568 (1974)</span><span class="w">The first linear-time planarity test; the text was not opened</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-06-hard-problems-and-public-keys/reference-catalog.md">Era 6 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-06-hard-problems-and-public-keys/09-depth-first-search/DepthFirst.java">DepthFirst.java</a> makes <strong>728,520 checks</strong>: cut vertices and biconnected components of a small graph, strong components of a directed one, both against slow methods on 4,000 random graphs, and the exact step count V + E up to a million vertices. Run it with <code>java DepthFirst.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">// ---- directed: Tarjan&#x27;s strongly connected components (iterative) -------------------------------------------------</span>
+<span class="k-kw">static</span> <span class="k-kw">int</span>[] strongComponents(<span class="k-kw">int</span>[][] adj) {
+    <span class="k-kw">int</span> n = adj.length, counter = <span class="k-n">0</span>, compCount = <span class="k-n">0</span>;
+    <span class="k-kw">int</span>[] num = <span class="k-kw">new</span> <span class="k-kw">int</span>[n], low = <span class="k-kw">new</span> <span class="k-kw">int</span>[n], comp = <span class="k-kw">new</span> <span class="k-kw">int</span>[n], edgeIdx = <span class="k-kw">new</span> <span class="k-kw">int</span>[n], callStack = <span class="k-kw">new</span> <span class="k-kw">int</span>[n];
+    <span class="k-kw">boolean</span>[] onStack = <span class="k-kw">new</span> <span class="k-kw">boolean</span>[n];
+    <span class="k-kw">int</span>[] stack = <span class="k-kw">new</span> <span class="k-kw">int</span>[n];
+    <span class="k-kw">int</span> top = <span class="k-n">0</span>;
+    Arrays.fill(num, -<span class="k-n">1</span>);
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> r = <span class="k-n">0</span>; r &lt; n; r++) {
+        <span class="k-kw">if</span> (num[r] &gt;= <span class="k-n">0</span>) continue;
+        <span class="k-kw">int</span> sp = <span class="k-n">0</span>;
+        callStack[sp++] = r;
+        num[r] = low[r] = counter++;
+        stack[top++] = r; onStack[r] = <span class="k-kw">true</span>;
+        steps++;
+        <span class="k-kw">while</span> (sp &gt; <span class="k-n">0</span>) {
+            <span class="k-kw">int</span> u = callStack[sp - <span class="k-n">1</span>];
+            <span class="k-kw">if</span> (edgeIdx[u] &lt; adj[u].length) {
+                <span class="k-kw">int</span> v = adj[u][edgeIdx[u]++];
+                steps++;
+                <span class="k-kw">if</span> (num[v] &lt; <span class="k-n">0</span>) {
+                    num[v] = low[v] = counter++;
+                    stack[top++] = v; onStack[v] = <span class="k-kw">true</span>;
+                    callStack[sp++] = v;
+                    steps++;
+                } <span class="k-kw">else</span> <span class="k-kw">if</span> (onStack[v]) low[u] = Math.min(low[u], num[v]);
+            } <span class="k-kw">else</span> {
+                sp--;
+                <span class="k-kw">if</span> (low[u] == num[u]) {                                    <span class="k-c">// u is the root of a component</span>
+                    <span class="k-kw">int</span> w;
+                    do { w = stack[--top]; onStack[w] = <span class="k-kw">false</span>; comp[w] = compCount; } <span class="k-kw">while</span> (w != u);
+                    compCount++;
+                }
+                <span class="k-kw">if</span> (sp &gt; <span class="k-n">0</span>) { <span class="k-kw">int</span> p = callStack[sp - <span class="k-n">1</span>]; low[p] = Math.min(low[p], low[u]); }
+            }
+        }
+    }
+    <span class="k-kw">return</span> comp;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>DepthFirst.java</code>.<br><span class="navfoot"><a href="../index.html">Era 6: Hard Problems and Public Keys</a><a href="../08-np-completeness/np-completeness.html">← NP-Completeness</a><a href="../10-public-key-cryptography/public-key-cryptography.html">Public-Key Cryptography →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const box = document.getElementById("df-graph");
+  if (!box) return;
+  const EDGES = ["AB","BC","CA","CD","DE","EF","FD","DG","GH","HI","IG","BJ"], POS = {"A":[60,140],"B":[140,80],"C":[140,200],"J":[230,60],"D":[240,220],"E":[325,170],"F":[330,280],"G":[230,320],"H":[160,390],"I":[300,400]};
+  const V = Object.keys(POS).sort(), idx = Object.fromEntries(V.map((v, i) => [v, i]));
+  const adj = V.map(() => []);
+  EDGES.forEach(e => { adj[idx[e[0]]].push(idx[e[1]]); adj[idx[e[1]]].push(idx[e[0]]); });
+  let num, low, par, ei, stack, counter, kind, cut, comps, estack, done, msg;
+  function reset() {
+    num = V.map(() => -1); low = V.map(() => -1); par = V.map(() => -1); ei = V.map(() => 0);
+    stack = [0]; counter = 1; num[0] = low[0] = 0; kind = {}; cut = new Set(); comps = []; estack = []; done = false;
+    msg = "Start at A: it gets number 0.";
+    show();
+  }
+  const key = (a, b) => a < b ? `${a}-${b}` : `${b}-${a}`;
+  function step() {
+    if (done) return;
+    const u = stack[stack.length - 1];
+    if (ei[u] < adj[u].length) {
+      const v = adj[u][ei[u]++];
+      if (num[v] < 0) {
+        par[v] = u; num[v] = low[v] = counter++; stack.push(v); kind[key(u, v)] = "tree"; estack.push([u, v]);
+        msg = `${V[u]}–${V[v]}: ${V[v]} is new, so this is a tree edge; ${V[v]} gets number ${num[v]}.`;
+      } else if (v !== par[u] && num[v] < num[u]) {
+        kind[key(u, v)] = "frond"; estack.push([u, v]);
+        low[u] = Math.min(low[u], num[v]);
+        msg = `${V[u]}–${V[v]}: ${V[v]} was reached earlier, so this is a frond back up the tree; lowpoint of ${V[u]} is now ${low[u]}.`;
+      } else msg = `${V[u]}–${V[v]}: already seen from the other end.`;
+      return;
+    }
+    stack.pop();
+    const p = par[u];
+    if (p < 0) { done = true; msg = `Back at A with nothing left: done. Cut vertices: ${[...cut].map(i => V[i]).join(", ") || "none"}.`; if ([...adj[0]].filter(v => par[v] === 0).length > 1) cut.add(0); return; }
+    low[p] = Math.min(low[p], low[u]);
+    msg = `${V[u]} is finished (lowpoint ${low[u]}); back to ${V[p]}.`;
+    if (low[u] >= num[p]) {
+      const comp = new Set(); let e;
+      do { e = estack.pop(); comp.add(e[0]); comp.add(e[1]); } while (!(e[0] === p && e[1] === u));
+      comps.push([...comp].map(i => V[i]).sort().join(""));
+      if (p !== 0) { cut.add(p); msg += ` Nothing below ${V[u]} reaches above ${V[p]} (lowpoint ${low[u]} ≥ number ${num[p]}): ${V[p]} is a cut vertex.`; }
+      msg += ` Biconnected component ${comps[comps.length - 1]}.`;
+    }
+  }
+  function show() {
+    box.innerHTML = "";
+    const svg = document.createElementNS(NS, "svg"); svg.setAttribute("viewBox", "0 0 380 430"); box.appendChild(svg);
+    EDGES.forEach(e => {
+      const [x1, y1] = POS[e[0]], [x2, y2] = POS[e[1]], k = kind[key(idx[e[0]], idx[e[1]])];
+      sv("line", {x1, y1, x2, y2, stroke: k === "tree" ? "var(--blue)" : k === "frond" ? "var(--ink-2)" : "var(--axis)", "stroke-width": k === "tree" ? 3 : 1.5, "stroke-dasharray": k === "frond" ? "6 4" : null}, svg);
+    });
+    const top = stack.length ? stack[stack.length - 1] : -1;
+    V.forEach((v, i) => {
+      const [x, y] = POS[v], c = cut.has(i);
+      sv("circle", {cx: x, cy: y, r: 17, fill: c ? "var(--red)" : i === top && !done ? "var(--yellow)" : num[i] >= 0 ? "var(--surface)" : "var(--wash)", stroke: "var(--ink-2)", "stroke-width": 1.5}, svg);
+      const t = sv("text", {x, y: y + 5, "text-anchor": "middle", "font-size": 13, "font-weight": 700, fill: c ? "var(--on-red)" : "var(--ink)"}, svg); t.textContent = v;
+      if (num[i] >= 0) { const s = sv("text", {x: x + 20, y: y - 12, "font-size": 11, "font-weight": 700, fill: "var(--blue)"}, svg); s.textContent = `${num[i]}/${low[i]}`; }
+    });
+    const st = document.getElementById("df-stats"); st.innerHTML = "";
+    el("div", {}, st, `path from A: ${stack.map(i => V[i]).join(" → ") || "—"}`);
+    el("div", {}, st, `components found: ${comps.join(", ") || "—"}`);
+    el("div", {}, st, "blue numbers: number / lowpoint");
+    document.getElementById("df-say").textContent = msg;
+  }
+  document.getElementById("df-step").addEventListener("click", () => { step(); show(); });
+  document.getElementById("df-run").addEventListener("click", () => { while (!done) step(); show(); });
+  document.getElementById("df-reset").addEventListener("click", reset);
+  reset();
+})();
+
+</script>
+</body>
+</html>

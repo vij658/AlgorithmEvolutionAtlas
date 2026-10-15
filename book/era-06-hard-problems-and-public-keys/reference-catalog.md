@@ -354,7 +354,7 @@ No video page could be opened (see **Gaps**).
 ## 9. Depth-first search and linear-time graph algorithms
 
 **When / where:** Robert Tarjan, Stanford University and then Cornell University, with John Hopcroft (Cornell, on sabbatical at Stanford from June 1970); "Depth-First Search and Linear Graph Algorithms", *SIAM Journal on Computing* 1(2), June 1972 (received 30 August 1971); Hopcroft and Tarjan, "Efficient planarity testing", *Journal of the ACM* 21(4): 549–568 (October 1974).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`DepthFirst.java`](../../code/era-06-hard-problems-and-public-keys/09-depth-first-search/) · **Page:** [topic 9](09-depth-first-search/README.md)
 
 > **Field note.** Exploring a maze by always taking an unexplored passage and turning back only at dead ends is old; a nineteenth-century French author, Trémaux, described a form of it for solving mazes. In June 1970 a graduate student at Stanford, Tarjan, was looking for a thesis topic, and Hopcroft had just arrived from Cornell for a sabbatical year. They set out to test whether a network can be drawn on a page without crossing lines, and found that the key was to study depth-first search with care: the order in which it reaches the vertices, and the few edges that lead back up the tree, carry enough information to answer such questions in time proportional to the size of the graph. Tarjan's 1972 paper used one extra number per vertex to find, in a single pass, the points whose failure would cut a network in two, and the groups of a one-way network in which everything can reach everything else. No method that must look at the whole graph can do better than linear time. Hopcroft and Tarjan shared the Turing Award in 1986.
 

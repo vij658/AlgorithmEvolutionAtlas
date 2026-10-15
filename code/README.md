@@ -18,6 +18,7 @@ Each program counts the checks it makes (known answers, edge cases, randomized c
 | [`era-03-tables-and-machines/`](era-03-tables-and-machines/README.md) | The book's Era 3 programs, from Cardano's cubic to Hollerith's tabulator |
 | [`era-04-what-can-be-computed/`](era-04-what-can-be-computed/README.md) | The book's Era 4 programs, from Hilbert's questions to Hamming's codes |
 | [`era-05-the-programmers-craft/`](era-05-the-programmers-craft/README.md) | The book's Era 5 programs, from the subroutine to Edmonds's matching |
+| [`era-06-hard-problems-and-public-keys/`](era-06-hard-problems-and-public-keys/README.md) | The book's Era 6 programs, from the fast Fourier transform to Lamport's logical clocks |
 | [`principles/`](principles/README.md) | The 62 programs of the principles catalog, one folder per entry, grouped by part |
 | [`tools/`](tools/README.md) | Python scripts that build and check the book's pages |
 | [`run-all.sh`](run-all.sh) | Runs every program and compares its output with `expected-output.txt` |

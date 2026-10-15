@@ -251,7 +251,7 @@ public class LinearProgramming {
             check(Math.abs(v - opt) / opt < 1e-6, "interior point reaches the optimum, n=" + n);
             maxIpm = Math.max(maxIpm, iterations);
             if (n == 1 || n == 2 || n == 3 || n % 2 == 0)
-                kj.add(String.format("n=%d: simplex %,d pivots, interior point %d iterations", n, piv, iterations));
+                kj.add(String.format("n=%d: simplex %,d pivot%s, interior point %d iterations", n, piv, piv == 1 ? "" : "s", iterations));
         }
         System.out.printf("kleeminty: maximize sum of 2^(n-j) x_j subject to 2 sum_{j<i} 2^(i-j) x_j + x_i <= 5^i ; the simplex method with Dantzig's rule (enter the largest coefficient) against a primal-dual interior-point method (Mehrotra's predictor-corrector), both reaching the optimum 5^n ; %s ; the simplex pivots are exactly 2^n - 1 every time, the interior-point iterations never more than %d%n",
                 kj, maxIpm);

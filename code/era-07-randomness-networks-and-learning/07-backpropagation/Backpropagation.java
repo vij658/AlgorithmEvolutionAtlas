@@ -13,7 +13,7 @@ import java.util.*;
  *   weights. With it, hidden units can learn features that no single layer can represent, such as exclusive-or.
  *
  * WHAT THIS PROGRAM DOES
- *   1. The perceptron rule (Era 4) on AND and on exclusive-or (XOR): it learns AND, and never gets XOR right.
+ *   1. The perceptron rule (Era 5) on AND and on exclusive-or (XOR): it learns AND, and never gets XOR right.
  *   2. A network with two hidden units trained by backpropagation on XOR, from 100 random starts.
  *   3. Backpropagation's gradient against wiggling each weight: the same numbers, at a fraction of the work.
  *   4. One XOR run in detail: the error epoch by epoch, from fixed starting weights the book's widget also uses.

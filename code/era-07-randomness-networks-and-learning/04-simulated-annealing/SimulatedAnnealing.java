@@ -13,7 +13,7 @@ import java.util.*;
  *   "quenching" and gives worse tours; cooling slowly takes longer and gives better ones.
  *
  * WHAT THIS PROGRAM DOES
- *   1. Tours of 12 cities, where the best tour can be found exactly (Held and Karp's dynamic programme, Era 5):
+ *   1. Tours of 12 cities, where the best tour can be found exactly (Held and Karp's method, a dynamic programme; Era 5):
  *      how often iterative improvement and annealing find it.
  *   2. Tours of 200 cities: a random tour, iterative improvement, and annealing.
  *   3. The cooling rate: tour length and work for slower and slower cooling.

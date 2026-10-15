@@ -5,7 +5,7 @@ import java.util.*;
  *
  * HOW IT WORKS
  *   A binary search tree finds a key by walking down from the root, left if smaller, right if larger. Balanced trees
- *   (Era 4) keep every path short by storing extra information and following rules after each change. A splay tree
+ *   (Era 5) keep every path short by storing extra information and following rules after each change. A splay tree
  *   stores nothing extra. Instead, every time a key is touched, it is "splayed": rotated up to the root, two levels
  *   at a time (the zig-zig and zig-zag steps), which also roughly halves the depth of every node on the way. One
  *   access can still be slow, but Sleator and Tarjan proved that any sequence of m accesses takes O(m log n) in all:

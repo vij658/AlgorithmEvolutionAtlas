@@ -183,7 +183,7 @@ def family():
     D.edge("karp", "many", ports=("right", "left"))
     D.edge("cook", "pk", ports=("bottom:0.85", "top"), dashed=True)
     D.edge("many", "today", ports=("bottom", "top"))
-    D.text(20, 615, "Dashed: public-key cryptography rests on problems believed hard, though factoring is not known to be NP-complete.", "caption")
+    D.text(20, 615, "Dashed: public-key cryptography rests on problems believed hard, a belief of the same kind, not a proof.", "caption")
     return D
 
 

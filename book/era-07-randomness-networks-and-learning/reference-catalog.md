@@ -554,7 +554,7 @@ No video page could be opened (see **Gaps**).
 - **Guarantees over whole sequences.** Amortized analysis (5) judges a data structure by the total cost of everything done with it; splay trees adapt to what is used.
 - **Computers that cooperate.** Byzantine agreement (3) survives parts that lie; TCP's congestion control (10) lets senders that never speak to each other share links fairly; Merkle's trees (2) let anyone check a piece of shared data against one short hash.
 - **Short summaries of big things.** A hash for a tree of data (2), a fingerprint for a window of text (9), a centre of mass for a cube of stars (8), a sorted column for a block of text (12).
-- **Polynomial versus practical.** The ellipsoid method (1) settled that linear programming is polynomial and was slow; interior-point methods were both. Shor's algorithm (11) is polynomial on a machine that, as of 2026, has not been built at the needed size.
+- **Polynomial versus practical.** The ellipsoid method (1) settled that linear programming is polynomial and was slow; interior-point methods were both. Shor's algorithm (11) is polynomial on a machine far larger than the small demonstrations the sources describe.
 - **Machines that learn.** Backpropagation (7) trains hidden layers; boosting (13) combines weak rules into strong ones.
 
 Era 8 picks up in the mid-1990s: the algorithms of the Web, of genomes, and of learning at scale.

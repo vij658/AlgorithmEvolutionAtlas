@@ -1,0 +1,7 @@
+bitrev: positions 0 to 7 hold samples 0 4 2 6 1 5 3 7 (6 = 110 in binary holds sample 011 = 3) ; for 16: 0 8 4 12 2 10 6 14 1 9 5 13 3 11 7 15
+agree: 1,024 random complex samples ; direct sum 1,048,576 complex multiplications, FFT 5,120 (205 times fewer) ; largest difference between the two answers 1.3e-13
+counts: complex multiplications, N^2 for the direct sum against (N/2) log2 N for the FFT ; N=16: direct 256, fast 32, 8 times fewer ; N=256: direct 65,536, fast 1,024, 64 times fewer ; N=4,096: direct 16,777,216, fast 24,576, 683 times fewer ; N=65,536: direct 4,294,967,296, fast 524,288, 8,192 times fewer ; N=1,048,576: direct 1,099,511,627,776, fast 10,485,760, 104,858 times fewer ; the program ran the 1,048,576-point FFT and counted 10,485,760
+signal: 4,096 samples ; waves of 237 and 1001 cycles, heights 1.0 and 0.6, buried in random noise of spread 4.0 ; the two tallest peaks of the transform are at 237 and 1001 cycles, 70 and 12 times the average height of the others
+multiply: two random 4,000-digit numbers ; their digits convolved through three FFTs of 8,192 points: 167,936 complex multiplications, against 16,000,000 digit products by schoolbook ; the 8,000-digit product, starting 694252897823 and ending 625059464728, equals Java's BigInteger result ; largest rounding error 0.000
+inverse: 256 random samples transformed and transformed back with the opposite sign and a division by 256 ; largest difference from the original 4.7e-16
+FastFourier: 1288 checks passed

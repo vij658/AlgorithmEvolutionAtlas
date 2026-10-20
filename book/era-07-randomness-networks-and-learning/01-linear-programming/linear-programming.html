@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Linear Programming in Polynomial Time</title>
+<meta name="description" content="Era 7, topic 1 of The Algorithm Evolution Atlas: Klee and Minty&#x27;s cube, Khachiyan&#x27;s ellipsoid method, Karmarkar&#x27;s interior points, and the primal-dual methods solvers use today.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.el-view svg{display:block;width:100%;height:auto;background:var(--wash)}
+.el-btns{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.el-stats{font:13px var(--mono);display:grid;gap:3px;margin-top:8px}
+.el-board select{font:inherit;font-family:var(--mono);font-size:14px;padding:4px 6px;border:1px solid var(--axis);background:var(--paper);color:var(--ink)}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 7: Randomness, Networks and Learning</a><a href="../02-merkle-trees/merkle-trees.html">Merkle&#x27;s Hash Trees →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 7 · Topic 1 · 1979–1984</div>
+    <h1>Linear Programming in Polynomial Time</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">The simplex method was fast on the problems people brought it, but a squashed cube could make it visit every corner. In 1979 a 26-year-old in Moscow showed that linear programs can be solved in polynomial time; five years later Karmarkar showed how to do it fast.</p>
+  <p class="fieldnote">Field note from the visiting historian. I watched the old method walk all 16,383 edges of a cube of 14 dimensions, one corner at a time, while the new one went through the middle in 20 steps. Then I gave both a random problem, and the old method won. This species keeps both.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Khachiyan 1979; Karmarkar 1984</dd></div><div><dt>Where</dt><dd>Moscow; AT&amp;T Bell Laboratories</dd></div><div><dt>What hurt</dt><dd>No polynomial guarantee for linear programming</dd></div><div><dt>The fix</dt><dd>Ellipsoids, then interior points</dd></div><div><dt>Checked</dt><dd>Cubes to n = 14: 16,383 pivots against 20 Newton steps</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. The simplex method (Era 4) was fast in practice, but Klee and Minty's cube showed it had no polynomial guarantee. Khachiyan took the ellipsoid method, built for other convex problems, and applied it to linear programs: the first polynomial bound. Karmarkar then went through the inside of the region instead of round its edges. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How polynomial-time linear programming combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="230.0" y1="63.0" x2="395.0" y2="63.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="395.0,63.0 386.8,66.7 386.8,59.3" style="fill:var(--ink-2)"/><rect x="265.1" y="42.0" width="94.8" height="19" rx="3" style="fill:var(--surface)"/><text x="312.5" y="55.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">no guarantee</text><line x1="500.0" y1="106.0" x2="500.0" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,180.0 496.3,171.8 503.7,171.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="573.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,180.0 580.6,174.5 582.4,181.6" style="fill:var(--ink-2)"/><line x1="500.0" y1="266.0" x2="500.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,340.0 496.3,331.8 503.7,331.8" style="fill:var(--ink-2)"/><rect x="503.0" y="290.0" width="131.7" height="19" rx="3" style="fill:var(--surface)"/><text x="508.0" y="303.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">polynomial, but slow</text><line x1="230.0" y1="383.0" x2="395.0" y2="383.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="395.0,383.0 386.8,386.7 386.8,379.3" style="fill:var(--ink-2)"/><line x1="605.0" y1="383.0" x2="770.0" y2="383.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="770.0,383.0 761.8,386.7 761.8,379.3" style="fill:var(--ink-2)"/><line x1="500.0" y1="426.0" x2="500.0" y2="490.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,490.0 496.3,481.8 503.7,481.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="426.0" x2="573.5" y2="490.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,490.0 580.8,484.7 582.3,491.9" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The simplex method</text><text x="32.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">walk along edges from corner</text><text x="32.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">to corner</text><text x="32.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 4, topic 11</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Klee and Minty&#x27;s cube</text><text x="407.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a squashed cube where every</text><text x="407.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">corner is visited</text><text x="407.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1972</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The ellipsoid method</text><text x="782.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Shor; Nemirovski and Yudin</text><text x="782.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1970s, for convex problems</text><rect x="395" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="203.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Khachiyan&#x27;s algorithm</text><text x="407.0" y="220.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ ellipsoids applied to linear</text><text x="407.0" y="237.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">programs: polynomial</text><text x="407.0" y="253.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Moscow, 1979</text><rect x="20" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="363.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Dikin&#x27;s affine scaling</text><text x="32.0" y="380.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">steps inside, scaled by the</text><text x="32.0" y="397.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">distance to each wall</text><text x="32.0" y="413.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1967; rediscovered 1985</text><rect x="395" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="363.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Karmarkar&#x27;s method</text><text x="407.0" y="380.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ through the interior:</text><text x="407.0" y="397.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">polynomial and fast</text><text x="407.0" y="413.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Bell Labs, 1984</text><rect x="770" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="363.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Primal-dual methods</text><text x="782.0" y="380.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ solve the program and its</text><text x="782.0" y="397.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">dual together</text><text x="782.0" y="413.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Mehrotra&#x27;s predictor-corrector</text><rect x="395" y="490" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="521.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Today</text><text x="407.0" y="539.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">&quot;competitive with, and often</text><text x="407.0" y="555.6" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">superior to&quot; simplex codes</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Today: in the NEOS Guide&#x27;s words. Dashed: Karmarkar&#x27;s later simplification turned out to repeat Dikin&#x27;s 1967 method.</text></svg></div><figcaption>Red: Khachiyan's step. Blue: where it led.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">Cut the ellipse in half, again and again</h2>
+<p class="col">The ellipsoid method in two dimensions, exactly as the program runs it. The target is a small triangle near (37, −21); we start from a disc of radius 100 round the origin. If the centre of the current ellipse breaks one of the triangle's three constraints, that constraint's line through the centre cuts the ellipse in half, and the method draws the smallest ellipse round the good half. Pick a smaller triangle and count the cuts: the area shrinks by the same factor every time, so a target a hundred times smaller costs only a fixed number of extra cuts.</p>
+
+<div class="board el-board">
+  <div style="min-width:0">
+    <div class="el-view" id="el-view"></div>
+  </div>
+  <div style="min-width:0">
+    <div class="controls"><label>Target triangle's side <select id="el-side"></select></label></div>
+    <div class="el-btns"><button type="button" class="primary" id="el-step">One cut</button><button type="button" id="el-run">Run to the end</button><button type="button" id="el-reset">Start again</button></div>
+    <div class="el-stats" id="el-stats"></div>
+    <p class="say" id="el-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 7, randomness, networks and learning</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 7: Randomness, Networks and Learning, from 1979 to 1995" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1979–1984</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Khachiyan and</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Karmarkar</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1979</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Merkle trees</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1980–1982</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Byzantine</text><text x="307.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">agreement</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1983–1985</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Simulated annealing</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1985</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Splay trees</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1985–1986</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Zero knowledge</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1970–1986</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Backpropagation</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1986</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Barnes–Hut</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1985–1987</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Karp–Rabin</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1986–1989</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Congestion control</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1994</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Shor&#x27;s algorithm</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1983–1994</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Burrows–Wheeler</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1995–1997</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AdaBoost</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 416" role="img" aria-label="Each fix leaves a new pain: from no guarantee to a fast guarantee" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="436.3" y="45.0" width="87.4" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">answered by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="436.3" y="187.0" width="87.4" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">answered by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="436.3" y="329.0" width="87.4" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">answered by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The simplex method has no polynomial guarantee: on Klee</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">and Minty&#x27;s cube (1972) it takes 16,383 pivots at n = 14</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="37.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="53.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Khachiyan&#x27;s ellipsoid method: every cut shrinks the</text><text x="572.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">region by a fixed factor (0.7698 of the area in the</text><text x="572.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">plane)</text><text x="572.0" y="102.5" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Khachiyan, 1979</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The ellipsoid method is slow in practice: close to its</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">worst case</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Karmarkar&#x27;s interior-point method: polynomial, and fast</text><text x="32.0" y="228.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Karmarkar, 1984</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="345.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Karmarkar&#x27;s projective method was intricate</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Primal-dual interior-point methods: at most 20 Newton</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">steps on every cube up to n = 14</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Mehrotra&#x27;s predictor-corrector</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Round the edges, or through the middle</h2>
+<p class="col"><strong>The problem.</strong> Find the largest value of c·x over the points x that satisfy linear inequalities. The allowed points form a polytope, and the best value is at a corner. The simplex method walks from corner to better corner along the edges.</p>
+<p class="col"><strong>Klee and Minty's cube.</strong> A cube squashed so that, with the usual rule for choosing the next edge (the variable with the largest coefficient), the walk visits every one of the 2ⁿ corners. In three dimensions:</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 760 490" role="img" aria-label="The simplex method&#x27;s path round the Klee-Minty cube" style="font-family:var(--body);min-width:418px;max-width:760px;margin:0 auto"><text x="20.0" y="26.0" text-anchor="start" style="fill:var(--ink);font-size:13px;font-weight:700">Klee and Minty&#x27;s cube for n = 3: the simplex method visits all 2³ = 8 corners</text><line x1="150.0" y1="400.0" x2="410.0" y2="400.0" style="stroke:var(--axis);stroke-width:1.4"/><line x1="150.0" y1="400.0" x2="280.0" y2="310.0" style="stroke:var(--axis);stroke-width:1.4"/><line x1="150.0" y1="400.0" x2="150.0" y2="180.0" style="stroke:var(--axis);stroke-width:1.4"/><line x1="150.0" y1="180.0" x2="410.0" y2="180.0" style="stroke:var(--axis);stroke-width:1.4"/><line x1="150.0" y1="180.0" x2="280.0" y2="90.0" style="stroke:var(--axis);stroke-width:1.4"/><line x1="280.0" y1="310.0" x2="540.0" y2="310.0" style="stroke:var(--axis);stroke-width:1.4"/><line x1="280.0" y1="310.0" x2="280.0" y2="90.0" style="stroke:var(--axis);stroke-width:1.4"/><line x1="280.0" y1="90.0" x2="540.0" y2="90.0" style="stroke:var(--axis);stroke-width:1.4"/><line x1="410.0" y1="400.0" x2="540.0" y2="310.0" style="stroke:var(--axis);stroke-width:1.4"/><line x1="410.0" y1="400.0" x2="410.0" y2="180.0" style="stroke:var(--axis);stroke-width:1.4"/><line x1="410.0" y1="180.0" x2="540.0" y2="90.0" style="stroke:var(--axis);stroke-width:1.4"/><line x1="540.0" y1="310.0" x2="540.0" y2="90.0" style="stroke:var(--axis);stroke-width:1.4"/><line x1="150.0" y1="400.0" x2="410.0" y2="400.0" style="stroke:var(--red);stroke-width:3"/><path d="M288.0,400.0 L274.0,406.0 L274.0,394.0 Z" style="fill:var(--red)"/><line x1="410.0" y1="400.0" x2="540.0" y2="310.0" style="stroke:var(--red);stroke-width:3"/><path d="M481.6,350.4 L473.5,363.3 L466.7,353.5 Z" style="fill:var(--red)"/><line x1="540.0" y1="310.0" x2="280.0" y2="310.0" style="stroke:var(--red);stroke-width:3"/><path d="M402.0,310.0 L416.0,304.0 L416.0,316.0 Z" style="fill:var(--red)"/><line x1="280.0" y1="310.0" x2="280.0" y2="90.0" style="stroke:var(--red);stroke-width:3"/><path d="M280.0,192.0 L286.0,206.0 L274.0,206.0 Z" style="fill:var(--red)"/><line x1="280.0" y1="90.0" x2="540.0" y2="90.0" style="stroke:var(--red);stroke-width:3"/><path d="M418.0,90.0 L404.0,96.0 L404.0,84.0 Z" style="fill:var(--red)"/><line x1="540.0" y1="90.0" x2="410.0" y2="180.0" style="stroke:var(--red);stroke-width:3"/><path d="M468.4,139.6 L476.5,126.7 L483.3,136.5 Z" style="fill:var(--red)"/><line x1="410.0" y1="180.0" x2="150.0" y2="180.0" style="stroke:var(--red);stroke-width:3"/><path d="M272.0,180.0 L286.0,174.0 L286.0,186.0 Z" style="fill:var(--red)"/><circle cx="150.0" cy="400.0" r="13.0" style="fill:var(--surface);stroke:var(--red);stroke-width:2"/><text x="150.0" y="404.5" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:700">0</text><text x="132.0" y="396.0" text-anchor="end" style="fill:var(--ink);font-size:12px;font-weight:700">(0, 0, 0)</text><text x="132.0" y="412.0" text-anchor="end" style="fill:var(--blue);font-size:11.5px;font-weight:400">value 0</text><circle cx="410.0" cy="400.0" r="13.0" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="410.0" y="404.5" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:700">1</text><text x="428.0" y="396.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:700">(5, 0, 0)</text><text x="428.0" y="412.0" text-anchor="start" style="fill:var(--blue);font-size:11.5px;font-weight:400">value 20</text><circle cx="540.0" cy="310.0" r="13.0" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="540.0" y="314.5" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:700">2</text><text x="558.0" y="306.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:700">(5, 5, 0)</text><text x="558.0" y="322.0" text-anchor="start" style="fill:var(--blue);font-size:11.5px;font-weight:400">value 30</text><circle cx="280.0" cy="310.0" r="13.0" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="280.0" y="314.5" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:700">3</text><text x="262.0" y="306.0" text-anchor="end" style="fill:var(--ink);font-size:12px;font-weight:700">(0, 25, 0)</text><text x="262.0" y="322.0" text-anchor="end" style="fill:var(--blue);font-size:11.5px;font-weight:400">value 50</text><circle cx="280.0" cy="90.0" r="13.0" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="280.0" y="94.5" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:700">4</text><text x="262.0" y="86.0" text-anchor="end" style="fill:var(--ink);font-size:12px;font-weight:700">(0, 25, 25)</text><text x="262.0" y="102.0" text-anchor="end" style="fill:var(--blue);font-size:11.5px;font-weight:400">value 75</text><circle cx="540.0" cy="90.0" r="13.0" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="540.0" y="94.5" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:700">5</text><text x="558.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:700">(5, 5, 65)</text><text x="558.0" y="102.0" text-anchor="start" style="fill:var(--blue);font-size:11.5px;font-weight:400">value 95</text><circle cx="410.0" cy="180.0" r="13.0" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="410.0" y="184.5" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:700">6</text><text x="428.0" y="176.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:700">(5, 0, 85)</text><text x="428.0" y="192.0" text-anchor="start" style="fill:var(--blue);font-size:11.5px;font-weight:400">value 105</text><circle cx="150.0" cy="180.0" r="13.0" style="fill:var(--surface);stroke:var(--red);stroke-width:2"/><text x="150.0" y="184.5" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:700">7</text><text x="132.0" y="176.0" text-anchor="end" style="fill:var(--ink);font-size:12px;font-weight:700">(0, 0, 125)</text><text x="132.0" y="192.0" text-anchor="end" style="fill:var(--blue);font-size:11.5px;font-weight:400">value 125</text><text x="20.0" y="460.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">Numbers in circles: the order of the visits. Each pivot raises the value 4x₁ + 2x₂ + x₃, yet every corner is visited.</text><text x="20.0" y="478.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">The cube is squashed: x₁ runs to 5, x₂ to 25, x₃ to 125. Drawn here as a plain cube to show which corner is which.</text></svg></div></figure>
+<p class="col"><strong>The ellipsoid method.</strong> Keep an ellipsoid that surely contains a solution. If its centre breaks a constraint, the constraint cuts the ellipsoid in half; draw the smallest ellipsoid round the good half. Its volume shrinks by a fixed factor each time (0.7698 of the area in the plane), so after a number of cuts that grows like a polynomial in the size of the input, the centre lands in the region or the region is shown empty. Optimizing reduces to repeated feasibility tests.</p>
+<p class="col"><strong>Interior points.</strong> Karmarkar's method moves through the inside of the polytope, taking long steps that keep well away from the walls. The kind in this topic's program, primal-dual path-following, solves the program and its dual together: at the optimum each variable times its matching dual slack is zero, so each Newton step aims at points where all those products are equal and a little smaller, stopping just short of the walls.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>A guarantee and a fast program are different things. The ellipsoid method settled that linear programming can be solved in polynomial time and was too slow to use; interior-point methods were the first to be both.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Pivots against Newton steps</h2>
+<p class="col"><strong>On Klee and Minty's cube.</strong> The simplex method with Dantzig's rule took exactly 2ⁿ − 1 pivots every time; the interior-point method never more than 20 iterations. Both reached the optimum 5ⁿ.</p>
+<div class="tbl"><table><thead><tr><th class="n">n</th><th class="n">Simplex pivots</th><th class="n">Interior-point iterations</th></tr></thead><tbody><tr class=""><td class="n">1</td><td class="n">1</td><td class="n">6</td></tr><tr class=""><td class="n">2</td><td class="n">3</td><td class="n">7</td></tr><tr class=""><td class="n">3</td><td class="n">7</td><td class="n">7</td></tr><tr class=""><td class="n">4</td><td class="n">15</td><td class="n">8</td></tr><tr class=""><td class="n">6</td><td class="n">63</td><td class="n">10</td></tr><tr class=""><td class="n">8</td><td class="n">255</td><td class="n">12</td></tr><tr class=""><td class="n">10</td><td class="n">1,023</td><td class="n">16</td></tr><tr class=""><td class="n">12</td><td class="n">4,095</td><td class="n">17</td></tr><tr class=""><td class="n">14</td><td class="n">16,383</td><td class="n">20</td></tr></tbody></table></div>
+<p class="col"><strong>On random programs.</strong> With positive random coefficients, 5 programs of each size, the simplex method is fast too: 13.8 pivots on average at 160 variables and 160 constraints, against 12.8 interior-point iterations (each much more expensive). The cube is a worst case, not the usual case.</p>
+<div class="tbl"><table><thead><tr><th class="">Variables × constraints</th><th class="n">Simplex pivots (mean)</th><th class="n">Interior-point iterations (mean)</th></tr></thead><tbody><tr class=""><td class="">10 × 10</td><td class="n">5.0</td><td class="n">8.0</td></tr><tr class=""><td class="">20 × 20</td><td class="n">5.8</td><td class="n">8.6</td></tr><tr class=""><td class="">40 × 40</td><td class="n">8.0</td><td class="n">10.0</td></tr><tr class=""><td class="">80 × 80</td><td class="n">9.6</td><td class="n">10.8</td></tr><tr class=""><td class="">160 × 160</td><td class="n">13.8</td><td class="n">12.8</td></tr></tbody></table></div>
+<p class="col"><strong>The ellipsoid method in the plane.</strong> Each cut shrank the area by the factor 0.7698, checked on every cut. Smaller targets took more cuts, never more than the number of shrinkings that would take the starting disc's area below the triangle's:</p>
+<div class="tbl"><table><thead><tr><th class="">Triangle&#x27;s side</th><th class="n">Cuts</th><th class="n">Bound from the area</th></tr></thead><tbody><tr class=""><td class="">10</td><td class="n">14</td><td class="n">25</td></tr><tr class=""><td class="">3.16</td><td class="n">14</td><td class="n">34</td></tr><tr class=""><td class="">1</td><td class="n">26</td><td class="n">43</td></tr><tr class=""><td class="">0.3162</td><td class="n">41</td><td class="n">52</td></tr><tr class=""><td class="">0.1</td><td class="n">42</td><td class="n">60</td></tr><tr class=""><td class="">0.0316</td><td class="n">51</td><td class="n">69</td></tr><tr class=""><td class="">0.01</td><td class="n">51</td><td class="n">78</td></tr></tbody></table></div>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">Four pages that made headlines</h2>
+<p class="col">Leonid Khachiyan's result "was first published in a four-page note, without proofs, in Soviet Mathematics Doklady in February 1979", and presented in the West at the Montreal Mathematical Programming Symposium that August, with proofs in 1980 (SIAM News, 2005). The press reaction, which Eugene Lawler called "The Great Mathematical Sputnik of 1979", explained it "with very spotty results"; the Guardian's headline read "Soviet Answer to the 'Traveling Salesmen'", which it was not. The same appreciation notes that the method "seems to require in practice a number of iterations close to its worst-case bound", while the simplex method remains "highly competitive with the more recent interior-point methods".</p>
+<p class="col">Narendra Karmarkar, at AT&amp;T Bell Laboratories, published "A New Polynomial-Time Algorithm for Linear Programming" in <em>Combinatorica</em> in 1984, with a bound of O(n³·⁵L²) against O(n⁶L²) for the ellipsoid algorithm. It was patented in 1988. A 1985 simplification, affine scaling, turned out to be "an algorithm published by Soviet mathematician I. I. Dikin in 1967" (Wikipedia). Today "The class of primal-dual path-following interior-point methods is considered the most successful", and "Mehrotra's predictor–corrector algorithm provides the basis for most implementations" (Wikipedia); the NEOS Guide says interior-point codes "have proven to be competitive with, and often superior to, the best simplex packages".</p>
+<p class="col">Klee and Minty's paper, "How good is the simplex algorithm?", is dated 1972 in Wikipedia's citation and 1973 in its text; the catalog marks the year <strong>Disputed</strong>.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">The simplex method, still standing</h2>
+<p class="col">Era 4 ended with Dantzig's simplex method solving linear programs that had been out of reach. Era 7 shows it can be made to take 16,383 pivots on a cube of 14 dimensions, and finds methods with guarantees. Yet on the random programs above it needed only 13.8 pivots for 160 variables, and the sources agree it stayed in use beside the interior-point methods.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>The fastest method in the worst case and the fastest method on the problems people bring are not always the same method. Solvers today offer both.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>How many corners does Klee and Minty's cube have in 20 dimensions, and how many pivots would Dantzig's rule take?</span></summary><div class="ans"><p>2²⁰ = 1,048,576 corners; 2²⁰ − 1 = 1,048,575 pivots.</p></div></details><details class="try"><summary><span class="q">2</span><span>Each cut keeps the same fraction of the ellipse's area. Why does that make the number of cuts grow only slowly as the target shrinks?</span></summary><div class="ans"><p>Making the target a hundred times smaller in area costs only the number of cuts needed to shrink the area another hundredfold: log(100) / log(1/0.7698), about 18 cuts in the plane.</p></div></details><details class="try"><summary><span class="q">3</span><span>Why did the ellipsoid method's polynomial bound not make it the method of choice?</span></summary><div class="ans"><p>It needs close to its worst-case number of iterations in practice, and each is costly; the simplex method was usually much faster.</p></div></details><details class="try"><summary><span class="q">4</span><span>What does an interior-point method do at each step?</span></summary><div class="ans"><p>It solves one linear system (a Newton step) and moves through the inside of the region, stopping short of the walls.</p></div></details><details class="try"><summary><span class="q">5</span><span>On which kind of problem would you expect the simplex method to beat an interior-point method?</span></summary><div class="ans"><p>On many ordinary problems, such as the random ones here, where it needs few pivots, each far cheaper than an interior-point iteration.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Khachiyan&#x27;s note in Doklady (1979)</b><span>Four pages, without proofs, in <em>Doklady Akademii Nauk SSSR</em>; the note itself was not opened for this book.</span><a href="https://en.wikipedia.org/wiki/Leonid_Khachiyan">Khachiyan&#x27;s life and the note (Wikipedia)</a><span class="lic">Drawn placeholder.</span></figcaption></figure><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Karmarkar&#x27;s paper (1984)</b><span>"A New Polynomial-Time Algorithm for Linear Programming", <em>Combinatorica</em> 4(4).</span><a href="https://users.cs.utah.edu/~tch/notes/PSSAT/EAGER/Ishaan/A_New_Polynomial-Time_Algorithm_for_Linear_Program.pdf">The paper (PDF, on a University of Utah page)</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://sites.oxy.edu/lengyel/M372/papers/SIAM%20Leonid%20Khachiyan,%201952%962005%20An%20Appreciation.htm" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Leonid Khachiyan, 1952–2005: An Appreciation · SIAM News (2005)</span><span class="w">The four-page note, the headlines, and what the method did and did not change</span></a><a href="https://en.wikipedia.org/wiki/Klee%E2%80%93Minty_cube" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Klee–Minty cube · Wikipedia</span><span class="w">The cube on which the simplex method visits every corner</span></a><a href="https://en.wikipedia.org/wiki/Ellipsoid_method" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Ellipsoid method · Wikipedia</span><span class="w">How cutting ellipsoids in half finds a feasible point</span></a><a href="https://en.wikipedia.org/wiki/Karmarkar%27s_algorithm" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Karmarkar's algorithm · Wikipedia</span><span class="w">Interior points, the patent, and affine scaling</span></a><a href="https://neos-guide.org/guide/algorithms/ipm" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Interior-Point Methods · NEOS Guide</span><span class="w">Primal-dual path-following and Mehrotra's predictor-corrector, as in this topic's program</span></a><a href="https://en.wikipedia.org/wiki/Interior-point_method" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Interior-point method · Wikipedia</span><span class="w">Dikin, Karmarkar, and why primal-dual methods won</span></a><a href="https://users.cs.utah.edu/~tch/notes/PSSAT/EAGER/Ishaan/A_New_Polynomial-Time_Algorithm_for_Linear_Program.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">A New Polynomial-Time Algorithm for Linear Programming · N. Karmarkar, <em>Combinatorica</em> (1984), on a University of Utah page</span><span class="w">The projective method and its bound</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-07-randomness-networks-and-learning/reference-catalog.md">Era 7 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-07-randomness-networks-and-learning/01-linear-programming/LinearProgramming.java">LinearProgramming.java</a> makes <strong>978 checks</strong>: Klee and Minty's cube for n = 1 to 14 (2ⁿ − 1 pivots, and the interior-point method reaching the same optimum), the path round the 3-dimensional cube, 25 random programs solved both ways, and the ellipsoid method's area factor on every cut. Run it with <code>java LinearProgramming.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-kw">static</span> <span class="k-kw">double</span> simplex(<span class="k-kw">double</span>[][] A, <span class="k-kw">double</span>[] b, <span class="k-kw">double</span>[] c) {
+    <span class="k-kw">int</span> m = A.length, n = c.length;
+    <span class="k-kw">double</span>[][] T = <span class="k-kw">new</span> <span class="k-kw">double</span>[m + <span class="k-n">1</span>][n + m + <span class="k-n">1</span>];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; m; i++) {
+        System.arraycopy(A[i], <span class="k-n">0</span>, T[i], <span class="k-n">0</span>, n);
+        T[i][n + i] = <span class="k-n">1</span>;
+        T[i][n + m] = b[i];
+    }
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; n; j++) T[m][j] = -c[j];               <span class="k-c">// objective row: reduced costs, negated</span>
+    <span class="k-kw">int</span>[] basis = <span class="k-kw">new</span> <span class="k-kw">int</span>[m];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; m; i++) basis[i] = n + i;              <span class="k-c">// start at the corner x = 0, the slacks basic</span>
+    pivots = <span class="k-n">0</span>;
+    <span class="k-kw">if</span> (path != <span class="k-kw">null</span>) path.add(corner(T, basis, n, m));
+    <span class="k-kw">while</span> (<span class="k-kw">true</span>) {
+        <span class="k-kw">int</span> e = -<span class="k-n">1</span>;
+        <span class="k-kw">double</span> most = -1e-<span class="k-n">12</span>;
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; n + m; j++) <span class="k-kw">if</span> (T[m][j] &lt; most) { most = T[m][j]; e = j; }   <span class="k-c">// Dantzig: largest coefficient</span>
+        <span class="k-kw">if</span> (e &lt; <span class="k-n">0</span>) <span class="k-kw">return</span> T[m][n + m];
+        <span class="k-kw">int</span> l = -<span class="k-n">1</span>;
+        <span class="k-kw">double</span> best = Double.MAX_VALUE;
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; m; i++) <span class="k-kw">if</span> (T[i][e] &gt; 1e-<span class="k-n">12</span>) { <span class="k-kw">double</span> r = T[i][n + m] / T[i][e]; <span class="k-kw">if</span> (r &lt; best - 1e-<span class="k-n">12</span>) { best = r; l = i; } }
+        <span class="k-kw">if</span> (l &lt; <span class="k-n">0</span>) throw <span class="k-kw">new</span> IllegalStateException(&quot;unbounded&quot;);
+        <span class="k-kw">double</span> p = T[l][e];
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt;= n + m; j++) T[l][j] /= p;
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt;= m; i++) {
+            <span class="k-kw">if</span> (i == l || T[i][e] == <span class="k-n">0</span>) continue;
+            <span class="k-kw">double</span> f = T[i][e];
+            <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt;= n + m; j++) T[i][j] -= f * T[l][j];
+        }
+        basis[l] = e;
+        pivots++;
+        <span class="k-kw">if</span> (path != <span class="k-kw">null</span>) path.add(corner(T, basis, n, m));
+    }
+}
+
+<span class="k-c">/** One Newton step for [A I] dv = rp, [A I]^T dy + dz = rd, Z dv + V dz = r3; returns {dv, dz, dy}. */</span>
+<span class="k-kw">static</span> <span class="k-kw">double</span>[][] newton(<span class="k-kw">double</span>[][] F, <span class="k-kw">double</span>[] d, <span class="k-kw">double</span>[] v, <span class="k-kw">double</span>[] z, <span class="k-kw">double</span>[] rp, <span class="k-kw">double</span>[] rd, <span class="k-kw">double</span>[] r3) {
+    <span class="k-kw">int</span> N = v.length;
+    <span class="k-kw">double</span>[] t = <span class="k-kw">new</span> <span class="k-kw">double</span>[N];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; N; j++) t[j] = d[j] * (r3[j] / v[j] - rd[j]);
+    <span class="k-kw">double</span>[] at = times(t), rhs = <span class="k-kw">new</span> <span class="k-kw">double</span>[mRows];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; mRows; i++) rhs[i] = rp[i] - at[i];
+    <span class="k-kw">double</span>[] dy = cholSolve(F, rhs);
+    <span class="k-kw">double</span>[] atdy = timesT(dy), dv = <span class="k-kw">new</span> <span class="k-kw">double</span>[N], dz = <span class="k-kw">new</span> <span class="k-kw">double</span>[N];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; N; j++) { dv[j] = d[j] * atdy[j] + t[j]; dz[j] = (r3[j] - z[j] * dv[j]) / v[j]; }
+    <span class="k-kw">return</span> <span class="k-kw">new</span> <span class="k-kw">double</span>[][]{dv, dz, dy};
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>LinearProgramming.java</code>.<br><span class="navfoot"><a href="../index.html">Era 7: Randomness, Networks and Learning</a><a href="../02-merkle-trees/merkle-trees.html">Merkle&#x27;s Hash Trees →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const view = document.getElementById("el-view");
+  if (!view) return;
+  const ROWS = [{"side": "10", "side_exact": "10.0", "steps": 14}, {"side": "3.16", "side_exact": "3.1622776601683795", "steps": 14}, {"side": "1", "side_exact": "1.0", "steps": 26}, {"side": "0.3162", "side_exact": "0.316227766016838", "steps": 41}, {"side": "0.1", "side_exact": "0.10000000000000002", "steps": 42}, {"side": "0.0316", "side_exact": "0.0316227766016838", "steps": 51}, {"side": "0.01", "side_exact": "0.010000000000000002", "steps": 51}], RATIO = 0.7698, CX = 37, CY = -21;
+  const sel = document.getElementById("el-side");
+  ROWS.forEach((r, i) => { const o = document.createElement("option"); o.value = i; o.textContent = r.side; sel.appendChild(o); });
+  sel.value = 2;
+  let z, P, steps, cons, last, prev;
+  function reset() {
+    const side = parseFloat(ROWS[+sel.value].side_exact);
+    cons = [[0, -1, -CY], [-1, 0, -CX], [1, 1, CX + CY + side]];
+    z = [0, 0]; P = [[100 * 100, 0], [0, 100 * 100]]; steps = 0; last = null; prev = null;
+    draw("Start: a disc of radius 100 that surely contains the target. Its centre (red) is outside the triangle.");
+  }
+  function violated() { for (const c of cons) if (c[0] * z[0] + c[1] * z[1] > c[2]) return c; return null; }
+  function cut() {
+    const v = violated();
+    if (!v) return false;
+    const a = [v[0], v[1]];
+    const Pa = [P[0][0] * a[0] + P[0][1] * a[1], P[1][0] * a[0] + P[1][1] * a[1]];
+    const aPa = a[0] * Pa[0] + a[1] * Pa[1];
+    const g = [Pa[0] / Math.sqrt(aPa), Pa[1] / Math.sqrt(aPa)];
+    prev = {z: z.slice(), P: P.map(r => r.slice())}; last = v;
+    z[0] -= g[0] / 3; z[1] -= g[1] / 3;
+    for (let i = 0; i < 2; i++) for (let j = 0; j < 2; j++) P[i][j] = (4.0 / 3.0) * (P[i][j] - (2.0 / 3.0) * g[i] * g[j]);
+    steps++;
+    return true;
+  }
+  function ellipse(Pm) {
+    const a = Pm[0][0], b = Pm[0][1], d = Pm[1][1], tr = (a + d) / 2, df = Math.sqrt(((a - d) / 2) ** 2 + b * b);
+    const l1 = tr + df, l2 = Math.max(tr - df, 1e-30), ang = Math.atan2(l1 - a, b === 0 ? 1e-300 : b);
+    return {rx: Math.sqrt(l1), ry: Math.sqrt(l2), ang: b === 0 && a >= d ? 0 : b === 0 ? Math.PI / 2 : ang};
+  }
+  function draw(msg) {
+    view.innerHTML = "";
+    const side = parseFloat(ROWS[+sel.value].side_exact);
+    const e = ellipse(P), r = Math.max(e.rx, side * 1.2, 1e-9);
+    const half = Math.max(r * 1.35, side * 1.6), mx = z[0], my = z[1];
+    const S = 380, k = S / (2 * half);
+    const X = x => (x - mx) * k + S / 2, Y = y => S / 2 - (y - my) * k;
+    const svg = sv("svg", {viewBox: `0 0 ${S} ${S}`}, view);
+    // the target triangle
+    sv("polygon", {points: `${X(CX)},${Y(CY)} ${X(CX + side)},${Y(CY)} ${X(CX)},${Y(CY + side)}`, fill: "var(--blue)", "fill-opacity": 0.35, stroke: "var(--blue)", "stroke-width": 1.5}, svg);
+    const ell = (Pm, c, col, w, dash) => {
+      const q = ellipse(Pm);
+      sv("ellipse", {cx: X(c[0]), cy: Y(c[1]), rx: q.rx * k, ry: q.ry * k, transform: `rotate(${-q.ang * 180 / Math.PI} ${X(c[0])} ${Y(c[1])})`,
+                     fill: "none", stroke: col, "stroke-width": w, "stroke-dasharray": dash || ""}, svg);
+    };
+    if (prev) {
+      ell(prev.P, prev.z, "var(--muted)", 1.5, "5 4");
+      // the cut: the line through the old centre parallel to the violated constraint
+      const a = last, len = 3 * half, nx = -a[1], ny = a[0], nn = Math.hypot(nx, ny);
+      sv("line", {x1: X(prev.z[0] - nx / nn * len), y1: Y(prev.z[1] - ny / nn * len), x2: X(prev.z[0] + nx / nn * len), y2: Y(prev.z[1] + ny / nn * len), stroke: "var(--muted)", "stroke-width": 1.2}, svg);
+    }
+    ell(P, z, "var(--ink)", 2);
+    sv("circle", {cx: X(z[0]), cy: Y(z[1]), r: 4, fill: violated() ? "var(--red)" : "var(--blue)"}, svg);
+    const st = document.getElementById("el-stats"); st.innerHTML = "";
+    el("div", {}, st, `cuts so far: ${steps}`);
+    el("div", {}, st, `area: ${(Math.pow(RATIO, steps) * 100).toPrecision(3)}% of the starting disc`);
+    el("div", {}, st, `the program needed ${ROWS[+sel.value].steps} cuts for this target`);
+    el("div", {}, st, `view width: ${(2 * half).toPrecision(3)} units`);
+    document.getElementById("el-say").textContent = msg;
+  }
+  document.getElementById("el-step").addEventListener("click", () => {
+    if (!cut()) { draw(`The centre is inside the triangle after ${steps} cuts: a feasible point.`); return; }
+    draw(violated() ? `Cut ${steps}: the centre broke a constraint, so the half on the wrong side was thrown away and a smaller ellipse drawn round the rest (area × ${RATIO}).`
+                    : `Cut ${steps}: the new centre is inside the triangle. Found after ${steps} cuts.`);
+  });
+  document.getElementById("el-run").addEventListener("click", () => {
+    let guard = 0; while (cut() && guard++ < 10000) {}
+    draw(`Done: the centre lands in the triangle after ${steps} cuts (the program: ${ROWS[+sel.value].steps}).`);
+  });
+  document.getElementById("el-reset").addEventListener("click", reset);
+  sel.addEventListener("change", reset);
+  reset();
+})();
+
+</script>
+</body>
+</html>

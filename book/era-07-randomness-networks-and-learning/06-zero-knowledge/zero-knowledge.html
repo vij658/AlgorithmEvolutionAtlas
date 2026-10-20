@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zero-Knowledge Proofs</title>
+<meta name="description" content="Era 7, topic 6 of The Algorithm Evolution Atlas: Goldwasser, Micali and Rackoff&#x27;s interactive proofs, the simulator that makes them zero-knowledge, and Goldreich, Micali and Wigderson&#x27;s proofs for all of NP.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.zk-view svg{display:block;width:100%;height:auto;background:var(--wash)}
+.zk-view line.e{cursor:pointer}
+.zk-btns{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.zk-stats{font:13px var(--mono);display:grid;gap:3px;margin-top:8px}
+.zk-board .controls label{color:var(--ink)}
+.zk-board input[type=checkbox]{width:auto}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 7: Randomness, Networks and Learning</a><a href="../05-splay-trees/splay-trees.html">← Splay Trees and Amortized Analysis</a><a href="../07-backpropagation/backpropagation.html">Backpropagation →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 7 · Topic 6 · 1985–1986</div>
+    <h1>Zero-Knowledge Proofs</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">For two thousand years, a proof showed why something was true. In 1985 three cryptographers proposed proofs that convince you something is true and show you nothing else at all.</p>
+  <p class="fieldnote">Field note from the visiting historian. I played the verifier: 60,000 rounds, and every time I opened two boxes I saw two different colours, each pair as often as any other. I was convinced, and I learned nothing. A cheater with one bad edge among 29 lasted about 29 rounds.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>1985; for all of NP, 1986</dd></div><div><dt>Where</dt><dd>MIT and Toronto; Technion, MIT, Hebrew University</dd></div><div><dt>What hurt</dt><dd>Proving you know a secret meant revealing it</dd></div><div><dt>The fix</dt><dd>Random challenges, and a simulator that could fake the conversation</dd></div><div><dt>Checked</dt><dd>Cheaters caught in 0.499 of rounds; transcripts indistinguishable</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. A proof in the NP sense (Era 6) is a certificate anyone can check, and checking it teaches you the certificate. Goldwasser, Micali and Rackoff replaced the certificate with a conversation, using random questions the prover cannot predict, and asked how much knowledge the conversation gives away. Goldreich, Micali and Wigderson then used sealed boxes, built from one-way functions, to make such proofs for every NP statement. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How zero-knowledge proofs combined older ideas, and where they led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="125.0" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="125.0,180.0 121.3,171.8 128.7,171.8" style="fill:var(--ink-2)"/><line x1="437.0" y1="106.0" x2="198.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="198.5,180.0 205.3,174.1 207.4,181.1" style="fill:var(--ink-2)"/><line x1="230.0" y1="223.0" x2="395.0" y2="223.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="395.0,223.0 386.8,226.7 386.8,219.3" style="fill:var(--ink-2)"/><line x1="573.5" y1="266.0" x2="833.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="833.0,340.0 824.1,341.3 826.1,334.2" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="917.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="917.0,340.0 911.9,332.6 919.2,331.3" style="fill:var(--ink-2)"/><line x1="426.5" y1="266.0" x2="167.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="167.0,340.0 173.9,334.2 175.9,341.3" style="fill:var(--ink-2)"/><line x1="500.0" y1="266.0" x2="500.0" y2="490.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,490.0 496.3,481.8 503.7,481.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="426.0" x2="573.5" y2="490.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,490.0 580.8,484.7 582.3,491.9" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Proofs as certificates</text><text x="32.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">NP: a solution anyone can</text><text x="32.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">check</text><text x="32.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 6, topic 8</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Randomness</text><text x="407.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">random questions a cheater</text><text x="407.0" y="85.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">cannot predict</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">One-way functions</text><text x="782.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">sealed boxes: commitments</text><text x="782.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 6, topic 10</text><rect x="20" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="203.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Interactive proofs</text><text x="32.0" y="220.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ a conversation, convincing</text><text x="32.0" y="237.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">with high probability</text><text x="32.0" y="253.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Goldwasser and others, 1985</text><rect x="395" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="203.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Zero knowledge</text><text x="407.0" y="220.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ a simulator could fake the</text><text x="407.0" y="237.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">conversation</text><text x="407.0" y="253.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1985</text><rect x="770" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="363.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">All of NP</text><text x="782.0" y="380.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ commit to a 3-colouring,</text><text x="782.0" y="397.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">open one edge</text><text x="782.0" y="413.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Goldreich and others, 1986</text><rect x="20" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="371.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The Ali Baba cave</text><text x="32.0" y="389.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a story for children</text><text x="32.0" y="405.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Quisquater and others, 1990</text><rect x="395" y="490" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="513.6" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Today</text><text x="407.0" y="530.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">cryptographic protocols;</text><text x="407.0" y="547.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">private payments in</text><text x="407.0" y="563.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">cryptocurrencies (2016)</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Today: from the ACM&#x27;s 2013 Turing Award announcement and Wikipedia. Dashed: an explanation, not a new algorithm.</text></svg></div><figcaption>Red: zero knowledge. Blue: where it is used.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">Be the verifier</h2>
+<p class="col">The prover claims this graph can be coloured with three colours so that no edge joins two vertices of the same colour. Each round it renames the three colours at random and seals every vertex's colour in a box: SHA-256 of a random nonce and the colour (the hex shows the start of each seal). You pick one edge; only its two boxes are opened, and you check the seals and that the colours differ. You never see more than two colours of one shuffled colouring. Then let the prover cheat: one extra edge joins two vertices of the same colour, and you catch it only when you happen to pick that edge. The widget uses your browser's random numbers, so its counts are its own; the program's are below.</p>
+
+<div class="board zk-board">
+  <div style="min-width:0">
+    <div class="zk-view" id="zk-view"></div>
+  </div>
+  <div style="min-width:0">
+    <div class="controls"><label><input type="checkbox" id="zk-cheat"> The prover cheats (one extra edge, same colours)</label></div>
+    <div class="zk-btns"><button type="button" class="primary" id="zk-commit">New round: seal the colours</button><button type="button" id="zk-auto">Run 100 rounds</button><button type="button" id="zk-reset">Reset</button></div>
+    <div class="zk-stats" id="zk-stats"></div>
+    <p class="say" id="zk-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 7, randomness, networks and learning</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 7: Randomness, Networks and Learning, from 1979 to 1995" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1979–1984</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Khachiyan and</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Karmarkar</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1979</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Merkle trees</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1980–1982</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Byzantine</text><text x="307.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">agreement</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1983–1985</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Simulated annealing</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1985</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Splay trees</text><circle cx="671.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1985–1986</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Zero knowledge</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1970–1986</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Backpropagation</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1986</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Barnes–Hut</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1985–1987</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Karp–Rabin</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1986–1989</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Congestion control</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1994</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Shor&#x27;s algorithm</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1983–1994</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Burrows–Wheeler</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1995–1997</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AdaBoost</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 416" role="img" aria-label="Each fix leaves a new pain: from showing the secret to proving without a trace" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">To prove you know a secret, you show it, or something</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">about it</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">An interactive proof with random challenges: 102 of</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">100,000 cheaters survived 10 rounds (2⁻¹⁰ predicts 98)</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Goldwasser, Micali, Rackoff, 1985</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">But does the verifier learn something from the</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">conversation?</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="179.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="195.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A simulator with no secret produces the same</text><text x="32.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">transcripts: total variation distance 0.0103, sampling</text><text x="32.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">noise</text><text x="32.0" y="244.5" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">zero knowledge</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="345.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Graph isomorphism is one special kind of statement</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="321.0" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="337.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Sealed colours of a 3-colouring, one edge opened per</text><text x="572.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">round: any NP statement; one bad edge caught in 0.0348</text><text x="572.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">of rounds</text><text x="572.0" y="386.5" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Goldreich, Micali, Wigderson, 1986</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Convincing without telling</h2>
+<p class="col"><strong>Graph isomorphism.</strong> Two graphs G₀ and G₁ are the same graph with the vertices renamed, and the prover knows the renaming π. Revealing π would prove it, and give π away. Instead, each round:</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 780 340" role="img" aria-label="One round of the zero-knowledge proof of graph isomorphism" style="font-family:var(--body);min-width:429px;max-width:780px;margin:0 auto"><text x="20.0" y="26.0" text-anchor="start" style="fill:var(--ink);font-size:13px;font-weight:700">One round of the graph-isomorphism proof: the prover knows a renaming π with G₁ = π(G₀)</text><rect x="90.0" y="44.0" width="160.0" height="44.0" rx="3" style="fill:var(--surface);stroke:var(--ink);stroke-width:1.8"/><text x="170.0" y="63.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">Prover</text><text x="170.0" y="80.0" text-anchor="middle" style="fill:var(--muted);font-size:11.5px;font-weight:400">knows π</text><line x1="170.0" y1="88.0" x2="170.0" y2="290.0" style="stroke:var(--axis);stroke-width:1.4;stroke-dasharray:5 4"/><rect x="530.0" y="44.0" width="160.0" height="44.0" rx="3" style="fill:var(--surface);stroke:var(--ink);stroke-width:1.8"/><text x="610.0" y="63.0" text-anchor="middle" style="fill:var(--ink);font-size:14px;font-weight:700">Verifier</text><text x="610.0" y="80.0" text-anchor="middle" style="fill:var(--muted);font-size:11.5px;font-weight:400">knows only G₀ and G₁</text><line x1="610.0" y1="88.0" x2="610.0" y2="290.0" style="stroke:var(--axis);stroke-width:1.4;stroke-dasharray:5 4"/><line x1="170.0" y1="130.0" x2="600.0" y2="130.0" style="stroke:var(--ink);stroke-width:2"/><path d="M610,130 L599,124.5 L599,135.5 Z" style="fill:var(--ink)"/><text x="390.0" y="121.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:700">1. H = σ(G₀) for a fresh random σ</text><text x="390.0" y="148.0" text-anchor="middle" style="fill:var(--muted);font-size:11.5px;font-weight:400">a random renaming of G₀: it looks like a random copy of either graph</text><line x1="610.0" y1="190.0" x2="180.0" y2="190.0" style="stroke:var(--blue);stroke-width:2"/><path d="M170,190 L181,184.5 L181,195.5 Z" style="fill:var(--blue)"/><text x="390.0" y="181.0" text-anchor="middle" style="fill:var(--blue);font-size:13px;font-weight:700">2. a coin α: 0 or 1</text><text x="390.0" y="208.0" text-anchor="middle" style="fill:var(--muted);font-size:11.5px;font-weight:400">&quot;show me how H comes from G_α&quot;</text><line x1="170.0" y1="250.0" x2="600.0" y2="250.0" style="stroke:var(--red);stroke-width:2"/><path d="M610,250 L599,244.5 L599,255.5 Z" style="fill:var(--red)"/><text x="390.0" y="241.0" text-anchor="middle" style="fill:var(--red);font-size:13px;font-weight:700">3. ρ = σ if α = 0, else σ ∘ π⁻¹</text><text x="390.0" y="268.0" text-anchor="middle" style="fill:var(--muted);font-size:11.5px;font-weight:400">the verifier checks that ρ(G_α) = H</text><text x="20.0" y="312.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">A cheater with two different graphs can prepare H for only one α.</text><text x="20.0" y="330.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">In the program it was caught in 0.499 of single rounds, so k rounds leave it 1 chance in 2ᵏ.</text></svg></div></figure>
+<p class="col"><strong>Three properties.</strong> <em>Completeness:</em> an honest prover always passes. <em>Soundness:</em> if the graphs differ, H can be a renaming of at most one of them, so each round catches a cheater with probability ½, and k rounds leave 2⁻ᵏ. <em>Zero knowledge:</em> whatever the verifier sees, a <em>simulator</em> who knows no secret could have produced with the same probabilities: pick α first, rename G_α at random to get H, and if the verifier's coin differs from the guess, start again. Since the conversation could be faked without π, it cannot reveal π.</p>
+<p class="col"><strong>All of NP.</strong> Goldreich, Micali and Wigderson used 3-colouring, to which every NP statement can be reduced. The prover shuffles the three colours, seals each vertex's colour in a commitment, and the verifier opens one edge. A proper colouring always passes; a colouring with a bad edge among E is caught with probability at least 1/E per round, so about E rounds per factor of e.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>If a conversation could have been produced by someone who does not know the secret, then the conversation cannot reveal the secret. Randomness makes a cheater's success unlikely; the simulator shows the honest prover's answers teach nothing.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Cheaters, simulators and sealed boxes</h2>
+<p class="col"><strong>Graph isomorphism,</strong> two graphs of 8 vertices and 14 edges. The honest prover passed all 20 rounds in 1,000 of 1,000 runs. A cheater whose graphs are not isomorphic (checked over all 8! renamings) was caught in 99,853 of 200,000 single rounds (0.499). Cheaters surviving k rounds in a row:</p>
+<div class="tbl"><table><thead><tr><th class="n">Rounds k</th><th class="n">Cheaters who passed</th><th class="n">Out of</th><th class="n">2⁻ᵏ predicts</th></tr></thead><tbody><tr class=""><td class="n">1</td><td class="n">50,004</td><td class="n">100,000</td><td class="n">50,000</td></tr><tr class=""><td class="n">2</td><td class="n">25,089</td><td class="n">100,000</td><td class="n">25,000</td></tr><tr class=""><td class="n">5</td><td class="n">3,105</td><td class="n">100,000</td><td class="n">3,125</td></tr><tr class=""><td class="n">10</td><td class="n">102</td><td class="n">100,000</td><td class="n">98</td></tr></tbody></table></div>
+<p class="col"><strong>The simulator,</strong> graphs of 5 vertices: 600,000 real conversations and 600,000 simulated ones contain the same 240 different transcripts (2 coins × 5! renamings), with frequencies differing by a total variation distance of 0.0103, which is sampling noise. The simulator needed 2.00 attempts per transcript.</p>
+<p class="col"><strong>3-colouring with SHA-256 seals,</strong> 12 vertices and 28 edges: the honest prover passed all 60,000 rounds, and the opened pairs of colours were spread evenly over the 6 possibilities:</p>
+<div class="tbl"><table><thead><tr><th class="">Opened pair of colours</th><th class="n">Share of rounds</th></tr></thead><tbody><tr class=""><td class="">((1,2))</td><td class="n">0.167</td></tr><tr class=""><td class="">((1,3))</td><td class="n">0.165</td></tr><tr class=""><td class="">((2,1))</td><td class="n">0.166</td></tr><tr class=""><td class="">((2,3))</td><td class="n">0.168</td></tr><tr class=""><td class="">((3,1))</td><td class="n">0.164</td></tr><tr class=""><td class="">((3,2))</td><td class="n">0.169</td></tr></tbody></table></div>
+<p class="col">With one extra edge between two vertices of the same colour (29 edges), the prover was caught in 0.0348 of rounds, about 1 in 29:</p>
+<div class="tbl"><table><thead><tr><th class="n">Rounds</th><th class="n">Cheaters who passed</th><th class="n">Out of</th><th class="n">Predicted</th></tr></thead><tbody><tr class=""><td class="n">29</td><td class="n">689</td><td class="n">2,000</td><td class="n">723</td></tr><tr class=""><td class="n">87</td><td class="n">103</td><td class="n">2,000</td><td class="n">94</td></tr><tr class=""><td class="n">145</td><td class="n">11</td><td class="n">2,000</td><td class="n">12</td></tr></tbody></table></div>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">Knowledge as something to measure</h2>
+<p class="col">Shafi Goldwasser and Silvio Micali (MIT) and Charles Rackoff (Toronto), "The Knowledge Complexity of Interactive Proof-Systems" (© 1985 ACM): "we introduce a new theorem-proving procedure, that is a new efficient method of communicating a proof"; "Our 'proofs' are probabilistic in nature"; "Our proofs are interactive." Knowledge is defined through a probabilistic polynomial-time machine whose output cannot be told apart from the real conversation, and the first example, quadratic non-residuosity, has knowledge complexity 0. Wikipedia records that this paper and Babai and Moran's work invented interactive proof systems, and that all five authors shared the first Gödel Prize in 1993.</p>
+<p class="col">Oded Goldreich, Silvio Micali and Avi Wigderson, "Proofs that Yield Nothing But Their Validity or All Languages in NP Have Zero-Knowledge Proof Systems" (IEEE FOCS 1986; <em>Journal of the ACM</em>, July 1991): proofs that "efficiently demonstrate membership in the language without conveying any additional knowledge"; the graph isomorphism protocol, in which the prover "generates a graph H, which is a random isomorphic copy", repeated "m times, each time using independent random coin tosses"; and 3-colouring for all of NP, assuming "secure encryption functions", where each round shows the verifier only "a pair of different randomly selected elements" of the three colours.</p>
+<p class="col">The ACM's announcement of the 2012 Turing Award to Goldwasser and Micali (13 March 2013) says the 1985 paper "initiated the idea of 'zero-knowledge' proofs", now "the essential language for speaking about security of cryptographic protocols". In 1990 Quisquater, Guillou and Berson's "How to Explain Zero-Knowledge Protocols to Your Children" told it as a story of Ali Baba and a magic door, to show "that it is possible to convince without revealing".</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">NP, from both sides</h2>
+<p class="col">Era 6 used NP-completeness to say that some problems are probably hard, and public keys to turn hardness into secrecy. Zero knowledge uses both: an NP statement as the thing to prove, and a one-way function to seal the boxes. The same reductions that showed 3-colouring is as hard as anything in NP now carry a zero-knowledge proof from 3-colouring to everything in NP.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>In the program the honest prover answered 60,000 challenges and the verifier saw only shuffled pairs of different colours, each about 1/6 of the time. It ends convinced that a colouring exists, and knows nothing about what it is.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>How many rounds of the isomorphism protocol leave a cheater less than one chance in a million?</span></summary><div class="ans"><p>20, since 2²⁰ is just over a million.</p></div></details><details class="try"><summary><span class="q">2</span><span>Why must the prover use a fresh random renaming σ every round?</span></summary><div class="ans"><p>Reusing σ would let the verifier ask α = 0 one round and α = 1 the next and combine the answers into π.</p></div></details><details class="try"><summary><span class="q">3</span><span>Why does the prover shuffle the three colours every round in the 3-colouring proof?</span></summary><div class="ans"><p>Otherwise the opened colours, collected over many rounds, would reveal the colouring itself.</p></div></details><details class="try"><summary><span class="q">4</span><span>A graph has 100 edges and the cheater has one bad edge. About how many rounds give a 1-in-e chance of escape? A 1-in-a-million chance?</span></summary><div class="ans"><p>About 100 rounds for 1/e; about 100 × ln(10⁶) ≈ 1,380 rounds for one in a million.</p></div></details><details class="try"><summary><span class="q">5</span><span>Why does the simulator need about 2 attempts per transcript?</span></summary><div class="ans"><p>It guesses the verifier's coin before choosing H, and is right half the time.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>The Knowledge Complexity of Interactive Proof-Systems (1985)</b><span>Goldwasser, Micali and Rackoff, extended abstract, © 1985 ACM.</span><a href="https://resources.mpi-inf.mpg.de/departments/d1/teaching/ss13/gitcs/GMR85.pdf">The paper (PDF, on a Max Planck Institute page)</a><span class="lic">Drawn placeholder.</span></figcaption></figure><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Proofs that Yield Nothing But Their Validity (1986, 1991)</b><span>Goldreich, Micali and Wigderson, <em>Journal of the ACM</em>, July 1991.</span><a href="https://people.csail.mit.edu/silvio/Selected%20Scientific%20Papers/Zero%20Knowledge/Proofs_That_Yield_Nothing_But_Their_Validity_or_All_Languages_in_NP_Have_Zero-Knowledge_Proof_Systems.pdf">The paper (PDF, on Silvio Micali&#x27;s MIT page)</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://www.fermatslibrary.com/s/how-to-explain-zero-knowledge-protocols-to-your-children" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">How to Explain Zero-Knowledge Protocols to Your Children · J.-J. Quisquater, L. Guillou, T. Berson (1990), annotated by Fermat's Library</span><span class="w">The Ali Baba cave, the story everyone uses</span></a><a href="https://en.wikipedia.org/wiki/Zero-knowledge_proof" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Zero-knowledge proof · Wikipedia</span><span class="w">Completeness, soundness and zero knowledge, with the cave and a graph example</span></a><a href="https://www.acm.org/media-center/2013/march/goldwasser-micali-receive-acm-turing-award-for-advances-in-cryptography" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Goldwasser, Micali receive ACM Turing Award · ACM (2013)</span><span class="w">Why the idea mattered to cryptography</span></a><a href="https://resources.mpi-inf.mpg.de/departments/d1/teaching/ss13/gitcs/GMR85.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">The Knowledge Complexity of Interactive Proof-Systems · S. Goldwasser, S. Micali, C. Rackoff (1985), on a Max Planck Institute page</span><span class="w">Interactive proofs and knowledge complexity</span></a><a href="https://people.csail.mit.edu/silvio/Selected%20Scientific%20Papers/Zero%20Knowledge/Proofs_That_Yield_Nothing_But_Their_Validity_or_All_Languages_in_NP_Have_Zero-Knowledge_Proof_Systems.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Proofs that Yield Nothing But Their Validity · O. Goldreich, S. Micali, A. Wigderson, <em>JACM</em> (1991)</span><span class="w">Graph isomorphism and 3-colouring, as in this topic's program</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-07-randomness-networks-and-learning/reference-catalog.md">Era 7 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-07-randomness-networks-and-learning/06-zero-knowledge/ZeroKnowledge.java">ZeroKnowledge.java</a> makes <strong>61,019 checks</strong>: the honest prover on 20,000 rounds, a cheater's survival over 1, 2, 5 and 10 rounds against 2⁻ᵏ, real and simulated transcripts compared over all 240 possibilities, and the 3-colouring protocol with SHA-256 commitments, honest and cheating. Run it with <code>java ZeroKnowledge.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">// ---- one round of the isomorphism protocol ------------------------------------------------------------------------</span>
+<span class="k-c">/** The honest prover knows pi with G1 = pi(G0). Returns true if the verifier accepts. */</span>
+<span class="k-kw">static</span> <span class="k-kw">boolean</span> honestRound(<span class="k-kw">boolean</span>[][] g0, <span class="k-kw">boolean</span>[][] g1, <span class="k-kw">int</span>[] pi) {
+    <span class="k-kw">int</span>[] sigma = randomPerm(g0.length);
+    <span class="k-kw">boolean</span>[][] h = rename(g0, sigma);                     <span class="k-c">// the prover shows H</span>
+    <span class="k-kw">int</span> alpha = below(<span class="k-n">2</span>);                                  <span class="k-c">// the verifier&#x27;s coin</span>
+    <span class="k-kw">int</span>[] rho = alpha == <span class="k-n">0</span> ? sigma : compose(sigma, inverse(pi));   <span class="k-c">// a renaming that takes G_alpha to H</span>
+    <span class="k-kw">return</span> Arrays.deepEquals(rename(alpha == <span class="k-n">0</span> ? g0 : g1, rho), h);
+}
+
+<span class="k-kw">static</span> <span class="k-kw">boolean</span> colourRound(<span class="k-kw">int</span>[] colouring) {
+    <span class="k-kw">int</span> n = colouring.length;
+    <span class="k-kw">int</span>[] shuffle = randomPerm(<span class="k-n">3</span>);                         <span class="k-c">// rename the three colours at random</span>
+    <span class="k-kw">int</span>[] c = <span class="k-kw">new</span> <span class="k-kw">int</span>[n];
+    <span class="k-kw">byte</span>[][] nonces = <span class="k-kw">new</span> <span class="k-kw">byte</span>[n][], boxes = <span class="k-kw">new</span> <span class="k-kw">byte</span>[n][];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> v = <span class="k-n">0</span>; v &lt; n; v++) {
+        c[v] = shuffle[colouring[v]];
+        nonces[v] = nonce();
+        boxes[v] = sha(nonces[v], c[v]);                   <span class="k-c">// the prover sends all the sealed boxes</span>
+    }
+    <span class="k-kw">int</span>[] e = edges[below(edges.length)];                  <span class="k-c">// the verifier picks an edge</span>
+    <span class="k-kw">int</span> a = e[<span class="k-n">0</span>], b = e[<span class="k-n">1</span>];
+    <span class="k-c">// the prover opens two boxes; the verifier checks they match what was sealed, and that the colours differ</span>
+    <span class="k-kw">boolean</span> opened = Arrays.equals(sha(nonces[a], c[a]), boxes[a]) &amp;&amp; Arrays.equals(sha(nonces[b], c[b]), boxes[b]);
+    lastA = c[a]; lastB = c[b];
+    <span class="k-kw">return</span> opened &amp;&amp; c[a] != c[b] &amp;&amp; c[a] &gt;= <span class="k-n">0</span> &amp;&amp; c[a] &lt; <span class="k-n">3</span> &amp;&amp; c[b] &gt;= <span class="k-n">0</span> &amp;&amp; c[b] &lt; <span class="k-n">3</span>;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>ZeroKnowledge.java</code>.<br><span class="navfoot"><a href="../index.html">Era 7: Randomness, Networks and Learning</a><a href="../05-splay-trees/splay-trees.html">← Splay Trees and Amortized Analysis</a><a href="../07-backpropagation/backpropagation.html">Backpropagation →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const view = document.getElementById("zk-view");
+  if (!view) return;
+
+  // SHA-256, written out so the page needs no secure context
+  const K = [0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  function sha256(bytes) {
+    const l = bytes.length, n = ((l + 9 + 63) >> 6) << 6, m = new Uint8Array(n);
+    m.set(bytes); m[l] = 0x80;
+    const bits = l * 8; for (let i = 0; i < 8; i++) m[n - 1 - i] = Math.floor(bits / Math.pow(2, 8 * i)) & 255;
+    let h = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+    const w = new Array(64), rot = (x, k) => (x >>> k) | (x << (32 - k));
+    for (let o = 0; o < n; o += 64) {
+      for (let i = 0; i < 16; i++) w[i] = (m[o + 4 * i] << 24) | (m[o + 4 * i + 1] << 16) | (m[o + 4 * i + 2] << 8) | m[o + 4 * i + 3];
+      for (let i = 16; i < 64; i++) {
+        const s0 = rot(w[i - 15], 7) ^ rot(w[i - 15], 18) ^ (w[i - 15] >>> 3), s1 = rot(w[i - 2], 17) ^ rot(w[i - 2], 19) ^ (w[i - 2] >>> 10);
+        w[i] = (w[i - 16] + s0 + w[i - 7] + s1) | 0;
+      }
+      let [a, b, c, d, e, f, g, hh] = h;
+      for (let i = 0; i < 64; i++) {
+        const t1 = (hh + (rot(e, 6) ^ rot(e, 11) ^ rot(e, 25)) + ((e & f) ^ (~e & g)) + K[i] + w[i]) | 0;
+        const t2 = ((rot(a, 2) ^ rot(a, 13) ^ rot(a, 22)) + ((a & b) ^ (a & c) ^ (b & c))) | 0;
+        hh = g; g = f; f = e; e = (d + t1) | 0; d = c; c = b; b = a; a = (t1 + t2) | 0;
+      }
+      h = [h[0] + a, h[1] + b, h[2] + c, h[3] + d, h[4] + e, h[5] + f, h[6] + g, h[7] + hh].map(x => x | 0);
+    }
+    const out = new Uint8Array(32);
+    h.forEach((x, i) => { out[4 * i] = x >>> 24; out[4 * i + 1] = (x >>> 16) & 255; out[4 * i + 2] = (x >>> 8) & 255; out[4 * i + 3] = x & 255; });
+    return out;
+  }
+
+  const COLS = ["var(--red)", "var(--blue)", "var(--yellow)"], NAMES = ["red", "blue", "yellow"];
+  const colour = [0, 1, 2, 0, 1, 2, 0, 1];
+  const base = [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[0,4],[1,5],[2,6],[3,7],[0,2],[4,6]], extra = [0, 3];
+  const pos = Array.from({length: 8}, (_, i) => [210 + 150 * Math.sin(i * Math.PI / 4), 190 - 150 * Math.cos(i * Math.PI / 4)]);
+  const hex = b => Array.from(b, x => x.toString(16).padStart(2, "0")).join("");
+  let round = null, rounds = 0, caught = 0, seen = {}, opened = null;
+  const edges = () => document.getElementById("zk-cheat").checked ? base.concat([extra]) : base;
+  function seal() {
+    const perm = [0, 1, 2]; for (let i = 2; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [perm[i], perm[j]] = [perm[j], perm[i]]; }
+    const c = colour.map(x => perm[x]);
+    const nonces = c.map(() => crypto.getRandomValues ? crypto.getRandomValues(new Uint8Array(16)) : Uint8Array.from({length: 16}, () => Math.floor(Math.random() * 256)));
+    const boxes = c.map((x, i) => { const m = new Uint8Array(17); m.set(nonces[i]); m[16] = x; return sha256(m); });
+    round = {c, nonces, boxes}; opened = null;
+  }
+  function open(e) {
+    if (!round) return null;
+    const [a, b] = e, r = round;
+    const check = i => { const m = new Uint8Array(17); m.set(r.nonces[i]); m[16] = r.c[i]; return hex(sha256(m)) === hex(r.boxes[i]); };
+    const ok = check(a) && check(b) && r.c[a] !== r.c[b];
+    rounds++; if (!ok) caught++;
+    const key = NAMES[r.c[a]] + "–" + NAMES[r.c[b]]; seen[key] = (seen[key] || 0) + 1;
+    opened = {e, ok}; const res = {a, b, ca: r.c[a], cb: r.c[b], ok}; round = null;
+    return res;
+  }
+  function draw(msg) {
+    view.innerHTML = "";
+    const svg = sv("svg", {viewBox: "0 0 420 390"}, view), E = edges();
+    E.forEach(e => {
+      const [a, b] = e, isOpen = opened && opened.e === e;
+      const ln = sv("line", {x1: pos[a][0], y1: pos[a][1], x2: pos[b][0], y2: pos[b][1], stroke: isOpen ? (opened.ok ? "var(--ink)" : "var(--red)") : "var(--axis)", "stroke-width": isOpen ? 4 : 2.2, class: "e"}, svg);
+      sv("line", {x1: pos[a][0], y1: pos[a][1], x2: pos[b][0], y2: pos[b][1], stroke: "transparent", "stroke-width": 14, class: "e"}, svg)
+        .addEventListener("click", () => { if (!round) { draw("Seal the colours first: press New round."); return; } const r = open(e); draw(r.ok ? `Opened ${r.a + 1} and ${r.b + 1}: ${NAMES[r.ca]} and ${NAMES[r.cb]}, different. The verifier learns only that two neighbours differ, in colours the prover just shuffled.` : `Opened ${r.a + 1} and ${r.b + 1}: both ${NAMES[r.ca]}. Caught!`); });
+    });
+    pos.forEach((p, i) => {
+      const show = opened && (opened.e[0] === i || opened.e[1] === i) && !round;
+      sv("rect", {x: p[0] - 26, y: p[1] - 17, width: 52, height: 34, rx: 4, fill: show ? COLS[lastColour(i)] : "var(--surface)", stroke: "var(--ink)", "stroke-width": 1.8}, svg);
+      const t = sv("text", {x: p[0], y: p[1] - 2, "text-anchor": "middle", "font-size": 12, "font-weight": 700, fill: show ? "var(--paper)" : "var(--ink)"}, svg); t.textContent = i + 1;
+      const h = sv("text", {x: p[0], y: p[1] + 11, "text-anchor": "middle", "font-size": 9.5, fill: show ? "var(--paper)" : "var(--muted)", "font-family": "var(--mono)"}, svg);
+      h.textContent = round ? hex(round.boxes[i]).slice(0, 6) : (show ? "open" : "");
+    });
+    const st = document.getElementById("zk-stats"); st.innerHTML = "";
+    const m = E.length, p = Math.pow(1 - 1 / m, rounds);
+    el("div", {}, st, `edges: ${m}${document.getElementById("zk-cheat").checked ? " (one of them joins two vertices of the same colour)" : ""}`);
+    el("div", {}, st, `rounds: ${rounds}, caught: ${caught}`);
+    el("div", {}, st, `a cheater with one bad edge survives this many rounds with chance ${(100 * p).toPrecision(3)}%`);
+    const pairs = Object.entries(seen).sort();
+    if (pairs.length) el("div", {}, st, "colour pairs seen: " + pairs.map(([k, v]) => `${k} ${v}`).join(", "));
+    if (msg) document.getElementById("zk-say").textContent = msg;
+  }
+  let lastC = null;
+  function lastColour(i) { return lastC ? lastC[i] : 0; }
+  document.getElementById("zk-commit").addEventListener("click", () => { seal(); lastC = round.c.slice(); draw("Sealed: each box holds SHA-256(random nonce, colour), with the three colours renamed at random. Click an edge to open its two boxes."); });
+  document.getElementById("zk-auto").addEventListener("click", () => {
+    const E = edges(); let c0 = caught;
+    for (let k = 0; k < 100; k++) { seal(); lastC = round.c.slice(); open(E[Math.floor(Math.random() * E.length)]); }
+    draw(`100 rounds, each on a random edge: ${caught - c0} caught. ${document.getElementById("zk-cheat").checked ? "The bad edge is found about once in " + E.length + " rounds." : "An honest prover is never caught."}`);
+  });
+  document.getElementById("zk-reset").addEventListener("click", () => { round = null; rounds = 0; caught = 0; seen = {}; opened = null; draw("Press New round to start."); });
+  document.getElementById("zk-cheat").addEventListener("change", () => { round = null; rounds = 0; caught = 0; seen = {}; opened = null; draw(document.getElementById("zk-cheat").checked ? "Now the graph has one more edge, between vertices 1 and 4, which share a colour; the prover keeps its colouring and hopes you never pick that edge." : "An honest prover with a proper colouring."); });
+  draw("You are the verifier. Press New round: the prover seals every vertex's colour in a box. Then click any edge to open its two boxes.");
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shor&#x27;s Factoring Algorithm</title>
+<meta name="description" content="Era 7, topic 11 of The Algorithm Evolution Atlas: Shor&#x27;s quantum algorithm for factoring and discrete logarithms, the reduction to period finding, the quantum Fourier transform, and what it would take to run it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.sh-view svg{display:block;width:100%;height:auto;background:var(--wash)}
+.sh-btns{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.sh-stats{font:13px var(--mono);display:grid;gap:3px;margin-top:8px}
+.sh-board select{font:inherit;font-family:var(--mono);font-size:14px;padding:3px 6px;border:1px solid var(--axis);background:var(--paper);color:var(--ink)}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 7: Randomness, Networks and Learning</a><a href="../10-tcp-congestion-control/tcp-congestion-control.html">← TCP Congestion Control</a><a href="../12-burrows-wheeler/burrows-wheeler.html">The Burrows–Wheeler Transform →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 7 · Topic 11 · 1994</div>
+    <h1>Shor&#x27;s Factoring Algorithm</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">Public-key cryptography bet that factoring large numbers is hopelessly slow. In 1994 Peter Shor showed that on a quantum computer it is not: factoring becomes finding a period, and a period is what a Fourier transform finds.</p>
+  <p class="fieldnote">Field note from the visiting historian. I simulated the quantum computer on an ordinary one, storing every amplitude, and it factored N = 1,007 after a couple of measurements. For a number of 2,048 bits the same simulation would need 2^4,096 stored numbers. This species has the algorithm; it does not yet have the machine.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>1994</dd></div><div><dt>Where</dt><dd>Bell Labs, Murray Hill</dd></div><div><dt>What hurt</dt><dd>Factoring seemed superpolynomial on any computer</dd></div><div><dt>The fix</dt><dd>Period finding by a quantum Fourier transform</dd></div><div><dt>Checked</dt><dd>12 numbers factored in 23 simulated measurements</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. The fast Fourier transform (Era 6) finds the frequencies hidden in a signal. RSA (Era 6) bet that factoring is hard. Quantum computers, in 1994 still hypothetical machines, hold many values at once as amplitudes that can interfere. Shor saw that factoring reduces to finding a frequency, the period of a repeating sequence, and that a quantum computer could find it by interference. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How Shor&#x27;s algorithm combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="426.5,180.0 417.6,181.6 419.4,174.5" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,180.0 496.3,171.8 503.7,171.8" style="fill:var(--ink-2)"/><rect x="503.0" y="130.0" width="80.1" height="19" rx="3" style="fill:var(--surface)"/><text x="508.0" y="143.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the target</text><line x1="875.0" y1="106.0" x2="573.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,180.0 580.6,174.5 582.4,181.6" style="fill:var(--ink-2)"/><line x1="426.5" y1="266.0" x2="125.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="125.0,340.0 132.1,334.5 133.9,341.6" style="fill:var(--ink-2)"/><line x1="573.5" y1="266.0" x2="875.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 4"/><polygon points="875.0,340.0 866.1,341.6 867.9,334.5" style="fill:var(--ink-2)"/><rect x="727.2" y="290.0" width="131.7" height="19" rx="3" style="fill:var(--surface)"/><text x="732.2" y="303.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a reason to prefer</text><line x1="500.0" y1="266.0" x2="500.0" y2="490.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,490.0 496.3,481.8 503.7,481.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The FFT</text><text x="32.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">finds the frequencies in a</text><text x="32.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">signal</text><text x="32.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 6, topic 1</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">RSA</text><text x="407.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">security from hard number</text><text x="407.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">theory</text><text x="407.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 6, topic 10</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Quantum computers</text><text x="782.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">registers in superposition,</text><text x="782.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">amplitudes that interfere</text><text x="782.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">hypothetical in 1994</text><rect x="395" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="203.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Shor&#x27;s algorithm</text><text x="407.0" y="220.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ find the period by quantum</text><text x="407.0" y="237.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">interference</text><text x="407.0" y="253.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Bell Labs, 1994</text><rect x="20" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="371.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">15 = 3 × 5</text><text x="32.0" y="389.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a 7-qubit NMR experiment</text><text x="32.0" y="405.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">IBM, 2001</text><rect x="770" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="363.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Hash-based signatures</text><text x="782.0" y="380.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">believed safe against</text><text x="782.0" y="397.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">quantum computers</text><text x="782.0" y="413.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">this era, topic 2</text><rect x="395" y="490" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="513.6" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Today</text><text x="407.0" y="530.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">RSA-2048 with under a million</text><text x="407.0" y="547.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">noisy qubits (an estimate)</text><text x="407.0" y="563.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Gidney, 2025</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Today: an estimate of what a machine would need, not a demonstration. Dashed: a consequence, not a descendant.</text></svg></div><figcaption>Red: Shor's algorithm. Blue: where things stand.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">Find the period, then the factors</h2>
+<p class="col">The quantum step, simulated in your browser the way the program does it: store every one of the Q amplitudes, keep the x whose a^x mod N equals 1 (the second register's measurement), and apply a Fourier transform. The bars show the chance of each measurement y; they pile up near multiples of Q/r. Press Measure: the widget picks a y with those chances, runs continued fractions on y/Q to guess the period, and finishes with Euclid's gcd. For N = 15 with a = 7 and N = 21 with a = 2, the probabilities match the program's.</p>
+
+<div class="board sh-board">
+  <div style="min-width:0">
+    <div class="sh-view" id="sh-view"></div>
+  </div>
+  <div style="min-width:0">
+    <div class="controls">
+      <label>N <select id="sh-n"><option>15</option><option>21</option><option>35</option><option>77</option><option>143</option><option>221</option></select></label>
+      <label>a <select id="sh-a"></select></label>
+    </div>
+    <div class="sh-btns"><button type="button" class="primary" id="sh-measure">Measure</button></div>
+    <div class="sh-stats" id="sh-stats"></div>
+    <p class="say" id="sh-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 7, randomness, networks and learning</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 7: Randomness, Networks and Learning, from 1979 to 1995" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1979–1984</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Khachiyan and</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Karmarkar</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1979</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Merkle trees</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1980–1982</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Byzantine</text><text x="307.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">agreement</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1983–1985</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Simulated annealing</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1985</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Splay trees</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1985–1986</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Zero knowledge</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1970–1986</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Backpropagation</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1986</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Barnes–Hut</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1985–1987</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Karp–Rabin</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1986–1989</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Congestion control</text><circle cx="1279.0" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1994</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Shor&#x27;s algorithm</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1983–1994</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Burrows–Wheeler</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1995–1997</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AdaBoost</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 416" role="img" aria-label="Each fix leaves a new pain: from factoring to periods to a machine not yet built" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="436.3" y="45.0" width="87.4" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">answered by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="436.3" y="187.0" width="87.4" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">answered by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="436.3" y="329.0" width="87.4" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">answered by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">RSA&#x27;s security rests on factoring, and every known</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">classical method takes superpolynomial time</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Factoring reduces to finding a period: for every N</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">tried, at least 50% of the choices of a split N</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the classical half of Shor&#x27;s algorithm</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Finding the period is itself hard for an ordinary</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">computer</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A quantum Fourier transform piles the probability onto</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">multiples of Q/r: 0.250 on each of 4 peaks for N = 15</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Shor, 1994</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Simulating it classically needs 2^4,096 amplitudes for a</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">2,048-bit N</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Build the quantum computer: 15 was factored in 2001; a</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">2025 estimate puts RSA-2048 under a million noisy qubits</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the step that remains</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Factoring is finding a period</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 780 250" role="img" aria-label="Shor&#x27;s algorithm as a pipeline" style="font-family:var(--body);min-width:429px;max-width:780px;margin:0 auto"><text x="20.0" y="26.0" text-anchor="start" style="fill:var(--ink);font-size:13px;font-weight:700">Factoring N: only the middle step needs a quantum computer</text><rect x="20.0" y="70.0" width="160.0" height="96.0" rx="3" style="fill:var(--surface);stroke:var(--ink);stroke-width:1.5"/><text x="30.0" y="96.0" text-anchor="start" style="fill:var(--ink);font-size:13px;font-weight:700">Pick a at random</text><text x="30.0" y="118.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">if gcd(a, N) &gt; 1,</text><text x="30.0" y="134.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">done</text><line x1="183.0" y1="118.0" x2="205.0" y2="118.0" style="stroke:var(--ink);stroke-width:1.6"/><path d="M207,118 L198,113 L198,123 Z" style="fill:var(--ink)"/><rect x="210.0" y="70.0" width="160.0" height="96.0" rx="3" style="fill:var(--surface);stroke:var(--red);stroke-width:2.2"/><text x="220.0" y="96.0" text-anchor="start" style="fill:var(--red);font-size:13px;font-weight:700">Find the period r</text><text x="220.0" y="118.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">a^r ≡ 1 (mod N), by a</text><text x="220.0" y="134.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">quantum Fourier</text><text x="220.0" y="150.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">transform</text><line x1="373.0" y1="118.0" x2="395.0" y2="118.0" style="stroke:var(--ink);stroke-width:1.6"/><path d="M397,118 L388,113 L388,123 Z" style="fill:var(--ink)"/><rect x="400.0" y="70.0" width="160.0" height="96.0" rx="3" style="fill:var(--surface);stroke:var(--ink);stroke-width:1.5"/><text x="410.0" y="96.0" text-anchor="start" style="fill:var(--ink);font-size:13px;font-weight:700">If r is even, compute</text><text x="410.0" y="118.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">gcd(a^(r/2) − 1, N)</text><line x1="563.0" y1="118.0" x2="585.0" y2="118.0" style="stroke:var(--ink);stroke-width:1.6"/><path d="M587,118 L578,113 L578,123 Z" style="fill:var(--ink)"/><rect x="590.0" y="70.0" width="160.0" height="96.0" rx="3" style="fill:var(--surface);stroke:var(--blue);stroke-width:2.2"/><text x="600.0" y="96.0" text-anchor="start" style="fill:var(--blue);font-size:13px;font-weight:700">A factor of N</text><text x="600.0" y="118.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">for at least half of</text><text x="600.0" y="134.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">all a</text><text x="290.0" y="190.0" text-anchor="middle" style="fill:var(--red);font-size:12px;font-weight:700">quantum</text><text x="100.0" y="190.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">classical</text><text x="480.0" y="190.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">classical (Euclid, Era 1)</text><text x="20.0" y="240.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">If r is odd, or a^(r/2) ≡ −1 (mod N), pick another a and try again.</text></svg></div></figure>
+<p class="col"><strong>Why a period helps.</strong> If a^r ≡ 1 (mod N) and r is even, then (a^(r/2) − 1)(a^(r/2) + 1) is a multiple of N. Unless a^(r/2) ≡ −1, neither factor is a multiple of N by itself, so each shares a proper factor with N, and Euclid's algorithm finds it.</p>
+<p class="col"><strong>The quantum step.</strong> A register of about 2 log₂ N qubits holds every x from 0 to Q − 1 at once; a second register gets a^x mod N. Measuring the second register leaves the first holding only the x with that value: x₀, x₀ + r, x₀ + 2r, … The quantum Fourier transform makes those amplitudes interfere so that measuring gives a y close to a multiple of Q/r. Continued fractions turn y/Q into a fraction with denominator r (or a divisor of it).</p>
+<p class="col"><strong>Why simulation does not help.</strong> An ordinary computer must store one complex number for every value the register can hold: Q of them, about N². The program does exactly that, which is why it stops at N = 1,007.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>The hard part of factoring hides a regularity: a period. A Fourier transform is the tool for finding periods, and a quantum computer can apply it to an exponentially large register in polynomial time.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">The reduction, the peaks and the cost</h2>
+<p class="col"><strong>The reduction.</strong> For 18 products of two distinct odd primes from 15 to 25,217, every a with no factor in common with N, its period found by brute force: the share of a's that split N was never below 50%.</p>
+<div class="tbl"><table><thead><tr><th class="n">N</th><th class="n">a that work</th><th class="n">a tried</th><th class="n">Share</th></tr></thead><tbody><tr class=""><td class="n">15</td><td class="n">6</td><td class="n">7</td><td class="n">86%</td></tr><tr class=""><td class="n">21</td><td class="n">6</td><td class="n">11</td><td class="n">55%</td></tr><tr class=""><td class="n">91</td><td class="n">54</td><td class="n">71</td><td class="n">76%</td></tr><tr class=""><td class="n">1,007</td><td class="n">702</td><td class="n">935</td><td class="n">75%</td></tr><tr class=""><td class="n">3,233</td><td class="n">1,950</td><td class="n">3,119</td><td class="n">63%</td></tr><tr class=""><td class="n">25,217</td><td class="n">12,450</td><td class="n">24,899</td><td class="n">50%</td></tr></tbody></table></div>
+<p class="col"><strong>The peaks.</strong> N = 15, a = 7: the period is 4 and Q = 256 is a multiple of it, so all the probability sits exactly on y = 0, 64, 128, 192 (0.250 each, 0.000 elsewhere). N = 21, a = 2: the period is 6, Q/r = 85.33 is not a whole number, and the integers nearest the multiples (0, 85, 171, 256, 341, 427) carry 0.793 of the probability together.</p>
+<p class="col"><strong>The whole algorithm,</strong> simulated with every amplitude stored, a chosen at random with no factor in common with N: 23 simulated measurements in all.</p>
+<div class="tbl"><table><thead><tr><th class="n">N</th><th class="">Factors</th><th class="">Q</th><th class="n">Choices of a</th><th class="n">Measurements</th></tr></thead><tbody><tr class=""><td class="n">15</td><td class="">3 × 5</td><td class="">2^8</td><td class="n">1</td><td class="n">1</td></tr><tr class=""><td class="n">21</td><td class="">3 × 7</td><td class="">2^9</td><td class="n">2</td><td class="n">5</td></tr><tr class=""><td class="n">35</td><td class="">5 × 7</td><td class="">2^11</td><td class="n">1</td><td class="n">1</td></tr><tr class=""><td class="n">77</td><td class="">7 × 11</td><td class="">2^13</td><td class="n">1</td><td class="n">1</td></tr><tr class=""><td class="n">143</td><td class="">11 × 13</td><td class="">2^15</td><td class="n">1</td><td class="n">1</td></tr><tr class=""><td class="n">221</td><td class="">13 × 17</td><td class="">2^16</td><td class="n">1</td><td class="n">1</td></tr><tr class=""><td class="n">323</td><td class="">17 × 19</td><td class="">2^17</td><td class="n">1</td><td class="n">1</td></tr><tr class=""><td class="n">391</td><td class="">17 × 23</td><td class="">2^18</td><td class="n">1</td><td class="n">1</td></tr><tr class=""><td class="n">437</td><td class="">19 × 23</td><td class="">2^18</td><td class="n">2</td><td class="n">5</td></tr><tr class=""><td class="n">667</td><td class="">23 × 29</td><td class="">2^19</td><td class="n">1</td><td class="n">2</td></tr><tr class=""><td class="n">899</td><td class="">29 × 31</td><td class="">2^20</td><td class="n">1</td><td class="n">2</td></tr><tr class=""><td class="n">1,007</td><td class="">19 × 53</td><td class="">2^20</td><td class="n">1</td><td class="n">2</td></tr></tbody></table></div>
+<p class="col"><strong>The cost of simulating:</strong></p>
+<div class="tbl"><table><thead><tr><th class="n">Bits in N</th><th class="n">Qubits in the first register</th><th class="">Amplitudes a simulation stores</th></tr></thead><tbody><tr class=""><td class="n">10</td><td class="n">20</td><td class="">2^20</td></tr><tr class=""><td class="n">20</td><td class="n">40</td><td class="">2^40</td></tr><tr class=""><td class="n">64</td><td class="n">128</td><td class="">2^128</td></tr><tr class=""><td class="n">512</td><td class="n">1,024</td><td class="">2^1,024</td></tr><tr class=""><td class="n">2,048</td><td class="n">4,096</td><td class="">2^4,096</td></tr></tbody></table></div>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">On a hypothetical computer</h2>
+<p class="col">Peter Shor, at Bell Labs in Murray Hill, announced the result in 1994 ("Algorithms for Quantum Computation: Discrete Log and Factoring", DIMACS technical report 94-37: these computers "can factor integers and find discrete logarithms in polynomial time"). The full version, "Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer" (arXiv quant-ph/9508027, 1995; <em>SIAM Journal on Computing</em>), gives "Efficient randomized algorithms ... for these two problems on a hypothetical quantum computer".</p>
+<p class="col">Wikipedia describes the algorithm as "A classical reduction of the factoring problem to the problem of order-finding" plus a quantum step, with continued fractions to "extract the period from the measurement outcomes"; it records a 2001 IBM experiment using "an NMR implementation of a quantum computer with seven qubits" (which factored 15, per the History of Information page, with doubts since "no entanglement was observed"), and says that of later small demonstrations "none of these demonstrations fulfill the requirements of Shor's algorithm". Smolin, Smith and Vargo of IBM showed that "compiled" versions can factor any product of two primes with two qubits, so "the correct measure of difficulty ... is not the size of number factored".</p>
+<p class="col">Craig Gidney's 2025 estimate: "a 2048 bit RSA integer could be factored in less than a week using less than one million noisy qubits", "compared to 20 million in Gidney+Ekerå 2019". That is an estimate of what a machine would need, not a report of one.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Euclid and Fourier, with qubits</h2>
+<p class="col">Shor's algorithm ends with the oldest algorithm in this book, Euclid's greatest common divisor (Era 1), and turns on the fast Fourier transform (Era 6). The only new ingredient is the machine that runs the transform.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>Era 6 built public-key cryptography on the hardness of factoring. Era 7 shows that the hardness belongs to the kind of computer, not to the problem: a 2,048-bit number needs 4,096 qubits in the first register, or 2^4,096 stored numbers to simulate them.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>The powers of 7 modulo 15 are 1, 7, 4, 13, 1, … What is r, and what factors does it give?</span></summary><div class="ans"><p>r = 4; 7² = 49 ≡ 4, and gcd(4 − 1, 15) = 3, gcd(4 + 1, 15) = 5.</p></div></details><details class="try"><summary><span class="q">2</span><span>Why must r be even?</span></summary><div class="ans"><p>To split a^r − 1 into (a^(r/2) − 1)(a^(r/2) + 1).</p></div></details><details class="try"><summary><span class="q">3</span><span>For N = 15, Q = 256 and r = 4. Which y can be measured?</span></summary><div class="ans"><p>Only 0, 64, 128 and 192, each with probability ¼.</p></div></details><details class="try"><summary><span class="q">4</span><span>Why is Q chosen at least N²?</span></summary><div class="ans"><p>So that continued fractions can recover r from y/Q: the peaks are close enough to k/r to pin down a fraction with denominator below N.</p></div></details><details class="try"><summary><span class="q">5</span><span>Why can't an ordinary computer just run this simulation for a 2,048-bit number?</span></summary><div class="ans"><p>It would need to store 2^4,096 complex numbers, far more than there are atoms in the observable universe.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Shor&#x27;s paper (1995 version)</b><span>"Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer".</span><a href="https://arxiv.org/abs/quant-ph/9508027">arXiv quant-ph/9508027</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://en.wikipedia.org/wiki/Shor%27s_algorithm" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Shor's algorithm · Wikipedia</span><span class="w">The reduction, the quantum step, and the experiments so far</span></a><a href="https://ar5iv.labs.arxiv.org/html/1301.7007" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Pretending to factor large numbers on a quantum computer · J. Smolin, G. Smith, A. Vargo (IBM, 2013)</span><span class="w">Why "we factored N on a quantum computer" needs careful reading</span></a><a href="https://research.google/pubs/how-to-factor-2048-bit-rsa-integers-with-less-than-a-million-noisy-qubits/" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">How to factor 2048 bit RSA integers with less than a million noisy qubits · C. Gidney, Google (2025)</span><span class="w">What breaking real RSA would take, as currently estimated</span></a><a href="https://arxiv.org/abs/quant-ph/9508027" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer · P. Shor, arXiv (1995), <em>SIAM J. Computing</em></span><span class="w">The algorithm and its analysis</span></a><a href="https://archive.dimacs.rutgers.edu/TechnicalReports/abstracts/1994/94-37.html" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Algorithms for Quantum Computation: Discrete Log and Factoring · P. Shor, DIMACS TR 94-37 (1994)</span><span class="w">The 1994 announcement</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-07-randomness-networks-and-learning/reference-catalog.md">Era 7 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-07-randomness-networks-and-learning/11-shor-factoring/ShorFactoring.java">ShorFactoring.java</a> makes <strong>23,551 checks</strong>: the classical reduction for every a and 18 values of N, the exact probability peaks for N = 15 and 21, and the whole algorithm simulated with every amplitude stored for 12 values of N, each factor checked. Run it with <code>java ShorFactoring.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** The classical post-processing: a factor of n from the order r of a, or -1 if this a fails. */</span>
+<span class="k-kw">static</span> <span class="k-kw">long</span> splitWith(<span class="k-kw">long</span> a, <span class="k-kw">long</span> r, <span class="k-kw">long</span> n) {
+    <span class="k-kw">if</span> (r % <span class="k-n">2</span> == <span class="k-n">1</span>) <span class="k-kw">return</span> -<span class="k-n">1</span>;
+    <span class="k-kw">long</span> h = powmod(a, r / <span class="k-n">2</span>, n);
+    <span class="k-kw">if</span> (h == n - <span class="k-n">1</span>) <span class="k-kw">return</span> -<span class="k-n">1</span>;
+    <span class="k-kw">long</span> f = gcd(h - <span class="k-n">1</span>, n);
+    <span class="k-kw">return</span> f &gt; <span class="k-n">1</span> &amp;&amp; f &lt; n ? f : -<span class="k-n">1</span>;
+}
+
+<span class="k-c">/** Continued fractions: the denominators of the convergents of y / Q, smallest first. */</span>
+<span class="k-kw">static</span> <span class="k-kw">List</span>&lt;Long&gt; convergentDenominators(<span class="k-kw">long</span> y, <span class="k-kw">long</span> Q, <span class="k-kw">long</span> limit) {
+    <span class="k-kw">List</span>&lt;Long&gt; out = <span class="k-kw">new</span> ArrayList&lt;&gt;();
+    <span class="k-kw">long</span> h0 = <span class="k-n">0</span>, h1 = <span class="k-n">1</span>, k0 = <span class="k-n">1</span>, k1 = <span class="k-n">0</span>;               <span class="k-c">// standard recurrence, starting from the empty fraction</span>
+    <span class="k-kw">long</span> num = y, den = Q;
+    <span class="k-kw">while</span> (den != <span class="k-n">0</span>) {
+        <span class="k-kw">long</span> q = num / den;
+        <span class="k-kw">long</span> h2 = q * h1 + h0, k2 = q * k1 + k0;
+        <span class="k-kw">if</span> (k2 &gt;= limit) break;
+        out.add(k2);
+        h0 = h1; h1 = h2; k0 = k1; k1 = k2;
+        <span class="k-kw">long</span> t = num - q * den; num = den; den = t;
+    }
+    <span class="k-kw">return</span> out;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>ShorFactoring.java</code>.<br><span class="navfoot"><a href="../index.html">Era 7: Randomness, Networks and Learning</a><a href="../10-tcp-congestion-control/tcp-congestion-control.html">← TCP Congestion Control</a><a href="../12-burrows-wheeler/burrows-wheeler.html">The Burrows–Wheeler Transform →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const view = document.getElementById("sh-view");
+  if (!view) return;
+  const PROG = {"15,7": "0.250 on each of y = 0, 64, 128, 192", "21,2": "0.793 on the integers nearest k\u00b7Q/r"};
+  const gcd = (a, b) => { while (b) [a, b] = [b, a % b]; return a; };
+  const powmod = (a, e, n) => { let r = 1 % n; a %= n; while (e > 0) { if (e & 1) r = r * a % n; a = a * a % n; e >>= 1; } return r; };
+  const order = (a, n) => { let x = a % n, r = 1; while (x !== 1) { x = x * a % n; r++; } return r; };
+  function fft(re, im) {
+    const n = re.length;
+    for (let i = 1, j = 0; i < n; i++) { let bit = n >> 1; for (; j & bit; bit >>= 1) j ^= bit; j ^= bit; if (i < j) { [re[i], re[j]] = [re[j], re[i]]; [im[i], im[j]] = [im[j], im[i]]; } }
+    for (let len = 2; len <= n; len <<= 1) {
+      const ang = 2 * Math.PI / len;
+      for (let i = 0; i < n; i += len) for (let k = 0; k < len / 2; k++) {
+        const wr = Math.cos(ang * k), wi = Math.sin(ang * k), u = i + k, v = i + k + len / 2;
+        const xr = re[v] * wr - im[v] * wi, xi = re[v] * wi + im[v] * wr;
+        re[v] = re[u] - xr; im[v] = im[u] - xi; re[u] += xr; im[u] += xi;
+      }
+    }
+  }
+  let N, a, Q, prob, r;
+  const nSel = document.getElementById("sh-n"), aSel = document.getElementById("sh-a");
+  function setN() {
+    N = +nSel.value; aSel.innerHTML = "";
+    for (let x = 2; x < N; x++) if (gcd(x, N) === 1) { const o = document.createElement("option"); o.textContent = x; aSel.appendChild(o); }
+    aSel.value = N === 15 ? "7" : "2"; setA();
+  }
+  function setA() {
+    a = +aSel.value; let bits = 1; while ((1 << bits) < N * N) bits++; Q = 1 << bits;
+    // the state after the second register is measured and gave a^0 mod N = 1: x = 0, r, 2r, ... below Q
+    r = order(a, N);
+    const re = new Float64Array(Q), im = new Float64Array(Q);
+    let cnt = 0; for (let x = 0; x < Q; x += r) { re[x] = 1; cnt++; }
+    for (let x = 0; x < Q; x += r) re[x] /= Math.sqrt(cnt);
+    fft(re, im);
+    prob = new Float64Array(Q); for (let y = 0; y < Q; y++) prob[y] = (re[y] * re[y] + im[y] * im[y]) / Q;
+    draw(`N = ${N}, a = ${a}: the powers of a repeat every ${r}. Each bar is the chance that measuring the first register gives that y; the peaks sit near multiples of Q/r = ${(Q / r).toFixed(2)}.`);
+  }
+  function draw(msg, picked) {
+    view.innerHTML = "";
+    const W = 420, H = 300, svg = sv("svg", {viewBox: `0 0 ${W} ${H}`}, view), bins = Math.min(Q, 256), per = Q / bins;
+    const bp = new Float64Array(bins); for (let y = 0; y < Q; y++) bp[Math.floor(y / per)] += prob[y];
+    const mx = Math.max(...bp), x0 = 30, w = W - 45, base = 200;
+    sv("line", {x1: x0, y1: base, x2: x0 + w, y2: base, stroke: "var(--axis)"}, svg);
+    bp.forEach((p, i) => { if (p > 1e-9) sv("rect", {x: x0 + i * w / bins, y: base - p / mx * 160, width: Math.max(w / bins - 0.3, 0.6), height: p / mx * 160, fill: "var(--blue)"}, svg); });
+    if (picked !== undefined) { const px = x0 + (picked / per) * w / bins; sv("line", {x1: px, y1: 30, x2: px, y2: base, stroke: "var(--red)", "stroke-width": 2}, svg); }
+    const t1 = sv("text", {x: x0, y: base + 18, "font-size": 11.5, fill: "var(--muted)"}, svg); t1.textContent = "0";
+    const t2 = sv("text", {x: x0 + w, y: base + 18, "font-size": 11.5, fill: "var(--muted)", "text-anchor": "end"}, svg); t2.textContent = `Q − 1 = ${Q - 1}`;
+    const t3 = sv("text", {x: x0, y: 22, "font-size": 12, "font-weight": 700, fill: "var(--ink)"}, svg); t3.textContent = `chance of each measured y (Q = ${Q}${bins < Q ? ", grouped in " + bins + " bars" : ""})`;
+    // the sequence of powers
+    const seq = []; for (let x = 0; x < Math.min(13, 3 * r + 3); x++) seq.push(powmod(a, x, N));
+    const t4 = sv("text", {x: x0, y: base + 44, "font-size": 11.5, fill: "var(--ink)", "font-family": "var(--mono)"}, svg); t4.textContent = `a^x mod N: ${seq.join(" ")}${seq.length < 3 * r + 3 ? " …" : ""}`;
+    const t5 = sv("text", {x: x0, y: base + 62, "font-size": 11.5, fill: "var(--muted)"}, svg); t5.textContent = `the period r = ${r} (found here by brute force, to check)`;
+    const st = document.getElementById("sh-stats"); st.innerHTML = "";
+    let onPeaks = 0; for (let k = 0; k < r; k++) onPeaks += prob[Math.round(k * Q / r) % Q];
+    el("div", {}, st, `qubits in the first register: ${Math.log2(Q)}; amplitudes stored: ${Q.toLocaleString("en-US")}`);
+    el("div", {}, st, `probability on the integers nearest k·Q/r: ${onPeaks.toFixed(3)}`);
+    const p = PROG[`${N},${a}`]; if (p) el("div", {}, st, `the program, same N and a: ${p}`);
+    if (msg) document.getElementById("sh-say").textContent = msg;
+  }
+  function convergents(y) {
+    const out = []; let h0 = 0, h1 = 1, k0 = 1, k1 = 0, num = y, den = Q;
+    while (den !== 0) { const q = Math.floor(num / den), h2 = q * h1 + h0, k2 = q * k1 + k0; if (k2 >= N) break; out.push([h2, k2]); h0 = h1; h1 = h2; k0 = k1; k1 = k2; const t = num - q * den; num = den; den = t; }
+    return out;
+  }
+  document.getElementById("sh-measure").addEventListener("click", () => {
+    let u = Math.random(), y = 0; for (let c = 0; y < Q; y++) { c += prob[y]; if (u < c) break; }
+    y = Math.min(y, Q - 1);
+    const conv = convergents(y);
+    let found = 0; for (const [h, k] of conv) { for (let m = 1; m <= 4 && k * m < N; m++) if (k > 0 && powmod(a, k * m, N) === 1) { found = k * m; break; } if (found) break; }
+    let msg = `Measured y = ${y}. y/Q = ${y}/${Q}; continued fractions give denominators ${conv.map(c => c[1]).join(", ") || "none"}. `;
+    if (!found) msg += "None of them is a period: measure again.";
+    else if (found % 2) msg += `Period ${found} is odd: pick another a.`;
+    else { const h = powmod(a, found / 2, N); if (h === N - 1) msg += `Period ${found}, but a^(r/2) ≡ −1 (mod N): pick another a.`; else { const f = gcd(h - 1, N); msg += `Period ${found}: gcd(${h} − 1, ${N}) = ${f}, so ${N} = ${f} × ${N / f}.`; } }
+    draw(msg, y);
+  });
+  nSel.addEventListener("change", setN); aSel.addEventListener("change", setA);
+  setN();
+})();
+
+</script>
+</body>
+</html>

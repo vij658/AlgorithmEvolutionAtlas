@@ -52,7 +52,7 @@ def ratio_svg(d):
         o.append(C.text(X(0.26), Y(0.95), "θ/π: the chance a random plane cuts the link", t["red"], 12, "start", 700))
         o.append(C.line(X(0.08), Y(0.86) - 4, X(0.22), Y(0.86) - 4, t["blue"], 2.4))
         o.append(C.text(X(0.26), Y(0.86), "(1 − cos θ)/2: what the relaxation counted", t["blue"], 12, "start", 700))
-        o.append(C.line(X(th), Y(0), X(th), Y((1 - math.cos(th)) / 2), t["ink"], 1.2, 'stroke-dasharray="4 4"'))
+        o.append(C.line(X(th), Y(0), X(th), Y((1 - math.cos(th)) / 2), t["ink"], 1.2, ";stroke-dasharray:4 4"))
         o.append(C.text(X(th) - 8, Y(0.08), f"θ = {d['const']['theta']}: the ratio is smallest, {d['const']['alpha']}", t["ink"], 12, "end", 700))
         return C.svg_doc(W, H, "".join(o), "The cut chance against the relaxation's count", t, standalone, 0.55, 760)
     return draw

@@ -74,7 +74,7 @@ def street_svg(d):
                 ya = (cval - r["b"]) / r["w1"]
                 yb = (cval - r["b"] - r["w0"]) / r["w1"]
                 o.append(f'<clipPath id="cl{k}{cval + 1}"><rect x="{x0}" y="{y0}" width="{S}" height="{S}"/></clipPath>')
-                o.append(f'<g clip-path="url(#cl{k}{cval + 1})">' + C.line(X(0), Y(ya), X(1), Y(yb), t["ink"], sw, f'style="stroke-linecap:round{dash}"' if dash else "") + "</g>")
+                o.append(f'<g clip-path="url(#cl{k}{cval + 1})">' + C.line(X(0), Y(ya), X(1), Y(yb), t["ink"], sw, dash) + "</g>")
             for i, (px, py, lab) in enumerate(pts):
                 col = t["red"] if lab > 0 else t["blue"]
                 o.append(C.circle(X(px), Y(py), 5, col))

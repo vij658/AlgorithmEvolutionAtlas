@@ -31,7 +31,7 @@
 | 5 | **MinHash and Locality-Sensitive Hashing** | 1997; 1998 | Near-duplicates among millions of pages | [page](05-minhash/README.md) · [interactive](05-minhash/minhash.html) · [program](../../code/era-08-the-web-the-genome-and-the-ledger/05-minhash/README.md) |
 | 6 | **Long Short-Term Memory** | 1991; 1995; 1997; forget gate 1999 | Recurrent networks forgot after a few steps | [page](06-lstm/README.md) · [interactive](06-lstm/lstm.html) · [program](../../code/era-08-the-web-the-genome-and-the-ledger/06-lstm/README.md) |
 | 7 | **PageRank** | 1996; April 1998 | Keyword search returned junk | [page](07-pagerank/README.md) · [interactive](07-pagerank/pagerank.html) · [program](../../code/era-08-the-web-the-genome-and-the-ledger/07-pagerank/README.md) |
-| 8 | **Paxos** | Submitted 1989 or 1990; published 1998 | Replicas must agree despite lost messages and stopped computers | planned · [references](reference-catalog.md#8-paxos) |
+| 8 | **Paxos** | Submitted 1989 or 1990; published 1998 | Replicas must agree despite lost messages and stopped computers | [page](08-paxos/README.md) · [interactive](08-paxos/paxos.html) · [program](../../code/era-08-the-web-the-genome-and-the-ledger/08-paxos/README.md) |
 | 9 | **Genome Assembly with de Bruijn Graphs** | 1995; 2001 | Overlap assembly is a Hamiltonian path problem | planned · [references](reference-catalog.md#9-genome-assembly-with-de-bruijn-graphs) |
 | 10 | **PRIMES is in P** | 6 August 2002; journal 2004 | Fast primality tests used chance or unproved hypotheses | planned · [references](reference-catalog.md#10-primes-is-in-p) |
 | 11 | **MapReduce** | December 2004 | Every big-data program handled failures its own way | planned · [references](reference-catalog.md#11-mapreduce) |

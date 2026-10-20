@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Consistent Hashing</title>
+<meta name="description" content="Era 8, topic 4 of The Algorithm Evolution Atlas: Karger and colleagues&#x27; consistent hashing (MIT, 1997), virtual nodes and Chord, with a widget that adds and removes servers on a hash circle.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.ch-view svg{display:block;width:100%;height:auto;background:var(--wash)}
+.ch-btns{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0;align-items:center}
+.ch-btns label{font-size:13px;color:var(--ink-2);display:flex;gap:6px;align-items:center}
+.ch-stats{font:13px var(--mono);display:grid;gap:3px;margin-top:8px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 8: The Web, the Genome and the Ledger</a><a href="../03-streaming-sketches/streaming-sketches.html">← Streaming Sketches</a><a href="../05-minhash/minhash.html">MinHash and Locality-Sensitive Hashing →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 8 · Topic 4 · 1997</div>
+    <h1>Consistent Hashing</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">Dividing a key's hash by the number of servers spreads keys evenly, until a server joins or leaves and nearly every key moves. Karger and his colleagues put keys and servers on one circle, so that a change moves only the keys next to it.</p>
+  <p class="fieldnote">Field note from the visiting historian. I gave 100,000 keys to ten servers and added an eleventh. Dividing by the count, 90.9% of the keys had to move. On the circle, 9.7% moved, every one of them to the newcomer.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>STOC 1997; Akamai 1998; Chord 2001</dd></div><div><dt>Where</dt><dd>MIT Laboratory for Computer Science</dd></div><div><dt>What hurt</dt><dd>Hash mod N moves nearly every key when N changes</dd></div><div><dt>The fix</dt><dd>Keys and servers on one circle; many points per server</dd></div><div><dt>Checked</dt><dd>9.7% of keys moved, all to the new server</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Hashing (Era 5) spreads keys evenly over a fixed number of buckets. The Web's hot spots needed caches that come and go. Karger and his colleagues at MIT put the caches on the same circle of hash values as the keys, so that a change of caches moves only a few keys. Two of them founded Akamai the next year, and Chord turned the circle into a network that needs no central list. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How consistent hashing combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="426.5,180.0 417.6,181.6 419.4,174.5" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,180.0 496.3,171.8 503.7,171.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="573.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,180.0 580.6,174.5 582.4,181.6" style="fill:var(--ink-2)"/><rect x="727.2" y="130.0" width="72.7" height="19" rx="3" style="fill:var(--surface)"/><text x="732.2" y="143.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a relative</text><line x1="426.5" y1="266.0" x2="125.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="125.0,340.0 132.1,334.5 133.9,341.6" style="fill:var(--ink-2)"/><line x1="573.5" y1="266.0" x2="875.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="875.0,340.0 866.1,341.6 867.9,334.5" style="fill:var(--ink-2)"/><line x1="875.0" y1="426.0" x2="605.0" y2="533.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="605.0,533.0 611.3,526.6 614.0,533.4" style="fill:var(--ink-2)"/><line x1="500.0" y1="266.0" x2="500.0" y2="490.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,490.0 496.3,481.8 503.7,481.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Hashing</text><text x="32.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">spread keys evenly over</text><text x="32.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">buckets</text><text x="32.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 5</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Hot spots</text><text x="407.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">everyone asks one server at</text><text x="407.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">once</text><text x="407.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">comet impact, election night</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Rendezvous hashing</text><text x="782.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">highest hash(key, server)</text><text x="782.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">wins</text><text x="782.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1996</text><rect x="395" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="203.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Consistent hashing</text><text x="407.0" y="220.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ keys and caches on one</text><text x="407.0" y="237.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">circle</text><text x="407.0" y="253.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">MIT, STOC 1997</text><rect x="20" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="363.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Akamai</text><text x="32.0" y="380.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">founded by two of the</text><text x="32.0" y="397.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">authors</text><text x="32.0" y="413.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">1998</text><rect x="770" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="363.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Chord</text><text x="782.0" y="380.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ fingers: find a key&#x27;s node in</text><text x="782.0" y="397.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">log N hops</text><text x="782.0" y="413.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">MIT, SIGCOMM 2001</text><rect x="395" y="490" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="521.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Today</text><text x="407.0" y="539.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Dynamo, Cassandra and other</text><text x="407.0" y="555.6" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">stores</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Today: the users Wikipedia lists. Rendezvous hashing was designed in 1996 and is a more general relative.</text></svg></div><figcaption>Red: consistent hashing. Blue: where it is used now.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">Add a server, take one away</h2>
+<p class="col">Six servers, each at three points on a circle of 2³² hash values (the coloured bars; fjord's and gamma's are hollow), and forty keys (dots), each belonging to the first server point clockwise from it. Let gamma join, or let cedar leave: the keys that change hands are ringed, and they are only the ones next to the change. Tick the box to see what dividing the hash by the number of servers would have moved instead. The widget computes the same hashes as the program.</p>
+
+<div class="board ch-board">
+  <div style="min-width:0"><div class="ch-view" id="ch-view"></div></div>
+  <div style="min-width:0">
+    <div class="ch-btns"><button type="button" id="ch-gamma">gamma joins</button><button type="button" id="ch-cedar">cedar leaves</button><button type="button" id="ch-reset">The six servers</button></div>
+    <div class="ch-btns"><label><input type="checkbox" id="ch-mod"> show what hash mod N would do</label></div>
+    <div class="ch-stats" id="ch-stats"></div>
+    <p class="say" id="ch-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 8, the Web, the genome and the ledger</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 8: The Web, the Genome and the Ledger, from 1995 to 2008" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1992–1995</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Support vector</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">machines</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1994–1995</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Goemans–Williamson</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1996</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Streaming</text><text x="307.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">sketches</text><circle cx="428.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1997</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Consistent</text><text x="428.5" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">hashing</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1997–1998</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">MinHash</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1997</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">LSTM</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1998</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">PageRank</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1989–1998</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Paxos</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1995–2001</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Genome assembly</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2002</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AKS primality</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2004</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">MapReduce</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2004–2006</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Compressed</text><text x="1400.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">sensing</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2008</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Bitcoin</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 416" role="img" aria-label="Each fix leaves a new pain: from hash mod N to a circle with fingers" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Hash mod N: 10 servers become 11 and 90.9% of the keys</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">move</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The circle: only 9.7% move, all to the newcomer (a fair</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">share is 9.1%)</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Karger and colleagues, 1997</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">One point per server leaves uneven arcs: the busiest</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">carries 2.91 times its share</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Many points per server: with 1,000, 1.05 times</text><text x="32.0" y="228.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">virtual nodes</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Who knows where the circle&#x27;s points are, without a</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">central list?</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Chord&#x27;s fingers: 5.86 hops on average among 1,024 nodes</text><text x="572.0" y="370.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Stoica and colleagues, 2001</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">One circle for keys and servers</h2>
+<p class="col"><strong>Hash mod N.</strong> server = hash(key) mod N spreads keys evenly. But a key stays put when N goes from 10 to 11 only if its hash leaves the same remainder for both, which happens for about one key in eleven: the other ten elevenths move.</p>
+<p class="col"><strong>The circle.</strong> Hash every key and every server onto the same circle of numbers, and give each key to the first server point clockwise from it. A new server takes over only the keys between its point and the point before it; a server that leaves hands its keys to the next point. Nothing else moves. The 1997 paper calls this property <em>monotonicity</em>.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 760 470" role="img" aria-label="Six servers and forty keys on a hash circle" style="font-family:var(--body);min-width:418px;max-width:760px;margin:0 auto"><text x="20.0" y="26.0" text-anchor="start" style="fill:var(--ink);font-size:13px;font-weight:700">The circle: 6 servers at 3 points each, 40 keys; each key belongs to the next server point clockwise</text><circle cx="250" cy="245" r="175" fill="none" stroke="var(--axis)" stroke-width="2"/><circle cx="107.2" cy="314.9" r="4.0" style="fill:var(--red)"/><circle cx="227.2" cy="87.6" r="4.0" style="fill:var(--ink)"/><circle cx="313.7" cy="99.3" r="4.0" style="fill:var(--muted)"/><circle cx="249.4" cy="86.0" r="3.5" fill="var(--wash)" stroke="var(--red)" stroke-width="1.8"/><circle cx="144.0" cy="363.5" r="4.0" style="fill:var(--muted)"/><circle cx="98.4" cy="197.1" r="4.0" style="fill:var(--ink)"/><circle cx="400.6" cy="194.1" r="4.0" style="fill:var(--muted)"/><circle cx="386.0" cy="162.6" r="4.0" style="fill:var(--muted)"/><circle cx="93.3" cy="271.8" r="4.0" style="fill:var(--yellow)"/><circle cx="97.8" cy="291.1" r="4.0" style="fill:var(--yellow)"/><circle cx="96.0" cy="205.5" r="4.0" style="fill:var(--ink)"/><circle cx="398.1" cy="187.1" r="4.0" style="fill:var(--muted)"/><circle cx="101.2" cy="301.0" r="4.0" style="fill:var(--yellow)"/><circle cx="135.9" cy="355.8" r="4.0" style="fill:var(--muted)"/><circle cx="91.0" cy="247.9" r="4.0" style="fill:var(--yellow)"/><circle cx="381.6" cy="334.3" r="4.0" style="fill:var(--red)"/><circle cx="403.4" cy="203.3" r="4.0" style="fill:var(--muted)"/><circle cx="408.9" cy="251.7" r="4.0" style="fill:var(--red)"/><circle cx="235.2" cy="86.7" r="3.5" fill="var(--wash)" stroke="var(--red)" stroke-width="1.8"/><circle cx="108.9" cy="318.3" r="4.0" style="fill:var(--muted)"/><circle cx="95.8" cy="206.1" r="4.0" style="fill:var(--ink)"/><circle cx="351.3" cy="367.6" r="4.0" style="fill:var(--yellow)"/><circle cx="401.0" cy="195.3" r="4.0" style="fill:var(--muted)"/><circle cx="91.4" cy="256.6" r="4.0" style="fill:var(--yellow)"/><circle cx="405.9" cy="213.9" r="4.0" style="fill:var(--muted)"/><circle cx="121.4" cy="338.5" r="4.0" style="fill:var(--muted)"/><circle cx="284.9" cy="89.9" r="3.5" fill="var(--wash)" stroke="var(--red)" stroke-width="1.8"/><circle cx="124.9" cy="146.8" r="4.0" style="fill:var(--yellow)"/><circle cx="338.6" cy="113.0" r="4.0" style="fill:var(--muted)"/><circle cx="157.0" cy="116.0" r="4.0" style="fill:var(--ink)"/><circle cx="98.1" cy="292.0" r="4.0" style="fill:var(--yellow)"/><circle cx="93.3" cy="272.0" r="4.0" style="fill:var(--yellow)"/><circle cx="332.1" cy="108.8" r="4.0" style="fill:var(--muted)"/><circle cx="386.8" cy="163.9" r="4.0" style="fill:var(--muted)"/><circle cx="304.5" cy="394.4" r="4.0" style="fill:var(--yellow)"/><circle cx="268.9" cy="402.9" r="3.5" fill="var(--wash)" stroke="var(--red)" stroke-width="1.8"/><circle cx="154.9" cy="117.6" r="4.0" style="fill:var(--ink)"/><circle cx="131.7" cy="351.3" r="4.0" style="fill:var(--muted)"/><circle cx="286.2" cy="399.8" r="4.0" style="fill:var(--yellow)"/><circle cx="289.5" cy="399.0" r="4.0" style="fill:var(--yellow)"/><line x1="411.6" y1="287.3" x2="432.8" y2="292.8" style="stroke:var(--red);stroke-width:4"/><line x1="378.4" y1="351.8" x2="395.3" y2="365.8" style="stroke:var(--red);stroke-width:4"/><line x1="96.8" y1="311.4" x2="76.6" y2="320.1" style="stroke:var(--red);stroke-width:4"/><line x1="132.7" y1="126.2" x2="117.2" y2="110.5" style="stroke:var(--blue);stroke-width:4"/><line x1="416.9" y1="239.9" x2="438.9" y2="239.2" style="stroke:var(--blue);stroke-width:4"/><line x1="107.3" y1="158.3" x2="88.5" y2="146.8" style="stroke:var(--blue);stroke-width:4"/><line x1="276.1" y1="409.9" x2="279.5" y2="431.7" style="stroke:var(--yellow);stroke-width:4"/><line x1="85.1" y1="218.9" x2="63.3" y2="215.5" style="stroke:var(--yellow);stroke-width:4"/><line x1="124.3" y1="135.0" x2="107.8" y2="120.5" style="stroke:var(--yellow);stroke-width:4"/><line x1="232.2" y1="78.9" x2="229.9" y2="57.1" style="stroke:var(--ink);stroke-width:4"/><line x1="158.1" y1="384.5" x2="146.0" y2="402.8" style="stroke:var(--ink);stroke-width:4"/><line x1="100.6" y1="170.5" x2="80.9" y2="160.6" style="stroke:var(--ink);stroke-width:4"/><line x1="414.3" y1="215.3" x2="436.0" y2="211.4" style="stroke:var(--muted);stroke-width:4"/><line x1="128.5" y1="130.5" x2="112.5" y2="115.4" style="stroke:var(--muted);stroke-width:4"/><line x1="101.1" y1="320.6" x2="81.5" y2="330.5" style="stroke:var(--muted);stroke-width:4"/><line x1="171.5" y1="392.4" x2="161.2" y2="411.8" style="stroke:var(--red);stroke-width:6"/><line x1="171.5" y1="392.4" x2="161.2" y2="411.8" style="stroke:var(--wash);stroke-width:2.4"/><line x1="201.1" y1="404.7" x2="194.7" y2="425.7" style="stroke:var(--red);stroke-width:6"/><line x1="201.1" y1="404.7" x2="194.7" y2="425.7" style="stroke:var(--wash);stroke-width:2.4"/><line x1="309.1" y1="88.8" x2="316.9" y2="68.2" style="stroke:var(--red);stroke-width:6"/><line x1="309.1" y1="88.8" x2="316.9" y2="68.2" style="stroke:var(--wash);stroke-width:2.4"/><text x="250.0" y="239.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">2³² positions</text><text x="250.0" y="257.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">clockwise from the top</text><text x="480.0" y="90.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:700">server: keys it holds</text><line x1="480.0" y1="112.0" x2="502.0" y2="112.0" style="stroke:var(--red);stroke-width:4"/><text x="512.0" y="116.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:400">amber: 3</text><line x1="480.0" y1="138.0" x2="502.0" y2="138.0" style="stroke:var(--blue);stroke-width:4"/><text x="512.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:400">basil: 0</text><line x1="480.0" y1="164.0" x2="502.0" y2="164.0" style="stroke:var(--yellow);stroke-width:4"/><text x="512.0" y="168.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:400">cedar: 12</text><line x1="480.0" y1="190.0" x2="502.0" y2="190.0" style="stroke:var(--ink);stroke-width:4"/><text x="512.0" y="194.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:400">delta: 6</text><line x1="480.0" y1="216.0" x2="502.0" y2="216.0" style="stroke:var(--muted);stroke-width:4"/><text x="512.0" y="220.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:400">ember: 15</text><line x1="480.0" y1="242.0" x2="502.0" y2="242.0" style="stroke:var(--red);stroke-width:6"/><line x1="480.0" y1="242.0" x2="502.0" y2="242.0" style="stroke:var(--wash);stroke-width:2.4"/><text x="512.0" y="246.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:400">fjord: 4</text><text x="480.0" y="278.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">Bars: the servers&#x27; points (fjord&#x27;s hollow).</text><text x="480.0" y="296.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">Dots: keys, coloured by the server holding them.</text><text x="480.0" y="314.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">Three points each are not enough to even out</text><text x="480.0" y="332.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">the arcs: one server holds no key at all.</text></svg></div></figure>
+<p class="col"><strong>Many points per server.</strong> With one point each, the arcs between points are uneven, and so are the loads. Place every server at many points ("virtual nodes") and each server's share is the sum of many small arcs, which evens out.</p>
+<p class="col"><strong>Chord.</strong> To find a key's server without a central list, each node of Chord keeps "fingers": the nodes 1, 2, 4, 8, … places ahead of it on the circle. A lookup jumps along the farthest finger that does not overshoot the key, at least halving the remaining distance each time, so it needs about log₂ N hops.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>Make the assignment depend on positions, not on the number of servers. Then a change of servers is a local event: only the neighbours of the change are affected.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">What moves, and how even</h2>
+<p class="col"><strong>Ten servers become eleven</strong>, 100,000 keys:</p>
+<div class="tbl"><table><thead><tr><th class="">Method</th><th class="n">Keys that move</th><th class="n">Share</th><th class="">Where they go</th></tr></thead><tbody><tr class=""><td class="">hash mod N</td><td class="n">90,863</td><td class="n">90.9%</td><td class="">almost all, everywhere</td></tr><tr class="hl"><td class="">circle, 100 points per server</td><td class="n">9,662</td><td class="n">9.7%</td><td class="">only to the new server</td></tr><tr class=""><td class="">rendezvous hashing</td><td class="n">9,116</td><td class="n">9.1%</td><td class="">only to the new server</td></tr></tbody></table></div>
+<p class="col"><strong>A server leaves</strong> (one point per server): server 3's 1,408 keys (1.4% of all; an uneven arc) all moved to server 5, the next point clockwise, and no other key moved.</p>
+<p class="col"><strong>Load balance</strong>, 10 servers and 100,000 keys, over 50 different sets of servers:</p>
+<div class="tbl"><table><thead><tr><th class="n">Points per server</th><th class="n">Busiest server, times its fair share (average)</th><th class="n">Worst of 50</th></tr></thead><tbody><tr class=""><td class="n">1</td><td class="n">2.91</td><td class="n">4.80</td></tr><tr class=""><td class="n">10</td><td class="n">1.58</td><td class="n">2.03</td></tr><tr class=""><td class="n">100</td><td class="n">1.15</td><td class="n">1.34</td></tr><tr class="hl"><td class="n">1,000</td><td class="n">1.05</td><td class="n">1.09</td></tr></tbody></table></div>
+<p class="col"><strong>Clients that disagree.</strong> 20 servers; 10 clients each know only a random 12 to 20 of them. Over all clients, one key is sent to 2.12 different servers on average (at most 4) with the circle, against 6.11 (at most 9) with hash mod the number of servers each knows. The 1997 paper calls this the <em>spread</em>.</p>
+<p class="col"><strong>Chord</strong>: 1,024 nodes at random places on a circle of 2³² identifiers, 10,000 lookups from random nodes: 5.86 hops on average and at most 11 (log₂ 1,024 = 10).</p>
+<div class="tbl"><table><thead><tr><th class="n">Hops</th><th class="n">Lookups</th></tr></thead><tbody><tr class=""><td class="n">0</td><td class="n">12</td></tr><tr class=""><td class="n">1</td><td class="n">10</td></tr><tr class=""><td class="n">2</td><td class="n">91</td></tr><tr class=""><td class="n">3</td><td class="n">481</td></tr><tr class=""><td class="n">4</td><td class="n">1,228</td></tr><tr class=""><td class="n">5</td><td class="n">2,219</td></tr><tr class=""><td class="n">6</td><td class="n">2,552</td></tr><tr class=""><td class="n">7</td><td class="n">2,012</td></tr><tr class=""><td class="n">8</td><td class="n">1,008</td></tr><tr class=""><td class="n">9</td><td class="n">343</td></tr><tr class=""><td class="n">10</td><td class="n">41</td></tr><tr class=""><td class="n">11</td><td class="n">3</td></tr></tbody></table></div>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">Swamped servers and a circle</h2>
+<p class="col">Karger, Lehman, Leighton, Levine, Lewin and Panigrahy (MIT Laboratory for Computer Science): "Hot spots occur any time a large number of clients wish to simultaneously access data from a single server", as at JPL during the Shoemaker–Levy 9 comet impact and at political sites on election night; "a consistent hash function is one which changes minimally as the range of the function changes", judged by balance, monotonicity, spread and load. Their construction maps buckets and items to the unit interval, each bucket at about a constant times log C points. The opened copy prints no venue; Wikipedia gives the 1997 Symposium on Theory of Computing and records that Lewin and Leighton founded Akamai in 1998, that on average only K/N keys are remapped, and that Teradata had used the technique in 1986 without the name.</p>
+<p class="col">Stoica, Morris, Karger, Kaashoek and Balakrishnan (MIT, SIGCOMM, August 2001): "given a key, it maps the key onto a node", using "a variant of consistent hashing", with a finger table and O(log N) hops, and "adding virtual nodes as an indirection layer can significantly improve load balance".</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Hashing, made to forgive change</h2>
+<p class="col">Era 5's hash tables assumed a fixed number of buckets; when the table grew, everything was rehashed at once. A web of caches cannot stop to rehash. MapReduce (topic 11) still sends each key to a reducer by hash mod R, because its R is fixed for one job; long-lived stores like Dynamo use the circle.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>Ten servers became eleven. Dividing by the count moved 90.9% of the keys; the circle moved 9.7%, and every one of them to the newcomer.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>With hash mod N, about what share of keys keeps its server when N goes from 4 to 5?</span></summary><div class="ans"><p>About 1/5: a key stays only if hash mod 4 = hash mod 5, which holds for 4 of every 20 consecutive hashes.</p></div></details><details class="try"><summary><span class="q">2</span><span>On the circle, a server leaves. Which keys move, and where to?</span></summary><div class="ans"><p>Only its own keys, each to the next server point clockwise.</p></div></details><details class="try"><summary><span class="q">3</span><span>Why do many points per server even out the load?</span></summary><div class="ans"><p>Each server's share becomes the sum of many independent small arcs, whose total varies much less than one arc.</p></div></details><details class="try"><summary><span class="q">4</span><span>Chord has 1,024 nodes. Roughly how many hops should a lookup take?</span></summary><div class="ans"><p>About log₂ 1024 = 10 at most; the program measured 5.86 on average.</p></div></details><details class="try"><summary><span class="q">5</span><span>Two clients know different sets of servers. Why does the circle keep their answers close?</span></summary><div class="ans"><p>A key's owner changes only if a server near it on the circle is missing from a client's list; with hash mod N, any difference in the count changes almost every answer.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Karger and colleagues&#x27; paper (1997)</b><span>Consistent hashing and random trees, for relieving hot spots on the World Wide Web.</span><a href="https://cs.brown.edu/courses/csci2950-u/f09/papers/chash97stoc.pdf">The paper (PDF, on a Brown University course page)</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://en.wikipedia.org/wiki/Consistent_hashing" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Consistent hashing · Wikipedia</span><span class="w">The circle, virtual nodes and where it is used</span></a><a href="https://cs.brown.edu/courses/csci2950-u/f09/papers/chash97stoc.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Consistent Hashing and Random Trees · D. Karger et al., STOC (1997), on a Brown course page</span><span class="w">Hot spots, the four properties and the construction</span></a><a href="https://pdos.csail.mit.edu/archive/6.824-2012/papers/stoica-chord.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications · I. Stoica et al., SIGCOMM (2001), on an MIT course page</span><span class="w">Consistent hashing without a central directory</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-08-the-web-the-genome-and-the-ledger/reference-catalog.md">Era 8 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-08-the-web-the-genome-and-the-ledger/04-consistent-hashing/ConsistentHashing.java">ConsistentHashing.java</a> makes <strong>31,622 checks</strong>: that every key that moves goes to the new server (100,000 keys, two methods), that a leaving server's keys all go to its successor, 10,000 Chord lookups ending at the right node, and the widget's circle. Run it with <code>java ConsistentHashing.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-kw">static</span> <span class="k-kw">int</span> owner(TreeMap&lt;Long, Integer&gt; r, <span class="k-kw">long</span> h) {
+    Map.Entry&lt;Long, Integer&gt; e = r.ceilingEntry(h);
+    <span class="k-kw">return</span> (e != <span class="k-kw">null</span> ? e : r.firstEntry()).getValue();
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>ConsistentHashing.java</code>.<br><span class="navfoot"><a href="../index.html">Era 8: The Web, the Genome and the Ledger</a><a href="../03-streaming-sketches/streaming-sketches.html">← Streaming Sketches</a><a href="../05-minhash/minhash.html">MinHash and Locality-Sensitive Hashing →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const view = document.getElementById("ch-view");
+  if (!view) return;
+  const PROG = {"gamma": 7, "cedar": 12};
+  const COL = {amber: "var(--red)", basil: "var(--blue)", cedar: "var(--yellow)", delta: "var(--ink)", ember: "var(--muted)", fjord: "var(--red)", gamma: "var(--blue)"};
+  const DASH = {fjord: "3 2", gamma: "3 2"};
+  function h32(s) {
+    let h = 0x811c9dc5 | 0;
+    for (const ch of s) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); }
+    h ^= h >>> 16; h = Math.imul(h, 0x85ebca6b); h ^= h >>> 13; h = Math.imul(h, 0xc2b2ae35); h ^= h >>> 16;
+    return h >>> 0;
+  }
+  const BASE = ["amber", "basil", "cedar", "delta", "ember", "fjord"];
+  const KEYS = Array.from({length: 40}, (_, k) => h32("key" + k));
+  const pointsOf = names => names.flatMap(n => [0, 1, 2].map(v => [n, h32(n + "#" + v)])).sort((a, b) => a[1] - b[1]);
+  const ownerOn = (pts, h) => { for (const p of pts) if (p[1] >= h) return p[0]; return pts[0][0]; };
+  let servers = BASE.slice(), before = null;
+  function draw(msg) {
+    const pts = pointsOf(servers), own = KEYS.map(h => ownerOn(pts, h));
+    const base = pointsOf(BASE), baseOwn = KEYS.map(h => ownerOn(base, h));
+    const mod = document.getElementById("ch-mod").checked;
+    view.innerHTML = "";
+    const S = 400, cx = 200, cy = 200, R = 165, svg = sv("svg", {viewBox: `0 0 ${S} ${S}`, role: "img", "aria-label": "A hash circle"}, view);
+    const ang = h => -Math.PI / 2 + 2 * Math.PI * h / 4294967296, P = (h, r) => [cx + r * Math.cos(ang(h)), cy + r * Math.sin(ang(h))];
+    sv("circle", {cx, cy, r: R, fill: "none", stroke: "var(--axis)", "stroke-width": 2}, svg);
+    let moved = 0;
+    KEYS.forEach((h, k) => {
+      const [x, y] = P(h, R - 16), changed = own[k] !== baseOwn[k];
+      if (changed) moved++;
+      const hollow = DASH[own[k]];
+      sv("circle", {cx: x, cy: y, r: changed ? 6 : 4, fill: hollow ? "var(--wash)" : COL[own[k]], stroke: changed ? "var(--ink)" : hollow ? COL[own[k]] : "none", "stroke-width": 2}, svg);
+    });
+    for (const [n, h] of pts) {
+      const [x1, y1] = P(h, R - 7), [x2, y2] = P(h, R + 14);
+      sv("line", {x1, y1, x2, y2, stroke: COL[n], "stroke-width": DASH[n] ? 7 : 5}, svg);
+      if (DASH[n]) sv("line", {x1, y1, x2, y2, stroke: "var(--wash)", "stroke-width": 3}, svg);
+    }
+    const st = document.getElementById("ch-stats"); st.innerHTML = "";
+    el("div", {}, st, `servers: ${servers.join(", ")}`);
+    const counts = {}; own.forEach(o => counts[o] = (counts[o] || 0) + 1);
+    el("div", {}, st, servers.map(n => `${n} ${counts[n] || 0}`).join(" · "));
+    el("div", {}, st, `keys moved since the six: ${moved} of 40 (ringed)`);
+    if (mod) {
+      const n0 = BASE.length, n1 = servers.length;
+      const mm = KEYS.filter(h => h % n0 !== h % n1).length;
+      el("div", {}, st, `hash mod ${n0} → mod ${n1}: ${n0 === n1 ? 0 : mm} of 40 would move`);
+    }
+    if (msg) document.getElementById("ch-say").textContent = msg;
+  }
+  document.getElementById("ch-gamma").addEventListener("click", () => { servers = BASE.concat(["gamma"]); draw(`gamma takes 3 points on the circle and only the keys just before them. The program: ${PROG.gamma} keys move, all to gamma.`); });
+  document.getElementById("ch-cedar").addEventListener("click", () => { servers = BASE.filter(n => n !== "cedar"); draw(`cedar's keys pass to the next point clockwise; no other key moves. The program: ${PROG.cedar} keys move.`); });
+  document.getElementById("ch-reset").addEventListener("click", () => { servers = BASE.slice(); draw("Six servers, three points each, forty keys."); });
+  document.getElementById("ch-mod").addEventListener("change", () => draw());
+  draw("Six servers, three points each, forty keys. Each key belongs to the first server point clockwise from it.");
+})();
+
+</script>
+</body>
+</html>

@@ -34,7 +34,7 @@
 | 8 | **Paxos** | Submitted 1989 or 1990; published 1998 | Replicas must agree despite lost messages and stopped computers | [page](08-paxos/README.md) · [interactive](08-paxos/paxos.html) · [program](../../code/era-08-the-web-the-genome-and-the-ledger/08-paxos/README.md) |
 | 9 | **Genome Assembly with de Bruijn Graphs** | 1995; 2001 | Overlap assembly is a Hamiltonian path problem | [page](09-genome-assembly/README.md) · [interactive](09-genome-assembly/genome-assembly.html) · [program](../../code/era-08-the-web-the-genome-and-the-ledger/09-genome-assembly/README.md) |
 | 10 | **PRIMES is in P** | 6 August 2002; journal 2004 | Fast primality tests used chance or unproved hypotheses | [page](10-primes-is-in-p/README.md) · [interactive](10-primes-is-in-p/primes-is-in-p.html) · [program](../../code/era-08-the-web-the-genome-and-the-ledger/10-primes-is-in-p/README.md) |
-| 11 | **MapReduce** | December 2004 | Every big-data program handled failures its own way | planned · [references](reference-catalog.md#11-mapreduce) |
+| 11 | **MapReduce** | December 2004 | Every big-data program handled failures its own way | [page](11-mapreduce/README.md) · [interactive](11-mapreduce/mapreduce.html) · [program](../../code/era-08-the-web-the-genome-and-the-ledger/11-mapreduce/README.md) |
 | 12 | **Compressed Sensing** | Preprint 2004; journal 2006 | Full-rate sampling wastes measurements on sparse signals | planned · [references](reference-catalog.md#12-compressed-sensing) |
 | 13 | **Bitcoin's Proof-of-Work Ledger** | 31 October 2008; 3 January 2009 | Electronic cash could be spent twice without a bank | planned · [references](reference-catalog.md#13-bitcoins-proof-of-work-ledger) |
 

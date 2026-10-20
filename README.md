@@ -34,6 +34,8 @@ The repository has two halves:
 | Era 5 topic pages, all 13 | Done: GitHub and interactive editions with diagrams and widgets ([front page](book/era-05-the-programmers-craft/README.md)); 13 programs verified (12,505,489 checks) |
 | Reference catalog, Era 6 (the fast Fourier transform to Lamport's clocks, 13 topics) | Done: 57 checked links ([read it](book/era-06-hard-problems-and-public-keys/reference-catalog.md)) |
 | Era 6 topic pages, all 13 | Done: GitHub and interactive editions with diagrams and widgets ([front page](book/era-06-hard-problems-and-public-keys/README.md)); 13 programs verified (13,468,368 checks) |
+| Reference catalog, Era 7 (polynomial-time linear programming to AdaBoost, 13 topics) | Done: 70 checked links ([read it](book/era-07-randomness-networks-and-learning/reference-catalog.md)) |
+| Era 7 topic pages, all 13 | Done: GitHub and interactive editions with diagrams and widgets ([front page](book/era-07-randomness-networks-and-learning/README.md)); 13 programs verified (1,469,808 checks) |
 | Principles catalog, Parts 1–2 (entries 1–42) | Pages written; 42 programs verified (8,135,522 checks) |
 | Principles catalog, Part 3 (entries 43–62) | 20 programs verified (154,369,152 checks); page not written |
 

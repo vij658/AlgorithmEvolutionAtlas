@@ -46,8 +46,8 @@ MAP = dict(
     color={7: "red", 11: "red"},
     edges=[
         (1, 4, "lowering a cost: exact, then by chance", dict(ports=("bottom", "top"), dashed=True, dx=8, anchor="start")),
-        (2, 9, "a short hash stands for long data", dict(ports=("bottom", "top"), dashed=True, dx=8, anchor="start")),
-        (3, 10, "networks that survive bad parts", dict(ports=("bottom", "top"), dashed=True, dx=-8, anchor="end")),
+        (2, 9, "short hashes for long data", dict(ports=("bottom", "top"), dashed=True, dx=8, anchor="start")),
+        (3, 10, "surviving bad parts", dict(ports=("bottom", "top"), dashed=True, dx=-8, anchor="end")),
         (4, 7, "both descend a cost", dict(ports=("bottom", "top"), dashed=True, dx=8, anchor="start")),
         (9, 12, "both find patterns in text", dict(ports=("bottom", "top"), dashed=True, dx=8, anchor="start")),
         (5, 8, "trees shaped by the data", dict(ports=("bottom", "top"), dashed=True, dx=-8, anchor="end")),

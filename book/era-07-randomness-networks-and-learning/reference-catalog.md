@@ -45,7 +45,7 @@ A note on videos: video sites themselves could not be opened from the environmen
 ## 1. Linear programming in polynomial time
 
 **When / where:** Victor Klee and George Minty, "How good is the simplex algorithm?" (1972), the cube on which the simplex method takes exponentially many steps; Leonid Khachiyan, Computer Center of the Soviet Academy of Sciences, Moscow, "A polynomial algorithm in linear programming", *Doklady Akademii Nauk SSSR*, February 1979 (proofs 1980), applying the ellipsoid method of Shor, Nemirovski and Yudin; Narendra Karmarkar, AT&T Bell Laboratories, "A New Polynomial-Time Algorithm for Linear Programming", *Combinatorica*, December 1984.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`LinearProgramming.java`](../../code/era-07-randomness-networks-and-learning/01-linear-programming/) · **Page:** [topic 1](01-linear-programming/README.md)
 
 > **Field note.** The simplex method (Era 4, topic 11) walks from corner to corner of the region the constraints allow, and on the problems people actually brought it, it was fast. But in 1972 Klee and Minty built a squashed cube on which it visits every one of the 2ⁿ corners. Was there any method whose work grows like a power of the problem's size? In February 1979 a 26-year-old at the Computer Center in Moscow, Khachiyan, published four pages without proofs saying yes: shrink an ellipsoid around the answer, cutting it in half at each step. Newspapers around the world reported it, with very spotty understanding, and one called it a "Soviet Answer to the 'Traveling Salesmen'", which it was not. In practice the method was slow. Five years later Karmarkar, at Bell Laboratories, published another polynomial method that moves through the inside of the region rather than along its edges, and interior-point methods became, with the simplex method, one of the two ways linear programs are solved.
 
@@ -89,7 +89,7 @@ No video page could be opened (see **Gaps**).
 ## 2. Merkle's hash trees
 
 **When / where:** Ralph Merkle, Stanford University: the PhD thesis "Secrecy, Authentication, and Public Key Systems" (Stanford Electronics Laboratories technical report, June 1979), and the patent "Method of providing digital signatures", filed 5 September 1979, granted 5 January 1982 (US 4,309,569); published for cryptographers as "A Digital Signature Based on a Conventional Encryption Function", *CRYPTO '87* (1988).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`MerkleTrees.java`](../../code/era-07-randomness-networks-and-learning/02-merkle-trees/) · **Page:** [topic 2](02-merkle-trees/README.md)
 
 > **Field note.** Public-key signatures (Era 6, topic 10) rested on a hard problem in number theory. A one-way function, a hash, was simpler: Lamport and Diffie had shown how to sign one message with one by publishing the hashes of secrets and revealing half of the secrets. But each key could sign only one message, and the public keys were long. In his 1979 thesis Merkle hashed the public keys together in pairs, then the pairs in pairs, up to a single root, and published only the root. To prove that any one key belonged, he needed to send "only log2 n" values. The same tree turned out to check any piece of any large collection of data against one short fingerprint, and it is now found in file systems, version control, peer-to-peer networks and certificate logs.
 
@@ -132,7 +132,7 @@ No video page could be opened (see **Gaps**).
 ## 3. The Byzantine generals
 
 **When / where:** Marshall Pease, Robert Shostak and Leslie Lamport, SRI International: "Reaching Agreement in the Presence of Faults", *Journal of the ACM* (1980); Lamport, Shostak and Pease, "The Byzantine Generals Problem", *ACM Transactions on Programming Languages and Systems* 4(3), July 1982, pp. 382–401.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`ByzantineGenerals.java`](../../code/era-07-randomness-networks-and-learning/03-byzantine-generals/) · **Page:** [topic 3](03-byzantine-generals/README.md)
 
 > **Field note.** A computer that stops is easy to notice. One that keeps running but tells one part of a system one thing and another part something else is not. Engineers at SRI building a fault-tolerant computer had posed the problem; Pease, Shostak and Lamport proved in 1980 that with spoken messages, agreement is possible only if more than two thirds of the parties are sound, so three computers cannot outvote one liar. Two years later Lamport retold it as a story about generals besieging a city. He had first called them the Albanian generals; a colleague pointed out that there were Albanians outside Albania, and "The obviously more appropriate Byzantine generals then occurred to me". The name stuck, and "Byzantine fault" now means a component that fails in any way at all, including lying.
 
@@ -171,7 +171,7 @@ No video page could be opened (see **Gaps**).
 ## 4. Simulated annealing
 
 **When / where:** Scott Kirkpatrick, C. Daniel Gelatt Jr. and Mario P. Vecchi, IBM Thomas J. Watson Research Center, Yorktown Heights, "Optimization by Simulated Annealing", *Science* 220 (4598), 13 May 1983; independently Vladimír Černý, Comenius University, Bratislava, "Thermodynamical Approach to the Traveling Salesman Problem: An Efficient Simulation Algorithm", *Journal of Optimization Theory and Applications* 45 (1), January 1985; both built on the Metropolis algorithm of 1953.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`SimulatedAnnealing.java`](../../code/era-07-randomness-networks-and-learning/04-simulated-annealing/) · **Page:** [topic 4](04-simulated-annealing/README.md)
 
 > **Field note.** Era 6 ended with a list of problems, the travelling salesman among them, for which nobody expected a fast exact method. Engineers still had to place chips and route wires. The usual tactic, keep making small changes that help, got stuck at the first arrangement no small change could improve. Kirkpatrick, Gelatt and Vecchi, at IBM, saw that accepting only improvements was like cooling a material too fast, "rapid quenching", which leaves it stuck in a poor, metastable state, and that the remedy in physics is to cool it slowly: to anneal it. They borrowed the rule physicists had used since 1953 to simulate atoms at a temperature: accept a change that makes things worse with a probability that shrinks as the change gets worse and as the temperature falls. Then they lowered the temperature step by step. In Bratislava, Černý published the same idea for the travelling salesman in 1985. The method gives no useful guarantee, but it is short to write and can be tried on any problem with a cost to lower.
 
@@ -209,7 +209,7 @@ No video page could be opened (see **Gaps**).
 ## 5. Splay trees and amortized analysis
 
 **When / where:** Daniel Sleator and Robert Tarjan, AT&T Bell Laboratories, Murray Hill, New Jersey: "Self-Adjusting Binary Search Trees", *Journal of the ACM* 32(3), July 1985, pp. 652–686; Robert Tarjan, "Amortized Computational Complexity", *SIAM Journal on Algebraic and Discrete Methods* 6(2), April 1985.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`SplayTrees.java`](../../code/era-07-randomness-networks-and-learning/05-splay-trees/) · **Page:** [topic 5](05-splay-trees/README.md)
 
 > **Field note.** Balanced search trees (Era 5) promised that no single search would be slow, and paid for it with extra bookkeeping in every node and fiddly rules after every change. Sleator and Tarjan asked for less: not that every operation be fast, but that any sequence of them be fast on the whole. Their splay tree keeps no bookkeeping at all. Whenever a key is touched, it is rotated up to the root, two steps at a time, which also shortens the path to everything it passed. One access can take as long as the tree is deep, but they proved that m accesses take O(m log n) in total, and that keys used often drift to the top by themselves. To prove it, Tarjan gave the data structure a "potential", like stored energy in physics: a cheap operation may store some up, and an expensive one is paid for by releasing it. That way of accounting, amortized analysis, became a standard tool for judging data structures.
 
@@ -246,7 +246,7 @@ No video page could be opened (see **Gaps**).
 ## 6. Zero-knowledge proofs
 
 **When / where:** Shafi Goldwasser and Silvio Micali (MIT) and Charles Rackoff (University of Toronto), "The Knowledge Complexity of Interactive Proof-Systems", ACM symposium proceedings, 1985; Oded Goldreich (Technion), Silvio Micali (MIT) and Avi Wigderson (Hebrew University), "Proofs that Yield Nothing But Their Validity", *IEEE Symposium on Foundations of Computer Science*, 1986 (journal version *Journal of the ACM* 38, July 1991).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`ZeroKnowledge.java`](../../code/era-07-randomness-networks-and-learning/06-zero-knowledge/) · **Page:** [topic 6](06-zero-knowledge/README.md)
 
 > **Field note.** For two thousand years a proof was a text: anyone who read it learned not only that the theorem was true but why. In 1985 Goldwasser, Micali and Rackoff proposed a different kind of proof, a conversation in which the verifier asks random questions and the prover answers. Such a proof can convince with any certainty you like, short of absolute, and they asked how much "knowledge" it gives away. Some give away none at all: whatever the verifier sees, it could have produced by itself, without the prover. A year later Goldreich, Micali and Wigderson showed that, if secure encryption exists, every statement whose proof can be checked quickly (every problem in NP) has such a zero-knowledge proof. A storyteller's version, about Ali Baba and a cave with a magic door, followed in 1990. Zero-knowledge proofs later became "the essential language for speaking about security of cryptographic protocols", and in 2016 were used to hide the details of payments in cryptocurrencies.
 
@@ -285,7 +285,7 @@ No video page could be opened (see **Gaps**).
 ## 7. Backpropagation
 
 **When / where:** Seppo Linnainmaa, University of Helsinki, master's thesis, 1970 (the reverse mode of automatic differentiation, without neural networks); Paul Werbos, 1974 discussion and 1981 application to neural networks; David Rumelhart, Geoffrey Hinton and Ronald Williams, "Learning representations by back-propagating errors", *Nature* 323, pp. 533–536, October 1986.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`Backpropagation.java`](../../code/era-07-randomness-networks-and-learning/07-backpropagation/) · **Page:** [topic 7](07-backpropagation/README.md)
 
 > **Field note.** The perceptron (Era 5) learned by nudging one layer of weights, and one layer cannot even tell whether exactly one of two inputs is on. Layers of hidden units in between could do it, but nobody had a practical way to tell a hidden unit how to change, since its error is not visible at the output. The answer was the chain rule from calculus, run backwards through the network. It had been found several times: Linnainmaa described the general method for computer programs in 1970, and Werbos applied it to neural networks by 1981. What changed in 1986 was a four-page paper in *Nature* by Rumelhart, Hinton and Williams that showed hidden units learning useful features by themselves, and made the method famous; it set off a boom in neural network research.
 
@@ -324,7 +324,7 @@ No video page could be opened (see **Gaps**).
 ## 8. The Barnes–Hut tree code
 
 **When / where:** Josh Barnes and Piet Hut, "A hierarchical O(N log N) force-calculation algorithm", *Nature* 324 (6096), pp. 446–449, 4 December 1986; followed by Leslie Greengard and Vladimir Rokhlin's fast multipole method, 1987.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`BarnesHut.java`](../../code/era-07-randomness-networks-and-learning/08-barnes-hut/) · **Page:** [topic 8](08-barnes-hut/README.md)
 
 > **Field note.** Astronomers who wanted to watch galaxies collide in a computer faced arithmetic that grew with the square of the number of stars: every star pulls on every other. A few thousand stars was about the limit, far too few to look like a galaxy. Barnes and Hut used an old physical intuition, that a distant crowd pulls almost like one heavy body at its centre of mass, and made it systematic with a tree of cubes, each split into eight. Each star asks the tree: is this cube small enough, seen from here, to be treated as one body? If not, look inside. The work per star then grows with the logarithm of the number of stars instead of the number itself, and the accuracy is set by one number, the opening angle θ. A year later Greengard and Rokhlin's fast multipole method pushed the same idea further, to work that grows only in proportion to N.
 
@@ -362,7 +362,7 @@ No video page could be opened (see **Gaps**).
 ## 9. Karp–Rabin fingerprints
 
 **When / where:** Richard M. Karp and Michael O. Rabin, "Efficient randomized pattern-matching algorithms", *IBM Journal of Research and Development* 31(2), pp. 249–260, March 1987 (from a conference at Yorktown Heights, December 1985); building on Rabin's "Fingerprinting by Random Polynomials", Harvard technical report, 1981.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`KarpRabin.java`](../../code/era-07-randomness-networks-and-learning/09-karp-rabin/) · **Page:** [topic 9](09-karp-rabin/README.md)
 
 > **Field note.** Knuth, Morris and Pratt, and Boyer and Moore (Era 6) had made searching for a word in a text fast by careful bookkeeping about the pattern. Karp and Rabin did something simpler and stranger: they stopped comparing letters. Each window of the text is turned into a short number, a fingerprint, the remainder when the window, read as a big number, is divided by a prime. Sliding the window one place updates the fingerprint in a few steps. Letters are compared only where fingerprints agree. Different windows can share a fingerprint, so the method could be fooled, except that the prime is picked at random after the text is fixed, and then nobody, not even someone who wrote the text to cause trouble, can make false alarms common. The same trick searches for many patterns at once, works in two dimensions, and is a standard way to spot copied passages.
 
@@ -399,7 +399,7 @@ No video page could be opened (see **Gaps**).
 ## 10. TCP congestion control
 
 **When / where:** Van Jacobson (Lawrence Berkeley Laboratory) and Michael J. Karels (University of California at Berkeley), "Congestion Avoidance and Control", *ACM SIGCOMM '88* (*Computer Communication Review* 18(4), August 1988; revised November 1988); Dah-Ming Chiu and Raj Jain (Digital Equipment Corporation), "Analysis of the Increase and Decrease Algorithms for Congestion Avoidance in Computer Networks", *Computer Networks and ISDN Systems* 17, 1989.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`TcpCongestion.java`](../../code/era-07-randomness-networks-and-learning/10-tcp-congestion-control/) · **Page:** [topic 10](10-tcp-congestion-control/README.md)
 
 > **Field note.** In October 1986 the connection between Lawrence Berkeley Laboratory and the University of California at Berkeley delivered 40 bits per second instead of 32,000. Nothing was broken. Every computer was obeying the protocol: send as much as the receiver allows, and resend whatever is not acknowledged in time. When routers' buffers filled, packets were lost, timers expired, and the resent copies made the queues longer still. Jacobson and Karels made each sender treat a lost packet as a signal that the network is overloaded: start slowly, grow the amount in flight by one packet per round trip, and halve it after a loss. They also made the timers measure how much the round-trip time varies, not just its average. A year later Chiu and Jain showed with simple geometry why adding on the way up and multiplying on the way down is the rule that brings competing senders to full use and equal shares. Their rules became the core of the Internet standard for TCP, so that computers that never talk to each other share links politely.
 
@@ -436,7 +436,7 @@ No video page could be opened (see **Gaps**).
 ## 11. Shor's factoring algorithm
 
 **When / where:** Peter Shor, Bell Labs, Murray Hill, New Jersey, 1994: "Algorithms for Quantum Computation: Discrete Logarithms and Factoring" (1994; DIMACS technical report 94-37); journal version "Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer", *SIAM Journal on Computing* 26 (arXiv quant-ph/9508027, 1995).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`ShorFactoring.java`](../../code/era-07-randomness-networks-and-learning/11-shor-factoring/) · **Page:** [topic 11](11-shor-factoring/README.md)
 
 > **Field note.** Public-key cryptography (Era 6) rested on a bet: multiplying two primes is easy, and undoing it is so hard that no one will manage it for numbers of hundreds of digits. In 1994 Peter Shor, at Bell Labs, showed that the bet depends on the kind of computer. On a quantum computer, whose memory can hold a superposition of many values that interfere like waves, factoring takes time that grows only like a power of the number of digits. The algorithm turns factoring into finding the period of a repeating sequence, and finds the period with a quantum version of the Fourier transform. No quantum computer large enough existed then, and none does yet: in 2001 a group at IBM factored 15. But the result changed what people expected of quantum machines, and became a main reason to build them, and to design public-key systems that do not rely on factoring.
 
@@ -476,7 +476,7 @@ No video page could be opened (see **Gaps**).
 ## 12. The Burrows–Wheeler transform
 
 **When / where:** Michael Burrows and David Wheeler, Systems Research Center of Digital Equipment Corporation, Palo Alto, "A Block-sorting Lossless Data Compression Algorithm", SRC Research Report 124, 10 May 1994; the transform found by Wheeler in 1983 at AT&T Bell Laboratories; turned into a search index by Paolo Ferragina and Giovanni Manzini in 2000.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`BurrowsWheeler.java`](../../code/era-07-randomness-networks-and-learning/12-burrows-wheeler/) · **Page:** [topic 12](12-burrows-wheeler/README.md)
 
 > **Field note.** Lempel and Ziv (Era 6) compressed text by pointing back at earlier copies. Burrows and Wheeler found a different route, and a stranger one. Take a block of text, write out every rotation of it, sort the rotations, and keep only the last letter of each. The result is the same letters in a new order, where letters that came before similar contexts now sit side by side, so it compresses well with very simple methods. And the shuffle can be undone exactly, from the last column and one number. Wheeler had found it in 1983 and not published it; the 1994 report compressed text better than the Lempel–Ziv programs of the day at a comparable speed. Six years later Ferragina and Manzini showed that the same column, with a few small tables, can answer "how many times does this pattern occur?" without the original text, and that turned a compression trick into the index used by programs that align DNA reads to a genome.
 
@@ -514,7 +514,7 @@ No video page could be opened (see **Gaps**).
 ## 13. AdaBoost
 
 **When / where:** Yoav Freund and Robert Schapire, AT&T: extended abstract at the Second European Conference on Computational Learning Theory (EuroCOLT), Barcelona, March 1995; "A decision-theoretic generalization of on-line learning and an application to boosting", *Journal of Computer and System Sciences* 55(1), pp. 119–139, 1997; answering a question posed by Michael Kearns and Leslie Valiant (1988–1989) and first answered, impractically, by Schapire (1990) and Freund.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`AdaBoost.java`](../../code/era-07-randomness-networks-and-learning/13-adaboost/) · **Page:** [topic 13](13-adaboost/README.md)
 
 > **Field note.** By the 1980s the people who studied learning machines had a precise definition of learning: from examples, find a rule that is right almost always. Kearns and Valiant asked a sharp question. Suppose all you can find is a rule that is right slightly more often than a coin toss. Can such weak rules always be combined into a strong one? Schapire proved in 1990 that they can, and Freund found another construction, but both were impractical. In 1995 Freund and Schapire found a simple way: weight the examples, and after each weak rule, make the examples it got right count less, so the next rule must attend to the ones still being missed; at the end, let the rules vote, the better ones with louder voices. They proved the training error falls exponentially fast. AdaBoost became a standard tool, won the 2003 Gödel Prize, and showed that a theoretical question about learning could produce a practical method.
 

@@ -147,11 +147,33 @@
 | 12 | [Universal Compression](era-06-hard-problems-and-public-keys/12-lempel-ziv/README.md) | Copy from what was already sent |
 | 13 | [Logical Clocks](era-06-hard-problems-and-public-keys/13-logical-clocks/README.md) | Before, after, or neither? |
 
+### Era 7 — Randomness, Networks and Learning (1979 to 1995)
+
+- **[Era 7 front page](era-07-randomness-networks-and-learning/README.md)**: the time line, a map of how the thirteen ideas combine, and the topics. [Interactive edition](era-07-randomness-networks-and-learning/index.html) (download the folder and open `index.html` in a browser). [Plan](era-07-randomness-networks-and-learning/plan.md).
+- [Reference catalog](era-07-randomness-networks-and-learning/reference-catalog.md): each development with checked lectures, articles and original sources, certainty labels and gaps.
+- The topics, each with a GitHub edition, an interactive edition and a tested program:
+
+| # | Topic | Interactive widget |
+|---|---|---|
+| 1 | [Linear Programming in Polynomial Time](era-07-randomness-networks-and-learning/01-linear-programming/README.md) | Cut an ellipse in half until its centre lands in the target |
+| 2 | [Merkle's Hash Trees](era-07-randomness-networks-and-learning/02-merkle-trees/README.md) | Edit a block and watch the hashes change up to the root |
+| 3 | [The Byzantine Generals](era-07-randomness-networks-and-learning/03-byzantine-generals/README.md) | Play the traitor, then try every lie |
+| 4 | [Simulated Annealing](era-07-randomness-networks-and-learning/04-simulated-annealing/README.md) | Cool a tour of 60 cities slowly |
+| 5 | [Splay Trees and Amortized Analysis](era-07-randomness-networks-and-learning/05-splay-trees/README.md) | Click a key and splay it to the root |
+| 6 | [Zero-Knowledge Proofs](era-07-randomness-networks-and-learning/06-zero-knowledge/README.md) | Be the verifier: open two sealed colours at a time |
+| 7 | [Backpropagation](era-07-randomness-networks-and-learning/07-backpropagation/README.md) | Teach two hidden units exclusive-or |
+| 8 | [The Barnes–Hut Tree Code](era-07-randomness-networks-and-learning/08-barnes-hut/README.md) | Change θ and see which cells a star feels as one mass |
+| 9 | [Karp–Rabin Fingerprints](era-07-randomness-networks-and-learning/09-karp-rabin/README.md) | Fingerprints under every window, and false alarms |
+| 10 | [TCP Congestion Control](era-07-randomness-networks-and-learning/10-tcp-congestion-control/README.md) | Two senders, one link: four rules for sharing it |
+| 11 | [Shor's Factoring Algorithm](era-07-randomness-networks-and-learning/11-shor-factoring/README.md) | Measure a simulated register and find the factors |
+| 12 | [The Burrows–Wheeler Transform](era-07-randomness-networks-and-learning/12-burrows-wheeler/README.md) | Sort the rotations, then undo and search them |
+| 13 | [AdaBoost](era-07-randomness-networks-and-learning/13-adaboost/README.md) | Watch the weights move as stumps vote |
+
 ### Coming next (proposed eras; open to change)
 
 | Era | Span | Topics (from the Evolutionary Atlas) |
 |---|---|---|
-| 7 onward | 1978–2026 | Randomized and approximation algorithms, the algorithms of networks and the Internet, distributed agreement, streaming, machine learning, transformers, and the algorithms of 2026 |
+| 8 onward | 1995–2026 | The algorithms of the Web and of genomes, streaming and sketches, approximation, distributed consensus at scale, deep learning, transformers, and the algorithms of 2026 |
 
 ### Plans
 

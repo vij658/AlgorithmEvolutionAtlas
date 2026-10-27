@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 133,
+ "rounds": 134,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3963,11 +3963,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-07-c2": {
+   "searched": "2026-10-27",
+   "query": "halting problem explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, an 'explained & contested' video, an exam-board revision clip, and 'unsolvable' / 'impossible problem' titles from unidentified channels. Note: the Computerphile video did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=macM_MtS_w4",
+     "title": "Turing & The Halting Problem - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=wGLQiHXHWNk",
+     "title": "Impossible Programs (The Halting Problem)",
+     "channel": "Undefined Behavior",
+     "channel_url": "https://www.youtube.com/@UndefinedBehavior",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=4tbCR10QGTI",
+     "title": "Why is the Halting Problem Undecidable?",
+     "channel": "Easy Theory",
+     "channel_url": "https://www.youtube.com/@EasyTheory",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 30,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

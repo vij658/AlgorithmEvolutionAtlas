@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 61,
+ "rounds": 62,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1789,11 +1789,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-09-c1": {
+   "searched": "2026-10-27",
+   "query": "Horner's method polynomial evaluation",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, a clip titled only '1.7', and duplicates",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=feyaeq1Jcmk",
+     "title": "Fast Substitution into Polynomials (using Horner's method)",
+     "channel": "Vladimirr Petrunko",
+     "channel_url": "https://www.youtube.com/@vladimirrpetrunko1157",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=Z393AcN_Gz0",
+     "title": "Nested Scheme - Horner’s Method - Evaluating Polynomials",
+     "channel": "Radford Mathematics",
+     "channel_url": "https://www.youtube.com/@RadfordMathematics",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=RGrmEWj38bs",
+     "title": "Horner's Method 2: Why it works for computing function values",
+     "channel": "mathAHA",
+     "channel_url": "https://www.youtube.com/@mathaha2922",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 35,
-  "clean": 0,
+  "clean": 1,
   "rejects": 1
  }
 }

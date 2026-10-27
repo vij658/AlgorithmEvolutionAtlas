@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**44 of 380 concepts searched, 119 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**45 of 380 concepts searched, 121 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -193,4 +193,13 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Sunzi Suanjing remainder problem | [Sun Tzu's Chinese Remainder Theorem from Ancient China](https://www.youtube.com/watch?v=eu9ysTIsmoU) | Existsforall Academy | Start |
 |  | [Sun Zi's Theorem (aka The Chinese Remainder Theorem)](https://www.youtube.com/watch?v=kafREW2sX0M) | Andrew Misseldine | Deeper |
 |  | [Lecture 10 - Sun Tzu's Remainder Theorem](https://www.youtube.com/watch?v=GV-M6dqCzAw) | Thomas Carr - Math Lectures | Deeper |
+
+### Zero Becomes a Number ([in the book](../era-02-algorithms-travel/04-zero-becomes-a-number/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| history of zero | [When zero was first discovered](https://www.youtube.com/watch?v=D-oxsEknlIc) | Science Museum | Start |
+|  | [History of Mathematics : Who Invented the Number Zero?](https://www.youtube.com/watch?v=A_e5jspsNsM) | ehow | Start |
+| Brahmagupta rules for zero | *not searched yet* | | |
+| Hindu-Arabic numeral system | *not searched yet* | | |
 

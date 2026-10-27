@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 45,
+ "rounds": 46,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1393,11 +1393,37 @@
     }
    ],
    "tries": 1
+  },
+  "e2-04-c1": {
+   "searched": "2026-10-27",
+   "query": "history of zero",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "sensational 'changed everything' titles, and a channel whose framing of who invented zero the book's sources do not support",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=D-oxsEknlIc",
+     "title": "When zero was first discovered",
+     "channel": "Science Museum",
+     "channel_url": "https://www.youtube.com/@ScienceMuseum",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=A_e5jspsNsM",
+     "title": "History of Mathematics : Who Invented the Number Zero?",
+     "channel": "ehow",
+     "channel_url": "https://www.youtube.com/@howto",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
-  "delay": 55,
-  "clean": 4,
+  "delay": 50,
+  "clean": 0,
   "rejects": 1
  }
 }

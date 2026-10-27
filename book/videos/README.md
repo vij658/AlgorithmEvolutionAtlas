@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**75 of 380 concepts searched, 189 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**76 of 380 concepts searched, 192 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -317,5 +317,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Henry Briggs logarithm tables | [How We Used Log Tables](https://www.youtube.com/watch?v=9D3Rp3oiMVQ) | Jim Simons | Start |
 |  | [The Log Tables of Napier, Burgi and Briggs \| Algebraic Calculus One \| Wild Egg](https://www.youtube.com/watch?v=q6XlLiMC5F0) | Wild Egg Maths | Deeper |
 |  | [How people came up with the natural logarithm and the exponential function #SoME1](https://www.youtube.com/watch?v=3B6FymMv8b4) | Daniel Rubin | Deeper |
-| how a slide rule works | *not searched yet* | | |
+| how a slide rule works | [What is a slide rule?](https://www.youtube.com/watch?v=bxV9n4Ohab0) | John Rocco | Start |
+|  | [How to Use a Slide Rule - Easy Explanation / Lesson - 1957](https://www.youtube.com/watch?v=oYQdKbQ-sgM) | 16mm Educational Films | Start |
+|  | [How To Use a Slide Rule & Why It Works (K & L Scales)](https://www.youtube.com/watch?v=JUAU62-zYjU) | Slide Rules Rule | Deeper |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 77,
+ "rounds": 78,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2261,11 +2261,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-02-c4": {
+   "searched": "2026-10-27",
+   "query": "how a slide rule works",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "watch-bezel slide rules, and single-scale technique clips",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=bxV9n4Ohab0",
+     "title": "What is a slide rule?",
+     "channel": "John Rocco",
+     "channel_url": "https://www.youtube.com/@roccoart",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=oYQdKbQ-sgM",
+     "title": "How to Use a Slide Rule - Easy Explanation / Lesson - 1957",
+     "channel": "16mm Educational Films",
+     "channel_url": "https://www.youtube.com/@16mmEducationalFilms",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=JUAU62-zYjU",
+     "title": "How To Use a Slide Rule & Why It Works (K & L Scales)",
+     "channel": "Slide Rules Rule",
+     "channel_url": "https://www.youtube.com/@SlideRulesRule",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 20,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

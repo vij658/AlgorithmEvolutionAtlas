@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 99,
+ "rounds": 100,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2953,11 +2953,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-09-c2": {
+   "searched": "2026-10-27",
+   "query": "discrete Fourier transform explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "the DTFT (a different transform), 'in 5 minutes' clips, and duplicate links",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=mkGsMWi_j4Q",
+     "title": "Discrete Fourier Transform - Simple Step by Step",
+     "channel": "Simon Xu",
+     "channel_url": "https://www.youtube.com/@SimonXu",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=QmgJmh2I3Fw",
+     "title": "Understanding the Discrete Fourier Transform and the FFT",
+     "channel": "MATLAB",
+     "channel_url": "https://www.youtube.com/@MATLAB",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=nl9TZanwbBk",
+     "title": "The Discrete Fourier Transform (DFT)",
+     "channel": "Steve Brunton",
+     "channel_url": "https://www.youtube.com/@Eigensteve",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

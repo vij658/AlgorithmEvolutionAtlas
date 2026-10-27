@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 91,
+ "rounds": 92,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2713,11 +2713,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-07-c1": {
+   "searched": "2026-10-27",
+   "query": "seven bridges of Königsberg Euler",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "exam-board clips and part-numbered uploads. Note: the TED-Ed video did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=nZwSo4vfw6c",
+     "title": "How the Königsberg bridge problem changed mathematics - Dan Van der Vieren",
+     "channel": "TED-Ed",
+     "channel_url": "https://www.youtube.com/@TEDEd",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=0XcCKf5xgSE",
+     "title": "How Euler solved the Seven Bridges of Königsberg puzzle",
+     "channel": "Mathilda Academy",
+     "channel_url": "https://www.youtube.com/@MathildaAcademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=eIb1cz06UwI",
+     "title": "Graph Theory: 01. Seven Bridges of Konigsberg",
+     "channel": "Sarada Herke",
+     "channel_url": "https://www.youtube.com/@SaradaHerke",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 1
  }
 }

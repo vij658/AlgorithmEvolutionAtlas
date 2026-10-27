@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**89 of 380 concepts searched, 228 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**90 of 380 concepts searched, 231 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -376,4 +376,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Binary Addition and Subtraction With Negative Numbers, 2's Complements & Signed Magnitude](https://www.youtube.com/watch?v=sJXTo3EZoxM) | The Organic Chemistry Tutor | Deeper |
 | Leibniz binary I Ching | [The History and Creation of Binary Code](https://www.youtube.com/watch?v=fVq3F3uVqrY) | Technical Upgrade | Start |
 |  | [David Lloyd Dusenbury - Leibniz's I Ching, the Book of Genesis, & the Birth of Binary Code](https://www.youtube.com/watch?v=0skwFoGmS4Q) | Science, Faith, and Superstition | Scholar |
+
+### The Bridges of Königsberg ([in the book](../era-03-tables-and-machines/07-konigsberg-bridges/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| seven bridges of Königsberg | [How the Königsberg bridge problem changed mathematics - Dan Van der Vieren](https://www.youtube.com/watch?v=nZwSo4vfw6c) | TED-Ed | Start |
+|  | [How Euler solved the Seven Bridges of Königsberg puzzle](https://www.youtube.com/watch?v=0XcCKf5xgSE) | Mathilda Academy | Start |
+|  | [Graph Theory: 01. Seven Bridges of Konigsberg](https://www.youtube.com/watch?v=eIb1cz06UwI) | Sarada Herke | Deeper |
+| Euler path graph theory | *not searched yet* | | |
+| Hierholzer algorithm Euler circuit | *not searched yet* | | |
 

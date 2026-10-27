@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 28,
+ "rounds": 29,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -860,6 +860,40 @@
      "title": "Euclid's Elements, Book VII, Proposition 1 (VII.1)",
      "channel": "Project Euclid v2",
      "channel_url": "https://www.youtube.com/@projecteuclidv2582",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-07-c4": {
+   "searched": "2026-10-27",
+   "query": "Euclidean algorithm running time Lamé theorem Fibonacci",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "videos on the Fibonacci recursion's own running time, which is a different question",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=HNOypQFpW3s",
+     "title": "Time Complexity of the Euclid's Recursive GCD Algorithm",
+     "channel": "DG",
+     "channel_url": "https://www.youtube.com/@DG_sec",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=VEQ30NKUZI0",
+     "title": "Gabriel Lamé’s Theorem - Running Time Analysis of Euclid’s Algorithm- Fibonacci Numbers AGAIN!!!",
+     "channel": "Tau Möbius Knights",
+     "channel_url": "https://www.youtube.com/@taumobiusknights6296",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=JAqr1hF9Rqs",
+     "title": "Continued Fractions , Euclidean Algorithm and Fibonacci Numbers",
+     "channel": "Dr Priti Bajpai",
+     "channel_url": "https://www.youtube.com/@drpriti30",
      "level": "deeper",
      "checked": "YouTube oEmbed, 2026-10-27"
     }

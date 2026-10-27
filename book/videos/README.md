@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**114 of 380 concepts searched, 288 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**115 of 380 concepts searched, 291 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -478,4 +478,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [The Church-Turing Thesis - Theory of Computing](https://www.youtube.com/watch?v=8pxzoSxb-nQ) | Chris Marriott - Computer Science | Deeper |
 | Hilbert's tenth problem | [MATH 329/404: Hilbert's 10th Problem](https://www.youtube.com/watch?v=Y6VZD8yu_3U) | Matthew Kilgore | Deeper |
 |  | [Bjorn Poonen: Diophantine sets and Hilbert’s tenth problem](https://www.youtube.com/watch?v=6raIgZq1KLU) | Hausdorff Center for Mathematics | Scholar |
+
+### Runge–Kutta ([in the book](../era-04-what-can-be-computed/02-runge-kutta/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| Euler method differential equations | [Euler's method \| Differential equations\| AP Calculus BC \| Khan Academy](https://www.youtube.com/watch?v=q87L9R9v274) | Khan Academy | Start |
+|  | [Euler Method for ODEs](https://www.youtube.com/watch?v=ORvDlbanMJ8) | LearnChemE | Start |
+|  | [Euler's method for first-order ordinary differential equations](https://www.youtube.com/watch?v=gt8uCZYA2iU) | Dr. Bevin Maultsby | Deeper |
+| Runge-Kutta method | *not searched yet* | | |
+| RK4 explained | *not searched yet* | | |
 

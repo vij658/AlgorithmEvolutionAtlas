@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 116,
+ "rounds": 117,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3443,11 +3443,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-02-c1": {
+   "searched": "2026-10-27",
+   "query": "Euler's method differential equations",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "several worked-example videos with all-caps titles, a Python coding walkthrough, and a video on systems in normal form (a later step)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=q87L9R9v274",
+     "title": "Euler's method | Differential equations| AP Calculus BC | Khan Academy",
+     "channel": "Khan Academy",
+     "channel_url": "https://www.youtube.com/@khanacademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ORvDlbanMJ8",
+     "title": "Euler Method for ODEs",
+     "channel": "LearnChemE",
+     "channel_url": "https://www.youtube.com/@LearnChemE",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=gt8uCZYA2iU",
+     "title": "Euler's method for first-order ordinary differential equations",
+     "channel": "Dr. Bevin Maultsby",
+     "channel_url": "https://www.youtube.com/@bevinmaultsby",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 1
  }
 }

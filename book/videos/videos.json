@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 135,
+ "rounds": 136,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4031,11 +4031,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-08-c1": {
+   "searched": "2026-10-27",
+   "query": "how the Enigma machine works",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "film tie-in videos (The Imitation Game), a news-site clip, and uploads from unidentified channels. Note: the Numberphile video did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=G2_Q9FoD-oQ",
+     "title": "158,962,555,217,826,360,000 (Enigma Machine) - Numberphile",
+     "channel": "Numberphile",
+     "channel_url": "https://www.youtube.com/@numberphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=mcX7iO_XCFA",
+     "title": "The Inner Workings of an Enigma Machine",
+     "channel": "Perimeter Institute for Theoretical Physics",
+     "channel_url": "https://www.youtube.com/@PIOutreach",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=rWy-vY6xZ8s",
+     "title": "The Enigma Machine: How it Works - Professor Raymond Flood",
+     "channel": "Gresham College",
+     "channel_url": "https://www.youtube.com/@GreshamCollege",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
-  "delay": 30,
-  "clean": 4,
+  "delay": 25,
+  "clean": 0,
   "rejects": 2
  }
 }

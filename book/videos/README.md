@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**95 of 380 concepts searched, 243 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**96 of 380 concepts searched, 246 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -401,5 +401,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Gauss orbit of Ceres | [Dwarf planet Ceres discovered in 1801 - On This Day In Space \| Jan. 1](https://www.youtube.com/watch?v=lAYxDGt2PLM) | VideoFromSpace | Start |
 | Legendre Gauss least squares priority | [The sordid history of least squares](https://www.youtube.com/watch?v=_w51fa96xQ4) | Simplistics (QuantPsych) | Start |
 |  | [Least Squares vs Maximum Likelihood](https://www.youtube.com/watch?v=WCP98USBZ0w) | DataMListic | Deeper |
-| normal equations least squares | *not searched yet* | | |
+| normal equations least squares | [Using the normal equations to find least-squares solutions](https://www.youtube.com/watch?v=Zu-UlcfPPUk) | Robert Talbert | Deeper |
+|  | [Geometric Interpretation of Least Squares to Derive Normal Equation](https://www.youtube.com/watch?v=C0b7HL_7afs) | Raili Taylor | Deeper |
+|  | [Advanced Linear Algebra, Lecture 5.5: Projection and Least Squares](https://www.youtube.com/watch?v=fYkD08R5Ymw) | Professor Macauley | Scholar |
 

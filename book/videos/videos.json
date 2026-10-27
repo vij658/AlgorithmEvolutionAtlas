@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 97,
+ "rounds": 98,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2893,11 +2893,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-08-c4": {
+   "searched": "2026-10-27",
+   "query": "normal equations least squares linear algebra projection",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a .wmv upload with no channel context and numbered course fragments",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Zu-UlcfPPUk",
+     "title": "Using the normal equations to find least-squares solutions",
+     "channel": "Robert Talbert",
+     "channel_url": "https://www.youtube.com/@RobertTalbert",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=C0b7HL_7afs",
+     "title": "Geometric Interpretation of Least Squares to Derive Normal Equation",
+     "channel": "Raili Taylor",
+     "channel_url": "https://www.youtube.com/@railitaylor",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=fYkD08R5Ymw",
+     "title": "Advanced Linear Algebra, Lecture 5.5: Projection and Least Squares",
+     "channel": "Professor Macauley",
+     "channel_url": "https://www.youtube.com/@ProfessorMacauley",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 158,
+ "rounds": 159,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4757,11 +4757,37 @@
     }
    ],
    "tries": 1
+  },
+  "e5-02-c3": {
+   "searched": "2026-10-27",
+   "query": "Thompson's construction regular expression to NFA",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "numbered exam-course lectures and previous-year-question solutions, an all-caps unit lecture, an untitled upload, and a university channel whose lecture language could not be confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=hSKE0xGnLVw",
+     "title": "Convert Regular Expression to NFA | Thompson’s Construction Method",
+     "channel": "Study with Soumodeep",
+     "channel_url": "https://www.youtube.com/@soumodutta1826",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=0DQyPKD8RVU",
+     "title": "Compilers: Thompson's construction",
+     "channel": "DavidWesselsVIU",
+     "channel_url": "https://www.youtube.com/@davidwesselsviu6016",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

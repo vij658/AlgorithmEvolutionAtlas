@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**155 of 380 concepts searched, 401 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**156 of 380 concepts searched, 403 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -663,6 +663,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Learn Regular Expressions (Regex) - Crash Course for Beginners](https://www.youtube.com/watch?v=ZfQFUJhPqMM) | freeCodeCamp.org | Deeper |
 | finite automata | [Computers Without Memory - Computerphile](https://www.youtube.com/watch?v=vhiiia1_hC4) | Computerphile | Start |
 |  | [DFA vs. NFA](https://www.youtube.com/watch?v=9B0gNXFEklU) | Neso Academy | Deeper |
-| Thompson construction NFA | *not searched yet* | | |
+| Thompson construction NFA | [Convert Regular Expression to NFA \| Thompson’s Construction Method](https://www.youtube.com/watch?v=hSKE0xGnLVw) | Study with Soumodeep | Start |
+|  | [Compilers: Thompson's construction](https://www.youtube.com/watch?v=0DQyPKD8RVU) | DavidWesselsVIU | Deeper |
 | Kleene star regular languages | *not searched yet* | | |
 

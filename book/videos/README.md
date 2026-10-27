@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**62 of 380 concepts searched, 156 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**63 of 380 concepts searched, 159 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -262,4 +262,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Qin Jiushao mathematics | [Math History 5.3 Chinese Mathematics and Mathematicians](https://www.youtube.com/watch?v=3HepIVKLVUA) | Dr. Jack L. Jackson II | Deeper |
 | Ruffini Horner root finding digit by digit | [Horner's Method 3: Why it works for polynomial long division](https://www.youtube.com/watch?v=E_G0rKE2O_k) | mathAHA | Deeper |
 |  | [Horner's Method Applied](https://www.youtube.com/watch?v=EOuGtGzqZHs) | Adam Glesser | Deeper |
+
+### Madhava's Series for Pi ([in the book](../era-02-algorithms-travel/10-madhava-series/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| infinite series for pi | [PI as an Infinite Series](https://www.youtube.com/watch?v=ySLWP6K2s14) | The Math Sorcerer | Start |
+|  | [Nilakantha's Infinite Series - Pi Day 2019](https://www.youtube.com/watch?v=3U7Hfz37GqA) | Gary Explains | Start |
+|  | [Two formulas for pi as infinite series](https://www.youtube.com/watch?v=IlrxS8SQY8I) | Alvaro Lozano-Robledo | Deeper |
+| Madhava Leibniz series | *not searched yet* | | |
+| Kerala school of mathematics | *not searched yet* | | |
 

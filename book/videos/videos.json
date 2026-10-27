@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 64,
+ "rounds": 65,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1867,11 +1867,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-10-c1": {
+   "searched": "2026-10-27",
+   "query": "infinite series for pi explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "coding challenges in C and JavaScript, a Portuguese-language video, and 'why pi never ends' (irrationality, a different question)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=ySLWP6K2s14",
+     "title": "PI as an Infinite Series",
+     "channel": "The Math Sorcerer",
+     "channel_url": "https://www.youtube.com/@TheMathSorcerer",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=3U7Hfz37GqA",
+     "title": "Nilakantha's Infinite Series - Pi Day 2019",
+     "channel": "Gary Explains",
+     "channel_url": "https://www.youtube.com/@GaryExplains",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=IlrxS8SQY8I",
+     "title": "Two formulas for pi as infinite series",
+     "channel": "Alvaro Lozano-Robledo",
+     "channel_url": "https://www.youtube.com/@mathandcobb",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 35,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

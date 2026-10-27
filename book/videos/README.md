@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**124 of 380 concepts searched, 317 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**125 of 380 concepts searched, 320 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -527,6 +527,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Gödel numbering | [What is a Gödel Number? (Arithmatization)](https://www.youtube.com/watch?v=F8KGidsuxgY) | Carneades.org | Start |
 |  | [Gödel's Incompleteness Theorem Explained Part 1: Formal Systems and Gödel Numbering](https://www.youtube.com/watch?v=CyIDiwGzqf8) | BestThingWorstThing | Deeper |
 |  | [Léon Probst - What is a good Gödel numbering? \| LPC Spring 2024](https://www.youtube.com/watch?v=ScVvooR9g48) | Institute of Philosophy, USI-FTL | Scholar |
-| Gödel's incompleteness theorems | *not searched yet* | | |
+| Gödel's incompleteness theorems | [Gödel's Incompleteness Theorem - Numberphile](https://www.youtube.com/watch?v=O4ndIDcDSGc) | Numberphile | Start |
+|  | [Gödel's Incompleteness Theorem - Computerphile](https://www.youtube.com/watch?v=IuX8QMgy4qE) | Computerphile | Start |
+|  | [Godel's 1st Incompleteness Theorem - Proof by Diagonalization](https://www.youtube.com/watch?v=PpSxqde0af4) | Stable Sort | Deeper |
 | self-reference paradox logic | *not searched yet* | | |
 

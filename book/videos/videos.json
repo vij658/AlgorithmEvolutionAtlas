@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 88,
+ "rounds": 89,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2619,11 +2619,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-06-c1": {
+   "searched": "2026-10-27",
+   "query": "binary numbers explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short and several near-identical introductions",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=sXxwr66Y79Y",
+     "title": "The binary number system",
+     "channel": "Khan Academy Computing",
+     "channel_url": "https://www.youtube.com/@khanacademycomputing9067",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=zDNaUi2cjv4",
+     "title": "Binary Explained in 01100100 Seconds",
+     "channel": "Fireship",
+     "channel_url": "https://www.youtube.com/@Fireship",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=LwR2qVJof14",
+     "title": "Understanding the Binary Numbering System",
+     "channel": "GuruBrew",
+     "channel_url": "https://www.youtube.com/@GuruBrew",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

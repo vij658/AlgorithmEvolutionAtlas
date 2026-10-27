@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 21,
+ "rounds": 22,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -654,6 +654,40 @@
      "title": "Multiplication à la Russe (Russian Peasant Multiplication) Algorithm Explained",
      "channel": "Ahmed Mohamed Mounir",
      "channel_url": "https://www.youtube.com/@AhmedMohamedMounir",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-05-c4": {
+   "searched": "2026-10-27",
+   "query": "exponentiation by squaring algorithm",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "course clips titled only by number (DAA 39), and duplicate links",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=lYKB1S9sLTQ",
+     "title": "Exponentiation by Squaring – Fast Power Computation",
+     "channel": "Brodmann38",
+     "channel_url": "https://www.youtube.com/@brodmann-38",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=EHUgNLN8F1Y",
+     "title": "Modular exponentiation",
+     "channel": "GVSUmath",
+     "channel_url": "https://www.youtube.com/@GVSUmath",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=L-Wzglnm4dM",
+     "title": "Binary Exponentiation",
+     "channel": "Errichto Algorithms",
+     "channel_url": "https://www.youtube.com/@Errichto",
      "level": "deeper",
      "checked": "YouTube oEmbed, 2026-10-27"
     }

@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 129,
+ "rounds": 130,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3835,11 +3835,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-06-c1": {
+   "searched": "2026-10-27",
+   "query": "lambda calculus explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'for dummies' and all-caps titles, a 'meaning' filler clip, and a video on anonymous functions in programming languages (a different sense of lambda). Note: the Computerphile video did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=eis11j_iGMs",
+     "title": "Lambda Calculus - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ViPNHMSUcog",
+     "title": "Programming with Math | The Lambda Calculus",
+     "channel": "Eyesomorphic",
+     "channel_url": "https://www.youtube.com/@Eyesomorphic",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=3VQ382QG-y4",
+     "title": "Lambda Calculus - Fundamentals of Lambda Calculus & Functional Programming in JavaScript",
+     "channel": "Fullstack Academy",
+     "channel_url": "https://www.youtube.com/@FullstackAcademyOfCode",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

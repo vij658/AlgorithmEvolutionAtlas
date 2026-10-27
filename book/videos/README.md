@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**117 of 380 concepts searched, 297 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**118 of 380 concepts searched, 300 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -492,4 +492,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | RK4 explained | [4th-Order Runge Kutta Method for ODEs](https://www.youtube.com/watch?v=1YZnic1Ug9g) | LearnChemE | Start |
 |  | [The RK4 method](https://www.youtube.com/watch?v=ydFM5yON-24) | Niels Walet | Deeper |
 |  | [44. Runge-Kutta Fourth-Order (RK4) Method for Initial Value Problems (IVPs) for ODEs](https://www.youtube.com/watch?v=IdEwx42C8nc) | Emmanuel Jesuyon Dansu | Deeper |
+
+### Markov Chains ([in the book](../era-04-what-can-be-computed/03-markov-chains/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| Markov chains | [Markov Chains - Explained](https://www.youtube.com/watch?v=rYSVFScr7qw) | DataMListic | Start |
+|  | [Markov Chains - VISUALLY EXPLAINED + History!](https://www.youtube.com/watch?v=CIe869Rce2k) | Kapil Sachdeva | Start |
+|  | [Lecture 31: Markov Chains \| Statistics 110](https://www.youtube.com/watch?v=8AJPs3gvNlY) | Harvard University | Deeper |
+| Markov Eugene Onegin letters | *not searched yet* | | |
+| stationary distribution Markov chain | *not searched yet* | | |
 

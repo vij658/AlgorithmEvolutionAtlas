@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 119,
+ "rounds": 120,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3545,11 +3545,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-03-c1": {
+   "searched": "2026-10-27",
+   "query": "Markov chains explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "several overlapping introductions (finite-math, linear-algebra worked examples, data-science basics) kept out to hold the list to three, and a tutorial on use cases",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=rYSVFScr7qw",
+     "title": "Markov Chains - Explained",
+     "channel": "DataMListic",
+     "channel_url": "https://www.youtube.com/@datamlistic",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=CIe869Rce2k",
+     "title": "Markov Chains - VISUALLY EXPLAINED + History!",
+     "channel": "Kapil Sachdeva",
+     "channel_url": "https://www.youtube.com/@KapilSachdeva",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=8AJPs3gvNlY",
+     "title": "Lecture 31: Markov Chains | Statistics 110",
+     "channel": "Harvard University",
+     "channel_url": "https://www.youtube.com/@harvard",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

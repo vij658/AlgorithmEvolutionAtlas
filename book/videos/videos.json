@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 123,
+ "rounds": 124,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3639,11 +3639,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-04-c1": {
+   "searched": "2026-10-27",
+   "query": "minimum spanning tree explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Kruskal and Prim videos (Prim is kept for its own concept; Kruskal is not one of this topic's concepts), a 'in 2 minutes' clip, and an untitled-channel upload",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=sa9inM6Q0dI",
+     "title": "Minimum Spanning Trees 1 - Introduction",
+     "channel": "Professor Painter",
+     "channel_url": "https://www.youtube.com/@ProfessorPainter",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=oh3ZOtVix8Y",
+     "title": "Spanning Tree - Minimum Spanning Tree | Graph Theory #12",
+     "channel": "Vivekanand Khyade - Algorithm Every Day",
+     "channel_url": "https://www.youtube.com/@vivekanandkhyade",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ZSPjZuZWCME",
+     "title": "G-44. Minimum Spanning Tree - Theory",
+     "channel": "take U forward",
+     "channel_url": "https://www.youtube.com/@takeUforward",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

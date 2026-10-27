@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**120 of 380 concepts searched, 305 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**121 of 380 concepts searched, 308 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -505,4 +505,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | stationary distribution Markov chain | [Finding a Stationary Distribution of a Markov Chain](https://www.youtube.com/watch?v=pyRJENi6O1Q) | Tim Bienvenu-Bate | Start |
 |  | [20. Stationary Distributions in Markov Chains](https://www.youtube.com/watch?v=-6k7bUoVvMM) | Emmanuel Jesuyon Dansu | Deeper |
 |  | [(ML 18.3) Stationary distributions, Irreducibility, and Aperiodicity](https://www.youtube.com/watch?v=tByUQbJdt14) | mathematicalmonk | Deeper |
+
+### The Cheapest Network ([in the book](../era-04-what-can-be-computed/04-cheapest-network/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| minimum spanning tree | [Minimum Spanning Trees 1 - Introduction](https://www.youtube.com/watch?v=sa9inM6Q0dI) | Professor Painter | Start |
+|  | [Spanning Tree - Minimum Spanning Tree \| Graph Theory #12](https://www.youtube.com/watch?v=oh3ZOtVix8Y) | Vivekanand Khyade - Algorithm Every Day | Start |
+|  | [G-44. Minimum Spanning Tree - Theory](https://www.youtube.com/watch?v=ZSPjZuZWCME) | take U forward | Deeper |
+| Borůvka's algorithm | *not searched yet* | | |
+| Prim Jarník algorithm | *not searched yet* | | |
 

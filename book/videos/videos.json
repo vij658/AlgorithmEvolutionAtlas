@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 72,
+ "rounds": 73,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2123,11 +2123,29 @@
     }
    ],
    "tries": 1
+  },
+  "e3-01-c3": {
+   "searched": "2026-10-27",
+   "query": "Tartaglia del Ferro Cardano cubic equation story",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Tartaglia biography that oEmbed refused, Spanish- and Portuguese-language videos, a hashtag-titled clip, and solution drills",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=5nV2dXpKBgs",
+     "title": "The Math Duel: Cardano vs. Tartaglia – The Betrayal That Changed Algebra",
+     "channel": "Historic Lens",
+     "channel_url": "https://www.youtube.com/@historiclens27",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 25,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

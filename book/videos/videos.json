@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 50,
+ "rounds": 51,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1530,11 +1530,21 @@
     }
    ],
    "tries": 1
+  },
+  "e2-05-c3": {
+   "searched": "2026-10-27",
+   "query": "chakravala method Bhaskara",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "every result was about the Brazilian name for the quadratic formula",
+   "videos": [],
+   "tries": 1,
+   "error": "search swamped by unrelated results; retry with other wording"
   }
  },
  "pace": {
-  "delay": 50,
-  "clean": 4,
+  "delay": 45,
+  "clean": 0,
   "rejects": 1
  }
 }

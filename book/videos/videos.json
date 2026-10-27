@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 185,
+ "rounds": 186,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5512,11 +5512,37 @@
     }
    ],
    "tries": 1
+  },
+  "e5-10-c3": {
+   "searched": "2026-10-27",
+   "query": "Tony Hoare interview quicksort invention",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a clip of Hoare himself on a channel that re-cuts ACM interviews (a reupload), a concurrency interview on another subject, paper read-throughs, and coding tutorials",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=pDqwYVD3DKg",
+     "title": "How 22-year-old Tony Hoare invented Quicksort, one of the fastest and most used sorting algorithms",
+     "channel": "Frank Stajano Explains",
+     "channel_url": "https://www.youtube.com/@FrankStajanoExplains",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=uzrI5wuF1W0",
+     "title": "Quicksort 60 - Bob Sedgewick - What Do We Know About Quicksort?",
+     "channel": "Sebastian Wild (Lectures)",
+     "channel_url": "https://www.youtube.com/@SebastianWildLectures",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**181 of 380 concepts searched, 463 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**182 of 380 concepts searched, 465 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -766,5 +766,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [2.8.1 QuickSort Algorithm](https://www.youtube.com/watch?v=7h1s2SojIRw) | Abdul Bari | Deeper |
 | Hoare partition scheme | [20: Quick Sort with Hoare Partitioning Explained \| Pivot, Two Pointers & Partitioning](https://www.youtube.com/watch?v=YUkZYlGTZbg) | Amulya's Academy | Start |
 |  | [Quick Sort - Data Structures & Algorithms Tutorial Python #15](https://www.youtube.com/watch?v=5iSZ7mh_RAk) | codebasics | Deeper |
-| Tony Hoare quicksort story | *not searched yet* | | |
+| Tony Hoare quicksort story | [How 22-year-old Tony Hoare invented Quicksort, one of the fastest and most used sorting algorithms](https://www.youtube.com/watch?v=pDqwYVD3DKg) | Frank Stajano Explains | Start |
+|  | [Quicksort 60 - Bob Sedgewick - What Do We Know About Quicksort?](https://www.youtube.com/watch?v=uzrI5wuF1W0) | Sebastian Wild (Lectures) | Scholar |
 

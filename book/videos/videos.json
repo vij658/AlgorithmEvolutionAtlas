@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 81,
+ "rounds": 82,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2389,11 +2389,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-04-c1": {
+   "searched": "2026-10-27",
+   "query": "problem of points probability Pascal Fermat",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "French- and German-language videos, Pascal's-triangle drills (the next idea), and an unrelated calculus theorem",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=C_nV3cVNjog",
+     "title": "Can You Solve The Problem That Inspired Probability Theory? (Problem Of The Points)",
+     "channel": "MindYourDecisions",
+     "channel_url": "https://www.youtube.com/@MindYourDecisions",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=zDWr0683PzA",
+     "title": "The Problem of the Points - The Dawn of Probability Theory",
+     "channel": "Robert Black",
+     "channel_url": "https://www.youtube.com/@rablackauthor",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=W5XbuQq65Xc",
+     "title": "The Unfinished Game: Pascal, Fermat & the 17th Century Letter that Made the World Modern",
+     "channel": "Microsoft Research",
+     "channel_url": "https://www.youtube.com/@MicrosoftResearch",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 1
  }
 }

@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 29,
+ "rounds": 30,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -895,6 +895,40 @@
      "channel": "Dr Priti Bajpai",
      "channel_url": "https://www.youtube.com/@drpriti30",
      "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-08-c1": {
+   "searched": "2026-10-27",
+   "query": "what is pi explained circle",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Shorts (six of the ten results)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=15tSavbsu2w",
+     "title": "What is PI? 🟡 π ⭕ A Logical Explanation",
+     "channel": "Smile and Learn - English",
+     "channel_url": "https://www.youtube.com/@SmileandLearnEnglish",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=k28N4735v4Q",
+     "title": "Pi and the circumference of a circle",
+     "channel": "Math Mammoth",
+     "channel_url": "https://www.youtube.com/@MathMammoth",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=wNcFAQHJWAU",
+     "title": "What is Pi? (π explained)",
+     "channel": "VAM! Physics & Engineering",
+     "channel_url": "https://www.youtube.com/@VAM_Physics_and_Engineering",
+     "level": "start",
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],

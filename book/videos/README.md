@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**29 of 380 concepts searched, 76 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**30 of 380 concepts searched, 79 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -123,4 +123,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Euclidean algorithm running time Lamé | [Time Complexity of the Euclid's Recursive GCD Algorithm](https://www.youtube.com/watch?v=HNOypQFpW3s) | DG | Deeper |
 |  | [Gabriel Lamé’s Theorem - Running Time Analysis of Euclid’s Algorithm- Fibonacci Numbers AGAIN!!!](https://www.youtube.com/watch?v=VEQ30NKUZI0) | Tau Möbius Knights | Deeper |
 |  | [Continued Fractions , Euclidean Algorithm and Fibonacci Numbers](https://www.youtube.com/watch?v=JAqr1hF9Rqs) | Dr Priti Bajpai | Deeper |
+
+### Archimedes Squeezes Pi ([in the book](../era-01-the-first-algorithms/08-archimedes-pi/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| what is pi | [What is PI? 🟡 π ⭕ A Logical Explanation](https://www.youtube.com/watch?v=15tSavbsu2w) | Smile and Learn - English | Start |
+|  | [Pi and the circumference of a circle](https://www.youtube.com/watch?v=k28N4735v4Q) | Math Mammoth | Start |
+|  | [What is Pi? (π explained)](https://www.youtube.com/watch?v=wNcFAQHJWAU) | VAM! Physics & Engineering | Start |
+| Archimedes approximation of pi polygons | *not searched yet* | | |
+| Archimedes Measurement of a Circle | *not searched yet* | | |
 

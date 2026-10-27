@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 56,
+ "rounds": 57,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1643,11 +1643,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-07-c2": {
+   "searched": "2026-10-27",
+   "query": "frequency analysis cryptography breaking substitution cipher",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Python tutorial, a tool demo, a Short, a French-language video, and a question-titled filler channel",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=WSwO3qc4IQI",
+     "title": "Substitution Ciphers",
+     "channel": "Computing in a Nutshell",
+     "channel_url": "https://www.youtube.com/@advanced_ict",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=gCWljzTavlo",
+     "title": "Frequency Analysis - Breaking The Substitution Cipher",
+     "channel": "Cuong Nguyen",
+     "channel_url": "https://www.youtube.com/@ancuongnguyen9042",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=opqgXvGsk6U",
+     "title": "Cryptanalysis 1.2: Frequency Analysis",
+     "channel": "Cihangir Tezcan",
+     "channel_url": "https://www.youtube.com/@CihangirTezcan",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 40,
-  "clean": 0,
+  "clean": 1,
   "rejects": 1
  }
 }

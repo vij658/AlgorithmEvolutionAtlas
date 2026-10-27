@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 134,
+ "rounds": 135,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3997,11 +3997,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-07-c3": {
+   "searched": "2026-10-27",
+   "query": "universal Turing machine explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a 'meaning' filler clip, an exam-board revision clip, numbered uploads from unidentified channels, and a Minecraft build (a demonstration, not an explanation)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=dNRDvLACg5Q",
+     "title": "Turing Machines Explained - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=pV7Y7d7CG_c",
+     "title": "Universal Turing Machine & Church-Turing Thesis",
+     "channel": "IIT Madras - B.S. Degree Programme",
+     "channel_url": "https://www.youtube.com/@IITMadrasBSDegreeProgramme",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=3x8mSr8ZPGQ",
+     "title": "L12: Universal Turing Machines; The Halting Problem is Recognizable but Not Decidable",
+     "channel": "UC Davis",
+     "channel_url": "https://www.youtube.com/@UCDavis",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 30,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

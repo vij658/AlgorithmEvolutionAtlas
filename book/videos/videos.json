@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 137,
+ "rounds": 138,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4099,11 +4099,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-08-c3": {
+   "searched": "2026-10-27",
+   "query": "Turing Welchman Bombe how it worked",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a German walkthrough, an all-caps title, a Short, a 'before computers existed' title from an unidentified channel, simulations without explanation, and a recalled Numberphile link the check did not confirm (so not listed)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=H-o9VbvFbYQ",
+     "title": "Breaking Enigma - How WWII’s Greatest Codebreaker Worked",
+     "channel": "DrMattRegan",
+     "channel_url": "https://www.youtube.com/@DrMattRegan",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=PYUR9Ertj-g",
+     "title": "The Turing Welchman Bombe - The Rebuild Story",
+     "channel": "Turing Welchman Bombe Rebuild Project",
+     "channel_url": "https://www.youtube.com/@MrFallenSpirit",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=eHzsAoKXmZM",
+     "title": "Enigma Codebreaking with the Turing-Welchman Bombe - do it yourself!",
+     "channel": "Jens Puhle",
+     "channel_url": "https://www.youtube.com/@jepumachines",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 25,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

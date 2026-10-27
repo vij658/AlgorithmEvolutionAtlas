@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**84 of 380 concepts searched, 214 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**85 of 380 concepts searched, 217 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -357,6 +357,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Newton's method root finding | [Newton's Method Visually Explained](https://www.youtube.com/watch?v=4s-cGdk47xg) | The Synthetic Mind | Start |
 |  | [Newton-Raphson method \| Animated and explained \| Algorithm for finding roots of a function](https://www.youtube.com/watch?v=qlNqPE_X4ME) | MathAndPhysics | Start |
 |  | [Root Finding: Newton-Raphson Method](https://www.youtube.com/watch?v=Cavm4RduP80) | Jaisohn Kim, PhD | Deeper |
-| Newton-Raphson method | *not searched yet* | | |
+| Newton-Raphson method | [When Newton's method doesn't work](https://www.youtube.com/watch?v=-DpZOZTsdvg) | Lorenzo Sadun | Deeper |
+|  | [Convergence of Newton-Raphson Method](https://www.youtube.com/watch?v=hO5q_g6HUnU) | Izhar Maths Solution | Deeper |
+|  | [The Newton method -- Proof of Quadratic Convergence](https://www.youtube.com/watch?v=wCJF_OMBWKY) | Qsensei | Scholar |
 | Newton fractal | *not searched yet* | | |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 86,
+ "rounds": 87,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2551,11 +2551,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-05-c2": {
+   "searched": "2026-10-27",
+   "query": "Newton-Raphson method quadratic convergence when it fails",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "numbered course clips and exam-condition drills; idea 1 already lists introductions, so this round looked for convergence and failure",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=-DpZOZTsdvg",
+     "title": "When Newton's method doesn't work",
+     "channel": "Lorenzo Sadun",
+     "channel_url": "https://www.youtube.com/@lorenzosadun565",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=hO5q_g6HUnU",
+     "title": "Convergence of Newton-Raphson Method",
+     "channel": "Izhar Maths Solution",
+     "channel_url": "https://www.youtube.com/@mohdizhar100",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=wCJF_OMBWKY",
+     "title": "The Newton method -- Proof of Quadratic Convergence",
+     "channel": "Qsensei",
+     "channel_url": "https://www.youtube.com/@Qsensei1208",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 1
  }
 }

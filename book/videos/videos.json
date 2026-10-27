@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 19,
+ "rounds": 20,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -595,6 +595,32 @@
      "channel": "Dr. Jack L. Jackson II",
      "channel_url": "https://www.youtube.com/@DrJackLJacksonII",
      "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-05-c2": {
+   "searched": "2026-10-27",
+   "query": "Rhind mathematical papyrus",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a machine-read Wikipedia audio article, a Short, and puzzle or algebra-homework videos that only borrow the name",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=2gBGi-sYFmQ",
+     "title": "Unlocking the Rhind Papyrus",
+     "channel": "Knowledge=fun",
+     "channel_url": "https://www.youtube.com/@yoavchess",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=lD0zUXLjS4Q",
+     "title": "Egyptian Division - Dividing The Rhind Papyrus Way",
+     "channel": "Ed x L",
+     "channel_url": "https://www.youtube.com/@edxl9709",
+     "level": "start",
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],

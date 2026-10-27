@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**57 of 380 concepts searched, 146 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**58 of 380 concepts searched, 147 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -247,6 +247,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Fibonacci sequence rabbits | [Maths in a minute: Fibonacci numbers](https://www.youtube.com/watch?v=NDMgN2Vx2Ac) | plusmathsorg | Start |
 |  | [Fibonacci's rabbits and sunflowers](https://www.youtube.com/watch?v=nR7RibUjuGI) | Jeffrey Chasnov | Deeper |
 |  | [The ACTUAL Origin of the Fibonacci Sequence (not immortal rabbits)](https://www.youtube.com/watch?v=mIL_XDR8gkw) | Wrath of Math | Deeper |
-| Fibonacci Liber Abaci Hindu-Arabic numerals Europe | *not searched yet* | | |
+| Fibonacci Liber Abaci Hindu-Arabic numerals Europe | [Fibonacci 1: Roman vs Arabic Numerals](https://www.youtube.com/watch?v=LuCNhWhwhy0) | lukemastin | Start |
 | Fibonacci numbers golden ratio | *not searched yet* | | |
 

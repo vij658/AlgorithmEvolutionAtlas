@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 59,
+ "rounds": 60,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1737,11 +1737,29 @@
     }
    ],
    "tries": 1
+  },
+  "e2-08-c2": {
+   "searched": "2026-10-27",
+   "query": "Fibonacci Liber Abaci Hindu-Arabic numerals Europe",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a machine-generated 'NotebookLM deep dive', Italian-language videos, an unsourced claim about the Church threatening death, and Shorts",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=LuCNhWhwhy0",
+     "title": "Fibonacci 1: Roman vs Arabic Numerals",
+     "channel": "lukemastin",
+     "channel_url": "https://www.youtube.com/@lukemastin",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 40,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

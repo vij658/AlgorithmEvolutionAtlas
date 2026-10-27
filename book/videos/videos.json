@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 126,
+ "rounds": 127,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3741,11 +3741,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-05-c1": {
+   "searched": "2026-10-27",
+   "query": "Gödel numbering explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Shorts, a Spanish video with a borrowed famous name in the title, and the Numberphile and Computerphile incompleteness videos (kept for the next concept)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=F8KGidsuxgY",
+     "title": "What is a Gödel Number? (Arithmatization)",
+     "channel": "Carneades.org",
+     "channel_url": "https://www.youtube.com/@CarneadesOfCyrene",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=CyIDiwGzqf8",
+     "title": "Gödel's Incompleteness Theorem Explained Part 1: Formal Systems and Gödel Numbering",
+     "channel": "BestThingWorstThing",
+     "channel_url": "https://www.youtube.com/@bestthingworstthing6546",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ScVvooR9g48",
+     "title": "Léon Probst - What is a good Gödel numbering? | LPC Spring 2024",
+     "channel": "Institute of Philosophy, USI-FTL",
+     "channel_url": "https://www.youtube.com/@ISFI_usi-ftl",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 1
  }
 }

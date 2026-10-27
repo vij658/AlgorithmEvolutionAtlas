@@ -20,6 +20,7 @@ Each program counts the checks it makes (known answers, edge cases, randomized c
 | [`era-05-the-programmers-craft/`](era-05-the-programmers-craft/README.md) | The book's Era 5 programs, from the subroutine to Edmonds's matching |
 | [`era-06-hard-problems-and-public-keys/`](era-06-hard-problems-and-public-keys/README.md) | The book's Era 6 programs, from the fast Fourier transform to Lamport's logical clocks |
 | [`era-07-randomness-networks-and-learning/`](era-07-randomness-networks-and-learning/README.md) | The book's Era 7 programs, from polynomial-time linear programming to AdaBoost |
+| [`era-08-the-web-the-genome-and-the-ledger/`](era-08-the-web-the-genome-and-the-ledger/README.md) | The book's Era 8 programs, from support vector machines to Bitcoin |
 | [`principles/`](principles/README.md) | The 62 programs of the principles catalog, one folder per entry, grouped by part |
 | [`tools/`](tools/README.md) | Python scripts that build and check the book's pages |
 | [`run-all.sh`](run-all.sh) | Runs every program and compares its output with `expected-output.txt` |

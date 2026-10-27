@@ -17,5 +17,5 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 9 | [Genome Assembly with de Bruijn Graphs](09-genome-assembly/README.md) | 1995–2001 | [`GenomeAssembly.java`](09-genome-assembly/GenomeAssembly.java) | 20,305 |
 | 10 | [PRIMES is in P](10-primes-is-in-p/README.md) | 2002 | [`AksPrimality.java`](10-primes-is-in-p/AksPrimality.java) | 3,333 |
 | 11 | [MapReduce](11-mapreduce/README.md) | 2004 | [`MapReduce.java`](11-mapreduce/MapReduce.java) | 206 |
-| 12 | [Compressed Sensing](12-compressed-sensing/README.md) | 2004–2006 | [`CompressedSensing.java`](12-compressed-sensing/CompressedSensing.java) | 568 |
+| 12 | [Compressed Sensing](12-compressed-sensing/README.md) | 2004–2006 | [`CompressedSensing.java`](12-compressed-sensing/CompressedSensing.java) | 589 |
 | 13 | [Bitcoin's Proof-of-Work Ledger](13-bitcoin/README.md) | 2008 | [`Bitcoin.java`](13-bitcoin/Bitcoin.java) | 699 |

@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 16,
+ "rounds": 17,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -493,6 +493,40 @@
      "channel": "Paul Robertson",
      "channel_url": "https://www.youtube.com/@paulrobertson3213",
      "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-04-c3": {
+   "searched": "2026-10-27",
+   "query": "Babylonian method square root",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "programming tutorials (C++, Python) and near-duplicate worked examples",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=00pdhwn7FYk",
+     "title": "How to Calculate Square Root by Hand (Babylonian Method)",
+     "channel": "Cowan Academy",
+     "channel_url": "https://www.youtube.com/@CowanAcademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=MXveVqBxFow",
+     "title": "How To Calculate Any Square Root. An Ancient Method That Powers Modern Computers",
+     "channel": "MindYourDecisions",
+     "channel_url": "https://www.youtube.com/@MindYourDecisions",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=W3Np2cqiL0E",
+     "title": "Babylonian Square Root",
+     "channel": "Dr Peyam",
+     "channel_url": "https://www.youtube.com/@drpeyam",
+     "level": "deeper",
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],

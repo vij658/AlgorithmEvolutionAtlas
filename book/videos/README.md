@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**16 of 380 concepts searched, 42 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**17 of 380 concepts searched, 45 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -74,6 +74,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [The Most Beautiful Proof sqrt(2) is Irrational](https://www.youtube.com/watch?v=NegYPgMAua4) | Wrath of Math | Deeper |
 |  | [The Square Root of Two Is Irrational, A Geometric Proof.](https://www.youtube.com/watch?v=Us98ghhUu38) | aljabrak | Deeper |
 | YBC 7289 Babylonian tablet | [Babylonian calculation of root 2](https://www.youtube.com/watch?v=pI76G2cKfj8) | Paul Robertson | Start |
-| Babylonian method square root | *not searched yet* | | |
+| Babylonian method square root | [How to Calculate Square Root by Hand (Babylonian Method)](https://www.youtube.com/watch?v=00pdhwn7FYk) | Cowan Academy | Start |
+|  | [How To Calculate Any Square Root. An Ancient Method That Powers Modern Computers](https://www.youtube.com/watch?v=MXveVqBxFow) | MindYourDecisions | Start |
+|  | [Babylonian Square Root](https://www.youtube.com/watch?v=W3Np2cqiL0E) | Dr Peyam | Deeper |
 | Heron's method square root | *not searched yet* | | |
 

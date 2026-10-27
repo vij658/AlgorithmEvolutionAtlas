@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 84,
+ "rounds": 85,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2483,11 +2483,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-04-c4": {
+   "searched": "2026-10-27",
+   "query": "expected value probability explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "an outdated version marked 'new version available', and near-identical worked examples",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=hGtcSJMHaKs",
+     "title": "How to Find an Expected Value",
+     "channel": "Stephanie Glen",
+     "channel_url": "https://www.youtube.com/@ProfEssa",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=CBgCR1kHSUI",
+     "title": "The Expected Value (Mean) of a Probability Distribution",
+     "channel": "Steve Brunton",
+     "channel_url": "https://www.youtube.com/@Eigensteve",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=Ir1jOc00570",
+     "title": "Why is Expected Value an Integral?",
+     "channel": "Dummy R",
+     "channel_url": "https://www.youtube.com/@DummyR18",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

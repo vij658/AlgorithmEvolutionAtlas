@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**96 of 380 concepts searched, 246 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**97 of 380 concepts searched, 248 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -404,4 +404,13 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | normal equations least squares | [Using the normal equations to find least-squares solutions](https://www.youtube.com/watch?v=Zu-UlcfPPUk) | Robert Talbert | Deeper |
 |  | [Geometric Interpretation of Least Squares to Derive Normal Equation](https://www.youtube.com/watch?v=C0b7HL_7afs) | Raili Taylor | Deeper |
 |  | [Advanced Linear Algebra, Lecture 5.5: Projection and Least Squares](https://www.youtube.com/watch?v=fYkD08R5Ymw) | Professor Macauley | Scholar |
+
+### Gauss's Fast Fourier Transform ([in the book](../era-03-tables-and-machines/09-gauss-fft/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| Fourier series | [Intro to FOURIER SERIES: The Big Idea](https://www.youtube.com/watch?v=wmCIrpLBFds) | Dr. Trefor Bazett | Start |
+|  | [Fourier Series and PDEs: Calculating Fourier Series - Oxford Mathematics 1st Year Student Lecture](https://www.youtube.com/watch?v=Uwzl3NLjG00) | Oxford Mathematics | Deeper |
+| discrete Fourier transform | *not searched yet* | | |
+| Gauss and the history of the FFT | *not searched yet* | | |
 

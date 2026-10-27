@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 98,
+ "rounds": 99,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2927,11 +2927,37 @@
     }
    ],
    "tries": 1
+  },
+  "e3-09-c1": {
+   "searched": "2026-10-27",
+   "query": "Fourier series explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a hashtag-titled animation, formula-drill uploads, and duplicate mobile links",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=wmCIrpLBFds",
+     "title": "Intro to FOURIER SERIES: The Big Idea",
+     "channel": "Dr. Trefor Bazett",
+     "channel_url": "https://www.youtube.com/@DrTrefor",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=Uwzl3NLjG00",
+     "title": "Fourier Series and PDEs: Calculating Fourier Series - Oxford Mathematics 1st Year Student Lecture",
+     "channel": "Oxford Mathematics",
+     "channel_url": "https://www.youtube.com/@OxfordMathematics",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

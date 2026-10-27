@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 170,
+ "rounds": 171,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5083,11 +5083,45 @@
     }
    ],
    "tries": 1
+  },
+  "e5-06-c1": {
+   "searched": "2026-10-27",
+   "query": "linked lists explained data structure",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'in 2 minutes' and 'very easy' videos, a C-only walkthrough, and several overlapping introductions from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=odW9FU8jPRQ",
+     "title": "Linked List Data Structure | Illustrated Data Structures",
+     "channel": "the roadmap",
+     "channel_url": "https://www.youtube.com/@roadmapsh",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=N6dOwBde7-M",
+     "title": "Learn Linked Lists in 13 minutes 🔗",
+     "channel": "Bro Code",
+     "channel_url": "https://www.youtube.com/@BroCodez",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=qp8u-frRAnU",
+     "title": "Linked List - Data Structures & Algorithms Tutorials in Python #4",
+     "channel": "codebasics",
+     "channel_url": "https://www.youtube.com/@codebasics",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

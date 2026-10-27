@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 55,
+ "rounds": 56,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1609,11 +1609,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-07-c1": {
+   "searched": "2026-10-27",
+   "query": "Caesar cipher",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, an Arabic-language video, and programming tutorials",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=l6jqKRXSShI",
+     "title": "How to Use the Caesar (Shift) Cipher",
+     "channel": "Brian Veitch",
+     "channel_url": "https://www.youtube.com/@BrianVeitch",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=fdKze86foTc",
+     "title": "What is the Caesar Cipher and how to decipher it",
+     "channel": "Network Encyclopedia",
+     "channel_url": "https://www.youtube.com/@NetworkEncyclopedia",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=tvZ5O3RJfCQ",
+     "title": "Cryptography : The Caesar Cipher",
+     "channel": "Zach's Math Zone",
+     "channel_url": "https://www.youtube.com/@ZachsMathZone",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
-  "delay": 45,
-  "clean": 4,
+  "delay": 40,
+  "clean": 0,
   "rejects": 1
  }
 }

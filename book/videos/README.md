@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**129 of 380 concepts searched, 330 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**130 of 380 concepts searched, 333 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -545,4 +545,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Y combinator | [Essentials: Functional Programming's Y Combinator - Computerphile](https://www.youtube.com/watch?v=9T8A89jgeTI) | Computerphile | Start |
 |  | [How to loop in a loopless language (Y Combinator)](https://www.youtube.com/watch?v=qzsxO79zxS8) | A Byte of Code | Start |
 |  | [[CSE Seminar] Making recursion simple, by making recursion simple](https://www.youtube.com/watch?v=-kvYXLYeKLA) | Neeldhara Misra | Deeper |
+
+### Turing's Machines ([in the book](../era-04-what-can-be-computed/07-turing-machines/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| Turing machine | [How Turing Machines Work](https://www.youtube.com/watch?v=-ZS_zFg4w5k) | Art of the Problem | Start |
+|  | [A Turing Machine - Overview](https://www.youtube.com/watch?v=E3keLeMwfHY) | Mike Davey | Start |
+|  | [Turing Machine - Introduction (Part 1)](https://www.youtube.com/watch?v=PvLaPKPzq2I) | Neso Academy | Deeper |
+| halting problem | *not searched yet* | | |
+| universal Turing machine | *not searched yet* | | |
 

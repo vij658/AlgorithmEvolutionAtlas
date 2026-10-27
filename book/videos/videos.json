@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 53,
+ "rounds": 54,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1565,11 +1565,29 @@
     }
    ],
    "tries": 1
+  },
+  "e2-06-c2": {
+   "searched": "2026-10-27",
+   "query": "al-Khwarizmi completing the square geometric method al-jabr",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Italian-, French- and Indonesian-language videos (one French title is listed in English by search), 'who invented algebra' disputes, and a Short",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Q-UDR-A3iHQ",
+     "title": "Muhammad ibn Musa al-Khwarizmi and Completing-the-Square",
+     "channel": "Jill Dumesnil",
+     "channel_url": "https://www.youtube.com/@jilldumesnil9392",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 45,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

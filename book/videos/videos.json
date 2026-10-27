@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 18,
+ "rounds": 19,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -560,6 +560,40 @@
      "title": "Intro to Numerical Solution Part 1 to Civil Engineering Problems - The Heron's Method",
      "channel": "Ryan James Olivo",
      "channel_url": "https://www.youtube.com/@ryanjamesolivo6516",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-05-c1": {
+   "searched": "2026-10-27",
+   "query": "Egyptian multiplication doubling",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a clickbait 'math trick' video and several near-identical worked examples",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=KWMm_tkbMQ0",
+     "title": "Multiplication Method: Egyptian Doubling",
+     "channel": "WiseKinde Math Tutors",
+     "channel_url": "https://www.youtube.com/@wisekindemathtutors",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=qHXsKyVSPOU",
+     "title": "How Ancient Egyptians Multiplied Numbers Quickly (aka Russian Peasant Multiplication)",
+     "channel": "MindYourDecisions",
+     "channel_url": "https://www.youtube.com/@MindYourDecisions",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=YWyyu8tV5OI",
+     "title": "Math History 2.2 Ancient Egyptian Multiplication",
+     "channel": "Dr. Jack L. Jackson II",
+     "channel_url": "https://www.youtube.com/@DrJackLJacksonII",
      "level": "deeper",
      "checked": "YouTube oEmbed, 2026-10-27"
     }

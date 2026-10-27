@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**18 of 380 concepts searched, 48 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**19 of 380 concepts searched, 51 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -80,4 +80,15 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Heron's method square root | [Find Any Square Root in 15 Seconds: Heron’s Method](https://www.youtube.com/watch?v=v3vnxGEi07I) | Simple Explanations by Dheirya Tyagi | Start |
 |  | [The 2000-Year-Old Algorithm for the Square Root of Two \| Heron's Method](https://www.youtube.com/watch?v=th4kD2z98jQ) | MathNimate | Start |
 |  | [Intro to Numerical Solution Part 1 to Civil Engineering Problems - The Heron's Method](https://www.youtube.com/watch?v=Nr68x0su5co) | Ryan James Olivo | Deeper |
+
+### Egyptian Doubling ([in the book](../era-01-the-first-algorithms/05-egyptian-doubling/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| Egyptian multiplication doubling | [Multiplication Method: Egyptian Doubling](https://www.youtube.com/watch?v=KWMm_tkbMQ0) | WiseKinde Math Tutors | Start |
+|  | [How Ancient Egyptians Multiplied Numbers Quickly (aka Russian Peasant Multiplication)](https://www.youtube.com/watch?v=qHXsKyVSPOU) | MindYourDecisions | Start |
+|  | [Math History 2.2 Ancient Egyptian Multiplication](https://www.youtube.com/watch?v=YWyyu8tV5OI) | Dr. Jack L. Jackson II | Deeper |
+| Rhind mathematical papyrus | *not searched yet* | | |
+| Russian peasant multiplication | *not searched yet* | | |
+| exponentiation by squaring | *not searched yet* | | |
 

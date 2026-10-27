@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 67,
+ "rounds": 68,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1961,11 +1961,37 @@
     }
    ],
    "tries": 1
+  },
+  "e2-11-c1": {
+   "searched": "2026-10-27",
+   "query": "Jamshid al-Kashi pi calculation",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'predicted modern computing' clickbait, French-language videos on the law of cosines (named after al-Kashi in France), and a general pi video",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=BginHi3wGtc",
+     "title": "The Brilliant Mind of Jamshīd al Kāshī.",
+     "channel": "Antaxation",
+     "channel_url": "https://www.youtube.com/@antaxationYouTubeChannel",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=pflTgB0c_kY",
+     "title": "Multicultural Astronomy - Episode 34 - Muslim Astronomy - Jamshid al-Kashi",
+     "channel": "Introduction to Astronomy",
+     "channel_url": "https://www.youtube.com/@introductiontoastronomy",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 30,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**45 of 380 concepts searched, 121 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**46 of 380 concepts searched, 121 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -200,6 +200,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | history of zero | [When zero was first discovered](https://www.youtube.com/watch?v=D-oxsEknlIc) | Science Museum | Start |
 |  | [History of Mathematics : Who Invented the Number Zero?](https://www.youtube.com/watch?v=A_e5jspsNsM) | ehow | Start |
-| Brahmagupta rules for zero | *not searched yet* | | |
+| Brahmagupta rules for zero | *no suitable video found* | | |
 | Hindu-Arabic numeral system | *not searched yet* | | |
 

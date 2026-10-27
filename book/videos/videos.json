@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 113,
+ "rounds": 114,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3365,11 +3365,37 @@
     }
    ],
    "tries": 1
+  },
+  "e4-01-c1": {
+   "searched": "2026-10-27",
+   "query": "Hilbert's problems 1900 explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a German, an Italian (Short) and a Vietnamese video, two dramatized biographies from filler channels, a Hilbert's hotel video (a different idea), and a 'Hilbert's program' clip from an unidentified channel",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=opIBDMtefR0",
+     "title": "A (very) Brief History of David Hilbert",
+     "channel": "moderndaymath",
+     "channel_url": "https://www.youtube.com/@moderndaymath",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/playlist?list=PLuFcVFHMIfhIQQDPM4VJMF9_uySzdh0PT",
+     "title": "Hilbert's 23 problems (playlist)",
+     "channel": "VisualMath",
+     "channel_url": "https://www.youtube.com/@VisualMath",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

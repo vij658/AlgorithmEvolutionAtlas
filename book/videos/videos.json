@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 187,
+ "rounds": 188,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5564,11 +5564,45 @@
     }
    ],
    "tries": 1
+  },
+  "e5-11-c2": {
+   "searched": "2026-10-27",
+   "query": "AVL tree rotations explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "all-caps exam titles, a hashtag upload, and 'explained visually' videos from unidentified channels. Note: the Abdul Bari and MIT videos did not appear in this search; they were recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=zP2xbKerIds",
+     "title": "AVL Trees Simply Explained",
+     "channel": "Maaneth De Silva",
+     "channel_url": "https://www.youtube.com/@maanethdesilva",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=jDM6_TnYIqE",
+     "title": "10.1 AVL Tree - Insertion and Rotations",
+     "channel": "Abdul Bari",
+     "channel_url": "https://www.youtube.com/@abdul_bari",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=FNeL18KsWPc",
+     "title": "Lecture 6: AVL Trees, AVL Sort",
+     "channel": "MIT OpenCourseWare",
+     "channel_url": "https://www.youtube.com/@mitocw",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

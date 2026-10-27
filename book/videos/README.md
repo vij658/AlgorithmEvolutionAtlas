@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**150 of 380 concepts searched, 387 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**151 of 380 concepts searched, 390 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -637,4 +637,16 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | parity bit | [Check Digits and Parity Bits](https://www.youtube.com/watch?v=9uAIGQBkQzc) | MrBrownCS | Start |
 |  | [Error Detecting Code : Parity Explained \| Odd Parity and Even Parity](https://www.youtube.com/watch?v=Bwih7_AT1oI) | ALL ABOUT ELECTRONICS | Start |
 |  | [Error detection: Parity checking](https://www.youtube.com/watch?v=MgkhrBSjhag) | Ben Eater | Deeper |
+
+## Era 5: The Programmer's Craft
+
+### The Subroutine ([in the book](../era-05-the-programmers-craft/01-the-subroutine/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| functions in programming | [Programming Basics: Statements & Functions: Crash Course Computer Science #12](https://www.youtube.com/watch?v=l26oaHV7D40) | CrashCourse | Start |
+|  | [Functions and Arguments (Learn To Program With Huw)](https://www.youtube.com/watch?v=2SPW5jFggZs) | HuwsTube | Start |
+|  | [Python Tutorial for Beginners 8: Functions](https://www.youtube.com/watch?v=9Os0o3wzS_I) | Corey Schafer | Start |
+| call stack | *not searched yet* | | |
+| EDSAC Wheeler jump subroutine | *not searched yet* | | |
 

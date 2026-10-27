@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**39 of 380 concepts searched, 104 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**40 of 380 concepts searched, 107 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -173,6 +173,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | chord trigonometry | [Who Invented Trigonometry: History in a Minute (Episode #86)](https://www.youtube.com/watch?v=W0LIrTZYPFE) | Homeschool Connections | Start |
 |  | [Chords, Sines, and Cosines](https://www.youtube.com/watch?v=zGmIhevmDIQ) | Dusty Jones | Start |
 |  | [Origin of the Sine Function Part 1](https://www.youtube.com/watch?v=llA6iW043XU) | Saul Rémi Hernandez | Deeper |
-| Ptolemy's table of chords Almagest | *not searched yet* | | |
+| Ptolemy's table of chords Almagest | [Ptolemy's table of chords](https://www.youtube.com/watch?v=xUpBBr5btvk) | Dietmar Schrausser | Start |
+|  | [Ptolemy and Trigonometry, Part One](https://www.youtube.com/watch?v=1kXCGQIFbTA) | The Random Professor | Deeper |
+|  | [Penn Library's LJS 268 - Ptolemy's Almagest (Video Orientation)](https://www.youtube.com/watch?v=c4aVqLpYoPk) | SchoenbergInstitute | Scholar |
 | Ptolemy's theorem | *not searched yet* | | |
 

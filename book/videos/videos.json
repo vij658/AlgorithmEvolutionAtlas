@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 40,
+ "rounds": 41,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1223,11 +1223,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-02-c2": {
+   "searched": "2026-10-27",
+   "query": "Ptolemy table of chords Almagest",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "geocentrism and astronomy lectures (not the table), a Short, and a long book review",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=xUpBBr5btvk",
+     "title": "Ptolemy's table of chords",
+     "channel": "Dietmar Schrausser",
+     "channel_url": "https://www.youtube.com/@DietmarSchrausser-lf1fq",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=1kXCGQIFbTA",
+     "title": "Ptolemy and Trigonometry, Part One",
+     "channel": "The Random Professor",
+     "channel_url": "https://www.youtube.com/@TheRandomProfessor",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=c4aVqLpYoPk",
+     "title": "Penn Library's LJS 268 - Ptolemy's Almagest (Video Orientation)",
+     "channel": "SchoenbergInstitute",
+     "channel_url": "https://www.youtube.com/@SchoenbergInstitute",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
-  "delay": 60,
-  "clean": 4,
+  "delay": 55,
+  "clean": 0,
   "rejects": 1
  }
 }

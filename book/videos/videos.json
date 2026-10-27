@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 122,
+ "rounds": 123,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3605,11 +3605,45 @@
     }
    ],
    "tries": 2
+  },
+  "e4-03-c3": {
+   "searched": "2026-10-27",
+   "query": "stationary distribution Markov chain explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "an auto-generated explainer (vlogize), a 'Friendly Statistician' filler video, a clickbait 'mastering' title, and exam tutorials on continuous-time chains (a later topic)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=pyRJENi6O1Q",
+     "title": "Finding a Stationary Distribution of a Markov Chain",
+     "channel": "Tim Bienvenu-Bate",
+     "channel_url": "https://www.youtube.com/@TimBate",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=-6k7bUoVvMM",
+     "title": "20. Stationary Distributions in Markov Chains",
+     "channel": "Emmanuel Jesuyon Dansu",
+     "channel_url": "https://www.youtube.com/@ejdansu",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=tByUQbJdt14",
+     "title": "(ML 18.3) Stationary distributions, Irreducibility, and Aperiodicity",
+     "channel": "mathematicalmonk",
+     "channel_url": "https://www.youtube.com/@mathematicalmonk",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 1
  }
 }

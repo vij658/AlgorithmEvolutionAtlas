@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 154,
+ "rounds": 155,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4629,11 +4629,45 @@
     }
    ],
    "tries": 1
+  },
+  "e5-01-c2": {
+   "searched": "2026-10-27",
+   "query": "call stack explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a 'meaning' filler clip, JavaScript hoisting-and-closures compilations, a debugging pitch, and a C++ tutorial from an unidentified channel",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Q2sFmqvpBe0",
+     "title": "The Call Stack",
+     "channel": "Computer Science Lessons",
+     "channel_url": "https://www.youtube.com/@ComputerScienceLessons",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=W8AeMrVtFLY",
+     "title": "The JS Call Stack Explained In 9 Minutes",
+     "channel": "Colt Steele",
+     "channel_url": "https://www.youtube.com/@ColtSteeleCode",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=oFAlof7v_a8",
+     "title": "13: How Recursion Works Internally | Call Stack Explained with Example",
+     "channel": "Amulya's Academy",
+     "channel_url": "https://www.youtube.com/@AmulsAcademy",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

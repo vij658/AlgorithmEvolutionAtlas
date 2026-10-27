@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 149,
+ "rounds": 150,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4459,11 +4459,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-12-c3": {
+   "searched": "2026-10-27",
+   "query": "Shannon master's thesis Boolean algebra relay switching circuits",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a 'thesis in 30 minutes' video from an unidentified channel, numbered exam-course lectures on switching functions, and an electronics 101 video",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=yY97B8MMggY",
+     "title": "3. Claude Shannon and circuits",
+     "channel": "Walter Isaacson",
+     "channel_url": "https://www.youtube.com/@walterisaacson8951",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=gI-qXk7XojA",
+     "title": "Boolean Logic & Logic Gates: Crash Course Computer Science #3",
+     "channel": "CrashCourse",
+     "channel_url": "https://www.youtube.com/@crashcourse",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=r5dPasQtbY8",
+     "title": "Boolean algebra and Shannon's circuit analysis | Math Foundations 260 | N J Wildberger",
+     "channel": "Insights into Mathematics",
+     "channel_url": "https://www.youtube.com/@njwildberger",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

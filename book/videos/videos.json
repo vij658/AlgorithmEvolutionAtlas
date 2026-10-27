@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 162,
+ "rounds": 163,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4841,7 +4841,7 @@
    "query": "Huffman coding explained",
    "host": "youtube.com",
    "candidates": 10,
-   "rejected": "a Short, quaternary-code and digital-communication exam videos, 'clearly explained' and 'visually explained' uploads from unidentified channels. Note: none of the three listed appeared in this search; Tom Scott's was found in the previous round's search, the other two were recalled; all three were confirmed by oEmbed like every other",
+   "rejected": "a Short, quaternary-code and digital-communication exam videos, 'clearly explained' and 'visually explained' uploads from unidentified channels. Note: none of the three listed appeared in this search; all three were recalled and then confirmed by oEmbed like every other",
    "videos": [
     {
      "url": "https://www.youtube.com/watch?v=JsTptu56GM8",
@@ -4868,7 +4868,7 @@
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],
-   "tries": 1
+   "tries": 2
   }
  },
  "pace": {

@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 11,
+ "rounds": 12,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -339,6 +339,40 @@
      "channel": "Math Videos that Motivate",
      "channel_url": "https://www.youtube.com/@mathvideosthatmotivate",
      "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-03-c1": {
+   "searched": "2026-10-27",
+   "query": "Babylonian base 60 numbers",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Shorts, a Portuguese-language video, and Plimpton 322 videos (a different idea)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=jsux7RzcIjw",
+     "title": "The Mesopotamian Number System | A Story of Numbers | Grade 8 | NCERT | Khan Academy",
+     "channel": "Khan Academy India - English",
+     "channel_url": "https://www.youtube.com/@KhanAcademyIndiaEnglish",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=R9m2jck1f90",
+     "title": "Base 60 (sexagesimal) - Numberphile",
+     "channel": "Numberphile",
+     "channel_url": "https://www.youtube.com/@numberphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=58Z91hD5RXE",
+     "title": "Number Systems Ancient to Modern 2: the Babylonians | Sociology and Pure Maths | N J Wildberger",
+     "channel": "Insights into Mathematics",
+     "channel_url": "https://www.youtube.com/@njwildberger",
+     "level": "deeper",
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],

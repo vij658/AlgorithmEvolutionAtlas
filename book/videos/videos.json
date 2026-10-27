@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 163,
+ "rounds": 164,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4869,11 +4869,37 @@
     }
    ],
    "tries": 2
+  },
+  "e5-03-c3": {
+   "searched": "2026-10-27",
+   "query": "prefix codes prefix-free code explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "numbered exam-course lectures, a graph-theory course clip, and an unrelated CSS video",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=fsh7Kf4kLCI",
+     "title": "Prefix Codes (with Exercises) - Data Compression",
+     "channel": "MisterCode",
+     "channel_url": "https://www.youtube.com/@MisterCode",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=oMu2OzKUVjw",
+     "title": "(IC 2.4) Decoding - prefix versus non-prefix",
+     "channel": "mathematicalmonk",
+     "channel_url": "https://www.youtube.com/@mathematicalmonk",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

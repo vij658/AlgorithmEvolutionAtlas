@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 184,
+ "rounds": 185,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5486,11 +5486,37 @@
     }
    ],
    "tries": 1
+  },
+  "e5-10-c2": {
+   "searched": "2026-10-27",
+   "query": "Hoare partition scheme vs Lomuto quicksort",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Lomuto-only walkthroughs (the other scheme), a Hindi lesson, 'part II' and personal-tutorial uploads from unidentified channels, and an 'Understanding Hoare's Partitioning Scheme' video the check could not confirm",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=YUkZYlGTZbg",
+     "title": "20: Quick Sort with Hoare Partitioning Explained | Pivot, Two Pointers & Partitioning",
+     "channel": "Amulya's Academy",
+     "channel_url": "https://www.youtube.com/@AmulsAcademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=5iSZ7mh_RAk",
+     "title": "Quick Sort - Data Structures & Algorithms Tutorial Python #15",
+     "channel": "codebasics",
+     "channel_url": "https://www.youtube.com/@codebasics",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**112 of 380 concepts searched, 284 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**113 of 380 concepts searched, 286 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -474,6 +474,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | Hilbert's problems | [A (very) Brief History of David Hilbert](https://www.youtube.com/watch?v=opIBDMtefR0) | moderndaymath | Start |
 |  | [Hilbert's 23 problems (playlist)](https://www.youtube.com/playlist?list=PLuFcVFHMIfhIQQDPM4VJMF9_uySzdh0PT) | VisualMath | Deeper |
-| Entscheidungsproblem | *not searched yet* | | |
+| Entscheidungsproblem | [Are There Problems That Computers Can't Solve?](https://www.youtube.com/watch?v=eqvBaj8UYz4) | Tom Scott | Start |
+|  | [The Church-Turing Thesis - Theory of Computing](https://www.youtube.com/watch?v=8pxzoSxb-nQ) | Chris Marriott - Computer Science | Deeper |
 | Hilbert's tenth problem | *not searched yet* | | |
 

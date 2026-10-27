@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 114,
+ "rounds": 115,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3391,11 +3391,37 @@
     }
    ],
    "tries": 1
+  },
+  "e4-01-c2": {
+   "searched": "2026-10-27",
+   "query": "Entscheidungsproblem decision problem Turing Church explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "French, Spanish, German and Italian videos, a paper summary from an unidentified channel (Research Lounge), and a contrarian 'cannot possibly be true' video",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=eqvBaj8UYz4",
+     "title": "Are There Problems That Computers Can't Solve?",
+     "channel": "Tom Scott",
+     "channel_url": "https://www.youtube.com/@TomScottGo",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=8pxzoSxb-nQ",
+     "title": "The Church-Turing Thesis - Theory of Computing",
+     "channel": "Chris Marriott - Computer Science",
+     "channel_url": "https://www.youtube.com/@chrismarriott-CS",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

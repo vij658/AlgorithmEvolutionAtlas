@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**68 of 380 concepts searched, 172 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**69 of 380 concepts searched, 175 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -288,4 +288,17 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | computing pi with polygons by hand | [How to Find Pi Using Regular Polygons - Calculating Pi Using Geometry](https://www.youtube.com/watch?v=ER0YaB8N-20) | DoingMaths | Start |
 |  | [Calculating π by hand](https://www.youtube.com/watch?v=HrRMnzANHHs) | Stand-up Maths | Start |
 |  | [The Many Paths to Pi](https://www.youtube.com/watch?v=r8YNb8yeXH8) | Ellie Sleightholm | Deeper |
+
+## Era 3: Tables and Machines
+
+### Cardano's Cubic ([in the book](../era-03-tables-and-machines/01-cardanos-cubic/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| solving cubic equations | [How To Solve Cubic Equations](https://www.youtube.com/watch?v=NnTQGhZSmF4) | Mohamed Omar | Start |
+|  | [Omar Khayyam's Geometric Solution to a Cubic Equation](https://www.youtube.com/watch?v=2t-Gv8RoXSM) | Mathematical Association of America | Deeper |
+|  | [Solutions to Cubic Equations - Benedict Gross (Harvard University)](https://www.youtube.com/watch?v=l0EaTehu7Ec) | Stanford | Scholar |
+| Cardano's formula | *not searched yet* | | |
+| Tartaglia del Ferro cubic history | *not searched yet* | | |
+| imaginary numbers casus irreducibilis | *not searched yet* | | |
 

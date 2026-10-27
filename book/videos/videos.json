@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 70,
+ "rounds": 71,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2055,11 +2055,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-01-c1": {
+   "searched": "2026-10-27",
+   "query": "solving cubic equations history",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'awesome history' and 'first time' clickbait titles, and step-by-step drill videos",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=NnTQGhZSmF4",
+     "title": "How To Solve Cubic Equations",
+     "channel": "Mohamed Omar",
+     "channel_url": "https://www.youtube.com/@ProfOmarMath",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=2t-Gv8RoXSM",
+     "title": "Omar Khayyam's Geometric Solution to a Cubic Equation",
+     "channel": "Mathematical Association of America",
+     "channel_url": "https://www.youtube.com/@MAAvideo",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=l0EaTehu7Ec",
+     "title": "Solutions to Cubic Equations - Benedict Gross (Harvard University)",
+     "channel": "Stanford",
+     "channel_url": "https://www.youtube.com/@stanford",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
-  "delay": 30,
-  "clean": 4,
+  "delay": 25,
+  "clean": 0,
   "rejects": 1
  }
 }

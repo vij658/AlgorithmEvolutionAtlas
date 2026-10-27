@@ -271,7 +271,7 @@ def page(db, artifact=False):
             o.append('</article>')
         o.append('</section>')
     o.append('<p class="empty-state" id="vempty" hidden>Nothing matches. Clear the search, turn a level back on, or show the concepts not searched yet.</p>')
-    o.append('<footer>Searched one concept at a time, with a two-minute pause between searches. Videos were chosen for accuracy and clarity; '
+    o.append('<footer>Searched one concept at a time, with a 40-second pause between searches. Videos were chosen for accuracy and clarity; '
              'titles and channels are as their hosts report them. Levels are the book\'s own: Start, Deeper, Scholar.</footer>')
     body = "".join(o)
     fonts = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap">'

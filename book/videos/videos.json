@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 100,
+ "rounds": 101,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2987,11 +2987,37 @@
     }
    ],
    "tries": 1
+  },
+  "e3-09-c3": {
+   "searched": "2026-10-27",
+   "query": "Gauss invented FFT history fast Fourier transform 1805",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "FFT how-to videos (Era 6's topic), a playlist, and the Fourier transform of a Gaussian (unrelated)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=nmgFG7PUHfo",
+     "title": "The Most Underrated Algorithm",
+     "channel": "Veritasium",
+     "channel_url": "https://www.youtube.com/@veritasium",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=SK2XpvwU038",
+     "title": "History of the Fast Fourier Transform with J.W. Cooley and John Tukey",
+     "channel": "Taylor Hodge",
+     "channel_url": "https://www.youtube.com/@jtaylorhodge",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 1
  }
 }

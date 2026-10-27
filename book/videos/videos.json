@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 166,
+ "rounds": 167,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4955,11 +4955,45 @@
     }
    ],
    "tries": 1
+  },
+  "e5-04-c3": {
+   "searched": "2026-10-27",
+   "query": "linear probing hash table collision open addressing",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Hindi-language lecture, an all-caps exam video, an 'in 5 minutes' clip, animations without explanation, and untitled course chapters",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=owsI5SdkDnc",
+     "title": "Linear Probing (Open Addressing in Hash Tables) | Data Structures for Interview Preparation",
+     "channel": "Live To Code",
+     "channel_url": "https://www.youtube.com/@live-to-code",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=54iv1si4YCM",
+     "title": "Collision Handling In Hash Table - Data Structures & Algorithms Tutorials In Python #6",
+     "channel": "codebasics",
+     "channel_url": "https://www.youtube.com/@codebasics",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=zeMa9sg-VJM",
+     "title": "8.1 Hashing Techniques to Resolve Collision| Separate Chaining and Linear Probing | Data structure",
+     "channel": "Jenny's Lectures CS IT",
+     "channel_url": "https://www.youtube.com/@JennyslecturesCSIT",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

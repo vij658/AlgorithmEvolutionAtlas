@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 131,
+ "rounds": 132,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3895,11 +3895,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-06-c3": {
+   "searched": "2026-10-27",
+   "query": "Y combinator lambda calculus recursion explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "full-semester class recordings (CSE 340) that cover it in passing, a 'what is it?' filler clip, a visualization without explanation, and an LLM-context video that only borrows the name",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=9T8A89jgeTI",
+     "title": "Essentials: Functional Programming's Y Combinator - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=qzsxO79zxS8",
+     "title": "How to loop in a loopless language (Y Combinator)",
+     "channel": "A Byte of Code",
+     "channel_url": "https://www.youtube.com/@AByteofCode",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=-kvYXLYeKLA",
+     "title": "[CSE Seminar] Making recursion simple, by making recursion simple",
+     "channel": "Neeldhara Misra",
+     "channel_url": "https://www.youtube.com/@neeldhara",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 30,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

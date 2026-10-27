@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**110 of 380 concepts searched, 281 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**111 of 380 concepts searched, 282 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -464,5 +464,5 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Basic Operation of the IBM 029 Card Punch (1967)](https://www.youtube.com/watch?v=kaQmAybWn-w) | Sinclair Target | Deeper |
 | Hollerith tabulating machine | [Archives & Oddities: Hollerith](https://www.youtube.com/watch?v=Kvk3_MfF7SA) | The Franklin Institute | Start |
 |  | [Hollerith Electric Tabulating System (HETS)](https://www.youtube.com/watch?v=17On5ItcrBA) | Michael Holzheu | Deeper |
-| 1890 United States census tabulation | *not searched yet* | | |
+| 1890 United States census tabulation | [Archives & Oddities: Hollerith](https://www.youtube.com/watch?v=Kvk3_MfF7SA) | The Franklin Institute | Start |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 112,
+ "rounds": 113,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3347,11 +3347,29 @@
     }
    ],
    "tries": 1
+  },
+  "e3-13-c3": {
+   "searched": "2026-10-27",
+   "query": "1890 United States census Hollerith tabulation",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Shorts, a Spanish and a Portuguese video, an animated biography from a filler channel (Fame TV), a genealogy video about the lost 1890 records, and the 'world's first' list video; the museum video above is the same one listed for the tabulating machine",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Kvk3_MfF7SA",
+     "title": "Archives & Oddities: Hollerith",
+     "channel": "The Franklin Institute",
+     "channel_url": "https://www.youtube.com/@TheFranklinInstitutePHL",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

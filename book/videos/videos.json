@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 156,
+ "rounds": 157,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4697,11 +4697,45 @@
     }
    ],
    "tries": 1
+  },
+  "e5-02-c1": {
+   "searched": "2026-10-27",
+   "query": "regular expressions explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'in 10/20 minutes' videos, an NLP-specific walkthrough, and several overlapping beginner tutorials kept out to hold the list to three",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=r6I-Ahc0HB4",
+     "title": "Regular Expressions (RegEx) Tutorial #1 - What is RegEx?",
+     "channel": "Net Ninja",
+     "channel_url": "https://www.youtube.com/@NetNinja",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=sa-TUpSx1JA",
+     "title": "Regular Expressions (Regex) Tutorial: How to Match Any Pattern of Text",
+     "channel": "Corey Schafer",
+     "channel_url": "https://www.youtube.com/@coreyms",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ZfQFUJhPqMM",
+     "title": "Learn Regular Expressions (Regex) - Crash Course for Beginners",
+     "channel": "freeCodeCamp.org",
+     "channel_url": "https://www.youtube.com/@freecodecamp",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

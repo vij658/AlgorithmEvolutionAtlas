@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**136 of 380 concepts searched, 351 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**137 of 380 concepts searched, 353 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -581,6 +581,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | von Neumann architecture | [The Von Neumann Architecture](https://www.youtube.com/watch?v=5BpgAHBZgec) | Engineers Minute | Start |
 |  | [The CPU and Von Neumann Architecture](https://www.youtube.com/watch?v=SbqXqQ-2ixs) | MrBrownCS | Start |
 |  | [Von Neumann Architecture and the PC, MAR, MDR, and ACC Registers](https://www.youtube.com/watch?v=RpPo1BGiScY) | MrBrownCS | Deeper |
-| EDVAC stored program | *not searched yet* | | |
+| EDVAC stored program | [From the Archives: ENIAC, the World's First Electronic Computer](https://www.youtube.com/watch?v=1yem8k1jrTs) | University of Pennsylvania | Start |
+|  | [von Neumann Computer Architecture: EDVAC](https://www.youtube.com/watch?v=LeTeilsd3sY) | Professor Beckmann | Deeper |
 | merge sort | *not searched yet* | | |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 139,
+ "rounds": 140,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4167,11 +4167,37 @@
     }
    ],
    "tries": 1
+  },
+  "e4-09-c2": {
+   "searched": "2026-10-27",
+   "query": "EDVAC stored program computer history ENIAC von Neumann first draft",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Spanish and Portuguese histories, a hashtag clip, colorized and 'remastered' reuploads of 1946 newsreels, and an untitled result. The ENIAC archive video is listed because the stored-program idea grew out of the ENIAC team's work; no video found is about the EDVAC report itself beyond Professor Beckmann's",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=1yem8k1jrTs",
+     "title": "From the Archives: ENIAC, the World's First Electronic Computer",
+     "channel": "University of Pennsylvania",
+     "channel_url": "https://www.youtube.com/@penn",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=LeTeilsd3sY",
+     "title": "von Neumann Computer Architecture: EDVAC",
+     "channel": "Professor Beckmann",
+     "channel_url": "https://www.youtube.com/@ProfBeckmann",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 25,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

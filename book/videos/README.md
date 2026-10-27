@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**12 of 380 concepts searched, 32 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**13 of 380 concepts searched, 35 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -59,6 +59,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Babylonian base 60 numbers | [The Mesopotamian Number System \| A Story of Numbers \| Grade 8 \| NCERT \| Khan Academy](https://www.youtube.com/watch?v=jsux7RzcIjw) | Khan Academy India - English | Start |
 |  | [Base 60 (sexagesimal) - Numberphile](https://www.youtube.com/watch?v=R9m2jck1f90) | Numberphile | Start |
 |  | [Number Systems Ancient to Modern 2: the Babylonians \| Sociology and Pure Maths \| N J Wildberger](https://www.youtube.com/watch?v=58Z91hD5RXE) | Insights into Mathematics | Deeper |
-| place value number system | *not searched yet* | | |
+| place value number system | [What Is Place Value](https://www.youtube.com/watch?v=BL6pGhnBdj8) | Minity Maths | Start |
+|  | [What is Base 10 Place Value](https://www.youtube.com/watch?v=f4UoZSghQws) | JoAnn's School | Start |
+|  | [Learn Place Value In 7 Minutes](https://www.youtube.com/watch?v=mf5ynlcJOTg) | TabletClass Math | Start |
 | Babylonian reciprocal tables division | *not searched yet* | | |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 12,
+ "rounds": 13,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -373,6 +373,40 @@
      "channel": "Insights into Mathematics",
      "channel_url": "https://www.youtube.com/@njwildberger",
      "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-03-c2": {
+   "searched": "2026-10-27",
+   "query": "place value number system explained history",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "grade-specific worksheet lessons and a video with no title beyond a grade label",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=BL6pGhnBdj8",
+     "title": "What Is Place Value",
+     "channel": "Minity Maths",
+     "channel_url": "https://www.youtube.com/@MinityMaths",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=f4UoZSghQws",
+     "title": "What is Base 10 Place Value",
+     "channel": "JoAnn's School",
+     "channel_url": "https://www.youtube.com/@JoAnnsSchool",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=mf5ynlcJOTg",
+     "title": "Learn Place Value In 7 Minutes",
+     "channel": "TabletClass Math",
+     "channel_url": "https://www.youtube.com/@tabletclass",
+     "level": "start",
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],

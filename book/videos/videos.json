@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 175,
+ "rounds": 176,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5245,11 +5245,20 @@
     }
    ],
    "tries": 1
+  },
+  "e5-07-c3": {
+   "searched": "2026-10-27",
+   "query": "Edsger Dijkstra interview documentary",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "No suitable video. The recordings of Dijkstra himself that the search found (the 2001 Dutch documentary 'Denken als discipline', his Turing Award speech, an NPR interview, lectures) are all uploaded by private individuals rather than by the broadcaster, the ACM or a university, so they are reuploads under this list's rules; one more candidate could not be confirmed by the check",
+   "videos": [],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

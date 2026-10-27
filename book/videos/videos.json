@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 136,
+ "rounds": 137,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4065,11 +4065,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-08-c2": {
+   "searched": "2026-10-27",
+   "query": "Marian Rejewski Polish Cipher Bureau Enigma; Bletchley Park Polish codebreakers Rejewski Zygalski Rozycki talk",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "Polish-language documentaries, Shorts, a 'decrypting Nazi secrets' video the check could not confirm, and a 'what was the contribution' clip from an unidentified channel. The two Rejewski clips are archive recordings of Rejewski himself, posted under English titles; the recordings may be in Polish",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=6eWvYWZeEi4",
+     "title": "The Breaking of the Enigma - An Interview with Dermot Turing",
+     "channel": "Polish Cultural Institute in London",
+     "channel_url": "https://www.youtube.com/@polishculturalinstituteinl7484",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=rmzONLlR2UM",
+     "title": "Marian Rejewski on... the \"Bomba\" machine",
+     "channel": "Polish Embassy UK",
+     "channel_url": "https://www.youtube.com/@polishembassyuk",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=jnADN_0M_2A",
+     "title": "Marian Rejewski on... the \"Zygalski sheets\"",
+     "channel": "Polish Embassy UK",
+     "channel_url": "https://www.youtube.com/@polishembassyuk",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 25,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

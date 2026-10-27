@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**133 of 380 concepts searched, 342 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**134 of 380 concepts searched, 345 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -567,6 +567,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Enigma machine | [158,962,555,217,826,360,000 (Enigma Machine) - Numberphile](https://www.youtube.com/watch?v=G2_Q9FoD-oQ) | Numberphile | Start |
 |  | [The Inner Workings of an Enigma Machine](https://www.youtube.com/watch?v=mcX7iO_XCFA) | Perimeter Institute for Theoretical Physics | Start |
 |  | [The Enigma Machine: How it Works - Professor Raymond Flood](https://www.youtube.com/watch?v=rWy-vY6xZ8s) | Gresham College | Deeper |
-| Rejewski Polish cipher bureau Enigma | *not searched yet* | | |
+| Rejewski Polish cipher bureau Enigma | [The Breaking of the Enigma - An Interview with Dermot Turing](https://www.youtube.com/watch?v=6eWvYWZeEi4) | Polish Cultural Institute in London | Start |
+|  | [Marian Rejewski on... the "Bomba" machine](https://www.youtube.com/watch?v=rmzONLlR2UM) | Polish Embassy UK | Scholar |
+|  | [Marian Rejewski on... the "Zygalski sheets"](https://www.youtube.com/watch?v=jnADN_0M_2A) | Polish Embassy UK | Scholar |
 | Turing Bombe | *not searched yet* | | |
 

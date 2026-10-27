@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 47,
+ "rounds": 48,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1428,11 +1428,45 @@
    "rejected": "titles claiming Brahmagupta invented zero (the book's sources say he gave rules for it as a number), homework solutions, a Japanese-language video, an unnamed explainer channel; one schoolbook-chapter video could not be confirmed",
    "videos": [],
    "tries": 1
+  },
+  "e2-04-c3": {
+   "searched": "2026-10-27",
+   "query": "Hindu-Arabic numeral system history",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, a channel of question-titled filler, and 'empire' framings",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=o6vuZBc6qLk",
+     "title": "History of Math: Hindu-Arabic Numerical System",
+     "channel": "mathematicsonline",
+     "channel_url": "https://www.youtube.com/@mathematicsonline",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=y6oS7zE71Dw",
+     "title": "The Hindu-Arabic number system | Elementary Mathematics (K-6) Explained 4 | NJ Wildberger",
+     "channel": "Insights into Mathematics",
+     "channel_url": "https://www.youtube.com/@njwildberger",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=UOisN20qV0c",
+     "title": "Math History 1.9 History of Hindu-Arabic Numerals",
+     "channel": "Dr. Jack L. Jackson II",
+     "channel_url": "https://www.youtube.com/@DrJackLJacksonII",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 50,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

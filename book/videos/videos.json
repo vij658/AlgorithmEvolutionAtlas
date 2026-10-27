@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 37,
+ "rounds": 38,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1129,11 +1129,45 @@
     }
    ],
    "tries": 2
+  },
+  "e2-01-c2": {
+   "searched": "2026-10-27",
+   "query": "Gaussian elimination",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Python tutorial, a course-numbered clip, and Gauss-Jordan (a variant)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=eDb6iugi6Uk",
+     "title": "Gaussian Elimination & Row Echelon Form",
+     "channel": "The Organic Chemistry Tutor",
+     "channel_url": "https://www.youtube.com/@TheOrganicChemistryTutor",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=vhm1bPMAgyU",
+     "title": "The Gaussian Algorithm Visualized",
+     "channel": "Dr. Trefor Bazett",
+     "channel_url": "https://www.youtube.com/@DrTrefor",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=pf8H2tc0alE",
+     "title": "What Gaussian Elimination Actually Does",
+     "channel": "DataMListic",
+     "channel_url": "https://www.youtube.com/@datamlistic",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 60,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

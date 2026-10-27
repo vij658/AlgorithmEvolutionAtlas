@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 69,
+ "rounds": 70,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2021,11 +2021,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-11-c3": {
+   "searched": "2026-10-27",
+   "query": "calculating pi by hand polygons doubling sides",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Archimedes videos already listed in Era 1, a news clip, and later methods (Newton, Chudnovsky) that belong to other ideas",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=ER0YaB8N-20",
+     "title": "How to Find Pi Using Regular Polygons - Calculating Pi Using Geometry",
+     "channel": "DoingMaths",
+     "channel_url": "https://www.youtube.com/@DoingMaths",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=HrRMnzANHHs",
+     "title": "Calculating π by hand",
+     "channel": "Stand-up Maths",
+     "channel_url": "https://www.youtube.com/@standupmaths",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=r8YNb8yeXH8",
+     "title": "The Many Paths to Pi",
+     "channel": "Ellie Sleightholm",
+     "channel_url": "https://www.youtube.com/@elliesleightholm",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 30,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

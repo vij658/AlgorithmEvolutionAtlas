@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 15,
+ "rounds": 16,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -475,6 +475,24 @@
      "channel": "aljabrak",
      "channel_url": "https://www.youtube.com/@aljabrak",
      "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-04-c2": {
+   "searched": "2026-10-27",
+   "query": "YBC 7289 Babylonian tablet square root of 2",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "the only videos on the tablet itself are in French and Polish; the rest teach the square-root method (the next idea) or Plimpton 322",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=pI76G2cKfj8",
+     "title": "Babylonian calculation of root 2",
+     "channel": "Paul Robertson",
+     "channel_url": "https://www.youtube.com/@paulrobertson3213",
+     "level": "start",
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],

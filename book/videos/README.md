@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**15 of 380 concepts searched, 41 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**16 of 380 concepts searched, 42 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -73,7 +73,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | square root of 2 irrational | [Proof that Square Root of 2 is Irrational. Proof by Contradiction.](https://www.youtube.com/watch?v=BAoRwWflYbc) | Science and Maths - Patrick Maye | Start |
 |  | [The Most Beautiful Proof sqrt(2) is Irrational](https://www.youtube.com/watch?v=NegYPgMAua4) | Wrath of Math | Deeper |
 |  | [The Square Root of Two Is Irrational, A Geometric Proof.](https://www.youtube.com/watch?v=Us98ghhUu38) | aljabrak | Deeper |
-| YBC 7289 Babylonian tablet | *not searched yet* | | |
+| YBC 7289 Babylonian tablet | [Babylonian calculation of root 2](https://www.youtube.com/watch?v=pI76G2cKfj8) | Paul Robertson | Start |
 | Babylonian method square root | *not searched yet* | | |
 | Heron's method square root | *not searched yet* | | |
 

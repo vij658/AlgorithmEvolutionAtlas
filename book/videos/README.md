@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**106 of 380 concepts searched, 272 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**107 of 380 concepts searched, 275 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -450,6 +450,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Boolean algebra | [Ep 030: Introduction to Boolean Algebra](https://www.youtube.com/watch?v=_COKT-0JiOg) | Intermation | Start |
 |  | [The Laws of Boolean Algebra Explained](https://www.youtube.com/watch?v=RMe69AdlFdI) | ALL ABOUT ELECTRONICS | Start |
 |  | [2.1 What is a Boolean algebra?](https://www.youtube.com/watch?v=4l8rq6imQAo) | Machine learning classroom | Deeper |
-| truth tables logic gates | *not searched yet* | | |
+| truth tables logic gates | [Logic Gates and Truth Tables](https://www.youtube.com/watch?v=AXtJLgzW3sQ) | Simply Coding | Start |
+|  | [Logic Gates, Boolean Logic & Truth Tables Explained](https://www.youtube.com/watch?v=YjQSDgCDcYU) | Webronaq | Start |
+|  | [Logic Gates, Truth Tables, Boolean Algebra AND, OR, NOT, NAND & NOR](https://www.youtube.com/watch?v=JQBRzsPhw2w) | The Organic Chemistry Tutor | Start |
 | George Boole Laws of Thought | *not searched yet* | | |
 

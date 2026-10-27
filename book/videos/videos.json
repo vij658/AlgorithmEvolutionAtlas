@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 108,
+ "rounds": 109,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3235,11 +3235,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-12-c2": {
+   "searched": "2026-10-27",
+   "query": "truth tables logic gates explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'shortcut tricks' videos and duplicate links",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=AXtJLgzW3sQ",
+     "title": "Logic Gates and Truth Tables",
+     "channel": "Simply Coding",
+     "channel_url": "https://www.youtube.com/@SimplyCoding",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=YjQSDgCDcYU",
+     "title": "Logic Gates, Boolean Logic & Truth Tables Explained",
+     "channel": "Webronaq",
+     "channel_url": "https://www.youtube.com/@Webronaq",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=JQBRzsPhw2w",
+     "title": "Logic Gates, Truth Tables, Boolean Algebra AND, OR, NOT, NAND & NOR",
+     "channel": "The Organic Chemistry Tutor",
+     "channel_url": "https://www.youtube.com/@TheOrganicChemistryTutor",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

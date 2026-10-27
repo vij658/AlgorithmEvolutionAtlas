@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 57,
+ "rounds": 58,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1677,11 +1677,37 @@
     }
    ],
    "tries": 1
+  },
+  "e2-07-c3": {
+   "searched": "2026-10-27",
+   "query": "Al-Kindi cryptanalysis frequency analysis history",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a second copy of a lecture already listed, 'first ethical hacker' framing, an Urdu-language video, and a Short",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=rte0RXI6wCk",
+     "title": "Unveiling Al-Kindi, the Father of Cryptography | Scientist of the Week",
+     "channel": "Mona Minkara",
+     "channel_url": "https://www.youtube.com/@mona.minkara",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=9x8HEECMfXM",
+     "title": "Al-Kindi's Cryptanalysis: The Origin of the Frequency Analysis",
+     "channel": "Noah Aydin",
+     "channel_url": "https://www.youtube.com/@DrMathAydin",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 40,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

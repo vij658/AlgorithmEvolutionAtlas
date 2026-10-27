@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**55 of 380 concepts searched, 141 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**56 of 380 concepts searched, 143 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -237,5 +237,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | frequency analysis cryptography | [Substitution Ciphers](https://www.youtube.com/watch?v=WSwO3qc4IQI) | Computing in a Nutshell | Start |
 |  | [Frequency Analysis - Breaking The Substitution Cipher](https://www.youtube.com/watch?v=gCWljzTavlo) | Cuong Nguyen | Start |
 |  | [Cryptanalysis 1.2: Frequency Analysis](https://www.youtube.com/watch?v=opqgXvGsk6U) | Cihangir Tezcan | Deeper |
-| Al-Kindi cryptanalysis | *not searched yet* | | |
+| Al-Kindi cryptanalysis | [Unveiling Al-Kindi, the Father of Cryptography \| Scientist of the Week](https://www.youtube.com/watch?v=rte0RXI6wCk) | Mona Minkara | Start |
+|  | [Al-Kindi's Cryptanalysis: The Origin of the Frequency Analysis](https://www.youtube.com/watch?v=9x8HEECMfXM) | Noah Aydin | Deeper |
 

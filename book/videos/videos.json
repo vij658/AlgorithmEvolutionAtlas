@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 181,
+ "rounds": 182,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5400,11 +5400,37 @@
     }
    ],
    "tries": 1
+  },
+  "e5-09-c2": {
+   "searched": "2026-10-27",
+   "query": "Frank Rosenblatt Mark I perceptron 1958 history; Mark I Perceptron machine Cornell Aeronautical Laboratory footage Rosenblatt",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "a Short, Spanish, French, Portuguese and Chinese videos, hashtag and 'roots of AI' videos from unnamed channels, a paper read-through, and video-game walkthroughs. No suitable start-level video about the Mark I machine itself was found",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=uclj81wBdxQ",
+     "title": "Pattern Recognition [PR] Episode 19 - Rosenblatt Perceptron",
+     "channel": "Andreas Maier",
+     "channel_url": "https://www.youtube.com/@maierAK",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=BbYV8UfMJSA",
+     "title": "Lecture 4 \"Curse of Dimensionality / Perceptron\" -Cornell CS4780 SP17",
+     "channel": "Kilian Weinberger",
+     "channel_url": "https://www.youtube.com/@kilianweinberger698",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

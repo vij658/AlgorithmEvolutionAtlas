@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 65,
+ "rounds": 66,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1901,11 +1901,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-10-c2": {
+   "searched": "2026-10-27",
+   "query": "Madhava Leibniz series pi",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, coding tutorials, and uploads with generic titles",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=MqtqY5-atuo",
+     "title": "The First Infinite Series for Pi",
+     "channel": "Euler's Academy",
+     "channel_url": "https://www.youtube.com/@EulersAcademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ypxKzWi-Bwg",
+     "title": "Powell’s Pi Paradox: the genius 14th century Indian solution",
+     "channel": "Mathologer",
+     "channel_url": "https://www.youtube.com/@Mathologer",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=lOpAVZUQGJ4",
+     "title": "Leibniz Formula for pi, using the series of ln(1+z)",
+     "channel": "blackpenredpen",
+     "channel_url": "https://www.youtube.com/@blackpenredpen",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
-  "delay": 35,
-  "clean": 4,
+  "delay": 30,
+  "clean": 0,
   "rejects": 1
  }
 }

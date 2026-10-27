@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**63 of 380 concepts searched, 159 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**64 of 380 concepts searched, 162 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -270,6 +270,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | infinite series for pi | [PI as an Infinite Series](https://www.youtube.com/watch?v=ySLWP6K2s14) | The Math Sorcerer | Start |
 |  | [Nilakantha's Infinite Series - Pi Day 2019](https://www.youtube.com/watch?v=3U7Hfz37GqA) | Gary Explains | Start |
 |  | [Two formulas for pi as infinite series](https://www.youtube.com/watch?v=IlrxS8SQY8I) | Alvaro Lozano-Robledo | Deeper |
-| Madhava Leibniz series | *not searched yet* | | |
+| Madhava Leibniz series | [The First Infinite Series for Pi](https://www.youtube.com/watch?v=MqtqY5-atuo) | Euler's Academy | Start |
+|  | [Powell’s Pi Paradox: the genius 14th century Indian solution](https://www.youtube.com/watch?v=ypxKzWi-Bwg) | Mathologer | Deeper |
+|  | [Leibniz Formula for pi, using the series of ln(1+z)](https://www.youtube.com/watch?v=lOpAVZUQGJ4) | blackpenredpen | Deeper |
 | Kerala school of mathematics | *not searched yet* | | |
 

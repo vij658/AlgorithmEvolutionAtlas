@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 89,
+ "rounds": 90,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2653,11 +2653,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-06-c2": {
+   "searched": "2026-10-27",
+   "query": "binary addition explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "the adder-circuit video already listed in Chapter 1, a Hindi-language video, and a mobile duplicate",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=eIvBFbreqXY",
+     "title": "How to do binary addition - it's easy when you remember the rules!",
+     "channel": "Mark Harrison",
+     "channel_url": "https://www.youtube.com/@MarkHarrisonCS",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=Jeb_J7xZf9A",
+     "title": "Binary addition | How to add binary numbers | Digital Electronics",
+     "channel": "Learning Vibes",
+     "channel_url": "https://www.youtube.com/@LearningVibes",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=sJXTo3EZoxM",
+     "title": "Binary Addition and Subtraction With Negative Numbers, 2's Complements & Signed Magnitude",
+     "channel": "The Organic Chemistry Tutor",
+     "channel_url": "https://www.youtube.com/@TheOrganicChemistryTutor",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

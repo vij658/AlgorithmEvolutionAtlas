@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**87 of 380 concepts searched, 223 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**88 of 380 concepts searched, 226 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -371,6 +371,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | binary numbers | [The binary number system](https://www.youtube.com/watch?v=sXxwr66Y79Y) | Khan Academy Computing | Start |
 |  | [Binary Explained in 01100100 Seconds](https://www.youtube.com/watch?v=zDNaUi2cjv4) | Fireship | Start |
 |  | [Understanding the Binary Numbering System](https://www.youtube.com/watch?v=LwR2qVJof14) | GuruBrew | Start |
-| binary addition | *not searched yet* | | |
+| binary addition | [How to do binary addition - it's easy when you remember the rules!](https://www.youtube.com/watch?v=eIvBFbreqXY) | Mark Harrison | Start |
+|  | [Binary addition \| How to add binary numbers \| Digital Electronics](https://www.youtube.com/watch?v=Jeb_J7xZf9A) | Learning Vibes | Start |
+|  | [Binary Addition and Subtraction With Negative Numbers, 2's Complements & Signed Magnitude](https://www.youtube.com/watch?v=sJXTo3EZoxM) | The Organic Chemistry Tutor | Deeper |
 | Leibniz binary I Ching | *not searched yet* | | |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 25,
+ "rounds": 26,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -775,6 +775,40 @@
      "channel": "Carlos Mascioni",
      "channel_url": "https://www.youtube.com/@carlosmascioni",
      "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-07-c1": {
+   "searched": "2026-10-27",
+   "query": "greatest common divisor explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Spanish-language video, a word-meaning clip, and 'easy way' trick videos",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Adtx9h0Hcy0",
+     "title": "Greatest Common Divisor (GCD) Explained Visually",
+     "channel": "Sciwords",
+     "channel_url": "https://www.youtube.com/@Sciwords0",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=y1rVfa1nhjw",
+     "title": "Greatest Common Divisors (GCDs)",
+     "channel": "Socratica",
+     "channel_url": "https://www.youtube.com/@Socratica",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=4YfUrNoJ2pE",
+     "title": "Introduction to Number Theory, Part 2: Greatest Common Divisors",
+     "channel": "K-Theory",
+     "channel_url": "https://www.youtube.com/@k-theory8604",
+     "level": "deeper",
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],

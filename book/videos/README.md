@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**25 of 380 concepts searched, 66 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**26 of 380 concepts searched, 69 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -108,4 +108,15 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Counting Board Abacus: 10.1 Roman Calculations](https://www.youtube.com/watch?v=MHcRxooUIUg) | sks23cu | Start |
 |  | [Math History 1.10 Counting Boards Rods and Abacus](https://www.youtube.com/watch?v=uMBHkDiKLlI) | Dr. Jack L. Jackson II | Deeper |
 | Salamis tablet | [Salamis Tablet Evolution](https://www.youtube.com/watch?v=zfEr2ybuILY) | Carlos Mascioni | Start |
+
+### Euclid's Algorithm ([in the book](../era-01-the-first-algorithms/07-euclids-algorithm/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| greatest common divisor | [Greatest Common Divisor (GCD) Explained Visually](https://www.youtube.com/watch?v=Adtx9h0Hcy0) | Sciwords | Start |
+|  | [Greatest Common Divisors (GCDs)](https://www.youtube.com/watch?v=y1rVfa1nhjw) | Socratica | Start |
+|  | [Introduction to Number Theory, Part 2: Greatest Common Divisors](https://www.youtube.com/watch?v=4YfUrNoJ2pE) | K-Theory | Deeper |
+| Euclidean algorithm | *not searched yet* | | |
+| Euclid's Elements | *not searched yet* | | |
+| Euclidean algorithm running time Lamé | *not searched yet* | | |
 

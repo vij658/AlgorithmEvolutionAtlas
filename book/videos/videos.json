@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 146,
+ "rounds": 147,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4373,11 +4373,37 @@
     }
    ],
    "tries": 1
+  },
+  "e4-11-c3": {
+   "searched": "2026-10-27",
+   "query": "George Dantzig simplex linear programming history interview",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Spanish video, a Short, a 'remastered audio' reupload of the INFORMS interview, a 'mastermind' biography from an unidentified channel, and simplex worked examples (listed under the method)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=tdwnPbBW07c",
+     "title": "The Engines of Our Ingenuity 2327: George Dantzig",
+     "channel": "Houston Public Media",
+     "channel_url": "https://www.youtube.com/@HoustonPublicMedia",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=5WD3g8IwUew",
+     "title": "George Dantzig Interview",
+     "channel": "INFORMS",
+     "channel_url": "https://www.youtube.com/@INFORMSonline",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**61 of 380 concepts searched, 154 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**62 of 380 concepts searched, 156 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -260,5 +260,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Nested Scheme - Horner’s Method - Evaluating Polynomials](https://www.youtube.com/watch?v=Z393AcN_Gz0) | Radford Mathematics | Start |
 |  | [Horner's Method 2: Why it works for computing function values](https://www.youtube.com/watch?v=RGrmEWj38bs) | mathAHA | Deeper |
 | Qin Jiushao mathematics | [Math History 5.3 Chinese Mathematics and Mathematicians](https://www.youtube.com/watch?v=3HepIVKLVUA) | Dr. Jack L. Jackson II | Deeper |
-| Ruffini Horner root finding digit by digit | *not searched yet* | | |
+| Ruffini Horner root finding digit by digit | [Horner's Method 3: Why it works for polynomial long division](https://www.youtube.com/watch?v=E_G0rKE2O_k) | mathAHA | Deeper |
+|  | [Horner's Method Applied](https://www.youtube.com/watch?v=EOuGtGzqZHs) | Adam Glesser | Deeper |
 

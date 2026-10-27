@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 63,
+ "rounds": 64,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1841,11 +1841,37 @@
     }
    ],
    "tries": 1
+  },
+  "e2-09-c3": {
+   "searched": "2026-10-27",
+   "query": "Horner's method finding roots digit by digit Ruffini",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "no video found on the digit-by-digit root method itself; Spanish- and Italian-language Ruffini videos; a playlist. The two listed cover the synthetic division (Ruffini's rule) the method repeats",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=E_G0rKE2O_k",
+     "title": "Horner's Method 3: Why it works for polynomial long division",
+     "channel": "mathAHA",
+     "channel_url": "https://www.youtube.com/@mathaha2922",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=EOuGtGzqZHs",
+     "title": "Horner's Method Applied",
+     "channel": "Adam Glesser",
+     "channel_url": "https://www.youtube.com/@AdamGlesser",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 35,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

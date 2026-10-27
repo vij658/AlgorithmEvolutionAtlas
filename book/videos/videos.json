@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 143,
+ "rounds": 144,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4279,11 +4279,37 @@
     }
    ],
    "tries": 1
+  },
+  "e4-10-c3": {
+   "searched": "2026-10-27",
+   "query": "middle square method random number generator von Neumann",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "exam-syllabus clips, Java GUI coding lessons, short uploads from unidentified channels, and a Mersenne Twister video (a later generator)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Ac4Z1VMsE3E",
+     "title": "How Do Machines Generate Randomness?",
+     "channel": "Art of the Problem",
+     "channel_url": "https://www.youtube.com/@ArtOfTheProblem",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=Xhw3Be3gtto",
+     "title": "Lecture 12: Random number generator (Midsquare & Linear Congruential algorithm)",
+     "channel": "Parimita Roy (Wanderbliss)",
+     "channel_url": "https://www.youtube.com/@Mathematician-pari",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 20,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

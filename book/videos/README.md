@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**140 of 380 concepts searched, 360 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**141 of 380 concepts searched, 362 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -595,5 +595,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Life Is Not A Homework Problem: The Monte Carlo Method](https://www.youtube.com/watch?v=vIY_J85hHdw) | Carlos Fernandez-Granda | Deeper |
 |  | [6. Monte Carlo Simulation](https://www.youtube.com/watch?v=OgO1gpXSUzU) | MIT OpenCourseWare | Deeper |
 | Ulam von Neumann Monte Carlo ENIAC | [The Monte Carlo Algorithm - George Dyson](https://www.youtube.com/watch?v=TtcB1MOlNiY) | O'Reilly | Deeper |
-| middle square random number generator | *not searched yet* | | |
+| middle square random number generator | [How Do Machines Generate Randomness?](https://www.youtube.com/watch?v=Ac4Z1VMsE3E) | Art of the Problem | Start |
+|  | [Lecture 12: Random number generator (Midsquare & Linear Congruential algorithm)](https://www.youtube.com/watch?v=Xhw3Be3gtto) | Parimita Roy (Wanderbliss) | Deeper |
 

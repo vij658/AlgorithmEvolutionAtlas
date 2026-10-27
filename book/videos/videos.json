@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 159,
+ "rounds": 160,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4783,11 +4783,37 @@
     }
    ],
    "tries": 1
+  },
+  "e5-02-c4": {
+   "searched": "2026-10-27",
+   "query": "Kleene star regular languages closure explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Urdu/Hindi lectures, a course lecture whose language could not be confirmed, numbered exam-course clips, and a context-free closure video (a later topic)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=tBFLKLzpO8M",
+     "title": "Regular Languages are Closed Under Kleene Star | Theory of Computation",
+     "channel": "TrevTutor",
+     "channel_url": "https://www.youtube.com/@Trevtutor",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=CuYZIsBSguw",
+     "title": "Closure Properties of Regular Languages + Proofs",
+     "channel": "Easy Theory",
+     "channel_url": "https://www.youtube.com/@EasyTheory",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

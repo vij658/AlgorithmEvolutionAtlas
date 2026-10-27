@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 6,
+ "rounds": 7,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -193,6 +193,32 @@
      "channel": "Excellup",
      "channel_url": "https://www.youtube.com/@excellup9268",
      "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-01-c3": {
+   "searched": "2026-10-27",
+   "query": "Ishango bone",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "titles that state disputed readings as fact (a calculator, proof of who invented mathematics, 'changes everything'), and an unnamed channel",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=6-V-88jUjCg",
+     "title": "What are the Ishango & Lebombo bones?",
+     "channel": "veritas et caritas",
+     "channel_url": "https://www.youtube.com/@veritasetcaritas",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=o1nB5sRFpVE",
+     "title": "Ishango Bone (Mathematics in the Modern World, GE Curriculum Higher Education)",
+     "channel": "Great Deeds Academy",
+     "channel_url": "https://www.youtube.com/@greatdeedsacademy",
+     "level": "deeper",
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],

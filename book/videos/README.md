@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**6 of 380 concepts searched, 17 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**7 of 380 concepts searched, 19 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -34,6 +34,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | tally marks | [Tally Marks Explained \| How to Count & Record Data \|](https://www.youtube.com/watch?v=90e7pXCO-Gs) | Codex Learn | Start |
 |  | [The Different Ways to Tally](https://www.youtube.com/watch?v=aPZbXonPGHc) | Smorious | Start |
 |  | [History of Tally Sticks](https://www.youtube.com/watch?v=_wHIk-_HJR8) | Excellup | Start |
-| Ishango bone | *not searched yet* | | |
+| Ishango bone | [What are the Ishango & Lebombo bones?](https://www.youtube.com/watch?v=6-V-88jUjCg) | veritas et caritas | Start |
+|  | [Ishango Bone (Mathematics in the Modern World, GE Curriculum Higher Education)](https://www.youtube.com/watch?v=o1nB5sRFpVE) | Great Deeds Academy | Deeper |
 | Lebombo bone | *not searched yet* | | |
 

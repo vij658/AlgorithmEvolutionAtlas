@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 157,
+ "rounds": 158,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4731,11 +4731,37 @@
     }
    ],
    "tries": 1
+  },
+  "e5-02-c2": {
+   "searched": "2026-10-27",
+   "query": "finite automata explained DFA NFA",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "an 'in 5 minutes' video, exam-style difference lists, and a clear animated pair from a channel identified only by a first name. Note: the Computerphile video did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=vhiiia1_hC4",
+     "title": "Computers Without Memory - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=9B0gNXFEklU",
+     "title": "DFA vs. NFA",
+     "channel": "Neso Academy",
+     "channel_url": "https://www.youtube.com/@nesoacademy",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

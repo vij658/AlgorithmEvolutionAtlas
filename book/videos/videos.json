@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 138,
+ "rounds": 139,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4133,11 +4133,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-09-c1": {
+   "searched": "2026-10-27",
+   "query": "von Neumann architecture explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Hindi-language lecture, 'in 3 minutes' and 'can't tell code from data' titles from unidentified channels, and a Harvard-vs-von-Neumann comparison (a side topic)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=5BpgAHBZgec",
+     "title": "The Von Neumann Architecture",
+     "channel": "Engineers Minute",
+     "channel_url": "https://www.youtube.com/@engineersminute",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=SbqXqQ-2ixs",
+     "title": "The CPU and Von Neumann Architecture",
+     "channel": "MrBrownCS",
+     "channel_url": "https://www.youtube.com/@MrBrownCS",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=RpPo1BGiScY",
+     "title": "Von Neumann Architecture and the PC, MAR, MDR, and ACC Registers",
+     "channel": "MrBrownCS",
+     "channel_url": "https://www.youtube.com/@MrBrownCS",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 25,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

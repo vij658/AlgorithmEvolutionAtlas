@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**135 of 380 concepts searched, 348 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**136 of 380 concepts searched, 351 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -573,4 +573,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Turing Bombe | [Breaking Enigma - How WWII’s Greatest Codebreaker Worked](https://www.youtube.com/watch?v=H-o9VbvFbYQ) | DrMattRegan | Start |
 |  | [The Turing Welchman Bombe - The Rebuild Story](https://www.youtube.com/watch?v=PYUR9Ertj-g) | Turing Welchman Bombe Rebuild Project | Start |
 |  | [Enigma Codebreaking with the Turing-Welchman Bombe - do it yourself!](https://www.youtube.com/watch?v=eHzsAoKXmZM) | Jens Puhle | Deeper |
+
+### The Stored Program, and Merge Sort ([in the book](../era-04-what-can-be-computed/09-stored-program/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| von Neumann architecture | [The Von Neumann Architecture](https://www.youtube.com/watch?v=5BpgAHBZgec) | Engineers Minute | Start |
+|  | [The CPU and Von Neumann Architecture](https://www.youtube.com/watch?v=SbqXqQ-2ixs) | MrBrownCS | Start |
+|  | [Von Neumann Architecture and the PC, MAR, MDR, and ACC Registers](https://www.youtube.com/watch?v=RpPo1BGiScY) | MrBrownCS | Deeper |
+| EDVAC stored program | *not searched yet* | | |
+| merge sort | *not searched yet* | | |
 

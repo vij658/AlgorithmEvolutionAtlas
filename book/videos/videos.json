@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 110,
+ "rounds": 111,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3287,11 +3287,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-13-c1": {
+   "searched": "2026-10-27",
+   "query": "punched cards history how they work",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Shorts, a CNC punch-tape video, and a 'world's first' claim",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=0065zKzeCWI",
+     "title": "IBM Punched Cards Explained - Video 207",
+     "channel": "Anthony Francis-Jones",
+     "channel_url": "https://www.youtube.com/@AnthonyFrancisJones",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=KG2M4ttzBnY",
+     "title": "Punch Card Programming - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=kaQmAybWn-w",
+     "title": "Basic Operation of the IBM 029 Card Punch (1967)",
+     "channel": "Sinclair Target",
+     "channel_url": "https://www.youtube.com/@sinclairtarget8370",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 1
  }
 }

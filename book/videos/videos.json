@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 173,
+ "rounds": 174,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5185,11 +5185,37 @@
     }
    ],
    "tries": 1
+  },
+  "e5-07-c1": {
+   "searched": "2026-10-27",
+   "query": "shortest path problem graphs introduction",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Dijkstra and Bellman-Ford videos (kept for their own concepts), a games-and-entertainment channel, an Arabic-dubbed upload, and numbered course clips",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=38G5uSxylaY",
+     "title": "Graph Theory: 20. Edge Weighted Shortest Path Problem",
+     "channel": "Sarada Herke",
+     "channel_url": "https://www.youtube.com/@SaradaHerke",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=T_m27bhVQQQ",
+     "title": "Breadth First Search - Finding Shortest Paths in Unweighted Graphs",
+     "channel": "Mary Elaine Califf",
+     "channel_url": "https://www.youtube.com/@maryelainecaliff",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

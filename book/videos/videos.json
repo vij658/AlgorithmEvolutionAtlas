@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 60,
+ "rounds": 61,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1755,11 +1755,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-08-c3": {
+   "searched": "2026-10-27",
+   "query": "Fibonacci numbers golden ratio",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'golden ratio in everyday life' and 'mind blown' videos, which repeat claims mathematicians dispute, and a Short",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=SzL81tQ8T5c",
+     "title": "Calculate Phi (THE GOLDEN RATIO) using the Fibonacci Sequence!",
+     "channel": "Calculus by Christee",
+     "channel_url": "https://www.youtube.com/@CalculusbyChristee",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=XiG_gNOyews",
+     "title": "The Golden Ratio and the Fibonacci Numbers",
+     "channel": "vinteachesmath",
+     "channel_url": "https://www.youtube.com/@vinteachesmath",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=by1l9rEdLi0",
+     "title": "Ratio of two successive Fibonacci number is Golden Ratio (φ)",
+     "channel": "Math by LEO",
+     "channel_url": "https://www.youtube.com/@mathbyleo",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
-  "delay": 40,
-  "clean": 4,
+  "delay": 35,
+  "clean": 0,
   "rejects": 1
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**138 of 380 concepts searched, 356 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**139 of 380 concepts searched, 359 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -586,4 +586,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | merge sort | [Learn Merge Sort in 13 minutes 🔪](https://www.youtube.com/watch?v=3j0SWDX4AtU) | Bro Code | Start |
 |  | [Merge Sort Explained - Algorithms & Data Structures #12](https://www.youtube.com/watch?v=ZUJK2mgn8I8) | NeuralNine | Start |
 |  | [7.7 Merge Sort in Data Structure \| Sorting Algorithms\| DSA Full Course](https://www.youtube.com/watch?v=jlHkDBEumP0) | Jenny's Lectures CS IT | Deeper |
+
+### Monte Carlo ([in the book](../era-04-what-can-be-computed/10-monte-carlo/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| Monte Carlo method | [Monte Carlo Simulation](https://www.youtube.com/watch?v=7ESK5SaP-bc) | MarbleScience | Start |
+|  | [Life Is Not A Homework Problem: The Monte Carlo Method](https://www.youtube.com/watch?v=vIY_J85hHdw) | Carlos Fernandez-Granda | Deeper |
+|  | [6. Monte Carlo Simulation](https://www.youtube.com/watch?v=OgO1gpXSUzU) | MIT OpenCourseWare | Deeper |
+| Ulam von Neumann Monte Carlo ENIAC | *not searched yet* | | |
+| middle square random number generator | *not searched yet* | | |
 

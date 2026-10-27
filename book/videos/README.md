@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**30 of 380 concepts searched, 79 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**31 of 380 concepts searched, 82 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -131,6 +131,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | what is pi | [What is PI? 🟡 π ⭕ A Logical Explanation](https://www.youtube.com/watch?v=15tSavbsu2w) | Smile and Learn - English | Start |
 |  | [Pi and the circumference of a circle](https://www.youtube.com/watch?v=k28N4735v4Q) | Math Mammoth | Start |
 |  | [What is Pi? (π explained)](https://www.youtube.com/watch?v=wNcFAQHJWAU) | VAM! Physics & Engineering | Start |
-| Archimedes approximation of pi polygons | *not searched yet* | | |
+| Archimedes approximation of pi polygons | [How can you approximate Pi using Geometry?](https://www.youtube.com/watch?v=iwjphFGZSEE) | Tom Rocks Maths | Start |
+|  | [Finding Pi by Archimedes' Method](https://www.youtube.com/watch?v=_rJdkhlWZVQ) | MathWithoutBorders | Start |
+|  | [Pi = 3.1415 Proof: Archimedes' Geometric Proof](https://www.youtube.com/watch?v=gj-u8qXdmJA) | Math Easy Solutions | Deeper |
 | Archimedes Measurement of a Circle | *not searched yet* | | |
 

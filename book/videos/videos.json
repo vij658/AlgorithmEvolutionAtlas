@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 30,
+ "rounds": 31,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -929,6 +929,40 @@
      "channel": "VAM! Physics & Engineering",
      "channel_url": "https://www.youtube.com/@VAM_Physics_and_Engineering",
      "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-08-c2": {
+   "searched": "2026-10-27",
+   "query": "Archimedes approximation of pi polygons",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a MATLAB tutorial, a news clip about a search-engine doodle, and a recursion coding video",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=iwjphFGZSEE",
+     "title": "How can you approximate Pi using Geometry?",
+     "channel": "Tom Rocks Maths",
+     "channel_url": "https://www.youtube.com/@TomRocksMaths",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=_rJdkhlWZVQ",
+     "title": "Finding Pi by Archimedes' Method",
+     "channel": "MathWithoutBorders",
+     "channel_url": "https://www.youtube.com/@MathWithoutBorders",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=gj-u8qXdmJA",
+     "title": "Pi = 3.1415 Proof: Archimedes' Geometric Proof",
+     "channel": "Math Easy Solutions",
+     "channel_url": "https://www.youtube.com/@mes",
+     "level": "deeper",
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],

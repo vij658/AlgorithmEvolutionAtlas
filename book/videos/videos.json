@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 26,
+ "rounds": 27,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -808,6 +808,40 @@
      "title": "Introduction to Number Theory, Part 2: Greatest Common Divisors",
      "channel": "K-Theory",
      "channel_url": "https://www.youtube.com/@k-theory8604",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-07-c2": {
+   "searched": "2026-10-27",
+   "query": "Euclidean algorithm",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "extended-algorithm videos (a principles-catalog idea of its own) and 'so easy' variants of the same example",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=yHwneN6zJmU",
+     "title": "GCD - Euclidean Algorithm (Method 1)",
+     "channel": "Neso Academy",
+     "channel_url": "https://www.youtube.com/@nesoacademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=5LhWIaWlprM",
+     "title": "Discrete Math - 4.3.3 The Euclidean Algorithm",
+     "channel": "Kimberly Brehm",
+     "channel_url": "https://www.youtube.com/@SawFinMath",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=H_2_nqKAZ5w",
+     "title": "Euclidean Algorithm (Proof)",
+     "channel": "Math Matters",
+     "channel_url": "https://www.youtube.com/@MathMatters",
      "level": "deeper",
      "checked": "YouTube oEmbed, 2026-10-27"
     }

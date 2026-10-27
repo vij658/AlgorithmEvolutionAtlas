@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 41,
+ "rounds": 42,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1257,11 +1257,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-02-c3": {
+   "searched": "2026-10-27",
+   "query": "Ptolemy's theorem cyclic quadrilateral proof",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, a complex-number proof (further afield), and contest-problem solutions",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=U7bW1JKGezQ",
+     "title": "VISUAL PROOF - PTOLEMY THEOREM",
+     "channel": "Centum Academy",
+     "channel_url": "https://www.youtube.com/@CentumAcademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=pzUOPxLmmbg",
+     "title": "Ptolemy's Theorem: Simple proof using similarity of triangles.",
+     "channel": "Prime Maths",
+     "channel_url": "https://www.youtube.com/@PrimeMaths",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=TlzCEwGp4VM",
+     "title": "How to Prove Ptolemy's Theorem for Cyclic Quadrilaterals",
+     "channel": "Mohamed Omar",
+     "channel_url": "https://www.youtube.com/@ProfOmarMath",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 55,
-  "clean": 0,
+  "clean": 1,
   "rejects": 1
  }
 }

@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 44,
+ "rounds": 45,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1359,11 +1359,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-03-c3": {
+   "searched": "2026-10-27",
+   "query": "Sunzi Suanjing remainder problem history Sun Tzu",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "videos about Sun Tzu the general and The Art of War (a different person), and Shorts",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=eu9ysTIsmoU",
+     "title": "Sun Tzu's Chinese Remainder Theorem from Ancient China",
+     "channel": "Existsforall Academy",
+     "channel_url": "https://www.youtube.com/@ExistsforallAcademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=kafREW2sX0M",
+     "title": "Sun Zi's Theorem (aka The Chinese Remainder Theorem)",
+     "channel": "Andrew Misseldine",
+     "channel_url": "https://www.youtube.com/@Misseldine",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=GV-M6dqCzAw",
+     "title": "Lecture 10 - Sun Tzu's Remainder Theorem",
+     "channel": "Thomas Carr - Math Lectures",
+     "channel_url": "https://www.youtube.com/@thomascarr-mathlectures",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 55,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**158 of 380 concepts searched, 407 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**159 of 380 concepts searched, 410 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -674,6 +674,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | data compression basics | [Compression: Crash Course Computer Science #21](https://www.youtube.com/watch?v=OtDxDvCpPL4) | CrashCourse | Start |
 |  | [Data Compression Explained: Lossless and Lossy Encoding](https://www.youtube.com/watch?v=gmHoX_EqWF4) | Coding Coach | Start |
-| Huffman coding | *not searched yet* | | |
+| Huffman coding | [How Computers Compress Text: Huffman Coding and Huffman Trees](https://www.youtube.com/watch?v=JsTptu56GM8) | Tom Scott | Start |
+|  | [3.4 Huffman Coding - Greedy Method](https://www.youtube.com/watch?v=co4_ahEDCho) | Abdul Bari | Deeper |
+|  | [Huffman Codes: An Information Theory Perspective](https://www.youtube.com/watch?v=B3y0RsVCyrw) | Reducible | Deeper |
 | prefix codes | *not searched yet* | | |
 

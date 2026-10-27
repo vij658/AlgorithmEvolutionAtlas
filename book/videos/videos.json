@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 161,
+ "rounds": 162,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4835,11 +4835,45 @@
     }
    ],
    "tries": 1
+  },
+  "e5-03-c2": {
+   "searched": "2026-10-27",
+   "query": "Huffman coding explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, quaternary-code and digital-communication exam videos, 'clearly explained' and 'visually explained' uploads from unidentified channels. Note: none of the three listed appeared in this search; Tom Scott's was found in the previous round's search, the other two were recalled; all three were confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=JsTptu56GM8",
+     "title": "How Computers Compress Text: Huffman Coding and Huffman Trees",
+     "channel": "Tom Scott",
+     "channel_url": "https://www.youtube.com/@TomScottGo",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=co4_ahEDCho",
+     "title": "3.4 Huffman Coding - Greedy Method",
+     "channel": "Abdul Bari",
+     "channel_url": "https://www.youtube.com/@abdul_bari",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=B3y0RsVCyrw",
+     "title": "Huffman Codes: An Information Theory Perspective",
+     "channel": "Reducible",
+     "channel_url": "https://www.youtube.com/@Reducible",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

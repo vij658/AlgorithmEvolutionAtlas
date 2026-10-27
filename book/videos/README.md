@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**13 of 380 concepts searched, 35 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**14 of 380 concepts searched, 38 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -62,5 +62,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | place value number system | [What Is Place Value](https://www.youtube.com/watch?v=BL6pGhnBdj8) | Minity Maths | Start |
 |  | [What is Base 10 Place Value](https://www.youtube.com/watch?v=f4UoZSghQws) | JoAnn's School | Start |
 |  | [Learn Place Value In 7 Minutes](https://www.youtube.com/watch?v=mf5ynlcJOTg) | TabletClass Math | Start |
-| Babylonian reciprocal tables division | *not searched yet* | | |
+| Babylonian reciprocal tables division | [Finding reciprocals, Mesopotamian Style](https://www.youtube.com/watch?v=eyZ9DgKyXPQ) | The Random Professor | Start |
+|  | [Divide like a Babylonian! With our new "centimal" arithmetic (base 100) \| Sociology and pure maths](https://www.youtube.com/watch?v=dVOogx94Jao) | Insights into Mathematics | Deeper |
+|  | [Old Babylonian mathematics and Plimpton 322: The remarkable OB sexagesimal system](https://www.youtube.com/watch?v=J5Ug3Cr8RUE) | Insights into Mathematics | Scholar |
 

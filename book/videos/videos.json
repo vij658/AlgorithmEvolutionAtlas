@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 13,
+ "rounds": 14,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -407,6 +407,40 @@
      "channel": "TabletClass Math",
      "channel_url": "https://www.youtube.com/@tabletclass",
      "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-03-c3": {
+   "searched": "2026-10-27",
+   "query": "Babylonian reciprocal tables division",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Shorts, 'world's first trig table' claims, and multiplication-trick videos",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=eyZ9DgKyXPQ",
+     "title": "Finding reciprocals, Mesopotamian Style",
+     "channel": "The Random Professor",
+     "channel_url": "https://www.youtube.com/@TheRandomProfessor",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=dVOogx94Jao",
+     "title": "Divide like a Babylonian! With our new \"centimal\" arithmetic (base 100) | Sociology and pure maths",
+     "channel": "Insights into Mathematics",
+     "channel_url": "https://www.youtube.com/@njwildberger",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=J5Ug3Cr8RUE",
+     "title": "Old Babylonian mathematics and Plimpton 322: The remarkable OB sexagesimal system",
+     "channel": "Insights into Mathematics",
+     "channel_url": "https://www.youtube.com/@njwildberger",
+     "level": "scholar",
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],

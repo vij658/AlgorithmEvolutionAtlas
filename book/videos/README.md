@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**49 of 380 concepts searched, 130 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**50 of 380 concepts searched, 130 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -215,5 +215,5 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Brahmagupta identity composition | [Brahmagupta's method for finding integer solutions to Dx^2+1=y^2 (MATH 3010)](https://www.youtube.com/watch?v=9G8Rp2pFDuQ) | Dr. Noble's Math Videos | Deeper |
 |  | [Week 12-Lecture 62 : Brahmagupta-Pell equations](https://www.youtube.com/watch?v=N8R5CiFIgK4) | NPTEL IIT Bombay | Deeper |
 |  | [C S Aravinda - Brahmagupta’s bhavana : Reading Maths from Sanskrit Texts](https://www.youtube.com/watch?v=WO6TLvHsytk) | Indian Institute of World Culture - IIWC | Scholar |
-| chakravala method Bhaskara | *not searched yet* | | |
+| chakravala method Bhaskara | *no suitable video found* | | |
 

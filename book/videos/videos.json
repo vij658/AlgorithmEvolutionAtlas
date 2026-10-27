@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 180,
+ "rounds": 181,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5374,11 +5374,37 @@
     }
    ],
    "tries": 1
+  },
+  "e5-09-c1": {
+   "searched": "2026-10-27",
+   "query": "perceptron explained neural network",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Hindi tutorial, an 'in 2 minutes' clip, a numbered exam lecture, a channel that borrows another channel's title style, and 'how it works and when to use it' videos from unidentified channels. Note: the Coding Train video did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=ntKn5TPHHAk",
+     "title": "10.2: Neural Networks: Perceptron Part 1 - The Nature of Code",
+     "channel": "The Coding Train",
+     "channel_url": "https://www.youtube.com/@TheCodingTrain",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=keq-e9EmC2M",
+     "title": "Perceptron - Explained!",
+     "channel": "CodeEmporium",
+     "channel_url": "https://www.youtube.com/@CodeEmporium",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

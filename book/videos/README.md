@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**176 of 380 concepts searched, 452 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**177 of 380 concepts searched, 454 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -745,4 +745,13 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Programming Language Syntax: Backus-Naur Form (BNF)](https://www.youtube.com/watch?v=MMxMeX5emUA) | Jacob Schrum | Deeper |
 | parsing expressions | [Parsing Explained - Computerphile](https://www.youtube.com/watch?v=bxpc9Pp5pZM) | Computerphile | Start |
 |  | [#10: Recursive Descent Parsing](https://www.youtube.com/watch?v=dZal5tpKxb8) | Shreyas Nisal | Deeper |
+
+### Rosenblatt's Perceptron ([in the book](../era-05-the-programmers-craft/09-perceptron/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| perceptron | [10.2: Neural Networks: Perceptron Part 1 - The Nature of Code](https://www.youtube.com/watch?v=ntKn5TPHHAk) | The Coding Train | Start |
+|  | [Perceptron - Explained!](https://www.youtube.com/watch?v=keq-e9EmC2M) | CodeEmporium | Deeper |
+| Rosenblatt Mark I perceptron | *not searched yet* | | |
+| perceptron convergence theorem | *not searched yet* | | |
 

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**64 of 380 concepts searched, 162 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**65 of 380 concepts searched, 164 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -273,5 +273,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Madhava Leibniz series | [The First Infinite Series for Pi](https://www.youtube.com/watch?v=MqtqY5-atuo) | Euler's Academy | Start |
 |  | [Powell’s Pi Paradox: the genius 14th century Indian solution](https://www.youtube.com/watch?v=ypxKzWi-Bwg) | Mathologer | Deeper |
 |  | [Leibniz Formula for pi, using the series of ln(1+z)](https://www.youtube.com/watch?v=lOpAVZUQGJ4) | blackpenredpen | Deeper |
-| Kerala school of mathematics | *not searched yet* | | |
+| Kerala school of mathematics | [Kerala School of Astronomy and Mathematics Part 1 of 3](https://www.youtube.com/watch?v=QyyuAMi6vmk) | Amrita School of Spiritual & Cultural Studies | Deeper |
+|  | [Kerala School of Mathematics and Astronomy - K. Ramasubramanian - #IndicTalks](https://www.youtube.com/watch?v=PxsEeB9Qg4Y) | Centre for Indic Studies | Scholar |
 

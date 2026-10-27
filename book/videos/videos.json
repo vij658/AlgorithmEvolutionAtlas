@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 66,
+ "rounds": 67,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1935,11 +1935,37 @@
     }
    ],
    "tries": 1
+  },
+  "e2-10-c3": {
+   "searched": "2026-10-27",
+   "query": "Kerala school of mathematics",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "results about the present-day Kerala School of Mathematics institute in Kozhikode, school lessons, and a 'untold history' film from a channel left out earlier",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=QyyuAMi6vmk",
+     "title": "Kerala School of Astronomy and Mathematics Part 1 of 3",
+     "channel": "Amrita School of Spiritual & Cultural Studies",
+     "channel_url": "https://www.youtube.com/@amritadarshanam",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=PxsEeB9Qg4Y",
+     "title": "Kerala School of Mathematics and Astronomy - K. Ramasubramanian - #IndicTalks",
+     "channel": "Centre for Indic Studies",
+     "channel_url": "https://www.youtube.com/@CentreforIndicStudies",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 30,
-  "clean": 0,
+  "clean": 1,
   "rejects": 1
  }
 }

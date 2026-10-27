@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 10,
+ "rounds": 11,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -304,6 +304,40 @@
      "title": "You Can Write Cuneiform Numbers 1 20! (part 1)",
      "channel": "GiskAkina",
      "channel_url": "https://www.youtube.com/@GiskAkina",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-02-c3": {
+   "searched": "2026-10-27",
+   "query": "ancient Egyptian addition grouping carrying numerals",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "videos already listed for Egyptian numerals, multiplication (a later idea), and a mobile duplicate link",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Bw9BsMfTXpk",
+     "title": "Egyptian Hieroglyph Addition Example 1",
+     "channel": "Joey Harbour",
+     "channel_url": "https://www.youtube.com/@JoeyHarbour",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=iaSwsGX6-2k",
+     "title": "Egyptian Hieroglyph Addition Example 3",
+     "channel": "Joey Harbour",
+     "channel_url": "https://www.youtube.com/@JoeyHarbour",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=7Y6FVfOFaGA",
+     "title": "The Egyptian Numeration System",
+     "channel": "Math Videos that Motivate",
+     "channel_url": "https://www.youtube.com/@mathvideosthatmotivate",
      "level": "start",
      "checked": "YouTube oEmbed, 2026-10-27"
     }

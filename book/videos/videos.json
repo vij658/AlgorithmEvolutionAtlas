@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 39,
+ "rounds": 40,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1189,11 +1189,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-02-c1": {
+   "searched": "2026-10-27",
+   "query": "chord function trigonometry history before sine",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "general trigonometry overviews that skip the chord, and a mobile duplicate link",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=W0LIrTZYPFE",
+     "title": "Who Invented Trigonometry: History in a Minute (Episode #86)",
+     "channel": "Homeschool Connections",
+     "channel_url": "https://www.youtube.com/@homeschoolconnection",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=zGmIhevmDIQ",
+     "title": "Chords, Sines, and Cosines",
+     "channel": "Dusty Jones",
+     "channel_url": "https://www.youtube.com/@jonesmathed",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=llA6iW043XU",
+     "title": "Origin of the Sine Function Part 1",
+     "channel": "Saul Rémi Hernandez",
+     "channel_url": "https://www.youtube.com/@saulremi",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 60,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

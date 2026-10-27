@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**48 of 380 concepts searched, 127 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**49 of 380 concepts searched, 130 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -212,6 +212,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Pell's equation | [Pell's Equation Basics](https://www.youtube.com/watch?v=Ni0CHH2v5uQ) | Prime Newtons | Start |
 |  | [★★ [EN] The Pell's Equation, a millenary old problem](https://www.youtube.com/watch?v=vmETw2Iq5M4) | Quadriviuum Tremens | Deeper |
 |  | [[ANT08] Continued fractions, Pell's equation, and units of Z[√d]](https://www.youtube.com/watch?v=3ls3z-UzOSw) | Billy Woods | Scholar |
-| Brahmagupta identity composition | *not searched yet* | | |
+| Brahmagupta identity composition | [Brahmagupta's method for finding integer solutions to Dx^2+1=y^2 (MATH 3010)](https://www.youtube.com/watch?v=9G8Rp2pFDuQ) | Dr. Noble's Math Videos | Deeper |
+|  | [Week 12-Lecture 62 : Brahmagupta-Pell equations](https://www.youtube.com/watch?v=N8R5CiFIgK4) | NPTEL IIT Bombay | Deeper |
+|  | [C S Aravinda - Brahmagupta’s bhavana : Reading Maths from Sanskrit Texts](https://www.youtube.com/watch?v=WO6TLvHsytk) | Indian Institute of World Culture - IIWC | Scholar |
 | chakravala method Bhaskara | *not searched yet* | | |
 

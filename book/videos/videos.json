@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 49,
+ "rounds": 50,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1496,11 +1496,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-05-c2": {
+   "searched": "2026-10-27",
+   "query": "Brahmagupta identity composition Pell equation bhavana",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Brahmagupta's area formula (a different result), a French-language video, and a Short",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=9G8Rp2pFDuQ",
+     "title": "Brahmagupta's method for finding integer solutions to Dx^2+1=y^2 (MATH 3010)",
+     "channel": "Dr. Noble's Math Videos",
+     "channel_url": "https://www.youtube.com/@DrNoblesMathVideos",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=N8R5CiFIgK4",
+     "title": "Week 12-Lecture 62 : Brahmagupta-Pell equations",
+     "channel": "NPTEL IIT Bombay",
+     "channel_url": "https://www.youtube.com/@IITBombayJuly",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=WO6TLvHsytk",
+     "title": "C S Aravinda - Brahmagupta’s bhavana : Reading Maths from Sanskrit Texts",
+     "channel": "Indian Institute of World Culture - IIWC",
+     "channel_url": "https://www.youtube.com/@IndianInstituteofWorldCulture",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 50,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

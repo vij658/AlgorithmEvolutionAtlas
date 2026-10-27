@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 95,
+ "rounds": 96,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2849,11 +2849,29 @@
     }
    ],
    "tries": 1
+  },
+  "e3-08-c2": {
+   "searched": "2026-10-27",
+   "query": "Gauss orbit of Ceres prediction 1801",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a class from a politically affiliated channel, question-titled filler channels, Shorts, a Portuguese-language Short, and Ceres videos that skip how its orbit was found",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=lAYxDGt2PLM",
+     "title": "Dwarf planet Ceres discovered in 1801 - On This Day In Space | Jan. 1",
+     "channel": "VideoFromSpace",
+     "channel_url": "https://www.youtube.com/@VideoFromSpace",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 1
  }
 }

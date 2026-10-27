@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 96,
+ "rounds": 97,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2867,11 +2867,37 @@
     }
    ],
    "tries": 1
+  },
+  "e3-08-c3": {
+   "searched": "2026-10-27",
+   "query": "history of least squares Legendre Gauss",
+   "host": "youtube.com",
+   "candidates": 9,
+   "rejected": "Gauss-Legendre quadrature and other unrelated results that share the two names",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=_w51fa96xQ4",
+     "title": "The sordid history of least squares",
+     "channel": "Simplistics (QuantPsych)",
+     "channel_url": "https://www.youtube.com/@simplistics_stats",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=WCP98USBZ0w",
+     "title": "Least Squares vs Maximum Likelihood",
+     "channel": "DataMListic",
+     "channel_url": "https://www.youtube.com/@datamlistic",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 1
  }
 }

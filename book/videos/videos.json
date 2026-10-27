@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 74,
+ "rounds": 75,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2167,11 +2167,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-02-c1": {
+   "searched": "2026-10-27",
+   "query": "what are logarithms explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Shorts and 'best explanation' near-duplicates",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=kqVpPSzkTYA",
+     "title": "Logarithms - The Easy Way!",
+     "channel": "The Organic Chemistry Tutor",
+     "channel_url": "https://www.youtube.com/@TheOrganicChemistryTutor",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=R1PSNQmJbmo",
+     "title": "What is a Logarithm & what are they used for?",
+     "channel": "Jason Gibson",
+     "channel_url": "https://www.youtube.com/@JasonGibsonScience",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=P00OQmNxqr4",
+     "title": "What Is a Logarithm, Really?",
+     "channel": "polymathematic",
+     "channel_url": "https://www.youtube.com/@polymathematic",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 25,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

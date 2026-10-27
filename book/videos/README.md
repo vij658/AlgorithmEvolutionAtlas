@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**72 of 380 concepts searched, 181 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**73 of 380 concepts searched, 184 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -304,4 +304,15 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Tartaglia del Ferro cubic history | [The Math Duel: Cardano vs. Tartaglia – The Betrayal That Changed Algebra](https://www.youtube.com/watch?v=5nV2dXpKBgs) | Historic Lens | Start |
 | imaginary numbers casus irreducibilis | [How Imaginary Numbers Were Invented](https://www.youtube.com/watch?v=cUzklzVXJwo) | Veritasium | Start |
 |  | [Complex Numbers. Imaginary Unit i and exercises (from the original books of Rafael Bombelli 1572)](https://www.youtube.com/watch?v=VMRQMydiMyI) | Roberto Rocchetti | Scholar |
+
+### Logarithms ([in the book](../era-03-tables-and-machines/02-logarithms/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| what are logarithms | [Logarithms - The Easy Way!](https://www.youtube.com/watch?v=kqVpPSzkTYA) | The Organic Chemistry Tutor | Start |
+|  | [What is a Logarithm & what are they used for?](https://www.youtube.com/watch?v=R1PSNQmJbmo) | Jason Gibson | Start |
+|  | [What Is a Logarithm, Really?](https://www.youtube.com/watch?v=P00OQmNxqr4) | polymathematic | Deeper |
+| John Napier logarithms | *not searched yet* | | |
+| Henry Briggs logarithm tables | *not searched yet* | | |
+| how a slide rule works | *not searched yet* | | |
 

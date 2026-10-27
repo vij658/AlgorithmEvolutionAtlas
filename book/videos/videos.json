@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 87,
+ "rounds": 88,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2585,11 +2585,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-05-c3": {
+   "searched": "2026-10-27",
+   "query": "Newton fractal",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "zoom animations without explanation, a shader tutorial, and a French GeoGebra video",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=7RZn3B709wo",
+     "title": "Zooming In on a Newton's Method Fractal",
+     "channel": "57Cell (Michael Hartley)",
+     "channel_url": "https://www.youtube.com/@57Cell",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=MWD2A0Vg2V0",
+     "title": "Newton Fractals",
+     "channel": "Oscar Veliz",
+     "channel_url": "https://www.youtube.com/@OscarVeliz",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=vuL87WfRIQE",
+     "title": "Fractals from Newton’s Method | Lecture 18 | Numerical Methods for Engineers",
+     "channel": "Jeffrey Chasnov",
+     "channel_url": "https://www.youtube.com/@Jeff-math",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

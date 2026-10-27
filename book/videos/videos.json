@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 103,
+ "rounds": 104,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3081,11 +3081,37 @@
     }
    ],
    "tries": 1
+  },
+  "e3-10-c3": {
+   "searched": "2026-10-27",
+   "query": "Difference Engine No. 2 Science Museum Computer History Museum",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "an upload with no named source, a maker-fair clip, and videos already listed for idea 2",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=_o3uejzyILY",
+     "title": "Babbage's DIfference Engine No. 2 in operation",
+     "channel": "Kevin Marks",
+     "channel_url": "https://www.youtube.com/@KevinMarks",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=be1EM3gQkAY",
+     "title": "The Babbage Difference Engine #2 at CHM",
+     "channel": "Computer History Museum",
+     "channel_url": "https://www.youtube.com/@ComputerHistory",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

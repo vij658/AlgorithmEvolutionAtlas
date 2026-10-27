@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 20,
+ "rounds": 21,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -621,6 +621,40 @@
      "channel": "Ed x L",
      "channel_url": "https://www.youtube.com/@edxl9709",
      "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-05-c3": {
+   "searched": "2026-10-27",
+   "query": "Russian peasant multiplication",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "the MindYourDecisions video already listed for Egyptian doubling, 'short-cut trick' videos, and a Python project",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=xrUCL7tGKaI",
+     "title": "Russian Peasant Method of Multiplication",
+     "channel": "mathtrain",
+     "channel_url": "https://www.youtube.com/@MathtrainTv",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=Ij2Q4487FHQ",
+     "title": "How the Russians used Binary to multiply Decimal numbers | Russian Peasant Multiplication | Manim",
+     "channel": "piJack Mathman",
+     "channel_url": "https://www.youtube.com/@piJackMathman",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=DuxgU8A6Cr4",
+     "title": "Multiplication à la Russe (Russian Peasant Multiplication) Algorithm Explained",
+     "channel": "Ahmed Mohamed Mounir",
+     "channel_url": "https://www.youtube.com/@AhmedMohamedMounir",
+     "level": "deeper",
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],

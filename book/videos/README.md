@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**20 of 380 concepts searched, 53 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**21 of 380 concepts searched, 56 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -90,6 +90,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Math History 2.2 Ancient Egyptian Multiplication](https://www.youtube.com/watch?v=YWyyu8tV5OI) | Dr. Jack L. Jackson II | Deeper |
 | Rhind mathematical papyrus | [Unlocking the Rhind Papyrus](https://www.youtube.com/watch?v=2gBGi-sYFmQ) | Knowledge=fun | Start |
 |  | [Egyptian Division - Dividing The Rhind Papyrus Way](https://www.youtube.com/watch?v=lD0zUXLjS4Q) | Ed x L | Start |
-| Russian peasant multiplication | *not searched yet* | | |
+| Russian peasant multiplication | [Russian Peasant Method of Multiplication](https://www.youtube.com/watch?v=xrUCL7tGKaI) | mathtrain | Start |
+|  | [How the Russians used Binary to multiply Decimal numbers \| Russian Peasant Multiplication \| Manim](https://www.youtube.com/watch?v=Ij2Q4487FHQ) | piJack Mathman | Deeper |
+|  | [Multiplication à la Russe (Russian Peasant Multiplication) Algorithm Explained](https://www.youtube.com/watch?v=DuxgU8A6Cr4) | Ahmed Mohamed Mounir | Deeper |
 | exponentiation by squaring | *not searched yet* | | |
 

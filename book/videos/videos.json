@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 90,
+ "rounds": 91,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2687,11 +2687,37 @@
     }
    ],
    "tries": 1
+  },
+  "e3-06-c3": {
+   "searched": "2026-10-27",
+   "query": "Leibniz binary I Ching",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a divination channel, Spanish- and German-language videos, and 'breakthrough' clickbait",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=fVq3F3uVqrY",
+     "title": "The History and Creation of Binary Code",
+     "channel": "Technical Upgrade",
+     "channel_url": "https://www.youtube.com/@TechnicalUpgrade",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=0skwFoGmS4Q",
+     "title": "David Lloyd Dusenbury - Leibniz's I Ching, the Book of Genesis, & the Birth of Binary Code",
+     "channel": "Science, Faith, and Superstition",
+     "channel_url": "https://www.youtube.com/@SciFaS",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 1
  }
 }

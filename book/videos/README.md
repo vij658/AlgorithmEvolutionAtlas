@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**32 of 380 concepts searched, 85 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**33 of 380 concepts searched, 88 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -137,4 +137,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Archimedes Measurement of a Circle | [Why is the area of a circle equal to π r² ??? 2000 year old proof, but with pizza.](https://www.youtube.com/watch?v=8lV37p29nR8) | Dr. Trefor Bazett | Start |
 |  | [Archimedes' Measurement of the Circle pt 1: Why is the area of a circle pi r squared?](https://www.youtube.com/watch?v=lSU1RO33Gqs) | Oliver Thomas | Deeper |
 |  | [Archimedes' Measurement of the Circle part 2: finding pi](https://www.youtube.com/watch?v=uXqSgMi-w1U) | Oliver Thomas | Deeper |
+
+### The Sieve of Eratosthenes ([in the book](../era-01-the-first-algorithms/09-sieve-of-eratosthenes/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| prime numbers explained | [What is a prime number?](https://www.youtube.com/watch?v=0UwHcYaI-vc) | tecmath | Start |
+|  | [Prime Numbers Explained: The Case Against 1](https://www.youtube.com/watch?v=_Cq8HL3wgLw) | polymathematic | Start |
+|  | [Every Proof That There Are Infinitely Many Primes Explained](https://www.youtube.com/watch?v=eyrUkjQYBlE) | ThoughtThrill | Deeper |
+| sieve of Eratosthenes | *not searched yet* | | |
+| sieve of Eratosthenes time complexity | *not searched yet* | | |
 

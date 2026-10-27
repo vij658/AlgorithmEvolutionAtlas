@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 32,
+ "rounds": 33,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -996,6 +996,40 @@
      "title": "Archimedes' Measurement of the Circle part 2: finding pi",
      "channel": "Oliver Thomas",
      "channel_url": "https://www.youtube.com/@OliverThomas1",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-09-c1": {
+   "searched": "2026-10-27",
+   "query": "prime numbers explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, a 'pattern finally explained' clickbait title, and duplicate introductions",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=0UwHcYaI-vc",
+     "title": "What is a prime number?",
+     "channel": "tecmath",
+     "channel_url": "https://www.youtube.com/@tecmath",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=_Cq8HL3wgLw",
+     "title": "Prime Numbers Explained: The Case Against 1",
+     "channel": "polymathematic",
+     "channel_url": "https://www.youtube.com/@polymathematic",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=eyrUkjQYBlE",
+     "title": "Every Proof That There Are Infinitely Many Primes Explained",
+     "channel": "ThoughtThrill",
+     "channel_url": "https://www.youtube.com/@ThoughtThrill365",
      "level": "deeper",
      "checked": "YouTube oEmbed, 2026-10-27"
     }

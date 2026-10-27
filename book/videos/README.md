@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**167 of 380 concepts searched, 431 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**168 of 380 concepts searched, 434 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -713,6 +713,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | linked lists | [Linked List Data Structure \| Illustrated Data Structures](https://www.youtube.com/watch?v=odW9FU8jPRQ) | the roadmap | Start |
 |  | [Learn Linked Lists in 13 minutes 🔗](https://www.youtube.com/watch?v=N6dOwBde7-M) | Bro Code | Start |
 |  | [Linked List - Data Structures & Algorithms Tutorials in Python #4](https://www.youtube.com/watch?v=qp8u-frRAnU) | codebasics | Deeper |
-| garbage collection | *not searched yet* | | |
+| garbage collection | [Garbage Collection (Mark & Sweep) - Computerphile](https://www.youtube.com/watch?v=c32zXYAK7CI) | Computerphile | Start |
+|  | [Garbage Collection in Java \| What is GC and How it Works in JAVA \| Part One](https://www.youtube.com/watch?v=X1DkoRGVRp4) | Siben Nayak | Start |
+|  | [Garbage Collection - part 4 of Java Memory Management](https://www.youtube.com/watch?v=CdAmS9H93q4) | Virtual Pair Programmers | Deeper |
 | mark and sweep McCarthy Lisp | *not searched yet* | | |
 

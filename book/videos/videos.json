@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 171,
+ "rounds": 172,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5117,11 +5117,45 @@
     }
    ],
    "tries": 1
+  },
+  "e5-06-c2": {
+   "searched": "2026-10-27",
+   "query": "garbage collection explained memory management",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "C#/.NET and Unity specific videos, an all-caps 'fix memory leaks' title, a podcast episode, and a 'deep dive' of unclear authorship",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=c32zXYAK7CI",
+     "title": "Garbage Collection (Mark & Sweep) - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=X1DkoRGVRp4",
+     "title": "Garbage Collection in Java | What is GC and How it Works in JAVA | Part One",
+     "channel": "Siben Nayak",
+     "channel_url": "https://www.youtube.com/@theawesomenayak",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=CdAmS9H93q4",
+     "title": "Garbage Collection - part 4 of Java Memory Management",
+     "channel": "Virtual Pair Programmers",
+     "channel_url": "https://www.youtube.com/@VPPChesterwood",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 115,
+ "rounds": 116,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3417,11 +3417,37 @@
     }
    ],
    "tries": 1
+  },
+  "e4-01-c3": {
+   "searched": "2026-10-27",
+   "query": "Hilbert's tenth problem Diophantine equations Matiyasevich",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a 2000 Matiyasevich lecture on a channel that collects other institutions' recordings (a reupload), research talks on variants over other rings, and videos and a Short about a recent AI-lab claim the book's sources do not cover",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Y6VZD8yu_3U",
+     "title": "MATH 329/404: Hilbert's 10th Problem",
+     "channel": "Matthew Kilgore",
+     "channel_url": "https://www.youtube.com/@matthewkilgore5611",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=6raIgZq1KLU",
+     "title": "Bjorn Poonen: Diophantine sets and Hilbert’s tenth problem",
+     "channel": "Hausdorff Center for Mathematics",
+     "channel_url": "https://www.youtube.com/@HausdorffCenterforMathematics",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 1
  }
 }

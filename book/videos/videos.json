@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 17,
+ "rounds": 18,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -526,6 +526,40 @@
      "title": "Babylonian Square Root",
      "channel": "Dr Peyam",
      "channel_url": "https://www.youtube.com/@drpeyam",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-04-c4": {
+   "searched": "2026-10-27",
+   "query": "Heron's method square root",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a MATLAB tutorial, a calculator demonstration, and a challenge entry",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=v3vnxGEi07I",
+     "title": "Find Any Square Root in 15 Seconds: Heron’s Method",
+     "channel": "Simple Explanations by Dheirya Tyagi",
+     "channel_url": "https://www.youtube.com/@dheirya",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=th4kD2z98jQ",
+     "title": "The 2000-Year-Old Algorithm for the Square Root of Two | Heron's Method",
+     "channel": "MathNimate",
+     "channel_url": "https://www.youtube.com/@mathnimate",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=Nr68x0su5co",
+     "title": "Intro to Numerical Solution Part 1 to Civil Engineering Problems - The Heron's Method",
+     "channel": "Ryan James Olivo",
+     "channel_url": "https://www.youtube.com/@ryanjamesolivo6516",
      "level": "deeper",
      "checked": "YouTube oEmbed, 2026-10-27"
     }

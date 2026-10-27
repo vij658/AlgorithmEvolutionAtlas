@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**17 of 380 concepts searched, 45 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**18 of 380 concepts searched, 48 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -77,5 +77,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Babylonian method square root | [How to Calculate Square Root by Hand (Babylonian Method)](https://www.youtube.com/watch?v=00pdhwn7FYk) | Cowan Academy | Start |
 |  | [How To Calculate Any Square Root. An Ancient Method That Powers Modern Computers](https://www.youtube.com/watch?v=MXveVqBxFow) | MindYourDecisions | Start |
 |  | [Babylonian Square Root](https://www.youtube.com/watch?v=W3Np2cqiL0E) | Dr Peyam | Deeper |
-| Heron's method square root | *not searched yet* | | |
+| Heron's method square root | [Find Any Square Root in 15 Seconds: Heron’s Method](https://www.youtube.com/watch?v=v3vnxGEi07I) | Simple Explanations by Dheirya Tyagi | Start |
+|  | [The 2000-Year-Old Algorithm for the Square Root of Two \| Heron's Method](https://www.youtube.com/watch?v=th4kD2z98jQ) | MathNimate | Start |
+|  | [Intro to Numerical Solution Part 1 to Civil Engineering Problems - The Heron's Method](https://www.youtube.com/watch?v=Nr68x0su5co) | Ryan James Olivo | Deeper |
 

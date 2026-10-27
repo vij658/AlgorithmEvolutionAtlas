@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 183,
+ "rounds": 184,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5452,11 +5452,45 @@
     }
    ],
    "tries": 1
+  },
+  "e5-10-c1": {
+   "searched": "2026-10-27",
+   "query": "quicksort algorithm explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "an all-caps 'in 10 minutes' title, a site-branded upload, language-specific code tutorials, and part-numbered uploads from unidentified channels. Note: the Computerphile and Abdul Bari videos did not appear in this search; they were recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=XE4VP_8Y0BU",
+     "title": "Quick Sort - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=Vs0kAQTUmE0",
+     "title": "Quicksort Algorithm [with Animated Example]",
+     "channel": "HappyCoders",
+     "channel_url": "https://www.youtube.com/@HappyCoders",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=7h1s2SojIRw",
+     "title": "2.8.1 QuickSort Algorithm",
+     "channel": "Abdul Bari",
+     "channel_url": "https://www.youtube.com/@abdul_bari",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

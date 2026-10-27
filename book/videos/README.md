@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**179 of 380 concepts searched, 458 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**180 of 380 concepts searched, 461 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -756,4 +756,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Lecture 4 "Curse of Dimensionality / Perceptron" -Cornell CS4780 SP17](https://www.youtube.com/watch?v=BbYV8UfMJSA) | Kilian Weinberger | Deeper |
 | perceptron convergence theorem | [Convergence of Perceptron [E22]](https://www.youtube.com/watch?v=bayIW0CpG6k) | Pratik Jain | Deeper |
 |  | [L54: Perceptron convergence proof \| radius-margin bound & linear separability](https://www.youtube.com/watch?v=fHDouTKwfXw) | IIT Madras - B.S. Degree Programme | Deeper |
+
+### Hoare's Quicksort ([in the book](../era-05-the-programmers-craft/10-quicksort/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| quicksort | [Quick Sort - Computerphile](https://www.youtube.com/watch?v=XE4VP_8Y0BU) | Computerphile | Start |
+|  | [Quicksort Algorithm [with Animated Example]](https://www.youtube.com/watch?v=Vs0kAQTUmE0) | HappyCoders | Start |
+|  | [2.8.1 QuickSort Algorithm](https://www.youtube.com/watch?v=7h1s2SojIRw) | Abdul Bari | Deeper |
+| Hoare partition scheme | *not searched yet* | | |
+| Tony Hoare quicksort story | *not searched yet* | | |
 

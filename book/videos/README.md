@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**165 of 380 concepts searched, 426 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**166 of 380 concepts searched, 428 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -703,5 +703,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | memoization | [Memoized Recursive Fibonacci Calls (Diagrammed)](https://www.youtube.com/watch?v=hbveibMDHfg) | Khan Academy Computing | Start |
 |  | [Recursion, the Fibonacci Sequence and Memoization \|\| Python Tutorial \|\| Learn Python Programming](https://www.youtube.com/watch?v=Qk0zUZW-U_M) | Socratica | Start |
 |  | [Lecture 19: Dynamic Programming I: Fibonacci, Shortest Paths](https://www.youtube.com/watch?v=OQ5jsbhAv_M) | MIT OpenCourseWare | Deeper |
-| Bellman equation | *not searched yet* | | |
+| Bellman equation | [The Bellman Equation - Explained](https://www.youtube.com/watch?v=cvGh1NMTq8A) | DataMListic | Start |
+|  | [Bellman Equation Basics for Reinforcement Learning](https://www.youtube.com/watch?v=14BfO5lMiuk) | Skowster the Geek | Start |
 

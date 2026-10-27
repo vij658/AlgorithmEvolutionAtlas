@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 169,
+ "rounds": 170,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5057,11 +5057,37 @@
     }
    ],
    "tries": 1
+  },
+  "e5-05-c3": {
+   "searched": "2026-10-27",
+   "query": "Bellman equation explained principle of optimality",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "an operations-research exam series, numbered lecture uploads, a Q-function video from a channel of unclear authorship, and a Hamilton-Jacobi-Bellman video that the check credits to an individual uploader rather than a course",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=cvGh1NMTq8A",
+     "title": "The Bellman Equation - Explained",
+     "channel": "DataMListic",
+     "channel_url": "https://www.youtube.com/@datamlistic",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=14BfO5lMiuk",
+     "title": "Bellman Equation Basics for Reinforcement Learning",
+     "channel": "Skowster the Geek",
+     "channel_url": "https://www.youtube.com/@SkowsterTheGeek",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

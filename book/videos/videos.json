@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 80,
+ "rounds": 81,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2355,11 +2355,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-03-c3": {
+   "searched": "2026-10-27",
+   "query": "Leibniz stepped reckoner",
+   "host": "youtube.com",
+   "candidates": 8,
+   "rejected": "a PC-hardware vlog, untitled 'history of computer' clips, and a school-chapter recap",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=SEeEAkpLUNk",
+     "title": "Leibniz Step Reckoner",
+     "channel": "Orange Education",
+     "channel_url": "https://www.youtube.com/@OrangeEducationindia",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=wjENvJyMfWg",
+     "title": "Leibniz Wheel Mechanical Calculator - F-J's Physics - Video 188",
+     "channel": "Anthony Francis-Jones",
+     "channel_url": "https://www.youtube.com/@AnthonyFrancisJones",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=NJamYfjVRbA",
+     "title": "Gottfried Wilhelm Leibniz, 1672, demonstration video",
+     "channel": "Mark Frank",
+     "channel_url": "https://www.youtube.com/@MarkFrankclocks",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
-  "delay": 20,
-  "clean": 4,
+  "delay": 15,
+  "clean": 0,
   "rejects": 1
  }
 }

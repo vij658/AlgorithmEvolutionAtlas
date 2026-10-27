@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 177,
+ "rounds": 178,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5288,11 +5288,45 @@
     }
    ],
    "tries": 1
+  },
+  "e5-08-c2": {
+   "searched": "2026-10-27",
+   "query": "FORTRAN history John Backus IBM first compiler",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Shorts, Spanish videos, a dated meetup recording, a clickbait '1957 still runs' title from an unidentified channel, and a clip channel that re-cuts ACM interviews",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=NMWzgy8FsKs",
+     "title": "FORTRAN in 100 Seconds",
+     "channel": "Fireship",
+     "channel_url": "https://www.youtube.com/@Fireship",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=yKXiQAqou04",
+     "title": "John Backus, 1977 ACM Turing Award Recipient",
+     "channel": "Association for Computing Machinery (ACM)",
+     "channel_url": "https://www.youtube.com/@TheOfficialACM",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=EylBknGtkqA",
+     "title": "Programming in America in the 1950s – Some Personal Impressions by John Backus",
+     "channel": "Computer History Museum",
+     "channel_url": "https://www.youtube.com/@ComputerHistory",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

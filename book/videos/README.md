@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**105 of 380 concepts searched, 269 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**106 of 380 concepts searched, 272 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -442,4 +442,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Computer Architecture: Charles Babbage and the Analytical Engine](https://www.youtube.com/watch?v=mNZZtHsYiBo) | Thomas Blum | Deeper |
 | Bernoulli numbers Note G | [The First Computer Program](https://www.youtube.com/watch?v=_JVwyW4zxQ4) | Tibees | Start |
 |  | [Re-writing Ada Lovelace's Bernoulli Algorithm - JS Monthly - September 2019](https://www.youtube.com/watch?v=11PAUUOkZHQ) | Pusher | Deeper |
+
+### Boole's Algebra of Logic ([in the book](../era-03-tables-and-machines/12-boolean-algebra/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| Boolean algebra | [Ep 030: Introduction to Boolean Algebra](https://www.youtube.com/watch?v=_COKT-0JiOg) | Intermation | Start |
+|  | [The Laws of Boolean Algebra Explained](https://www.youtube.com/watch?v=RMe69AdlFdI) | ALL ABOUT ELECTRONICS | Start |
+|  | [2.1 What is a Boolean algebra?](https://www.youtube.com/watch?v=4l8rq6imQAo) | Machine learning classroom | Deeper |
+| truth tables logic gates | *not searched yet* | | |
+| George Boole Laws of Thought | *not searched yet* | | |
 

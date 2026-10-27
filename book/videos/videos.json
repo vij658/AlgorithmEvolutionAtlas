@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 107,
+ "rounds": 108,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3201,11 +3201,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-12-c1": {
+   "searched": "2026-10-27",
+   "query": "Boolean algebra explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "untitled 'Digital Systems' uploads, part-numbered clips, and duplicate links",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=_COKT-0JiOg",
+     "title": "Ep 030: Introduction to Boolean Algebra",
+     "channel": "Intermation",
+     "channel_url": "https://www.youtube.com/@Intermation",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=RMe69AdlFdI",
+     "title": "The Laws of Boolean Algebra Explained",
+     "channel": "ALL ABOUT ELECTRONICS",
+     "channel_url": "https://www.youtube.com/@ALLABOUTELECTRONICS",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=4l8rq6imQAo",
+     "title": "2.1 What is a Boolean algebra?",
+     "channel": "Machine learning classroom",
+     "channel_url": "https://www.youtube.com/@MLClassroom",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

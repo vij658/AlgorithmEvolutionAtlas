@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 125,
+ "rounds": 126,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3707,11 +3707,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-04-c3": {
+   "searched": "2026-10-27",
+   "query": "Prim's algorithm minimum spanning tree explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'in 2 minutes' clips, coding-interview videos (C++ and Java), and untitled uploads. No video found tells the Jarník 1930 part of the story; the book's chapter covers it",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=20QfaLQPLqQ",
+     "title": "Prim's Algorithm Visually Explained (Minimum Spanning Tree)",
+     "channel": "Hello Byte",
+     "channel_url": "https://www.youtube.com/@hello-byte",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ZtZaR7EcI5Y",
+     "title": "6.5 Prim's Algorithm for Minimum Spanning Tree | Data Structures Tutorials",
+     "channel": "Jenny's Lectures CS IT",
+     "channel_url": "https://www.youtube.com/@JennyslecturesCSIT",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=X_rP6G9Smhw",
+     "title": "Discrete Math II - 11.5.1 Minimum Spanning Trees: Prim's Algorithm",
+     "channel": "SawFin Mathematics",
+     "channel_url": "https://www.youtube.com/@SawFinMathematics",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

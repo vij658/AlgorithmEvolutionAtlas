@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 54,
+ "rounds": 55,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1583,11 +1583,37 @@
     }
    ],
    "tries": 1
+  },
+  "e2-06-c3": {
+   "searched": "2026-10-27",
+   "query": "algorism history Hindu-Arabic numerals Europe Dixit Algorizmi",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'invented algorithms' titles, a Portuguese-language lesson, a playlist, and Shorts",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=oyhOlGsDXP8",
+     "title": "Who is Al Khwarizmi? The Grandfather of Algorithms and Algebra | The House of Wisdom | E1",
+     "channel": "TRT World",
+     "channel_url": "https://www.youtube.com/@trtworld",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=nJJ3O4qSHhM",
+     "title": "From 0 to 9 - The mysterious origins of our numbers | DW Documentary",
+     "channel": "DW Documentary",
+     "channel_url": "https://www.youtube.com/@DWDocumentary",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 45,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

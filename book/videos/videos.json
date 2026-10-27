@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 8,
+ "rounds": 9,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -245,6 +245,40 @@
      "channel": "HiddenBlackHistory",
      "channel_url": "https://www.youtube.com/@HiddenBlackHistory",
      "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-02-c1": {
+   "searched": "2026-10-27",
+   "query": "Egyptian hieroglyphic numerals",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "the rest of the same hieroglyph-a-day series (one video per power of ten); the first stands for the series",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=X0IDnXLYDl0",
+     "title": "Learn hieroglyphics: numbers 1-9 [hieroglyph-a-day in 4K]",
+     "channel": "Voices of Ancient Egypt",
+     "channel_url": "https://www.youtube.com/@VoicesofAncientEgypt",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=KKL3v2Mb4Zw",
+     "title": "Egyptian Numeration - Simple Grouping",
+     "channel": "Emporium Mathematics",
+     "channel_url": "https://www.youtube.com/@mathemporia",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=voTBCSL6UmA",
+     "title": "Math History 1.3 Egyptian Numerals",
+     "channel": "Dr. Jack L. Jackson II",
+     "channel_url": "https://www.youtube.com/@DrJackLJacksonII",
+     "level": "deeper",
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],

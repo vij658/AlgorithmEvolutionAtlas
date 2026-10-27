@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 160,
+ "rounds": 161,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4809,11 +4809,37 @@
     }
    ],
    "tries": 1
+  },
+  "e5-03-c1": {
+   "searched": "2026-10-27",
+   "query": "how data compression works explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, a German video, an exam-course lecture, 'every system explained' and ZIP videos from unidentified channels, and Huffman videos (kept for the next concept). Note: the Crash Course episode did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=OtDxDvCpPL4",
+     "title": "Compression: Crash Course Computer Science #21",
+     "channel": "CrashCourse",
+     "channel_url": "https://www.youtube.com/@crashcourse",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=gmHoX_EqWF4",
+     "title": "Data Compression Explained: Lossless and Lossy Encoding",
+     "channel": "Coding Coach",
+     "channel_url": "https://www.youtube.com/@CodingCoach",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

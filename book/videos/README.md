@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**37 of 380 concepts searched, 99 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**38 of 380 concepts searched, 101 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -163,5 +163,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Gaussian elimination | [Gaussian Elimination & Row Echelon Form](https://www.youtube.com/watch?v=eDb6iugi6Uk) | The Organic Chemistry Tutor | Start |
 |  | [The Gaussian Algorithm Visualized](https://www.youtube.com/watch?v=vhm1bPMAgyU) | Dr. Trefor Bazett | Deeper |
 |  | [What Gaussian Elimination Actually Does](https://www.youtube.com/watch?v=pf8H2tc0alE) | DataMListic | Deeper |
-| fangcheng counting rods matrix | *not searched yet* | | |
+| fangcheng counting rods matrix | [Every Treasure Tells a Story: Counting Rods - A System of Numbers](https://www.youtube.com/watch?v=-vh3j0aA5Gk) | CGTN | Start |
+|  | [Fang Cheng Shu: Solving Systems of Equations in Ancient China](https://www.youtube.com/watch?v=HIFcftCSXO0) | The Random Professor | Deeper |
 

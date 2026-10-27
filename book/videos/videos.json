@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 38,
+ "rounds": 39,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1163,11 +1163,37 @@
     }
    ],
    "tries": 1
+  },
+  "e2-01-c3": {
+   "searched": "2026-10-27",
+   "query": "fangcheng Chinese counting rods linear equations",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "counting-rod multiplication and abacus videos (other ideas), a Short, and videos already listed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=-vh3j0aA5Gk",
+     "title": "Every Treasure Tells a Story: Counting Rods - A System of Numbers",
+     "channel": "CGTN",
+     "channel_url": "https://www.youtube.com/@cgtn",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=HIFcftCSXO0",
+     "title": "Fang Cheng Shu: Solving Systems of Equations in Ancient China",
+     "channel": "The Random Professor",
+     "channel_url": "https://www.youtube.com/@TheRandomProfessor",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 60,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

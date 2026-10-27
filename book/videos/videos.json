@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 3,
+ "rounds": 4,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -99,6 +99,32 @@
      "channel": "My LearningBlock",
      "channel_url": "https://www.youtube.com/@MylearningblockOfficial",
      "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "ch1-c4": {
+   "searched": "2026-10-27",
+   "query": "binary adder circuit full adder",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a second video from the same channel; numbered course lectures without a clear teacher",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=ecn-8iGDRSo",
+     "title": "Half Adders and Full Adders Beginner's Tutorial",
+     "channel": "Learn Learn Scratch Tutorials",
+     "channel_url": "https://www.youtube.com/@learnlearnscratch",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=hExfiB_UFzA",
+     "title": "Binary Addition, Half-Adder, Full-Adder Logic Gate Circuits CLEARLY EXPLAINED",
+     "channel": "COMPUTER TECH AT HUTCH TECH",
+     "channel_url": "https://www.youtube.com/@COMPUTERTECHATHUTCHTECH",
+     "level": "start",
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],

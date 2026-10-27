@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**77 of 380 concepts searched, 194 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**78 of 380 concepts searched, 197 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -327,6 +327,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | Pascaline calculator | [How does the Pascaline calculator work?](https://www.youtube.com/watch?v=SeyMTzKYKqg) | Knowledge Tribe | Start |
 |  | [How the Pascaline Works](https://www.youtube.com/watch?v=3h71HAJWnVU) | MechanicalComputing | Deeper |
-| Schickard calculating clock | *not searched yet* | | |
+| Schickard calculating clock | [Wilhelm Schickard - Inventor of the mechanical calculator](https://www.youtube.com/watch?v=5undFLMNohA) | Jens Puhle | Start |
+|  | [400 Years Mechanical Calculator (Schickard 1623)](https://www.youtube.com/watch?v=4yAiRimEo0s) | Jens Puhle | Start |
+|  | [Multiplication with the Schickard Calculator from 1623 and with Napier's Bones](https://www.youtube.com/watch?v=OQMzstFo-sk) | Jens Puhle | Deeper |
 | Leibniz stepped reckoner | *not searched yet* | | |
 

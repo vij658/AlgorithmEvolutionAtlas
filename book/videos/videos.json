@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 79,
+ "rounds": 80,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2321,11 +2321,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-03-c2": {
+   "searched": "2026-10-27",
+   "query": "Schickard calculating clock",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "German- and Portuguese-language videos; all three listed come from one maker of a working reconstruction, as no other channel covered the machine itself",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=5undFLMNohA",
+     "title": "Wilhelm Schickard - Inventor of the mechanical calculator",
+     "channel": "Jens Puhle",
+     "channel_url": "https://www.youtube.com/@jepumachines",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=4yAiRimEo0s",
+     "title": "400 Years Mechanical Calculator (Schickard 1623)",
+     "channel": "Jens Puhle",
+     "channel_url": "https://www.youtube.com/@jepumachines",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=OQMzstFo-sk",
+     "title": "Multiplication with the Schickard Calculator from 1623 and with Napier's Bones",
+     "channel": "Jens Puhle",
+     "channel_url": "https://www.youtube.com/@jepumachines",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 20,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

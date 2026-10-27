@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 167,
+ "rounds": 168,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4989,11 +4989,45 @@
     }
    ],
    "tries": 1
+  },
+  "e5-05-c1": {
+   "searched": "2026-10-27",
+   "query": "dynamic programming explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a reupload of the CS Dojo video under another ID, 'with animations' and 'visually explained' videos from unidentified channels, an exam-course lecture, and an unattributed playlist. Note: the Reducible video did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=vYquumk4nWw",
+     "title": "What Is Dynamic Programming and How To Use It",
+     "channel": "CS Dojo",
+     "channel_url": "https://www.youtube.com/@CSDojo",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=aPQY__2H3tE",
+     "title": "5 Simple Steps for Solving Dynamic Programming Problems",
+     "channel": "Reducible",
+     "channel_url": "https://www.youtube.com/@Reducible",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=oBt53YbR9Kk",
+     "title": "Dynamic Programming - Learn to Solve Algorithmic Problems & Coding Challenges",
+     "channel": "freeCodeCamp.org",
+     "channel_url": "https://www.youtube.com/@freecodecamp",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

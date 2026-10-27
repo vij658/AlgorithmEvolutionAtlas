@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 111,
+ "rounds": 112,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3321,11 +3321,37 @@
     }
    ],
    "tries": 1
+  },
+  "e3-13-c2": {
+   "searched": "2026-10-27",
+   "query": "Hollerith tabulating machine",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Hindi lecture, a Short, a Spanish video (La red de Mario), a clip from an unnamed channel (TilTul), and a 'world's first' list video",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Kvk3_MfF7SA",
+     "title": "Archives & Oddities: Hollerith",
+     "channel": "The Franklin Institute",
+     "channel_url": "https://www.youtube.com/@TheFranklinInstitutePHL",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=17On5ItcrBA",
+     "title": "Hollerith Electric Tabulating System (HETS)",
+     "channel": "Michael Holzheu",
+     "channel_url": "https://www.youtube.com/@MichaelHolzheu",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 1
  }
 }

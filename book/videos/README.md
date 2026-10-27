@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**160 of 380 concepts searched, 412 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**161 of 380 concepts searched, 415 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -679,4 +679,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Huffman Codes: An Information Theory Perspective](https://www.youtube.com/watch?v=B3y0RsVCyrw) | Reducible | Deeper |
 | prefix codes | [Prefix Codes (with Exercises) - Data Compression](https://www.youtube.com/watch?v=fsh7Kf4kLCI) | MisterCode | Start |
 |  | [(IC 2.4) Decoding - prefix versus non-prefix](https://www.youtube.com/watch?v=oMu2OzKUVjw) | mathematicalmonk | Deeper |
+
+### Hashing ([in the book](../era-05-the-programmers-craft/04-hashing/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| hash tables | [Hash Tables and Hash Functions](https://www.youtube.com/watch?v=KyUTuwz_b7Q) | Computer Science Lessons | Start |
+|  | [Learn Hash Tables in 13 minutes #️⃣](https://www.youtube.com/watch?v=FsfRsGFHuv4) | Bro Code | Start |
+|  | [Lecture 8: Hashing with Chaining](https://www.youtube.com/watch?v=0M_kIqhwbFo) | MIT OpenCourseWare | Deeper |
+| hash function | *not searched yet* | | |
+| linear probing collisions | *not searched yet* | | |
 

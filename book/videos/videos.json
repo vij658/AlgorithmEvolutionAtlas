@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 27,
+ "rounds": 28,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -842,6 +842,24 @@
      "title": "Euclidean Algorithm (Proof)",
      "channel": "Math Matters",
      "channel_url": "https://www.youtube.com/@MathMatters",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-07-c3": {
+   "searched": "2026-10-27",
+   "query": "Euclid's Elements history book VII number theory",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a channel known for rejecting standard mathematics; propositions after VII.2 belong to other ideas",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=cxZzTl_ZYLo",
+     "title": "Euclid's Elements, Book VII, Proposition 1 (VII.1)",
+     "channel": "Project Euclid v2",
+     "channel_url": "https://www.youtube.com/@projecteuclidv2582",
      "level": "deeper",
      "checked": "YouTube oEmbed, 2026-10-27"
     }

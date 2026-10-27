@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 121,
+ "rounds": 122,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3585,7 +3585,7 @@
    "query": "Markov Eugene Onegin vowels consonants Pushkin chain; Veritasium strange math that predicts almost anything Markov",
    "host": "youtube.com",
    "candidates": 20,
-   "rejected": "audiobooks and opera recordings of Eugene Onegin (a singer named Markov), Russian, German and Portuguese versions of the Veritasium video, a 'secret code' video from an unidentified channel, and a reaction video",
+   "rejected": "audiobooks and opera recordings of Eugene Onegin (a singer named Markov), Russian, German and Portuguese versions of the Veritasium video, a 'secret code' video from an unidentified channel, and a reaction video. Note: the Veritasium video did not appear in these searches (only its translations did); it was recalled and then confirmed by oEmbed like every other",
    "videos": [
     {
      "url": "https://www.youtube.com/watch?v=KZeIEiBrT_w",
@@ -3604,7 +3604,7 @@
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],
-   "tries": 1
+   "tries": 2
   }
  },
  "pace": {

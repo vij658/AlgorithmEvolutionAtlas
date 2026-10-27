@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 118,
+ "rounds": 119,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3511,11 +3511,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-02-c3": {
+   "searched": "2026-10-27",
+   "query": "RK4 fourth order Runge-Kutta explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Mathematica-code walkthrough, exam-question compilations, and untitled-channel uploads",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=1YZnic1Ug9g",
+     "title": "4th-Order Runge Kutta Method for ODEs",
+     "channel": "LearnChemE",
+     "channel_url": "https://www.youtube.com/@LearnChemE",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ydFM5yON-24",
+     "title": "The RK4 method",
+     "channel": "Niels Walet",
+     "channel_url": "https://www.youtube.com/@nwalet",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=IdEwx42C8nc",
+     "title": "44. Runge-Kutta Fourth-Order (RK4) Method for Initial Value Problems (IVPs) for ODEs",
+     "channel": "Emmanuel Jesuyon Dansu",
+     "channel_url": "https://www.youtube.com/@ejdansu",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

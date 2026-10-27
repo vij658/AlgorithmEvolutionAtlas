@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**116 of 380 concepts searched, 294 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**117 of 380 concepts searched, 297 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -489,5 +489,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Runge-Kutta method | [Runge Kutta Method(Order 2) made easy](https://www.youtube.com/watch?v=5MTG1TCZFFY) | ANEESH DEOGHARIA | Start |
 |  | [Understanding Runge-Kutta](https://www.youtube.com/watch?v=t48a2M27kjM) | ThatMathThing | Deeper |
 |  | [Introduction to ODE Solvers (Runge-Kutta) \| Fundamentals of Orbital Mechanics 3](https://www.youtube.com/watch?v=VrH6JhIFmcA) | Alfonso Gonzalez - Astrodynamics & SE Podcast | Deeper |
-| RK4 explained | *not searched yet* | | |
+| RK4 explained | [4th-Order Runge Kutta Method for ODEs](https://www.youtube.com/watch?v=1YZnic1Ug9g) | LearnChemE | Start |
+|  | [The RK4 method](https://www.youtube.com/watch?v=ydFM5yON-24) | Niels Walet | Deeper |
+|  | [44. Runge-Kutta Fourth-Order (RK4) Method for Initial Value Problems (IVPs) for ODEs](https://www.youtube.com/watch?v=IdEwx42C8nc) | Emmanuel Jesuyon Dansu | Deeper |
 

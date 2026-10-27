@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 124,
+ "rounds": 125,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3673,11 +3673,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-04-c2": {
+   "searched": "2026-10-27",
+   "query": "Boruvka's algorithm minimum spanning tree",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Kruskal and Prim videos, a combined greedy-approach lecture, and short tutorials from unnamed channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=OOtLaW0E9zI",
+     "title": "Boruvka's Algorithm (Step-by-Step Example)",
+     "channel": "Zach's Math Zone",
+     "channel_url": "https://www.youtube.com/@ZachsMathZone",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=czcf73b0Ga0",
+     "title": "Two More MST Algorithms - Graph Theory 09",
+     "channel": "0612 TV w/ NERDfirst",
+     "channel_url": "https://www.youtube.com/@NERDfirst",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=bQga6WqLUvs",
+     "title": "Boruvka's Minimum Spanning Tree Algorithm",
+     "channel": "Algorithms with Attitude",
+     "channel_url": "https://www.youtube.com/@AlgorithmswithAttitude",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

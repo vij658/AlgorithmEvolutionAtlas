@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**121 of 380 concepts searched, 308 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**122 of 380 concepts searched, 311 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -513,6 +513,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | minimum spanning tree | [Minimum Spanning Trees 1 - Introduction](https://www.youtube.com/watch?v=sa9inM6Q0dI) | Professor Painter | Start |
 |  | [Spanning Tree - Minimum Spanning Tree \| Graph Theory #12](https://www.youtube.com/watch?v=oh3ZOtVix8Y) | Vivekanand Khyade - Algorithm Every Day | Start |
 |  | [G-44. Minimum Spanning Tree - Theory](https://www.youtube.com/watch?v=ZSPjZuZWCME) | take U forward | Deeper |
-| Borůvka's algorithm | *not searched yet* | | |
+| Borůvka's algorithm | [Boruvka's Algorithm (Step-by-Step Example)](https://www.youtube.com/watch?v=OOtLaW0E9zI) | Zach's Math Zone | Start |
+|  | [Two More MST Algorithms - Graph Theory 09](https://www.youtube.com/watch?v=czcf73b0Ga0) | 0612 TV w/ NERDfirst | Start |
+|  | [Boruvka's Minimum Spanning Tree Algorithm](https://www.youtube.com/watch?v=bQga6WqLUvs) | Algorithms with Attitude | Deeper |
 | Prim Jarník algorithm | *not searched yet* | | |
 

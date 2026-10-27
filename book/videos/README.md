@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**23 of 380 concepts searched, 62 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**24 of 380 concepts searched, 65 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -104,6 +104,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | how to use an abacus | [How To Use An Abacus](https://www.youtube.com/watch?v=SYRyKYmOJwM) | Ignite Spot Accounting Services | Start |
 |  | [How To Use An Abacus-Full Tutorial](https://www.youtube.com/watch?v=LzKMhPK0JF0) | Helpful DIY | Start |
 |  | [Abacus Lesson 1 // Introduction, Proper Technique, & History of the Abacus // Tutorial](https://www.youtube.com/watch?v=SkUdjlQy3rk) | The HEV Project | Start |
-| Roman abacus counting board | *not searched yet* | | |
+| Roman abacus counting board | [Introduction to the Roman abacus and counting board](https://www.youtube.com/watch?v=c-2I09cmth0) | Reading Ancient Schoolroom | Start |
+|  | [Counting Board Abacus: 10.1 Roman Calculations](https://www.youtube.com/watch?v=MHcRxooUIUg) | sks23cu | Start |
+|  | [Math History 1.10 Counting Boards Rods and Abacus](https://www.youtube.com/watch?v=uMBHkDiKLlI) | Dr. Jack L. Jackson II | Deeper |
 | Salamis tablet | *not searched yet* | | |
 

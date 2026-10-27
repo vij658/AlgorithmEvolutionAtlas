@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 186,
+ "rounds": 187,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5538,11 +5538,37 @@
     }
    ],
    "tries": 1
+  },
+  "e5-11-c1": {
+   "searched": "2026-10-27",
+   "query": "binary search trees explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Hindi-language lesson, 'in 5 minutes' and all-caps titles, C-only code walkthroughs, and visualizations from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Gt2yBZAhsGM",
+     "title": "Learn Binary search trees in 20 minutes 🔍",
+     "channel": "Bro Code",
+     "channel_url": "https://www.youtube.com/@BroCodez",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=OnOt1hAkFJs",
+     "title": "Binary Search Tree Explained - Algorithms & Data Structures #21",
+     "channel": "NeuralNine",
+     "channel_url": "https://www.youtube.com/@NeuralNine",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

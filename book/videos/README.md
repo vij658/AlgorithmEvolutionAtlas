@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**182 of 380 concepts searched, 465 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**183 of 380 concepts searched, 467 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -768,4 +768,13 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Quick Sort - Data Structures & Algorithms Tutorial Python #15](https://www.youtube.com/watch?v=5iSZ7mh_RAk) | codebasics | Deeper |
 | Tony Hoare quicksort story | [How 22-year-old Tony Hoare invented Quicksort, one of the fastest and most used sorting algorithms](https://www.youtube.com/watch?v=pDqwYVD3DKg) | Frank Stajano Explains | Start |
 |  | [Quicksort 60 - Bob Sedgewick - What Do We Know About Quicksort?](https://www.youtube.com/watch?v=uzrI5wuF1W0) | Sebastian Wild (Lectures) | Scholar |
+
+### AVL Trees ([in the book](../era-05-the-programmers-craft/11-avl-trees/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| binary search trees | [Learn Binary search trees in 20 minutes 🔍](https://www.youtube.com/watch?v=Gt2yBZAhsGM) | Bro Code | Start |
+|  | [Binary Search Tree Explained - Algorithms & Data Structures #21](https://www.youtube.com/watch?v=OnOt1hAkFJs) | NeuralNine | Deeper |
+| AVL tree rotations | *not searched yet* | | |
+| self-balancing binary search tree | *not searched yet* | | |
 

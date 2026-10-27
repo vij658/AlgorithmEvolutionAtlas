@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**56 of 380 concepts searched, 143 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**57 of 380 concepts searched, 146 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -239,4 +239,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Cryptanalysis 1.2: Frequency Analysis](https://www.youtube.com/watch?v=opqgXvGsk6U) | Cihangir Tezcan | Deeper |
 | Al-Kindi cryptanalysis | [Unveiling Al-Kindi, the Father of Cryptography \| Scientist of the Week](https://www.youtube.com/watch?v=rte0RXI6wCk) | Mona Minkara | Start |
 |  | [Al-Kindi's Cryptanalysis: The Origin of the Frequency Analysis](https://www.youtube.com/watch?v=9x8HEECMfXM) | Noah Aydin | Deeper |
+
+### Fibonacci's Liber Abaci ([in the book](../era-02-algorithms-travel/08-liber-abaci/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| Fibonacci sequence rabbits | [Maths in a minute: Fibonacci numbers](https://www.youtube.com/watch?v=NDMgN2Vx2Ac) | plusmathsorg | Start |
+|  | [Fibonacci's rabbits and sunflowers](https://www.youtube.com/watch?v=nR7RibUjuGI) | Jeffrey Chasnov | Deeper |
+|  | [The ACTUAL Origin of the Fibonacci Sequence (not immortal rabbits)](https://www.youtube.com/watch?v=mIL_XDR8gkw) | Wrath of Math | Deeper |
+| Fibonacci Liber Abaci Hindu-Arabic numerals Europe | *not searched yet* | | |
+| Fibonacci numbers golden ratio | *not searched yet* | | |
 

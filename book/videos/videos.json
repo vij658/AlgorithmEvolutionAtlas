@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 58,
+ "rounds": 59,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1703,11 +1703,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-08-c1": {
+   "searched": "2026-10-27",
+   "query": "Fibonacci sequence rabbits problem",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Shorts, a bioinformatics exercise, and duplicates",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=NDMgN2Vx2Ac",
+     "title": "Maths in a minute: Fibonacci numbers",
+     "channel": "plusmathsorg",
+     "channel_url": "https://www.youtube.com/@plusmathsorg",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=nR7RibUjuGI",
+     "title": "Fibonacci's rabbits and sunflowers",
+     "channel": "Jeffrey Chasnov",
+     "channel_url": "https://www.youtube.com/@Jeff-math",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=mIL_XDR8gkw",
+     "title": "The ACTUAL Origin of the Fibonacci Sequence (not immortal rabbits)",
+     "channel": "Wrath of Math",
+     "channel_url": "https://www.youtube.com/@WrathofMath",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 40,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

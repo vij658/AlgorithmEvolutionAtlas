@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 150,
+ "rounds": 151,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4493,11 +4493,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-13-c1": {
+   "searched": "2026-10-27",
+   "query": "error correcting codes explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "RAM-specific and exam-course videos, a communication-systems course lecture, and Reed-Solomon and Hamming-distance videos (kept for their own concepts)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=cBBTWcHkVVY",
+     "title": "Error correction codes (Hamming coding)",
+     "channel": "Art of the Problem",
+     "channel_url": "https://www.youtube.com/@ArtOfTheProblem",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=H767hjCLk5A",
+     "title": "V0: Introduction (Error-Correcting Codes)",
+     "channel": "Cryptography 101",
+     "channel_url": "https://www.youtube.com/@cryptography101-alfred",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=H7XFslRXJys",
+     "title": "Error Correcting Codes || @ CMU || Lecture 11a of CS Theory Toolkit",
+     "channel": "Ryan O'Donnell",
+     "channel_url": "https://www.youtube.com/@RyanODonnellTeaching",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

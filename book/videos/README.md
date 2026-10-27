@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**66 of 380 concepts searched, 166 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**67 of 380 concepts searched, 169 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -282,6 +282,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | Jamshid al-Kashi pi | [The Brilliant Mind of Jamshīd al Kāshī.](https://www.youtube.com/watch?v=BginHi3wGtc) | Antaxation | Start |
 |  | [Multicultural Astronomy - Episode 34 - Muslim Astronomy - Jamshid al-Kashi](https://www.youtube.com/watch?v=pflTgB0c_kY) | Introduction to Astronomy | Deeper |
-| al-Kashi decimal fractions | *not searched yet* | | |
+| al-Kashi decimal fractions | [History of the Decimal Point and Decimal Fractions](https://www.youtube.com/watch?v=k8ktqz9KDWI) | Noah Aydin | Start |
+|  | [Al-Kashi: One of the Great Mathematicians of Islamic World](https://www.youtube.com/watch?v=VE0RmL9T5lA) | Noah Aydin | Deeper |
+|  | [Number systems and Stevin's decimals \| Math History \| NJ Wildberger](https://www.youtube.com/watch?v=erFVGPqpRxQ) | Insights into Mathematics | Deeper |
 | computing pi with polygons by hand | *not searched yet* | | |
 

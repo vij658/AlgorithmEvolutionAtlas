@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 68,
+ "rounds": 69,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1987,11 +1987,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-11-c2": {
+   "searched": "2026-10-27",
+   "query": "history of decimal fractions al-Kashi Stevin",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Spanish- and Portuguese-language videos, and 'who invented' clips",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=k8ktqz9KDWI",
+     "title": "History of the Decimal Point and Decimal Fractions",
+     "channel": "Noah Aydin",
+     "channel_url": "https://www.youtube.com/@DrMathAydin",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=VE0RmL9T5lA",
+     "title": "Al-Kashi: One of the Great Mathematicians of Islamic World",
+     "channel": "Noah Aydin",
+     "channel_url": "https://www.youtube.com/@DrMathAydin",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=erFVGPqpRxQ",
+     "title": "Number systems and Stevin's decimals | Math History | NJ Wildberger",
+     "channel": "Insights into Mathematics",
+     "channel_url": "https://www.youtube.com/@njwildberger",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 30,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

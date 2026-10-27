@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**175 of 380 concepts searched, 450 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**176 of 380 concepts searched, 452 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -743,5 +743,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Programming in America in the 1950s – Some Personal Impressions by John Backus](https://www.youtube.com/watch?v=EylBknGtkqA) | Computer History Museum | Scholar |
 | Backus-Naur form grammar | [Backus-Naur Form](https://www.youtube.com/watch?v=8cEhCx8pwio) | 0612 TV w/ NERDfirst | Start |
 |  | [Programming Language Syntax: Backus-Naur Form (BNF)](https://www.youtube.com/watch?v=MMxMeX5emUA) | Jacob Schrum | Deeper |
-| parsing expressions | *not searched yet* | | |
+| parsing expressions | [Parsing Explained - Computerphile](https://www.youtube.com/watch?v=bxpc9Pp5pZM) | Computerphile | Start |
+|  | [#10: Recursive Descent Parsing](https://www.youtube.com/watch?v=dZal5tpKxb8) | Shreyas Nisal | Deeper |
 

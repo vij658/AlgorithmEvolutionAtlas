@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 179,
+ "rounds": 180,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5348,11 +5348,37 @@
     }
    ],
    "tries": 1
+  },
+  "e5-08-c4": {
+   "searched": "2026-10-27",
+   "query": "parsing expressions recursive descent parser explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "exam-course lessons and module recordings, a hashtag title, a code walkthrough from a generically named channel, and a 'Recursive Descent Parsing' video the check could not confirm. Note: the Computerphile video did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=bxpc9Pp5pZM",
+     "title": "Parsing Explained - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=dZal5tpKxb8",
+     "title": "#10: Recursive Descent Parsing",
+     "channel": "Shreyas Nisal",
+     "channel_url": "https://www.youtube.com/@ShreyasNisal",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

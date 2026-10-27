@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**115 of 380 concepts searched, 291 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**116 of 380 concepts searched, 294 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -486,6 +486,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Euler method differential equations | [Euler's method \| Differential equations\| AP Calculus BC \| Khan Academy](https://www.youtube.com/watch?v=q87L9R9v274) | Khan Academy | Start |
 |  | [Euler Method for ODEs](https://www.youtube.com/watch?v=ORvDlbanMJ8) | LearnChemE | Start |
 |  | [Euler's method for first-order ordinary differential equations](https://www.youtube.com/watch?v=gt8uCZYA2iU) | Dr. Bevin Maultsby | Deeper |
-| Runge-Kutta method | *not searched yet* | | |
+| Runge-Kutta method | [Runge Kutta Method(Order 2) made easy](https://www.youtube.com/watch?v=5MTG1TCZFFY) | ANEESH DEOGHARIA | Start |
+|  | [Understanding Runge-Kutta](https://www.youtube.com/watch?v=t48a2M27kjM) | ThatMathThing | Deeper |
+|  | [Introduction to ODE Solvers (Runge-Kutta) \| Fundamentals of Orbital Mechanics 3](https://www.youtube.com/watch?v=VrH6JhIFmcA) | Alfonso Gonzalez - Astrodynamics & SE Podcast | Deeper |
 | RK4 explained | *not searched yet* | | |
 

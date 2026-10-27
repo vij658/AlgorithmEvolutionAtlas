@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 117,
+ "rounds": 118,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3477,11 +3477,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-02-c2": {
+   "searched": "2026-10-27",
+   "query": "Runge-Kutta method explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "the order-four videos (kept for the next concept, RK4), a Mathematica-code walkthrough, and a clickbait 'unleashed' title",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=5MTG1TCZFFY",
+     "title": "Runge Kutta Method(Order 2) made easy",
+     "channel": "ANEESH DEOGHARIA",
+     "channel_url": "https://www.youtube.com/@ANEESHDEOGHARIA",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=t48a2M27kjM",
+     "title": "Understanding Runge-Kutta",
+     "channel": "ThatMathThing",
+     "channel_url": "https://www.youtube.com/@JoelRosenfeld",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=VrH6JhIFmcA",
+     "title": "Introduction to ODE Solvers (Runge-Kutta) | Fundamentals of Orbital Mechanics 3",
+     "channel": "Alfonso Gonzalez - Astrodynamics & SE Podcast",
+     "channel_url": "https://www.youtube.com/@alfonsogonzalez-astrodynam2207",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

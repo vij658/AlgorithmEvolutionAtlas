@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**125 of 380 concepts searched, 320 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**126 of 380 concepts searched, 322 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -530,5 +530,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Gödel's incompleteness theorems | [Gödel's Incompleteness Theorem - Numberphile](https://www.youtube.com/watch?v=O4ndIDcDSGc) | Numberphile | Start |
 |  | [Gödel's Incompleteness Theorem - Computerphile](https://www.youtube.com/watch?v=IuX8QMgy4qE) | Computerphile | Start |
 |  | [Godel's 1st Incompleteness Theorem - Proof by Diagonalization](https://www.youtube.com/watch?v=PpSxqde0af4) | Stable Sort | Deeper |
-| self-reference paradox logic | *not searched yet* | | |
+| self-reference paradox logic | [The Liar Paradox \| Attic Philosophy](https://www.youtube.com/watch?v=4Q3bLv8a4Y8) | Attic Philosophy | Start |
+|  | [Sets, Classes, and Russell's Paradox (Axiomatic Set Theory)](https://www.youtube.com/watch?v=6v0Rph8SLeI) | Carneades.org | Deeper |
 

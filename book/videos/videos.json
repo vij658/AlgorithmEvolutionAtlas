@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 128,
+ "rounds": 129,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3809,11 +3809,37 @@
     }
    ],
    "tries": 1
+  },
+  "e4-05-c3": {
+   "searched": "2026-10-27",
+   "query": "self-reference paradox liar paradox Russell's paradox explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "all-caps 'made easy' and '6 paradoxes' titles, videos proposing their own resolutions (fuzzy sets, situational semantics), and uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=4Q3bLv8a4Y8",
+     "title": "The Liar Paradox | Attic Philosophy",
+     "channel": "Attic Philosophy",
+     "channel_url": "https://www.youtube.com/@AtticPhilosophy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=6v0Rph8SLeI",
+     "title": "Sets, Classes, and Russell's Paradox (Axiomatic Set Theory)",
+     "channel": "Carneades.org",
+     "channel_url": "https://www.youtube.com/@CarneadesOfCyrene",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

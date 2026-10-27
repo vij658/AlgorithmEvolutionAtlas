@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 7,
+ "rounds": 8,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -219,6 +219,32 @@
      "channel": "Great Deeds Academy",
      "channel_url": "https://www.youtube.com/@greatdeedsacademy",
      "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-01-c4": {
+   "searched": "2026-10-27",
+   "query": "Lebombo bone",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a music track of the same name, a myth-based video (Thoth), and the Ishango video already listed for idea 3",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=gnNEDGkaauE",
+     "title": "HomeTeam History on the Ishango & Lebombo bones #1",
+     "channel": "veritas et caritas",
+     "channel_url": "https://www.youtube.com/@veritasetcaritas",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=X-iGv9a7tDs",
+     "title": "Lebombo Bone (Oldest Mathematical Artifact), Ishango Bone (Close Second)",
+     "channel": "HiddenBlackHistory",
+     "channel_url": "https://www.youtube.com/@HiddenBlackHistory",
+     "level": "start",
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],

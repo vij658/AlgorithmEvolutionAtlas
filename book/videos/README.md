@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**7 of 380 concepts searched, 19 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**8 of 380 concepts searched, 21 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -36,5 +36,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [History of Tally Sticks](https://www.youtube.com/watch?v=_wHIk-_HJR8) | Excellup | Start |
 | Ishango bone | [What are the Ishango & Lebombo bones?](https://www.youtube.com/watch?v=6-V-88jUjCg) | veritas et caritas | Start |
 |  | [Ishango Bone (Mathematics in the Modern World, GE Curriculum Higher Education)](https://www.youtube.com/watch?v=o1nB5sRFpVE) | Great Deeds Academy | Deeper |
-| Lebombo bone | *not searched yet* | | |
+| Lebombo bone | [HomeTeam History on the Ishango & Lebombo bones #1](https://www.youtube.com/watch?v=gnNEDGkaauE) | veritas et caritas | Start |
+|  | [Lebombo Bone (Oldest Mathematical Artifact), Ishango Bone (Close Second)](https://www.youtube.com/watch?v=X-iGv9a7tDs) | HiddenBlackHistory | Start |
 

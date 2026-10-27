@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 101,
+ "rounds": 102,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3013,11 +3013,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-10-c1": {
+   "searched": "2026-10-27",
+   "query": "method of finite differences polynomial table",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "the finite difference method for differential equations (a different technique with the same name)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=QspORv1Ox2w",
+     "title": "Finite Differences with Polynomials",
+     "channel": "Jen M",
+     "channel_url": "https://www.youtube.com/@MathwithMsM",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=50HKEjb9Gak",
+     "title": "Determining the Degree of a Polynomial From a Table (Finite Differences)",
+     "channel": "The Algebesties",
+     "channel_url": "https://www.youtube.com/@TheAlgebesties",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ORH3TwgvJgI",
+     "title": "Determine Polynomial Equation From Table of Values Using Finite Difference GCSE Advanced Precalculus",
+     "channel": "Anil Kumar",
+     "channel_url": "https://www.youtube.com/@MathematicsTutor",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 1
  }
 }

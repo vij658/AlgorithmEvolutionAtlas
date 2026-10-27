@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**80 of 380 concepts searched, 203 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**81 of 380 concepts searched, 205 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -341,7 +341,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | problem of points | [Can You Solve The Problem That Inspired Probability Theory? (Problem Of The Points)](https://www.youtube.com/watch?v=C_nV3cVNjog) | MindYourDecisions | Start |
 |  | [The Problem of the Points - The Dawn of Probability Theory](https://www.youtube.com/watch?v=zDWr0683PzA) | Robert Black | Start |
 |  | [The Unfinished Game: Pascal, Fermat & the 17th Century Letter that Made the World Modern](https://www.youtube.com/watch?v=W5XbuQq65Xc) | Microsoft Research | Scholar |
-| Pascal Fermat letters probability | *not searched yet* | | |
+| Pascal Fermat letters probability | [The fairness puzzle that sparked probability](https://www.youtube.com/watch?v=_YRfSe-f1FE) | Chalk Talk | Start |
+|  | [The Unfinished Game \| Keith Devlin \| Talks at Google](https://www.youtube.com/watch?v=3pRM4v0O29o) | Talks at Google | Scholar |
 | Pascal's triangle | *not searched yet* | | |
 | expected value | *not searched yet* | | |
 

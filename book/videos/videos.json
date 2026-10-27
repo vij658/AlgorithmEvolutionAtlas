@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 82,
+ "rounds": 83,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2423,11 +2423,37 @@
     }
    ],
    "tries": 1
+  },
+  "e3-04-c2": {
+   "searched": "2026-10-27",
+   "query": "Pascal Fermat correspondence 1654 birth of probability",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a fund company's marketing clip, French-, German- and Chinese-language videos, videos already listed for idea 1, and Fermat's Last Theorem (unrelated)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=_YRfSe-f1FE",
+     "title": "The fairness puzzle that sparked probability",
+     "channel": "Chalk Talk",
+     "channel_url": "https://www.youtube.com/@chalktalkmath",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=3pRM4v0O29o",
+     "title": "The Unfinished Game | Keith Devlin | Talks at Google",
+     "channel": "Talks at Google",
+     "channel_url": "https://www.youtube.com/@talksatgoogle",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

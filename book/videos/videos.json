@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 9,
+ "rounds": 10,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -279,6 +279,32 @@
      "channel": "Dr. Jack L. Jackson II",
      "channel_url": "https://www.youtube.com/@DrJackLJacksonII",
      "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-02-c2": {
+   "searched": "2026-10-27",
+   "query": "Sumerian cuneiform numbers",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'Sumerian Numerals' could not be confirmed (oEmbed refused it); a Short; videos on cuneiform writing in general",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=RR3zzQP3bII",
+     "title": "Cuneiform Numbers - Numberphile",
+     "channel": "Numberphile",
+     "channel_url": "https://www.youtube.com/@numberphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=9Rtbe1ew91c",
+     "title": "You Can Write Cuneiform Numbers 1 20! (part 1)",
+     "channel": "GiskAkina",
+     "channel_url": "https://www.youtube.com/@GiskAkina",
+     "level": "start",
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],

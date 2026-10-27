@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**41 of 380 concepts searched, 110 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**42 of 380 concepts searched, 113 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -179,4 +179,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Ptolemy's theorem | [VISUAL PROOF - PTOLEMY THEOREM](https://www.youtube.com/watch?v=U7bW1JKGezQ) | Centum Academy | Start |
 |  | [Ptolemy's Theorem: Simple proof using similarity of triangles.](https://www.youtube.com/watch?v=pzUOPxLmmbg) | Prime Maths | Deeper |
 |  | [How to Prove Ptolemy's Theorem for Cyclic Quadrilaterals](https://www.youtube.com/watch?v=TlzCEwGp4VM) | Mohamed Omar | Deeper |
+
+### The Chinese Remainder Problem ([in the book](../era-02-algorithms-travel/03-chinese-remainder-problem/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| modular arithmetic clock | [Clock Math: Introduction to Modular Arithmetic](https://www.youtube.com/watch?v=a9negsQP2qI) | Mathilda Academy | Start |
+|  | [Gentle Introduction to Modular Arithmetic](https://www.youtube.com/watch?v=CGhjhixDIKM) | Bu-Math Explorations: Family STEM Math-Literacy | Start |
+|  | [Modular Arithmetic (Part 1)](https://www.youtube.com/watch?v=M42uDLGRSpI) | Neso Academy | Deeper |
+| Chinese remainder theorem | *not searched yet* | | |
+| Sunzi Suanjing remainder problem | *not searched yet* | | |
 

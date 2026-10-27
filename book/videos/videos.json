@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 42,
+ "rounds": 43,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1291,11 +1291,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-03-c1": {
+   "searched": "2026-10-27",
+   "query": "modular arithmetic clock arithmetic introduction",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, mobile duplicates, and a misspelled upload",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=a9negsQP2qI",
+     "title": "Clock Math: Introduction to Modular Arithmetic",
+     "channel": "Mathilda Academy",
+     "channel_url": "https://www.youtube.com/@MathildaAcademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=CGhjhixDIKM",
+     "title": "Gentle Introduction to Modular Arithmetic",
+     "channel": "Bu-Math Explorations: Family STEM Math-Literacy",
+     "channel_url": "https://www.youtube.com/@math_for_teachers_families",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=M42uDLGRSpI",
+     "title": "Modular Arithmetic (Part 1)",
+     "channel": "Neso Academy",
+     "channel_url": "https://www.youtube.com/@nesoacademy",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 55,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

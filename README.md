@@ -36,6 +36,8 @@ The repository has two halves:
 | Era 6 topic pages, all 13 | Done: GitHub and interactive editions with diagrams and widgets ([front page](book/era-06-hard-problems-and-public-keys/README.md)); 13 programs verified (13,468,368 checks) |
 | Reference catalog, Era 7 (polynomial-time linear programming to AdaBoost, 13 topics) | Done: 70 checked links ([read it](book/era-07-randomness-networks-and-learning/reference-catalog.md)) |
 | Era 7 topic pages, all 13 | Done: GitHub and interactive editions with diagrams and widgets ([front page](book/era-07-randomness-networks-and-learning/README.md)); 13 programs verified (1,469,808 checks) |
+| Reference catalog, Era 8 (support vector machines to Bitcoin, 13 topics) | Done: 57 checked links ([read it](book/era-08-the-web-the-genome-and-the-ledger/reference-catalog.md)) |
+| Era 8 topic pages, all 13 | Done: GitHub and interactive editions with diagrams and widgets ([front page](book/era-08-the-web-the-genome-and-the-ledger/README.md)); 13 programs verified (488,910 checks) |
 | Principles catalog, Parts 1–2 (entries 1–42) | Pages written; 42 programs verified (8,135,522 checks) |
 | Principles catalog, Part 3 (entries 43–62) | 20 programs verified (154,369,152 checks); page not written |
 

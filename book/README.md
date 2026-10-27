@@ -169,11 +169,33 @@
 | 12 | [The Burrows–Wheeler Transform](era-07-randomness-networks-and-learning/12-burrows-wheeler/README.md) | Sort the rotations, then undo and search them |
 | 13 | [AdaBoost](era-07-randomness-networks-and-learning/13-adaboost/README.md) | Watch the weights move as stumps vote |
 
+### Era 8 — The Web, the Genome and the Ledger (1995 to 2008)
+
+- **[Era 8 front page](era-08-the-web-the-genome-and-the-ledger/README.md)**: the time line, a map of how the thirteen ideas combine, and the topics. [Interactive edition](era-08-the-web-the-genome-and-the-ledger/index.html) (download the folder and open `index.html` in a browser). [Plan](era-08-the-web-the-genome-and-the-ledger/plan.md).
+- [Reference catalog](era-08-the-web-the-genome-and-the-ledger/reference-catalog.md): each development with checked lectures, articles and original sources, certainty labels and gaps.
+- The topics, each with a GitHub edition, an interactive edition and a tested program:
+
+| # | Topic | Interactive widget |
+|---|---|---|
+| 1 | [Support Vector Machines](era-08-the-web-the-genome-and-the-ledger/01-support-vector-machines/README.md) | Find the widest street |
+| 2 | [Approximation by Semidefinite Programming](era-08-the-web-the-genome-and-the-ledger/02-max-cut/README.md) | Throw a plane through the arrows |
+| 3 | [Streaming Sketches](era-08-the-web-the-genome-and-the-ledger/03-streaming-sketches/README.md) | Count words you cannot keep |
+| 4 | [Consistent Hashing](era-08-the-web-the-genome-and-the-ledger/04-consistent-hashing/README.md) | Add a server, take one away |
+| 5 | [MinHash and Locality-Sensitive Hashing](era-08-the-web-the-genome-and-the-ledger/05-minhash/README.md) | Two sentences, 32 minimum hashes |
+| 6 | [Long Short-Term Memory](era-08-the-web-the-genome-and-the-ledger/06-lstm/README.md) | Carry one sign through thirty steps of noise |
+| 7 | [PageRank](era-08-the-web-the-genome-and-the-ledger/07-pagerank/README.md) | Pass the rank along the links |
+| 8 | [Paxos](era-08-the-web-the-genome-and-the-ledger/08-paxos/README.md) | One rule between agreement and chaos |
+| 9 | [Genome Assembly with de Bruijn Graphs](era-08-the-web-the-genome-and-the-ledger/09-genome-assembly/README.md) | How long must the words be? |
+| 10 | [PRIMES is in P](era-08-the-web-the-genome-and-the-ledger/10-primes-is-in-p/README.md) | Run AKS on a number |
+| 11 | [MapReduce](era-08-the-web-the-genome-and-the-ledger/11-mapreduce/README.md) | Kill a machine, slow one down |
+| 12 | [Compressed Sensing](era-08-the-web-the-genome-and-the-ledger/12-compressed-sensing/README.md) | Recover a signal from too few measurements |
+| 13 | [Bitcoin's Proof-of-Work Ledger](era-08-the-web-the-genome-and-the-ledger/13-bitcoin/README.md) | Mine a block, then break it |
+
 ### Coming next (proposed eras; open to change)
 
 | Era | Span | Topics (from the Evolutionary Atlas) |
 |---|---|---|
-| 8 onward | 1995–2026 | The algorithms of the Web and of genomes, streaming and sketches, approximation, distributed consensus at scale, deep learning, transformers, and the algorithms of 2026 |
+| 9 | 2009–2026 | Deep learning at scale, attention and transformers, diffusion models, modern consensus and cryptography, and the algorithms of 2026 |
 
 ### Plans
 

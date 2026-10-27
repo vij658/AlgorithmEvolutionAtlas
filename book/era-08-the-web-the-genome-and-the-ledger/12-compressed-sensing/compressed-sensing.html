@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Compressed Sensing</title>
+<meta name="description" content="Era 8, topic 12 of The Algorithm Evolution Atlas: Candès, Romberg and Tao&#x27;s compressed sensing (2004), recovering sparse signals from few random measurements by ℓ1 minimization.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.cs-board .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.cs-board input[type=range]{width:14em;padding:0}
+.cs-board output{font:600 15px var(--mono)}
+.cs-board .plot-t{font-size:12.5px;color:var(--muted);margin:8px 0 2px}
+.cs-board .plot-t b{color:var(--ink)}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 8: The Web, the Genome and the Ledger</a><a href="../11-mapreduce/mapreduce.html">← MapReduce</a><a href="../13-bitcoin/bitcoin.html">Bitcoin&#x27;s Proof-of-Work Ledger →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 8 · Topic 12 · 2004–2006</div>
+    <h1>Compressed Sensing</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">The sampling theorem told the species how often to measure a signal. In 2004 Candès, Romberg and Tao proved that a sparse signal, mostly zeros, can be recovered exactly from far fewer random measurements, by asking for the solution with the smallest sum of absolute values.</p>
+  <p class="fieldnote">Field note from the visiting historian. I hid 5 numbers among 128 and took only 40 random measurements. The answer with the smallest sum of squares was spread over 119 of the 128 positions and right in none of them. The answer with the smallest sum of absolute values was right everywhere, to 3.9e-10.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Preprint 10 June 2004; journal 2006</dd></div><div><dt>Where</dt><dd>Caltech and UCLA</dd></div><div><dt>What hurt</dt><dd>Fewer equations than unknowns: infinitely many solutions</dd></div><div><dt>The fix</dt><dd>Random measurements; minimize the sum of absolute values</dd></div><div><dt>Checked</dt><dd>Recovery counts for 560 random signals</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. The sampling theorem said how often to measure a signal. Minimizing a sum of absolute values had been used in seismology since the 1970s, and in the LASSO and basis pursuit in the 1990s. Linear programming (Era 7) could do the minimizing. Candès, Romberg and Tao added random measurements and a proof that, for sparse signals, far fewer of them are enough. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How compressed sensing combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="426.5,180.0 417.6,181.6 419.4,174.5" style="fill:var(--ink-2)"/><rect x="261.7" y="120.3" width="124.3" height="19" rx="3" style="fill:var(--surface)"/><text x="266.7" y="133.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">far fewer samples</text><line x1="500.0" y1="106.0" x2="500.0" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,180.0 496.3,171.8 503.7,171.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="573.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,180.0 580.6,174.5 582.4,181.6" style="fill:var(--ink-2)"/><line x1="426.5" y1="266.0" x2="125.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="125.0,340.0 132.1,334.5 133.9,341.6" style="fill:var(--ink-2)"/><line x1="573.5" y1="266.0" x2="875.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="875.0,340.0 866.1,341.6 867.9,334.5" style="fill:var(--ink-2)"/><line x1="500.0" y1="266.0" x2="500.0" y2="490.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,490.0 496.3,481.8 503.7,481.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="43.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The sampling theorem</text><text x="32.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">how often to measure to</text><text x="32.0" y="77.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">capture a signal</text><text x="32.0" y="93.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Nyquist and Shannon</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">ℓ1 minimization</text><text x="407.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">seismology 1970s, LASSO 1996,</text><text x="407.0" y="85.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">basis pursuit 1998</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Linear programming</text><text x="782.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">interior-point methods</text><text x="782.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 7, topic 1</text><rect x="395" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="211.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Compressed sensing</text><text x="407.0" y="229.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ random measurements</text><text x="407.0" y="245.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Candès, Romberg, Tao, 2004</text><rect x="20" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="380.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Faster MRI</text><text x="32.0" y="397.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">shorter scans</text><rect x="770" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="380.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Single-pixel camera</text><text x="782.0" y="397.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Rice University</text><rect x="395" y="490" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="513.6" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Could change</text><text x="407.0" y="530.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">conversion, optics, MRI,</text><text x="407.0" y="547.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">seismics</text><text x="407.0" y="563.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Candès, Stanford talk, 2010</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Wikipedia: &quot;far fewer samples than required by the Nyquist–Shannon sampling theorem&quot;.</text></svg></div><figcaption>Red: compressed sensing. Blue: what Candès said it could change.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">Recover a signal from too few measurements</h2>
+<p class="col">A signal of 32 numbers, 3 of them not zero. Slide the number of measurements m, from 4 to 20: each measurement is a random mix of all 32 numbers, the first m rows of one 20-by-32 random matrix. Every reconstruction shown fits all m measurements. They are the program's own solutions.</p>
+
+<div class="board cs-board">
+  <div style="min-width:0">
+    <div class="controls"><label>measurements m <input id="cs-m" type="range" min="0" max="6" step="1" value="0"></label><output id="cs-mv"></output></div>
+    <div id="cs-plots"></div>
+  </div>
+  <div style="min-width:0">
+    <p class="say" id="cs-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 8, the Web, the genome and the ledger</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 8: The Web, the Genome and the Ledger, from 1995 to 2008" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1992–1995</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Support vector</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">machines</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1994–1995</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Goemans–Williamson</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1996</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Streaming</text><text x="307.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">sketches</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1997</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Consistent hashing</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1997–1998</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">MinHash</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1997</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">LSTM</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1998</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">PageRank</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1989–1998</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Paxos</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1995–2001</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Genome assembly</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2002</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AKS primality</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2004</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">MapReduce</text><circle cx="1400.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2004–2006</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Compressed</text><text x="1400.5" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">sensing</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2008</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Bitcoin</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 416" role="img" aria-label="Each fix leaves a new pain: from measuring everything to measuring enough" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The sampling theorem&#x27;s rate ignores that most of a</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">sparse signal is zero</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Measure less: m random mixes of all N numbers</text><text x="572.0" y="86.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">&quot;far fewer samples&quot; (Wikipedia)</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Fewer equations than unknowns: infinitely many</text><text x="572.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">solutions; the smallest-squares one is wrong (119 of 128</text><text x="572.0" y="236.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">entries non-zero)</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Take the solution with the smallest sum of absolute</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">values</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Candès, Romberg and Tao, 2004</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Too few measurements for the number of non-zero</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">entries, and ℓ1 fails too</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Enough is about k log N: a proved threshold</text><text x="572.0" y="370.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the phase transition, measured below</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">The diamond and the circle</h2>
+<p class="col"><strong>The setting.</strong> A signal x has N numbers, only k of them not zero, and we do not know which. Each measurement is a fixed random combination of all N numbers, so m measurements give m equations y = A x. With m smaller than N there are infinitely many solutions.</p>
+<p class="col"><strong>Which solution?</strong> The usual choice, the one with the smallest sum of squares, spreads the signal thinly over every position. The one with the smallest sum of absolute values, the ℓ1 norm, picks out sparse solutions. In two dimensions you can see why:</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 760 400" role="img" aria-label="The smallest l1 diamond touches the line of solutions at a corner; the smallest circle does not" style="font-family:var(--body);min-width:380px;max-width:760px;margin:0 auto"><text x="30.0" y="26.0" text-anchor="start" style="fill:var(--ink);font-size:14px;font-weight:700">smallest |x₁| + |x₂|</text><line x1="25.0" y1="200.0" x2="362.5" y2="200.0" style="stroke:var(--axis);stroke-width:1.2"/><line x1="190.0" y1="335.0" x2="190.0" y2="27.5" style="stroke:var(--axis);stroke-width:1.2"/><text x="362.5" y="216.0" text-anchor="end" style="fill:var(--muted);font-size:12px;font-weight:400">x₁</text><text x="198.0" y="32.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">x₂</text><line x1="77.5" y1="35.0" x2="362.5" y2="149.0" style="stroke:var(--red);stroke-width:2.2"/><path d="M310.0,200.0 L190.0,80.0 L70.0,200.0 L190.0,320.0 Z" style="fill:var(--blue);stroke:var(--blue);stroke-width:1.8;fill-opacity:0.15"/><circle cx="190.0" cy="80.0" r="6.0" style="fill:var(--ink);stroke:var(--ink);stroke-width:1"/><text x="202.0" y="70.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:700">(0.00, 0.80): x₁ is exactly 0</text><text x="410.0" y="26.0" text-anchor="start" style="fill:var(--ink);font-size:14px;font-weight:700">smallest x₁² + x₂²</text><line x1="405.0" y1="200.0" x2="742.5" y2="200.0" style="stroke:var(--axis);stroke-width:1.2"/><line x1="570.0" y1="335.0" x2="570.0" y2="27.5" style="stroke:var(--axis);stroke-width:1.2"/><text x="742.5" y="216.0" text-anchor="end" style="fill:var(--muted);font-size:12px;font-weight:400">x₁</text><text x="578.0" y="32.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">x₂</text><line x1="457.5" y1="35.0" x2="742.5" y2="149.0" style="stroke:var(--red);stroke-width:2.2"/><circle cx="570.0" cy="200.0" r="111.4" style="fill:var(--blue);fill-opacity:0.15;stroke:var(--blue);stroke-width:1.8"/><circle cx="611.4" cy="96.6" r="6.0" style="fill:var(--ink);stroke:var(--ink);stroke-width:1"/><text x="566.4" y="148.6" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:700">(0.28, 0.69): both non-zero</text><text x="20.0" y="372.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:400">Red: every (x₁, x₂) with x₁ + 2.5 x₂ = 2, one measurement of two unknowns. Blue: the smallest shape that touches it.</text><text x="20.0" y="392.0" text-anchor="start" style="fill:var(--muted);font-size:12px;font-weight:400">A diamond&#x27;s corners lie on the axes, so it usually touches first at a corner, where a number is zero.</text></svg></div></figure>
+<p class="col"><strong>The theorem.</strong> Candès, Romberg and Tao proved that with high probability the ℓ1 solution is exactly the sparse signal, once the number of measurements is a modest multiple of k log N. <strong>The computation.</strong> Minimizing |x₁| + … + |x_N| subject to A x = y is a linear program: write x = u − v with u and v not negative, and minimize the sum of all their entries. The program solves it with an interior-point method, as in Era 7.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>When most of a signal is zero, measure random mixtures of it and ask for the simplest explanation, in the sense of the smallest sum of absolute values. The proof is about random measurements.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Where ℓ1 succeeds, and where it stops</h2>
+<p class="col"><strong>One signal</strong>: N = 128, k = 5 non-zero entries, m = 40 random measurements. ℓ1 minimization took 7 interior-point iterations (duality gap 1.2e-08) and recovered the signal with largest error 3.9e-10. The smallest-squares solution had largest error 1.316, with 119 of the 128 entries above 0.01 in size. The five non-zero positions:</p>
+<div class="tbl"><table><thead><tr><th class="n">Position</th><th class="n">True value</th><th class="n">ℓ1 solution</th><th class="n">Smallest squares</th></tr></thead><tbody><tr class=""><td class="n">8</td><td class="n">-1.0766</td><td class="n">-1.0766</td><td class="n">-0.1478</td></tr><tr class=""><td class="n">27</td><td class="n">1.8174</td><td class="n">1.8174</td><td class="n">0.5009</td></tr><tr class=""><td class="n">44</td><td class="n">-1.1928</td><td class="n">-1.1928</td><td class="n">-0.3474</td></tr><tr class=""><td class="n">48</td><td class="n">1.2922</td><td class="n">1.2922</td><td class="n">0.3939</td></tr><tr class=""><td class="n">96</td><td class="n">-1.1904</td><td class="n">-1.1904</td><td class="n">-0.3162</td></tr></tbody></table></div>
+<p class="col"><strong>The phase transition</strong>: for each m and k, 10 random signals and matrices. With m = 40 measurements, ℓ1 recovered every signal up to k = 8 and 2 of 10 at k = 16.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 710 364" role="img" aria-label="A grid of recovery counts: many measurements and few non-zero entries always succeed" style="font-family:var(--body);min-width:355px;max-width:710px;margin:0 auto"><text x="20.0" y="24.0" text-anchor="start" style="fill:var(--ink);font-size:13.5px;font-weight:700">Signals recovered exactly by l1 minimization, out of 10 (N = 128)</text><text x="110.0" y="46.0" text-anchor="end" style="fill:var(--muted);font-size:12px;font-weight:700">m</text><text x="155.0" y="312.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">2</text><text x="225.0" y="312.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">4</text><text x="295.0" y="312.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">6</text><text x="365.0" y="312.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">8</text><text x="435.0" y="312.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">10</text><text x="505.0" y="312.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">12</text><text x="575.0" y="312.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">14</text><text x="645.0" y="312.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">16</text><text x="400.0" y="332.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">k, the number of non-zero entries</text><text x="110.0" y="77.0" text-anchor="end" style="fill:var(--muted);font-size:12px;font-weight:400">16</text><rect x="121.0" y="57.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.82"/><text x="155.0" y="78.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:400">8</text><rect x="191.0" y="57.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.36"/><text x="225.0" y="78.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">3</text><rect x="261.0" y="57.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.08"/><text x="295.0" y="78.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">0</text><rect x="331.0" y="57.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.08"/><text x="365.0" y="78.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">0</text><rect x="401.0" y="57.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.08"/><text x="435.0" y="78.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">0</text><rect x="471.0" y="57.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.08"/><text x="505.0" y="78.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">0</text><rect x="541.0" y="57.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.08"/><text x="575.0" y="78.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">0</text><rect x="611.0" y="57.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.08"/><text x="645.0" y="78.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">0</text><text x="110.0" y="111.0" text-anchor="end" style="fill:var(--muted);font-size:12px;font-weight:400">24</text><rect x="121.0" y="91.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="155.0" y="112.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="191.0" y="91.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="225.0" y="112.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="261.0" y="91.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.54"/><text x="295.0" y="112.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">5</text><rect x="331.0" y="91.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.17"/><text x="365.0" y="112.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">1</text><rect x="401.0" y="91.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.08"/><text x="435.0" y="112.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">0</text><rect x="471.0" y="91.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.08"/><text x="505.0" y="112.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">0</text><rect x="541.0" y="91.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.08"/><text x="575.0" y="112.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">0</text><rect x="611.0" y="91.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.08"/><text x="645.0" y="112.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">0</text><text x="110.0" y="145.0" text-anchor="end" style="fill:var(--muted);font-size:12px;font-weight:400">32</text><rect x="121.0" y="125.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="155.0" y="146.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="191.0" y="125.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="225.0" y="146.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="261.0" y="125.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.91"/><text x="295.0" y="146.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:400">9</text><rect x="331.0" y="125.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.63"/><text x="365.0" y="146.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:400">6</text><rect x="401.0" y="125.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.08"/><text x="435.0" y="146.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">0</text><rect x="471.0" y="125.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.08"/><text x="505.0" y="146.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">0</text><rect x="541.0" y="125.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.08"/><text x="575.0" y="146.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">0</text><rect x="611.0" y="125.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.08"/><text x="645.0" y="146.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">0</text><text x="110.0" y="179.0" text-anchor="end" style="fill:var(--muted);font-size:12px;font-weight:400">40</text><rect x="121.0" y="159.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="155.0" y="180.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="191.0" y="159.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="225.0" y="180.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="261.0" y="159.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="295.0" y="180.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="331.0" y="159.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="365.0" y="180.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="401.0" y="159.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.91"/><text x="435.0" y="180.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:400">9</text><rect x="471.0" y="159.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.36"/><text x="505.0" y="180.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">3</text><rect x="541.0" y="159.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.26"/><text x="575.0" y="180.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">2</text><rect x="611.0" y="159.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.26"/><text x="645.0" y="180.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">2</text><text x="110.0" y="213.0" text-anchor="end" style="fill:var(--muted);font-size:12px;font-weight:400">48</text><rect x="121.0" y="193.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="155.0" y="214.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="191.0" y="193.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="225.0" y="214.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="261.0" y="193.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="295.0" y="214.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="331.0" y="193.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="365.0" y="214.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="401.0" y="193.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="435.0" y="214.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="471.0" y="193.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.91"/><text x="505.0" y="214.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:400">9</text><rect x="541.0" y="193.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.82"/><text x="575.0" y="214.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:400">8</text><rect x="611.0" y="193.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.36"/><text x="645.0" y="214.0" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:400">3</text><text x="110.0" y="247.0" text-anchor="end" style="fill:var(--muted);font-size:12px;font-weight:400">56</text><rect x="121.0" y="227.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="155.0" y="248.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="191.0" y="227.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="225.0" y="248.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="261.0" y="227.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="295.0" y="248.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="331.0" y="227.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="365.0" y="248.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="401.0" y="227.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="435.0" y="248.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="471.0" y="227.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="505.0" y="248.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="541.0" y="227.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="575.0" y="248.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="611.0" y="227.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:0.82"/><text x="645.0" y="248.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:400">8</text><text x="110.0" y="281.0" text-anchor="end" style="fill:var(--muted);font-size:12px;font-weight:400">64</text><rect x="121.0" y="261.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="155.0" y="282.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="191.0" y="261.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="225.0" y="282.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="261.0" y="261.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="295.0" y="282.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="331.0" y="261.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="365.0" y="282.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="401.0" y="261.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="435.0" y="282.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="471.0" y="261.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="505.0" y="282.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="541.0" y="261.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="575.0" y="282.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><rect x="611.0" y="261.0" width="68.0" height="32.0" rx="0" style="fill:var(--blue);stroke:var(--axis);stroke-width:0.6;fill-opacity:1.00"/><text x="645.0" y="282.0" text-anchor="middle" style="fill:var(--on-blue);font-size:13px;font-weight:700">10</text><text x="20.0" y="354.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:400">The smallest-squares solution recovered 0 of the 560 signals.</text></svg></div></figure>
+<p class="col">In the widget's small signal (N = 32, k = 3), ℓ1 was wrong up to m = 10 and exact from m = 12.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">Caltech and UCLA, June 2004</h2>
+<p class="col">Candès and Romberg (Caltech) and Tao (UCLA), preprint dated 10 June 2004: "exact recovery may be obtained by solving a convex optimization problem", minimizing the ℓ1 norm subject to the observed Fourier coefficients; recovery holds with probability at least 1 − O(N^−M) when the number of non-zero entries is below about |Ω|/(29.6(M + 1) log N); the Logan–Shepp phantom, with "512 samples along each of 22 radial lines", is recovered exactly. Published in <em>IEEE Transactions on Information Theory</em> 52(2), 489–509, February 2006.</p>
+<p class="col">Wikipedia: compressed sensing recovers signals from "far fewer samples than required by the Nyquist–Shannon sampling theorem"; "around 2004" Candès, Romberg, Tao and Donoho showed this; earlier ℓ1 work includes seismology in the 1970s, matching pursuit (1993), the LASSO (1996) and basis pursuit (1998); it speeds up MRI and made single-pixel cameras possible. MAA's summary of Jordan Ellenberg's <em>Wired</em> article (2010): Candès found the effect by chance in 2004, using ℓ1 minimization on a blurry image, with a result "remarkably clear". The abstract of Candès's Stanford talk of 20 October 2010: the theory could change analog-to-digital conversion, digital optics, MRI and seismics.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">A linear program, again</h2>
+<p class="col">Era 7's interior-point methods were invented to solve linear programs in polynomial time. Here the same method finds a sparse signal: the absolute values become a linear program once each number is split into a positive and a negative part. And where AKS (topic 10) removed randomness from primality testing, compressed sensing puts it in on purpose: the measurements are random.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>With m = 40 measurements of 128 numbers, the linear program recovered all 5 non-zero entries with largest error 3.9e-10.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>With one equation x₁ + x₂ = 2, which solution has the smallest x₁² + x₂²? The smallest |x₁| + |x₂|?</span></summary><div class="ans"><p>Smallest squares: (1, 1), not sparse. Smallest absolute values: every point from (2, 0) to (0, 2) ties at 2, including the two sparse corners.</p></div></details><details class="try"><summary><span class="q">2</span><span>Why does the smallest-squares solution spread the signal over every position?</span></summary><div class="ans"><p>Squares punish large entries far more than small ones, so it prefers many small numbers to a few large ones.</p></div></details><details class="try"><summary><span class="q">3</span><span>Why must the measurements mix all N numbers, rather than read N/4 of them directly?</span></summary><div class="ans"><p>Reading a few entries directly would miss the non-zero ones; a random mix records a little of every entry.</p></div></details><details class="try"><summary><span class="q">4</span><span>How is minimizing |x₁| + … + |x_N| a linear program?</span></summary><div class="ans"><p>Write each xᵢ = uᵢ − vᵢ with uᵢ, vᵢ ≥ 0 and minimize the sum of all u and v, subject to A(u − v) = y.</p></div></details><details class="try"><summary><span class="q">5</span><span>In the grid, why does recovery fail at m = 16 for k = 6 but succeed at m = 40?</span></summary><div class="ans"><p>The theorem needs a modest multiple of k log N measurements; 16 is too few for 6 non-zero entries out of 128.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Robust uncertainty principles (preprint, 2004)</b><span>The theorem and the 22-line phantom.</span><a href="https://arxiv.org/pdf/math/0409186">The preprint (arXiv)</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://maa.org/news/math-news/fill-in-the-blanks-using-math-to-turn-lo-res-datasets-into-hi-res-samples" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Fill in the Blanks: Using Math to Turn Lo-Res Datasets Into Hi-Res Samples · MAA Math News (2010), on J. Ellenberg's <em>Wired</em> article</span><span class="w">How the discovery happened</span></a><a href="https://en.wikipedia.org/wiki/Compressed_sensing" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Compressed sensing · Wikipedia</span><span class="w">Sparsity, incoherence, ℓ1 and applications</span></a><a href="https://arxiv.org/pdf/math/0409186" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Robust Uncertainty Principles · E. Candès, J. Romberg, T. Tao (2004; journal 2006)</span><span class="w">The theorem and the 22-line phantom</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-08-the-web-the-genome-and-the-ledger/reference-catalog.md">Era 8 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-08-the-web-the-genome-and-the-ledger/12-compressed-sensing/CompressedSensing.java">CompressedSensing.java</a> makes <strong>589 checks</strong>: that every solution fits its measurements, that ℓ1 minimization recovers the sparse signal where the smallest-squares solution never does, and where the recovery stops. Run it with <code>java CompressedSensing.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/**</span>
+<span class="k-c"> * Basis pursuit: minimize sum |x_j| subject to A x = y, as the linear program min 1.(u + v), A u - A v = y,</span>
+<span class="k-c"> * u, v &gt;= 0, by a primal-dual interior-point method with Mehrotra&#x27;s predictor-corrector.</span>
+<span class="k-c"> */</span>
+<span class="k-kw">static</span> <span class="k-kw">double</span>[] basisPursuit(<span class="k-kw">double</span>[][] A, <span class="k-kw">double</span>[] y) {
+    <span class="k-kw">int</span> m = A.length, N = A[<span class="k-n">0</span>].length, n = <span class="k-n">2</span> * N;
+    <span class="k-c">// B = [A, -A]; B z for z = (u, v); B^T l</span>
+    java.util.function.Function&lt;<span class="k-kw">double</span>[], <span class="k-kw">double</span>[]&gt; Bz = z -&gt; { <span class="k-kw">double</span>[] r = <span class="k-kw">new</span> <span class="k-kw">double</span>[m]; <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; m; i++) <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; N; j++) r[i] += A[i][j] * (z[j] - z[N + j]); <span class="k-kw">return</span> r; };
+    java.util.function.Function&lt;<span class="k-kw">double</span>[], <span class="k-kw">double</span>[]&gt; BTl = l -&gt; { <span class="k-kw">double</span>[] r = <span class="k-kw">new</span> <span class="k-kw">double</span>[n]; <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; N; j++) { <span class="k-kw">double</span> s = <span class="k-n">0</span>; <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; m; i++) s += A[i][j] * l[i]; r[j] = s; r[N + j] = -s; } <span class="k-kw">return</span> r; };
+    java.util.function.Function&lt;<span class="k-kw">double</span>[], <span class="k-kw">double</span>[][]&gt; normal = d -&gt; { <span class="k-c">// B diag(d) B^T = A diag(d_u + d_v) A^T</span>
+        <span class="k-kw">double</span>[][] M = <span class="k-kw">new</span> <span class="k-kw">double</span>[m][m];
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; N; j++) { <span class="k-kw">double</span> dj = d[j] + d[N + j]; <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; m; i++) { <span class="k-kw">double</span> a = A[i][j] * dj; <span class="k-kw">for</span> (<span class="k-kw">int</span> k = <span class="k-n">0</span>; k &lt;= i; k++) M[i][k] += a * A[k][j]; } }
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; m; i++) <span class="k-kw">for</span> (<span class="k-kw">int</span> k = <span class="k-n">0</span>; k &lt; i; k++) M[k][i] = M[i][k];
+        <span class="k-kw">double</span> mx = <span class="k-n">0</span>;
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; m; i++) mx = Math.max(mx, M[i][i]);
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; m; i++) M[i][i] += 1e-<span class="k-n">14</span> * mx; <span class="k-c">// a tiny regularization keeps the factorization stable near the end</span>
+        <span class="k-kw">return</span> M;
+    };
+    <span class="k-kw">double</span>[] c = <span class="k-kw">new</span> <span class="k-kw">double</span>[n];
+    Arrays.fill(c, <span class="k-n">1</span>);
+    <span class="k-c">// Mehrotra&#x27;s starting point</span>
+    <span class="k-kw">double</span>[] ones = <span class="k-kw">new</span> <span class="k-kw">double</span>[n];
+    Arrays.fill(ones, <span class="k-n">1</span>);
+    <span class="k-kw">double</span>[][] L0 = cholesky(normal.apply(ones));
+    <span class="k-kw">double</span>[] z = BTl.apply(cholSolve(L0, y));
+    <span class="k-kw">double</span>[] lam = cholSolve(L0, Bz.apply(c));
+    <span class="k-kw">double</span>[] s = <span class="k-kw">new</span> <span class="k-kw">double</span>[n];
+    <span class="k-kw">double</span>[] bl = BTl.apply(lam);
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; n; j++) s[j] = c[j] - bl[j];
+    <span class="k-kw">double</span> mz = <span class="k-n">0</span>, ms = <span class="k-n">0</span>;
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; n; j++) { mz = Math.min(mz, z[j]); ms = Math.min(ms, s[j]); }
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; n; j++) { z[j] += Math.max(-<span class="k-n">1</span>.<span class="k-n">5</span> * mz, <span class="k-n">0</span>); s[j] += Math.max(-<span class="k-n">1</span>.<span class="k-n">5</span> * ms, <span class="k-n">0</span>); }
+    <span class="k-kw">double</span> zs = <span class="k-n">0</span>, sz = <span class="k-n">0</span>, ss = <span class="k-n">0</span>;
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; n; j++) { zs += z[j] * s[j]; sz += z[j]; ss += s[j]; }
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; n; j++) { z[j] += <span class="k-n">0</span>.<span class="k-n">5</span> * zs / ss; s[j] += <span class="k-n">0</span>.<span class="k-n">5</span> * zs / sz; }
+    <span class="k-kw">int</span> it = <span class="k-n">0</span>;
+    <span class="k-kw">double</span> bestScore = Double.POSITIVE_INFINITY;
+    <span class="k-kw">double</span>[] best = z.clone(), bestLam = lam.clone();
+    <span class="k-kw">for</span> (; it &lt; <span class="k-n">100</span>; it++) {
+        <span class="k-kw">double</span>[] bz = Bz.apply(z), btl = BTl.apply(lam);
+        <span class="k-kw">double</span>[] rp = <span class="k-kw">new</span> <span class="k-kw">double</span>[m], rd = <span class="k-kw">new</span> <span class="k-kw">double</span>[n];
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; m; i++) rp[i] = y[i] - bz[i];
+        <span class="k-kw">double</span> mu = <span class="k-n">0</span>, nrp = <span class="k-n">0</span>, nrd = <span class="k-n">0</span>;
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; n; j++) { rd[j] = c[j] - btl[j] - s[j]; mu += z[j] * s[j]; nrd = Math.max(nrd, Math.abs(rd[j])); }
+        <span class="k-kw">for</span> (<span class="k-kw">double</span> v : rp) nrp = Math.max(nrp, Math.abs(v));
+        mu /= n;
+        <span class="k-kw">double</span> score = Math.max(nrp, Math.max(nrd, mu));
+        <span class="k-kw">if</span> (!(score &gt;= bestScore)) { bestScore = score; best = z.clone(); bestLam = lam.clone(); }
+        <span class="k-kw">if</span> (nrp &lt; 1e-<span class="k-n">9</span> &amp;&amp; nrd &lt; 1e-<span class="k-n">9</span> &amp;&amp; mu &lt; 1e-<span class="k-n">10</span>) break; <span class="k-c">// stop before the last steps lose accuracy</span>
+        <span class="k-kw">double</span>[] d = <span class="k-kw">new</span> <span class="k-kw">double</span>[n];
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; n; j++) d[j] = z[j] / s[j];
+        <span class="k-kw">double</span>[][] L = cholesky(normal.apply(d));
+        <span class="k-kw">double</span>[][] aff = direction(L, rp, rd, negProd(z, s), z, s, d, Bz, BTl, m, n);
+        <span class="k-kw">double</span> ap = stepTo(z, aff[<span class="k-n">0</span>], <span class="k-n">1</span>), ad = stepTo(s, aff[<span class="k-n">2</span>], <span class="k-n">1</span>);
+        <span class="k-kw">double</span> muAff = <span class="k-n">0</span>;
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; n; j++) muAff += (z[j] + ap * aff[<span class="k-n">0</span>][j]) * (s[j] + ad * aff[<span class="k-n">2</span>][j]);
+        muAff /= n;
+        <span class="k-kw">double</span> sigma = Math.pow(muAff / mu, <span class="k-n">3</span>);
+        <span class="k-kw">double</span>[] rc = <span class="k-kw">new</span> <span class="k-kw">double</span>[n];
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; n; j++) rc[j] = -z[j] * s[j] - aff[<span class="k-n">0</span>][j] * aff[<span class="k-n">2</span>][j] + sigma * mu;
+        <span class="k-kw">double</span>[][] dir = direction(L, rp, rd, rc, z, s, d, Bz, BTl, m, n);
+        ap = stepTo(z, dir[<span class="k-n">0</span>], <span class="k-n">0</span>.<span class="k-n">99</span>); ad = stepTo(s, dir[<span class="k-n">2</span>], <span class="k-n">0</span>.<span class="k-n">99</span>);
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; n; j++) { z[j] += ap * dir[<span class="k-n">0</span>][j]; s[j] += ad * dir[<span class="k-n">2</span>][j]; }
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; m; i++) lam[i] += ad * dir[<span class="k-n">1</span>][i];
+    }
+    lastIterations = it;
+    z = best; lam = bestLam; <span class="k-c">// the most accurate iterate seen (normally the last)</span>
+    <span class="k-kw">double</span> primal = <span class="k-n">0</span>, dual = <span class="k-n">0</span>;
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; n; j++) primal += z[j];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; m; i++) dual += y[i] * lam[i];
+    lastGap = primal - dual;
+    <span class="k-kw">double</span>[] x = <span class="k-kw">new</span> <span class="k-kw">double</span>[N];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; N; j++) x[j] = z[j] - z[N + j];
+    <span class="k-kw">return</span> x;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>CompressedSensing.java</code>.<br><span class="navfoot"><a href="../index.html">Era 8: The Web, the Genome and the Ledger</a><a href="../11-mapreduce/mapreduce.html">← MapReduce</a><a href="../13-bitcoin/bitcoin.html">Bitcoin&#x27;s Proof-of-Work Ledger →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const inp = document.getElementById("cs-m");
+  if (!inp) return;
+  const X = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.51, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.88, 0.0, 0.0, 1.41, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], RUNS = [{"m": 4, "ok": false, "l1": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.48, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.64, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.84, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.18, 0.0], "l2": [0.01, -0.03, 0.09, 0.13, -0.2, 0.11, -0.1, 0.11, -0.18, 0.26, -0.17, -0.07, -0.07, 0.3, 0.03, -0.25, 0.28, -0.14, 0.12, -0.19, 0.13, 0.01, 0.05, -0.25, 0.16, -0.24, -0.05, -0.11, -0.15, 0.0, -0.28, 0.16]}, {"m": 6, "ok": false, "l1": [0.0, 0.0, 0.0, 0.0, 0.0, 0.42, 0.0, 0.0, 0.0, 0.56, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.65, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.25, 0.0, -0.19, 0.0, 0.0, 0.0, 0.0, -1.31, 0.0], "l2": [-0.01, -0.11, 0.1, 0.01, -0.26, 0.29, -0.07, 0.12, -0.19, 0.26, -0.2, -0.08, -0.13, 0.2, -0.03, -0.18, 0.3, -0.16, 0.08, -0.28, 0.18, 0.01, 0.08, -0.24, 0.15, -0.27, -0.07, -0.08, -0.09, 0.02, -0.28, 0.14]}, {"m": 8, "ok": false, "l1": [0.0, 0.0, 0.0, 0.0, -0.41, 0.35, 0.0, 0.33, 0.0, 0.0, -0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.0, 0.08, 0.0, 0.0, 0.0, 0.0, -0.62, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.49, 0.0], "l2": [0.03, -0.05, 0.17, 0.07, -0.33, 0.35, -0.04, 0.15, -0.12, 0.22, -0.2, -0.06, -0.17, 0.21, 0.02, -0.2, 0.17, -0.2, 0.14, -0.24, 0.24, 0.09, 0.03, -0.31, 0.04, -0.31, -0.04, -0.06, -0.12, -0.01, -0.31, 0.08]}, {"m": 10, "ok": false, "l1": [0.0, 0.04, 0.0, 0.0, -0.44, 0.38, -0.13, 0.26, 0.0, 0.15, 0.0, 0.0, 0.0, 0.0, 0.0, -0.01, 0.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.57, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.48, 0.0], "l2": [0.16, 0.05, 0.11, 0.04, -0.37, 0.24, -0.16, 0.12, -0.05, 0.25, -0.31, -0.02, -0.22, 0.18, 0.01, -0.16, 0.21, -0.32, 0.02, -0.27, 0.19, 0.16, 0.05, -0.35, 0.08, -0.27, -0.05, 0.12, -0.09, 0.09, -0.43, -0.05]}, {"m": 12, "ok": true, "l1": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.51, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.88, 0.0, 0.0, 1.41, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "l2": [0.26, 0.02, 0.02, 0.15, -0.09, 0.36, 0.07, 0.0, -0.11, 0.41, -0.34, 0.18, -0.21, 0.5, 0.01, -0.09, 0.13, -0.37, 0.02, -0.24, 0.59, 0.26, -0.1, -0.11, 0.41, -0.42, -0.06, 0.19, 0.09, 0.18, -0.32, -0.3]}, {"m": 16, "ok": true, "l1": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.51, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.88, 0.0, 0.0, 1.41, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "l2": [0.32, 0.38, 0.19, 0.15, -0.14, 0.47, -0.18, -0.42, -0.12, 0.73, -0.16, -0.17, -0.45, 0.42, -0.24, 0.13, -0.14, -0.93, -0.15, 0.07, 0.81, -0.07, 0.02, 0.02, 0.64, -0.36, -0.02, 0.06, -0.18, -0.06, -0.15, -0.07]}, {"m": 20, "ok": true, "l1": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.51, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.88, 0.0, 0.0, 1.41, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "l2": [0.36, 0.35, 0.08, 0.26, -0.11, 0.55, -0.24, -0.55, 0.0, 0.88, -0.1, -0.17, -0.33, 0.32, -0.16, 0.24, -0.09, -0.9, -0.04, 0.03, 0.82, -0.02, -0.01, 0.03, 0.59, -0.33, 0.01, 0.01, -0.16, -0.09, -0.27, -0.04]}], N = X.length;
+  const plots = document.getElementById("cs-plots");
+  function stems(title, v, color, ref) {
+    el("p", {class: "plot-t"}, plots).innerHTML = title;
+    const W = 640, H = 120, mid = 60, sc = 26, dx = (W - 20) / N;
+    const svg = sv("svg", {viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": title.replace(/<[^>]+>/g, "")}, plots);
+    sv("line", {x1: 10, y1: mid, x2: W - 10, y2: mid, stroke: "var(--axis)", "stroke-width": 1}, svg);
+    v.forEach((a, i) => {
+      const x = 10 + dx * (i + 0.5);
+      if (ref && ref[i] !== 0) sv("circle", {cx: x, cy: mid - ref[i] * sc, r: 7, fill: "none", stroke: "var(--muted)", "stroke-width": 1.2, "stroke-dasharray": "2 2"}, svg);
+      if (a === 0) { sv("circle", {cx: x, cy: mid, r: 1.6, fill: "var(--muted)"}, svg); return; }
+      sv("line", {x1: x, y1: mid, x2: x, y2: mid - a * sc, stroke: color, "stroke-width": 2.4}, svg);
+      sv("circle", {cx: x, cy: mid - a * sc, r: 3.6, fill: color}, svg);
+    });
+  }
+  const nz = v => v.filter(a => a !== 0).length;
+  function run() {
+    const r = RUNS[+inp.value];
+    document.getElementById("cs-mv").textContent = r.m;
+    plots.innerHTML = "";
+    stems(`<b>The signal</b>: ${N} numbers, ${nz(X)} of them not zero`, X, "var(--ink)");
+    stems(`<b>Smallest sum of absolute values</b> (l1): ${r.ok ? "exactly the signal" : "wrong"}`, r.l1, r.ok ? "var(--blue)" : "var(--red)", X);
+    stems(`<b>Smallest sum of squares</b>: wrong, ${nz(r.l2)} of ${N} entries non-zero to two decimals`, r.l2, "var(--red)", X);
+    document.getElementById("cs-say").textContent = `m = ${r.m}: ${r.m} measurements, each a random mix of all ${N} numbers, so ${r.m} equations for ${N} unknowns. ` +
+      (r.ok ? `The l1 solution is the signal itself, to two decimals in every position. ` : `The l1 solution fits all ${r.m} measurements but is not the signal: too few for k = ${nz(X)}. `) +
+      `The smallest-squares solution also fits them, spread over ${nz(r.l2)} positions. Dashed rings mark where the signal's non-zero entries are.`;
+  }
+  inp.addEventListener("input", run);
+  run();
+})();
+
+</script>
+</body>
+</html>

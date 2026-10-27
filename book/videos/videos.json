@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 78,
+ "rounds": 79,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2295,11 +2295,37 @@
     }
    ],
    "tries": 1
+  },
+  "e3-03-c1": {
+   "searched": "2026-10-27",
+   "query": "Pascaline calculator how it works carry",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Shorts, a 'hidden genius' filler channel, a question-titled filler channel, and general computer-history clips",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=SeyMTzKYKqg",
+     "title": "How does the Pascaline calculator work?",
+     "channel": "Knowledge Tribe",
+     "channel_url": "https://www.youtube.com/@KnowledgeTribe",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=3h71HAJWnVU",
+     "title": "How the Pascaline Works",
+     "channel": "MechanicalComputing",
+     "channel_url": "https://www.youtube.com/@MechanicalComputing",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 20,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

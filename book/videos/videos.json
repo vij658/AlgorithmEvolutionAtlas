@@ -1,0 +1,108 @@
+{
+ "updated": "2026-10-27",
+ "rounds": 3,
+ "concepts": {
+  "ch1-c1": {
+   "searched": "2026-10-27",
+   "query": "adding two numbers",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "programming tutorials (adding numbers in Python or Scratch) are about code, not the arithmetic",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=3qx5mzhOltM",
+     "title": "2-Digit Addition With and Without Regrouping",
+     "channel": "Mrs. Montgomery's Learning Corner",
+     "channel_url": "https://www.youtube.com/@mrsmontgomeryslearningcorner",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=OOcclZ8ucrU",
+     "title": "Maths - Adding two digit numbers - English",
+     "channel": "Bodhaguru",
+     "channel_url": "https://www.youtube.com/@Bodhaguru",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=4velJGSdqv0",
+     "title": "HOW TO ADD ANY TWO NUMBERS | MUST KNOW - Long Addition Method | Super Simple & EASY!",
+     "channel": "Jay AQEL",
+     "channel_url": "https://www.youtube.com/@jayaqel9828",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "ch1-c2": {
+   "searched": "2026-10-27",
+   "query": "carrying in column addition",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "videos about column addition without carrying, which skip the concept",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=rV_Tt1qY1ZQ",
+     "title": "Column Addition (with carrying) | Maths Tutorial with Miss Smith",
+     "channel": "Sunny View School",
+     "channel_url": "https://www.youtube.com/@sunnyviewschool",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=hwxyheQNXBU",
+     "title": "Column Addition with Exchanging | Year 3 Maths KS2",
+     "channel": "CENTURY Tech",
+     "channel_url": "https://www.youtube.com/@CENTURYTech",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=FiqgoORt6to",
+     "title": "Maths: Column addition with carrying of digits in all columns",
+     "channel": "Tracey",
+     "channel_url": "https://www.youtube.com/@missjad1",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "ch1-c3": {
+   "searched": "2026-10-27",
+   "query": "why the addition algorithm works place value",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "videos that show the steps without the place-value reason, and decimal-only lessons",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=GHKwjaKuXP8",
+     "title": "Place Value “Chip Model” for Addition",
+     "channel": "CPS Video",
+     "channel_url": "https://www.youtube.com/@CheshirePublicSchools",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=XO49TSyJF5s",
+     "title": "GED QOD: Understanding the Addition Algorithm",
+     "channel": "Light & Salt Learning",
+     "channel_url": "https://www.youtube.com/@LightandSaltLearning",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ZpB_IR7tl4g",
+     "title": "How to Teach the Addition Algorithm with regrouping",
+     "channel": "My LearningBlock",
+     "channel_url": "https://www.youtube.com/@MylearningblockOfficial",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  }
+ }
+}

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**102 of 380 concepts searched, 261 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**103 of 380 concepts searched, 264 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -429,4 +429,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Difference Engine Carry Mechanism with Explanation](https://www.youtube.com/watch?v=juWOWzkpw5o) | Sydney Padua | Deeper |
 | Difference Engine No. 2 Science Museum | [Babbage's DIfference Engine No. 2 in operation](https://www.youtube.com/watch?v=_o3uejzyILY) | Kevin Marks | Start |
 |  | [The Babbage Difference Engine #2 at CHM](https://www.youtube.com/watch?v=be1EM3gQkAY) | Computer History Museum | Deeper |
+
+### Lovelace's Note G ([in the book](../era-03-tables-and-machines/11-note-g/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| Ada Lovelace | [Who Was Ada Lovelace, The World’s First Computer Nerd?](https://www.youtube.com/watch?v=lLOAuYv87uU) | Seeker | Start |
+|  | [Ada Lovelace - The World's First Computer Programmer](https://www.youtube.com/watch?v=0EfE1ITDZ6E) | IET - Institution of Engineering and Technology | Start |
+|  | [The Story of Ada Lovelace: The World's First Computer Programmer](https://www.youtube.com/watch?v=J7ITqnEmf-g) | IET - Institution of Engineering and Technology | Start |
+| Babbage Analytical Engine | *not searched yet* | | |
+| Bernoulli numbers Note G | *not searched yet* | | |
 

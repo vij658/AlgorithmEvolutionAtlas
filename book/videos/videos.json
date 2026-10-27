@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 104,
+ "rounds": 105,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3107,11 +3107,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-11-c1": {
+   "searched": "2026-10-27",
+   "query": "Ada Lovelace biography mathematician",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Shorts and unnamed biography channels. Note: 'first programmer' is the videos' own title; historians debate the label, as the book's page says",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=lLOAuYv87uU",
+     "title": "Who Was Ada Lovelace, The World’s First Computer Nerd?",
+     "channel": "Seeker",
+     "channel_url": "https://www.youtube.com/@Seeker",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=0EfE1ITDZ6E",
+     "title": "Ada Lovelace - The World's First Computer Programmer",
+     "channel": "IET - Institution of Engineering and Technology",
+     "channel_url": "https://www.youtube.com/@theiet",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=J7ITqnEmf-g",
+     "title": "The Story of Ada Lovelace: The World's First Computer Programmer",
+     "channel": "IET - Institution of Engineering and Technology",
+     "channel_url": "https://www.youtube.com/@theiet",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

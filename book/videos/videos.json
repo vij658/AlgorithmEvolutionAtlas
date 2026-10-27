@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 106,
+ "rounds": 107,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3175,11 +3175,37 @@
     }
    ],
    "tries": 1
+  },
+  "e3-11-c3": {
+   "searched": "2026-10-27",
+   "query": "Ada Lovelace Note G Bernoulli numbers program",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "French-, Portuguese- and Spanish-language videos, Shorts, and general biographies already covered by idea 1",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=_JVwyW4zxQ4",
+     "title": "The First Computer Program",
+     "channel": "Tibees",
+     "channel_url": "https://www.youtube.com/@tibees",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=11PAUUOkZHQ",
+     "title": "Re-writing Ada Lovelace's Bernoulli Algorithm - JS Monthly - September 2019",
+     "channel": "Pusher",
+     "channel_url": "https://www.youtube.com/@Pusher_realtime",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 1
  }
 }

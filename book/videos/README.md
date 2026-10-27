@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**104 of 380 concepts searched, 267 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**105 of 380 concepts searched, 269 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -440,5 +440,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Babbage Analytical Engine | [Babbage's Analytical Engine - Computerphile](https://www.youtube.com/watch?v=5rtKoKFGFSM) | Computerphile | Start |
 |  | [Babbage's Analytical Engine: Overview](https://www.youtube.com/watch?v=_fyUtU6LVNY) | Sydney Padua | Deeper |
 |  | [Computer Architecture: Charles Babbage and the Analytical Engine](https://www.youtube.com/watch?v=mNZZtHsYiBo) | Thomas Blum | Deeper |
-| Bernoulli numbers Note G | *not searched yet* | | |
+| Bernoulli numbers Note G | [The First Computer Program](https://www.youtube.com/watch?v=_JVwyW4zxQ4) | Tibees | Start |
+|  | [Re-writing Ada Lovelace's Bernoulli Algorithm - JS Monthly - September 2019](https://www.youtube.com/watch?v=11PAUUOkZHQ) | Pusher | Deeper |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 109,
+ "rounds": 110,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3269,11 +3269,29 @@
     }
    ],
    "tries": 1
+  },
+  "e3-12-c3": {
+   "searched": "2026-10-27",
+   "query": "George Boole Laws of Thought history",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a reupload of a 2004 television documentary, a title claiming Boole 'invented the computer', and Portuguese-, Spanish- and French-language videos",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=CyqifpkRjQA",
+     "title": "An Investigation of the Laws of Thought - George Boole",
+     "channel": "UCCIreland",
+     "channel_url": "https://www.youtube.com/@UCCIreland",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

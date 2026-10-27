@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 93,
+ "rounds": 94,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2781,11 +2781,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-07-c3": {
+   "searched": "2026-10-27",
+   "query": "Hierholzer algorithm Euler circuit",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "German-, Spanish- and Portuguese-language videos, and a Python tutorial",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=qZrfK2iE4UA",
+     "title": "Example of Hierholzer's algorithm",
+     "channel": "Alejandro Morales",
+     "channel_url": "https://www.youtube.com/@alejandromorales589",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=eVyyb1OsX64",
+     "title": "Eulerian Circuit Algorithms (Fleury and Hierholzer)",
+     "channel": "Dr. Weselcouch",
+     "channel_url": "https://www.youtube.com/@DrWeselcouch",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=-uuvswdhFYg",
+     "title": "Hierholzer's Theorem (Algorithm): every graph with even vertices has an Eulerian cycle",
+     "channel": "Dr. Yorgey's videos",
+     "channel_url": "https://www.youtube.com/@dr.yorgeysvideos8044",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

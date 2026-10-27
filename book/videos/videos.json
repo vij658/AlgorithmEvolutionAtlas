@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 62,
+ "rounds": 63,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1823,11 +1823,29 @@
     }
    ],
    "tries": 1
+  },
+  "e2-09-c2": {
+   "searched": "2026-10-27",
+   "query": "Qin Jiushao mathematics Mathematical Treatise in Nine Sections",
+   "host": "youtube.com",
+   "candidates": 7,
+   "rejected": "an upload from an unnamed channel, a 'pioneer's enduring legacy' filler title, and Nine Chapters videos already listed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=3HepIVKLVUA",
+     "title": "Math History 5.3 Chinese Mathematics and Mathematicians",
+     "channel": "Dr. Jack L. Jackson II",
+     "channel_url": "https://www.youtube.com/@DrJackLJacksonII",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 35,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

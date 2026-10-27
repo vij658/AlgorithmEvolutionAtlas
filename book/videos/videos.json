@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 73,
+ "rounds": 74,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2141,11 +2141,37 @@
     }
    ],
    "tries": 1
+  },
+  "e3-01-c4": {
+   "searched": "2026-10-27",
+   "query": "imaginary numbers cubic equations casus irreducibilis Bombelli",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'wild thought' and 'father of' titles from unnamed channels, a Czech-language video, and homework drills",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=cUzklzVXJwo",
+     "title": "How Imaginary Numbers Were Invented",
+     "channel": "Veritasium",
+     "channel_url": "https://www.youtube.com/@veritasium",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=VMRQMydiMyI",
+     "title": "Complex Numbers. Imaginary Unit i and exercises (from the original books of Rafael Bombelli 1572)",
+     "channel": "Roberto Rocchetti",
+     "channel_url": "https://www.youtube.com/@rocky0000x",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 25,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

@@ -4,7 +4,7 @@ The list is [`book/videos/`](../../../book/videos/README.md): for every topic of
 
 ## One round
 
-A round handles one concept, then waits 40 seconds, so that the video site is not asked too often.
+A round handles one concept, then pauses, so that the video site is not asked too often. The pause adapts: it starts at 30 seconds, shortens by 5 seconds after every 5 clean rounds in a row (never below 15), and doubles when YouTube refuses (up to 5 minutes). A round counts as refused when its search fails or two or more of its checks fail; one failed check usually means a removed or non-embeddable video.
 
 1. `python3 code/tools/videos/videos.py next` prints the next concept that has not been searched, or whose last round failed.
 2. Search the web for it, limited to `youtube.com`. When the concept is advanced and YouTube has nothing suitable, a second search may look for lecture videos on course and conference sites.
@@ -12,7 +12,7 @@ A round handles one concept, then waits 40 seconds, so that the video site is no
 4. Confirm each one. A YouTube watch page cannot be opened from the build environment, so the check is YouTube's own oEmbed lookup (`https://www.youtube.com/oembed?url=<watch URL>&format=json`), which returns the video's real title and channel; a video that it does not confirm is not listed. A video on another site is listed only if its page opens.
 5. Give each video a level: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks, and the inventors themselves).
 6. Write the round to a JSON file (the format is at the top of `videos.py`) and run `python3 code/tools/videos/videos.py record FILE`. It merges the round and rebuilds both pages. A round whose search or checks failed is recorded with an `error` and is tried again later.
-7. Wait 40 seconds before the next search.
+7. Run `python3 code/tools/videos/videos.py pace ok` (or `pace reject`), which records the outcome and prints the pause in seconds, and wait that long before the next search.
 
 After every round the branch is committed and pushed; every ten rounds the published page is updated.
 

@@ -271,7 +271,7 @@ def page(db, artifact=False):
             o.append('</article>')
         o.append('</section>')
     o.append('<p class="empty-state" id="vempty" hidden>Nothing matches. Clear the search, turn a level back on, or show the concepts not searched yet.</p>')
-    o.append('<footer>Searched one concept at a time, with a 40-second pause between searches. Videos were chosen for accuracy and clarity; '
+    o.append('<footer>Searched one concept at a time, with a pause between searches that lengthens whenever the video site refuses. Videos were chosen for accuracy and clarity; '
              'titles and channels are as their hosts report them. Levels are the book\'s own: Start, Deeper, Scholar.</footer>')
     body = "".join(o)
     fonts = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap">'
@@ -334,10 +334,35 @@ def status():
     print(f"{searched} of {total} concepts searched, {nvid} videos, {db.get('rounds', 0)} rounds, {len(errs)} pending after errors")
 
 
+PACE_START, PACE_MIN, PACE_MAX, PACE_STEP, PACE_CLEAN = 30, 15, 300, 5, 5
+
+
+def pace(result):
+    """Adaptive pause between searches. result 'ok' (the round's checks went through) or 'reject' (the search failed, or
+    two or more of the round's checks were refused). A refusal doubles the pause; every PACE_CLEAN clean rounds in a row
+    shorten it by PACE_STEP seconds. Prints the pause, in seconds, to use before the next search."""
+    db = load()
+    p = db.get("pace") or {"delay": PACE_START, "clean": 0, "rejects": 0}
+    if result == "reject":
+        p["delay"] = min(PACE_MAX, p["delay"] * 2)
+        p["clean"] = 0
+        p["rejects"] = p.get("rejects", 0) + 1
+    else:
+        p["clean"] += 1
+        if p["clean"] >= PACE_CLEAN:
+            p["delay"] = max(PACE_MIN, p["delay"] - PACE_STEP)
+            p["clean"] = 0
+    db["pace"] = p
+    save(db)
+    print(p["delay"])
+
+
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "status"
     if cmd == "next":
         nxt()
+    elif cmd == "pace":
+        pace(sys.argv[2])
     elif cmd == "record":
         record(sys.argv[2])
     elif cmd == "build":

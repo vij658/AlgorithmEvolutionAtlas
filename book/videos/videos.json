@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 33,
+ "rounds": 34,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1035,6 +1035,45 @@
     }
    ],
    "tries": 1
+  },
+  "e1-09-c2": {
+   "searched": "2026-10-27",
+   "query": "sieve of Eratosthenes",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "near-identical worked examples on the same grid",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=P__PsS2J_y8",
+     "title": "Sieve of Eratosthenes (finding prime numbers)",
+     "channel": "Math Mammoth",
+     "channel_url": "https://www.youtube.com/@MathMammoth",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=V08g_lkKj6Q",
+     "title": "Prime Numbers - Sieve of Eratosthenes",
+     "channel": "Region 10 ESC",
+     "channel_url": "https://www.youtube.com/@Powerof10Texas",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=_BrrwbAnMbk",
+     "title": "Sieve of Eratosthenes Explained with Animation | Prime Numbers Visualization (4K)",
+     "channel": "Mind Motion",
+     "channel_url": "https://www.youtube.com/@MindMotion-i8p",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
+ },
+ "pace": {
+  "delay": 30,
+  "clean": 1,
+  "rejects": 0
  }
 }

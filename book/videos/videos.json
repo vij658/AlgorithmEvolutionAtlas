@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 31,
+ "rounds": 32,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -962,6 +962,40 @@
      "title": "Pi = 3.1415 Proof: Archimedes' Geometric Proof",
      "channel": "Math Easy Solutions",
      "channel_url": "https://www.youtube.com/@mes",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-08-c3": {
+   "searched": "2026-10-27",
+   "query": "Archimedes Measurement of a Circle",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, a 'squaring the circle' video, and a video on Archimedes' sphere work (a different book)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=8lV37p29nR8",
+     "title": "Why is the area of a circle equal to π r² ??? 2000 year old proof, but with pizza.",
+     "channel": "Dr. Trefor Bazett",
+     "channel_url": "https://www.youtube.com/@DrTrefor",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=lSU1RO33Gqs",
+     "title": "Archimedes' Measurement of the Circle pt 1: Why is the area of a circle pi r squared?",
+     "channel": "Oliver Thomas",
+     "channel_url": "https://www.youtube.com/@OliverThomas1",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=uXqSgMi-w1U",
+     "title": "Archimedes' Measurement of the Circle part 2: finding pi",
+     "channel": "Oliver Thomas",
+     "channel_url": "https://www.youtube.com/@OliverThomas1",
      "level": "deeper",
      "checked": "YouTube oEmbed, 2026-10-27"
     }

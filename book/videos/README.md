@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**31 of 380 concepts searched, 82 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**32 of 380 concepts searched, 85 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -134,5 +134,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Archimedes approximation of pi polygons | [How can you approximate Pi using Geometry?](https://www.youtube.com/watch?v=iwjphFGZSEE) | Tom Rocks Maths | Start |
 |  | [Finding Pi by Archimedes' Method](https://www.youtube.com/watch?v=_rJdkhlWZVQ) | MathWithoutBorders | Start |
 |  | [Pi = 3.1415 Proof: Archimedes' Geometric Proof](https://www.youtube.com/watch?v=gj-u8qXdmJA) | Math Easy Solutions | Deeper |
-| Archimedes Measurement of a Circle | *not searched yet* | | |
+| Archimedes Measurement of a Circle | [Why is the area of a circle equal to π r² ??? 2000 year old proof, but with pizza.](https://www.youtube.com/watch?v=8lV37p29nR8) | Dr. Trefor Bazett | Start |
+|  | [Archimedes' Measurement of the Circle pt 1: Why is the area of a circle pi r squared?](https://www.youtube.com/watch?v=lSU1RO33Gqs) | Oliver Thomas | Deeper |
+|  | [Archimedes' Measurement of the Circle part 2: finding pi](https://www.youtube.com/watch?v=uXqSgMi-w1U) | Oliver Thomas | Deeper |
 

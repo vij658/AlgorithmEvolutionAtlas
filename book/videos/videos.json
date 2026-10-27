@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 151,
+ "rounds": 152,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4527,11 +4527,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-13-c2": {
+   "searched": "2026-10-27",
+   "query": "Hamming codes 3Blue1Brown",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'explained' and 'how data corrects itself' videos from unidentified channels, a linear-algebra course segment, extended-code follow-ups, and an unrelated Spanish lecture",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=X8jsijhllIA",
+     "title": "But what are Hamming codes? The origin of error correction",
+     "channel": "3Blue1Brown",
+     "channel_url": "https://www.youtube.com/@3blue1brown",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=WPoQfKQlOjg",
+     "title": "The Perfect Code - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=h0jloehRKas",
+     "title": "What is error correction? Hamming codes in hardware",
+     "channel": "Ben Eater",
+     "channel_url": "https://www.youtube.com/@BenEater",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**118 of 380 concepts searched, 300 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**119 of 380 concepts searched, 302 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -500,6 +500,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Markov chains | [Markov Chains - Explained](https://www.youtube.com/watch?v=rYSVFScr7qw) | DataMListic | Start |
 |  | [Markov Chains - VISUALLY EXPLAINED + History!](https://www.youtube.com/watch?v=CIe869Rce2k) | Kapil Sachdeva | Start |
 |  | [Lecture 31: Markov Chains \| Statistics 110](https://www.youtube.com/watch?v=8AJPs3gvNlY) | Harvard University | Deeper |
-| Markov Eugene Onegin letters | *not searched yet* | | |
+| Markov Eugene Onegin letters | [The Strange Math That Predicts (Almost) Anything](https://www.youtube.com/watch?v=KZeIEiBrT_w) | Veritasium | Start |
+|  | [Markov Chains - VISUALLY EXPLAINED + History!](https://www.youtube.com/watch?v=CIe869Rce2k) | Kapil Sachdeva | Start |
 | stationary distribution Markov chain | *not searched yet* | | |
 

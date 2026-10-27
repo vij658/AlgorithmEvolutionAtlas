@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 120,
+ "rounds": 121,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -3579,11 +3579,37 @@
     }
    ],
    "tries": 1
+  },
+  "e4-03-c2": {
+   "searched": "2026-10-27",
+   "query": "Markov Eugene Onegin vowels consonants Pushkin chain; Veritasium strange math that predicts almost anything Markov",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "audiobooks and opera recordings of Eugene Onegin (a singer named Markov), Russian, German and Portuguese versions of the Veritasium video, a 'secret code' video from an unidentified channel, and a reaction video",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=KZeIEiBrT_w",
+     "title": "The Strange Math That Predicts (Almost) Anything",
+     "channel": "Veritasium",
+     "channel_url": "https://www.youtube.com/@veritasium",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=CIe869Rce2k",
+     "title": "Markov Chains - VISUALLY EXPLAINED + History!",
+     "channel": "Kapil Sachdeva",
+     "channel_url": "https://www.youtube.com/@KapilSachdeva",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 1
  }
 }

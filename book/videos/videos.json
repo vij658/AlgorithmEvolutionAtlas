@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 14,
+ "rounds": 15,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -441,6 +441,40 @@
      "channel": "Insights into Mathematics",
      "channel_url": "https://www.youtube.com/@njwildberger",
      "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
+  },
+  "e1-04-c1": {
+   "searched": "2026-10-27",
+   "query": "square root of 2 is irrational proof",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "several near-identical algebraic proofs, a course-numbered clip and a Hindi-language video",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=BAoRwWflYbc",
+     "title": "Proof that Square Root of 2 is Irrational. Proof by Contradiction.",
+     "channel": "Science and Maths - Patrick Maye",
+     "channel_url": "https://www.youtube.com/@ScienceandMathsPatrickMaye",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=NegYPgMAua4",
+     "title": "The Most Beautiful Proof sqrt(2) is Irrational",
+     "channel": "Wrath of Math",
+     "channel_url": "https://www.youtube.com/@WrathofMath",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=Us98ghhUu38",
+     "title": "The Square Root of Two Is Irrational, A Geometric Proof.",
+     "channel": "aljabrak",
+     "channel_url": "https://www.youtube.com/@aljabrak",
+     "level": "deeper",
      "checked": "YouTube oEmbed, 2026-10-27"
     }
    ],

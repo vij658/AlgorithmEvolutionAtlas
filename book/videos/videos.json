@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 178,
+ "rounds": 179,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5322,11 +5322,37 @@
     }
    ],
    "tries": 1
+  },
+  "e5-08-c3": {
+   "searched": "2026-10-27",
+   "query": "Backus-Naur form BNF grammar explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "an all-caps numbered upload, a Hindi lecture, an exam-board lesson bundling three topics, extended-BNF videos (a later variant), and a university course part whose lecture language could not be confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=8cEhCx8pwio",
+     "title": "Backus-Naur Form",
+     "channel": "0612 TV w/ NERDfirst",
+     "channel_url": "https://www.youtube.com/@NERDfirst",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=MMxMeX5emUA",
+     "title": "Programming Language Syntax: Backus-Naur Form (BNF)",
+     "channel": "Jacob Schrum",
+     "channel_url": "https://www.youtube.com/@JacobSchrum",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

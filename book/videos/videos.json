@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 145,
+ "rounds": 146,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4339,11 +4339,45 @@
     }
    ],
    "tries": 1
+  },
+  "e4-11-c2": {
+   "searched": "2026-10-27",
+   "query": "simplex method linear programming explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "hashtag titles, 'in an easy way' and 'made easy' videos, software tutorials (Excel Solver, GAMS), and the revised simplex method (a later refinement); one clear explainer from a channel named only by initials was left out for that reason",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=9YKLXFqCy6E",
+     "title": "Intro to Simplex Method | Solve LP | Simplex Tableau",
+     "channel": "Joshua Emmanuel",
+     "channel_url": "https://www.youtube.com/@joshemman",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=wdUfeK8cyys",
+     "title": "The Simplex Method (Step-by-Step Example)",
+     "channel": "Zach's Math Zone",
+     "channel_url": "https://www.youtube.com/@ZachsMathZone",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=1kBDbSbFyvc",
+     "title": "15. Simplex Method Step-by-Step",
+     "channel": "Emmanuel Jesuyon Dansu",
+     "channel_url": "https://www.youtube.com/@ejdansu",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
-  "delay": 20,
-  "clean": 4,
+  "delay": 15,
+  "clean": 0,
   "rejects": 2
  }
 }

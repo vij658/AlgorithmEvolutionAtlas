@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 52,
+ "rounds": 53,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1539,11 +1539,37 @@
    "rejected": "two searches found no video on the chakravala itself: the first returned only the Brazilian 'formula de Bhaskara', the second only general Pell's-equation videos already listed for ideas 1 and 2",
    "videos": [],
    "tries": 2
+  },
+  "e2-06-c1": {
+   "searched": "2026-10-27",
+   "query": "al-Khwarizmi origin of the word algorithm",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'forgotten genius' and 'invented algorithms' framings, Shorts, a community post, and French- and Spanish-language videos",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=oRkNaF0QvnI",
+     "title": "Why algorithms are called algorithms | BBC Ideas",
+     "channel": "BBC Ideas",
+     "channel_url": "https://www.youtube.com/@bbcideas",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=4C6ARwuRugI",
+     "title": "Algorithm is Derived From The 9th C. Mathematician Al Khwarizmi 📚",
+     "channel": "MyWebUniversity",
+     "channel_url": "https://www.youtube.com/@mywebuniversity",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 45,
-  "clean": 1,
+  "clean": 2,
   "rejects": 1
  }
 }

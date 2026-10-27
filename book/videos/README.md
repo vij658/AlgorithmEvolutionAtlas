@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**50 of 380 concepts searched, 130 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**51 of 380 concepts searched, 132 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -216,4 +216,13 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Week 12-Lecture 62 : Brahmagupta-Pell equations](https://www.youtube.com/watch?v=N8R5CiFIgK4) | NPTEL IIT Bombay | Deeper |
 |  | [C S Aravinda - Brahmagupta’s bhavana : Reading Maths from Sanskrit Texts](https://www.youtube.com/watch?v=WO6TLvHsytk) | Indian Institute of World Culture - IIWC | Scholar |
 | chakravala method Bhaskara | *no suitable video found* | | |
+
+### Algorism and Al-Jabr ([in the book](../era-02-algorithms-travel/06-algorism-and-al-jabr/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| al-Khwarizmi and the word algorithm | [Why algorithms are called algorithms \| BBC Ideas](https://www.youtube.com/watch?v=oRkNaF0QvnI) | BBC Ideas | Start |
+|  | [Algorithm is Derived From The 9th C. Mathematician Al Khwarizmi 📚](https://www.youtube.com/watch?v=4C6ARwuRugI) | MyWebUniversity | Start |
+| al-jabr completing the square | *not searched yet* | | |
+| al-Khwarizmi Hindu numerals book algorism | *not searched yet* | | |
 

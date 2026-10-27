@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 182,
+ "rounds": 183,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5426,11 +5426,37 @@
     }
    ],
    "tries": 1
+  },
+  "e5-09-c3": {
+   "searched": "2026-10-27",
+   "query": "perceptron convergence theorem proof",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "untitled course uploads ('Soft Computing'), general perceptron explainers (listed under the perceptron), and part-numbered uploads from unidentified channels; the Cornell CS4780 lecture listed for the Mark I perceptron also proves the theorem",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=bayIW0CpG6k",
+     "title": "Convergence of Perceptron [E22]",
+     "channel": "Pratik Jain",
+     "channel_url": "https://www.youtube.com/@pratikian",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=fHDouTKwfXw",
+     "title": "L54: Perceptron convergence proof | radius-margin bound & linear separability",
+     "channel": "IIT Madras - B.S. Degree Programme",
+     "channel_url": "https://www.youtube.com/@IITMadrasBSDegreeProgramme",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

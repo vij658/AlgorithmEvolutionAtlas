@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 43,
+ "rounds": 44,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1325,11 +1325,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-03-c2": {
+   "searched": "2026-10-27",
+   "query": "Chinese remainder theorem",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'2-minute method' and exam-cram videos, and several uploads titled only with the theorem's name",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=MdePzlQtnCc",
+     "title": "Chinese Remainder Theorem | Sun Tzu's Theorem",
+     "channel": "Calculus by Christee",
+     "channel_url": "https://www.youtube.com/@CalculusbyChristee",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=8AZMsRH-Szw",
+     "title": "The Chinese Remainder Theorem - In About 17 Minutes | Number Theory | Abstract Algebra",
+     "channel": "Dogmathic",
+     "channel_url": "https://www.youtube.com/@dogmathic",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ffHHk_Yu9xw",
+     "title": "Algebraic Number Theory 7: The Chinese Remainder Theorem",
+     "channel": "Sean Haight",
+     "channel_url": "https://www.youtube.com/@seanhaight2551",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 55,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

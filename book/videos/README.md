@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**42 of 380 concepts searched, 113 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**43 of 380 concepts searched, 116 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -187,6 +187,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | modular arithmetic clock | [Clock Math: Introduction to Modular Arithmetic](https://www.youtube.com/watch?v=a9negsQP2qI) | Mathilda Academy | Start |
 |  | [Gentle Introduction to Modular Arithmetic](https://www.youtube.com/watch?v=CGhjhixDIKM) | Bu-Math Explorations: Family STEM Math-Literacy | Start |
 |  | [Modular Arithmetic (Part 1)](https://www.youtube.com/watch?v=M42uDLGRSpI) | Neso Academy | Deeper |
-| Chinese remainder theorem | *not searched yet* | | |
+| Chinese remainder theorem | [Chinese Remainder Theorem \| Sun Tzu's Theorem](https://www.youtube.com/watch?v=MdePzlQtnCc) | Calculus by Christee | Start |
+|  | [The Chinese Remainder Theorem - In About 17 Minutes \| Number Theory \| Abstract Algebra](https://www.youtube.com/watch?v=8AZMsRH-Szw) | Dogmathic | Deeper |
+|  | [Algebraic Number Theory 7: The Chinese Remainder Theorem](https://www.youtube.com/watch?v=ffHHk_Yu9xw) | Sean Haight | Scholar |
 | Sunzi Suanjing remainder problem | *not searched yet* | | |
 

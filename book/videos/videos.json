@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 75,
+ "rounds": 76,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2201,11 +2201,37 @@
     }
    ],
    "tries": 1
+  },
+  "e3-02-c2": {
+   "searched": "2026-10-27",
+   "query": "John Napier invention of logarithms history",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a German-language lecture (listed in English by search), a French-language video, 'awesome history' and 'genius who inspired' titles, and Napier's bones (a different invention)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=NhZ9a6-3ig8",
+     "title": "John Napier Short Biography - Scottish Mathematician",
+     "channel": "Famous People Bio",
+     "channel_url": "https://www.youtube.com/@FamousPeopleBio",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=lyieW-0S5n4",
+     "title": "John Napier's Logarithms",
+     "channel": "Bites Of Mathematics",
+     "channel_url": "https://www.youtube.com/@bitesofmathematics4356",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
-  "delay": 25,
-  "clean": 4,
+  "delay": 20,
+  "clean": 0,
   "rejects": 1
  }
 }

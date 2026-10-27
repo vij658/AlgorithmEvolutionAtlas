@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**73 of 380 concepts searched, 184 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**74 of 380 concepts searched, 186 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -312,7 +312,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | what are logarithms | [Logarithms - The Easy Way!](https://www.youtube.com/watch?v=kqVpPSzkTYA) | The Organic Chemistry Tutor | Start |
 |  | [What is a Logarithm & what are they used for?](https://www.youtube.com/watch?v=R1PSNQmJbmo) | Jason Gibson | Start |
 |  | [What Is a Logarithm, Really?](https://www.youtube.com/watch?v=P00OQmNxqr4) | polymathematic | Deeper |
-| John Napier logarithms | *not searched yet* | | |
+| John Napier logarithms | [John Napier Short Biography - Scottish Mathematician](https://www.youtube.com/watch?v=NhZ9a6-3ig8) | Famous People Bio | Start |
+|  | [John Napier's Logarithms](https://www.youtube.com/watch?v=lyieW-0S5n4) | Bites Of Mathematics | Deeper |
 | Henry Briggs logarithm tables | *not searched yet* | | |
 | how a slide rule works | *not searched yet* | | |
 

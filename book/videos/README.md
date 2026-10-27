@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**145 of 380 concepts searched, 373 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**146 of 380 concepts searched, 375 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -618,6 +618,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | information entropy | [Shannon's Information Entropy (Physical Analogy)](https://www.youtube.com/watch?v=R4OlXb9aTvQ) | Art of the Problem | Start |
 |  | [Information Theory: A Simple Explanation of Shannon Entropy](https://www.youtube.com/watch?v=vbTZdladViE) | Zach's Math Zone | Start |
 |  | [(Info 1.1) Entropy - Definition](https://www.youtube.com/watch?v=LodZWzrbayY) | mathematicalmonk | Deeper |
-| Shannon information theory | *not searched yet* | | |
+| Shannon information theory | [Claude Shannon: A Mathematical Theory of Communication](https://www.youtube.com/watch?v=3pRR8OK4UfE) | Art of the Problem | Start |
+|  | [Claude Shannon - Father of the Information Age](https://www.youtube.com/watch?v=z2Whj_nL-x8) | University of California Television (UCTV) | Start |
 | Shannon master's thesis switching circuits | *not searched yet* | | |
 

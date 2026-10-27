@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 148,
+ "rounds": 149,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -4433,11 +4433,37 @@
     }
    ],
    "tries": 1
+  },
+  "e4-12-c2": {
+   "searched": "2026-10-27",
+   "query": "Claude Shannon information theory 1948 mathematical theory of communication explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "paper read-throughs from unidentified channels, a 'turning point' video of unclear origin, an 'in 5 minutes' clip, a clip titled as Shannon explaining but not on an archive's channel, and a conference talk whose speaker the check does not name. Note: the UCTV documentary did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=3pRR8OK4UfE",
+     "title": "Claude Shannon: A Mathematical Theory of Communication",
+     "channel": "Art of the Problem",
+     "channel_url": "https://www.youtube.com/@ArtOfTheProblem",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=z2Whj_nL-x8",
+     "title": "Claude Shannon - Father of the Information Age",
+     "channel": "University of California Television (UCTV)",
+     "channel_url": "https://www.youtube.com/@uctv",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**47 of 380 concepts searched, 124 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**48 of 380 concepts searched, 127 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -204,4 +204,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Hindu-Arabic numeral system | [History of Math: Hindu-Arabic Numerical System](https://www.youtube.com/watch?v=o6vuZBc6qLk) | mathematicsonline | Start |
 |  | [The Hindu-Arabic number system \| Elementary Mathematics (K-6) Explained 4 \| NJ Wildberger](https://www.youtube.com/watch?v=y6oS7zE71Dw) | Insights into Mathematics | Start |
 |  | [Math History 1.9 History of Hindu-Arabic Numerals](https://www.youtube.com/watch?v=UOisN20qV0c) | Dr. Jack L. Jackson II | Deeper |
+
+### The Chakravala and Pell's Equation ([in the book](../era-02-algorithms-travel/05-chakravala/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| Pell's equation | [Pell's Equation Basics](https://www.youtube.com/watch?v=Ni0CHH2v5uQ) | Prime Newtons | Start |
+|  | [★★ [EN] The Pell's Equation, a millenary old problem](https://www.youtube.com/watch?v=vmETw2Iq5M4) | Quadriviuum Tremens | Deeper |
+|  | [[ANT08] Continued fractions, Pell's equation, and units of Z[√d]](https://www.youtube.com/watch?v=3ls3z-UzOSw) | Billy Woods | Scholar |
+| Brahmagupta identity composition | *not searched yet* | | |
+| chakravala method Bhaskara | *not searched yet* | | |
 

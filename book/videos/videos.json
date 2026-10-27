@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 48,
+ "rounds": 49,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1462,11 +1462,45 @@
     }
    ],
    "tries": 1
+  },
+  "e2-05-c1": {
+   "searched": "2026-10-27",
+   "query": "Pell's equation",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "contest puzzles that only use the equation, and uploads with generic titles",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Ni0CHH2v5uQ",
+     "title": "Pell's Equation Basics",
+     "channel": "Prime Newtons",
+     "channel_url": "https://www.youtube.com/@PrimeNewtons",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=vmETw2Iq5M4",
+     "title": "★★ [EN] The Pell's Equation, a millenary old problem",
+     "channel": "Quadriviuum Tremens",
+     "channel_url": "https://www.youtube.com/@QuadriviuumTremens",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=3ls3z-UzOSw",
+     "title": "[ANT08] Continued fractions, Pell's equation, and units of Z[√d]",
+     "channel": "Billy Woods",
+     "channel_url": "https://www.youtube.com/@billy_maths",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 50,
-  "clean": 2,
+  "clean": 3,
   "rejects": 1
  }
 }

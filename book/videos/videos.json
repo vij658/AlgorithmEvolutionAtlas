@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 36,
+ "rounds": 37,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1106,18 +1106,34 @@
   },
   "e2-01-c1": {
    "searched": "2026-10-27",
-   "query": "Nine Chapters on the Mathematical Art",
+   "query": "Nine Chapters on the Mathematical Art Chinese mathematics history",
    "host": "youtube.com",
-   "candidates": 8,
-   "rejected": "a machine-read Wikipedia audio article; a video on another chapter whose language is unclear",
-   "videos": [],
-   "tries": 1,
-   "error": "the main candidate's check was refused and YouTube rate-limited parallel checks; retry later"
+   "candidates": 10,
+   "rejected": "'Nine Chapters on the Mathematical Art' (t7Ye-sjjWQE) was refused by oEmbed twice; a machine-read Wikipedia article; a German-language lecture; a channel of question-titled filler",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=AGB0EYROjac",
+     "title": "A 1700-year old math problem using Gaussian Elimination",
+     "channel": "Dave's Math Videos",
+     "channel_url": "https://www.youtube.com/@DavesMathVideos",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=xIgwPqmt3NA",
+     "title": "Math History 5.2 Early Chinese Mathematics and the 10 Classics",
+     "channel": "Dr. Jack L. Jackson II",
+     "channel_url": "https://www.youtube.com/@DrJackLJacksonII",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 2
   }
  },
  "pace": {
   "delay": 60,
-  "clean": 0,
+  "clean": 1,
   "rejects": 1
  }
 }

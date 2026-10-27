@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**35 of 380 concepts searched, 94 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**36 of 380 concepts searched, 96 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -151,4 +151,15 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | sieve of Eratosthenes time complexity | [Prime Number Sieves](https://www.youtube.com/watch?v=Xxu95iiVcPI) | Gaurav Sen | Deeper |
 |  | [Sieve of Eratosthenes with Complexity.](https://www.youtube.com/watch?v=7CyBf-xZF4c) | SA CODES | Deeper |
 |  | [Sieve of Eratosthenes \| Count Primes \| Leetcode 204](https://www.youtube.com/watch?v=fI6kv_GtKlM) | Nideesh Terapalli | Deeper |
+
+## Era 2: Algorithms Travel
+
+### Elimination on the Counting Board ([in the book](../era-02-algorithms-travel/01-fangcheng/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| Nine Chapters on the Mathematical Art | [A 1700-year old math problem using Gaussian Elimination](https://www.youtube.com/watch?v=AGB0EYROjac) | Dave's Math Videos | Start |
+|  | [Math History 5.2 Early Chinese Mathematics and the 10 Classics](https://www.youtube.com/watch?v=xIgwPqmt3NA) | Dr. Jack L. Jackson II | Deeper |
+| Gaussian elimination | *not searched yet* | | |
+| fangcheng counting rods matrix | *not searched yet* | | |
 

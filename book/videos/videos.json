@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 172,
+ "rounds": 173,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5151,11 +5151,45 @@
     }
    ],
    "tries": 1
+  },
+  "e5-06-c3": {
+   "searched": "2026-10-27",
+   "query": "John McCarthy Lisp history garbage collection 1960; mark and sweep garbage collection algorithm explained",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "Shorts and 'father of AI' clips, Spanish, French, Korean and Hindi videos, interview-question lists, and Java-only coding walkthroughs. No video found tells the 1960 story of McCarthy's collector itself; the Ortiz talk covers the 1960 Lisp paper, and the Computerphile mark-and-sweep video is listed under garbage collection",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=AKV1YmOgmOc",
+     "title": "Garbage Collection with Mark and Sweep",
+     "channel": "Toby Ho",
+     "channel_url": "https://www.youtube.com/@tobyho92",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ZhbIReLe-r8",
+     "title": "Garbage Collection Algorithms: Mark Sweep, Generation Hypothesis and JIT code injection",
+     "channel": "Gaurav Sen",
+     "channel_url": "https://www.youtube.com/@gkcs",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=2wPS_6oSD6k",
+     "title": "The Dawn of Lisp, or How to Write Eval and Apply in Clojure - Ariel Ortiz",
+     "channel": "ClojureTV",
+     "channel_url": "https://www.youtube.com/@ClojureTV",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

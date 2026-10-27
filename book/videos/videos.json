@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 35,
+ "rounds": 36,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -1103,11 +1103,21 @@
     }
    ],
    "tries": 1
+  },
+  "e2-01-c1": {
+   "searched": "2026-10-27",
+   "query": "Nine Chapters on the Mathematical Art",
+   "host": "youtube.com",
+   "candidates": 8,
+   "rejected": "a machine-read Wikipedia audio article; a video on another chapter whose language is unclear",
+   "videos": [],
+   "tries": 1,
+   "error": "the main candidate's check was refused and YouTube rate-limited parallel checks; retry later"
   }
  },
  "pace": {
-  "delay": 30,
-  "clean": 2,
-  "rejects": 0
+  "delay": 60,
+  "clean": 0,
+  "rejects": 1
  }
 }

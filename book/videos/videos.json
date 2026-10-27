@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 174,
+ "rounds": 175,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5211,11 +5211,45 @@
     }
    ],
    "tries": 1
+  },
+  "e5-07-c2": {
+   "searched": "2026-10-27",
+   "query": "Dijkstra's algorithm explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "many 'explained' and 'visualized' videos from unidentified channels, and a long 'complete tutorial'. Note: the Computerphile and Abdul Bari videos did not appear in this search; they were recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=EFg3u_E6eHU",
+     "title": "How Dijkstra's Algorithm Works",
+     "channel": "Spanning Tree",
+     "channel_url": "https://www.youtube.com/@SpanningTree",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=GazC3A4OQTE",
+     "title": "Dijkstra's Algorithm - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=XB4MIexjvY0",
+     "title": "3.6 Dijkstra Algorithm - Single Source Shortest Path - Greedy Method",
+     "channel": "Abdul Bari",
+     "channel_url": "https://www.youtube.com/@abdul_bari",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

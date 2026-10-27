@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**170 of 380 concepts searched, 439 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**171 of 380 concepts searched, 442 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -726,6 +726,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | shortest path problem graphs | [Graph Theory: 20. Edge Weighted Shortest Path Problem](https://www.youtube.com/watch?v=38G5uSxylaY) | Sarada Herke | Start |
 |  | [Breadth First Search - Finding Shortest Paths in Unweighted Graphs](https://www.youtube.com/watch?v=T_m27bhVQQQ) | Mary Elaine Califf | Start |
-| Dijkstra's algorithm | *not searched yet* | | |
+| Dijkstra's algorithm | [How Dijkstra's Algorithm Works](https://www.youtube.com/watch?v=EFg3u_E6eHU) | Spanning Tree | Start |
+|  | [Dijkstra's Algorithm - Computerphile](https://www.youtube.com/watch?v=GazC3A4OQTE) | Computerphile | Start |
+|  | [3.6 Dijkstra Algorithm - Single Source Shortest Path - Greedy Method](https://www.youtube.com/watch?v=XB4MIexjvY0) | Abdul Bari | Deeper |
 | Edsger Dijkstra interview | *not searched yet* | | |
 

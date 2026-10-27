@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**69 of 380 concepts searched, 175 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**70 of 380 concepts searched, 178 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -298,7 +298,9 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | solving cubic equations | [How To Solve Cubic Equations](https://www.youtube.com/watch?v=NnTQGhZSmF4) | Mohamed Omar | Start |
 |  | [Omar Khayyam's Geometric Solution to a Cubic Equation](https://www.youtube.com/watch?v=2t-Gv8RoXSM) | Mathematical Association of America | Deeper |
 |  | [Solutions to Cubic Equations - Benedict Gross (Harvard University)](https://www.youtube.com/watch?v=l0EaTehu7Ec) | Stanford | Scholar |
-| Cardano's formula | *not searched yet* | | |
+| Cardano's formula | [Solving a cubic equation using Cardano's formula](https://www.youtube.com/watch?v=h0OuDlZwZm8) | Prime Newtons | Start |
+|  | [How to derive Cardano's formula for the cubic](https://www.youtube.com/watch?v=bW9FZIO2FZY) | Peter Haggstrom | Deeper |
+|  | [33. Cardano’s Method for Cubic Equations](https://www.youtube.com/watch?v=X4I08Wfck3Q) | Emmanuel Jesuyon Dansu | Deeper |
 | Tartaglia del Ferro cubic history | *not searched yet* | | |
 | imaginary numbers casus irreducibilis | *not searched yet* | | |
 

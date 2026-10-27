@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 71,
+ "rounds": 72,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2089,11 +2089,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-01-c2": {
+   "searched": "2026-10-27",
+   "query": "Cardano's formula cubic",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "the cubic video already listed for idea 1, a misspelled exam clip, and part-numbered uploads",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=h0OuDlZwZm8",
+     "title": "Solving a cubic equation using Cardano's formula",
+     "channel": "Prime Newtons",
+     "channel_url": "https://www.youtube.com/@PrimeNewtons",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=bW9FZIO2FZY",
+     "title": "How to derive Cardano's formula for the cubic",
+     "channel": "Peter Haggstrom",
+     "channel_url": "https://www.youtube.com/@MathsatBondiBeach",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=X4I08Wfck3Q",
+     "title": "33. Cardano’s Method for Cubic Equations",
+     "channel": "Emmanuel Jesuyon Dansu",
+     "channel_url": "https://www.youtube.com/@ejdansu",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 25,
-  "clean": 0,
+  "clean": 1,
   "rejects": 1
  }
 }

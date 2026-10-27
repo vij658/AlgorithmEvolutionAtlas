@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**92 of 380 concepts searched, 237 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**93 of 380 concepts searched, 240 videos listed** (updated 2026-10-27). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -390,4 +390,15 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Hierholzer algorithm Euler circuit | [Example of Hierholzer's algorithm](https://www.youtube.com/watch?v=qZrfK2iE4UA) | Alejandro Morales | Start |
 |  | [Eulerian Circuit Algorithms (Fleury and Hierholzer)](https://www.youtube.com/watch?v=eVyyb1OsX64) | Dr. Weselcouch | Deeper |
 |  | [Hierholzer's Theorem (Algorithm): every graph with even vertices has an Eulerian cycle](https://www.youtube.com/watch?v=-uuvswdhFYg) | Dr. Yorgey's videos | Deeper |
+
+### Least Squares, and the Lost Planet ([in the book](../era-03-tables-and-machines/08-least-squares/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| least squares regression | [Linear Regression Using Least Squares Method - Line of Best Fit Equation](https://www.youtube.com/watch?v=P8hT5nDai6A) | The Organic Chemistry Tutor | Start |
+|  | [What is Least Squares?](https://www.youtube.com/watch?v=S0ptaAXNxBU) | AlphaOpt | Start |
+|  | [Introduction To Ordinary Least Squares With Examples](https://www.youtube.com/watch?v=RdvKNJzUWyo) | Super Data Science | Deeper |
+| Gauss orbit of Ceres | *not searched yet* | | |
+| Legendre Gauss least squares priority | *not searched yet* | | |
+| normal equations least squares | *not searched yet* | | |
 

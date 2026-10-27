@@ -1,6 +1,6 @@
 {
  "updated": "2026-10-27",
- "rounds": 94,
+ "rounds": 95,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -2815,11 +2815,45 @@
     }
    ],
    "tries": 1
+  },
+  "e3-08-c1": {
+   "searched": "2026-10-27",
+   "query": "least squares regression explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "exam-unit summaries and part-numbered clips",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=P8hT5nDai6A",
+     "title": "Linear Regression Using Least Squares Method - Line of Best Fit Equation",
+     "channel": "The Organic Chemistry Tutor",
+     "channel_url": "https://www.youtube.com/@TheOrganicChemistryTutor",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=S0ptaAXNxBU",
+     "title": "What is Least Squares?",
+     "channel": "AlphaOpt",
+     "channel_url": "https://www.youtube.com/@alphaopt2024",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=RdvKNJzUWyo",
+     "title": "Introduction To Ordinary Least Squares With Examples",
+     "channel": "Super Data Science",
+     "channel_url": "https://www.youtube.com/@sds-superdatascience",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-10-27"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 1
  }
 }

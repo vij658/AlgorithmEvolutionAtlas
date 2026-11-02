@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 257,
+ "rounds": 258,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7616,11 +7616,45 @@
     }
    ],
    "tries": 1
+  },
+  "e7-07-c3": {
+   "searched": "2026-11-02",
+   "query": "backpropagation explained neural network",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, 'in 90 seconds' and 'visually explained' videos from unidentified channels, and the 3Blue1Brown calculus chapter (kept for the chain-rule concept)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Ilg3gGewQ5U",
+     "title": "Backpropagation, intuitively | Deep Learning Chapter 3",
+     "channel": "3Blue1Brown",
+     "channel_url": "https://www.youtube.com/@3blue1brown",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=IN2XmBhILt4",
+     "title": "Neural Networks Pt. 2: Backpropagation Main Ideas",
+     "channel": "StatQuest with Josh Starmer",
+     "channel_url": "https://www.youtube.com/@statquest",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=VMj-3S1tku0",
+     "title": "The spelled-out intro to neural networks and backpropagation: building micrograd",
+     "channel": "Andrej Karpathy",
+     "channel_url": "https://www.youtube.com/@AndrejKarpathy",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

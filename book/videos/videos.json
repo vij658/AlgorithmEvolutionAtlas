@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 275,
+ "rounds": 276,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8156,11 +8156,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-13-c1": {
+   "searched": "2026-11-02",
+   "query": "ensemble learning explained bagging boosting",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a training-company marketing video, hashtag and 'in 4 minutes' titles, 'which should you use' listicles, and overviews from channels whose authors the check does not identify. Note: the StatQuest video (bagging, through random forests) did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=sN5ZcJLDMaE",
+     "title": "Ensemble (Boosting, Bagging, and Stacking) in Machine Learning: Easy Explanation for Data Scientists",
+     "channel": "Emma Ding",
+     "channel_url": "https://www.youtube.com/@emma_ding",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=J4Wdy0Wc_xQ",
+     "title": "StatQuest: Random Forests Part 1 - Building, Using and Evaluating",
+     "channel": "StatQuest with Josh Starmer",
+     "channel_url": "https://www.youtube.com/@statquest",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

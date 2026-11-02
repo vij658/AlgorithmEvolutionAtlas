@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 312,
+ "rounds": 313,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9276,11 +9276,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-10-c3": {
+   "searched": "2026-11-02",
+   "query": "AKS primality test PRIMES is in P Agrawal Kayal Saxena",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "The scholar video is a podcast interview with Nitin Saxena, one of the three authors; it ranges beyond AKS. Left out: clickbait 'The Primality Test That NEVER FAILS!!!', 'AKS Primality Test. Primes is in P' and a numbered project video from unidentified channels, a factoring research talk, and Miller-Rabin and Fermat videos listed under the earlier concepts",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=HvMSRWTE2mI",
+     "title": "Fool-Proof Test for Primes - Numberphile",
+     "channel": "Numberphile",
+     "channel_url": "https://www.youtube.com/@numberphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=D7AHbyAlgIA",
+     "title": "Primality (2 of 2: AKS Test)",
+     "channel": "Eddie Woo",
+     "channel_url": "https://www.youtube.com/@misterwootube",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=0T5yjt-ErJU",
+     "title": "AKS Primality Test Co-Creator: Why India's AI Future Depends on Math | Nitin Saxena",
+     "channel": "Ones Changing The World - 1CW",
+     "channel_url": "https://www.youtube.com/@1CWpodcast",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

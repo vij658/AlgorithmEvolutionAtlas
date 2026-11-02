@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**307 of 380 concepts searched, 776 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**308 of 380 concepts searched, 779 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1280,5 +1280,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Class 3, Video 2: History of Primality Testing and Fermat's Test](https://www.youtube.com/watch?v=JUa27jxlV-E) | Mary Wootters | Deeper |
 | Fermat's little theorem Carmichael numbers | [Liar Numbers - Numberphile](https://www.youtube.com/watch?v=jbiaz_aHHUQ) | Numberphile | Start |
 |  | [Fermat’s HUGE little theorem, pseudoprimes and Futurama](https://www.youtube.com/watch?v=_9fbBSxhkuA) | Mathologer | Deeper |
-| AKS primality test | *not searched yet* | | |
+| AKS primality test | [Fool-Proof Test for Primes - Numberphile](https://www.youtube.com/watch?v=HvMSRWTE2mI) | Numberphile | Start |
+|  | [Primality (2 of 2: AKS Test)](https://www.youtube.com/watch?v=D7AHbyAlgIA) | Eddie Woo | Start |
+|  | [AKS Primality Test Co-Creator: Why India's AI Future Depends on Math \| Nitin Saxena](https://www.youtube.com/watch?v=0T5yjt-ErJU) | Ones Changing The World - 1CW | Scholar |
 

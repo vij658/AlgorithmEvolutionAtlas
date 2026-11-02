@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 276,
+ "rounds": 277,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8182,11 +8182,45 @@
     }
    ],
    "tries": 1
+  },
+  "e7-13-c2": {
+   "searched": "2026-11-02",
+   "query": "AdaBoost explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "emoji and all-caps titles, 'mastering' clickbait, and numbered or short uploads from unidentified channels. Note: the MIT lecture (Patrick Winston) did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=LsK-xG1cLYA",
+     "title": "AdaBoost, Clearly Explained",
+     "channel": "StatQuest with Josh Starmer",
+     "channel_url": "https://www.youtube.com/@statquest",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=AtYN8QP-U6w",
+     "title": "What is AdaBoost? Friendly explanation with code!",
+     "channel": "Luis Serrano Academy",
+     "channel_url": "https://www.youtube.com/@SerranoAcademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=UHBmv7qCey4",
+     "title": "17. Learning: Boosting",
+     "channel": "MIT OpenCourseWare",
+     "channel_url": "https://www.youtube.com/@mitocw",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

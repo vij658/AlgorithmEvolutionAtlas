@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**278 of 380 concepts searched, 701 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**279 of 380 concepts searched, 704 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1160,4 +1160,15 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | soft margin SVM | [Support Vector Machines Part 1 (of 3): Main Ideas!!!](https://www.youtube.com/watch?v=efR1C6CvhmE) | StatQuest with Josh Starmer | Start |
 |  | [Soft margin SVM](https://www.youtube.com/watch?v=Pjsq6-BkVQs) | IIT Madras - B.S. Degree Programme | Deeper |
 |  | [10. Support Vector Machines](https://www.youtube.com/watch?v=9zi6-RjlYrU) | Inside Bloomberg | Deeper |
+
+### Approximation by Semidefinite Programming ([in the book](../era-08-the-web-the-genome-and-the-ledger/02-max-cut/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| approximation algorithms | [Approximation Algorithms: Introduction by the Example of Vertex Cover](https://www.youtube.com/watch?v=nwZjiQra0EA) | Algorithms Lab | Start |
+|  | [A Second Course in Algorithms (Lecture 15: Introduction to Approximation Algorithms)](https://www.youtube.com/watch?v=OacQnsvauZs) | Tim Roughgarden Lectures | Deeper |
+|  | [Introduction to Approximation Algorithms (Arindam Khan, IISc)](https://www.youtube.com/watch?v=ea6x57k6iZ4) | Algo-rindam | Deeper |
+| max cut problem | *not searched yet* | | |
+| semidefinite programming | *not searched yet* | | |
+| Goemans-Williamson algorithm | *not searched yet* | | |
 

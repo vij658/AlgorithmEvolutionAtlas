@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 282,
+ "rounds": 283,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8386,11 +8386,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-02-c1": {
+   "searched": "2026-11-02",
+   "query": "approximation algorithms introduction lecture",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "untitled course uploads, knapsack- and k-center-specific examples, a general algorithms-course lesson, and numbered series parts",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=nwZjiQra0EA",
+     "title": "Approximation Algorithms: Introduction by the Example of Vertex Cover",
+     "channel": "Algorithms Lab",
+     "channel_url": "https://www.youtube.com/@algorithmslab",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=OacQnsvauZs",
+     "title": "A Second Course in Algorithms (Lecture 15: Introduction to Approximation Algorithms)",
+     "channel": "Tim Roughgarden Lectures",
+     "channel_url": "https://www.youtube.com/@timroughgardenlectures1861",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ea6x57k6iZ4",
+     "title": "Introduction to Approximation Algorithms (Arindam Khan, IISc)",
+     "channel": "Algo-rindam",
+     "channel_url": "https://www.youtube.com/@ArindamKhan",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

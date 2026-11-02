@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**205 of 380 concepts searched, 520 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**206 of 380 concepts searched, 522 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -865,6 +865,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | matrix multiplication | [Multiplying Matrices](https://www.youtube.com/watch?v=vzt9c7iWPxs) | The Organic Chemistry Tutor | Start |
 |  | [Matrix multiplication as composition \| Chapter 4, Essence of linear algebra](https://www.youtube.com/watch?v=XkY2DOUCWMU) | 3Blue1Brown | Start |
 |  | [3. Multiplication and Inverse Matrices](https://www.youtube.com/watch?v=FX4C-JpTFgY) | MIT OpenCourseWare | Deeper |
-| Strassen algorithm | *not searched yet* | | |
+| Strassen algorithm | [Strassen's algorithm for matrices - Divide and Conquer - Design and Analysis of Algorithms](https://www.youtube.com/watch?v=588JS1EaByU) | Chris Marriott - Computer Science | Start |
+|  | [2.9 Strassens Matrix Multiplication](https://www.youtube.com/watch?v=0oJyNmEbS4w) | Abdul Bari | Deeper |
 | matrix multiplication exponent omega | *not searched yet* | | |
 

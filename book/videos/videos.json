@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 209,
+ "rounds": 210,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6208,11 +6208,37 @@
     }
    ],
    "tries": 1
+  },
+  "e6-05-c2": {
+   "searched": "2026-11-02",
+   "query": "Strassen algorithm matrix multiplication explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "all-caps and question-mark titles, exam-course clips, a 'visually explained' video from an unidentified channel, and several overlapping lectures. Note: the Abdul Bari lecture did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=588JS1EaByU",
+     "title": "Strassen's algorithm for matrices - Divide and Conquer - Design and Analysis of Algorithms",
+     "channel": "Chris Marriott - Computer Science",
+     "channel_url": "https://www.youtube.com/@chrismarriott-CS",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=0oJyNmEbS4w",
+     "title": "2.9 Strassens Matrix Multiplication",
+     "channel": "Abdul Bari",
+     "channel_url": "https://www.youtube.com/@abdul_bari",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

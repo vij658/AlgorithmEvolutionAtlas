@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 289,
+ "rounds": 290,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8608,11 +8608,37 @@
     }
    ],
    "tries": 1
+  },
+  "e8-03-c4": {
+   "searched": "2026-11-02",
+   "query": "AMS sketch frequency moments Alon Matias Szegedy lecture; Mining Massive Datasets estimating moments stream AMS algorithm",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "Seshadhri Lec 16 is also listed under Count-Min sketch (it covers both). Tamil- and Hindi-language lectures; Harvard CS 229r Lecture 3 opened but its title does not say it covers the AMS sketch, so it is not listed; a research talk on separations for large moments; unrelated results (second moment method basics, signal processing, labour-market 'AMS algorithm'). No beginner-level video found.",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=RMNve6ZqhHo",
+     "title": "Week 12: Mining Data Streams - Part 9: Estimating Moments",
+     "channel": "Hao Wang",
+     "channel_url": "https://www.youtube.com/@wanghao3544",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=oJT62C4DVno",
+     "title": "CSE290A, Spring 2020: Lec 16, the Count-Min sketch, and the AMS algorithm for frequency moments",
+     "channel": "C. Seshadhri",
+     "channel_url": "https://www.youtube.com/@c.seshadhri6776",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

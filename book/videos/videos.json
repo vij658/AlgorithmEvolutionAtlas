@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 196,
+ "rounds": 197,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5838,11 +5838,37 @@
     }
    ],
    "tries": 1
+  },
+  "e6-01-c2": {
+   "searched": "2026-11-02",
+   "query": "Cooley-Tukey FFT algorithm radix-2 explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a historical clip with Cooley and Tukey uploaded by a private individual (a reupload), an AI-voiced 'essentials' channel, exam-course DSP lectures, a hashtag animation, and a Python implementation. Note: the Veritasium video (the story of how the FFT was found and named) did not appear in this search; it was recalled and confirmed by oEmbed in the previous round, where YouTube now shows it under this newer title",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=nmgFG7PUHfo",
+     "title": "The Most Underrated Algorithm",
+     "channel": "Veritasium",
+     "channel_url": "https://www.youtube.com/@veritasium",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=EsJGuI7e_ZQ",
+     "title": "The Fast Fourier Transform Algorithm",
+     "channel": "Barry Van Veen",
+     "channel_url": "https://www.youtube.com/@allsignalprocessing",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

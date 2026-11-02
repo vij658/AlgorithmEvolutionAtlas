@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**192 of 380 concepts searched, 490 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**193 of 380 concepts searched, 492 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -815,6 +815,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | fast Fourier transform | [The Fast Fourier Transform (FFT): Most Ingenious Algorithm Ever?](https://www.youtube.com/watch?v=h7apO7q16V0) | Reducible | Start |
 |  | [The Fast Fourier Transform (FFT)](https://www.youtube.com/watch?v=E8HeD-MUrjY) | Steve Brunton | Deeper |
-| Cooley-Tukey FFT | *not searched yet* | | |
+| Cooley-Tukey FFT | [The Most Underrated Algorithm](https://www.youtube.com/watch?v=nmgFG7PUHfo) | Veritasium | Start |
+|  | [The Fast Fourier Transform Algorithm](https://www.youtube.com/watch?v=EsJGuI7e_ZQ) | Barry Van Veen | Deeper |
 | FFT butterfly diagram | *not searched yet* | | |
 

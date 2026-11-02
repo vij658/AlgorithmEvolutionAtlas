@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**317 of 380 concepts searched, 797 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**318 of 380 concepts searched, 799 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1316,5 +1316,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Lecture 1 — Intro to Crypto and Cryptocurrencies](https://www.youtube.com/watch?v=fOMVZXLjKYo) | Bitcoin and Cryptocurrency Technologies Online Course | Deeper |
 | double spending | [Blockchain tutorial 22: Double spending, third party](https://www.youtube.com/watch?v=ntAQsZV2_kk) | Mobilefish.com | Start |
 | proof of work | [Bitcoin - Proof of work](https://www.youtube.com/watch?v=9V1bipPkCTU) | Khan Academy | Start |
-| blockchain | *not searched yet* | | |
+| blockchain | [How does a blockchain work - Simply Explained](https://www.youtube.com/watch?v=SSo_EIwHSd4) | Simply Explained | Start |
+|  | [Blockchain 101 - A Visual Demo](https://www.youtube.com/watch?v=_160oMzblY8) | Anders Brownworth | Start |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 322,
+ "rounds": 323,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9544,11 +9544,37 @@
     }
    ],
    "tries": 1
+  },
+  "e8-13-c4": {
+   "searched": "2026-11-02",
+   "query": "blockchain explained how it works hash chain",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: the Brownworth demo did not appear in this search; it was recalled and then confirmed by oEmbed like every other. Left out: 'What the Hash?' (checked; a blockchain training company's channel), 'Blockchain Basics Explained' (a blockchain company, checked under proof of work), clickbait 'You NEED to understand this', and several 'What is a blockchain hash?' uploads from crypto-promotion or unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=SSo_EIwHSd4",
+     "title": "How does a blockchain work - Simply Explained",
+     "channel": "Simply Explained",
+     "channel_url": "https://www.youtube.com/@simplyexplained",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=_160oMzblY8",
+     "title": "Blockchain 101 - A Visual Demo",
+     "channel": "Anders Brownworth",
+     "channel_url": "https://www.youtube.com/@anders94",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

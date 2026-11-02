@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 221,
+ "rounds": 222,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6544,11 +6544,45 @@
     }
    ],
    "tries": 1
+  },
+  "e6-09-c1": {
+   "searched": "2026-11-02",
+   "query": "depth-first search algorithm explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "an exam-coaching channel, a Hindi lecture, a C++-only walkthrough, 'in 6 minutes' and AI-course clips, and 'visually explained' uploads from unidentified channels. Note: the WilliamFiset and MIT videos did not appear in this search; they were recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=PMMc4VsIacU",
+     "title": "Depth First Search (DFS) Explained: Algorithm, Examples, and Code",
+     "channel": "Reducible",
+     "channel_url": "https://www.youtube.com/@Reducible",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=7fujbpJ0LB4",
+     "title": "Depth First Search Algorithm | Graph Theory",
+     "channel": "WilliamFiset",
+     "channel_url": "https://www.youtube.com/@WilliamFiset-videos",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=IBfWDYSffUU",
+     "title": "10. Depth-First Search",
+     "channel": "MIT OpenCourseWare",
+     "channel_url": "https://www.youtube.com/@mitocw",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

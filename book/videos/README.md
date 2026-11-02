@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**217 of 380 concepts searched, 547 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**218 of 380 concepts searched, 550 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -907,4 +907,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [CSE104, Lec 5: The proof of the Cook-Levin theorem and the NP-completeness of 3SAT](https://www.youtube.com/watch?v=vW9ynqCdFQc) | C. Seshadhri | Deeper |
 | Karp's 21 NP-complete problems | [NP-Complete Problems, lecture by Richard Karp](https://www.youtube.com/watch?v=wX3Bfmyu6QM) | Computer History Museum | Scholar |
 |  | [Richard Karp: Effective Heuristics for NP-Hard Problems](https://www.youtube.com/watch?v=0p5NilbKETI) | Stanford Computer Science Theory | Scholar |
+
+### Depth-First Search ([in the book](../era-06-hard-problems-and-public-keys/09-depth-first-search/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| depth-first search | [Depth First Search (DFS) Explained: Algorithm, Examples, and Code](https://www.youtube.com/watch?v=PMMc4VsIacU) | Reducible | Start |
+|  | [Depth First Search Algorithm \| Graph Theory](https://www.youtube.com/watch?v=7fujbpJ0LB4) | WilliamFiset | Start |
+|  | [10. Depth-First Search](https://www.youtube.com/watch?v=IBfWDYSffUU) | MIT OpenCourseWare | Deeper |
+| Tarjan strongly connected components | *not searched yet* | | |
+| articulation points biconnected components | *not searched yet* | | |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 214,
+ "rounds": 215,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6330,11 +6330,45 @@
     }
    ],
    "tries": 1
+  },
+  "e6-07-c1": {
+   "searched": "2026-11-02",
+   "query": "B-tree data structure explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "insertion-and-deletion walkthroughs (kept for the next concept), a visualization without explanation, personal tutorials, and uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=K1a2Bk8NrYQ",
+     "title": "Understanding B-Trees: The Data Structure Behind Modern Databases",
+     "channel": "Spanning Tree",
+     "channel_url": "https://www.youtube.com/@SpanningTree",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=5jC2nebEvas",
+     "title": "The critical data structure for databases. (B-trees)",
+     "channel": "Ben Dicken",
+     "channel_url": "https://www.youtube.com/@benjdicken",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=aZjYr87r1b8",
+     "title": "10.2 B Trees and B+ Trees. How they are useful in Databases",
+     "channel": "Abdul Bari",
+     "channel_url": "https://www.youtube.com/@abdul_bari",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

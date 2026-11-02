@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**210 of 380 concepts searched, 529 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**211 of 380 concepts searched, 532 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -879,4 +879,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Database Tables, Primary Keys, Foreign Keys, and Relationships](https://www.youtube.com/watch?v=FCtGbrou5DM) | minderchen | Deeper |
 | Codd relational model | [Read a paper: A relational model of data for large shared data banks](https://www.youtube.com/watch?v=hrbJZDKN5Rg) | Vivek Haldar | Deeper |
 | relational algebra SQL joins | [Relational Algebra (Natural Join Operation)](https://www.youtube.com/watch?v=8g7T7VedSe0) | Neso Academy | Start |
+
+### B-Trees ([in the book](../era-06-hard-problems-and-public-keys/07-b-trees/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| B-tree | [Understanding B-Trees: The Data Structure Behind Modern Databases](https://www.youtube.com/watch?v=K1a2Bk8NrYQ) | Spanning Tree | Start |
+|  | [The critical data structure for databases. (B-trees)](https://www.youtube.com/watch?v=5jC2nebEvas) | Ben Dicken | Start |
+|  | [10.2 B Trees and B+ Trees. How they are useful in Databases](https://www.youtube.com/watch?v=aZjYr87r1b8) | Abdul Bari | Deeper |
+| B-tree insertion node split | *not searched yet* | | |
+| database index | *not searched yet* | | |
 

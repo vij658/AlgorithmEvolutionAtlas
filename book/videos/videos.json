@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 295,
+ "rounds": 296,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8772,11 +8772,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-05-c3": {
+   "searched": "2026-11-02",
+   "query": "locality sensitive hashing explained lecture",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'Locality Sensitive Hashing (LSH)' from an unidentified channel (checked); clickbait 'Your Data's Secret Shortcut'; a hackathon stream; a Python search tutorial; several more 'explained' uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=R-iFka68ZwM",
+     "title": "Learn in 5 Minutes: Locality Sensitive Hashing (MinHash, SimHash, and more!)",
+     "channel": "SoftwareEngenius",
+     "channel_url": "https://www.youtube.com/@SoftwareEngenius",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=cEMuUGUM9oA",
+     "title": "Week 3: Locality Sensitive Hashing - Part 1: Introduction and Shingling",
+     "channel": "Hao Wang",
+     "channel_url": "https://www.youtube.com/@wanghao3544",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=t_8SpFV0l7A",
+     "title": "Locality-Sensitive Hashing and Beyond",
+     "channel": "Microsoft Research",
+     "channel_url": "https://www.youtube.com/@MicrosoftResearch",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

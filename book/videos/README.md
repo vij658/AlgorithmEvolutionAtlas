@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**291 of 380 concepts searched, 733 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**292 of 380 concepts searched, 736 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1212,5 +1212,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [07 Jaccard and Overlap Similarity \| Graph Analytics & Algorithms](https://www.youtube.com/watch?v=uymzY0gu6yM) | Ultipa Graph | Start |
 | MinHash | [Learn in 5 Minutes: Finding Nearest Neighbor using MinHash](https://www.youtube.com/watch?v=GRHsg0d5X8Y) | SoftwareEngenius | Start |
 |  | [Similarity & MinHash](https://www.youtube.com/watch?v=aTwRpqUnQX8) | Ben Langmead | Deeper |
-| locality-sensitive hashing | *not searched yet* | | |
+| locality-sensitive hashing | [Learn in 5 Minutes: Locality Sensitive Hashing (MinHash, SimHash, and more!)](https://www.youtube.com/watch?v=R-iFka68ZwM) | SoftwareEngenius | Start |
+|  | [Week 3: Locality Sensitive Hashing - Part 1: Introduction and Shingling](https://www.youtube.com/watch?v=cEMuUGUM9oA) | Hao Wang | Deeper |
+|  | [Locality-Sensitive Hashing and Beyond](https://www.youtube.com/watch?v=t_8SpFV0l7A) | Microsoft Research | Scholar |
 

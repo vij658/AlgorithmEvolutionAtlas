@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 247,
+ "rounds": 248,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7340,11 +7340,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-04-c2": {
+   "searched": "2026-11-02",
+   "query": "simulated annealing explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "an all-caps 'BEST' title, untitled and numbered course parts, a parameter-estimation feature video, and short overviews from channels whose authors the check does not identify. Note: the Challenging Luck video did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=FyyVbuLZav8",
+     "title": "Simulated Annealing Explained By Solving Sudoku - Artificial Intelligence",
+     "channel": "Challenging Luck",
+     "channel_url": "https://www.youtube.com/@ChallengingLuck",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=GU5q871ui7Y",
+     "title": "IEE 598: Lecture 5A (2022-02-22): Introduction to Simulated Annealing & Max Entropy (MaxEnt) Methods",
+     "channel": "Ted Pavlic",
+     "channel_url": "https://www.youtube.com/@TedPavlic",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

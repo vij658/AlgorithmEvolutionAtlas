@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 243,
+ "rounds": 244,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7220,11 +7220,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-03-c1": {
+   "searched": "2026-11-02",
+   "query": "Byzantine generals problem explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "cryptocurrency and investor-pitch videos (including one from a venture firm's channel), an all-caps 'TRUST' title, an animated crypto explainer, and a numbered series part from an unidentified channel; a BFT lecture is kept for the next concept",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Bvj72wN0OVk",
+     "title": "The Byzantine Generals problem, and why it matters for the Internet",
+     "channel": "Polylog",
+     "channel_url": "https://www.youtube.com/@PolylogCS",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=tdnf3S2S5xw",
+     "title": "ECE 252 Lecture 23: The Byzantine Generals Problem",
+     "channel": "Jeff Zarnett",
+     "channel_url": "https://www.youtube.com/@jzarnett",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

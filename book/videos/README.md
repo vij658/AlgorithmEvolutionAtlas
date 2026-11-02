@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**239 of 380 concepts searched, 604 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**240 of 380 concepts searched, 606 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1001,4 +1001,13 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Merkle Tree with real world examples](https://www.youtube.com/watch?v=qHMLy5JjbjQ) | Gaurav Sen | Deeper |
 | Merkle proof | [Merkle Tree with real world examples](https://www.youtube.com/watch?v=qHMLy5JjbjQ) | Gaurav Sen | Start |
 |  | [A Gentle Introduction to Merkle Trees](https://www.youtube.com/watch?v=C0PuixiGInM) | redshiftzero | Deeper |
+
+### The Byzantine Generals ([in the book](../era-07-randomness-networks-and-learning/03-byzantine-generals/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| Byzantine generals problem | [The Byzantine Generals problem, and why it matters for the Internet](https://www.youtube.com/watch?v=Bvj72wN0OVk) | Polylog | Start |
+|  | [ECE 252 Lecture 23: The Byzantine Generals Problem](https://www.youtube.com/watch?v=tdnf3S2S5xw) | Jeff Zarnett | Deeper |
+| Byzantine fault tolerance | *not searched yet* | | |
+| Lamport Shostak Pease | *not searched yet* | | |
 

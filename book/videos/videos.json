@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 253,
+ "rounds": 254,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7512,11 +7512,29 @@
     }
    ],
    "tries": 1
+  },
+  "e7-06-c2": {
+   "searched": "2026-11-02",
+   "query": "graph 3-coloring zero knowledge proof hats demonstration",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a company's contest entry, a demonstration from an unidentified channel, 'future of ZK' and ELI5 videos, and 3-coloring NP-completeness reductions (a different point). Note: the Numberphile video did not appear in this search; it was recalled and then confirmed by oEmbed like every other. In it, Avi Wigderson, one of the inventors of the graph-coloring proof, demonstrates it",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=5ovdoxnfFVc",
+     "title": "Zero Knowledge Proof (with Avi Wigderson) - Numberphile",
+     "channel": "Numberphile2",
+     "channel_url": "https://www.youtube.com/@numberphile2",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

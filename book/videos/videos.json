@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 265,
+ "rounds": 266,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7856,11 +7856,45 @@
     }
    ],
    "tries": 1
+  },
+  "e7-10-c1": {
+   "searched": "2026-11-02",
+   "query": "how TCP works explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "TCP/IP-model overviews (a broader topic), a TCP-and-UDP comparison, a 'Part 1' series and beginner guides from channels the check names without an author, and a '??' title. Note: the Crash Course episode did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=AEaKrq3SpW8",
+     "title": "The Internet: Crash Course Computer Science #29",
+     "channel": "CrashCourse",
+     "channel_url": "https://www.youtube.com/@crashcourse",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=JFch3ctY6nE",
+     "title": "TCP - 12 simple ideas to explain the Transmission Control Protocol",
+     "channel": "Practical Networking",
+     "channel_url": "https://www.youtube.com/@PracticalNetworking",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/playlist?list=PLW8bTPfXNGdAZIKv-y9v_XLXtEqrPtntm",
+     "title": "How TCP Works (playlist)",
+     "channel": "Chris Greer",
+     "channel_url": "https://www.youtube.com/@ChrisGreer",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

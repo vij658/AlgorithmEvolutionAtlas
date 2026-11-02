@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**261 of 380 concepts searched, 656 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**262 of 380 concepts searched, 659 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1088,4 +1088,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Lecture 9: Table Doubling, Karp-Rabin](https://www.youtube.com/watch?v=BRO7mVIFt08) | MIT OpenCourseWare | Deeper |
 | fingerprinting hashing | [Rolling Hash Function Tutorial, used by Rabin-Karp String Searching Algorithm](https://www.youtube.com/watch?v=BfUejqd07yo) | Stable Sort | Start |
 |  | [Lecture 9: Table Doubling, Karp-Rabin](https://www.youtube.com/watch?v=BRO7mVIFt08) | MIT OpenCourseWare | Deeper |
+
+### TCP Congestion Control ([in the book](../era-07-randomness-networks-and-learning/10-tcp-congestion-control/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| how TCP works | [The Internet: Crash Course Computer Science #29](https://www.youtube.com/watch?v=AEaKrq3SpW8) | CrashCourse | Start |
+|  | [TCP - 12 simple ideas to explain the Transmission Control Protocol](https://www.youtube.com/watch?v=JFch3ctY6nE) | Practical Networking | Start |
+|  | [How TCP Works (playlist)](https://www.youtube.com/playlist?list=PLW8bTPfXNGdAZIKv-y9v_XLXtEqrPtntm) | Chris Greer | Deeper |
+| TCP congestion control | *not searched yet* | | |
+| TCP slow start AIMD | *not searched yet* | | |
 

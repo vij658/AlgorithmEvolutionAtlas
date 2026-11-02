@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 263,
+ "rounds": 264,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7804,11 +7804,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-09-c2": {
+   "searched": "2026-11-02",
+   "query": "Rabin-Karp algorithm string matching explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a channel whose lectures are in Hinglish, 'in 60 seconds' and 'for beginners!' titles, exam-course parts, and code-only uploads. Note: both listed videos were recalled, not found in this search, and confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=qQ8vS2btsxI",
+     "title": "9.2 Rabin-Karp String Matching Algorithm",
+     "channel": "Abdul Bari",
+     "channel_url": "https://www.youtube.com/@abdul_bari",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=BRO7mVIFt08",
+     "title": "Lecture 9: Table Doubling, Karp-Rabin",
+     "channel": "MIT OpenCourseWare",
+     "channel_url": "https://www.youtube.com/@mitocw",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

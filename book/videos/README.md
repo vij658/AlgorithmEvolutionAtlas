@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**233 of 380 concepts searched, 588 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**234 of 380 concepts searched, 591 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -973,4 +973,16 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Leslie Lamport: Distributed systems, special relativity and violating causality](https://www.youtube.com/watch?v=UYZIHP120go) | plusmathsorg | Scholar |
 | vector clocks | [Distributed Systems 4.1: Logical time](https://www.youtube.com/watch?v=x-D8iFU1d-o) | Martin Kleppmann | Start |
 |  | [CSE138 (Distributed Systems) L4: vector clocks, FIFO/causal/totally-ordered delivery](https://www.youtube.com/watch?v=5BHizc7BPyE) | Lindsey Kuper | Deeper |
+
+## Era 7: Randomness, Networks and Learning
+
+### Linear Programming in Polynomial Time ([in the book](../era-07-randomness-networks-and-learning/01-linear-programming/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| linear programming | [The Art of Linear Programming](https://www.youtube.com/watch?v=E72DWgKP_1Y) | Tom S | Start |
+|  | [Linear Programming 3: Polytopes, cubes, and cross-polytopes](https://www.youtube.com/watch?v=YY09OGdK-6E) | Henry Adams | Deeper |
+|  | [Theory of Linear Programming: convex polytopes, equational form and basic feasible solutions](https://www.youtube.com/watch?v=M0LcK1ipJTc) | Algorithms Lab | Deeper |
+| ellipsoid method | *not searched yet* | | |
+| interior point method Karmarkar | *not searched yet* | | |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 237,
+ "rounds": 238,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7032,11 +7032,45 @@
     }
    ],
    "tries": 1
+  },
+  "e7-01-c1": {
+   "searched": "2026-11-02",
+   "query": "linear programming geometric feasible region polytope explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, school-algebra shading and Desmos tutorials, and numbered exam examples. This concept repeats Era 4's; the search here looked for the geometric view (the feasible polytope) that Era 7's polynomial-time methods work on. The Tom S video was confirmed by oEmbed in the Era 4 round",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=E72DWgKP_1Y",
+     "title": "The Art of Linear Programming",
+     "channel": "Tom S",
+     "channel_url": "https://www.youtube.com/@YTomS",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=YY09OGdK-6E",
+     "title": "Linear Programming 3: Polytopes, cubes, and cross-polytopes",
+     "channel": "Henry Adams",
+     "channel_url": "https://www.youtube.com/@HenryAdamsMath",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=M0LcK1ipJTc",
+     "title": "Theory of Linear Programming: convex polytopes, equational form and basic feasible solutions",
+     "channel": "Algorithms Lab",
+     "channel_url": "https://www.youtube.com/@algorithmslab",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 298,
+ "rounds": 299,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8874,11 +8874,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-06-c3": {
+   "searched": "2026-11-02",
+   "query": "LSTM long short-term memory explained; Sepp Hochreiter LSTM talk",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "The scholar video is the LSTM co-inventor himself, on LSTM's modern successor. Left out: a German-language anniversary talk and a German interview, podcast clips, an xLSTM paper review by a third party, '(1997)' summary uploads from unidentified channels, and many 'explained easily' videos",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=b61DPVFX03I",
+     "title": "What is LSTM (Long Short Term Memory)?",
+     "channel": "IBM Technology",
+     "channel_url": "https://www.youtube.com/@IBMTechnology",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=YCzL96nL7j0",
+     "title": "Long Short-Term Memory (LSTM), Clearly Explained",
+     "channel": "StatQuest with Josh Starmer",
+     "channel_url": "https://www.youtube.com/@statquest",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=-OwYtltMeXY",
+     "title": "Distinguished Speaker Series @SCIoI: Sepp Hochreiter - xLSTM: New Architectures for LLMs",
+     "channel": "Science of Intelligence",
+     "channel_url": "https://www.youtube.com/@scioi",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

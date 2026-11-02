@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**292 of 380 concepts searched, 736 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**293 of 380 concepts searched, 739 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1215,4 +1215,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | locality-sensitive hashing | [Learn in 5 Minutes: Locality Sensitive Hashing (MinHash, SimHash, and more!)](https://www.youtube.com/watch?v=R-iFka68ZwM) | SoftwareEngenius | Start |
 |  | [Week 3: Locality Sensitive Hashing - Part 1: Introduction and Shingling](https://www.youtube.com/watch?v=cEMuUGUM9oA) | Hao Wang | Deeper |
 |  | [Locality-Sensitive Hashing and Beyond](https://www.youtube.com/watch?v=t_8SpFV0l7A) | Microsoft Research | Scholar |
+
+### Long Short-Term Memory ([in the book](../era-08-the-web-the-genome-and-the-ledger/06-lstm/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| recurrent neural network | [Recurrent Neural Networks (RNNs), Clearly Explained!!!](https://www.youtube.com/watch?v=AsNTP8Kwu80) | StatQuest with Josh Starmer | Start |
+|  | [Recurrent Neural Networks - EXPLAINED!](https://www.youtube.com/watch?v=yZv_yRgOvMg) | CodeEmporium | Start |
+|  | [Lecture 10 \| Recurrent Neural Networks](https://www.youtube.com/watch?v=6niqTuYFZLQ) | Stanford University School of Engineering | Deeper |
+| vanishing gradient problem | *not searched yet* | | |
+| LSTM | *not searched yet* | | |
 

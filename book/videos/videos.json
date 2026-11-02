@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 296,
+ "rounds": 297,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8806,11 +8806,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-06-c1": {
+   "searched": "2026-11-02",
+   "query": "recurrent neural networks clearly explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: the StatQuest video and the Stanford CS231n lecture did not appear in this search; they were recalled and then confirmed by oEmbed like every other. Left out: a Keras coding tutorial, and many 'explained simply' uploads from unidentified channels; the LSTM video belongs to the next concept",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=AsNTP8Kwu80",
+     "title": "Recurrent Neural Networks (RNNs), Clearly Explained!!!",
+     "channel": "StatQuest with Josh Starmer",
+     "channel_url": "https://www.youtube.com/@statquest",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=yZv_yRgOvMg",
+     "title": "Recurrent Neural Networks - EXPLAINED!",
+     "channel": "CodeEmporium",
+     "channel_url": "https://www.youtube.com/@CodeEmporium",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=6niqTuYFZLQ",
+     "title": "Lecture 10 | Recurrent Neural Networks",
+     "channel": "Stanford University School of Engineering",
+     "channel_url": "https://www.youtube.com/@stanfordengineering",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

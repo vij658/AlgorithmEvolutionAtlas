@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 195,
+ "rounds": 196,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5812,11 +5812,37 @@
     }
    ],
    "tries": 1
+  },
+  "e6-01-c1": {
+   "searched": "2026-11-02",
+   "query": "fast Fourier transform explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a '1000x faster (4K)' title, FPGA and Python implementation videos, a conference talk of unclear provenance, and untitled uploads. Note: the Reducible video did not appear in this search; it was recalled and then confirmed by oEmbed like every other. The Veritasium history video is kept for the next concept (Cooley-Tukey)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=h7apO7q16V0",
+     "title": "The Fast Fourier Transform (FFT): Most Ingenious Algorithm Ever?",
+     "channel": "Reducible",
+     "channel_url": "https://www.youtube.com/@Reducible",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=E8HeD-MUrjY",
+     "title": "The Fast Fourier Transform (FFT)",
+     "channel": "Steve Brunton",
+     "channel_url": "https://www.youtube.com/@Eigensteve",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

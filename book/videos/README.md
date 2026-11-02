@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**191 of 380 concepts searched, 488 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**192 of 380 concepts searched, 490 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -806,4 +806,15 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [A&DS S04E02. Maximum Matchings in Non-Bipartite Graphs](https://www.youtube.com/watch?v=CqyECZ_gqZ4) | Pavel Mavrin | Deeper |
 |  | [Lecture 12: Matching in General Graphs: Edmonds’ Blossom Algorithm](https://www.youtube.com/watch?v=S8EYaz-ziHI) | Advanced Graph Theory - IITK | Deeper |
 | Edmonds paths trees and flowers polynomial time | [What is "efficient" computation? (P vs NP)](https://www.youtube.com/watch?v=UhYWLzuYW54) | Easy Theory | Deeper |
+
+## Era 6: Hard Problems and Public Keys
+
+### The Fast Fourier Transform ([in the book](../era-06-hard-problems-and-public-keys/01-fast-fourier-transform/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| fast Fourier transform | [The Fast Fourier Transform (FFT): Most Ingenious Algorithm Ever?](https://www.youtube.com/watch?v=h7apO7q16V0) | Reducible | Start |
+|  | [The Fast Fourier Transform (FFT)](https://www.youtube.com/watch?v=E8HeD-MUrjY) | Steve Brunton | Deeper |
+| Cooley-Tukey FFT | *not searched yet* | | |
+| FFT butterfly diagram | *not searched yet* | | |
 

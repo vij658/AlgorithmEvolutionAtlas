@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**186 of 380 concepts searched, 475 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**187 of 380 concepts searched, 478 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -788,6 +788,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | binary heap | [What Is a Binary Heap?](https://www.youtube.com/watch?v=AE5I0xACpZs) | Spanning Tree | Start |
 |  | [Data Structures: Heaps](https://www.youtube.com/watch?v=t0Cq6tVNRBA) | HackerRank | Start |
 |  | [Data Structures: The Binary Heap](https://www.youtube.com/watch?v=EmAM6Ij9Mow) | Douglas Rumbaugh | Deeper |
-| heapsort | *not searched yet* | | |
+| heapsort | [Heap sort in 4 minutes](https://www.youtube.com/watch?v=2DmK_H7IdTo) | Michael Sambol | Start |
+|  | [2.6.3 Heap - Heap Sort - Heapify - Priority Queues](https://www.youtube.com/watch?v=HqPJF2L5h9U) | Abdul Bari | Deeper |
+|  | [Lecture 4: Heaps and Heap Sort](https://www.youtube.com/watch?v=B7hVxCmfPtM) | MIT OpenCourseWare | Deeper |
 | priority queue | *not searched yet* | | |
 

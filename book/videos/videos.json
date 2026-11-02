@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 190,
+ "rounds": 191,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5658,11 +5658,45 @@
     }
    ],
    "tries": 1
+  },
+  "e5-12-c2": {
+   "searched": "2026-11-02",
+   "query": "heapsort algorithm explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "an all-caps title, a Japanese-dubbed upload, and short 'explained' uploads from unidentified channels. Note: the Abdul Bari and MIT videos did not appear in this search; they were recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=2DmK_H7IdTo",
+     "title": "Heap sort in 4 minutes",
+     "channel": "Michael Sambol",
+     "channel_url": "https://www.youtube.com/@MichaelSambol",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=HqPJF2L5h9U",
+     "title": "2.6.3 Heap - Heap Sort - Heapify - Priority Queues",
+     "channel": "Abdul Bari",
+     "channel_url": "https://www.youtube.com/@abdul_bari",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=B7hVxCmfPtM",
+     "title": "Lecture 4: Heaps and Heap Sort",
+     "channel": "MIT OpenCourseWare",
+     "channel_url": "https://www.youtube.com/@mitocw",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

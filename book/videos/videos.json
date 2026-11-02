@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 274,
+ "rounds": 275,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8122,11 +8122,45 @@
     }
    ],
    "tries": 1
+  },
+  "e7-12-c3": {
+   "searched": "2026-11-02",
+   "query": "FM index explained Burrows-Wheeler search",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "radio-engineering videos on FM modulation index (another meaning of 'FM index'), a bioinformatics tool tutorial, a Wheeler-graphs extension (research), and an unattributed playlist. No start-level video was found; Langmead teaches at Johns Hopkins and the three are consecutive lectures",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=kvVGj5V65io",
+     "title": "FM Index",
+     "channel": "Ben Langmead",
+     "channel_url": "https://www.youtube.com/@BenLangmead",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=UHGgpfxlaiE",
+     "title": "FM Index, part 1: efficient reversal",
+     "channel": "Ben Langmead",
+     "channel_url": "https://www.youtube.com/@BenLangmead",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=DYyXgxYmSYU",
+     "title": "FM Index, part 2: efficient matching",
+     "channel": "Ben Langmead",
+     "channel_url": "https://www.youtube.com/@BenLangmead",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**270 of 380 concepts searched, 678 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**271 of 380 concepts searched, 681 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1125,5 +1125,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Data Compression (Summer 2023) - Lecture 12 - The Burrows-Wheeler Transform (BWT)](https://www.youtube.com/watch?v=rQ7wwh4HRZM) | BillBird | Deeper |
 | move-to-front transform | [How Bzip2 Works (Burrows Wheeler Transform) - Computerphile](https://www.youtube.com/watch?v=GYbCttCF25A) | Computerphile | Start |
 |  | [26. Move-to-front (mtf) encoding with example](https://www.youtube.com/watch?v=nBFRhjYw1Pg) | itechnica | Deeper |
-| FM-index | *not searched yet* | | |
+| FM-index | [FM Index](https://www.youtube.com/watch?v=kvVGj5V65io) | Ben Langmead | Deeper |
+|  | [FM Index, part 1: efficient reversal](https://www.youtube.com/watch?v=UHGgpfxlaiE) | Ben Langmead | Deeper |
+|  | [FM Index, part 2: efficient matching](https://www.youtube.com/watch?v=DYyXgxYmSYU) | Ben Langmead | Deeper |
 

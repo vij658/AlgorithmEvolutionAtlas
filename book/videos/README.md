@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**297 of 380 concepts searched, 749 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**298 of 380 concepts searched, 752 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1238,5 +1238,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [PageRank: A Trillion Dollar Algorithm](https://www.youtube.com/watch?v=JGQe4kiPnrU) | Reducible | Deeper |
 | random surfer Markov chain | [Markov Chains Clearly Explained! Part - 1](https://www.youtube.com/watch?v=i3AkTO9HLXo) | Normalized Nerd | Start |
 |  | [MATH 155 - Lecture 30 - Markov Chain and Page Rank](https://www.youtube.com/watch?v=tiGNiUk0C1M) | Ben Ashby | Deeper |
-| power iteration eigenvector | *not searched yet* | | |
+| power iteration eigenvector | [Power Iteration in 3 minutes!](https://www.youtube.com/watch?v=-5QpQ53-paI) | Zeyad Zaky | Start |
+|  | [Power Method for Dominant Eigenvalues and Eigenvectors \| Linear Algebra](https://www.youtube.com/watch?v=6A7BTVG_JYc) | Wrath of Math | Start |
+|  | [The Power Method for Eigenvalues \| Finding the Dominant Eigenvalue and corresponding Eigenvector](https://www.youtube.com/watch?v=DTbPct9B3yU) | Mohamed Omar | Deeper |
 

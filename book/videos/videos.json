@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 301,
+ "rounds": 302,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8960,11 +8960,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-07-c3": {
+   "searched": "2026-11-02",
+   "query": "power iteration method dominant eigenvector explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "MATLAB and Excel how-tos, Rayleigh-quotient and inverse-iteration variants (a later refinement), and textbook worked-example uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=-5QpQ53-paI",
+     "title": "Power Iteration in 3 minutes!",
+     "channel": "Zeyad Zaky",
+     "channel_url": "https://www.youtube.com/@dr.zeyadzaky",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=6A7BTVG_JYc",
+     "title": "Power Method for Dominant Eigenvalues and Eigenvectors | Linear Algebra",
+     "channel": "Wrath of Math",
+     "channel_url": "https://www.youtube.com/@WrathofMath",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=DTbPct9B3yU",
+     "title": "The Power Method for Eigenvalues | Finding the Dominant Eigenvalue and corresponding Eigenvector",
+     "channel": "Mohamed Omar",
+     "channel_url": "https://www.youtube.com/@ProfOmarMath",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

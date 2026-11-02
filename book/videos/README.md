@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**295 of 380 concepts searched, 745 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**296 of 380 concepts searched, 747 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1229,4 +1229,13 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | LSTM | [What is LSTM (Long Short Term Memory)?](https://www.youtube.com/watch?v=b61DPVFX03I) | IBM Technology | Start |
 |  | [Long Short-Term Memory (LSTM), Clearly Explained](https://www.youtube.com/watch?v=YCzL96nL7j0) | StatQuest with Josh Starmer | Start |
 |  | [Distinguished Speaker Series @SCIoI: Sepp Hochreiter - xLSTM: New Architectures for LLMs](https://www.youtube.com/watch?v=-OwYtltMeXY) | Science of Intelligence | Scholar |
+
+### PageRank ([in the book](../era-08-the-web-the-genome-and-the-ledger/07-pagerank/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| PageRank | [How Google's PageRank Algorithm Works](https://www.youtube.com/watch?v=meonLcN7LD4) | Spanning Tree | Start |
+|  | [PageRank: A Trillion Dollar Algorithm](https://www.youtube.com/watch?v=JGQe4kiPnrU) | Reducible | Deeper |
+| random surfer Markov chain | *not searched yet* | | |
+| power iteration eigenvector | *not searched yet* | | |
 

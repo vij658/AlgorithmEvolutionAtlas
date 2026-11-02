@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 220,
+ "rounds": 221,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6518,11 +6518,37 @@
     }
    ],
    "tries": 1
+  },
+  "e6-08-c4": {
+   "searched": "2026-11-02",
+   "query": "Karp 21 NP-complete problems reductions",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a 'decade of failure' video from an unidentified channel, a clip channel that re-cuts ACM interviews, 'for dummies' and exclamation titles, and a Held-Karp TSP lecture (a different Karp result). No start-level video about the 21 problems was found",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=wX3Bfmyu6QM",
+     "title": "NP-Complete Problems, lecture by Richard Karp",
+     "channel": "Computer History Museum",
+     "channel_url": "https://www.youtube.com/@ComputerHistory",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=0p5NilbKETI",
+     "title": "Richard Karp: Effective Heuristics for NP-Hard Problems",
+     "channel": "Stanford Computer Science Theory",
+     "channel_url": "https://www.youtube.com/@StanfordCSTheory",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

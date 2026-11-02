@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 278,
+ "rounds": 279,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8250,11 +8250,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-01-c1": {
+   "searched": "2026-11-02",
+   "query": "support vector machine explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a live-stream recording, a 'for managers' business video, an 'all you need to know' title, and several 'explained' uploads from unidentified channels. Note: the StatQuest and MIT videos did not appear in this search; they were recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=_YPScrckx28",
+     "title": "Support Vector Machine (SVM) in 2 minutes",
+     "channel": "Visually Explained",
+     "channel_url": "https://www.youtube.com/@VisuallyExplained",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=efR1C6CvhmE",
+     "title": "Support Vector Machines Part 1 (of 3): Main Ideas!!!",
+     "channel": "StatQuest with Josh Starmer",
+     "channel_url": "https://www.youtube.com/@statquest",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=_PwhiWxHK8o",
+     "title": "16. Learning: Support Vector Machines",
+     "channel": "MIT OpenCourseWare",
+     "channel_url": "https://www.youtube.com/@mitocw",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

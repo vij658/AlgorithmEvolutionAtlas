@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 315,
+ "rounds": 316,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9362,11 +9362,37 @@
     }
    ],
    "tries": 1
+  },
+  "e8-11-c3": {
+   "searched": "2026-11-02",
+   "query": "Hadoop explained history Doug Cutting",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Both listed videos are Doug Cutting, Hadoop's creator, in his own words. No beginner explainer passed: 'What is Hadoop?' by Netwersity (checked; channel does not say who teaches) and Simplilearn's 'Hadoop In 5 Minutes' (checked; a training company's sales funnel) were left out, as were a numbered BCA exam lecture, French-language interviews, and Cutting's keynotes about the future of data (not about how Hadoop came to be)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=qxC4urJOchs",
+     "title": "Doug Cutting Talks About The Founding Of Hadoop",
+     "channel": "Cloudera, Inc.",
+     "channel_url": "https://www.youtube.com/@ClouderaInc",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=FBILx6XVGCU",
+     "title": "Doug Cutting, Hadoop Creator - Hadoop World 2010 - theCUBE",
+     "channel": "SiliconANGLE theCUBE",
+     "channel_url": "https://www.youtube.com/@siliconangle",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

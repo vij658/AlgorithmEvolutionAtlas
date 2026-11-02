@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 300,
+ "rounds": 301,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8934,11 +8934,37 @@
     }
    ],
    "tries": 1
+  },
+  "e8-07-c2": {
+   "searched": "2026-11-02",
+   "query": "PageRank random surfer Markov chain stationary distribution",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: the Normalized Nerd video did not appear in this search; it was recalled and then confirmed by oEmbed like every other (it explains Markov chains and their stationary distribution, the surfer's model, not PageRank itself). Left out: Harvard Statistics 110 Lecture 33 (opened, but its title does not say it covers PageRank); two Portuguese-language videos; stationary-distribution exercise videos with no link to PageRank; unidentified uploads",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=i3AkTO9HLXo",
+     "title": "Markov Chains Clearly Explained! Part - 1",
+     "channel": "Normalized Nerd",
+     "channel_url": "https://www.youtube.com/@NormalizedNerd",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=tiGNiUk0C1M",
+     "title": "MATH 155 - Lecture 30 - Markov Chain and Page Rank",
+     "channel": "Ben Ashby",
+     "channel_url": "https://www.youtube.com/@ecoevotheory",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 307,
+ "rounds": 308,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9156,11 +9156,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-09-c3": {
+   "searched": "2026-11-02",
+   "query": "de Bruijn graph genome assembly explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a de Bruijn sequence puzzle video (the sequence, not assembly), a numbered 'Overview Part 5', and several short assembly clips from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=9w3MR3_kfH8",
+     "title": "Eulerian Path to DNA Fragment Assembly",
+     "channel": "math et al",
+     "channel_url": "https://www.youtube.com/@mathetal",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=TNYZZKrjCSk",
+     "title": "ADS1: De Bruijn graphs and Eulerian walks",
+     "channel": "Ben Langmead",
+     "channel_url": "https://www.youtube.com/@BenLangmead",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=XU73_ofTjws",
+     "title": "Lec 31 Genome assembly using de Bruijn graphs",
+     "channel": "NPTEL - Indian Institute of Science, Bengaluru",
+     "channel_url": "https://www.youtube.com/@nptel-indianinstituteofsci8064",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

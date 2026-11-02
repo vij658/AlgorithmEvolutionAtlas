@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 305,
+ "rounds": 306,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9096,11 +9096,37 @@
     }
    ],
    "tries": 1
+  },
+  "e8-09-c1": {
+   "searched": "2026-11-02",
+   "query": "how DNA sequencing works explained; Ben Langmead DNA sequencing reads lecture",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "'How Does DNA Sequencing Work?' from 'Precision Health' (checked; channel not identifiable); 'Illumina sequencing – How it works' (checked; a lab-equipment company's video); 'NGS Explained' and 'Sanger Sequencing Explained For Beginners' from unidentified channels; Langmead's research seminars (about his research, not sequencing itself)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=wUAYwr6zPkY",
+     "title": "DNA sequencing explained | biology animation",
+     "channel": "yourgenome",
+     "channel_url": "https://www.youtube.com/@yourgenome",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=u1NJABmmIFE",
+     "title": "ADS1: DNA sequencing past and present",
+     "channel": "Ben Langmead",
+     "channel_url": "https://www.youtube.com/@BenLangmead",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

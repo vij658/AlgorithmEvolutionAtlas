@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**301 of 380 concepts searched, 761 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**302 of 380 concepts searched, 763 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1255,4 +1255,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Lamport Part-Time Parliament | [Paxos: The Part-Time Parliament \| Distributed Computing - Part 1](https://www.youtube.com/watch?v=BVrlz9h3DMY) | Polymorphia | Start |
 |  | [Leslie Lamport — The Paxos algorithm or how to win a Turing Award. Part 1.](https://www.youtube.com/watch?v=tw3gsBms-f8) | SPTDC | Scholar |
 |  | [Turing Award Winner: Thinking Clearly, Paxos vs Raft, Working With Dijkstra \| Leslie Lamport](https://www.youtube.com/watch?v=U719vQz-WFs) | Ryan Peterman | Scholar |
+
+### Genome Assembly with de Bruijn Graphs ([in the book](../era-08-the-web-the-genome-and-the-ledger/09-genome-assembly/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| DNA sequencing | [DNA sequencing explained \| biology animation](https://www.youtube.com/watch?v=wUAYwr6zPkY) | yourgenome | Start |
+|  | [ADS1: DNA sequencing past and present](https://www.youtube.com/watch?v=u1NJABmmIFE) | Ben Langmead | Deeper |
+| genome assembly | *not searched yet* | | |
+| de Bruijn graph | *not searched yet* | | |
+| Human Genome Project | *not searched yet* | | |
 

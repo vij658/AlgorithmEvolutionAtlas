@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 260,
+ "rounds": 261,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7710,11 +7710,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-08-c2": {
+   "searched": "2026-11-02",
+   "query": "Barnes-Hut algorithm explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "simulation animations without explanation, MPI- and Mathematica-specific implementations, an old Python solar-system clip, and a short talk from a channel identified only by a handle. The Deadlock video is the one listed for n-body simulation; most of it explains Barnes-Hut",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=tOlKLJ4WmSE",
+     "title": "Quadtrees and The Barnes-Hut Algorithm: The Making of a Gravity Simulation",
+     "channel": "William Y. Feng",
+     "channel_url": "https://www.youtube.com/@womogenes",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=nZHjD3cI-EU",
+     "title": "How to make HUGE N-Body Simulations (N=1,000,000+)",
+     "channel": "Deadlock",
+     "channel_url": "https://www.youtube.com/@DeadlockCode",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

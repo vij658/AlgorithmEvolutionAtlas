@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**256 of 380 concepts searched, 644 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**257 of 380 concepts searched, 646 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1071,6 +1071,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | n-body simulation | [Coding Adventure: Solar System](https://www.youtube.com/watch?v=7axImc1sxa0) | Sebastian Lague | Start |
 |  | [How to make HUGE N-Body Simulations (N=1,000,000+)](https://www.youtube.com/watch?v=nZHjD3cI-EU) | Deadlock | Deeper |
-| Barnes-Hut algorithm | *not searched yet* | | |
+| Barnes-Hut algorithm | [Quadtrees and The Barnes-Hut Algorithm: The Making of a Gravity Simulation](https://www.youtube.com/watch?v=tOlKLJ4WmSE) | William Y. Feng | Start |
+|  | [How to make HUGE N-Body Simulations (N=1,000,000+)](https://www.youtube.com/watch?v=nZHjD3cI-EU) | Deadlock | Deeper |
 | quadtree octree | *not searched yet* | | |
 

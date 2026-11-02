@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**188 of 380 concepts searched, 481 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**189 of 380 concepts searched, 484 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -794,4 +794,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | priority queue | [Data Structures - What Is a Priority Queue?](https://www.youtube.com/watch?v=PQczuB44lvg) | Access 2 Learn | Start |
 |  | [Queue & Priority Queue Explained - Algorithms & Data Structures #19](https://www.youtube.com/watch?v=_U1AJZQxYTU) | NeuralNine | Start |
 |  | [Priority Queue Introduction](https://www.youtube.com/watch?v=wptevk0bshY) | WilliamFiset | Deeper |
+
+### Edmonds's Matching ([in the book](../era-05-the-programmers-craft/13-matching/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| bipartite matching | [Bipartite Graphs and Maximum Matching](https://www.youtube.com/watch?v=HWHjQdNC-7Y) | Anand Seetharam | Start |
+|  | [The Augmenting Path Algorithm for Bipartite Matching](https://www.youtube.com/watch?v=ory4WMX0rDU) | stoleemath | Deeper |
+|  | [Lecture 8: Independent Sets, Covers and Maximum Bipartite Matching](https://www.youtube.com/watch?v=wA6yz9EMIZM) | Advanced Graph Theory - IITK | Deeper |
+| Edmonds blossom algorithm | *not searched yet* | | |
+| Edmonds paths trees and flowers polynomial time | *not searched yet* | | |
 

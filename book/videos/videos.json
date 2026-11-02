@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 227,
+ "rounds": 228,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6732,11 +6732,37 @@
     }
    ],
    "tries": 1
+  },
+  "e6-10-c4": {
+   "searched": "2026-11-02",
+   "query": "Miller-Rabin primality test probabilistic explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "exam-style worked examples, a Shor's-algorithm combination video, a Lucas-Lehmer pairing (a different test), and uploads from small channels whose authors the check does not identify",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=tBzaMfV94uA",
+     "title": "How To Find Massive Primes in Seconds",
+     "channel": "PurpleMind",
+     "channel_url": "https://www.youtube.com/@PurpleMindCreations",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=8i0UnX7Snkc",
+     "title": "Testing for Primality (Miller-Rabin Test)",
+     "channel": "Neso Academy",
+     "channel_url": "https://www.youtube.com/@nesoacademy",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

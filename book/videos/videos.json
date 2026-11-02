@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 242,
+ "rounds": 243,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7194,11 +7194,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-02-c3": {
+   "searched": "2026-11-02",
+   "query": "Merkle proof inclusion proof explained; Merkle trees lecture authentication path log n hashes",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "cryptocurrency-product and NFT tutorials, an AI-narrated book-chapter channel, a Chinese video, clickbait titles, and language-specific code walkthroughs. The Gaurav Sen video is the one listed for Merkle trees, which works through proof verification",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=qHMLy5JjbjQ",
+     "title": "Merkle Tree with real world examples",
+     "channel": "Gaurav Sen",
+     "channel_url": "https://www.youtube.com/@gkcs",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=C0PuixiGInM",
+     "title": "A Gentle Introduction to Merkle Trees",
+     "channel": "redshiftzero",
+     "channel_url": "https://www.youtube.com/@redshiftzer0",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

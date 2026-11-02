@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 292,
+ "rounds": 293,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8694,11 +8694,37 @@
     }
    ],
    "tries": 1
+  },
+  "e8-04-c3": {
+   "searched": "2026-11-02",
+   "query": "Akamai consistent hashing Leighton Lewin history",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "HackMIT 'Fireside Chat: Tom Leighton' (opened; a general career chat, not focused on consistent hashing); Akamai's memorial video for Danny Lewin (tribute, not the algorithm); clickbait '$10 Billion Algorithm' from an unidentified channel; generic consistent-hashing interview videos (the concept itself is covered under e8-04-c1)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=5wOGj2kVMuY",
+     "title": "Faster Forward: The Tom Leighton and Daniel Lewin Story",
+     "channel": "National Inventors Hall of Fame - NIHF",
+     "channel_url": "https://www.youtube.com/@nationalinventorshalloffame",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=apHAqUG3Pi8",
+     "title": "Consistent Hashing, Danny Lewin, and the Creation of Akamai - MIT Prof. Tom Leighton",
+     "channel": "הטכניון - מכון טכנולוגי לישראל (Technion – Israel Institute of Technology)",
+     "channel_url": "https://www.youtube.com/@technion.israel",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

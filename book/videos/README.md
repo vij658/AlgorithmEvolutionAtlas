@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**288 of 380 concepts searched, 727 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**289 of 380 concepts searched, 729 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1201,5 +1201,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | distributed hash table | [Chord - A Distributed Hash Table](https://www.youtube.com/watch?v=9kd1aj8E30k) | The Lost Packet | Start |
 |  | [Kademlia, Explained](https://www.youtube.com/watch?v=1QdKhNpsj8M) | number 0 | Start |
 |  | [Chord: A Scalable DHT](https://www.youtube.com/watch?v=Ki-Dnqk4mss) | Smruti R. Sarangi | Deeper |
-| Akamai consistent hashing | *not searched yet* | | |
+| Akamai consistent hashing | [Faster Forward: The Tom Leighton and Daniel Lewin Story](https://www.youtube.com/watch?v=5wOGj2kVMuY) | National Inventors Hall of Fame - NIHF | Start |
+|  | [Consistent Hashing, Danny Lewin, and the Creation of Akamai - MIT Prof. Tom Leighton](https://www.youtube.com/watch?v=apHAqUG3Pi8) | הטכניון - מכון טכנולוגי לישראל (Technion – Israel Institute of Technology) | Scholar |
 

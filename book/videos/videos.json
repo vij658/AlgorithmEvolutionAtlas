@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 211,
+ "rounds": 212,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6260,11 +6260,45 @@
     }
    ],
    "tries": 1
+  },
+  "e6-06-c1": {
+   "searched": "2026-11-02",
+   "query": "relational database explained tables keys",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "emoji and 'explained FAST' titles, several keys-only videos (super, surrogate and candidate keys belong to later database design), and uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=MpzCQs4u_Oo",
+     "title": "Relational Databases Made Super Simple for Beginners",
+     "channel": "Bart Slodyczka",
+     "channel_url": "https://www.youtube.com/@BartSlodyczka",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=NvrpuBAMddw",
+     "title": "Relational Database Concepts",
+     "channel": "Prescott Computer Guy",
+     "channel_url": "https://www.youtube.com/@PrescottComputerGuy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=FCtGbrou5DM",
+     "title": "Database Tables, Primary Keys, Foreign Keys, and Relationships",
+     "channel": "minderchen",
+     "channel_url": "https://www.youtube.com/@minderchen",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

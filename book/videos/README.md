@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**262 of 380 concepts searched, 659 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**263 of 380 concepts searched, 661 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1096,6 +1096,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | how TCP works | [The Internet: Crash Course Computer Science #29](https://www.youtube.com/watch?v=AEaKrq3SpW8) | CrashCourse | Start |
 |  | [TCP - 12 simple ideas to explain the Transmission Control Protocol](https://www.youtube.com/watch?v=JFch3ctY6nE) | Practical Networking | Start |
 |  | [How TCP Works (playlist)](https://www.youtube.com/playlist?list=PLW8bTPfXNGdAZIKv-y9v_XLXtEqrPtntm) | Chris Greer | Deeper |
-| TCP congestion control | *not searched yet* | | |
+| TCP congestion control | [TCP Congestion Control](https://www.youtube.com/watch?v=kRS4J-m5n04) | Anand Seetharam | Start |
+|  | [3.7 - TCP Congestion Control \| FHU - Computer Networks](https://www.youtube.com/watch?v=cPLDaypKQkU) | Kenan Casey | Deeper |
 | TCP slow start AIMD | *not searched yet* | | |
 

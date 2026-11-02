@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 266,
+ "rounds": 267,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7890,11 +7890,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-10-c2": {
+   "searched": "2026-11-02",
+   "query": "TCP congestion control explained slow start AIMD",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "an exam previous-year-question clip, numbered course parts from unidentified channels, an animation channel of unclear authorship, and a Tahoe-only video (one variant)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=kRS4J-m5n04",
+     "title": "TCP Congestion Control",
+     "channel": "Anand Seetharam",
+     "channel_url": "https://www.youtube.com/@anandseetharam",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=cPLDaypKQkU",
+     "title": "3.7 - TCP Congestion Control | FHU - Computer Networks",
+     "channel": "Kenan Casey",
+     "channel_url": "https://www.youtube.com/@KenanCasey",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

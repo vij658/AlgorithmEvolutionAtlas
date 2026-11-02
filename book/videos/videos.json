@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 261,
+ "rounds": 262,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7736,11 +7736,45 @@
     }
    ],
    "tries": 1
+  },
+  "e7-08-c3": {
+   "searched": "2026-11-02",
+   "query": "quadtree explained spatial partitioning octree",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "engine-specific tutorials (OpenGL, Unity), a short partitioning clip, and 'explained' uploads from unidentified channels. Note: the Coding Train video did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=OJxEcs0w_kE",
+     "title": "Coding Challenge #98.1: Quadtree - Part 1",
+     "channel": "The Coding Train",
+     "channel_url": "https://www.youtube.com/@TheCodingTrain",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=U1tIa5z_QkE",
+     "title": "Binary Space Partitions, Quadtrees, Octrees",
+     "channel": "Bill Kerney",
+     "channel_url": "https://www.youtube.com/@CSCI4X",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ASAowY6yJII",
+     "title": "Quirky Quad Trees Part1: Static Spatial Acceleration",
+     "channel": "javidx9",
+     "channel_url": "https://www.youtube.com/@javidx9",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

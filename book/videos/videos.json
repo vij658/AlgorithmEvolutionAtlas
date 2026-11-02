@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 240,
+ "rounds": 241,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7134,11 +7134,45 @@
     }
    ],
    "tries": 1
+  },
+  "e7-02-c1": {
+   "searched": "2026-11-02",
+   "query": "SHA-256 hash function how it works explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "all-caps 'COMPLETE CONCEPT' titles, several step-by-step 'abc' walkthroughs and short 'how does it work' uploads from unidentified channels. Note: the 3Blue1Brown and Computerphile videos did not appear in this search; they were recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=S9JGmA5_unY",
+     "title": "How secure is 256 bit security?",
+     "channel": "3Blue1Brown",
+     "channel_url": "https://www.youtube.com/@3blue1brown",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=DMtFhACPnTY",
+     "title": "SHA: Secure Hashing Algorithm - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=PbFVTb7Pndc",
+     "title": "How does SHA-256 work? (full explanation)",
+     "channel": "Boot dev",
+     "channel_url": "https://www.youtube.com/@bootdotdev",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

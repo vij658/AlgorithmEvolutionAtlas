@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**282 of 380 concepts searched, 712 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**283 of 380 concepts searched, 715 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1176,4 +1176,15 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Goemans-Williamson algorithm | [Goemans-Williamson Max-Cut Algorithm \| The Practical Guide to Semidefinite Programming (4/4)](https://www.youtube.com/watch?v=aFVnWq3RHYU) | Visually Explained | Start |
 |  | [CSE202, Lec 18: Maxcut and the Goemans-Williamson SDP relaxation](https://www.youtube.com/watch?v=vC9-auOJXD0) | C. Seshadhri | Deeper |
 |  | [Goemans--Williamson: Rounding the Max-Cut SDP \|\| @ CMU \|\| Lecture 20a of CS Theory Toolkit](https://www.youtube.com/watch?v=T8hD0ofzDP0) | Ryan O'Donnell | Deeper |
+
+### Streaming Sketches ([in the book](../era-08-the-web-the-genome-and-the-ledger/03-streaming-sketches/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| streaming algorithms | [Probabilistic streaming algorithms: accuracy and speed at low cost by Juanjo Madrigal - JOTB23](https://www.youtube.com/watch?v=GjSb-0PHS40) | J On The Beach | Start |
+|  | [Algorithms for Big Data (COMPSCI 229r), Lecture 1](https://www.youtube.com/watch?v=s9xSfIw83tk) | Harvard University | Deeper |
+|  | [Sketching and Streaming Algorithms - Jelani Nelson](https://www.youtube.com/watch?v=xbTM3t26xLk) | Institute for Advanced Study | Scholar |
+| Count-Min sketch | *not searched yet* | | |
+| HyperLogLog | *not searched yet* | | |
+| AMS sketch frequency moments | *not searched yet* | | |
 

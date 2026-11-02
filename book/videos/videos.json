@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 286,
+ "rounds": 287,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8514,11 +8514,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-03-c1": {
+   "searched": "2026-11-02",
+   "query": "streaming algorithms introduction lecture; data stream algorithms lecture one pass small memory",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "CodeLucky 'Handle Big Data with Limited Memory!' (unidentified generated-content channel, checked and left out); general algorithms lecture 1s, stream-processing and big-data-analytics videos that are about systems rather than streaming algorithms; a robust-streaming research talk and a summarizing-streams talk too narrow for the concept; a one-shot revision video",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=GjSb-0PHS40",
+     "title": "Probabilistic streaming algorithms: accuracy and speed at low cost by Juanjo Madrigal - JOTB23",
+     "channel": "J On The Beach",
+     "channel_url": "https://www.youtube.com/@Jonthebeach",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=s9xSfIw83tk",
+     "title": "Algorithms for Big Data (COMPSCI 229r), Lecture 1",
+     "channel": "Harvard University",
+     "channel_url": "https://www.youtube.com/@harvard",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=xbTM3t26xLk",
+     "title": "Sketching and Streaming Algorithms - Jelani Nelson",
+     "channel": "Institute for Advanced Study",
+     "channel_url": "https://www.youtube.com/@videosfromIAS",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

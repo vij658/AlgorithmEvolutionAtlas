@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**311 of 380 concepts searched, 785 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**312 of 380 concepts searched, 787 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1294,4 +1294,13 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Map Reduce Paper - Distributed data processing](https://www.youtube.com/watch?v=MAJ0aW5g17c) | Defog Tech | Deeper |
 | Hadoop | [Doug Cutting Talks About The Founding Of Hadoop](https://www.youtube.com/watch?v=qxC4urJOchs) | Cloudera, Inc. | Scholar |
 |  | [Doug Cutting, Hadoop Creator - Hadoop World 2010 - theCUBE](https://www.youtube.com/watch?v=FBILx6XVGCU) | SiliconANGLE theCUBE | Scholar |
+
+### Compressed Sensing ([in the book](../era-08-the-web-the-genome-and-the-ledger/12-compressed-sensing/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| sparsity signal processing | [A Compressed Overview of Sparsity](https://www.youtube.com/watch?v=aHCyHbRIz44) | Steve Brunton | Start |
+|  | [Sparsity and Compression: An Overview](https://www.youtube.com/watch?v=EOYaKcjFa3o) | Steve Brunton | Deeper |
+| compressed sensing | *not searched yet* | | |
+| L1 minimization | *not searched yet* | | |
 

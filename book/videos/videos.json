@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 316,
+ "rounds": 317,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9388,11 +9388,37 @@
     }
    ],
    "tries": 1
+  },
+  "e8-12-c1": {
+   "searched": "2026-11-02",
+   "query": "sparsity and compression signal processing explained Brunton",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "edX 'Sparse Representations in Signal and Image Processing: Fundamentals' (checked; a course advertisement); compressed-sensing videos (they belong to the next concepts); 'What is Sparsity?' and a machine-learning sparsity video from unidentified channels; a numbered course lecture from a personal upload",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=aHCyHbRIz44",
+     "title": "A Compressed Overview of Sparsity",
+     "channel": "Steve Brunton",
+     "channel_url": "https://www.youtube.com/@Eigensteve",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=EOYaKcjFa3o",
+     "title": "Sparsity and Compression: An Overview",
+     "channel": "Steve Brunton",
+     "channel_url": "https://www.youtube.com/@Eigensteve",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

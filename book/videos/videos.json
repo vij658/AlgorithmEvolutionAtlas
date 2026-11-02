@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 320,
+ "rounds": 321,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9508,11 +9508,29 @@
     }
    ],
    "tries": 1
+  },
+  "e8-13-c2": {
+   "searched": "2026-11-02",
+   "query": "double spending problem digital money explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Only one video passed. 'What Is the Double Spend Problem?' (checked; Bitcoin.com, a company that sells cryptocurrency); Princeton's 'Lecture 2 — How Bitcoin Achieves Decentralization' (opened, but its title does not name double spending, so it is not listed here; see the next concepts); a Short; and several crypto-promotion and hashtag-series uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=ntAQsZV2_kk",
+     "title": "Blockchain tutorial 22: Double spending, third party",
+     "channel": "Mobilefish.com",
+     "channel_url": "https://www.youtube.com/@Mobilefish",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**315 of 380 concepts searched, 795 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**316 of 380 concepts searched, 796 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1314,7 +1314,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | how bitcoin works | [But how does bitcoin actually work?](https://www.youtube.com/watch?v=bBC-nXj3Ng4) | 3Blue1Brown | Start |
 |  | [Lecture 1 — Intro to Crypto and Cryptocurrencies](https://www.youtube.com/watch?v=fOMVZXLjKYo) | Bitcoin and Cryptocurrency Technologies Online Course | Deeper |
-| double spending | *not searched yet* | | |
+| double spending | [Blockchain tutorial 22: Double spending, third party](https://www.youtube.com/watch?v=ntAQsZV2_kk) | Mobilefish.com | Start |
 | proof of work | *not searched yet* | | |
 | blockchain | *not searched yet* | | |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 213,
+ "rounds": 214,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6312,11 +6312,29 @@
     }
    ],
    "tries": 1
+  },
+  "e6-06-c3": {
+   "searched": "2026-11-02",
+   "query": "relational algebra joins SQL explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "an Italian lecture (listed in the search under an English title), all-caps and emoji titles, numbered exam lectures (Lec-43, L3.13, L3.14), and part-numbered series from channels whose lecture language could not be confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=8g7T7VedSe0",
+     "title": "Relational Algebra (Natural Join Operation)",
+     "channel": "Neso Academy",
+     "channel_url": "https://www.youtube.com/@nesoacademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

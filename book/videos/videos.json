@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 269,
+ "rounds": 270,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7976,11 +7976,45 @@
     }
    ],
    "tries": 1
+  },
+  "e7-11-c2": {
+   "searched": "2026-11-02",
+   "query": "Shor's algorithm explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a 'changed everything' title, a business-angled interview, a course trailer, numbered series parts and short uploads from unidentified channels. Note: the minutephysics video did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=lvTqbM5Dq4Q",
+     "title": "How Quantum Computers Break Encryption | Shor's Algorithm Explained",
+     "channel": "minutephysics",
+     "channel_url": "https://www.youtube.com/@MinutePhysics",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=hOlOY7NyMfs",
+     "title": "What is Shor's factoring algorithm?",
+     "channel": "Physics World",
+     "channel_url": "https://www.youtube.com/@PhysicsWorldTV",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=k_kyepATqB8",
+     "title": "Shor's Algorithm for Quantum Computing - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

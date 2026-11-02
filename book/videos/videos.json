@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 321,
+ "rounds": 322,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9526,11 +9526,29 @@
     }
    ],
    "tries": 1
+  },
+  "e8-13-c3": {
+   "searched": "2026-11-02",
+   "query": "proof of work explained hashing mining",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Only one video passed. 'Lecture 16: Proof of Work | How Miner Finds Hash?' (checked; a personal channel) and 'Blockchain Basics Explained' (checked; a blockchain company's channel) were left out, as were a Dutch-language video, a one-minute clip, and several 'What is Proof of Work?' uploads from crypto-promotion or unidentified channels. The 3Blue1Brown video under 'how bitcoin works' also explains proof of work.",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=9V1bipPkCTU",
+     "title": "Bitcoin - Proof of work",
+     "channel": "Khan Academy",
+     "channel_url": "https://www.youtube.com/@khanacademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

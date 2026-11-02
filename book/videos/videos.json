@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 311,
+ "rounds": 312,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9250,11 +9250,37 @@
     }
    ],
    "tries": 2
+  },
+  "e8-10-c2": {
+   "searched": "2026-11-02",
+   "query": "Carmichael numbers Fermat's little theorem pseudoprimes",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'04-06: Fermat Primality Test and Carmichael Numbers' (checked; a course clip from a channel that does not say whose course it is); worked-example and exam videos ('Examples of Fermat's Little Theorem', '561 is a Carmichael Number', a cyber-security course unit); a general 'Number Theory' upload",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=jbiaz_aHHUQ",
+     "title": "Liar Numbers - Numberphile",
+     "channel": "Numberphile",
+     "channel_url": "https://www.youtube.com/@numberphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=_9fbBSxhkuA",
+     "title": "Fermat’s HUGE little theorem, pseudoprimes and Futurama",
+     "channel": "Mathologer",
+     "channel_url": "https://www.youtube.com/@Mathologer",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**293 of 380 concepts searched, 739 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**294 of 380 concepts searched, 742 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1223,6 +1223,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | recurrent neural network | [Recurrent Neural Networks (RNNs), Clearly Explained!!!](https://www.youtube.com/watch?v=AsNTP8Kwu80) | StatQuest with Josh Starmer | Start |
 |  | [Recurrent Neural Networks - EXPLAINED!](https://www.youtube.com/watch?v=yZv_yRgOvMg) | CodeEmporium | Start |
 |  | [Lecture 10 \| Recurrent Neural Networks](https://www.youtube.com/watch?v=6niqTuYFZLQ) | Stanford University School of Engineering | Deeper |
-| vanishing gradient problem | *not searched yet* | | |
+| vanishing gradient problem | [Vanishing & Exploding Gradient explained \| A problem resulting from backpropagation](https://www.youtube.com/watch?v=qO_NLVjD6zE) | deeplizard | Start |
+|  | [Vanishing and exploding gradients \| Deep Learning Tutorial 35 (Tensorflow, Keras & Python)](https://www.youtube.com/watch?v=qowp6SQ9_Oo) | codebasics | Start |
+|  | [Vanishing/Exploding Gradients (C2W1L10)](https://www.youtube.com/watch?v=qhXZsFVxGKo) | DeepLearningAI | Deeper |
 | LSTM | *not searched yet* | | |
 

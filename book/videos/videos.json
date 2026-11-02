@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 297,
+ "rounds": 298,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8840,11 +8840,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-06-c2": {
+   "searched": "2026-11-02",
+   "query": "vanishing gradient problem explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: the DeepLearningAI (Andrew Ng) video did not appear in this search; it was recalled and then confirmed by oEmbed like every other. Left out: 'Quickly Explained' and 'Explained Simply' uploads, a numbered 'Module 14' and 'Tutorial 7' from unidentified channels, and a code-only demo",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=qO_NLVjD6zE",
+     "title": "Vanishing & Exploding Gradient explained | A problem resulting from backpropagation",
+     "channel": "deeplizard",
+     "channel_url": "https://www.youtube.com/@deeplizard",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=qowp6SQ9_Oo",
+     "title": "Vanishing and exploding gradients | Deep Learning Tutorial 35 (Tensorflow, Keras & Python)",
+     "channel": "codebasics",
+     "channel_url": "https://www.youtube.com/@codebasics",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=qhXZsFVxGKo",
+     "title": "Vanishing/Exploding Gradients (C2W1L10)",
+     "channel": "DeepLearningAI",
+     "channel_url": "https://www.youtube.com/@Deeplearningai",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 202,
+ "rounds": 203,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5994,11 +5994,37 @@
     }
    ],
    "tries": 1
+  },
+  "e6-03-c1": {
+   "searched": "2026-11-02",
+   "query": "object-oriented programming explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'in 2 minutes' and 'under 30 minutes' videos, a Python-only tutorial, several 'simple language' explainers from unidentified channels, and a generic 'explained' video from a channel the check names without an author",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=pTB0EiLXUC8",
+     "title": "Object-Oriented Programming, Simplified",
+     "channel": "Programming with Mosh",
+     "channel_url": "https://www.youtube.com/@programmingwithmosh",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=hNr3x_1UxwI",
+     "title": "Object Oriented Programming (OOP) Explained With Side-By-Side Code",
+     "channel": "nikkiinit",
+     "channel_url": "https://www.youtube.com/@nikkiinit",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 267,
+ "rounds": 268,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7916,11 +7916,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-10-c3": {
+   "searched": "2026-11-02",
+   "query": "additive increase multiplicative decrease AIMD fairness Van Jacobson",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "an exam clip, a university channel whose lecture language could not be confirmed, and unrelated video-game and statistics results that matched 'additive' and 'multiplicative'. The Kenan Casey lecture is the one listed for congestion control; it derives slow start and AIMD",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=h5HjdwkiurE",
+     "title": "TCP Congestion Control - Slow Start, Additive Increase & Multiplicative Decrease",
+     "channel": "PASSIONATE PROFESSOR",
+     "channel_url": "https://www.youtube.com/@PASSIONATEPROFESSOR",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=cPLDaypKQkU",
+     "title": "3.7 - TCP Congestion Control | FHU - Computer Networks",
+     "channel": "Kenan Casey",
+     "channel_url": "https://www.youtube.com/@KenanCasey",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

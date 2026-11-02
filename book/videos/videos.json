@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 199,
+ "rounds": 200,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5924,11 +5924,37 @@
     }
    ],
    "tries": 1
+  },
+  "e6-02-c2": {
+   "searched": "2026-11-02",
+   "query": "mutual exclusion critical section explained operating systems",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Hindi-language exam lectures, a 'handwritten notes' clip, an untitled result, a clickbait 'mastering' title, and numbered uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=UtEORPakw5Y",
+     "title": "The Critical-Section Problem",
+     "channel": "Neso Academy",
+     "channel_url": "https://www.youtube.com/@nesoacademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=k-oCvIuq_kI",
+     "title": "Operating System: Mutual Exclusion and Synchronization",
+     "channel": "Charles Ed -- Math Computer Science Programming",
+     "channel_url": "https://www.youtube.com/@charlesedeki--mathcomputer7198",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

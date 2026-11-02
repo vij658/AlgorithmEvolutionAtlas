@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 233,
+ "rounds": 234,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6904,11 +6904,45 @@
     }
    ],
    "tries": 1
+  },
+  "e6-12-c3": {
+   "searched": "2026-11-02",
+   "query": "DEFLATE gzip compression how it works explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, German and Spanish videos, a 'Graphic Design Nerd' filler channel, and server-configuration and browser-devtools tutorials",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=NLtt4S9ErIA",
+     "title": "gzip file compression in 100 Seconds",
+     "channel": "Fireship",
+     "channel_url": "https://www.youtube.com/@Fireship",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=Mjab_aZsdxw",
+     "title": "How gzip works",
+     "channel": "Google Search Central",
+     "channel_url": "https://www.youtube.com/@GoogleSearchCentral",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=SJPvNi4HrWQ",
+     "title": "Data Compression (Summer 2023) - Lecture 11 - DEFLATE (gzip)",
+     "channel": "BillBird",
+     "channel_url": "https://www.youtube.com/@billbird2597",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**229 of 380 concepts searched, 577 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**230 of 380 concepts searched, 580 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -957,5 +957,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | LZW compression | [Lossless Compression: Lempel-Ziv](https://www.youtube.com/watch?v=RV5aUr8sZD0) | Art of the Problem | Start |
 |  | [Lempel-Ziv-Welch (LZW) compression in GIFs](https://www.youtube.com/watch?v=_DoIa8TIcTI) | Algorithms4Arts | Start |
 |  | [LZW Explained by Prof. Gunawardena](https://www.youtube.com/watch?v=p4HnBe_KzKM) | Andy Guna | Deeper |
-| DEFLATE gzip | *not searched yet* | | |
+| DEFLATE gzip | [gzip file compression in 100 Seconds](https://www.youtube.com/watch?v=NLtt4S9ErIA) | Fireship | Start |
+|  | [How gzip works](https://www.youtube.com/watch?v=Mjab_aZsdxw) | Google Search Central | Start |
+|  | [Data Compression (Summer 2023) - Lecture 11 - DEFLATE (gzip)](https://www.youtube.com/watch?v=SJPvNi4HrWQ) | BillBird | Deeper |
 

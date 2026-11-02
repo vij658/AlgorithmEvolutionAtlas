@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 222,
+ "rounds": 223,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6578,11 +6578,37 @@
     }
    ],
    "tries": 1
+  },
+  "e6-09-c2": {
+   "searched": "2026-11-02",
+   "query": "Tarjan's strongly connected components algorithm",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a lecture the search listed as Tarjan's that the check shows is about Kosaraju's algorithm, a numbered part 2, source-code-only and all-caps uploads, and overlapping 'explained' videos from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=wUgWX0nc4NY",
+     "title": "Tarjan's Strongly Connected Component (SCC) Algorithm (UPDATED) | Graph Theory",
+     "channel": "WilliamFiset",
+     "channel_url": "https://www.youtube.com/@WilliamFiset-videos",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=_1TDxihjtoE",
+     "title": "Tarjan's Algorithm | Strongly Connected Components",
+     "channel": "HeadEasyLabs",
+     "channel_url": "https://www.youtube.com/@headeasylabs",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**218 of 380 concepts searched, 550 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**219 of 380 concepts searched, 552 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -915,6 +915,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | depth-first search | [Depth First Search (DFS) Explained: Algorithm, Examples, and Code](https://www.youtube.com/watch?v=PMMc4VsIacU) | Reducible | Start |
 |  | [Depth First Search Algorithm \| Graph Theory](https://www.youtube.com/watch?v=7fujbpJ0LB4) | WilliamFiset | Start |
 |  | [10. Depth-First Search](https://www.youtube.com/watch?v=IBfWDYSffUU) | MIT OpenCourseWare | Deeper |
-| Tarjan strongly connected components | *not searched yet* | | |
+| Tarjan strongly connected components | [Tarjan's Strongly Connected Component (SCC) Algorithm (UPDATED) \| Graph Theory](https://www.youtube.com/watch?v=wUgWX0nc4NY) | WilliamFiset | Start |
+|  | [Tarjan's Algorithm \| Strongly Connected Components](https://www.youtube.com/watch?v=_1TDxihjtoE) | HeadEasyLabs | Deeper |
 | articulation points biconnected components | *not searched yet* | | |
 

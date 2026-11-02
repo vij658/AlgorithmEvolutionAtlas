@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 313,
+ "rounds": 314,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9310,11 +9310,37 @@
     }
    ],
    "tries": 1
+  },
+  "e8-11-c1": {
+   "searched": "2026-11-02",
+   "query": "distributed computing introduction lecture explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: both listed lectures were recalled and then confirmed by oEmbed like every other; this search did not show them. Left out: 'Distributed Systems Explained | CS Foundations' (checked; channel does not say who teaches), an Urdu-language lecture, clickbait 'Backbone of Big Data!', a module-introduction housekeeping video, and generic uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=UEAMfLPZZhE",
+     "title": "Distributed Systems 1.1: Introduction",
+     "channel": "Martin Kleppmann",
+     "channel_url": "https://www.youtube.com/@kleppmann",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=cQP8WApzIQQ",
+     "title": "Lecture 1: Introduction",
+     "channel": "MIT 6.824: Distributed Systems",
+     "channel_url": "https://www.youtube.com/@6.824",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

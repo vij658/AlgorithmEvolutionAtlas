@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**308 of 380 concepts searched, 779 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**309 of 380 concepts searched, 781 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1283,4 +1283,13 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | AKS primality test | [Fool-Proof Test for Primes - Numberphile](https://www.youtube.com/watch?v=HvMSRWTE2mI) | Numberphile | Start |
 |  | [Primality (2 of 2: AKS Test)](https://www.youtube.com/watch?v=D7AHbyAlgIA) | Eddie Woo | Start |
 |  | [AKS Primality Test Co-Creator: Why India's AI Future Depends on Math \| Nitin Saxena](https://www.youtube.com/watch?v=0T5yjt-ErJU) | Ones Changing The World - 1CW | Scholar |
+
+### MapReduce ([in the book](../era-08-the-web-the-genome-and-the-ledger/11-mapreduce/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| distributed computing | [Distributed Systems 1.1: Introduction](https://www.youtube.com/watch?v=UEAMfLPZZhE) | Martin Kleppmann | Start |
+|  | [Lecture 1: Introduction](https://www.youtube.com/watch?v=cQP8WApzIQQ) | MIT 6.824: Distributed Systems | Deeper |
+| MapReduce | *not searched yet* | | |
+| Hadoop | *not searched yet* | | |
 

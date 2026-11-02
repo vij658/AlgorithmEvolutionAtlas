@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 283,
+ "rounds": 284,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8420,11 +8420,37 @@
     }
    ],
    "tries": 1
+  },
+  "e8-02-c2": {
+   "searched": "2026-11-02",
+   "query": "max cut problem approximation explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "max-flow/min-cut videos (a different problem with a similar name), streaming and quantum max-cut research talks, and a subexponential-LP research talk. No start-level video on the max-cut problem itself was found; a Goemans-Williamson explainer is kept for that concept",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=vC9-auOJXD0",
+     "title": "CSE202, Lec 18: Maxcut and the Goemans-Williamson SDP relaxation",
+     "channel": "C. Seshadhri",
+     "channel_url": "https://www.youtube.com/@c.seshadhri6776",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=byrZXT0a24g",
+     "title": "Discrete Optimization Lecture 18: MAXCUT Approximation Algorithm via SDP",
+     "channel": "Jonathan Noel",
+     "channel_url": "https://www.youtube.com/@jonathannoel",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

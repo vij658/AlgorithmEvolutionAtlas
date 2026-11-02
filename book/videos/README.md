@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**279 of 380 concepts searched, 704 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**280 of 380 concepts searched, 706 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1168,7 +1168,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | approximation algorithms | [Approximation Algorithms: Introduction by the Example of Vertex Cover](https://www.youtube.com/watch?v=nwZjiQra0EA) | Algorithms Lab | Start |
 |  | [A Second Course in Algorithms (Lecture 15: Introduction to Approximation Algorithms)](https://www.youtube.com/watch?v=OacQnsvauZs) | Tim Roughgarden Lectures | Deeper |
 |  | [Introduction to Approximation Algorithms (Arindam Khan, IISc)](https://www.youtube.com/watch?v=ea6x57k6iZ4) | Algo-rindam | Deeper |
-| max cut problem | *not searched yet* | | |
+| max cut problem | [CSE202, Lec 18: Maxcut and the Goemans-Williamson SDP relaxation](https://www.youtube.com/watch?v=vC9-auOJXD0) | C. Seshadhri | Deeper |
+|  | [Discrete Optimization Lecture 18: MAXCUT Approximation Algorithm via SDP](https://www.youtube.com/watch?v=byrZXT0a24g) | Jonathan Noel | Deeper |
 | semidefinite programming | *not searched yet* | | |
 | Goemans-Williamson algorithm | *not searched yet* | | |
 

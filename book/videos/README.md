@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**190 of 380 concepts searched, 487 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**191 of 380 concepts searched, 488 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -805,5 +805,5 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Edmonds blossom algorithm | [The Blossom Algorithm](https://www.youtube.com/watch?v=3roPs1Bvg1Q) | Tom S | Start |
 |  | [A&DS S04E02. Maximum Matchings in Non-Bipartite Graphs](https://www.youtube.com/watch?v=CqyECZ_gqZ4) | Pavel Mavrin | Deeper |
 |  | [Lecture 12: Matching in General Graphs: Edmonds’ Blossom Algorithm](https://www.youtube.com/watch?v=S8EYaz-ziHI) | Advanced Graph Theory - IITK | Deeper |
-| Edmonds paths trees and flowers polynomial time | *not searched yet* | | |
+| Edmonds paths trees and flowers polynomial time | [What is "efficient" computation? (P vs NP)](https://www.youtube.com/watch?v=UhYWLzuYW54) | Easy Theory | Deeper |
 

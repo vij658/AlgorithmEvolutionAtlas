@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 194,
+ "rounds": 195,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5794,11 +5794,29 @@
     }
    ],
    "tries": 1
+  },
+  "e5-13-c3": {
+   "searched": "2026-11-02",
+   "query": "Jack Edmonds polynomial time efficient algorithm \"paths trees and flowers\"; Cobham Edmonds thesis polynomial time efficient computation explained",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "blossom-algorithm lectures (listed under the algorithm), Edmonds-Karp flow videos, a German lecture, reduction and big-O videos on other points, and an 'aspects of' talk from an unidentified channel. No video found tells the story of Edmonds's 1965 paper and its case for polynomial time",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=UhYWLzuYW54",
+     "title": "What is \"efficient\" computation? (P vs NP)",
+     "channel": "Easy Theory",
+     "channel_url": "https://www.youtube.com/@EasyTheory",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

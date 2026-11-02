@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**200 of 380 concepts searched, 506 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**201 of 380 concepts searched, 508 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -841,5 +841,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Object Oriented Programming (OOP) Explained With Side-By-Side Code](https://www.youtube.com/watch?v=hNr3x_1UxwI) | nikkiinit | Start |
 | Simula programming language | [Dave Thomas - The legacy of Simula 67](https://www.youtube.com/watch?v=m0pEj58xlyU) | UiO Realfagsbiblioteket | Deeper |
 |  | [James Gosling - Simula: a personal journey](https://www.youtube.com/watch?v=ccRtIdlTqlU) | UiO Realfagsbiblioteket | Scholar |
-| inheritance classes subclasses | *not searched yet* | | |
+| inheritance classes subclasses | [Object Oriented Programming Inheritance](https://www.youtube.com/watch?v=wRiGvNwpBYY) | Erb Computer Science | Start |
+|  | [Python OOP Tutorial 4: Inheritance - Creating Subclasses](https://www.youtube.com/watch?v=RSl87lqOXDE) | Corey Schafer | Start |
 

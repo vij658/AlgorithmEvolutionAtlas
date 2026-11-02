@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 204,
+ "rounds": 205,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6046,11 +6046,37 @@
     }
    ],
    "tries": 1
+  },
+  "e6-03-c3": {
+   "searched": "2026-11-02",
+   "query": "inheritance classes subclasses object-oriented explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, PHP- and C++-specific tutorials, a hashtag title, and overlapping Python tutorials from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=wRiGvNwpBYY",
+     "title": "Object Oriented Programming Inheritance",
+     "channel": "Erb Computer Science",
+     "channel_url": "https://www.youtube.com/@erbcomputerscience",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=RSl87lqOXDE",
+     "title": "Python OOP Tutorial 4: Inheritance - Creating Subclasses",
+     "channel": "Corey Schafer",
+     "channel_url": "https://www.youtube.com/@coreyms",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

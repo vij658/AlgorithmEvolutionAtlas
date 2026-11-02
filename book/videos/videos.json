@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 262,
+ "rounds": 263,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7770,11 +7770,45 @@
     }
    ],
    "tries": 1
+  },
+  "e7-09-c1": {
+   "searched": "2026-11-02",
+   "query": "rolling hash explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a competitive-programming tactics clip, a Rabin-Karp video (kept for the next concept), and several unrelated results about rolling tobacco and cannabis that matched the words 'roll' and 'hash'",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=BfUejqd07yo",
+     "title": "Rolling Hash Function Tutorial, used by Rabin-Karp String Searching Algorithm",
+     "channel": "Stable Sort",
+     "channel_url": "https://www.youtube.com/@stablesort",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=BQ9E-2umSWc",
+     "title": "Rolling hash | Rabin karp algorithm | Pattern searching",
+     "channel": "Techdose",
+     "channel_url": "https://www.youtube.com/@techdose4u",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=eeiSPXCzUiE",
+     "title": "L03 : Polynomial Rolling Hash | String Algorithms | CodeNCode",
+     "channel": "CodeNCode",
+     "channel_url": "https://www.youtube.com/@codencode",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

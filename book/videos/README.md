@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**202 of 380 concepts searched, 511 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**203 of 380 concepts searched, 514 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -851,6 +851,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | A* search algorithm | [A* Pathfinding (E01: algorithm explanation)](https://www.youtube.com/watch?v=-L-WgKMFuhE) | Sebastian Lague | Start |
 |  | [A* (A Star) Search Algorithm - Computerphile](https://www.youtube.com/watch?v=ySN5Wnu88nE) | Computerphile | Start |
 |  | [Graph Data Structure 6. The A* Pathfinding Algorithm](https://www.youtube.com/watch?v=eSOJ3ARN5FM) | Computer Science Lessons | Deeper |
-| admissible heuristic | *not searched yet* | | |
+| admissible heuristic | [A* Search: Heuristic Admissibility and Consistency: Are my estimates any good?](https://www.youtube.com/watch?v=CJmlP03ik5g) | Jacob Schrum | Start |
+|  | [Lecture 8: A* -- Admissible Heuristics](https://www.youtube.com/watch?v=7kXSIavVeXA) | Kshitiz Verma | Deeper |
+|  | [Single Agent Search Video 31: Inconsistent Heuristics](https://www.youtube.com/watch?v=HLG61NVOU0s) | Nathan Sturtevant | Scholar |
 | Shakey the robot | *not searched yet* | | |
 

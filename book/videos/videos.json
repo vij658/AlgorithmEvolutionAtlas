@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 206,
+ "rounds": 207,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6106,11 +6106,45 @@
     }
    ],
    "tries": 1
+  },
+  "e6-04-c2": {
+   "searched": "2026-11-02",
+   "query": "admissible heuristic A* consistent heuristic explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, numbered course clips from unidentified channels, and short 'consistent heuristic' and 'designing heuristics' uploads of unclear authorship",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=CJmlP03ik5g",
+     "title": "A* Search: Heuristic Admissibility and Consistency: Are my estimates any good?",
+     "channel": "Jacob Schrum",
+     "channel_url": "https://www.youtube.com/@JacobSchrum",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=7kXSIavVeXA",
+     "title": "Lecture 8: A* -- Admissible Heuristics",
+     "channel": "Kshitiz Verma",
+     "channel_url": "https://www.youtube.com/@KshitizVermaDL",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=HLG61NVOU0s",
+     "title": "Single Agent Search Video 31: Inconsistent Heuristics",
+     "channel": "Nathan Sturtevant",
+     "channel_url": "https://www.youtube.com/@movingailab",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

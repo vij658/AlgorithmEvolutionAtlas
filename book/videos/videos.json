@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 189,
+ "rounds": 190,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5624,11 +5624,45 @@
     }
    ],
    "tries": 1
+  },
+  "e5-12-c1": {
+   "searched": "2026-11-02",
+   "query": "binary heap data structure explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, a dated exam-course lecture, 'part 1' and 'concepts' uploads from unidentified channels, and a 'visually explained' video of unclear authorship. Note: the HackerRank video did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=AE5I0xACpZs",
+     "title": "What Is a Binary Heap?",
+     "channel": "Spanning Tree",
+     "channel_url": "https://www.youtube.com/@SpanningTree",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=t0Cq6tVNRBA",
+     "title": "Data Structures: Heaps",
+     "channel": "HackerRank",
+     "channel_url": "https://www.youtube.com/@HackerrankOfficial",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=EmAM6Ij9Mow",
+     "title": "Data Structures: The Binary Heap",
+     "channel": "Douglas Rumbaugh",
+     "channel_url": "https://www.youtube.com/@DouglasRumbaugh",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

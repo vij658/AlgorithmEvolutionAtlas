@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**185 of 380 concepts searched, 472 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**186 of 380 concepts searched, 475 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -780,4 +780,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Lecture 6: AVL Trees, AVL Sort](https://www.youtube.com/watch?v=FNeL18KsWPc) | MIT OpenCourseWare | Deeper |
 | self-balancing binary search tree | [Introduction to AVL tree (Why AVL tree is needed?)](https://www.youtube.com/watch?v=5Q-__zhQ2Gs) | Vivekanand Khyade - Algorithm Every Day | Start |
 |  | [Red Black Tree - Self Balancing Tree - Tree Data Structure](https://www.youtube.com/watch?v=IDqdf7VicDs) | Before Semicolon | Start |
+
+### Heapsort and the Heap ([in the book](../era-05-the-programmers-craft/12-heapsort/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| binary heap | [What Is a Binary Heap?](https://www.youtube.com/watch?v=AE5I0xACpZs) | Spanning Tree | Start |
+|  | [Data Structures: Heaps](https://www.youtube.com/watch?v=t0Cq6tVNRBA) | HackerRank | Start |
+|  | [Data Structures: The Binary Heap](https://www.youtube.com/watch?v=EmAM6Ij9Mow) | Douglas Rumbaugh | Deeper |
+| heapsort | *not searched yet* | | |
+| priority queue | *not searched yet* | | |
 

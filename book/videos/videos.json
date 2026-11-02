@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 235,
+ "rounds": 236,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6972,11 +6972,45 @@
     }
    ],
    "tries": 1
+  },
+  "e6-13-c2": {
+   "searched": "2026-11-02",
+   "query": "happened-before relation causality distributed systems explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Hindi lecture, 'master' and 'must understand' titles, consistency-model videos (a different subject), a physics talk on causation, and a long-titled lecture from an unidentified channel. The Kleppmann lecture is the one listed for Lamport clocks; it defines happens-before",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=x-D8iFU1d-o",
+     "title": "Distributed Systems 4.1: Logical time",
+     "channel": "Martin Kleppmann",
+     "channel_url": "https://www.youtube.com/@kleppmann",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=3J9lqpMjA2I",
+     "title": "CSE138 (Distributed Systems) L2: time and clocks, causality and happens-before, network models",
+     "channel": "Lindsey Kuper",
+     "channel_url": "https://www.youtube.com/@lindseykuperwithasharpie",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=UYZIHP120go",
+     "title": "Leslie Lamport: Distributed systems, special relativity and violating causality",
+     "channel": "plusmathsorg",
+     "channel_url": "https://www.youtube.com/@plusmathsorg",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 230,
+ "rounds": 231,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6818,11 +6818,45 @@
     }
    ],
    "tries": 1
+  },
+  "e6-11-c3": {
+   "searched": "2026-11-02",
+   "query": "Boyer-Moore string search algorithm bad character rule explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Java-only walkthrough, an untitled result, numbered exam parts, the Horspool variant (a later simplification), and uploads from unidentified channels. The Team MAST video is the one listed for string matching, which covers Boyer-Moore in its second half",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=G-h1Dph9IOE",
+     "title": "How to match pattern in string - Naive Method and Boyer Moore Method explained | Team MAST",
+     "channel": "Team MAST",
+     "channel_url": "https://www.youtube.com/@TeamMAST",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=4Xyhb72LCX4",
+     "title": "ADS1: Boyer-Moore basics",
+     "channel": "Ben Langmead",
+     "channel_url": "https://www.youtube.com/@BenLangmead",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=Wj606N0IAsw",
+     "title": "ADS1: Boyer-Moore: putting it all together",
+     "channel": "Ben Langmead",
+     "channel_url": "https://www.youtube.com/@BenLangmead",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

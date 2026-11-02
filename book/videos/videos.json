@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 210,
+ "rounds": 211,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6234,11 +6234,37 @@
     }
    ],
    "tries": 1
+  },
+  "e6-05-c3": {
+   "searched": "2026-11-02",
+   "query": "matrix multiplication exponent omega faster algorithm Quanta",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "videos and a Short claiming an 'OpenAI' bound of omega <= 2.25 (not supported by the book's sources), an all-caps 'hacking' title, a DeepMind summary of unclear origin, a matrix-exponentiation video (a different idea), and a small overview channel",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=fDAPJ7rvcUw",
+     "title": "How AI Discovered a Faster Matrix Multiplication Algorithm",
+     "channel": "Quanta Magazine",
+     "channel_url": "https://www.youtube.com/@QuantaScienceChannel",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=DruwS2_cVys",
+     "title": "Josh Alman. Algorithms and Barriers for Fast Matrix Multiplication",
+     "channel": "Georgetown Computer Science Colloquium",
+     "channel_url": "https://www.youtube.com/@georgetowncomputersciencec718",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

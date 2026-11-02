@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 248,
+ "rounds": 249,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7366,11 +7366,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-04-c3": {
+   "searched": "2026-11-02",
+   "query": "Metropolis algorithm Metropolis-Hastings explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a statistics-software vendor's tutorial, a Spanish video, a research talk on optimal scaling (a later refinement), and 'understanding' uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=7IpvsfRgTTY",
+     "title": "Metropolis-Hastings - Explained",
+     "channel": "DataMListic",
+     "channel_url": "https://www.youtube.com/@datamlistic",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=oX2wIGSn4jY",
+     "title": "Metropolis-Hastings - VISUALLY EXPLAINED!",
+     "channel": "Kapil Sachdeva",
+     "channel_url": "https://www.youtube.com/@KapilSachdeva",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

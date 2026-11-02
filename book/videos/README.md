@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**244 of 380 concepts searched, 616 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**245 of 380 concepts searched, 618 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1023,5 +1023,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [4.7 Traveling Salesperson Problem - Dynamic Programming](https://www.youtube.com/watch?v=XaXsJJh-Q5Y) | Abdul Bari | Deeper |
 | simulated annealing | [Simulated Annealing Explained By Solving Sudoku - Artificial Intelligence](https://www.youtube.com/watch?v=FyyVbuLZav8) | Challenging Luck | Start |
 |  | [IEE 598: Lecture 5A (2022-02-22): Introduction to Simulated Annealing & Max Entropy (MaxEnt) Methods](https://www.youtube.com/watch?v=GU5q871ui7Y) | Ted Pavlic | Deeper |
-| Metropolis algorithm | *not searched yet* | | |
+| Metropolis algorithm | [Metropolis-Hastings - Explained](https://www.youtube.com/watch?v=7IpvsfRgTTY) | DataMListic | Start |
+|  | [Metropolis-Hastings - VISUALLY EXPLAINED!](https://www.youtube.com/watch?v=oX2wIGSn4jY) | Kapil Sachdeva | Deeper |
 

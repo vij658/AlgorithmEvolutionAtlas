@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 212,
+ "rounds": 213,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6294,11 +6294,29 @@
     }
    ],
    "tries": 1
+  },
+  "e6-06-c2": {
+   "searched": "2026-11-02",
+   "query": "Edgar Codd relational model 1970 history",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, Spanish and Chinese histories, a 'database wars' business story, a '12 rules in 15 minutes' clip, and Codd biographies and model videos from channels whose authors could not be identified. No start-level video about Codd's 1970 paper was found",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=hrbJZDKN5Rg",
+     "title": "Read a paper: A relational model of data for large shared data banks",
+     "channel": "Vivek Haldar",
+     "channel_url": "https://www.youtube.com/@VivekHaldar",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

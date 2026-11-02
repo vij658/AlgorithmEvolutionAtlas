@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**208 of 380 concepts searched, 527 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**209 of 380 concepts searched, 528 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -877,6 +877,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | relational database | [Relational Databases Made Super Simple for Beginners](https://www.youtube.com/watch?v=MpzCQs4u_Oo) | Bart Slodyczka | Start |
 |  | [Relational Database Concepts](https://www.youtube.com/watch?v=NvrpuBAMddw) | Prescott Computer Guy | Start |
 |  | [Database Tables, Primary Keys, Foreign Keys, and Relationships](https://www.youtube.com/watch?v=FCtGbrou5DM) | minderchen | Deeper |
-| Codd relational model | *not searched yet* | | |
+| Codd relational model | [Read a paper: A relational model of data for large shared data banks](https://www.youtube.com/watch?v=hrbJZDKN5Rg) | Vivek Haldar | Deeper |
 | relational algebra SQL joins | *not searched yet* | | |
 

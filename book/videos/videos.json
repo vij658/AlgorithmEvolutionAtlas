@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 285,
+ "rounds": 286,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8480,11 +8480,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-02-c4": {
+   "searched": "2026-11-02",
+   "query": "Goemans-Williamson algorithm max cut",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Jonathan Noel's Lecture 18 and the CMU 10-801 lecture cover the same ground (three are enough); the CMU 19b/19c parts set up the SDP rather than the rounding; three max-flow min-cut videos are a different problem",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=aFVnWq3RHYU",
+     "title": "Goemans-Williamson Max-Cut Algorithm | The Practical Guide to Semidefinite Programming (4/4)",
+     "channel": "Visually Explained",
+     "channel_url": "https://www.youtube.com/@VisuallyExplained",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=vC9-auOJXD0",
+     "title": "CSE202, Lec 18: Maxcut and the Goemans-Williamson SDP relaxation",
+     "channel": "C. Seshadhri",
+     "channel_url": "https://www.youtube.com/@c.seshadhri6776",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=T8hD0ofzDP0",
+     "title": "Goemans--Williamson: Rounding the Max-Cut SDP || @ CMU || Lecture 20a of CS Theory Toolkit",
+     "channel": "Ryan O'Donnell",
+     "channel_url": "https://www.youtube.com/@RyanODonnellTeaching",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**241 of 380 concepts searched, 609 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**242 of 380 concepts searched, 611 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1011,5 +1011,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Byzantine fault tolerance | [Byzantine Fault Tolerant Consensus](https://www.youtube.com/watch?v=rIlixnNpU7g) | Data Skeptic | Start |
 |  | [L6: Byzantine Fault Tolerance](https://www.youtube.com/watch?v=_e4wNoTV3Gw) | Distributed Systems Course | Deeper |
 |  | [Practical Byzantine Fault Tolerance](https://www.youtube.com/watch?v=Q0xYCN-rvUs) | Microsoft Research | Scholar |
-| Lamport Shostak Pease | *not searched yet* | | |
+| Lamport Shostak Pease | [ECE 252 Lecture 23: The Byzantine Generals Problem](https://www.youtube.com/watch?v=tdnf3S2S5xw) | Jeff Zarnett | Deeper |
+|  | [Byzantine Consensus Problem - Lamport-Shostak-Peas Algorithm](https://www.youtube.com/watch?v=EFb8E4j49Ng) | Uma Sundar, Anna University | Deeper |
 

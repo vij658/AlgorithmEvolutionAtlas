@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 254,
+ "rounds": 255,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7530,11 +7530,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-06-c3": {
+   "searched": "2026-11-02",
+   "query": "Shafi Goldwasser Silvio Micali interactive proofs talk",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "clips of Goldwasser, Micali and Blum on a channel that re-cuts ACM interviews (reuploads), an AI-narrated paper channel, and talks on zero knowledge and law (a later application). The ACM video marks Goldwasser and Micali's 2012 Turing Award",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=ftTYooCjhuo",
+     "title": "ACM Turing Award 2012",
+     "channel": "Association for Computing Machinery (ACM)",
+     "channel_url": "https://www.youtube.com/@TheOfficialACM",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=WjFu2cy_0vM",
+     "title": "CESC 2022 - Shafi Goldwasser: History of ZK",
+     "channel": "Berkeley RDI",
+     "channel_url": "https://www.youtube.com/@BerkeleyRDI",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

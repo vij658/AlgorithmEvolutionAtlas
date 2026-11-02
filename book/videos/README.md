@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**250 of 380 concepts searched, 629 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**251 of 380 concepts searched, 631 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1046,5 +1046,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | zero-knowledge proof | [Computer Scientist Explains One Concept in 5 Levels of Difficulty \| WIRED](https://www.youtube.com/watch?v=fOGdb1CTu5c) | WIRED | Start |
 |  | [Zero Knowledge Proofs](https://www.youtube.com/watch?v=5qzNe1hk0oY) | Computational Thinking | Deeper |
 | graph coloring zero knowledge proof | [Zero Knowledge Proof (with Avi Wigderson) - Numberphile](https://www.youtube.com/watch?v=5ovdoxnfFVc) | Numberphile2 | Start |
-| Goldwasser Micali interactive proofs | *not searched yet* | | |
+| Goldwasser Micali interactive proofs | [ACM Turing Award 2012](https://www.youtube.com/watch?v=ftTYooCjhuo) | Association for Computing Machinery (ACM) | Start |
+|  | [CESC 2022 - Shafi Goldwasser: History of ZK](https://www.youtube.com/watch?v=WjFu2cy_0vM) | Berkeley RDI | Scholar |
 

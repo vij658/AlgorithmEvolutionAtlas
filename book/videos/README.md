@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**254 of 380 concepts searched, 639 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**255 of 380 concepts searched, 642 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1061,5 +1061,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | backpropagation | [Backpropagation, intuitively \| Deep Learning Chapter 3](https://www.youtube.com/watch?v=Ilg3gGewQ5U) | 3Blue1Brown | Start |
 |  | [Neural Networks Pt. 2: Backpropagation Main Ideas](https://www.youtube.com/watch?v=IN2XmBhILt4) | StatQuest with Josh Starmer | Start |
 |  | [The spelled-out intro to neural networks and backpropagation: building micrograd](https://www.youtube.com/watch?v=VMj-3S1tku0) | Andrej Karpathy | Deeper |
-| chain rule calculus | *not searched yet* | | |
+| chain rule calculus | [Visualizing the chain rule and product rule \| Chapter 4, Essence of calculus](https://www.youtube.com/watch?v=YG15m2VwSjA) | 3Blue1Brown | Start |
+|  | [Chain Rule For Finding Derivatives](https://www.youtube.com/watch?v=HaHsqDjWMLU) | The Organic Chemistry Tutor | Start |
+|  | [Backpropagation calculus \| Deep Learning Chapter 4](https://www.youtube.com/watch?v=tIeHLnjs5U8) | 3Blue1Brown | Deeper |
 

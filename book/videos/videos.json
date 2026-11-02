@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 218,
+ "rounds": 219,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6450,11 +6450,45 @@
     }
    ],
    "tries": 1
+  },
+  "e6-08-c2": {
+   "searched": "2026-11-02",
+   "query": "NP-completeness explained reductions NP-hard",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a 'Cook-Levin' explainer of unclear authorship (Cook-Levin is the next concept), '12 minutes' and 'understanding' videos from unidentified channels, and untitled course parts. Note: the MIT lecture did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=O7pq43hIE_0",
+     "title": "What is a polynomial-time reduction? (NP-Hard + NP-complete)",
+     "channel": "Easy Theory",
+     "channel_url": "https://www.youtube.com/@EasyTheory",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=DbyXdvwE0G8",
+     "title": "Algorithms for NP-Hard Problems (Section 23.6: NP-Completeness)",
+     "channel": "Tim Roughgarden Lectures",
+     "channel_url": "https://www.youtube.com/@timroughgardenlectures1861",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=eHZifpgyH_4",
+     "title": "16. Complexity: P, NP, NP-completeness, Reductions",
+     "channel": "MIT OpenCourseWare",
+     "channel_url": "https://www.youtube.com/@mitocw",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

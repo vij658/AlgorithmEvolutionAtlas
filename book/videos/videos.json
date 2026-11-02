@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 203,
+ "rounds": 204,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6020,11 +6020,37 @@
     }
    ],
    "tries": 1
+  },
+  "e6-03-c2": {
+   "searched": "2026-11-02",
+   "query": "Simula programming language history Dahl Nygaard",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, Chinese and French videos, an AI-voiced 'Next LVL Programming' series, 'changed programming forever' and 'language before time' titles from unidentified channels, and an unrelated machine-learning project also named Simula. No start-level video found",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=m0pEj58xlyU",
+     "title": "Dave Thomas - The legacy of Simula 67",
+     "channel": "UiO Realfagsbiblioteket",
+     "channel_url": "https://www.youtube.com/@realfagsbiblioteket",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ccRtIdlTqlU",
+     "title": "James Gosling - Simula: a personal journey",
+     "channel": "UiO Realfagsbiblioteket",
+     "channel_url": "https://www.youtube.com/@realfagsbiblioteket",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

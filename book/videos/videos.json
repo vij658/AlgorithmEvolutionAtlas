@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 264,
+ "rounds": 265,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7830,11 +7830,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-09-c3": {
+   "searched": "2026-11-02",
+   "query": "Rabin fingerprinting hashing randomized algorithm lecture; fingerprinting polynomial identity testing randomized lecture O'Donnell",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "Miller-Rabin primality videos and the Rabin cryptosystem (other Rabin results), a Korean lecture, DNA and forensic fingerprinting videos (other meanings of the word), and specialist polynomial-identity-testing talks. No video found treats fingerprinting as its own subject; both listed videos are the ones listed for the rolling hash and Rabin-Karp, which explain why a short hash can stand in for a long string",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=BfUejqd07yo",
+     "title": "Rolling Hash Function Tutorial, used by Rabin-Karp String Searching Algorithm",
+     "channel": "Stable Sort",
+     "channel_url": "https://www.youtube.com/@stablesort",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=BRO7mVIFt08",
+     "title": "Lecture 9: Table Doubling, Karp-Rabin",
+     "channel": "MIT OpenCourseWare",
+     "channel_url": "https://www.youtube.com/@mitocw",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

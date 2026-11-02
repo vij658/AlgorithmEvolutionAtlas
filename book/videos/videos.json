@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 306,
+ "rounds": 307,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9122,11 +9122,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-09-c2": {
+   "searched": "2026-11-02",
+   "query": "genome assembly explained shotgun reads overlap; Ben Langmead assembly overview shortest common superstring",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "Assembler tool tutorials (SPAdes, 'in 2026'), the overlap-versus-de-Bruijn comparison (it belongs to the next concept), reads/contigs and paired-end clips, a hashtag course unit, a Bangla-language video, and shortest common supersequence (a different, dynamic-programming problem)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=9czh_qUScVk",
+     "title": "Shotgun sequencing method explained",
+     "channel": "Shomu's Biology",
+     "channel_url": "https://www.youtube.com/@shomusbiologyofficial",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=tdIQClkCkow",
+     "title": "Genome Assembly",
+     "channel": "George Mason Bioinformatics",
+     "channel_url": "https://www.youtube.com/@georgemasonbioinformatics7451",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=QykgNu0vdos",
+     "title": "ADS1: The shortest common superstring problem",
+     "channel": "Ben Langmead",
+     "channel_url": "https://www.youtube.com/@BenLangmead",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

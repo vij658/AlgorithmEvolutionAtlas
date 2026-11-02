@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 319,
+ "rounds": 320,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9482,11 +9482,37 @@
     }
    ],
    "tries": 1
+  },
+  "e8-13-c1": {
+   "searched": "2026-11-02",
+   "query": "how bitcoin works explained Princeton lecture Narayanan",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: the 3Blue1Brown video did not appear in this search; it was recalled and then confirmed by oEmbed like every other. The deeper video is Lecture 1 of the Princeton course (Narayanan, Bonneau, Felten, Miller, Goldfeder) on the course's own channel. Left out: an investment-themed talk ('Broken Money'), a 'Master Bitcoin & Blockchain' sales video, a general colloquium, and an unlabelled upload",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=bBC-nXj3Ng4",
+     "title": "But how does bitcoin actually work?",
+     "channel": "3Blue1Brown",
+     "channel_url": "https://www.youtube.com/@3blue1brown",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=fOMVZXLjKYo",
+     "title": "Lecture 1 — Intro to Crypto and Cryptocurrencies",
+     "channel": "Bitcoin and Cryptocurrency Technologies Online Course",
+     "channel_url": "https://www.youtube.com/@bitcoinandcryptocurrencyte3219",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

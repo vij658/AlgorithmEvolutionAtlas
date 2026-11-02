@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**314 of 380 concepts searched, 793 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**315 of 380 concepts searched, 795 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1307,4 +1307,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | L1 minimization | [Sparsity and the L1 Norm](https://www.youtube.com/watch?v=76B5cMEZA4Y) | Steve Brunton | Start |
 |  | [Linear Programming 50: The sparsity-promoting L1 norm](https://www.youtube.com/watch?v=LfBOmQt5nRw) | Henry Adams | Deeper |
 |  | [Emmanuel Candès: Wavelets, sparsity and its consequences](https://www.youtube.com/watch?v=ji1C81GRuGI) | The Abel Prize | Scholar |
+
+### Bitcoin's Proof-of-Work Ledger ([in the book](../era-08-the-web-the-genome-and-the-ledger/13-bitcoin/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| how bitcoin works | [But how does bitcoin actually work?](https://www.youtube.com/watch?v=bBC-nXj3Ng4) | 3Blue1Brown | Start |
+|  | [Lecture 1 — Intro to Crypto and Cryptocurrencies](https://www.youtube.com/watch?v=fOMVZXLjKYo) | Bitcoin and Cryptocurrency Technologies Online Course | Deeper |
+| double spending | *not searched yet* | | |
+| proof of work | *not searched yet* | | |
+| blockchain | *not searched yet* | | |
 

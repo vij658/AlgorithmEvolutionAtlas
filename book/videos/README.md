@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**312 of 380 concepts searched, 787 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**313 of 380 concepts searched, 790 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1301,6 +1301,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | sparsity signal processing | [A Compressed Overview of Sparsity](https://www.youtube.com/watch?v=aHCyHbRIz44) | Steve Brunton | Start |
 |  | [Sparsity and Compression: An Overview](https://www.youtube.com/watch?v=EOYaKcjFa3o) | Steve Brunton | Deeper |
-| compressed sensing | *not searched yet* | | |
+| compressed sensing | [Compressed Sensing: Overview](https://www.youtube.com/watch?v=SbU1pahbbkc) | Steve Brunton | Start |
+|  | [Class 9, Video 1: Compressed Sensing and the RIP](https://www.youtube.com/watch?v=TneCIMAKeWI) | Mary Wootters | Deeper |
+|  | [NTNU's Onsager Lecture, Compressed Sensing by Terence Tao, part 1 of 7](https://www.youtube.com/watch?v=i2aY7tZ5S7U) | NTNU | Scholar |
 | L1 minimization | *not searched yet* | | |
 

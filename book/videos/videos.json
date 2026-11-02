@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 317,
+ "rounds": 318,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9414,11 +9414,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-12-c2": {
+   "searched": "2026-11-02",
+   "query": "compressed sensing explained Candes Tao lecture",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "The scholar video is Terence Tao, one of the founders, part 1 of 7 at NTNU. Left out: Candès on wavelets and sparsity (kept for the L1 concept if it fits), personal uploads of a course's lectures, an image-statistics research talk, and a 'Comprehensive Overview' from an unidentified channel",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=SbU1pahbbkc",
+     "title": "Compressed Sensing: Overview",
+     "channel": "Steve Brunton",
+     "channel_url": "https://www.youtube.com/@Eigensteve",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=TneCIMAKeWI",
+     "title": "Class 9, Video 1: Compressed Sensing and the RIP",
+     "channel": "Mary Wootters",
+     "channel_url": "https://www.youtube.com/@marywootters7651",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=i2aY7tZ5S7U",
+     "title": "NTNU's Onsager Lecture, Compressed Sensing by Terence Tao, part 1 of 7",
+     "channel": "NTNU",
+     "channel_url": "https://www.youtube.com/@NTNUUniversity",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

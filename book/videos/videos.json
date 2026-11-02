@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 238,
+ "rounds": 239,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7066,11 +7066,45 @@
     }
    ],
    "tries": 1
+  },
+  "e7-01-c2": {
+   "searched": "2026-11-02",
+   "query": "ellipsoid method linear programming Khachiyan",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Khachiyan biography of unclear authorship, a duplicate upload of a course video, part-numbered follow-ups, and an unnumbered course part from an unidentified channel. No start-level video was found",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=K4imQJK_F38",
+     "title": "Linear Programming 35: Ellipsoid Method I",
+     "channel": "Henry Adams",
+     "channel_url": "https://www.youtube.com/@HenryAdamsMath",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=aMz7-a6nG6E",
+     "title": "Linear Optimization - Video 32: The ellipsoid method for the feasibility problem",
+     "channel": "Optimization Nation",
+     "channel_url": "https://www.youtube.com/@optimizationnation",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=5HWTpadNa_E",
+     "title": "The Ellipsoid Algorithm || @ CMU || Lecture 19a of CS Theory Toolkit",
+     "channel": "Ryan O'Donnell",
+     "channel_url": "https://www.youtube.com/@RyanODonnellTeaching",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

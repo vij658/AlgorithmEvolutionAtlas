@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**234 of 380 concepts searched, 591 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**235 of 380 concepts searched, 594 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -983,6 +983,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | linear programming | [The Art of Linear Programming](https://www.youtube.com/watch?v=E72DWgKP_1Y) | Tom S | Start |
 |  | [Linear Programming 3: Polytopes, cubes, and cross-polytopes](https://www.youtube.com/watch?v=YY09OGdK-6E) | Henry Adams | Deeper |
 |  | [Theory of Linear Programming: convex polytopes, equational form and basic feasible solutions](https://www.youtube.com/watch?v=M0LcK1ipJTc) | Algorithms Lab | Deeper |
-| ellipsoid method | *not searched yet* | | |
+| ellipsoid method | [Linear Programming 35: Ellipsoid Method I](https://www.youtube.com/watch?v=K4imQJK_F38) | Henry Adams | Deeper |
+|  | [Linear Optimization - Video 32: The ellipsoid method for the feasibility problem](https://www.youtube.com/watch?v=aMz7-a6nG6E) | Optimization Nation | Deeper |
+|  | [The Ellipsoid Algorithm \|\| @ CMU \|\| Lecture 19a of CS Theory Toolkit](https://www.youtube.com/watch?v=5HWTpadNa_E) | Ryan O'Donnell | Scholar |
 | interior point method Karmarkar | *not searched yet* | | |
 

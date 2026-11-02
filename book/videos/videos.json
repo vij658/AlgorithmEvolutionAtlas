@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 293,
+ "rounds": 294,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8720,11 +8720,37 @@
     }
    ],
    "tries": 1
+  },
+  "e8-05-c1": {
+   "searched": "2026-11-02",
+   "query": "Jaccard similarity explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Ultipa is a graph-database company; its video is listed because it is a lesson from a numbered course, not an advertisement. Left out: a 'pi learn' upload (unidentified channel, checked), a hashtag clip, a Hindi-language video, cosine-versus-Jaccard and calculator videos from unidentified channels, and a set-theory lecture where Jaccard is a side topic",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=96v3YO_fYI0",
+     "title": "Jaccard Similarity explained with examples | Science in Data",
+     "channel": "Science in Data",
+     "channel_url": "https://www.youtube.com/@scienceindata",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=uymzY0gu6yM",
+     "title": "07 Jaccard and Overlap Similarity | Graph Analytics & Algorithms",
+     "channel": "Ultipa Graph",
+     "channel_url": "https://www.youtube.com/@ultipa",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

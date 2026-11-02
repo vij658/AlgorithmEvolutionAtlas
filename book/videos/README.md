@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**289 of 380 concepts searched, 729 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**290 of 380 concepts searched, 731 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1203,4 +1203,13 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Chord: A Scalable DHT](https://www.youtube.com/watch?v=Ki-Dnqk4mss) | Smruti R. Sarangi | Deeper |
 | Akamai consistent hashing | [Faster Forward: The Tom Leighton and Daniel Lewin Story](https://www.youtube.com/watch?v=5wOGj2kVMuY) | National Inventors Hall of Fame - NIHF | Start |
 |  | [Consistent Hashing, Danny Lewin, and the Creation of Akamai - MIT Prof. Tom Leighton](https://www.youtube.com/watch?v=apHAqUG3Pi8) | הטכניון - מכון טכנולוגי לישראל (Technion – Israel Institute of Technology) | Scholar |
+
+### MinHash and Locality-Sensitive Hashing ([in the book](../era-08-the-web-the-genome-and-the-ledger/05-minhash/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| Jaccard similarity | [Jaccard Similarity explained with examples \| Science in Data](https://www.youtube.com/watch?v=96v3YO_fYI0) | Science in Data | Start |
+|  | [07 Jaccard and Overlap Similarity \| Graph Analytics & Algorithms](https://www.youtube.com/watch?v=uymzY0gu6yM) | Ultipa Graph | Start |
+| MinHash | *not searched yet* | | |
+| locality-sensitive hashing | *not searched yet* | | |
 

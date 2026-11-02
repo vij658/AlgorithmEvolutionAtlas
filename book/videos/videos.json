@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 310,
+ "rounds": 311,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9222,7 +9222,7 @@
    "query": "primality testing explained Fermat Miller-Rabin",
    "host": "youtube.com",
    "candidates": 10,
-   "rejected": "Miller-Rabin step-by-step exam videos and an implementation tutorial (Miller-Rabin has its own concept in the randomized-algorithms era), a numbered course clip and a cyber-security course unit from unidentified uploaders",
+   "rejected": "Miller-Rabin step-by-step exam videos and an implementation tutorial (worked exercises rather than explanations), a numbered course clip and a cyber-security course unit from unidentified uploaders",
    "videos": [
     {
      "url": "https://www.youtube.com/watch?v=tBzaMfV94uA",
@@ -9249,7 +9249,7 @@
      "checked": "YouTube oEmbed, 2026-11-02"
     }
    ],
-   "tries": 1
+   "tries": 2
   }
  },
  "pace": {

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 303,
+ "rounds": 304,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9028,11 +9028,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-08-c2": {
+   "searched": "2026-11-02",
+   "query": "Paxos algorithm explained lecture",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: the Computerphile video did not appear in this search; it was recalled and then confirmed by oEmbed like every other. The scholar video is Lamport, the inventor, at the SPTDC summer school. Left out: a Short, a clickbait blockchain video, unidentified 'Lecture 10' course units, and 'in Pictures'/'Made Simple' uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=s8JqcZtvnsM",
+     "title": "Paxos Agreement - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=d7nAGI_NZPk",
+     "title": "The Paxos Algorithm",
+     "channel": "Google TechTalks",
+     "channel_url": "https://www.youtube.com/@GoogleTechTalks",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=tw3gsBms-f8",
+     "title": "Leslie Lamport — The Paxos algorithm or how to win a Turing Award. Part 1.",
+     "channel": "SPTDC",
+     "channel_url": "https://www.youtube.com/@sptdc",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

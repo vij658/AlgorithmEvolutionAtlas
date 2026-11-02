@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**299 of 380 concepts searched, 755 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**300 of 380 concepts searched, 758 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1249,6 +1249,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | distributed consensus | [All Together Now: An Introduction to Distributed Consensus - Tess Rinearson \| Craft 2019](https://www.youtube.com/watch?v=vMz3q8Mm1uY) | CraftHub Events | Start |
 |  | [Distributed Systems 6.1: Consensus](https://www.youtube.com/watch?v=rN6ma561tak) | Martin Kleppmann | Deeper |
 |  | [Impossibility of Consensus](https://www.youtube.com/watch?v=2fnS-f-mwIo) | Computational Thinking | Deeper |
-| Paxos algorithm | *not searched yet* | | |
+| Paxos algorithm | [Paxos Agreement - Computerphile](https://www.youtube.com/watch?v=s8JqcZtvnsM) | Computerphile | Start |
+|  | [The Paxos Algorithm](https://www.youtube.com/watch?v=d7nAGI_NZPk) | Google TechTalks | Deeper |
+|  | [Leslie Lamport — The Paxos algorithm or how to win a Turing Award. Part 1.](https://www.youtube.com/watch?v=tw3gsBms-f8) | SPTDC | Scholar |
 | Lamport Part-Time Parliament | *not searched yet* | | |
 

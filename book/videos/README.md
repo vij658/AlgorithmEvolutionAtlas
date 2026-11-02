@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**221 of 380 concepts searched, 558 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**222 of 380 concepts searched, 561 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -928,7 +928,9 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | public key cryptography | [Encryption and public keys \| Internet 101 \| Computer Science \| Khan Academy](https://www.youtube.com/watch?v=6-JjHa-qLPk) | Khan Academy | Start |
 |  | [Public Key Cryptography - Computerphile](https://www.youtube.com/watch?v=GSIDS_lvRv4) | Computerphile | Start |
 |  | [Introduction to Cryptography: Public-Key Cryptography](https://www.youtube.com/watch?v=lyWZf_pcwJQ) | Wolfram U | Deeper |
-| Diffie-Hellman key exchange | *not searched yet* | | |
+| Diffie-Hellman key exchange | [Diffie-Hellman Key Exchange](https://www.youtube.com/watch?v=YEBfamv-_do) | Art of the Problem | Start |
+|  | [Secret Key Exchange (Diffie-Hellman) - Computerphile](https://www.youtube.com/watch?v=NmM9HA2MQGI) | Computerphile | Start |
+|  | [Diffie Hellman -the Mathematics bit- Computerphile](https://www.youtube.com/watch?v=Yjrfm_oRO0w) | Computerphile | Deeper |
 | RSA encryption | *not searched yet* | | |
 | probabilistic primality test | *not searched yet* | | |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 234,
+ "rounds": 235,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6938,11 +6938,45 @@
     }
    ],
    "tries": 1
+  },
+  "e6-13-c1": {
+   "searched": "2026-11-02",
+   "query": "Lamport clocks logical clocks distributed systems explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a clip of Lamport himself on a channel that re-cuts ACM interviews (a reupload), all-caps and emoji titles, interview-prep videos, and vector-clock videos (kept for a later concept). Note: the Kleppmann lecture did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=x-D8iFU1d-o",
+     "title": "Distributed Systems 4.1: Logical time",
+     "channel": "Martin Kleppmann",
+     "channel_url": "https://www.youtube.com/@kleppmann",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=gHXajP9T9WU",
+     "title": "Logical Clocks -- Part 1: Lamport's Logical Clock.",
+     "channel": "Talal A. Edwan",
+     "channel_url": "https://www.youtube.com/@TalalAEdwan",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ummQWQgkWOA",
+     "title": "Read a paper: Time, clocks, and the ordering of events in a distributed system",
+     "channel": "Vivek Haldar",
+     "channel_url": "https://www.youtube.com/@VivekHaldar",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 288,
+ "rounds": 289,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8582,11 +8582,37 @@
     }
    ],
    "tries": 1
+  },
+  "e8-03-c3": {
+   "searched": "2026-11-02",
+   "query": "HyperLogLog explained count distinct; HyperLogLog lecture Flajolet distinct elements estimation",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "'Hyperloglog: Facebook's algorithm' (title credits the wrong inventor; the book's sources give Flajolet, Fusy, Gandouet and Meunier, 2007); 'HyperLogLog From Scratch' (oEmbed check failed, not listed); 'Hyperloglog Explained' by a personal channel with no stated background; Redis and Redshift product demos; clickbait 'Counting BILLIONS'; Flajolet-Martin videos belong to the earlier counting idea, not HyperLogLog. Only two suitable videos found.",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=B_PexYrEcEw",
+     "title": "HyperLogLog Hit Counter - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=tQhYqKTS08w",
+     "title": "Count-distinct using HLL++ algorithm",
+     "channel": "Apache Beam",
+     "channel_url": "https://www.youtube.com/@ApacheBeamYT",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

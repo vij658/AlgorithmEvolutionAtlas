@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 232,
+ "rounds": 233,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6870,11 +6870,45 @@
     }
    ],
    "tries": 1
+  },
+  "e6-12-c2": {
+   "searched": "2026-11-02",
+   "query": "LZW compression explained Lempel Ziv Welch",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Arabic and German videos, a Wikipedia read-aloud, numbered exam lectures, an image-processing survey, and a C99 implementation video",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=RV5aUr8sZD0",
+     "title": "Lossless Compression: Lempel-Ziv",
+     "channel": "Art of the Problem",
+     "channel_url": "https://www.youtube.com/@ArtOfTheProblem",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=_DoIa8TIcTI",
+     "title": "Lempel-Ziv-Welch (LZW) compression in GIFs",
+     "channel": "Algorithms4Arts",
+     "channel_url": "https://www.youtube.com/@Algorithms4Arts",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=p4HnBe_KzKM",
+     "title": "LZW Explained by Prof. Gunawardena",
+     "channel": "Andy Guna",
+     "channel_url": "https://www.youtube.com/@andyguna",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

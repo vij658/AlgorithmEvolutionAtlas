@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**193 of 380 concepts searched, 492 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**194 of 380 concepts searched, 494 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -817,5 +817,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [The Fast Fourier Transform (FFT)](https://www.youtube.com/watch?v=E8HeD-MUrjY) | Steve Brunton | Deeper |
 | Cooley-Tukey FFT | [The Most Underrated Algorithm](https://www.youtube.com/watch?v=nmgFG7PUHfo) | Veritasium | Start |
 |  | [The Fast Fourier Transform Algorithm](https://www.youtube.com/watch?v=EsJGuI7e_ZQ) | Barry Van Veen | Deeper |
-| FFT butterfly diagram | *not searched yet* | | |
+| FFT butterfly diagram | [Butterfly diagram for 4-point DFT (DIT-FFT)](https://www.youtube.com/watch?v=nqaFs-msgUQ) | Anish Turlapaty | Start |
+|  | [DIT FFT Algorithm for DFT Explained \| Calculations, Butterfly Diagram and Operational Complexity](https://www.youtube.com/watch?v=ypugupAO_tg) | Engineering Funda | Deeper |
 

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**290 of 380 concepts searched, 731 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**291 of 380 concepts searched, 733 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1210,6 +1210,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | Jaccard similarity | [Jaccard Similarity explained with examples \| Science in Data](https://www.youtube.com/watch?v=96v3YO_fYI0) | Science in Data | Start |
 |  | [07 Jaccard and Overlap Similarity \| Graph Analytics & Algorithms](https://www.youtube.com/watch?v=uymzY0gu6yM) | Ultipa Graph | Start |
-| MinHash | *not searched yet* | | |
+| MinHash | [Learn in 5 Minutes: Finding Nearest Neighbor using MinHash](https://www.youtube.com/watch?v=GRHsg0d5X8Y) | SoftwareEngenius | Start |
+|  | [Similarity & MinHash](https://www.youtube.com/watch?v=aTwRpqUnQX8) | Ben Langmead | Deeper |
 | locality-sensitive hashing | *not searched yet* | | |
 

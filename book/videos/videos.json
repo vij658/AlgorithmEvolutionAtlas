@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 294,
+ "rounds": 295,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8746,11 +8746,37 @@
     }
    ],
    "tries": 1
+  },
+  "e8-05-c2": {
+   "searched": "2026-11-02",
+   "query": "MinHash explained similarity estimation",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'Min Hashing and Jaccard Similarity' from a personal channel with no stated background (checked); 'LSH + MinHash + Jaccard Explained' from an unidentified channel; an ElasticSearch token-filter tutorial (product); four Python near-duplicate coding videos from one unidentified channel; the Langmead playlist itself (its MinHash lesson is listed directly)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=GRHsg0d5X8Y",
+     "title": "Learn in 5 Minutes: Finding Nearest Neighbor using MinHash",
+     "channel": "SoftwareEngenius",
+     "channel_url": "https://www.youtube.com/@SoftwareEngenius",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=aTwRpqUnQX8",
+     "title": "Similarity & MinHash",
+     "channel": "Ben Langmead",
+     "channel_url": "https://www.youtube.com/@BenLangmead",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

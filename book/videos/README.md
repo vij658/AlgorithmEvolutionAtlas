@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**273 of 380 concepts searched, 686 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**274 of 380 concepts searched, 689 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1138,5 +1138,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | AdaBoost | [AdaBoost, Clearly Explained](https://www.youtube.com/watch?v=LsK-xG1cLYA) | StatQuest with Josh Starmer | Start |
 |  | [What is AdaBoost? Friendly explanation with code!](https://www.youtube.com/watch?v=AtYN8QP-U6w) | Luis Serrano Academy | Start |
 |  | [17. Learning: Boosting](https://www.youtube.com/watch?v=UHBmv7qCey4) | MIT OpenCourseWare | Deeper |
-| boosting weak learners | *not searched yet* | | |
+| boosting weak learners | [Boosting - EXPLAINED!](https://www.youtube.com/watch?v=MIPkK5ZAsms) | CodeEmporium | Start |
+|  | [Rob Schapire on Multiclass Boosting](https://www.youtube.com/watch?v=L6BlpGnCYVg) | The University of Chicago | Scholar |
+|  | [Optimal Weak to Strong Learning](https://www.youtube.com/watch?v=svZT8cdQOgw) | Kasper Green Larsen | Scholar |
 

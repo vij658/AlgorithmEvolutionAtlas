@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 277,
+ "rounds": 278,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8216,11 +8216,45 @@
     }
    ],
    "tries": 1
+  },
+  "e7-13-c3": {
+   "searched": "2026-11-02",
+   "query": "boosting weak learners strong learner theory Schapire Freund",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a 'Friendly Statistician' filler video, an XGBoost-tree video (a later method), a self-training research talk on another subject, and short 'quick guide' uploads from unidentified channels. Rob Schapire is one of AdaBoost's two inventors",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=MIPkK5ZAsms",
+     "title": "Boosting - EXPLAINED!",
+     "channel": "CodeEmporium",
+     "channel_url": "https://www.youtube.com/@CodeEmporium",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=L6BlpGnCYVg",
+     "title": "Rob Schapire on Multiclass Boosting",
+     "channel": "The University of Chicago",
+     "channel_url": "https://www.youtube.com/@UChicago",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=svZT8cdQOgw",
+     "title": "Optimal Weak to Strong Learning",
+     "channel": "Kasper Green Larsen",
+     "channel_url": "https://www.youtube.com/@kasperglarsen",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

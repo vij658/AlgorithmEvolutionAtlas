@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**201 of 380 concepts searched, 508 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**202 of 380 concepts searched, 511 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -843,4 +843,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [James Gosling - Simula: a personal journey](https://www.youtube.com/watch?v=ccRtIdlTqlU) | UiO Realfagsbiblioteket | Scholar |
 | inheritance classes subclasses | [Object Oriented Programming Inheritance](https://www.youtube.com/watch?v=wRiGvNwpBYY) | Erb Computer Science | Start |
 |  | [Python OOP Tutorial 4: Inheritance - Creating Subclasses](https://www.youtube.com/watch?v=RSl87lqOXDE) | Corey Schafer | Start |
+
+### A*: Search Guided by an Estimate ([in the book](../era-06-hard-problems-and-public-keys/04-a-star/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| A* search algorithm | [A* Pathfinding (E01: algorithm explanation)](https://www.youtube.com/watch?v=-L-WgKMFuhE) | Sebastian Lague | Start |
+|  | [A* (A Star) Search Algorithm - Computerphile](https://www.youtube.com/watch?v=ySN5Wnu88nE) | Computerphile | Start |
+|  | [Graph Data Structure 6. The A* Pathfinding Algorithm](https://www.youtube.com/watch?v=eSOJ3ARN5FM) | Computer Science Lessons | Deeper |
+| admissible heuristic | *not searched yet* | | |
+| Shakey the robot | *not searched yet* | | |
 

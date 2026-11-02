@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**211 of 380 concepts searched, 532 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**212 of 380 concepts searched, 534 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -887,6 +887,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | B-tree | [Understanding B-Trees: The Data Structure Behind Modern Databases](https://www.youtube.com/watch?v=K1a2Bk8NrYQ) | Spanning Tree | Start |
 |  | [The critical data structure for databases. (B-trees)](https://www.youtube.com/watch?v=5jC2nebEvas) | Ben Dicken | Start |
 |  | [10.2 B Trees and B+ Trees. How they are useful in Databases](https://www.youtube.com/watch?v=aZjYr87r1b8) | Abdul Bari | Deeper |
-| B-tree insertion node split | *not searched yet* | | |
+| B-tree insertion node split | [B-trees in 6 minutes — Insertions](https://www.youtube.com/watch?v=tT2DT9Z4H-0) | Michael Sambol | Start |
+|  | [5.24 Insertion in B-tree of Order 3 \| B-Tree Example \| Data structures and algorithms](https://www.youtube.com/watch?v=Ay2AbTk_QEg) | Jenny's Lectures CS IT | Deeper |
 | database index | *not searched yet* | | |
 

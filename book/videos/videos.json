@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 215,
+ "rounds": 216,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6364,11 +6364,37 @@
     }
    ],
    "tries": 1
+  },
+  "e6-07-c2": {
+   "searched": "2026-11-02",
+   "query": "B-tree insertion node split example",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "B+ tree videos (a later variant), an all-caps exam title, and uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=tT2DT9Z4H-0",
+     "title": "B-trees in 6 minutes — Insertions",
+     "channel": "Michael Sambol",
+     "channel_url": "https://www.youtube.com/@MichaelSambol",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=Ay2AbTk_QEg",
+     "title": "5.24 Insertion in B-tree of Order 3 | B-Tree Example | Data structures and algorithms",
+     "channel": "Jenny's Lectures CS IT",
+     "channel_url": "https://www.youtube.com/@JennyslecturesCSIT",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

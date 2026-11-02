@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 256,
+ "rounds": 257,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7590,11 +7590,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-07-c2": {
+   "searched": "2026-11-02",
+   "query": "gradient descent explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a company channel's explainer, 'in 3 minutes' and 'how AI actually learns' titles, and several 'walking downhill' and 'simply explained' videos from unidentified channels. Note: the 3Blue1Brown chapter did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=IHZwWFHWa-w",
+     "title": "Gradient descent, how neural networks learn | Deep Learning Chapter 2",
+     "channel": "3Blue1Brown",
+     "channel_url": "https://www.youtube.com/@3blue1brown",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=sDv4f4s2SB8",
+     "title": "Gradient Descent, Step-by-Step",
+     "channel": "StatQuest with Josh Starmer",
+     "channel_url": "https://www.youtube.com/@statquest",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

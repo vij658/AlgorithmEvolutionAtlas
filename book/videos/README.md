@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**252 of 380 concepts searched, 634 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**253 of 380 concepts searched, 636 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1056,7 +1056,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | neural networks | [But what is a neural network? \| Deep learning chapter 1](https://www.youtube.com/watch?v=aircAruvnKk) | 3Blue1Brown | Start |
 |  | [The Essential Main Ideas of Neural Networks](https://www.youtube.com/watch?v=CqOfi41LfDw) | StatQuest with Josh Starmer | Start |
 |  | [12a: Neural Nets](https://www.youtube.com/watch?v=uXt8qF2Zzfo) | MIT OpenCourseWare | Deeper |
-| gradient descent | *not searched yet* | | |
+| gradient descent | [Gradient descent, how neural networks learn \| Deep Learning Chapter 2](https://www.youtube.com/watch?v=IHZwWFHWa-w) | 3Blue1Brown | Start |
+|  | [Gradient Descent, Step-by-Step](https://www.youtube.com/watch?v=sDv4f4s2SB8) | StatQuest with Josh Starmer | Start |
 | backpropagation | *not searched yet* | | |
 | chain rule calculus | *not searched yet* | | |
 

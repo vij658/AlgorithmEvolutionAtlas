@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**227 of 380 concepts searched, 573 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**228 of 380 concepts searched, 574 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -948,4 +948,12 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Boyer-Moore algorithm | [How to match pattern in string - Naive Method and Boyer Moore Method explained \| Team MAST](https://www.youtube.com/watch?v=G-h1Dph9IOE) | Team MAST | Start |
 |  | [ADS1: Boyer-Moore basics](https://www.youtube.com/watch?v=4Xyhb72LCX4) | Ben Langmead | Deeper |
 |  | [ADS1: Boyer-Moore: putting it all together](https://www.youtube.com/watch?v=Wj606N0IAsw) | Ben Langmead | Deeper |
+
+### Universal Compression ([in the book](../era-06-hard-problems-and-public-keys/12-lempel-ziv/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| LZ77 compression | [Elegant Compression in Text (The LZ 77 Method) - Computerphile](https://www.youtube.com/watch?v=goOa3DGezUA) | Computerphile | Start |
+| LZW compression | *not searched yet* | | |
+| DEFLATE gzip | *not searched yet* | | |
 

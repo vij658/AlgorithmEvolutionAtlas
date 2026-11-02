@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 231,
+ "rounds": 232,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6852,11 +6852,29 @@
     }
    ],
    "tries": 1
+  },
+  "e6-12-c1": {
+   "searched": "2026-11-02",
+   "query": "LZ77 compression algorithm explained sliding window",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "French and Arabic videos, numbered exam examples, a '5 minutes' clip and worked examples from channels whose authors the check does not identify, and LZW videos (kept for the next concept)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=goOa3DGezUA",
+     "title": "Elegant Compression in Text (The LZ 77 Method) - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

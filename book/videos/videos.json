@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 259,
+ "rounds": 260,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7684,11 +7684,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-08-c1": {
+   "searched": "2026-11-02",
+   "query": "n-body simulation explained gravity",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "simulation animations with no explanation (several 'N masses, random start' clips), a what-if gravity video, a Python code walkthrough, and a centre-of-mass clip. Note: the Sebastian Lague video did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=7axImc1sxa0",
+     "title": "Coding Adventure: Solar System",
+     "channel": "Sebastian Lague",
+     "channel_url": "https://www.youtube.com/@SebastianLague",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=nZHjD3cI-EU",
+     "title": "How to make HUGE N-Body Simulations (N=1,000,000+)",
+     "channel": "Deadlock",
+     "channel_url": "https://www.youtube.com/@DeadlockCode",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

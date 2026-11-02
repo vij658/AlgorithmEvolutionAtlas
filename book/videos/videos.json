@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 224,
+ "rounds": 225,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6638,11 +6638,45 @@
     }
    ],
    "tries": 1
+  },
+  "e6-10-c1": {
+   "searched": "2026-11-02",
+   "query": "public key cryptography explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "an 'in 8 minutes' video, a standards-document overview, a PGP-specific walkthrough, a branded 'simplified' channel, and short uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=6-JjHa-qLPk",
+     "title": "Encryption and public keys | Internet 101 | Computer Science | Khan Academy",
+     "channel": "Khan Academy",
+     "channel_url": "https://www.youtube.com/@khanacademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=GSIDS_lvRv4",
+     "title": "Public Key Cryptography - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=lyWZf_pcwJQ",
+     "title": "Introduction to Cryptography: Public-Key Cryptography",
+     "channel": "Wolfram U",
+     "channel_url": "https://www.youtube.com/@wolframu",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

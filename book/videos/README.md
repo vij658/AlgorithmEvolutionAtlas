@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**220 of 380 concepts searched, 555 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**221 of 380 concepts searched, 558 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -920,4 +920,15 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | articulation points biconnected components | [Bridges and Articulation points Algorithm \| Graph Theory](https://www.youtube.com/watch?v=aZXi1unBdJA) | WilliamFiset | Start |
 |  | [5.2 Articulation Point and Biconnected Components](https://www.youtube.com/watch?v=jFZsDDB0-vo) | Abdul Bari | Deeper |
 |  | [Articulation Points Graph Algorithm](https://www.youtube.com/watch?v=2kREIkF9UAs) | Tushar Roy - Coding Made Simple | Deeper |
+
+### Public-Key Cryptography ([in the book](../era-06-hard-problems-and-public-keys/10-public-key-cryptography/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| public key cryptography | [Encryption and public keys \| Internet 101 \| Computer Science \| Khan Academy](https://www.youtube.com/watch?v=6-JjHa-qLPk) | Khan Academy | Start |
+|  | [Public Key Cryptography - Computerphile](https://www.youtube.com/watch?v=GSIDS_lvRv4) | Computerphile | Start |
+|  | [Introduction to Cryptography: Public-Key Cryptography](https://www.youtube.com/watch?v=lyWZf_pcwJQ) | Wolfram U | Deeper |
+| Diffie-Hellman key exchange | *not searched yet* | | |
+| RSA encryption | *not searched yet* | | |
+| probabilistic primality test | *not searched yet* | | |
 

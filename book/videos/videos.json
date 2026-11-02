@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 304,
+ "rounds": 305,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9062,11 +9062,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-08-c3": {
+   "searched": "2026-11-02",
+   "query": "Lamport Part-Time Parliament Paxos story Greek island",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "The SPTDC talk is also listed under Paxos algorithm (Lamport tells the paper's story there). 'Lamport on the origins of Paxos' (checked: Turing Awardee Clips, a reupload channel); Paxos explainers already covered; travel videos about the island of Paxos",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=BVrlz9h3DMY",
+     "title": "Paxos: The Part-Time Parliament | Distributed Computing - Part 1",
+     "channel": "Polymorphia",
+     "channel_url": "https://www.youtube.com/@Poly_morphia",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=tw3gsBms-f8",
+     "title": "Leslie Lamport — The Paxos algorithm or how to win a Turing Award. Part 1.",
+     "channel": "SPTDC",
+     "channel_url": "https://www.youtube.com/@sptdc",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=U719vQz-WFs",
+     "title": "Turing Award Winner: Thinking Clearly, Paxos vs Raft, Working With Dijkstra | Leslie Lamport",
+     "channel": "Ryan Peterman",
+     "channel_url": "https://www.youtube.com/@RyanLPeterman",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 226,
+ "rounds": 227,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6706,11 +6706,37 @@
     }
    ],
    "tries": 1
+  },
+  "e6-10-c3": {
+   "searched": "2026-11-02",
+   "query": "RSA encryption explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a vendor's company channel, all-caps 'I'll PROVE it' and '(but easy)' titles, a 'now I know RSA' title, and 'explained simply' uploads from unidentified channels. Note: both listed videos were recalled, not found in this search, and confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=wXB-V_Keiu8",
+     "title": "Public Key Cryptography: RSA Encryption",
+     "channel": "Art of the Problem",
+     "channel_url": "https://www.youtube.com/@ArtOfTheProblem",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=4zahvcJ9glg",
+     "title": "The RSA Encryption Algorithm (1 of 2: Computing an Example)",
+     "channel": "Eddie Woo",
+     "channel_url": "https://www.youtube.com/@misterwootube",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

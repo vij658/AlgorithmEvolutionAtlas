@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**219 of 380 concepts searched, 552 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**220 of 380 concepts searched, 555 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -917,5 +917,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [10. Depth-First Search](https://www.youtube.com/watch?v=IBfWDYSffUU) | MIT OpenCourseWare | Deeper |
 | Tarjan strongly connected components | [Tarjan's Strongly Connected Component (SCC) Algorithm (UPDATED) \| Graph Theory](https://www.youtube.com/watch?v=wUgWX0nc4NY) | WilliamFiset | Start |
 |  | [Tarjan's Algorithm \| Strongly Connected Components](https://www.youtube.com/watch?v=_1TDxihjtoE) | HeadEasyLabs | Deeper |
-| articulation points biconnected components | *not searched yet* | | |
+| articulation points biconnected components | [Bridges and Articulation points Algorithm \| Graph Theory](https://www.youtube.com/watch?v=aZXi1unBdJA) | WilliamFiset | Start |
+|  | [5.2 Articulation Point and Biconnected Components](https://www.youtube.com/watch?v=jFZsDDB0-vo) | Abdul Bari | Deeper |
+|  | [Articulation Points Graph Algorithm](https://www.youtube.com/watch?v=2kREIkF9UAs) | Tushar Roy - Coding Made Simple | Deeper |
 

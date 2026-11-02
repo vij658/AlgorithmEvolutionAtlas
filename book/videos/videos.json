@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 223,
+ "rounds": 224,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6604,11 +6604,45 @@
     }
    ],
    "tries": 1
+  },
+  "e6-09-c3": {
+   "searched": "2026-11-02",
+   "query": "articulation points bridges biconnected components graph algorithm",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Hindi lecture, all-caps exam parts, an 'ACTUALLY works' title, and uploads from unidentified channels. Note: the WilliamFiset video did not appear in this search; it was recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=aZXi1unBdJA",
+     "title": "Bridges and Articulation points Algorithm | Graph Theory",
+     "channel": "WilliamFiset",
+     "channel_url": "https://www.youtube.com/@WilliamFiset-videos",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=jFZsDDB0-vo",
+     "title": "5.2 Articulation Point and Biconnected Components",
+     "channel": "Abdul Bari",
+     "channel_url": "https://www.youtube.com/@abdul_bari",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=2kREIkF9UAs",
+     "title": "Articulation Points Graph Algorithm",
+     "channel": "Tushar Roy - Coding Made Simple",
+     "channel_url": "https://www.youtube.com/@tusharroy2525",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

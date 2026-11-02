@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**313 of 380 concepts searched, 790 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**314 of 380 concepts searched, 793 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1304,5 +1304,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | compressed sensing | [Compressed Sensing: Overview](https://www.youtube.com/watch?v=SbU1pahbbkc) | Steve Brunton | Start |
 |  | [Class 9, Video 1: Compressed Sensing and the RIP](https://www.youtube.com/watch?v=TneCIMAKeWI) | Mary Wootters | Deeper |
 |  | [NTNU's Onsager Lecture, Compressed Sensing by Terence Tao, part 1 of 7](https://www.youtube.com/watch?v=i2aY7tZ5S7U) | NTNU | Scholar |
-| L1 minimization | *not searched yet* | | |
+| L1 minimization | [Sparsity and the L1 Norm](https://www.youtube.com/watch?v=76B5cMEZA4Y) | Steve Brunton | Start |
+|  | [Linear Programming 50: The sparsity-promoting L1 norm](https://www.youtube.com/watch?v=LfBOmQt5nRw) | Henry Adams | Deeper |
+|  | [Emmanuel Candès: Wavelets, sparsity and its consequences](https://www.youtube.com/watch?v=ji1C81GRuGI) | The Abel Prize | Scholar |
 

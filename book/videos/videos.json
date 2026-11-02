@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 318,
+ "rounds": 319,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9448,11 +9448,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-12-c3": {
+   "searched": "2026-11-02",
+   "query": "L1 norm minimization sparse solutions why L1 promotes sparsity",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: the Candès lecture came from the previous concept's search and was confirmed by oEmbed in this round. Left out: 'L1 and L2 norms - Part 2' (checked; a personal channel), machine-learning interview clips on L1 regularization, lasso regression videos (a statistics use of the same idea), and an L-infinity approximation lecture",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=76B5cMEZA4Y",
+     "title": "Sparsity and the L1 Norm",
+     "channel": "Steve Brunton",
+     "channel_url": "https://www.youtube.com/@Eigensteve",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=LfBOmQt5nRw",
+     "title": "Linear Programming 50: The sparsity-promoting L1 norm",
+     "channel": "Henry Adams",
+     "channel_url": "https://www.youtube.com/@HenryAdamsMath",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ji1C81GRuGI",
+     "title": "Emmanuel Candès: Wavelets, sparsity and its consequences",
+     "channel": "The Abel Prize",
+     "channel_url": "https://www.youtube.com/@AbelPrize",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

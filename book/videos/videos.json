@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 308,
+ "rounds": 309,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9190,11 +9190,37 @@
     }
    ],
    "tries": 1
+  },
+  "e8-09-c4": {
+   "searched": "2026-11-02",
+   "query": "Human Genome Project history documentary assembly",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'Unlocking the Genome' (checked; from an advocacy organization rather than a science or history source); TVO's 'The Agenda' panel (checked; a current-affairs discussion, not about how the genome was put together); news anniversary clips; a 'year of start and completion' exam video; unidentified uploads",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=meppRKz50lc",
+     "title": "How Scientists Finally Finished the Human Genome",
+     "channel": "Quanta Magazine",
+     "channel_url": "https://www.youtube.com/@QuantaScienceChannel",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=7l41zCX9ulk",
+     "title": "20 Years After the Human Genome Project: G5 Leaders Reunite",
+     "channel": "National Human Genome Research Institute",
+     "channel_url": "https://www.youtube.com/@genometv",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

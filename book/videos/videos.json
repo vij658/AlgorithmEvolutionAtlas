@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 244,
+ "rounds": 245,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7246,11 +7246,45 @@
     }
    ],
    "tries": 1
+  },
+  "e7-03-c2": {
+   "searched": "2026-11-02",
+   "query": "Byzantine fault tolerance lecture distributed systems PBFT",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "several 'for beginners' videos from unidentified channels, a crypto podcast episode, a combined Raft/Paxos/PBFT beginner video, an exam lecture, and specialist research talks (Byzantine Paxos in TLA+, modular constructions)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=rIlixnNpU7g",
+     "title": "Byzantine Fault Tolerant Consensus",
+     "channel": "Data Skeptic",
+     "channel_url": "https://www.youtube.com/@Dataskeptic",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=_e4wNoTV3Gw",
+     "title": "L6: Byzantine Fault Tolerance",
+     "channel": "Distributed Systems Course",
+     "channel_url": "https://www.youtube.com/@DistributedSystems",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=Q0xYCN-rvUs",
+     "title": "Practical Byzantine Fault Tolerance",
+     "channel": "Microsoft Research",
+     "channel_url": "https://www.youtube.com/@MicrosoftResearch",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

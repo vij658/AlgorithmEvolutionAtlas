@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 216,
+ "rounds": 217,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6390,11 +6390,37 @@
     }
    ],
    "tries": 1
+  },
+  "e6-07-c3": {
+   "searched": "2026-11-02",
+   "query": "database index explained how indexes work",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Short, hashtag and symbol-laden titles, a 'you might be using them wrong' video, 'in real life' and 'with real examples' videos from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=xAQga907NVU",
+     "title": "Database Index Fundamentals",
+     "channel": "Computer Science Lessons",
+     "channel_url": "https://www.youtube.com/@ComputerScienceLessons",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=uyLy462Fmk8",
+     "title": "Database Indexing Tutorial - How do Database Indexes Work",
+     "channel": "Fullstack Academy",
+     "channel_url": "https://www.youtube.com/@FullstackAcademyOfCode",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

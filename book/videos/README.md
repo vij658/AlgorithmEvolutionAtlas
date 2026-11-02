@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**212 of 380 concepts searched, 534 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**213 of 380 concepts searched, 536 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -889,5 +889,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [10.2 B Trees and B+ Trees. How they are useful in Databases](https://www.youtube.com/watch?v=aZjYr87r1b8) | Abdul Bari | Deeper |
 | B-tree insertion node split | [B-trees in 6 minutes — Insertions](https://www.youtube.com/watch?v=tT2DT9Z4H-0) | Michael Sambol | Start |
 |  | [5.24 Insertion in B-tree of Order 3 \| B-Tree Example \| Data structures and algorithms](https://www.youtube.com/watch?v=Ay2AbTk_QEg) | Jenny's Lectures CS IT | Deeper |
-| database index | *not searched yet* | | |
+| database index | [Database Index Fundamentals](https://www.youtube.com/watch?v=xAQga907NVU) | Computer Science Lessons | Start |
+|  | [Database Indexing Tutorial - How do Database Indexes Work](https://www.youtube.com/watch?v=uyLy462Fmk8) | Fullstack Academy | Deeper |
 

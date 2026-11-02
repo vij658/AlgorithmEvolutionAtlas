@@ -16,6 +16,15 @@ A round handles one concept, then pauses, so that the video site is not asked to
 
 After every round the branch is committed and pushed; every ten rounds the published page is updated.
 
+## Working unattended (standing rule from the author — read before every round)
+
+The loop runs on its own, without breaks, until all concepts are done.
+
+- **Never stop to wait for permission.** If a check or page needs the author's approval and nobody answers, do not wait: skip that candidate, use the next one, and finish the round.
+- **Mark it.** Add every link that needed permission to [`permission-log.md`](permission-log.md) (date, concept id, URL, what it was for). The video is not listed until it has been checked; the log is what the author reviews and approves later.
+- **Report it.** When the author returns, give them the list of links from the log that are still waiting.
+- The rules below still hold: a link is listed only after it opens; nothing is guessed or filled in.
+
 ## Rules carried over from the book
 
 - Every listed video was checked on the date shown in `videos.json` (`checked`).

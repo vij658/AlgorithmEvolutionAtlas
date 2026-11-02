@@ -1,6 +1,6 @@
 {
- "updated": "2026-10-27",
- "rounds": 188,
+ "updated": "2026-11-02",
+ "rounds": 189,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5598,11 +5598,37 @@
     }
    ],
    "tries": 1
+  },
+  "e5-11-c3": {
+   "searched": "2026-11-02",
+   "query": "self-balancing binary search tree explained red-black AVL",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "C++-only code videos, 'visually explained' uploads from unidentified channels, a long-titled rotations diagram, and a red-black deletion video (a later detail). A Michael Sambol red-black playlist is waiting for permission to be checked (see permission-log.md)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=5Q-__zhQ2Gs",
+     "title": "Introduction to AVL tree (Why AVL tree is needed?)",
+     "channel": "Vivekanand Khyade - Algorithm Every Day",
+     "channel_url": "https://www.youtube.com/@vivekanandkhyade",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=IDqdf7VicDs",
+     "title": "Red Black Tree - Self Balancing Tree - Tree Data Structure",
+     "channel": "Before Semicolon",
+     "channel_url": "https://www.youtube.com/@BeforeSemicolon",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

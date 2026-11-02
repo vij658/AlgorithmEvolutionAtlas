@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 229,
+ "rounds": 230,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6784,11 +6784,45 @@
     }
    ],
    "tries": 1
+  },
+  "e6-11-c2": {
+   "searched": "2026-11-02",
+   "query": "Knuth-Morris-Pratt KMP algorithm explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "an emoji title, 'FULLY Explained' and all-caps titles, a code-only walkthrough, and 'explained visually' uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=1DegxRXeP6U",
+     "title": "String Matching 3. The KMP Algorithm",
+     "channel": "Computer Science Lessons",
+     "channel_url": "https://www.youtube.com/@ComputerScienceLessons",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=xWdAgFregt0",
+     "title": "KMP Pattern Matching Algorithm | Step-by-Step Example and Explanation | LPS Table",
+     "channel": "T V Nagaraju Technical",
+     "channel_url": "https://www.youtube.com/@tvnagarajutechnical9978",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=V5-7GzOfADQ",
+     "title": "9.1 Knuth-Morris-Pratt KMP String Matching Algorithm",
+     "channel": "Abdul Bari",
+     "channel_url": "https://www.youtube.com/@abdul_bari",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

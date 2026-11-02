@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 287,
+ "rounds": 288,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8548,11 +8548,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-03-c2": {
+   "searched": "2026-11-02",
+   "query": "Count-Min sketch explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a meetup talk, an F# coding tutorial, several short uploads from unidentified channels, and Langmead's parts 3 (part 1 starts the series)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=ibxXO-b14j4",
+     "title": "Count min sketch | Efficient algorithm for counting stream of data | system design components",
+     "channel": "Tech Dummies - Narendra Lakshmana Gowda",
+     "channel_url": "https://www.youtube.com/@TechDummiesNarendraL",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=hJitoHv4rAU",
+     "title": "CountMin sketch, part 1",
+     "channel": "Ben Langmead",
+     "channel_url": "https://www.youtube.com/@BenLangmead",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=oJT62C4DVno",
+     "title": "CSE290A, Spring 2020: Lec 16, the Count-Min sketch, and the AMS algorithm for frequency moments",
+     "channel": "C. Seshadhri",
+     "channel_url": "https://www.youtube.com/@c.seshadhri6776",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

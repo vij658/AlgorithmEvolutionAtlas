@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**283 of 380 concepts searched, 715 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**284 of 380 concepts searched, 718 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1184,7 +1184,9 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | streaming algorithms | [Probabilistic streaming algorithms: accuracy and speed at low cost by Juanjo Madrigal - JOTB23](https://www.youtube.com/watch?v=GjSb-0PHS40) | J On The Beach | Start |
 |  | [Algorithms for Big Data (COMPSCI 229r), Lecture 1](https://www.youtube.com/watch?v=s9xSfIw83tk) | Harvard University | Deeper |
 |  | [Sketching and Streaming Algorithms - Jelani Nelson](https://www.youtube.com/watch?v=xbTM3t26xLk) | Institute for Advanced Study | Scholar |
-| Count-Min sketch | *not searched yet* | | |
+| Count-Min sketch | [Count min sketch \| Efficient algorithm for counting stream of data \| system design components](https://www.youtube.com/watch?v=ibxXO-b14j4) | Tech Dummies - Narendra Lakshmana Gowda | Start |
+|  | [CountMin sketch, part 1](https://www.youtube.com/watch?v=hJitoHv4rAU) | Ben Langmead | Deeper |
+|  | [CSE290A, Spring 2020: Lec 16, the Count-Min sketch, and the AMS algorithm for frequency moments](https://www.youtube.com/watch?v=oJT62C4DVno) | C. Seshadhri | Deeper |
 | HyperLogLog | *not searched yet* | | |
 | AMS sketch frequency moments | *not searched yet* | | |
 

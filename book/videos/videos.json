@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 252,
+ "rounds": 253,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7486,11 +7486,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-06-c1": {
+   "searched": "2026-11-02",
+   "query": "zero-knowledge proof explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'explain like I'm five' and 'simply explained' videos from unidentified channels, crypto-industry explainers, and a cryptocurrency-conference talk. The WIRED video is a zero-knowledge explainer by a cryptographer at five levels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=fOGdb1CTu5c",
+     "title": "Computer Scientist Explains One Concept in 5 Levels of Difficulty | WIRED",
+     "channel": "WIRED",
+     "channel_url": "https://www.youtube.com/@WIRED",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=5qzNe1hk0oY",
+     "title": "Zero Knowledge Proofs",
+     "channel": "Computational Thinking",
+     "channel_url": "https://www.youtube.com/@discoETH",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

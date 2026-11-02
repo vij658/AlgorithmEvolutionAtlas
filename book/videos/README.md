@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**237 of 380 concepts searched, 600 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**238 of 380 concepts searched, 602 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -997,6 +997,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | SHA-256 hash function | [How secure is 256 bit security?](https://www.youtube.com/watch?v=S9JGmA5_unY) | 3Blue1Brown | Start |
 |  | [SHA: Secure Hashing Algorithm - Computerphile](https://www.youtube.com/watch?v=DMtFhACPnTY) | Computerphile | Start |
 |  | [How does SHA-256 work? (full explanation)](https://www.youtube.com/watch?v=PbFVTb7Pndc) | Boot dev | Deeper |
-| Merkle tree | *not searched yet* | | |
+| Merkle tree | [What is a Merkle Tree?](https://www.youtube.com/watch?v=3AcQyTs_Es4) | Kerala Blockchain Academy | Start |
+|  | [Merkle Tree with real world examples](https://www.youtube.com/watch?v=qHMLy5JjbjQ) | Gaurav Sen | Deeper |
 | Merkle proof | *not searched yet* | | |
 

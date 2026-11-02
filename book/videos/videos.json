@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 241,
+ "rounds": 242,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7168,11 +7168,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-02-c2": {
+   "searched": "2026-11-02",
+   "query": "Merkle tree explained hash tree",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Chinese and Persian videos, clickbait 'one 32-byte hash' and '~20 hashes' titles, a security-company filler channel, and a short video from a channel identified only by a first name",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=3AcQyTs_Es4",
+     "title": "What is a Merkle Tree?",
+     "channel": "Kerala Blockchain Academy",
+     "channel_url": "https://www.youtube.com/@KeralaBlockchainAcademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=qHMLy5JjbjQ",
+     "title": "Merkle Tree with real world examples",
+     "channel": "Gaurav Sen",
+     "channel_url": "https://www.youtube.com/@gkcs",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

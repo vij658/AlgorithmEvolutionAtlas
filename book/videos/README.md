@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**246 of 380 concepts searched, 621 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**247 of 380 concepts searched, 624 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1033,6 +1033,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | amortized analysis | [What is Amortized Time Complexity? - Dynamic Array](https://www.youtube.com/watch?v=MTl8djZFWE0) | Gaurav Sen | Start |
 |  | [Amortized Analysis: Aggregate, Accounting and Potential Method (with examples)](https://www.youtube.com/watch?v=wKla4Vqrlzw) | CS Simplified | Deeper |
 |  | [5. Amortization: Amortized Analysis](https://www.youtube.com/watch?v=3MpzavN3Mco) | MIT OpenCourseWare | Deeper |
-| splay trees | *not searched yet* | | |
+| splay trees | [Splay Trees](https://www.youtube.com/watch?v=D9BZk1giMws) | Mary Elaine Califf | Start |
+|  | [5.19 Splay Tree Introduction \| Data structure & Algorithm](https://www.youtube.com/watch?v=qMmqOHr75b8) | Jenny's Lectures CS IT | Deeper |
+|  | [Splay Trees Explained: Zig, Zig-Zig & Zig-Zag \| DSA Lesson 23](https://www.youtube.com/watch?v=PnbyRmfA1Jc) | BilgisayarKavramlari | Deeper |
 | Sleator Tarjan dynamic optimality | *not searched yet* | | |
 

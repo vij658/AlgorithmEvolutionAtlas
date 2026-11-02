@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 273,
+ "rounds": 274,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8096,11 +8096,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-12-c2": {
+   "searched": "2026-11-02",
+   "query": "move-to-front transform encoding explained bzip2",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Linux command-line compression tutorials, a Python library walkthrough, a Spanish video, and the matching decoding example (a duplicate). The Computerphile video is the one listed for the Burrows-Wheeler transform; it covers the move-to-front stage of bzip2",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=GYbCttCF25A",
+     "title": "How Bzip2 Works (Burrows Wheeler Transform) - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=nBFRhjYw1Pg",
+     "title": "26. Move-to-front (mtf) encoding with example",
+     "channel": "itechnica",
+     "channel_url": "https://www.youtube.com/@itechnica",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

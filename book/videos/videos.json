@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 324,
+ "rounds": 325,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9604,11 +9604,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-02": {
+   "searched": "2026-11-02",
+   "query": "extended euclidean algorithm modular inverse explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: the Bill Kinney video came from the previous principle's search and was confirmed by oEmbed in this round. Left out: 'Modular Inverses | Euclidean Method | Solved Example' (checked; channel does not say who teaches), many single solved-example videos ('Example 1 - Part 1', 'Solved Example 3'), an 'easy method' shortcut video, and numbered course clips from unidentified uploaders",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=YZfPcvbwwvI",
+     "title": "GCD, Bezout, and Modular Inverses | The Extended Euclidean Algorithm",
+     "channel": "William Y. Feng",
+     "channel_url": "https://www.youtube.com/@womogenes",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=kfOGNl2gdr0",
+     "title": "Extended Euclidean Algorithm: GCD is a Linear Combination",
+     "channel": "Bill Kinney",
+     "channel_url": "https://www.youtube.com/@billkinneymath",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

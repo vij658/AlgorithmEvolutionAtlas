@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 228,
+ "rounds": 229,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6758,11 +6758,37 @@
     }
    ],
    "tries": 1
+  },
+  "e6-11-c1": {
+   "searched": "2026-11-02",
+   "query": "string matching algorithm naive pattern search explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Hindi lecture, a 'what almost everyone gets wrong' title, exam-style worked examples, a tutorial channel of unclear authorship, and a KMP lecture (kept for the next concept)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=WxVGBEWor1g",
+     "title": "String Matching 2. Naive Implementation",
+     "channel": "Computer Science Lessons",
+     "channel_url": "https://www.youtube.com/@ComputerScienceLessons",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=G-h1Dph9IOE",
+     "title": "How to match pattern in string - Naive Method and Boyer Moore Method explained | Team MAST",
+     "channel": "Team MAST",
+     "channel_url": "https://www.youtube.com/@TeamMAST",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

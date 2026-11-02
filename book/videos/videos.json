@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 323,
+ "rounds": 324,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9570,11 +9570,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-01": {
+   "searched": "2026-11-02",
+   "query": "euclidean algorithm gcd explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Neso Academy and Math Matters are also listed under Era 1 (Euclid's algorithm); re-checked today. Left out: extended-Euclid videos (next principle), 'is So Easy!' clickbait, a numbered course clip and unidentified uploads",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=SR-jmdjzw-Y",
+     "title": "The Euclidean Algorithm (Finding the GCD/GCF)",
+     "channel": "Houston Math Prep",
+     "channel_url": "https://www.youtube.com/@HoustonMathPrep",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=yHwneN6zJmU",
+     "title": "GCD - Euclidean Algorithm (Method 1)",
+     "channel": "Neso Academy",
+     "channel_url": "https://www.youtube.com/@nesoacademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=H_2_nqKAZ5w",
+     "title": "Euclidean Algorithm (Proof)",
+     "channel": "Math Matters",
+     "channel_url": "https://www.youtube.com/@MathMatters",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

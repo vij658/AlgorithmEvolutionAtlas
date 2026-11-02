@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**286 of 380 concepts searched, 722 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**287 of 380 concepts searched, 724 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1191,4 +1191,13 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Count-distinct using HLL++ algorithm](https://www.youtube.com/watch?v=tQhYqKTS08w) | Apache Beam | Deeper |
 | AMS sketch frequency moments | [Week 12: Mining Data Streams - Part 9: Estimating Moments](https://www.youtube.com/watch?v=RMNve6ZqhHo) | Hao Wang | Deeper |
 |  | [CSE290A, Spring 2020: Lec 16, the Count-Min sketch, and the AMS algorithm for frequency moments](https://www.youtube.com/watch?v=oJT62C4DVno) | C. Seshadhri | Deeper |
+
+### Consistent Hashing ([in the book](../era-08-the-web-the-genome-and-the-ledger/04-consistent-hashing/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| consistent hashing | [Consistent Hashing \| Algorithms You Should Know #1](https://www.youtube.com/watch?v=UF9Iqmg94tk) | ByteByteGo | Start |
+|  | [What is CONSISTENT HASHING and Where is it used?](https://www.youtube.com/watch?v=zaRkONvyGr8) | Gaurav Sen | Start |
+| distributed hash table | *not searched yet* | | |
+| Akamai consistent hashing | *not searched yet* | | |
 

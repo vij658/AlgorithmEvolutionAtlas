@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 290,
+ "rounds": 291,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8634,11 +8634,37 @@
     }
    ],
    "tries": 1
+  },
+  "e8-04-c1": {
+   "searched": "2026-11-02",
+   "query": "consistent hashing explained; consistent hashing lecture Karger Roughgarden CS168",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "Note: the ByteByteGo video did not appear in these searches; it was recalled and then confirmed by oEmbed like every other. Left out: a Short, interview-prep videos and many near-identical 'explained simply' uploads from unidentified channels, and a system-design channel video (checked) that adds nothing over the two listed. The second search found no university lecture.",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=UF9Iqmg94tk",
+     "title": "Consistent Hashing | Algorithms You Should Know #1",
+     "channel": "ByteByteGo",
+     "channel_url": "https://www.youtube.com/@ByteByteGo",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=zaRkONvyGr8",
+     "title": "What is CONSISTENT HASHING and Where is it used?",
+     "channel": "Gaurav Sen",
+     "channel_url": "https://www.youtube.com/@gkcs",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

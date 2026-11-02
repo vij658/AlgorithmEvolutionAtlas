@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 200,
+ "rounds": 201,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5950,11 +5950,37 @@
     }
    ],
    "tries": 1
+  },
+  "e6-02-c3": {
+   "searched": "2026-11-02",
+   "query": "semaphores explained Dijkstra P V wait signal",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Hindi-language lectures, a syllabus-coded unit recording, a beginner video with emoji title from an unidentified channel, and a 'disadvantages' follow-up",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=XDIOC2EY5JE",
+     "title": "Semaphores",
+     "channel": "Neso Academy",
+     "channel_url": "https://www.youtube.com/@nesoacademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ukM_zzrIeXs",
+     "title": "What is a semaphore? How do they work? (Example in C)",
+     "channel": "Jacob Sorber",
+     "channel_url": "https://www.youtube.com/@JacobSorber",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

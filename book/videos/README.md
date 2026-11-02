@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**196 of 380 concepts searched, 499 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**197 of 380 concepts searched, 501 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -829,6 +829,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Race Conditions - What is required and a Detailed Example (Concurrency - Video # 2)](https://www.youtube.com/watch?v=Lu6EghdDO5A) | Merlin Wellington | Deeper |
 | mutual exclusion | [The Critical-Section Problem](https://www.youtube.com/watch?v=UtEORPakw5Y) | Neso Academy | Start |
 |  | [Operating System: Mutual Exclusion and Synchronization](https://www.youtube.com/watch?v=k-oCvIuq_kI) | Charles Ed -- Math Computer Science Programming | Deeper |
-| semaphores Dijkstra | *not searched yet* | | |
+| semaphores Dijkstra | [Semaphores](https://www.youtube.com/watch?v=XDIOC2EY5JE) | Neso Academy | Start |
+|  | [What is a semaphore? How do they work? (Example in C)](https://www.youtube.com/watch?v=ukM_zzrIeXs) | Jacob Sorber | Deeper |
 | dining philosophers problem | *not searched yet* | | |
 

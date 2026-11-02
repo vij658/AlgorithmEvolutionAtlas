@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 302,
+ "rounds": 303,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8994,11 +8994,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-08-c1": {
+   "searched": "2026-11-02",
+   "query": "distributed consensus problem explained lecture",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: the Kleppmann lecture did not appear in this search; it was recalled and then confirmed by oEmbed like every other. Left out: Paxos and Raft explainers (they belong to the next concepts), a 'for Beginners' roundup and several lecture uploads from unidentified channels, and a Byzantine-agreement exam-prep video",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=vMz3q8Mm1uY",
+     "title": "All Together Now: An Introduction to Distributed Consensus - Tess Rinearson | Craft 2019",
+     "channel": "CraftHub Events",
+     "channel_url": "https://www.youtube.com/@crafthub.events",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=rN6ma561tak",
+     "title": "Distributed Systems 6.1: Consensus",
+     "channel": "Martin Kleppmann",
+     "channel_url": "https://www.youtube.com/@kleppmann",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=2fnS-f-mwIo",
+     "title": "Impossibility of Consensus",
+     "channel": "Computational Thinking",
+     "channel_url": "https://www.youtube.com/@discoETH",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

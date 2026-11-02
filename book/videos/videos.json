@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 291,
+ "rounds": 292,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8660,11 +8660,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-04-c2": {
+   "searched": "2026-11-02",
+   "query": "distributed hash table Chord Kademlia explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a self-declared reupload ('In a nutshell (Reupload)'), an Italian-language course video, a live-stream overview, a generic P2P basics video, and two more Kademlia explainers that repeat the listed one",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=9kd1aj8E30k",
+     "title": "Chord - A Distributed Hash Table",
+     "channel": "The Lost Packet",
+     "channel_url": "https://www.youtube.com/@the-lost-packet",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=1QdKhNpsj8M",
+     "title": "Kademlia, Explained",
+     "channel": "number 0",
+     "channel_url": "https://www.youtube.com/@n0computer",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=Ki-Dnqk4mss",
+     "title": "Chord: A Scalable DHT",
+     "channel": "Smruti R. Sarangi",
+     "channel_url": "https://www.youtube.com/@srsarangi",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

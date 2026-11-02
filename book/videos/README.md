@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**287 of 380 concepts searched, 724 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**288 of 380 concepts searched, 727 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1198,6 +1198,8 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | consistent hashing | [Consistent Hashing \| Algorithms You Should Know #1](https://www.youtube.com/watch?v=UF9Iqmg94tk) | ByteByteGo | Start |
 |  | [What is CONSISTENT HASHING and Where is it used?](https://www.youtube.com/watch?v=zaRkONvyGr8) | Gaurav Sen | Start |
-| distributed hash table | *not searched yet* | | |
+| distributed hash table | [Chord - A Distributed Hash Table](https://www.youtube.com/watch?v=9kd1aj8E30k) | The Lost Packet | Start |
+|  | [Kademlia, Explained](https://www.youtube.com/watch?v=1QdKhNpsj8M) | number 0 | Start |
+|  | [Chord: A Scalable DHT](https://www.youtube.com/watch?v=Ki-Dnqk4mss) | Smruti R. Sarangi | Deeper |
 | Akamai consistent hashing | *not searched yet* | | |
 

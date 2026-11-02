@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 201,
+ "rounds": 202,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -5976,11 +5976,29 @@
     }
    ],
    "tries": 1
+  },
+  "e6-02-c4": {
+   "searched": "2026-11-02",
+   "query": "dining philosophers problem explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Hindi-language exam lecture, numbered course clips, Python and code-only walkthroughs, a playful-titled video and a part-1-of-3 series from small channels whose authors the check does not identify beyond a name, and a deadlock talk from a software-project channel",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=NbwbQQB7xNQ",
+     "title": "Dining Philosophers Problem with Solution",
+     "channel": "Gary Explains",
+     "channel_url": "https://www.youtube.com/@GaryExplains",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

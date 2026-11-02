@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**197 of 380 concepts searched, 501 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**198 of 380 concepts searched, 502 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -831,5 +831,5 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Operating System: Mutual Exclusion and Synchronization](https://www.youtube.com/watch?v=k-oCvIuq_kI) | Charles Ed -- Math Computer Science Programming | Deeper |
 | semaphores Dijkstra | [Semaphores](https://www.youtube.com/watch?v=XDIOC2EY5JE) | Neso Academy | Start |
 |  | [What is a semaphore? How do they work? (Example in C)](https://www.youtube.com/watch?v=ukM_zzrIeXs) | Jacob Sorber | Deeper |
-| dining philosophers problem | *not searched yet* | | |
+| dining philosophers problem | [Dining Philosophers Problem with Solution](https://www.youtube.com/watch?v=NbwbQQB7xNQ) | Gary Explains | Start |
 

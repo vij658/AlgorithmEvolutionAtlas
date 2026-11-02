@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 270,
+ "rounds": 271,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8010,11 +8010,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-11-c3": {
+   "searched": "2026-11-02",
+   "query": "quantum Fourier transform explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a four-part series from a generically named channel, 'understand the idea, not the formula' and 'quantum tech explained' titles from unidentified channels, and numbered uploads. The Qiskit channel is IBM's open-source quantum-software education channel",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=ha5Fs6l-vGk",
+     "title": "The Quantum Fourier Transform Explained with Music",
+     "channel": "Qiskit",
+     "channel_url": "https://www.youtube.com/@qiskit",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=uISnQE6Qsls",
+     "title": "Quantum Fourier Transform (QFT)",
+     "channel": "Kathiresan Sundarappan",
+     "channel_url": "https://www.youtube.com/@SKathiresan",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**305 of 380 concepts searched, 771 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**306 of 380 concepts searched, 774 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1270,4 +1270,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Lec 31 Genome assembly using de Bruijn graphs](https://www.youtube.com/watch?v=XU73_ofTjws) | NPTEL - Indian Institute of Science, Bengaluru | Deeper |
 | Human Genome Project | [How Scientists Finally Finished the Human Genome](https://www.youtube.com/watch?v=meppRKz50lc) | Quanta Magazine | Start |
 |  | [20 Years After the Human Genome Project: G5 Leaders Reunite](https://www.youtube.com/watch?v=7l41zCX9ulk) | National Human Genome Research Institute | Scholar |
+
+### PRIMES is in P ([in the book](../era-08-the-web-the-genome-and-the-ledger/10-primes-is-in-p/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| primality testing | [How To Find Massive Primes in Seconds](https://www.youtube.com/watch?v=tBzaMfV94uA) | PurpleMind | Start |
+|  | [Testing for Primality (Fermat's Test)](https://www.youtube.com/watch?v=sDrXeCs3ghQ) | Neso Academy | Start |
+|  | [Class 3, Video 2: History of Primality Testing and Fermat's Test](https://www.youtube.com/watch?v=JUa27jxlV-E) | Mary Wootters | Deeper |
+| Fermat's little theorem Carmichael numbers | *not searched yet* | | |
+| AKS primality test | *not searched yet* | | |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 309,
+ "rounds": 310,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9216,11 +9216,45 @@
     }
    ],
    "tries": 1
+  },
+  "e8-10-c1": {
+   "searched": "2026-11-02",
+   "query": "primality testing explained Fermat Miller-Rabin",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Miller-Rabin step-by-step exam videos and an implementation tutorial (Miller-Rabin has its own concept in the randomized-algorithms era), a numbered course clip and a cyber-security course unit from unidentified uploaders",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=tBzaMfV94uA",
+     "title": "How To Find Massive Primes in Seconds",
+     "channel": "PurpleMind",
+     "channel_url": "https://www.youtube.com/@PurpleMindCreations",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=sDrXeCs3ghQ",
+     "title": "Testing for Primality (Fermat's Test)",
+     "channel": "Neso Academy",
+     "channel_url": "https://www.youtube.com/@nesoacademy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=JUa27jxlV-E",
+     "title": "Class 3, Video 2: History of Primality Testing and Fermat's Test",
+     "channel": "Mary Wootters",
+     "channel_url": "https://www.youtube.com/@marywootters7651",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

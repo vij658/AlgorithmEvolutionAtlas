@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**267 of 380 concepts searched, 671 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**268 of 380 concepts searched, 673 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1113,5 +1113,6 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Shor's Algorithm for Quantum Computing - Computerphile](https://www.youtube.com/watch?v=k_kyepATqB8) | Computerphile | Deeper |
 | quantum Fourier transform | [The Quantum Fourier Transform Explained with Music](https://www.youtube.com/watch?v=ha5Fs6l-vGk) | Qiskit | Start |
 |  | [Quantum Fourier Transform (QFT)](https://www.youtube.com/watch?v=uISnQE6Qsls) | Kathiresan Sundarappan | Deeper |
-| period finding factoring | *not searched yet* | | |
+| period finding factoring | [How Quantum Computers Break Encryption \| Shor's Algorithm Explained](https://www.youtube.com/watch?v=lvTqbM5Dq4Q) | minutephysics | Start |
+|  | [Lecture 25: Shor's Period Finding Algorithm using the Quantum Fourier Transform](https://www.youtube.com/watch?v=QxcOWfEbXf4) | Indian Institute of Science (IISc) | Deeper |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 271,
+ "rounds": 272,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -8036,11 +8036,37 @@
     }
    ],
    "tries": 1
+  },
+  "e7-11-c4": {
+   "searched": "2026-11-02",
+   "query": "period finding factoring reduction Shor order finding explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "course parts from channels identified only by handles or generic names, numbered series parts, and uploads of unclear authorship. The minutephysics video is the one listed for Shor's algorithm; it explains how factoring becomes period finding",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=lvTqbM5Dq4Q",
+     "title": "How Quantum Computers Break Encryption | Shor's Algorithm Explained",
+     "channel": "minutephysics",
+     "channel_url": "https://www.youtube.com/@MinutePhysics",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=QxcOWfEbXf4",
+     "title": "Lecture 25: Shor's Period Finding Algorithm using the Quantum Fourier Transform",
+     "channel": "Indian Institute of Science (IISc)",
+     "channel_url": "https://www.youtube.com/@indianinstituteofscience-iisc",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

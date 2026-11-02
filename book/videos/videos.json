@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 268,
+ "rounds": 269,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -7942,11 +7942,45 @@
     }
    ],
    "tries": 1
+  },
+  "e7-11-c1": {
+   "searched": "2026-11-02",
+   "query": "quantum computing explained basics qubits",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "many 'explained for beginners' and 'simply' videos from unidentified channels, a quoted clickbait title, an untitled course part, and a retired-engineer talk. Note: none of the three listed appeared in this search; they were recalled and then confirmed by oEmbed like every other",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=g_IaVepNDT4",
+     "title": "How Does a Quantum Computer Work?",
+     "channel": "Veritasium",
+     "channel_url": "https://www.youtube.com/@veritasium",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=JhHMJCUmq28",
+     "title": "Quantum Computers Explained – Limits of Human Technology",
+     "channel": "Kurzgesagt – In a Nutshell",
+     "channel_url": "https://www.youtube.com/@kurzgesagt",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=RQWpF2Gb-gU",
+     "title": "But what is quantum computing? (Grover's Algorithm)",
+     "channel": "3Blue1Brown",
+     "channel_url": "https://www.youtube.com/@3blue1brown",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

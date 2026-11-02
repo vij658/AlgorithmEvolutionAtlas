@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 314,
+ "rounds": 315,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9336,11 +9336,37 @@
     }
    ],
    "tries": 1
+  },
+  "e8-11-c2": {
+   "searched": "2026-11-02",
+   "query": "MapReduce explained Google paper",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: the Computerphile video did not appear in this search; it was recalled and then confirmed by oEmbed like every other. Left out: 'EECS582 F20' (checked; a student's class presentation on a personal channel), a Short, hashtag and 'secret sauce' clickbait uploads, 'for dummies' Dataflow video, and the Google File System video (a different paper)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=cvhKoniK5Uo",
+     "title": "MapReduce - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=MAJ0aW5g17c",
+     "title": "Map Reduce Paper - Distributed data processing",
+     "channel": "Defog Tech",
+     "channel_url": "https://www.youtube.com/@DefogTech",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

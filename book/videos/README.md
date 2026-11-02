@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**309 of 380 concepts searched, 781 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**310 of 380 concepts searched, 783 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1290,6 +1290,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | distributed computing | [Distributed Systems 1.1: Introduction](https://www.youtube.com/watch?v=UEAMfLPZZhE) | Martin Kleppmann | Start |
 |  | [Lecture 1: Introduction](https://www.youtube.com/watch?v=cQP8WApzIQQ) | MIT 6.824: Distributed Systems | Deeper |
-| MapReduce | *not searched yet* | | |
+| MapReduce | [MapReduce - Computerphile](https://www.youtube.com/watch?v=cvhKoniK5Uo) | Computerphile | Start |
+|  | [Map Reduce Paper - Distributed data processing](https://www.youtube.com/watch?v=MAJ0aW5g17c) | Defog Tech | Deeper |
 | Hadoop | *not searched yet* | | |
 

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**203 of 380 concepts searched, 514 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**204 of 380 concepts searched, 517 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -854,5 +854,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | admissible heuristic | [A* Search: Heuristic Admissibility and Consistency: Are my estimates any good?](https://www.youtube.com/watch?v=CJmlP03ik5g) | Jacob Schrum | Start |
 |  | [Lecture 8: A* -- Admissible Heuristics](https://www.youtube.com/watch?v=7kXSIavVeXA) | Kshitiz Verma | Deeper |
 |  | [Single Agent Search Video 31: Inconsistent Heuristics](https://www.youtube.com/watch?v=HLG61NVOU0s) | Nathan Sturtevant | Scholar |
-| Shakey the robot | *not searched yet* | | |
+| Shakey the robot | [Shakey the Robot: The First Robot to Embody Artificial Intelligence](https://www.youtube.com/watch?v=7bsEN8mwUB8) | SRI | Start |
+|  | [Shakey: Experiments in Robot Planning and Learning (1972)](https://www.youtube.com/watch?v=GmU7SimFkpU) | Stanford University Libraries | Scholar |
+|  | [Making Shakey - Peter Hart, SRI, retired](https://www.youtube.com/watch?v=_ZIHxHjnVHs) | IEEE.RAS.ICRA | Scholar |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-02",
- "rounds": 207,
+ "rounds": 208,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -6140,11 +6140,45 @@
     }
    ],
    "tries": 1
+  },
+  "e6-04-c3": {
+   "searched": "2026-11-02",
+   "query": "Shakey the robot SRI history",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Shorts, emoji and 'changed AI forever' titles, a user clip, and 'roots of AI' and episode videos from unnamed channels. The 1972 film is the original SRI film, posted by the library that holds it; Peter Hart is one of the three inventors of A*",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=7bsEN8mwUB8",
+     "title": "Shakey the Robot: The First Robot to Embody Artificial Intelligence",
+     "channel": "SRI",
+     "channel_url": "https://www.youtube.com/@sri",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=GmU7SimFkpU",
+     "title": "Shakey: Experiments in Robot Planning and Learning (1972)",
+     "channel": "Stanford University Libraries",
+     "channel_url": "https://www.youtube.com/@thestanfordlibraries",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=_ZIHxHjnVHs",
+     "title": "Making Shakey - Peter Hart, SRI, retired",
+     "channel": "IEEE.RAS.ICRA",
+     "channel_url": "https://www.youtube.com/@IEEERASICRA",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-02"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

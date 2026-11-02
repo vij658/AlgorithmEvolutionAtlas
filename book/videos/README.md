@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**194 of 380 concepts searched, 494 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**195 of 380 concepts searched, 497 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -819,4 +819,15 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [The Fast Fourier Transform Algorithm](https://www.youtube.com/watch?v=EsJGuI7e_ZQ) | Barry Van Veen | Deeper |
 | FFT butterfly diagram | [Butterfly diagram for 4-point DFT (DIT-FFT)](https://www.youtube.com/watch?v=nqaFs-msgUQ) | Anish Turlapaty | Start |
 |  | [DIT FFT Algorithm for DFT Explained \| Calculations, Butterfly Diagram and Operational Complexity](https://www.youtube.com/watch?v=ypugupAO_tg) | Engineering Funda | Deeper |
+
+### Mutual Exclusion and the Semaphore ([in the book](../era-06-hard-problems-and-public-keys/02-semaphores/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| race condition | [Race Conditions Explained With An Example \| C Programming Tutorial](https://www.youtube.com/watch?v=K1aoimUYTK8) | Portfolio Courses | Start |
+|  | [Race Conditions in Java Multithreading](https://www.youtube.com/watch?v=RMR75VzYoos) | Jakob Jenkov | Start |
+|  | [Race Conditions - What is required and a Detailed Example (Concurrency - Video # 2)](https://www.youtube.com/watch?v=Lu6EghdDO5A) | Merlin Wellington | Deeper |
+| mutual exclusion | *not searched yet* | | |
+| semaphores Dijkstra | *not searched yet* | | |
+| dining philosophers problem | *not searched yet* | | |
 

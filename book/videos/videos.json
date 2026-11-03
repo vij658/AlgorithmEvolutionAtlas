@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 331,
+ "rounds": 332,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9818,11 +9818,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-09": {
+   "searched": "2026-11-03",
+   "query": "haversine formula great circle distance explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'Brian's Logic, the Haversine and Great Circles' (oEmbed check failed, not listed); Excel and PHP how-tos; navigation exam examples ('Example 2', 'Part 2'); a hashtag upload and an unlabelled 'Haversine Distance' upload",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=lSIVK82o2sI",
+     "title": "How to Calculate Distance between Geodetic Coordinates using Haversine Formula | d = R × c",
+     "channel": "Surveying Solutions",
+     "channel_url": "https://www.youtube.com/@SurveyingSolution",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=qi9KIKDpHKY",
+     "title": "Great Circle Distances, Longitude and Latitude",
+     "channel": "BurkeyAcademy",
+     "channel_url": "https://www.youtube.com/@BurkeyAcademy",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

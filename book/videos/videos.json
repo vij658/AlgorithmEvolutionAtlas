@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 392,
+ "rounds": 393,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11373,11 +11373,21 @@
     }
    ],
    "tries": 1
+  },
+  "e9-02-c3": {
+   "searched": "2026-11-03",
+   "query": "dropout regularization neural networks explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Hinton's lecture 6.4 on dropout was the best candidate",
+   "videos": [],
+   "tries": 1,
+   "error": "oEmbed checks returned a different video (stale answer); retry later"
   }
  },
  "pace": {
-  "delay": 120,
+  "delay": 240,
   "clean": 0,
-  "rejects": 5
+  "rejects": 6
  }
 }

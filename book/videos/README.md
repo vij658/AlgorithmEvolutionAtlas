@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**384 of 419 concepts searched, 940 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**385 of 419 concepts searched, 941 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1336,7 +1336,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Idea | Video | Channel | Level |
 |---|---|---|---|
 | convolutional neural network | [Neural Networks Part 8: Image Classification with Convolutional Neural Networks (CNNs)](https://www.youtube.com/watch?v=HGwBXDKFk9I) | StatQuest with Josh Starmer | Start |
-| AlexNet ImageNet 2012 | *not searched yet* | | |
+| AlexNet ImageNet 2012 | [[Classic] ImageNet Classification with Deep Convolutional Neural Networks (Paper Explained)](https://www.youtube.com/watch?v=Nq3auVtvd9Q) | Yannic Kilcher | Deeper |
 | ReLU and dropout in neural networks | *not searched yet* | | |
 
 ## The principles catalog

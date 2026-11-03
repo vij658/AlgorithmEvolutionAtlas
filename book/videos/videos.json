@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 391,
+ "rounds": 392,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11355,11 +11355,29 @@
     }
    ],
    "tries": 1
+  },
+  "e9-02-c2": {
+   "searched": "2026-11-03",
+   "query": "AlexNet ImageNet 2012 paper explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'2012 AlexNet and the Deep Learning Revolution' could not be confirmed (its oEmbed check returned a different video); Shorts, dramatized 'big bang' titles, a French exhibition clip and unidentified channels left out",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Nq3auVtvd9Q",
+     "title": "[Classic] ImageNet Classification with Deep Convolutional Neural Networks (Paper Explained)",
+     "channel": "Yannic Kilcher",
+     "channel_url": "https://www.youtube.com/@YannicKilcher",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
-  "delay": 60,
+  "delay": 120,
   "clean": 0,
-  "rejects": 4
+  "rejects": 5
  }
 }

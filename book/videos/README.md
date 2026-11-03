@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**385 of 419 concepts searched, 941 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**386 of 419 concepts searched, 942 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1338,6 +1338,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | convolutional neural network | [Neural Networks Part 8: Image Classification with Convolutional Neural Networks (CNNs)](https://www.youtube.com/watch?v=HGwBXDKFk9I) | StatQuest with Josh Starmer | Start |
 | AlexNet ImageNet 2012 | [[Classic] ImageNet Classification with Deep Convolutional Neural Networks (Paper Explained)](https://www.youtube.com/watch?v=Nq3auVtvd9Q) | Yannic Kilcher | Deeper |
 | ReLU and dropout in neural networks | *not searched yet* | | |
+
+### Word Embeddings ([in the book](../era-09-learning-at-scale/03-word-embeddings/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| word embeddings | [Word Embedding and Word2Vec, Clearly Explained!!!](https://www.youtube.com/watch?v=viZrOnJclY0) | StatQuest with Josh Starmer | Start |
+| word2vec | *not searched yet* | | |
+| skip-gram negative sampling | *not searched yet* | | |
 
 ## The principles catalog
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 393,
+ "rounds": 394,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11383,11 +11383,29 @@
    "videos": [],
    "tries": 1,
    "error": "oEmbed checks returned a different video (stale answer); retry later"
+  },
+  "e9-03-c1": {
+   "searched": "2026-11-03",
+   "query": "word embeddings explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "other explainers were not checked: new oEmbed lookups currently return a different video, so only the clearest candidate, already confirmed for the Era 9 catalog, is listed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=viZrOnJclY0",
+     "title": "Word Embedding and Word2Vec, Clearly Explained!!!",
+     "channel": "StatQuest with Josh Starmer",
+     "channel_url": "https://www.youtube.com/@statquest",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 240,
-  "clean": 0,
+  "clean": 1,
   "rejects": 6
  }
 }

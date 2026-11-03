@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 358,
+ "rounds": 359,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10599,11 +10599,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-36": {
+   "searched": "2026-11-03",
+   "query": "topological sort explained Kahn's algorithm DFS",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: the WilliamFiset video did not appear in this search; it was recalled and then confirmed by oEmbed like every other. MIT's '10. Depth-First Search' (listed in Era 6) was re-checked but its title does not name topological sort, so it is not listed here. Left out: numbered tutorial uploads and unlabelled 'Topological Sort' and 'Kahn's Algorithm' videos from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=eL-KzMXSXXI",
+     "title": "Topological Sort Algorithm | Graph Theory",
+     "channel": "WilliamFiset",
+     "channel_url": "https://www.youtube.com/@WilliamFiset-videos",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=73sneFXuTEg",
+     "title": "G-22. Kahn's Algorithm | Topological Sort Algorithm | BFS",
+     "channel": "take U forward",
+     "channel_url": "https://www.youtube.com/@takeUforward",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

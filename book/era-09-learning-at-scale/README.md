@@ -25,7 +25,7 @@
 | # | Topic | When | What hurt | Read |
 |---|---|---|---|---|
 | 1 | **Fully Homomorphic Encryption** | 2009; over the integers 2010 | Encrypted data had to be decrypted before anyone could compute with it | [page](01-homomorphic-encryption/README.md) · [interactive](01-homomorphic-encryption/homomorphic-encryption.html) · [program](../../code/era-09-learning-at-scale/01-homomorphic-encryption/README.md) |
-| 2 | **Deep Convolutional Networks** | September 2012 | Hand-made image features had stalled; deep networks were too slow to train | planned · [references](reference-catalog.md#2-deep-convolutional-networks) |
+| 2 | **Deep Convolutional Networks** | September 2012 | Hand-made image features had stalled; deep networks were too slow to train | [page](02-deep-convolutional-networks/README.md) · [interactive](02-deep-convolutional-networks/deep-convolutional-networks.html) · [program](../../code/era-09-learning-at-scale/02-deep-convolutional-networks/README.md) |
 | 3 | **Word Embeddings** | January and October 2013 | Words were symbols with no notion of likeness | planned · [references](reference-catalog.md#3-word-embeddings) |
 | 4 | **Raft** | 2014 | Paxos was correct but hard to understand and to build | planned · [references](reference-catalog.md#4-raft) |
 | 5 | **Adam** | December 2014 | One learning rate for millions of very different parameters | planned · [references](reference-catalog.md#5-adam) |

@@ -7,7 +7,7 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | # | Topic | When | Program | Checks |
 |---|---|---|---|---|
 | 1 | [Fully Homomorphic Encryption](01-homomorphic-encryption/README.md) | 2009–2010 | [`FullyHomomorphic.java`](01-homomorphic-encryption/FullyHomomorphic.java) | 3,864 |
-| 2 | Deep Convolutional Networks | 2012 | planned | |
+| 2 | [Deep Convolutional Networks](02-deep-convolutional-networks/README.md) | 2012 | [`ConvNet.java`](02-deep-convolutional-networks/ConvNet.java) | 26 |
 | 3 | Word Embeddings | 2013 | planned | |
 | 4 | Raft | 2014 | planned | |
 | 5 | Adam | 2014 | planned | |

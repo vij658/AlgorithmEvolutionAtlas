@@ -11,7 +11,7 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 3 | [Word Embeddings](03-word-embeddings/README.md) | 2013 | [`WordEmbeddings.java`](03-word-embeddings/WordEmbeddings.java) | 7 |
 | 4 | [Raft](04-raft/README.md) | 2014 | [`Raft.java`](04-raft/Raft.java) | 361,006 |
 | 5 | [Adam](05-adam/README.md) | 2014 | [`Adam.java`](05-adam/Adam.java) | 8 |
-| 6 | Byte-Pair Encoding for Words | 2015 | planned | |
+| 6 | [Byte-Pair Encoding for Words](06-byte-pair-encoding/README.md) | 2015 | [`BytePairEncoding.java`](06-byte-pair-encoding/BytePairEncoding.java) | 196 |
 | 7 | Residual Networks | 2015 | planned | |
 | 8 | Monte Carlo Tree Search and AlphaGo | 2006–2016 | planned | |
 | 9 | The Transformer | 2017 | planned | |

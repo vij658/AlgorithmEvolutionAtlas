@@ -17,5 +17,5 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 9 | [The Transformer](09-transformer/README.md) | 2017 | [`Transformer.java`](09-transformer/Transformer.java) | 6 |
 | 10 | [Lattice Cryptography and ML-KEM](10-lattice-cryptography/README.md) | 2017–2024 | [`LatticeKem.java`](10-lattice-cryptography/LatticeKem.java) | 11 |
 | 11 | [Diffusion Models](11-diffusion-models/README.md) | 2015–2020 | [`Diffusion.java`](11-diffusion-models/Diffusion.java) | 7 |
-| 12 | FlashAttention | 2022 | planned | |
+| 12 | [FlashAttention](12-flashattention/README.md) | 2022 | [`FlashAttention.java`](12-flashattention/FlashAttention.java) | 9 |
 | 13 | Algorithms That Find Algorithms | 2022–2025 | planned | |

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**352 of 380 concepts searched, 882 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**353 of 380 concepts searched, 884 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1574,4 +1574,11 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | a star search | [A* Pathfinding (E01: algorithm explanation)](https://www.youtube.com/watch?v=-L-WgKMFuhE) | Sebastian Lague | Start |
 |  | [A* (A Star) Search Algorithm - Computerphile](https://www.youtube.com/watch?v=ySN5Wnu88nE) | Computerphile | Start |
 |  | [COMP 3200 / 6980 - Intro to Artificial Intelligence - Lecture 05 - Heuristic Search + A* Algorithm](https://www.youtube.com/watch?v=9Wi5WutPiww) | Dave Churchill | Deeper |
+
+### Bellman ford floyd warshall johnson
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| bellman ford floyd warshall johnson | [4.4 Bellman Ford Algorithm - Single Source Shortest Path - Dynamic Programming](https://www.youtube.com/watch?v=FtN3BYH2Zes) | Abdul Bari | Start |
+|  | [4.2 All Pairs Shortest Path (Floyd-Warshall) - Dynamic Programming](https://www.youtube.com/watch?v=oNI0rf2P9gE) | Abdul Bari | Start |
 

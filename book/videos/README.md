@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**378 of 380 concepts searched, 932 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**379 of 380 concepts searched, 933 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1756,4 +1756,10 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | idempotency | [What is API Idempotency and Why Is It Important?](https://www.youtube.com/watch?v=I08syTslan8) | Be A Better Dev | Start |
 |  | [Idempotency and Intelligent Retry \| PayPal](https://www.youtube.com/watch?v=S3nq_Iq4eMI) | ByteMonk | Deeper |
+
+### Gossip
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| gossip | [Epidemic and Gossip Protocols](https://www.youtube.com/watch?v=-36j_DGXEwE) | Smruti R. Sarangi | Deeper |
 

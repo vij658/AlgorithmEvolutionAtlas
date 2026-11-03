@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 385,
+ "rounds": 386,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11231,11 +11231,29 @@
     }
    ],
    "tries": 1
+  },
+  "p-61": {
+   "searched": "2026-11-03",
+   "query": "gossip protocol epidemic distributed systems explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Only one video passed. Checked and left out: 'Gossip Protocols Explained: Distributed Systems' (CodeLucky, an unidentified generated-content channel, also rejected under streaming algorithms) and 'Gossip Protocols, Coordination, and Knowledge Limits' (ThoughtLab, channel does not say who presents). Also left out: 'Like Wildfire' and 'Secret to Decentralized Harmony' clickbait, a hashtag series, a Cassandra product tutorial, and a wireless-sensor-network clip",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=-36j_DGXEwE",
+     "title": "Epidemic and Gossip Protocols",
+     "channel": "Smruti R. Sarangi",
+     "channel_url": "https://www.youtube.com/@srsarangi",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

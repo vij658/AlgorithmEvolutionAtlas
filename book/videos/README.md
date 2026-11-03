@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**386 of 419 concepts searched, 942 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**393 of 419 concepts searched, 949 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1344,8 +1344,32 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Idea | Video | Channel | Level |
 |---|---|---|---|
 | word embeddings | [Word Embedding and Word2Vec, Clearly Explained!!!](https://www.youtube.com/watch?v=viZrOnJclY0) | StatQuest with Josh Starmer | Start |
-| word2vec | *not searched yet* | | |
+| word2vec | [Stanford CS224N: NLP with Deep Learning \| Winter 2021 \| Lecture 1 - Intro & Word Vectors](https://www.youtube.com/watch?v=rmVRLeJRkl4) | Stanford Online | Deeper |
 | skip-gram negative sampling | *not searched yet* | | |
+
+### Raft ([in the book](../era-09-learning-at-scale/04-raft/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| Raft consensus algorithm | [Distributed Systems 6.2: Raft](https://www.youtube.com/watch?v=uXEYuDwm7e4) | Martin Kleppmann | Deeper |
+| Raft leader election | *not searched yet* | | |
+| Raft log replication and safety | [Raft lecture (Raft user study)](https://www.youtube.com/watch?v=YbZ3zDzDnrw) | Diego Ongaro | Scholar |
+
+### Adam ([in the book](../era-09-learning-at-scale/05-adam/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| gradient descent with momentum | [Optimization for Deep Learning (Momentum, RMSprop, AdaGrad, Adam)](https://www.youtube.com/watch?v=NE88eqLngkg) | DeepBean | Start |
+| RMSProp | *not searched yet* | | |
+| Adam optimizer | [Adam Optimization Algorithm (C2W2L08)](https://www.youtube.com/watch?v=JXQT_vxqwIs) | DeepLearningAI | Deeper |
+
+### Byte-Pair Encoding for Words ([in the book](../era-09-learning-at-scale/06-byte-pair-encoding/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| tokenization in language models | [Let's build the GPT Tokenizer](https://www.youtube.com/watch?v=zduSFxRajkE) | Andrej Karpathy | Deeper |
+| byte pair encoding | [Byte Pair Encoding Tokenization](https://www.youtube.com/watch?v=HEikzVL-lZU) | Hugging Face | Start |
+| subword units rare words | *not searched yet* | | |
 
 ## The principles catalog
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 394,
+ "rounds": 401,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11396,6 +11396,132 @@
      "title": "Word Embedding and Word2Vec, Clearly Explained!!!",
      "channel": "StatQuest with Josh Starmer",
      "channel_url": "https://www.youtube.com/@statquest",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-03-c2": {
+   "searched": "2026-11-03",
+   "query": "word2vec lecture Stanford CS224N",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=rmVRLeJRkl4",
+     "title": "Stanford CS224N: NLP with Deep Learning | Winter 2021 | Lecture 1 - Intro & Word Vectors",
+     "channel": "Stanford Online",
+     "channel_url": "https://www.youtube.com/@stanfordonline",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-04-c1": {
+   "searched": "2026-11-03",
+   "query": "Raft consensus algorithm",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=uXEYuDwm7e4",
+     "title": "Distributed Systems 6.2: Raft",
+     "channel": "Martin Kleppmann",
+     "channel_url": "https://www.youtube.com/@kleppmann",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-04-c3": {
+   "searched": "2026-11-03",
+   "query": "Raft log replication and safety lecture",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=YbZ3zDzDnrw",
+     "title": "Raft lecture (Raft user study)",
+     "channel": "Diego Ongaro",
+     "channel_url": "https://www.youtube.com/@ongardie",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-05-c1": {
+   "searched": "2026-11-03",
+   "query": "gradient descent with momentum explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=NE88eqLngkg",
+     "title": "Optimization for Deep Learning (Momentum, RMSprop, AdaGrad, Adam)",
+     "channel": "DeepBean",
+     "channel_url": "https://www.youtube.com/@deepbean",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-05-c3": {
+   "searched": "2026-11-03",
+   "query": "Adam optimizer explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=JXQT_vxqwIs",
+     "title": "Adam Optimization Algorithm (C2W2L08)",
+     "channel": "DeepLearningAI",
+     "channel_url": "https://www.youtube.com/@Deeplearningai",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-06-c1": {
+   "searched": "2026-11-03",
+   "query": "tokenization in language models",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=zduSFxRajkE",
+     "title": "Let's build the GPT Tokenizer",
+     "channel": "Andrej Karpathy",
+     "channel_url": "https://www.youtube.com/@AndrejKarpathy",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-06-c2": {
+   "searched": "2026-11-03",
+   "query": "byte pair encoding tokenization",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=HEikzVL-lZU",
+     "title": "Byte Pair Encoding Tokenization",
+     "channel": "Hugging Face",
+     "channel_url": "https://www.youtube.com/@HuggingFace",
      "level": "start",
      "checked": "YouTube oEmbed, 2026-11-03"
     }

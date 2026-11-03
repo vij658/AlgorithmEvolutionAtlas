@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 371,
+ "rounds": 372,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10961,11 +10961,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-49": {
+   "searched": "2026-11-03",
+   "query": "tail at scale tail latency fan-out Jeff Dean talk",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'Latency is a distribution, not a number' (checked; a channel that does not say who presents), an 'AI System Design Series' episode, and Jeff Dean interviews and colloquia that are not about tail latency. No talk by the paper's authors on this topic was found.",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=1Qxnrf2pW10",
+     "title": "Read a paper: The Tail at Scale",
+     "channel": "Vivek Haldar",
+     "channel_url": "https://www.youtube.com/@VivekHaldar",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=HBeFe4Ojxvs",
+     "title": "The Tail at Scale - and building distributed systems",
+     "channel": "Hasgeek TV",
+     "channel_url": "https://www.youtube.com/@HasGeekTV",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

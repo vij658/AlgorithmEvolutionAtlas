@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**383 of 419 concepts searched, 939 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**384 of 419 concepts searched, 940 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1330,6 +1330,14 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |  | [Homomorphic Encryption Explained](https://www.youtube.com/watch?v=hroyj8R8h60) | The Code Bit | Start |
 | fully homomorphic encryption | [Introduction to FHE (Fully Homomorphic Encryption) - Pascal Paillier, FHE.org Meetup](https://www.youtube.com/watch?v=aruz58RarVA) | Zama | Deeper |
 | bootstrapping homomorphic encryption Gentry | [A Decade (or so) of fully homomorphic encryption, by Craig Gentry](https://www.youtube.com/watch?v=487AjvFW1lk) | IACR | Scholar |
+
+### Deep Convolutional Networks ([in the book](../era-09-learning-at-scale/02-deep-convolutional-networks/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| convolutional neural network | [Neural Networks Part 8: Image Classification with Convolutional Neural Networks (CNNs)](https://www.youtube.com/watch?v=HGwBXDKFk9I) | StatQuest with Josh Starmer | Start |
+| AlexNet ImageNet 2012 | *not searched yet* | | |
+| ReLU and dropout in neural networks | *not searched yet* | | |
 
 ## The principles catalog
 

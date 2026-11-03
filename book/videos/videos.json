@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 390,
+ "rounds": 391,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11337,11 +11337,29 @@
     }
    ],
    "tries": 1
+  },
+  "e9-02-c1": {
+   "searched": "2026-11-03",
+   "query": "convolutional neural network explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Computerphile's and IBM Technology's explainers could not be confirmed (their oEmbed checks returned a different video); 'in three minutes' clips and unidentified channels left out",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=HGwBXDKFk9I",
+     "title": "Neural Networks Part 8: Image Classification with Convolutional Neural Networks (CNNs)",
+     "channel": "StatQuest with Josh Starmer",
+     "channel_url": "https://www.youtube.com/@statquest",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
-  "delay": 30,
+  "delay": 60,
   "clean": 0,
-  "rejects": 3
+  "rejects": 4
  }
 }

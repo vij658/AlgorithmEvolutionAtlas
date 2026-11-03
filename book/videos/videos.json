@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 346,
+ "rounds": 347,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10239,11 +10239,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-24": {
+   "searched": "2026-11-03",
+   "query": "greedy algorithms explained when greedy works",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: both listed videos were recalled and then confirmed by oEmbed like every other; this search did not show them. Left out: 'Introduction to Greedy Algorithms' by edutechional (checked; a web-development tutorial channel), a 'Paid Course Recordings' upload, hashtag quick guides, a Bengali-audio video, and 'visually explained' uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=ARvQcqJ_-NY",
+     "title": "3. Greedy Method - Introduction",
+     "channel": "Abdul Bari",
+     "channel_url": "https://www.youtube.com/@abdul_bari",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=tKwnms5iRBU",
+     "title": "12. Greedy Algorithms: Minimum Spanning Tree",
+     "channel": "MIT OpenCourseWare",
+     "channel_url": "https://www.youtube.com/@mitocw",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

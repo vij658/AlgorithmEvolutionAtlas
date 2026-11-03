@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**351 of 380 concepts searched, 879 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**352 of 380 concepts searched, 882 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1566,4 +1566,12 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | dijkstra | [How Dijkstra's Algorithm Works](https://www.youtube.com/watch?v=EFg3u_E6eHU) | Spanning Tree | Start |
 |  | [Graph Data Structure 4. Dijkstra’s Shortest Path Algorithm](https://www.youtube.com/watch?v=pVfj6mxhdMw) | Computer Science Lessons | Start |
 |  | [3.6 Dijkstra Algorithm - Single Source Shortest Path - Greedy Method](https://www.youtube.com/watch?v=XB4MIexjvY0) | Abdul Bari | Deeper |
+
+### A star search
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| a star search | [A* Pathfinding (E01: algorithm explanation)](https://www.youtube.com/watch?v=-L-WgKMFuhE) | Sebastian Lague | Start |
+|  | [A* (A Star) Search Algorithm - Computerphile](https://www.youtube.com/watch?v=ySN5Wnu88nE) | Computerphile | Start |
+|  | [COMP 3200 / 6980 - Intro to Artificial Intelligence - Lecture 05 - Heuristic Search + A* Algorithm](https://www.youtube.com/watch?v=9Wi5WutPiww) | Dave Churchill | Deeper |
 

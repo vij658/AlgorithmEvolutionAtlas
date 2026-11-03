@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 356,
+ "rounds": 357,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10539,11 +10539,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-34": {
+   "searched": "2026-11-03",
+   "query": "A* search algorithm explained heuristic",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Sebastian Lague and Computerphile are also listed in Era 6 (A*) and were re-checked today. Left out: a Telugu-language video, a '2 minutes' clip, and unlabelled 'A Star' uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=-L-WgKMFuhE",
+     "title": "A* Pathfinding (E01: algorithm explanation)",
+     "channel": "Sebastian Lague",
+     "channel_url": "https://www.youtube.com/@SebastianLague",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ySN5Wnu88nE",
+     "title": "A* (A Star) Search Algorithm - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=9Wi5WutPiww",
+     "title": "COMP 3200 / 6980 - Intro to Artificial Intelligence - Lecture 05 - Heuristic Search + A* Algorithm",
+     "channel": "Dave Churchill",
+     "channel_url": "https://www.youtube.com/@DaveChurchill",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

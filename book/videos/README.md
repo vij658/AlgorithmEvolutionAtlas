@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**323 of 380 concepts searched, 812 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**324 of 380 concepts searched, 814 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1358,4 +1358,11 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | hamming distance | [Error correction codes (Hamming coding)](https://www.youtube.com/watch?v=cBBTWcHkVVY) | Art of the Problem | Start |
 |  | [But what are Hamming codes? The origin of error correction](https://www.youtube.com/watch?v=X8jsijhllIA) | 3Blue1Brown | Start |
+
+### Levenshtein edit distance
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| levenshtein edit distance | [Minimum Edit Distance Dynamic Programming](https://www.youtube.com/watch?v=We3YDTzNXEk) | Tushar Roy - Coding Made Simple | Start |
+|  | [ADS1: Using dynamic programming for edit distance](https://www.youtube.com/watch?v=eAVGRWSryGo) | Ben Langmead | Deeper |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 328,
+ "rounds": 329,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9724,11 +9724,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-06": {
+   "searched": "2026-11-03",
+   "query": "Levenshtein edit distance dynamic programming explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'Dynamic Programming: Levenshtein distance' (checked; French-language), a Chinese-language video, LeetCode 72 coding walkthroughs and hashtag uploads, and a tree-edit-distance video (a different problem)",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=We3YDTzNXEk",
+     "title": "Minimum Edit Distance Dynamic Programming",
+     "channel": "Tushar Roy - Coding Made Simple",
+     "channel_url": "https://www.youtube.com/@tusharroy2525",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=eAVGRWSryGo",
+     "title": "ADS1: Using dynamic programming for edit distance",
+     "channel": "Ben Langmead",
+     "channel_url": "https://www.youtube.com/@BenLangmead",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

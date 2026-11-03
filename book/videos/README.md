@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**328 of 380 concepts searched, 825 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**329 of 380 concepts searched, 827 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1396,4 +1396,11 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | metric axioms | [What is a metric space? An example](https://www.youtube.com/watch?v=6CLl5xx5X-Y) | Dr Chris Tisdell | Start |
 |  | [Introduction to Metric Spaces](https://www.youtube.com/watch?v=4lthpDkhMoU) | The Math Sorcerer | Start |
 |  | [Metric Spaces Introduction, Real Analysis II](https://www.youtube.com/watch?v=oz-LycQIL8g) | Dr. Bevin Maultsby | Deeper |
+
+### Square and multiply and rsa
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| square and multiply and rsa | [Public Key Cryptography: RSA Encryption](https://www.youtube.com/watch?v=wXB-V_Keiu8) | Art of the Problem | Start |
+|  | [Modular exponentiation](https://www.youtube.com/watch?v=EHUgNLN8F1Y) | GVSUmath | Deeper |
 

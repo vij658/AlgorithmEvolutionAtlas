@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 333,
+ "rounds": 334,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9878,11 +9878,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-11": {
+   "searched": "2026-11-03",
+   "query": "square and multiply modular exponentiation RSA explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Both listed videos also appear in earlier eras (RSA; exponentiation by squaring) and were re-checked today. Left out: 'Square and Multiply' by Tobias Sell (checked; a personal channel), a seven-part 'Applied Cryptography' series from an unidentified channel, a school-club recording, and modulo-arithmetic basics",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=wXB-V_Keiu8",
+     "title": "Public Key Cryptography: RSA Encryption",
+     "channel": "Art of the Problem",
+     "channel_url": "https://www.youtube.com/@ArtOfTheProblem",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=EHUgNLN8F1Y",
+     "title": "Modular exponentiation",
+     "channel": "GVSUmath",
+     "channel_url": "https://www.youtube.com/@GVSUmath",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

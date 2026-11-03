@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 378,
+ "rounds": 379,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11083,11 +11083,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-55": {
+   "searched": "2026-11-03",
+   "query": "rate limiting algorithms token bucket leaky bucket explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Hashtag and 'Get You Hired' interview clips, a Valkey/Redis product how-to, a numbered system-design series episode, and 'The 4 Algorithms Behind Every 429' and 'API Rate Limiting Algorithms' uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=mQCJJqUfn9Y",
+     "title": "Five Rate Limiting Algorithms ~ Key Concepts in System Design",
+     "channel": "Hello Byte",
+     "channel_url": "https://www.youtube.com/@hello-byte",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=mhUQe4BKZXs",
+     "title": "Rate Limiting system design | TOKEN BUCKET, Leaky Bucket, Sliding Logs",
+     "channel": "Tech Dummies - Narendra Lakshmana Gowda",
+     "channel_url": "https://www.youtube.com/@TechDummiesNarendraL",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

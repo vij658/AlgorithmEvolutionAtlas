@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 377,
+ "rounds": 378,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11057,11 +11057,37 @@
    "rejected": "No suitable video found. Checked and left out: 'Autopsy of a Retry Storm' (deferstech) and 'Retry Storms Explained' (Programming Tutorials), whose channels do not say who presents, and 'The Anatomy of a Cascading Failure' (Datadog, a monitoring vendor; its title does not mention retries). Also left out: Shorts, error-budget videos (a different SRE idea that shares the word 'budget'), SREcon recaps and lightning talks, a Russian-language video, and the backoff clickbait already rejected under p-52",
    "videos": [],
    "tries": 1
+  },
+  "p-54": {
+   "searched": "2026-11-03",
+   "query": "circuit breaker pattern microservices explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'Understanding the Circuit Breaker Pattern | Resilience4J | Spring Boot' (checked; a framework how-to), interview-question clips, and several tutorial uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=dJI2saoM5_k",
+     "title": "Circuit Breaker Pattern in Microservices",
+     "channel": "ByteMonk",
+     "channel_url": "https://www.youtube.com/@ByteMonk",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ADHcBxEXvFA",
+     "title": "Circuit Breaker Pattern - Fault Tolerant Microservices",
+     "channel": "Defog Tech",
+     "channel_url": "https://www.youtube.com/@DefogTech",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

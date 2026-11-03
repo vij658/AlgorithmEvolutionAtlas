@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 343,
+ "rounds": 344,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10145,11 +10145,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-21": {
+   "searched": "2026-11-03",
+   "query": "divide and conquer algorithms explained lecture",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: the Abdul Bari and MIT videos did not appear in this search; they were recalled and then confirmed by oEmbed like every other. Left out: '100 seconds' and '8 Minutes' quick clips, numbered course clips from uploaders that do not name the course, and a stylised 'LE PROF' upload",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=ib4BHvr5-Ao",
+     "title": "Divide and Conquer: The Art of Breaking Down Problems | Recursion Series",
+     "channel": "WilliamFiset",
+     "channel_url": "https://www.youtube.com/@WilliamFiset-videos",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=2Rr2tW9zvRg",
+     "title": "2 Divide And Conquer",
+     "channel": "Abdul Bari",
+     "channel_url": "https://www.youtube.com/@abdul_bari",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=EzeYI7p9MjU",
+     "title": "2. Divide & Conquer: Convex Hull, Median Finding",
+     "channel": "MIT OpenCourseWare",
+     "channel_url": "https://www.youtube.com/@mitocw",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

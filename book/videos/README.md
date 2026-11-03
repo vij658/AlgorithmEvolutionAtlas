@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**338 of 380 concepts searched, 846 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**339 of 380 concepts searched, 849 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1468,4 +1468,12 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Idea | Video | Channel | Level |
 |---|---|---|---|
 | integer hazards and pigeonhole | [PIGEONHOLE PRINCIPLE - DISCRETE MATHEMATICS](https://www.youtube.com/watch?v=2-mxYrCNX60) | TrevTutor | Start |
+
+### Divide and conquer
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| divide and conquer | [Divide and Conquer: The Art of Breaking Down Problems \| Recursion Series](https://www.youtube.com/watch?v=ib4BHvr5-Ao) | WilliamFiset | Start |
+|  | [2 Divide And Conquer](https://www.youtube.com/watch?v=2Rr2tW9zvRg) | Abdul Bari | Start |
+|  | [2. Divide & Conquer: Convex Hull, Median Finding](https://www.youtube.com/watch?v=EzeYI7p9MjU) | MIT OpenCourseWare | Deeper |
 

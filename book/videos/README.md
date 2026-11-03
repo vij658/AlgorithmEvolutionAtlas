@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**355 of 380 concepts searched, 889 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**356 of 380 concepts searched, 891 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1596,4 +1596,11 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | union find and minimum spanning trees | [Union Find Introduction](https://www.youtube.com/watch?v=ibjEGG7ylHk) | WilliamFiset | Start |
 |  | [Union Find Kruskal's Algorithm](https://www.youtube.com/watch?v=JZBQLXgSGfs) | WilliamFiset | Start |
 |  | [12. Greedy Algorithms: Minimum Spanning Tree](https://www.youtube.com/watch?v=tKwnms5iRBU) | MIT OpenCourseWare | Deeper |
+
+### Bloom filter
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| bloom filter | [Bloom filters, part 1](https://www.youtube.com/watch?v=KaQ9wOrRwow) | Ben Langmead | Start |
+|  | [Bloom Filters](https://www.youtube.com/watch?v=bEmBh1HtYrw) | Yoav Freund | Deeper |
 

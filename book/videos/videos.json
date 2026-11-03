@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 360,
+ "rounds": 361,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10659,11 +10659,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-38": {
+   "searched": "2026-11-03",
+   "query": "Bloom filter explained false positives",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'Explainer: Bloom Filters' (checked; a personal channel), Shorts, 'Visualized (Definitely No or Probably Yes)' and other uploads from unidentified channels, and a numbered '19. Bloom Filter' clip; Langmead's part 2 continues part 1",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=KaQ9wOrRwow",
+     "title": "Bloom filters, part 1",
+     "channel": "Ben Langmead",
+     "channel_url": "https://www.youtube.com/@BenLangmead",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=bEmBh1HtYrw",
+     "title": "Bloom Filters",
+     "channel": "Yoav Freund",
+     "channel_url": "https://www.youtube.com/@yoavfreund",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

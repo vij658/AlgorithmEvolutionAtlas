@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 339,
+ "rounds": 340,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10066,11 +10066,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-17": {
+   "searched": "2026-11-03",
+   "query": "Luhn algorithm credit card checksum explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Python, JavaScript and Exercism coding solutions, a Short, a personal-finance channel episode, and unlabelled 'Luhn Algorithm' uploads",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=PNXXqzU4YnM",
+     "title": "Math for Liberal Studies: The Luhn Algorithm",
+     "channel": "James Hamblin",
+     "channel_url": "https://www.youtube.com/@HamblinMath",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=kMpEj7roKxM",
+     "title": "Checksums: The Luhn Algorithm for Verifying Credit Card Numbers",
+     "channel": "Barry Brown",
+     "channel_url": "https://www.youtube.com/@profbbrown",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

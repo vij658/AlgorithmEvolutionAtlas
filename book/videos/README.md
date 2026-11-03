@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**381 of 419 concepts searched, 937 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**382 of 419 concepts searched, 938 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1328,7 +1328,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | homomorphic encryption explained | [How To Compute With Encrypted Data](https://www.youtube.com/watch?v=fLjPGhCDzKY) | TechTechPotato | Start |
 |  | [Homomorphic Encryption Explained](https://www.youtube.com/watch?v=hroyj8R8h60) | The Code Bit | Start |
-| fully homomorphic encryption | *not searched yet* | | |
+| fully homomorphic encryption | [Introduction to FHE (Fully Homomorphic Encryption) - Pascal Paillier, FHE.org Meetup](https://www.youtube.com/watch?v=aruz58RarVA) | Zama | Deeper |
 | bootstrapping homomorphic encryption Gentry | *not searched yet* | | |
 
 ## The principles catalog

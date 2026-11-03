@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 388,
+ "rounds": 389,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11301,11 +11301,29 @@
     }
    ],
    "tries": 1
+  },
+  "e9-01-c2": {
+   "searched": "2026-11-03",
+   "query": "fully homomorphic encryption lecture",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Shai Halevi's talk, a 3-minute introduction by a cryptographer and Ilaria Chillotti's Simons Institute lecture could not be confirmed (each oEmbed check returned a different video); numbered podcast episodes and company webinars left out",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=aruz58RarVA",
+     "title": "Introduction to FHE (Fully Homomorphic Encryption) - Pascal Paillier, FHE.org Meetup",
+     "channel": "Zama",
+     "channel_url": "https://www.youtube.com/@zama_fhe",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

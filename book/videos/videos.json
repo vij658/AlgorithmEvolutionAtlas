@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 370,
+ "rounds": 371,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10935,11 +10935,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-48": {
+   "searched": "2026-11-03",
+   "query": "page replacement LRU optimal Belady's anomaly explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Hindi-language lectures, hashtag uploads, and several near-identical 'Belady's Anomaly in FIFO' exam examples from unidentified channels. No research-level video on Belady's MIN (optimal) algorithm turned up.",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=KqjtNLPb5MM",
+     "title": "Memory Management Part 8 - Page Replacement Algorithms (FIFO, Optimal Replacement, LRU Algorithms)",
+     "channel": "Master CS & UGC NET with Professor Srinivasan",
+     "channel_url": "https://www.youtube.com/@SrinivasanA91",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=lfOOkEZLG-w",
+     "title": "Lec30 Belady's Anomaly in FIFO page replacement algorithm with example | Operating System",
+     "channel": "Jenny's Lectures CS IT",
+     "channel_url": "https://www.youtube.com/@JennyslecturesCSIT",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

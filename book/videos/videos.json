@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 365,
+ "rounds": 366,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10813,11 +10813,29 @@
     }
    ],
    "tries": 1
+  },
+  "p-43": {
+   "searched": "2026-11-03",
+   "query": "Amdahl's law Gustafson's law explained parallel speedup; Karp-Flatt metric experimentally determined serial fraction",
+   "host": "youtube.com",
+   "candidates": 18,
+   "rejected": "Only one video passed. 'Amdahl’s and Gustafson’s Laws - Parallel Programming: Ch. 2, Pt. 3' (checked; a personal channel that does not say whose course it is), emoji-titled and Short 'Amdahl's Law Explained' uploads, and 'Understanding Gustafson's Law' and 'Gustafson's Law Explained' from unidentified channels were left out. The Karp-Flatt search returned nothing on the metric (only unrelated Karp algorithms and lab videos).",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=9xSiDO2CWbE",
+     "title": "Computer Architecture Performance: Part 2: Amdahl's Law and Gustafson's Law",
+     "channel": "Gedare Bloom",
+     "channel_url": "https://www.youtube.com/@gedare",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

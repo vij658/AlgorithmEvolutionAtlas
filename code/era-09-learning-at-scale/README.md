@@ -18,4 +18,4 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 10 | [Lattice Cryptography and ML-KEM](10-lattice-cryptography/README.md) | 2017–2024 | [`LatticeKem.java`](10-lattice-cryptography/LatticeKem.java) | 11 |
 | 11 | [Diffusion Models](11-diffusion-models/README.md) | 2015–2020 | [`Diffusion.java`](11-diffusion-models/Diffusion.java) | 7 |
 | 12 | [FlashAttention](12-flashattention/README.md) | 2022 | [`FlashAttention.java`](12-flashattention/FlashAttention.java) | 9 |
-| 13 | Algorithms That Find Algorithms | 2022–2025 | planned | |
+| 13 | [Algorithms That Find Algorithms](13-algorithms-that-find-algorithms/README.md) | 2022–2025 | [`AlgorithmDiscovery.java`](13-algorithms-that-find-algorithms/AlgorithmDiscovery.java) | 31 |

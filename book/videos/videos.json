@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 340,
+ "rounds": 341,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10092,11 +10092,20 @@
     }
    ],
    "tries": 1
+  },
+  "p-18": {
+   "searched": "2026-11-03",
+   "query": "Kahan summation algorithm compensated summation floating point; \"Kahan summation\" explained",
+   "host": "youtube.com",
+   "candidates": 12,
+   "rejected": "No suitable video could be confirmed. The only explainer found, 'Fixing Roundoff Error, part 2: Kahan summation & double doubles', failed its oEmbed check (it may be private or not embeddable), so it is not listed. 'Kahan on the 8087 and designing Intel's floating point' is William Kahan himself but on the Turing Awardee Clips reupload channel. Left out too: general floating-point addition lectures that do not cover compensated summation, a C++ Q&A clip, and an unrelated 'Kahn's algorithm' (topological sort). Neumaier's variant has no video at all.",
+   "videos": [],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

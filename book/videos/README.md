@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**335 of 380 concepts searched, 843 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**336 of 380 concepts searched, 843 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1449,4 +1449,10 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | luhn checksum | [Math for Liberal Studies: The Luhn Algorithm](https://www.youtube.com/watch?v=PNXXqzU4YnM) | James Hamblin | Start |
 |  | [Checksums: The Luhn Algorithm for Verifying Credit Card Numbers](https://www.youtube.com/watch?v=kMpEj7roKxM) | Barry Brown | Start |
+
+### Kahan and neumaier summation
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| kahan and neumaier summation | *no suitable video found* | | |
 

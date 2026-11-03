@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**377 of 380 concepts searched, 930 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**378 of 380 concepts searched, 932 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1749,4 +1749,11 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | crdts | ["CRDTs Illustrated" by Arnout Engelen](https://www.youtube.com/watch?v=9xFfOhasiOE) | Strange Loop Conference | Start |
 |  | [CRDTs: The Hard Parts](https://www.youtube.com/watch?v=x7drE24geUw) | Martin Kleppmann | Scholar |
+
+### Idempotency
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| idempotency | [What is API Idempotency and Why Is It Important?](https://www.youtube.com/watch?v=I08syTslan8) | Be A Better Dev | Start |
+|  | [Idempotency and Intelligent Retry \| PayPal](https://www.youtube.com/watch?v=S3nq_Iq4eMI) | ByteMonk | Deeper |
 

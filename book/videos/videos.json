@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 384,
+ "rounds": 385,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11205,11 +11205,37 @@
     }
    ],
    "tries": 2
+  },
+  "p-60": {
+   "searched": "2026-11-03",
+   "query": "idempotency APIs idempotency keys explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'Idempotency in APIs: you should be aware of this!' (checked; clickbait title), a Short, a Ukrainian-language video, a REST how-to and several 'Explained' uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=I08syTslan8",
+     "title": "What is API Idempotency and Why Is It Important?",
+     "channel": "Be A Better Dev",
+     "channel_url": "https://www.youtube.com/@BeABetterDev",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=S3nq_Iq4eMI",
+     "title": "Idempotency and Intelligent Retry | PayPal",
+     "channel": "ByteMonk",
+     "channel_url": "https://www.youtube.com/@ByteMonk",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

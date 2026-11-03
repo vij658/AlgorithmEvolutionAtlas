@@ -419,7 +419,7 @@ No secondary page was opened for this topic; the two papers below are short and 
 
 > **Field note.** Destroying a picture is easy: add a little noise, then a little more, a thousand times, and any picture becomes static. In 2015 Sohl-Dickstein and three colleagues, borrowing an idea from the physics of systems out of equilibrium, proposed generating pictures by learning to run that process backwards. Each backward step only has to remove a little noise, which a network can learn from examples, since the forward step is known exactly. The idea waited five years for its moment: in 2020 Ho, Jain and Abbeel simplified the training to a single instruction (here is a noisy picture; guess the noise that was added) and produced images as good as the best of the competing methods. Start from pure static, subtract the predicted noise step by step, and a picture appears that was never in the training set.
 
-**What hurt:** generative models were hard to train (adversarial networks were unstable) or produced blurry samples; sampling from a complicated distribution of images had no simple recipe.
+**What hurt:** sampling new examples from a complicated distribution, such as the distribution of photographs, had no simple and reliable recipe.
 **The step forward:** a fixed forward process that adds Gaussian noise in many small steps, with a closed form for any step, and a network trained to predict the added noise; sampling runs the steps in reverse.
 
 **Evidence and certainty**

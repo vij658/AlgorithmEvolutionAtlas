@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 366,
+ "rounds": 367,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10831,11 +10831,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-44": {
+   "searched": "2026-11-03",
+   "query": "universal scalability law Neil Gunther talk",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "The scholar talk is Neil Gunther, who formulated the law. Left out: a duplicate upload of the same talk title, a modeling-workbook demo, a podcast episode, a long Gunther analytics seminar, and unrelated 'scaling laws' results (biology, physics, AI). No beginner-level video found.",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=lZU6RK0oazM",
+     "title": "LISA17 - Scalability Is Quantifiable: The Universal Scalability Law",
+     "channel": "USENIX",
+     "channel_url": "https://www.youtube.com/@UsenixOrg",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=cuieNj3NrZ8",
+     "title": "Applying The Universal Scalability Law to Distributed Systems by Dr. Neil J. Gunther",
+     "channel": "Distributed Systems Conference",
+     "channel_url": "https://www.youtube.com/@dsconf",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

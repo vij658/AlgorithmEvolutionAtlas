@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 338,
+ "rounds": 339,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10040,11 +10040,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-16": {
+   "searched": "2026-11-03",
+   "query": "Shannon entropy explained intuition bits",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Both are also listed in Era 4 (Shannon's information theory) and were re-checked today. A recalled StatQuest entropy video ID turned out, on checking, to be a different video by another channel, so it is not listed. Left out: decision-tree and machine-learning entropy clips, a physics-daily episode, a computational-linguistics lecture on letter entropy (narrower), and 'Why ... Works So Well' from an unidentified channel",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=R4OlXb9aTvQ",
+     "title": "Shannon's Information Entropy (Physical Analogy)",
+     "channel": "Art of the Problem",
+     "channel_url": "https://www.youtube.com/@ArtOfTheProblem",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=LodZWzrbayY",
+     "title": "(Info 1.1) Entropy - Definition",
+     "channel": "mathematicalmonk",
+     "channel_url": "https://www.youtube.com/@mathematicalmonk",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

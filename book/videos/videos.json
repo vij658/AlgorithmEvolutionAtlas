@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 336,
+ "rounds": 337,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9972,11 +9972,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-14": {
+   "searched": "2026-11-03",
+   "query": "Gray code explained binary reflected; bit manipulation tricks explained x & (x-1) lowest set bit",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "Note: the HackerRank video (Gayle Laakmann McDowell) did not appear in these searches; it was recalled and then confirmed by oEmbed like every other. Left out: Make School's 'Bit Manipulation' (checked; HackerRank's covers the same ground), interview-hack clickbait, assembly-language and set-bit-counting exercises, a lecturer-named digital-logic class video, and unlabelled 'Gray Code' uploads",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=NLKQEOgBAnw",
+     "title": "Algorithms: Bit Manipulation",
+     "channel": "HackerRank",
+     "channel_url": "https://www.youtube.com/@HackerrankOfficial",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=a2OqhXHKSkI",
+     "title": "Discrete Math: 05. Binary Reflected Gray Codes",
+     "channel": "Sarada Herke",
+     "channel_url": "https://www.youtube.com/@SaradaHerke",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=ymkIDOMS5kE",
+     "title": "13.SFI / Thomas H. Cormen / Dense and Cyclic Gray Codes for Binary, Fixed, and Mixed Radices",
+     "channel": "Studencki Festiwal Informatyczny",
+     "channel_url": "https://www.youtube.com/@StudenckiFestiwalInf",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

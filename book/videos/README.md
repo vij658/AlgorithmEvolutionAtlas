@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**393 of 419 concepts searched, 949 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**405 of 419 concepts searched, 962 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1370,6 +1370,63 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | tokenization in language models | [Let's build the GPT Tokenizer](https://www.youtube.com/watch?v=zduSFxRajkE) | Andrej Karpathy | Deeper |
 | byte pair encoding | [Byte Pair Encoding Tokenization](https://www.youtube.com/watch?v=HEikzVL-lZU) | Hugging Face | Start |
 | subword units rare words | *not searched yet* | | |
+
+### Residual Networks ([in the book](../era-09-learning-at-scale/07-residual-networks/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| vanishing gradients in deep networks | *not searched yet* | | |
+| ResNet residual connections | [[Classic] Deep Residual Learning for Image Recognition (Paper Explained)](https://www.youtube.com/watch?v=GWt6Fu05voI) | Yannic Kilcher | Deeper |
+| deep residual learning paper | [Deep Residual Learning for Image Recognition](https://www.youtube.com/watch?v=C6tLw-rPQ2o) | ComputerVisionFoundation Videos | Scholar |
+
+### Monte Carlo Tree Search and AlphaGo ([in the book](../era-09-learning-at-scale/08-monte-carlo-tree-search/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| Monte Carlo tree search | [Monte Carlo Tree Search](https://www.youtube.com/watch?v=UXW2yZndl7U) | John Levine | Start |
+| UCT upper confidence bounds applied to trees | *not searched yet* | | |
+| AlphaGo | [AlphaGo - The Movie \| Full award-winning documentary](https://www.youtube.com/watch?v=WXuK6gekU1Y) | Google DeepMind | Start |
+
+### The Transformer ([in the book](../era-09-learning-at-scale/09-transformer/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| attention mechanism | [Attention in transformers, step-by-step \| Deep Learning Chapter 6](https://www.youtube.com/watch?v=eMlx5fFNoYc) | 3Blue1Brown | Start |
+| self-attention queries keys values | *not searched yet* | | |
+| transformer architecture | [Let's build GPT: from scratch, in code, spelled out.](https://www.youtube.com/watch?v=kCc8FmEb1nY) | Andrej Karpathy | Deeper |
+
+### Lattice Cryptography and ML-KEM ([in the book](../era-09-learning-at-scale/10-lattice-cryptography/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| post-quantum cryptography | *not searched yet* | | |
+| learning with errors | [Learning with errors: Encrypting with unsolvable equations](https://www.youtube.com/watch?v=K026C5YaB3A) | Chalk Talk | Start |
+|  | [Learning With Errors (LWE) and Public Key Encryption \|\| @ CMU \|\| Lecture 25d of CS Theory Toolkit](https://www.youtube.com/watch?v=QcVns57MTxg) | Ryan O'Donnell | Deeper |
+| Kyber ML-KEM | *not searched yet* | | |
+
+### Diffusion Models ([in the book](../era-09-learning-at-scale/11-diffusion-models/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| diffusion models | [But how do AI images and videos actually work? \| Guest video by Welch Labs](https://www.youtube.com/watch?v=iv-5mZ_9CPY) | 3Blue1Brown | Start |
+| denoising diffusion probabilistic models | [Diffusion Models \| Paper Explanation \| Math Explained](https://www.youtube.com/watch?v=HoKDTa5jHvg) | Outlier | Deeper |
+| score matching diffusion | *not searched yet* | | |
+
+### FlashAttention ([in the book](../era-09-learning-at-scale/12-flashattention/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| GPU memory hierarchy | *not searched yet* | | |
+| online softmax | [Flash Attention derived and coded from first principles with Triton (Python)](https://www.youtube.com/watch?v=zy8ChVd_oTM) | Umar Jamil | Deeper |
+| FlashAttention | [FlashAttention - Tri Dao \| Stanford MLSys #67](https://www.youtube.com/watch?v=gMOAud7hZg4) | Stanford MLSys Seminars | Scholar |
+
+### Algorithms That Find Algorithms ([in the book](../era-09-learning-at-scale/13-algorithms-that-find-algorithms/README.md))
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| matrix multiplication algorithms | *not searched yet* | | |
+| Strassen algorithm | *not searched yet* | | |
+| AlphaTensor | [Matej Balog - AlphaTensor: Discover faster matrix multiplication algorithms with RL - IPAM at UCLA](https://www.youtube.com/watch?v=QJT3LszR2pA) | Institute for Pure & Applied Mathematics (IPAM) | Scholar |
 
 ## The principles catalog
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 401,
+ "rounds": 413,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11523,6 +11523,230 @@
      "channel": "Hugging Face",
      "channel_url": "https://www.youtube.com/@HuggingFace",
      "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-07-c2": {
+   "searched": "2026-11-03",
+   "query": "ResNet residual connections explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=GWt6Fu05voI",
+     "title": "[Classic] Deep Residual Learning for Image Recognition (Paper Explained)",
+     "channel": "Yannic Kilcher",
+     "channel_url": "https://www.youtube.com/@YannicKilcher",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-07-c3": {
+   "searched": "2026-11-03",
+   "query": "Deep Residual Learning for Image Recognition CVPR talk",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=C6tLw-rPQ2o",
+     "title": "Deep Residual Learning for Image Recognition",
+     "channel": "ComputerVisionFoundation Videos",
+     "channel_url": "https://www.youtube.com/@ComputerVisionFoundation",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-08-c1": {
+   "searched": "2026-11-03",
+   "query": "Monte Carlo tree search explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=UXW2yZndl7U",
+     "title": "Monte Carlo Tree Search",
+     "channel": "John Levine",
+     "channel_url": "https://www.youtube.com/@johnlevine2909",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-08-c3": {
+   "searched": "2026-11-03",
+   "query": "AlphaGo documentary DeepMind",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=WXuK6gekU1Y",
+     "title": "AlphaGo - The Movie | Full award-winning documentary",
+     "channel": "Google DeepMind",
+     "channel_url": "https://www.youtube.com/@googledeepmind",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-09-c1": {
+   "searched": "2026-11-03",
+   "query": "attention mechanism transformers explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=eMlx5fFNoYc",
+     "title": "Attention in transformers, step-by-step | Deep Learning Chapter 6",
+     "channel": "3Blue1Brown",
+     "channel_url": "https://www.youtube.com/@3blue1brown",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-09-c3": {
+   "searched": "2026-11-03",
+   "query": "transformer architecture build GPT from scratch",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=kCc8FmEb1nY",
+     "title": "Let's build GPT: from scratch, in code, spelled out.",
+     "channel": "Andrej Karpathy",
+     "channel_url": "https://www.youtube.com/@AndrejKarpathy",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-10-c2": {
+   "searched": "2026-11-03",
+   "query": "learning with errors cryptography explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=K026C5YaB3A",
+     "title": "Learning with errors: Encrypting with unsolvable equations",
+     "channel": "Chalk Talk",
+     "channel_url": "https://www.youtube.com/@chalktalkmath",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=QcVns57MTxg",
+     "title": "Learning With Errors (LWE) and Public Key Encryption || @ CMU || Lecture 25d of CS Theory Toolkit",
+     "channel": "Ryan O'Donnell",
+     "channel_url": "https://www.youtube.com/@RyanODonnellTeaching",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-11-c1": {
+   "searched": "2026-11-03",
+   "query": "diffusion models explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=iv-5mZ_9CPY",
+     "title": "But how do AI images and videos actually work? | Guest video by Welch Labs",
+     "channel": "3Blue1Brown",
+     "channel_url": "https://www.youtube.com/@3blue1brown",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-11-c2": {
+   "searched": "2026-11-03",
+   "query": "denoising diffusion probabilistic models paper explanation",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=HoKDTa5jHvg",
+     "title": "Diffusion Models | Paper Explanation | Math Explained",
+     "channel": "Outlier",
+     "channel_url": "https://www.youtube.com/@outliier",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-12-c2": {
+   "searched": "2026-11-03",
+   "query": "online softmax flash attention derived",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=zy8ChVd_oTM",
+     "title": "Flash Attention derived and coded from first principles with Triton (Python)",
+     "channel": "Umar Jamil",
+     "channel_url": "https://www.youtube.com/@umarjamilai",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-12-c3": {
+   "searched": "2026-11-03",
+   "query": "FlashAttention Tri Dao talk",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=gMOAud7hZg4",
+     "title": "FlashAttention - Tri Dao | Stanford MLSys #67",
+     "channel": "Stanford MLSys Seminars",
+     "channel_url": "https://www.youtube.com/@StanfordMLSysSeminars",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-13-c3": {
+   "searched": "2026-11-03",
+   "query": "faster matrix multiplication algorithm AlphaTensor explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "new oEmbed lookups currently return a different, unrelated video, so only candidates whose checks succeed are listed; the other search results were not confirmed",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=QJT3LszR2pA",
+     "title": "Matej Balog - AlphaTensor: Discover faster matrix multiplication algorithms with RL - IPAM at UCLA",
+     "channel": "Institute for Pure & Applied Mathematics (IPAM)",
+     "channel_url": "https://www.youtube.com/@IPAMUCLA",
+     "level": "scholar",
      "checked": "YouTube oEmbed, 2026-11-03"
     }
    ],

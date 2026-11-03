@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 382,
+ "rounds": 383,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11179,11 +11179,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-59": {
+   "searched": "2026-11-03",
+   "query": "CRDTs conflict-free replicated data types explained Kleppmann talk",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Kleppmann's talk is listed from his own channel; another upload of the same talk (PMVBuMK_pJY) was not checked or listed. Left out: 'An introduction to CRDTs' (checked; a startup's company channel), a Short, an Italian-audio overview, and 'Practical CRDTs' and other talks from unidentified uploaders",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=9xFfOhasiOE",
+     "title": "\"CRDTs Illustrated\" by Arnout Engelen",
+     "channel": "Strange Loop Conference",
+     "channel_url": "https://www.youtube.com/@StrangeLoopConf",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=x7drE24geUw",
+     "title": "CRDTs: The Hard Parts",
+     "channel": "Martin Kleppmann",
+     "channel_url": "https://www.youtube.com/@kleppmann",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

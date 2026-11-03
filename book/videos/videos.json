@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 330,
+ "rounds": 331,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9784,11 +9784,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-08": {
+   "searched": "2026-11-03",
+   "query": "Mahalanobis distance explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "SPSS how-to, 'The Friendly Statistician' generated-style Q&A uploads, a Cook's-distance mash-up, and 'explained simply' and outlier clickbait from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=-F1f5mefSi0",
+     "title": "What are Mahalanobis Distances",
+     "channel": "Aric LaBarr",
+     "channel_url": "https://www.youtube.com/@AricLaBarr",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=3IdvoI8O9hU",
+     "title": "Mahalanobis Distance - intuitive understanding through graphs and tables",
+     "channel": "Gopal Prasad Malakar",
+     "channel_url": "https://www.youtube.com/@gopalprasadmalakar12",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=spNpfmWZBmg",
+     "title": "23: Mahalanobis distance",
+     "channel": "Matthew E. Clapham",
+     "channel_url": "https://www.youtube.com/@MatthewEClapham",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**325 of 380 concepts searched, 817 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**326 of 380 concepts searched, 820 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1373,4 +1373,12 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | cosine similarity and jaccard | [Cosine Similarity, Clearly Explained!!!](https://www.youtube.com/watch?v=e9U0QAFbfLI) | StatQuest with Josh Starmer | Start |
 |  | [Jaccard Similarity explained with examples \| Science in Data](https://www.youtube.com/watch?v=96v3YO_fYI0) | Science in Data | Start |
 |  | [Similarity & MinHash](https://www.youtube.com/watch?v=aTwRpqUnQX8) | Ben Langmead | Deeper |
+
+### Mahalanobis distance
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| mahalanobis distance | [What are Mahalanobis Distances](https://www.youtube.com/watch?v=-F1f5mefSi0) | Aric LaBarr | Start |
+|  | [Mahalanobis Distance - intuitive understanding through graphs and tables](https://www.youtube.com/watch?v=3IdvoI8O9hU) | Gopal Prasad Malakar | Start |
+|  | [23: Mahalanobis distance](https://www.youtube.com/watch?v=spNpfmWZBmg) | Matthew E. Clapham | Deeper |
 

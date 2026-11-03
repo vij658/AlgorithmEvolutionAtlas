@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 372,
+ "rounds": 373,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10987,11 +10987,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-50": {
+   "searched": "2026-11-03",
+   "query": "Gil Tene How NOT to Measure Latency coordinated omission; p99 latency percentiles explained why averages lie",
+   "host": "youtube.com",
+   "candidates": 11,
+   "rejected": "Note: Gil Tene's talk (he named coordinated omission) did not appear in the first search, which returned one unrelated result; it was recalled and then confirmed by oEmbed like every other. Left out: Shorts and hashtag clips on p95/p99, a database-monitoring product video, and 'Explained in Detail' and 'Backend Performance 101' uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=3JdQOExKtUY",
+     "title": "Percentile Tail Latency Explained (95%, 99%) Monitor Backend performance with this metric",
+     "channel": "Hussein Nasser",
+     "channel_url": "https://www.youtube.com/@hnasr",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=lJ8ydIuPFeU",
+     "title": "\"How NOT to Measure Latency\" by Gil Tene",
+     "channel": "Strange Loop Conference",
+     "channel_url": "https://www.youtube.com/@StrangeLoopConf",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

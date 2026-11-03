@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**320 of 380 concepts searched, 805 videos listed** (updated 2026-11-02). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**321 of 380 concepts searched, 808 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1336,4 +1336,12 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | extended euclidean algorithm | [GCD, Bezout, and Modular Inverses \| The Extended Euclidean Algorithm](https://www.youtube.com/watch?v=YZfPcvbwwvI) | William Y. Feng | Start |
 |  | [Extended Euclidean Algorithm: GCD is a Linear Combination](https://www.youtube.com/watch?v=kfOGNl2gdr0) | Bill Kinney | Deeper |
+
+### Euclidean distance
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| euclidean distance | [Deriving the Distance Formula from the Pythagorean Theorem](https://www.youtube.com/watch?v=MeWonv4ef2k) | Wrath of Math | Start |
+|  | [Distance between 2 points in 3D \| Introduction to 3D \| Grade 11 \| Math \| Khan Academy](https://www.youtube.com/watch?v=p4y34xphISA) | Khan Academy India - English | Start |
+|  | [Euclidean Distance: Math, Applications and Code #SoME3](https://www.youtube.com/watch?v=3rPwfmrCwVw) | Radu Mariescu-Istodor | Deeper |
 

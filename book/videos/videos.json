@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-02",
- "rounds": 325,
+ "updated": "2026-11-03",
+ "rounds": 326,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9638,11 +9638,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-03": {
+   "searched": "2026-11-03",
+   "query": "euclidean distance formula explained; distance formula Pythagorean theorem Khan Academy",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "'Understand Euclidean Distance | 2 Minute Tutorial' and 'Euclidean Spaces Lecture 1 Part 3' (checked; channels that do not say who teaches), a Hindi-language video, a Short, an Excel how-to, and practice-problem videos",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=MeWonv4ef2k",
+     "title": "Deriving the Distance Formula from the Pythagorean Theorem",
+     "channel": "Wrath of Math",
+     "channel_url": "https://www.youtube.com/@WrathofMath",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=p4y34xphISA",
+     "title": "Distance between 2 points in 3D | Introduction to 3D | Grade 11 | Math | Khan Academy",
+     "channel": "Khan Academy India - English",
+     "channel_url": "https://www.youtube.com/@KhanAcademyIndiaEnglish",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=3rPwfmrCwVw",
+     "title": "Euclidean Distance: Math, Applications and Code #SoME3",
+     "channel": "Radu Mariescu-Istodor",
+     "channel_url": "https://www.youtube.com/@Radu",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

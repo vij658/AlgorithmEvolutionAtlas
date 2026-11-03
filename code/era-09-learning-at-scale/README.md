@@ -1,0 +1,21 @@
+# Era 9 programs — Learning at Scale
+
+*2009 to 2026* · [Era 9 in the book](../../book/era-09-learning-at-scale/README.md) · [All programs](../README.md)
+
+One folder per topic. Each holds a single-file Java program (run it with `java File.java`, JDK 17 or newer), the output it must print, and a README with how it works and where to watch and read more.
+
+| # | Topic | When | Program | Checks |
+|---|---|---|---|---|
+| 1 | [Fully Homomorphic Encryption](01-homomorphic-encryption/README.md) | 2009–2010 | [`FullyHomomorphic.java`](01-homomorphic-encryption/FullyHomomorphic.java) | 3,864 |
+| 2 | Deep Convolutional Networks | 2012 | planned | |
+| 3 | Word Embeddings | 2013 | planned | |
+| 4 | Raft | 2014 | planned | |
+| 5 | Adam | 2014 | planned | |
+| 6 | Byte-Pair Encoding for Words | 2015 | planned | |
+| 7 | Residual Networks | 2015 | planned | |
+| 8 | Monte Carlo Tree Search and AlphaGo | 2006–2016 | planned | |
+| 9 | The Transformer | 2017 | planned | |
+| 10 | Lattice Cryptography and ML-KEM | 2017–2024 | planned | |
+| 11 | Diffusion Models | 2015–2020 | planned | |
+| 12 | FlashAttention | 2022 | planned | |
+| 13 | Algorithms That Find Algorithms | 2022–2025 | planned | |

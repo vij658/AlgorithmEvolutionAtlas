@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**373 of 380 concepts searched, 923 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**374 of 380 concepts searched, 924 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1722,4 +1722,10 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | rate limiting | [Five Rate Limiting Algorithms ~ Key Concepts in System Design](https://www.youtube.com/watch?v=mQCJJqUfn9Y) | Hello Byte | Start |
 |  | [Rate Limiting system design \| TOKEN BUCKET, Leaky Bucket, Sliding Logs](https://www.youtube.com/watch?v=mhUQe4BKZXs) | Tech Dummies - Narendra Lakshmana Gowda | Deeper |
+
+### Cache stampede
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| cache stampede | [Solving Thundering Herd with Cache Promises \| Instagram Software Engineering](https://www.youtube.com/watch?v=f-06wUzZf58) | MsDeep Singh | Deeper |
 

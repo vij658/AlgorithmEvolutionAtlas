@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 379,
+ "rounds": 380,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11109,11 +11109,29 @@
     }
    ],
    "tries": 1
+  },
+  "p-56": {
+   "searched": "2026-11-03",
+   "query": "cache stampede thundering herd explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Only one video passed. Checked and left out: 'When Caching Breaks Your System' (Knowledge Thrusters) and 'Cache Stampede Problem Explained' (SystemDR), whose channels do not say who presents. Also left out: a Short, emoji and '9 Concepts Every Software Engineer Must Know' clickbait, and 'Why Expired Caches Crash Production' and similar uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=f-06wUzZf58",
+     "title": "Solving Thundering Herd with Cache Promises | Instagram Software Engineering",
+     "channel": "MsDeep Singh",
+     "channel_url": "https://www.youtube.com/@MsDeepSingh",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

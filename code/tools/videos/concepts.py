@@ -115,6 +115,20 @@ TOPICS = {
     "mapreduce": ["distributed computing", "MapReduce", "Hadoop"],
     "compressed-sensing": ["sparsity signal processing", "compressed sensing", "L1 minimization"],
     "bitcoin": ["how bitcoin works", "double spending", "proof of work", "blockchain"],
+    # Era 9
+    "homomorphic-encryption": ["homomorphic encryption explained", "fully homomorphic encryption", "bootstrapping homomorphic encryption Gentry"],
+    "deep-convolutional-networks": ["convolutional neural network", "AlexNet ImageNet 2012", "ReLU and dropout in neural networks"],
+    "word-embeddings": ["word embeddings", "word2vec", "skip-gram negative sampling"],
+    "raft": ["Raft consensus algorithm", "Raft leader election", "Raft log replication and safety"],
+    "adam": ["gradient descent with momentum", "RMSProp", "Adam optimizer"],
+    "byte-pair-encoding": ["tokenization in language models", "byte pair encoding", "subword units rare words"],
+    "residual-networks": ["vanishing gradients in deep networks", "ResNet residual connections", "deep residual learning paper"],
+    "monte-carlo-tree-search": ["Monte Carlo tree search", "UCT upper confidence bounds applied to trees", "AlphaGo"],
+    "transformer": ["attention mechanism", "self-attention queries keys values", "transformer architecture"],
+    "lattice-cryptography": ["post-quantum cryptography", "learning with errors", "Kyber ML-KEM"],
+    "diffusion-models": ["diffusion models", "denoising diffusion probabilistic models", "score matching diffusion"],
+    "flashattention": ["GPU memory hierarchy", "online softmax", "FlashAttention"],
+    "algorithms-that-find-algorithms": ["matrix multiplication algorithms", "Strassen algorithm", "AlphaTensor"],
 }
 
 

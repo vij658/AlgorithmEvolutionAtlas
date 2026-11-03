@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 359,
+ "rounds": 360,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10625,11 +10625,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-37": {
+   "searched": "2026-11-03",
+   "query": "union find disjoint set Kruskal minimum spanning tree explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: the two WilliamFiset videos were recalled and then confirmed by oEmbed like every other; the MIT lecture is also listed under greedy algorithms (checked earlier today). Left out: a C++ source-code video, 'Visually Explained' and 'Explained Simply' uploads, a numbered 'Lecture 97' and course-clip uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=ibjEGG7ylHk",
+     "title": "Union Find Introduction",
+     "channel": "WilliamFiset",
+     "channel_url": "https://www.youtube.com/@WilliamFiset-videos",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=JZBQLXgSGfs",
+     "title": "Union Find Kruskal's Algorithm",
+     "channel": "WilliamFiset",
+     "channel_url": "https://www.youtube.com/@WilliamFiset-videos",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=tKwnms5iRBU",
+     "title": "12. Greedy Algorithms: Minimum Spanning Tree",
+     "channel": "MIT OpenCourseWare",
+     "channel_url": "https://www.youtube.com/@mitocw",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

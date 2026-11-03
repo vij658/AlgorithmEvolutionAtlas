@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**354 of 380 concepts searched, 886 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**355 of 380 concepts searched, 889 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1588,4 +1588,12 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | topological sort | [Topological Sort Algorithm \| Graph Theory](https://www.youtube.com/watch?v=eL-KzMXSXXI) | WilliamFiset | Start |
 |  | [G-22. Kahn's Algorithm \| Topological Sort Algorithm \| BFS](https://www.youtube.com/watch?v=73sneFXuTEg) | take U forward | Deeper |
+
+### Union find and minimum spanning trees
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| union find and minimum spanning trees | [Union Find Introduction](https://www.youtube.com/watch?v=ibjEGG7ylHk) | WilliamFiset | Start |
+|  | [Union Find Kruskal's Algorithm](https://www.youtube.com/watch?v=JZBQLXgSGfs) | WilliamFiset | Start |
+|  | [12. Greedy Algorithms: Minimum Spanning Tree](https://www.youtube.com/watch?v=tKwnms5iRBU) | MIT OpenCourseWare | Deeper |
 

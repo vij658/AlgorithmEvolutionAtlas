@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 376,
+ "rounds": 377,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11048,11 +11048,20 @@
    "rejected": "No suitable video found. Checked and left out: 'Retries & Exponential Backoff - Deep Dive' (glich.stream) and 'How to use exponential backoff when retrying failed service requests' (IT Mongoose), whose channels do not say who presents, and 'AWS Concept Review - Timeouts Retries Back-off Jitter' (a training-sales channel). Also left out: Shorts, Spring and n8n how-tos, 'Retry Storms ... Prevents System Meltdowns' clickbait, Portuguese- and Ukrainian-language videos, and Marc Brooker interviews that are not about backoff.",
    "videos": [],
    "tries": 2
+  },
+  "p-53": {
+   "searched": "2026-11-03",
+   "query": "retry storm amplification retry budget SRE talk; SREcon cascading failures retries overload talk USENIX",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "No suitable video found. Checked and left out: 'Autopsy of a Retry Storm' (deferstech) and 'Retry Storms Explained' (Programming Tutorials), whose channels do not say who presents, and 'The Anatomy of a Cascading Failure' (Datadog, a monitoring vendor; its title does not mention retries). Also left out: Shorts, error-budget videos (a different SRE idea that shares the word 'budget'), SREcon recaps and lightning talks, a Russian-language video, and the backoff clickbait already rejected under p-52",
+   "videos": [],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

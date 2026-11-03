@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 389,
+ "rounds": 390,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11319,11 +11319,29 @@
     }
    ],
    "tries": 1
+  },
+  "e9-01-c3": {
+   "searched": "2026-11-03",
+   "query": "Craig Gentry bootstrapping fully homomorphic encryption talk",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Gentry's winter-school lecture on bootstrapping could not be confirmed (its oEmbed check returned a different video); podcast episodes, a MacArthur profile and narrow conference talks on later schemes left out",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=487AjvFW1lk",
+     "title": "A Decade (or so) of fully homomorphic encryption, by Craig Gentry",
+     "channel": "IACR",
+     "channel_url": "https://www.youtube.com/@TheIACR",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
-  "delay": 15,
-  "clean": 4,
-  "rejects": 2
+  "delay": 30,
+  "clean": 0,
+  "rejects": 3
  }
 }

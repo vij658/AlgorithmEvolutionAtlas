@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 380,
+ "rounds": 381,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11127,11 +11127,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-57": {
+   "searched": "2026-11-03",
+   "query": "quorum reads writes R + W > N distributed systems explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "A recalled Kleppmann lecture ID failed its oEmbed check and is not listed. Left out: a Short, CQRS (a different idea), quorum-based mutual exclusion and Maekawa videos (a different use of quorums), and 'Next LVL Programming' and 'Real-World Examples' uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=nFOjNrG-DZE",
+     "title": "Quorum | System Design Fundamentals | Distributed Systems",
+     "channel": "MsDeep Singh",
+     "channel_url": "https://www.youtube.com/@MsDeepSingh",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=2edhMsGlwng",
+     "title": "CSE138 (Distributed Systems) L19: more about quorum consistency; introduction to sharding; ...",
+     "channel": "Lindsey Kuper",
+     "channel_url": "https://www.youtube.com/@lindseykuperwithasharpie",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

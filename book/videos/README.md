@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**342 of 380 concepts searched, 856 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**343 of 380 concepts searched, 859 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1498,4 +1498,12 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | greedy algorithms | [3. Greedy Method - Introduction](https://www.youtube.com/watch?v=ARvQcqJ_-NY) | Abdul Bari | Start |
 |  | [12. Greedy Algorithms: Minimum Spanning Tree](https://www.youtube.com/watch?v=tKwnms5iRBU) | MIT OpenCourseWare | Deeper |
+
+### Backtracking
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| backtracking | [Python Sudoku Solver - Computerphile](https://www.youtube.com/watch?v=G_UYXzGuqvM) | Computerphile | Start |
+|  | [6 Introduction to Backtracking - Brute Force Approach](https://www.youtube.com/watch?v=DKCbsiDBN6c) | Abdul Bari | Start |
+|  | [6.1 N Queens Problem using Backtracking](https://www.youtube.com/watch?v=xFv_Hl4B83A) | Abdul Bari | Deeper |
 

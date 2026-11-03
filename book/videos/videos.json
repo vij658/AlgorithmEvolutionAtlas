@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 347,
+ "rounds": 348,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10265,11 +10265,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-25": {
+   "searched": "2026-11-03",
+   "query": "backtracking algorithm explained n-queens",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: the three listed videos were recalled and then confirmed by oEmbed like every other; this search showed only N-Queens videos. Left out: C and C++ code walkthroughs, LeetCode 51 solutions, fire-emoji and numbered 'PQ #4'/'Lecture 3' uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=G_UYXzGuqvM",
+     "title": "Python Sudoku Solver - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=DKCbsiDBN6c",
+     "title": "6 Introduction to Backtracking - Brute Force Approach",
+     "channel": "Abdul Bari",
+     "channel_url": "https://www.youtube.com/@abdul_bari",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=xFv_Hl4B83A",
+     "title": "6.1 N Queens Problem using Backtracking",
+     "channel": "Abdul Bari",
+     "channel_url": "https://www.youtube.com/@abdul_bari",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

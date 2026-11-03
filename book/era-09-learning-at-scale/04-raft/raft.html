@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Raft</title>
+<meta name="description" content="Era 9, topic 4 of The Algorithm Evolution Atlas: Raft (Ongaro and Ousterhout, Stanford, 2014), consensus designed to be understood, simulated with lost messages and crashes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.raft-board{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px}
+@media (max-width:760px){.raft-board{grid-template-columns:1fr}}
+.raft-view svg{width:100%;height:auto;display:block;background:var(--wash)}
+.raft-view g.srv{cursor:pointer}
+.raft-btns{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 8px}
+.raft-opt{font-size:13px;display:block;margin:4px 0 8px}
+.raft-ev{font:12.5px var(--mono);display:grid;gap:2px;min-height:6.5em}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 9: Learning at Scale</a><a href="../03-word-embeddings/word-embeddings.html">← Word Embeddings</a><a href="../05-adam/adam.html">Adam →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 9 · Topic 4 · 2014</div>
+    <h1>Raft</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">Paxos let computers agree in spite of failures, and almost nobody could explain it. In 2014 two researchers at Stanford designed a consensus algorithm whose first goal was to be understood: one leader, numbered terms, random timeouts, and a log that flows one way.</p>
+  <p class="fieldnote">Field note from the visiting historian. I ran five servers through 300 storms of lost messages, crashes and broken links. Leaders came and went 1,622 times and the logs never disagreed. Then I removed one rule about voting, and in 198 of the storms the cluster forgot something it had promised to keep.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>June 2014</dd></div><div><dt>Where</dt><dd>Stanford University</dd></div><div><dt>What hurt</dt><dd>Paxos was hard to understand and to build</dd></div><div><dt>The fix</dt><dd>A strong leader, terms, random timeouts, one-way logs</dd></div><div><dt>Checked</dt><dd>0 safety violations in 300 chaotic runs; 198 without the voting rule</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Paxos (Era 8) let a group of computers agree on one history in spite of lost messages and crashes. Diego Ongaro and John Ousterhout kept the goal and changed the design: one strong leader per numbered term, elections broken up by random timeouts, and a log that flows only from the leader outwards.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 520" role="img" aria-label="How Raft combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="165.0" y1="124.0" x2="412.5" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="412.5,200.0 403.6,201.1 405.7,194.1" style="fill:var(--ink-2)"/><line x1="500.0" y1="124.0" x2="500.0" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,200.0 496.3,191.8 503.7,191.8" style="fill:var(--ink-2)"/><line x1="835.0" y1="124.0" x2="587.5" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="587.5,200.0 594.3,194.1 596.4,201.1" style="fill:var(--ink-2)"/><line x1="412.5" y1="304.0" x2="165.0" y2="380.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="165.0,380.0 171.8,374.1 173.9,381.1" style="fill:var(--ink-2)"/><line x1="587.5" y1="304.0" x2="835.0" y2="380.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="835.0,380.0 826.1,381.1 828.2,374.1" style="fill:var(--ink-2)"/><rect x="40" y="20" width="250" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="52.0" y="52.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Paxos</text><text x="52.0" y="69.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">agreement in spite of loss and</text><text x="52.0" y="86.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">crashes, hard to explain</text><text x="52.0" y="102.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 8, topic 8</text><rect x="375" y="20" width="250" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="387.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Randomized timeouts</text><text x="387.0" y="78.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">break the symmetry between</text><text x="387.0" y="94.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">candidates</text><rect x="710" y="20" width="250" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="722.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Replicated log</text><text x="722.0" y="78.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the same commands in the same</text><text x="722.0" y="94.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">order on every server</text><rect x="375" y="200" width="250" height="104" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="387.0" y="232.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Raft</text><text x="387.0" y="249.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ a strong leader, terms, and five</text><text x="387.0" y="266.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">safety rules</text><text x="387.0" y="282.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Ongaro and Ousterhout, Stanford, 2014</text><rect x="40" y="380" width="250" height="104" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="52.0" y="412.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">A user study</text><text x="52.0" y="429.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">43 students, quizzes on Raft and</text><text x="52.0" y="446.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Paxos</text><text x="52.0" y="462.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the same paper</text><rect x="710" y="380" width="250" height="104" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="722.0" y="412.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">RaftScope</text><text x="722.0" y="429.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">an interactive cluster on the Raft</text><text x="722.0" y="446.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">site</text><text x="722.0" y="462.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">raft.github.io</text></svg></div><figcaption>Red: Raft. Blue: how its authors tested and taught it.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">A cluster to break</h2>
+<p class="col">Five servers run the same rules as the program, 25 times slower than real time. Send client commands, crash the leader and watch an election; click any server to crash or restart it. Tick the box to give every server the same fixed timeout and watch candidates split the vote.</p>
+
+<div class="board raft-board">
+  <div style="min-width:0"><div class="raft-view" id="raft-view"></div></div>
+  <div style="min-width:0">
+    <div class="raft-btns">
+      <button type="button" class="primary" id="raft-run">Run</button>
+      <button type="button" id="raft-step">+100 ms</button>
+      <button type="button" id="raft-cmd">Client command</button>
+      <button type="button" id="raft-crash">Crash the leader</button>
+      <button type="button" id="raft-restart">Restart crashed</button>
+      <button type="button" id="raft-reset">Start over</button>
+    </div>
+    <label class="raft-opt"><input type="checkbox" id="raft-fixed"> fixed 150 ms timeouts instead of random 150–300 ms</label>
+    <div class="raft-ev" id="raft-ev"></div>
+    <p class="say" id="raft-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 9, learning at scale</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 9: Learning at Scale, from 2009 to 2026" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2009–2010</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Homomorphic</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">encryption</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2012</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AlexNet</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2013</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">word2vec</text><circle cx="428.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2014</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Raft</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2014</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Adam</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2015</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Byte-pair encoding</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2015</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">ResNet</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2006–2016</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AlphaGo</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2017</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Transformer</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2017–2024</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">ML-KEM</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2015–2020</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Diffusion models</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2022</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">FlashAttention</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2022–2025</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AlphaTensor</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 416" role="img" aria-label="Each fix leaves a new pain: from Paxos to Raft" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Paxos was correct, and almost nobody could explain it or</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">build it as written</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Design for understanding: one leader, and the problem</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">split in three</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Ongaro and Ousterhout, 2014</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Candidates that time out together split the vote, again</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">and again</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Random election timeouts, 150 to 300 ms</text><text x="32.0" y="228.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the same paper</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A new leader might lack entries that were already</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">committed</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Vote only for candidates whose log is at least as up to</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">date as yours</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the same paper</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Terms, votes and one log</h2>
+<p class="col"><strong>Terms.</strong> Time is divided into numbered terms. Each server stores the latest term it has seen; any message carrying a higher term makes the receiver adopt it and become a follower. In each term at most one leader is elected.</p>
+<p class="col"><strong>Elections.</strong> A follower that hears nothing from a leader for its election timeout, chosen at random between 150 and 300 ms, becomes a candidate: it moves to the next term, votes for itself and asks the others. A server gives one vote per term, and only to a candidate whose log is at least as up to date as its own: the last entry has a later term, or the same term and the log is at least as long. Votes from a majority (3 of 5) make a leader.</p>
+<p class="col"><strong>Replication.</strong> The leader appends each client command to its log and sends it to the followers in AppendEntries messages, which double as heartbeats. Each message names the index and term of the entry just before the new ones; a follower whose log does not have that entry refuses, and the leader tries one entry earlier until the logs meet, then overwrites the follower's disagreeing tail.</p>
+<p class="col"><strong>Commitment.</strong> Once a majority stores an entry from the leader's current term, it and everything before it are committed, and each server applies committed entries to its state machine in order. Older-term entries are committed only by counting a newer entry after them.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>Any two majorities of five share a server. A committed entry is on a majority, a new leader needs votes from a majority, and no one votes for a log that is behind, so every new leader already holds every committed entry.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Three hundred runs of chaos</h2>
+<p class="col"><strong>Chaos</strong>: 300 runs of 10,000 simulated milliseconds, 5 servers, 5% of messages lost, every message delayed 5 to 25 ms (so they arrive out of order), servers crashing and restarting, the network cut into two groups for up to a second, and a client command every 20 ms. There were 5,105 elections and 1,622 leaders; 1,314 elections ended in a timeout without a winner; 104,246 entries were committed. The cluster had no leader 10.0% of the time. Safety violations: <strong>0</strong>: the program checked all five properties throughout.</p>
+<div class="tbl"><table><thead><tr><th class="">Property (the paper&#x27;s words, shortened)</th><th class="">How the program checks it</th></tr></thead><tbody><tr class=""><td class="">Election Safety: at most one leader in a term</td><td class="">records the leader of every term</td></tr><tr class=""><td class="">Leader Append-Only: a leader never overwrites or deletes its entries</td><td class="">compares each leader's log with its log a millisecond before</td></tr><tr class=""><td class="">Log Matching: same index and term means identical up to there</td><td class="">compares every pair of logs every 50 ms</td></tr><tr class=""><td class="">Leader Completeness: committed entries are in every later leader's log</td><td class="">checks each new leader against all committed entries</td></tr><tr class=""><td class="">State Machine Safety: no two servers apply different commands at one index</td><td class="">records the command applied at every index</td></tr></tbody></table></div>
+<p class="col"><strong>Random against fixed timeouts</strong>: in a calm cluster, crash the leader and time how long until a new one is elected, 200 trials each:</p>
+<div class="tbl"><table><thead><tr><th class="">Election timeout</th><th class="n">Median</th><th class="n">Slowest</th><th class="n">No leader after 100 s</th><th class="n">Elections without a winner</th></tr></thead><tbody><tr class="hl"><td class="">random, 150 to 300 ms</td><td class="n">220 ms</td><td class="n">828 ms</td><td class="n">0</td><td class="n">23</td></tr><tr class=""><td class="">fixed, 150 ms</td><td class="n">9328 ms</td><td class="n">over 100 s</td><td class="n">47</td><td class="n">173,681</td></tr></tbody></table></div>
+<p class="col">With one fixed timeout, the four survivors often time out together, each votes for itself, nobody wins, and they time out together again. Only the small spread of message delays ever breaks the tie, and in 47 of 200 trials it never did.</p>
+<p class="col"><strong>Break one rule</strong>: let servers vote for any candidate, without checking that its log is up to date. In the same 300 runs the checker found a violation in <strong>198</strong>. The first, in run 0: "Leader Completeness: leader of term 12 lacks committed entry 236": a server with a short log won an election and the committed entry was lost.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">Stanford, 2014</h2>
+<p class="col">Ongaro and Ousterhout, USENIX ATC '14, Philadelphia, June 2014 (Best Paper): Raft is "a consensus algorithm for managing a replicated log"; "It produces a result equivalent to (multi-)Paxos, and it is as efficient as Paxos". The paper begins from a complaint: "Unfortunately, Paxos is quite difficult to understand, in spite of numerous attempts to make it more approachable."</p>
+<p class="col">It names the five properties (Election Safety: "at most one leader can be elected in a given term"), and says that "election timeouts are chosen randomly from a fixed interval (e.g., 150–300ms)". In the user study, 43 students at Stanford and Berkeley took a quiz on each algorithm: the mean was 25.7 on Raft and 20.8 on Paxos, out of 60, and 33 of the 43 scored higher on Raft.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Testing an algorithm on people</h2>
+<p class="col">Algorithms are usually judged by time, space and correctness. Raft's authors added a fourth measure, how well people understand it, and tested it the way a teaching method is tested: lectures, a quiz, and a comparison. The rules that make Raft easy to explain are the same ones this program checks: one leader, one direction for the log, one vote per term.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>Take away one rule, the up-to-date check on votes, and 198 of 300 runs lose something that was already committed.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>A cluster has 5 servers. How many can crash while it keeps working?</span></summary><div class="ans"><p>2: the other 3 still form a majority, which is enough to elect a leader and commit entries.</p></div></details><details class="try"><summary><span class="q">2</span><span>S1 has log 1:a 1:b 2:c and S2 has 1:a 1:b 1:d 1:e. Whose log is more up to date?</span></summary><div class="ans"><p>S1's: its last entry has term 2, later than S2's term 1. Length only matters when the last terms are equal.</p></div></details><details class="try"><summary><span class="q">3</span><span>Why can two leaders never exist in the same term?</span></summary><div class="ans"><p>Each needs votes from a majority, any two majorities share a server, and a server votes once per term.</p></div></details><details class="try"><summary><span class="q">4</span><span>A leader of term 3 crashes before a term-3 entry reaches a majority. Is the entry lost?</span></summary><div class="ans"><p>It may be: it was never committed, and a new leader without it will overwrite it on the followers. The client did not get a reply and will retry.</p></div></details><details class="try"><summary><span class="q">5</span><span>Why must a crashed server keep its term, its vote and its log on disk?</span></summary><div class="ans"><p>Otherwise it could vote twice in one term after a restart, or forget entries it helped commit.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>In Search of an Understandable Consensus Algorithm (2014)</b><span>Ongaro and Ousterhout, USENIX ATC '14.</span><a href="https://usenix.org/node/184041">USENIX conference page</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://raft.github.io/" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">The Raft Consensus Algorithm · raft.github.io</span><span class="w">An interactive cluster to break</span></a><a href="https://www.youtube.com/watch?v=uXEYuDwm7e4" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Distributed Systems 6.2: Raft · Martin Kleppmann</span><span class="w">A lecture from Kleppmann's Cambridge course</span></a><a href="https://www.youtube.com/watch?v=YbZ3zDzDnrw" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Raft lecture (Raft user study) · Diego Ongaro</span><span class="w">The lecture recorded for the user study, by Raft's designer</span></a><a href="https://www.cs.princeton.edu/courses/archive/spring22/cos418/papers/raft.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">In Search of an Understandable Consensus Algorithm · D. Ongaro, J. Ousterhout (2014), on a Princeton course page</span><span class="w">The algorithm, the safety properties and the user study</span></a><a href="https://usenix.org/node/184041" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">USENIX ATC '14 paper page · USENIX</span><span class="w">Venue, pages and award</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-09-learning-at-scale/reference-catalog.md">Era 9 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-09-learning-at-scale/04-raft/Raft.java">Raft.java</a> makes <strong>361,006 checks</strong>: the five safety properties in every run, that random timeouts elect a leader where fixed ones can stall, and that removing the voting rule breaks safety. Run it with <code>java Raft.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-kw">static</span> <span class="k-kw">void</span> deliver(Msg m) {
+    Server s = S[m.to];
+    <span class="k-kw">if</span> (!s.up || cut[m.from][m.to]) <span class="k-kw">return</span>;
+    <span class="k-kw">if</span> (m.term &gt; s.term) becomeFollower(s, m.term);
+    switch (m.kind) {
+        case RV -&gt; {
+            <span class="k-kw">boolean</span> upToDate = m.b &gt; s.lastTerm() || (m.b == s.lastTerm() &amp;&amp; m.a &gt;= s.log.size());
+            <span class="k-kw">boolean</span> grant = m.term == s.term &amp;&amp; (s.votedFor == -<span class="k-n">1</span> || s.votedFor == m.from) &amp;&amp; (upToDate || !VOTE_RESTRICTION);
+            <span class="k-kw">if</span> (grant) { s.votedFor = m.from; s.deadline = now + timeout(); }
+            Msg r = <span class="k-kw">new</span> Msg(); r.kind = RV_REPLY; r.from = s.id; r.to = m.from; r.term = s.term; r.a = grant ? <span class="k-n">1</span> : <span class="k-n">0</span>;
+            send(r);
+        }
+        case RV_REPLY -&gt; {
+            <span class="k-kw">if</span> (s.role == CANDIDATE &amp;&amp; m.term == s.term &amp;&amp; m.a == <span class="k-n">1</span>) {
+                s.votes.add(m.from);
+                <span class="k-kw">if</span> (s.votes.size() &gt; N / <span class="k-n">2</span>) becomeLeader(s);
+            }
+        }
+        case AE -&gt; {
+            Msg r = <span class="k-kw">new</span> Msg(); r.kind = AE_REPLY; r.from = s.id; r.to = m.from; r.term = s.term;
+            <span class="k-kw">if</span> (m.term &lt; s.term) { r.a = <span class="k-n">0</span>; send(r); <span class="k-kw">return</span>; }
+            <span class="k-kw">if</span> (s.role == LEADER) violation(&quot;Election Safety: leader &quot; + s.id + &quot; got AppendEntries from another leader of term &quot; + m.term);
+            s.role = FOLLOWER;
+            s.deadline = now + timeout();
+            <span class="k-kw">if</span> (m.a &gt; s.log.size() || s.termAt(m.a) != m.b) { r.a = <span class="k-n">0</span>; send(r); <span class="k-kw">return</span>; }
+            <span class="k-kw">for</span> (<span class="k-kw">int</span> k = <span class="k-n">0</span>; k &lt; m.entries.size(); k++) {
+                <span class="k-kw">int</span> idx = m.a + <span class="k-n">1</span> + k;
+                <span class="k-kw">if</span> (idx &lt;= s.log.size() &amp;&amp; s.log.get(idx - <span class="k-n">1</span>).term != m.entries.get(k).term) {
+                    <span class="k-kw">if</span> (idx &lt;= s.commit) violation(&quot;a committed entry was overwritten at index &quot; + idx);
+                    <span class="k-kw">while</span> (s.log.size() &gt;= idx) s.log.remove(s.log.size() - <span class="k-n">1</span>);
+                }
+                <span class="k-kw">if</span> (idx &gt; s.log.size()) s.log.add(m.entries.get(k));
+            }
+            <span class="k-kw">int</span> lastNew = m.a + m.entries.size();
+            <span class="k-kw">if</span> (m.commit &gt; s.commit) s.commit = Math.min(m.commit, lastNew);
+            apply(s);
+            r.a = <span class="k-n">1</span>; r.b = lastNew;
+            send(r);
+        }
+        case AE_REPLY -&gt; {
+            <span class="k-kw">if</span> (s.role != LEADER || m.term != s.term) <span class="k-kw">return</span>;
+            <span class="k-kw">if</span> (m.a == <span class="k-n">1</span>) {
+                s.matchIndex[m.from] = Math.max(s.matchIndex[m.from], m.b);
+                s.nextIndex[m.from] = s.matchIndex[m.from] + <span class="k-n">1</span>;
+                <span class="k-kw">for</span> (<span class="k-kw">int</span> n = s.log.size(); n &gt; s.commit; n--) {
+                    <span class="k-kw">if</span> (s.log.get(n - <span class="k-n">1</span>).term != s.term) break; <span class="k-c">// only entries of the current term are committed by counting</span>
+                    <span class="k-kw">int</span> count = <span class="k-n">1</span>;
+                    <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; N; j++) <span class="k-kw">if</span> (j != s.id &amp;&amp; s.matchIndex[j] &gt;= n) count++;
+                    <span class="k-kw">if</span> (count &gt; N / <span class="k-n">2</span>) {
+                        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = s.commit + <span class="k-n">1</span>; i &lt;= n; i++) {
+                            Entry e = s.log.get(i - <span class="k-n">1</span>);
+                            Entry before = committedAt.putIfAbsent(i, e);
+                            <span class="k-kw">if</span> (before != <span class="k-kw">null</span> &amp;&amp; !before.equals(e)) violation(&quot;two different entries committed at index &quot; + i);
+                            commandsCommitted++;
+                        }
+                        s.commit = n;
+                        apply(s);
+                        break;
+                    }
+                }
+            } <span class="k-kw">else</span> {
+                s.nextIndex[m.from] = Math.max(<span class="k-n">1</span>, s.nextIndex[m.from] - <span class="k-n">1</span>);
+            }
+        }
+    }
+}
+
+<span class="k-c">/** Log Matching: if two logs hold an entry with the same index and term, they agree on everything up to it. */</span>
+<span class="k-kw">static</span> <span class="k-kw">void</span> checkLogMatching() {
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; N; i++) <span class="k-kw">for</span> (<span class="k-kw">int</span> j = i + <span class="k-n">1</span>; j &lt; N; j++) {
+        <span class="k-kw">List</span>&lt;Entry&gt; a = S[i].log, b = S[j].log;
+        <span class="k-kw">int</span> n = Math.min(a.size(), b.size());
+        <span class="k-kw">int</span> lastSame = -<span class="k-n">1</span>;
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> k = n - <span class="k-n">1</span>; k &gt;= <span class="k-n">0</span>; k--) <span class="k-kw">if</span> (a.get(k).term == b.get(k).term) { lastSame = k; break; }
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> k = <span class="k-n">0</span>; k &lt;= lastSame; k++) <span class="k-kw">if</span> (!a.get(k).equals(b.get(k))) { violation(&quot;Log Matching between servers &quot; + i + &quot; and &quot; + j); <span class="k-kw">return</span>; }
+    }
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>Raft.java</code>.<br><span class="navfoot"><a href="../index.html">Era 9: Learning at Scale</a><a href="../03-word-embeddings/word-embeddings.html">← Word Embeddings</a><a href="../05-adam/adam.html">Adam →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const view = document.getElementById("raft-view");
+  if (!view) return;
+  const N = 5, HB = 50, DMIN = 10, DMAX = 30, TCOL = ["var(--blue)", "var(--red)", "var(--yellow)", "var(--ink)", "var(--muted)"];
+  let S, net, now, seed, cmdNo, events, timer = null;
+  const rnd = () => { seed = (seed + 0x6D2B79F5) | 0; let t = seed; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  const fixed = () => document.getElementById("raft-fixed").checked;
+  const timeout = () => fixed() ? 150 : 150 + Math.floor(rnd() * 151);
+  const lastTerm = s => s.log.length ? s.log[s.log.length - 1].t : 0, termAt = (s, i) => i === 0 ? 0 : s.log[i - 1].t;
+  const note = m => { events.unshift(`${String(now).padStart(5)} ms  ${m}`); events = events.slice(0, 6); };
+  function reset() {
+    seed = 7; now = 0; cmdNo = 1; net = []; events = [];
+    S = [...Array(N)].map((_, i) => ({id: i, term: 0, voted: -1, role: "follower", commit: 0, log: [], deadline: timeout(), beat: 0, next: Array(N).fill(1), match: Array(N).fill(0), votes: new Set(), up: true}));
+  }
+  function send(m) { m.sent = now; m.at = now + DMIN + Math.floor(rnd() * (DMAX - DMIN + 1)); net.push(m); }
+  function follow(s, term) { if (term > s.term) { s.term = term; s.voted = -1; } s.role = "follower"; }
+  function elect(s) {
+    s.role = "candidate"; s.term++; s.voted = s.id; s.votes = new Set([s.id]); s.deadline = now + timeout();
+    note(`S${s.id + 1} times out, stands for term ${s.term}`);
+    for (let j = 0; j < N; j++) if (j !== s.id) send({k: "RV", from: s.id, to: j, term: s.term, a: s.log.length, b: lastTerm(s)});
+  }
+  function append(s, j) {
+    const p = s.next[j] - 1;
+    send({k: "AE", from: s.id, to: j, term: s.term, a: p, b: termAt(s, p), e: s.log.slice(p), c: s.commit});
+  }
+  function deliver(m) {
+    const s = S[m.to];
+    if (!s.up) return;
+    if (m.term > s.term) follow(s, m.term);
+    if (m.k === "RV") {
+      const ok = m.b > lastTerm(s) || (m.b === lastTerm(s) && m.a >= s.log.length);
+      const g = m.term === s.term && (s.voted === -1 || s.voted === m.from) && ok;
+      if (g) { s.voted = m.from; s.deadline = now + timeout(); }
+      send({k: "RVR", from: s.id, to: m.from, term: s.term, a: g});
+    } else if (m.k === "RVR") {
+      if (s.role === "candidate" && m.term === s.term && m.a) {
+        s.votes.add(m.from);
+        if (s.votes.size > N / 2) {
+          s.role = "leader"; s.next.fill(s.log.length + 1); s.match.fill(0); s.beat = now;
+          note(`S${s.id + 1} wins ${s.votes.size} votes: leader of term ${s.term}`);
+        }
+      }
+    } else if (m.k === "AE") {
+      if (m.term < s.term) { send({k: "AER", from: s.id, to: m.from, term: s.term, a: false}); return; }
+      s.role = "follower"; s.deadline = now + timeout();
+      if (m.a > s.log.length || termAt(s, m.a) !== m.b) { send({k: "AER", from: s.id, to: m.from, term: s.term, a: false}); return; }
+      m.e.forEach((e, k) => {
+        const idx = m.a + 1 + k;
+        if (idx <= s.log.length && s.log[idx - 1].t !== e.t) s.log.length = idx - 1;
+        if (idx > s.log.length) s.log.push(e);
+      });
+      const last = m.a + m.e.length;
+      if (m.c > s.commit) s.commit = Math.min(m.c, last);
+      send({k: "AER", from: s.id, to: m.from, term: s.term, a: true, b: last});
+    } else if (m.k === "AER") {
+      if (s.role !== "leader" || m.term !== s.term) return;
+      if (m.a) {
+        s.match[m.from] = Math.max(s.match[m.from], m.b); s.next[m.from] = s.match[m.from] + 1;
+        for (let n = s.log.length; n > s.commit; n--) {
+          if (s.log[n - 1].t !== s.term) break;
+          let c = 1; for (let j = 0; j < N; j++) if (j !== s.id && s.match[j] >= n) c++;
+          if (c > N / 2) { note(`entries up to ${n} committed: stored on ${c} of 5`); s.commit = n; break; }
+        }
+      } else s.next[m.from] = Math.max(1, s.next[m.from] - 1);
+    }
+  }
+  function tick() {
+    net.sort((p, q) => p.at - q.at);
+    while (net.length && net[0].at <= now) deliver(net.shift());
+    S.forEach(s => {
+      if (!s.up) return;
+      if (s.role === "leader") { if (now >= s.beat) { for (let j = 0; j < N; j++) if (j !== s.id) append(s, j); s.beat = now + HB; } }
+      else if (now >= s.deadline) elect(s);
+    });
+    now++;
+  }
+  const leader = () => S.filter(s => s.up && s.role === "leader").sort((a, b) => b.term - a.term)[0];
+  const pos = i => [200 + 130 * Math.cos(-Math.PI / 2 + i * 2 * Math.PI / N), 165 + 130 * Math.sin(-Math.PI / 2 + i * 2 * Math.PI / N)];
+  function draw() {
+    view.innerHTML = "";
+    const svg = sv("svg", {viewBox: "0 0 640 500", role: "img", "aria-label": "Five Raft servers, the messages between them, and their logs"}, view);
+    sv("text", {x: 400, y: 30, "font-size": 13, "font-weight": 700, fill: "var(--ink)"}, svg, `time ${now} ms`);
+    const L = leader();
+    sv("text", {x: 400, y: 50, "font-size": 12, fill: "var(--muted)"}, svg, L ? `leader S${L.id + 1}, term ${L.term}` : "no leader");
+    net.forEach(m => {
+      const [x1, y1] = pos(m.from), [x2, y2] = pos(m.to), f = Math.min(1, Math.max(0, (now - m.sent) / (m.at - m.sent)));
+      const vote = m.k === "RV" || m.k === "RVR";
+      sv("circle", {cx: x1 + (x2 - x1) * f, cy: y1 + (y2 - y1) * f, r: m.k.endsWith("R") ? 3 : 5, fill: vote ? "var(--yellow)" : "var(--blue)", stroke: "var(--ink)", "stroke-width": 0.6}, svg);
+    });
+    S.forEach((s, i) => {
+      const [x, y] = pos(i), g = sv("g", {class: "srv", id: `raft-s${i + 1}`}, svg);
+      const fill = !s.up ? "var(--paper)" : s.role === "leader" ? "var(--blue)" : s.role === "candidate" ? "var(--yellow)" : "var(--paper)";
+      sv("circle", {cx: x, cy: y, r: 30, fill, stroke: s.up ? "var(--ink)" : "var(--muted)", "stroke-width": 2, "stroke-dasharray": s.up ? "none" : "4 3"}, g);
+      if (s.up && s.role !== "leader") {
+        const left = Math.max(0, s.deadline - now) / 300, a = 2 * Math.PI * Math.min(1, left);
+        sv("path", {d: `M${x} ${y - 36} A36 36 0 ${a > Math.PI ? 1 : 0} 1 ${x + 36 * Math.sin(a)} ${y - 36 * Math.cos(a)}`, fill: "none", stroke: "var(--muted)", "stroke-width": 3}, g);
+      }
+      sv("text", {x, y: y - 2, "text-anchor": "middle", "font-size": 14, "font-weight": 700, fill: s.role === "leader" && s.up ? "var(--paper)" : "var(--ink)"}, g, `S${i + 1}`);
+      sv("text", {x, y: y + 14, "text-anchor": "middle", "font-size": 11, fill: s.role === "leader" && s.up ? "var(--paper)" : "var(--ink)"}, g, s.up ? `term ${s.term}` : "crashed");
+      g.addEventListener("click", () => { if (s.up) { s.up = false; note(`S${i + 1} crashes`); } else restart(s); draw(); });
+    });
+    sv("text", {x: 20, y: 342, "font-size": 12, "font-weight": 700, fill: "var(--ink)"}, svg, "Logs (term:command; solid = committed)");
+    S.forEach((s, i) => {
+      const y = 354 + i * 28;
+      sv("text", {x: 20, y: y + 16, "font-size": 12, "font-weight": 700, fill: "var(--ink)"}, svg, `S${i + 1}`);
+      s.log.slice(-14).forEach((e, k) => {
+        const idx = Math.max(0, s.log.length - 14) + k, c = idx < s.commit, col = TCOL[(e.t - 1) % TCOL.length];
+        sv("rect", {x: 52 + k * 41, y, width: 37, height: 22, rx: 3, fill: c ? col : "var(--paper)", stroke: col, "stroke-width": 1.6, "fill-opacity": c ? 0.35 : 1}, svg);
+        sv("text", {x: 70 + k * 41, y: y + 15, "text-anchor": "middle", "font-size": 10, fill: "var(--ink)"}, svg, `${e.t}:${e.c}`);
+      });
+    });
+    const ev = document.getElementById("raft-ev"); ev.innerHTML = ""; events.forEach(e => el("div", {}, ev, e));
+  }
+  function restart(s) { s.up = true; s.role = "follower"; s.commit = 0; s.deadline = now + timeout(); note(`S${s.id + 1} restarts with its term, vote and log`); }
+  function say(t) { document.getElementById("raft-say").textContent = t; }
+  function run(ms) { for (let k = 0; k < ms; k++) tick(); draw(); }
+  const runBtn = document.getElementById("raft-run");
+  function stop() { if (timer) { clearInterval(timer); timer = null; runBtn.textContent = "Run"; } }
+  runBtn.addEventListener("click", () => { if (timer) stop(); else { timer = setInterval(() => run(2), 40); runBtn.textContent = "Pause"; } });
+  document.getElementById("raft-step").addEventListener("click", () => run(100));
+  document.getElementById("raft-cmd").addEventListener("click", () => {
+    const L = leader();
+    if (!L) { say("No leader right now: a client would retry until one is elected."); return; }
+    L.log.push({t: L.term, c: cmdNo}); note(`client: command ${cmdNo} to leader S${L.id + 1}`); cmdNo++;
+    say("The leader appended the command to its own log. It is committed once a majority of the five stores it; watch the blue messages carry it."); draw();
+  });
+  document.getElementById("raft-crash").addEventListener("click", () => {
+    const L = leader();
+    if (!L) { say("There is no leader to crash."); return; }
+    L.up = false; note(`S${L.id + 1} crashes`);
+    say(`S${L.id + 1} is down. The others stop hearing heartbeats; the first whose election timer (the grey arc) runs out stands for the next term.`); draw();
+  });
+  document.getElementById("raft-restart").addEventListener("click", () => { S.filter(s => !s.up).forEach(restart); say("Restarted servers come back as followers and catch up from the leader."); draw(); });
+  document.getElementById("raft-reset").addEventListener("click", () => { stop(); reset(); run(400); say("A fresh cluster, run for 400 ms. Press Run, or send a command."); });
+  reset(); run(400);
+  say("Click a server to crash or restart it. Yellow dots are votes, blue dots are AppendEntries; time runs 25 times slower than real.");
+})();
+
+</script>
+</body>
+</html>

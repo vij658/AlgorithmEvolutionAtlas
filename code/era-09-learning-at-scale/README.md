@@ -9,7 +9,7 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 1 | [Fully Homomorphic Encryption](01-homomorphic-encryption/README.md) | 2009–2010 | [`FullyHomomorphic.java`](01-homomorphic-encryption/FullyHomomorphic.java) | 3,864 |
 | 2 | [Deep Convolutional Networks](02-deep-convolutional-networks/README.md) | 2012 | [`ConvNet.java`](02-deep-convolutional-networks/ConvNet.java) | 26 |
 | 3 | [Word Embeddings](03-word-embeddings/README.md) | 2013 | [`WordEmbeddings.java`](03-word-embeddings/WordEmbeddings.java) | 7 |
-| 4 | Raft | 2014 | planned | |
+| 4 | [Raft](04-raft/README.md) | 2014 | [`Raft.java`](04-raft/Raft.java) | 361,006 |
 | 5 | Adam | 2014 | planned | |
 | 6 | Byte-Pair Encoding for Words | 2015 | planned | |
 | 7 | Residual Networks | 2015 | planned | |

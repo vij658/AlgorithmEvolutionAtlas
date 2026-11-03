@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**350 of 380 concepts searched, 876 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**351 of 380 concepts searched, 879 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1558,4 +1558,12 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | bfs and dfs | [Algorithms: Graph Search, DFS and BFS](https://www.youtube.com/watch?v=zaBhtODEL0w) | HackerRank | Start |
 |  | [6.2 BFS and DFS Graph Traversals\| Breadth First Search and Depth First Search \| Data structures](https://www.youtube.com/watch?v=vf-cxgUXcMk) | Jenny's Lectures CS IT | Start |
 |  | [Lesson 22: Introduction to Algorithms by Mohammad Hajiaghayi: Graph Traversal Algorithms: DFS & BFS](https://www.youtube.com/watch?v=_qeVmseIQv0) | Mohammad Hajiaghayi | Deeper |
+
+### Dijkstra
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| dijkstra | [How Dijkstra's Algorithm Works](https://www.youtube.com/watch?v=EFg3u_E6eHU) | Spanning Tree | Start |
+|  | [Graph Data Structure 4. Dijkstra’s Shortest Path Algorithm](https://www.youtube.com/watch?v=pVfj6mxhdMw) | Computer Science Lessons | Start |
+|  | [3.6 Dijkstra Algorithm - Single Source Shortest Path - Greedy Method](https://www.youtube.com/watch?v=XB4MIexjvY0) | Abdul Bari | Deeper |
 

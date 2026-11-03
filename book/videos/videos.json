@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 355,
+ "rounds": 356,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10505,11 +10505,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-33": {
+   "searched": "2026-11-03",
+   "query": "Dijkstra's algorithm explained shortest path",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Spanning Tree and Abdul Bari are also listed in Era 5 (Dijkstra) and were re-checked today. Left out: many 'Explained', 'Visualized' and 'Visually Explained' uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=EFg3u_E6eHU",
+     "title": "How Dijkstra's Algorithm Works",
+     "channel": "Spanning Tree",
+     "channel_url": "https://www.youtube.com/@SpanningTree",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=pVfj6mxhdMw",
+     "title": "Graph Data Structure 4. Dijkstra’s Shortest Path Algorithm",
+     "channel": "Computer Science Lessons",
+     "channel_url": "https://www.youtube.com/@ComputerScienceLessons",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=XB4MIexjvY0",
+     "title": "3.6 Dijkstra Algorithm - Single Source Shortest Path - Greedy Method",
+     "channel": "Abdul Bari",
+     "channel_url": "https://www.youtube.com/@abdul_bari",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

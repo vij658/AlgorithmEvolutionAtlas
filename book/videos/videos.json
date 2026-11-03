@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 381,
+ "rounds": 382,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11153,11 +11153,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-58": {
+   "searched": "2026-11-03",
+   "query": "Lamport clocks vector clocks explained Kleppmann",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: the Kleppmann lecture was recalled and then confirmed by oEmbed like every other; it did not appear in this search. More videos on Lamport's clocks are listed in Era 6. Left out: interview-prep and 'Master Vector Clocks' uploads, a locking-focused video, and 'Part-I' clips from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=x-D8iFU1d-o",
+     "title": "Distributed Systems 4.1: Logical time",
+     "channel": "Martin Kleppmann",
+     "channel_url": "https://www.youtube.com/@kleppmann",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=UqY1tF3zxjc",
+     "title": "CSE138 (Distributed Systems) L3: partial orders, total orders, Lamport clocks, vector clocks",
+     "channel": "Lindsey Kuper",
+     "channel_url": "https://www.youtube.com/@lindseykuperwithasharpie",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**375 of 380 concepts searched, 926 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**376 of 380 concepts searched, 928 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1735,4 +1735,11 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | quorums | [Quorum \| System Design Fundamentals \| Distributed Systems](https://www.youtube.com/watch?v=nFOjNrG-DZE) | MsDeep Singh | Start |
 |  | [CSE138 (Distributed Systems) L19: more about quorum consistency; introduction to sharding; ...](https://www.youtube.com/watch?v=2edhMsGlwng) | Lindsey Kuper | Deeper |
+
+### Lamport and vector clocks
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| lamport and vector clocks | [Distributed Systems 4.1: Logical time](https://www.youtube.com/watch?v=x-D8iFU1d-o) | Martin Kleppmann | Start |
+|  | [CSE138 (Distributed Systems) L3: partial orders, total orders, Lamport clocks, vector clocks](https://www.youtube.com/watch?v=UqY1tF3zxjc) | Lindsey Kuper | Deeper |
 

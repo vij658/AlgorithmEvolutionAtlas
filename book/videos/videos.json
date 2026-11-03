@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 367,
+ "rounds": 368,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10857,11 +10857,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-45": {
+   "searched": "2026-11-03",
+   "query": "Little's Law explained queueing L = lambda W; Little's Law lecture MIT OpenCourseWare operations management",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "'Little's Law | Knowledge Terms | Supply Chain' (checked; a supply-chain glossary channel) and 'Queuing Theory (No Background Music)' (checked; a re-edit with no stated course) were left out, as were German- and Spanish-language videos, rate-limit 'complete tutorial' and lean-flow uploads from unidentified channels, and numbered course clips that do not name their course",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=zQey2zav7jQ",
+     "title": "Little's Law 1: Introduction",
+     "channel": "EuroLEAN+",
+     "channel_url": "https://www.youtube.com/@eurolean4488",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=xa38Q2_pnlQ",
+     "title": "22. Sliding window analysis, Little's law",
+     "channel": "MIT OpenCourseWare",
+     "channel_url": "https://www.youtube.com/@mitocw",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

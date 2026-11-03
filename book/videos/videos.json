@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 354,
+ "rounds": 355,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10471,11 +10471,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-32": {
+   "searched": "2026-11-03",
+   "query": "BFS and DFS graph traversal explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Single-algorithm videos for BFS and DFS are listed in Eras 5 and 6. Left out: 'Explained!' and 'for Beginners' uploads and a duplicate re-upload of the Jenny's Lectures title from unidentified channels, and a 'visualized' video from an unidentified channel",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=zaBhtODEL0w",
+     "title": "Algorithms: Graph Search, DFS and BFS",
+     "channel": "HackerRank",
+     "channel_url": "https://www.youtube.com/@HackerrankOfficial",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=vf-cxgUXcMk",
+     "title": "6.2 BFS and DFS Graph Traversals| Breadth First Search and Depth First Search | Data structures",
+     "channel": "Jenny's Lectures CS IT",
+     "channel_url": "https://www.youtube.com/@JennyslecturesCSIT",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=_qeVmseIQv0",
+     "title": "Lesson 22: Introduction to Algorithms by Mohammad Hajiaghayi: Graph Traversal Algorithms: DFS & BFS",
+     "channel": "Mohammad Hajiaghayi",
+     "channel_url": "https://www.youtube.com/@hajiaghayi",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

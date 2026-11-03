@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**349 of 380 concepts searched, 873 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**350 of 380 concepts searched, 876 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1550,4 +1550,12 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | knuth morris pratt | [String Matching 3. The KMP Algorithm](https://www.youtube.com/watch?v=1DegxRXeP6U) | Computer Science Lessons | Start |
 |  | [9.1 Knuth-Morris-Pratt KMP String Matching Algorithm](https://www.youtube.com/watch?v=V5-7GzOfADQ) | Abdul Bari | Deeper |
+
+### Bfs and dfs
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| bfs and dfs | [Algorithms: Graph Search, DFS and BFS](https://www.youtube.com/watch?v=zaBhtODEL0w) | HackerRank | Start |
+|  | [6.2 BFS and DFS Graph Traversals\| Breadth First Search and Depth First Search \| Data structures](https://www.youtube.com/watch?v=vf-cxgUXcMk) | Jenny's Lectures CS IT | Start |
+|  | [Lesson 22: Introduction to Algorithms by Mohammad Hajiaghayi: Graph Traversal Algorithms: DFS & BFS](https://www.youtube.com/watch?v=_qeVmseIQv0) | Mohammad Hajiaghayi | Deeper |
 

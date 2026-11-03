@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 326,
+ "rounds": 327,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9672,11 +9672,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-04": {
+   "searched": "2026-11-03",
+   "query": "Manhattan Chebyshev Minkowski distance explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'Euclidean, Manhattan, Chebyshev Distances in 2D path planning' (checked; a personal channel with no stated background), numbered course lessons and data-mining exam examples from unidentified uploaders, and KNN how-tos. No university-level lecture on the three metrics as a family turned up.",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=eutzTEGgLpE",
+     "title": "Every Distance in Data Science (Almost 100K Subs!)",
+     "channel": "ritvikmath",
+     "channel_url": "https://www.youtube.com/@ritvikmath",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=oPMaAApBAXU",
+     "title": "Find Distance using Euclidean Manhattan Chebyshev Distance formula Solved Example by Mahesh Huddar",
+     "channel": "Mahesh Huddar",
+     "channel_url": "https://www.youtube.com/@MaheshHuddar",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

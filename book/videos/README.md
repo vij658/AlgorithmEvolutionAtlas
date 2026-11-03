@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**321 of 380 concepts searched, 808 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**322 of 380 concepts searched, 810 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1344,4 +1344,11 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | euclidean distance | [Deriving the Distance Formula from the Pythagorean Theorem](https://www.youtube.com/watch?v=MeWonv4ef2k) | Wrath of Math | Start |
 |  | [Distance between 2 points in 3D \| Introduction to 3D \| Grade 11 \| Math \| Khan Academy](https://www.youtube.com/watch?v=p4y34xphISA) | Khan Academy India - English | Start |
 |  | [Euclidean Distance: Math, Applications and Code #SoME3](https://www.youtube.com/watch?v=3rPwfmrCwVw) | Radu Mariescu-Istodor | Deeper |
+
+### Manhattan chebyshev minkowski
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| manhattan chebyshev minkowski | [Every Distance in Data Science (Almost 100K Subs!)](https://www.youtube.com/watch?v=eutzTEGgLpE) | ritvikmath | Start |
+|  | [Find Distance using Euclidean Manhattan Chebyshev Distance formula Solved Example by Mahesh Huddar](https://www.youtube.com/watch?v=oPMaAApBAXU) | Mahesh Huddar | Start |
 

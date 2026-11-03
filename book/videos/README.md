@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**358 of 380 concepts searched, 896 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**359 of 380 concepts searched, 899 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1618,4 +1618,12 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | hyperloglog | [HyperLogLog Hit Counter - Computerphile](https://www.youtube.com/watch?v=B_PexYrEcEw) | Computerphile | Start |
 |  | [Count-distinct using HLL++ algorithm](https://www.youtube.com/watch?v=tQhYqKTS08w) | Apache Beam | Deeper |
+
+### Newtons method
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| newtons method | [Newton-Raphson method \| Animated and explained \| Algorithm for finding roots of a function](https://www.youtube.com/watch?v=qlNqPE_X4ME) | MathAndPhysics | Start |
+|  | [Newton's Method](https://www.youtube.com/watch?v=E24zUEKqgwQ) | Oscar Veliz | Start |
+|  | [When Newton's method doesn't work](https://www.youtube.com/watch?v=-DpZOZTsdvg) | Lorenzo Sadun | Deeper |
 

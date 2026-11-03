@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 352,
+ "rounds": 353,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10419,11 +10419,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-30": {
+   "searched": "2026-11-03",
+   "query": "Floyd cycle detection tortoise and hare Pollard rho explained; Pollard's rho factorization algorithm lecture",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "Note: the NeetCode video did not appear in these searches; it was recalled and then confirmed by oEmbed like every other. The Pollard's rho lecture is from Cihangir Tezcan's Applied Cryptology course. Checked and left out (channels that do not say who teaches): 'Why the Tortoise and Hare Actually Meet', 'Floyd's Algorithm for Cycle Detection | LeetCode 287', 'Floyd's Tortoise and Hare Algorithm | Leetcode June Challenge', and 'Computational Number Theory ... Part 6: Pollard's Rho'. Also left out: emoji-titled and numbered coding clips, Pollard's p-1 (a different method), and a German-language video",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=gBTe7lFR3vc",
+     "title": "Linked List Cycle - Floyd's Tortoise and Hare - Leetcode 141 - Python",
+     "channel": "NeetCode",
+     "channel_url": "https://www.youtube.com/@NeetCode",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=en0vyyJdDs4",
+     "title": "Applied Cryptology 12.6: Pollard's Rho Algorithm",
+     "channel": "Cryptography",
+     "channel_url": "https://www.youtube.com/@CihangirTezcan",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 344,
+ "rounds": 345,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10179,11 +10179,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-22": {
+   "searched": "2026-11-03",
+   "query": "binary search algorithm explained off by one bugs",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "'You Suck at Binary Search' (checked; clickbait title), short overflow-bug clips and hashtag uploads from unidentified channels, and beginner 'step by step' series parts",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=MFhxShGxHWc",
+     "title": "Binary Search Algorithm in 100 Seconds",
+     "channel": "Fireship",
+     "channel_url": "https://www.youtube.com/@Fireship",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=hDn8iOc30Tk",
+     "title": "Binary Search Algorithm - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

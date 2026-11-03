@@ -5604,7 +5604,7 @@
    "query": "self-balancing binary search tree explained red-black AVL",
    "host": "youtube.com",
    "candidates": 10,
-   "rejected": "C++-only code videos, 'visually explained' uploads from unidentified channels, a long-titled rotations diagram, and a red-black deletion video (a later detail). A Michael Sambol red-black playlist is waiting for permission to be checked (see permission-log.md)",
+   "rejected": "C++-only code videos, 'visually explained' uploads from unidentified channels, a long-titled rotations diagram, and a red-black deletion video (a later detail). The Michael Sambol red-black playlist needed the author's approval to be checked; it was approved and checked on 2026-11-03 and added (see permission-log.md)",
    "videos": [
     {
      "url": "https://www.youtube.com/watch?v=5Q-__zhQ2Gs",
@@ -5621,6 +5621,14 @@
      "channel_url": "https://www.youtube.com/@BeforeSemicolon",
      "level": "start",
      "checked": "YouTube oEmbed, 2026-11-02"
+    },
+    {
+     "url": "https://www.youtube.com/playlist?list=PL9xmBV_5YoZNqDI8qfOZgzbqahCUmUEin",
+     "title": "Red-Black Trees // Michael Sambol",
+     "channel": "Michael Sambol",
+     "channel_url": "https://www.youtube.com/@MichaelSambol",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
     }
    ],
    "tries": 1

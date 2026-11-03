@@ -13,7 +13,7 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 5 | [Adam](05-adam/README.md) | 2014 | [`Adam.java`](05-adam/Adam.java) | 8 |
 | 6 | [Byte-Pair Encoding for Words](06-byte-pair-encoding/README.md) | 2015 | [`BytePairEncoding.java`](06-byte-pair-encoding/BytePairEncoding.java) | 196 |
 | 7 | [Residual Networks](07-residual-networks/README.md) | 2015 | [`ResidualNetworks.java`](07-residual-networks/ResidualNetworks.java) | 8 |
-| 8 | Monte Carlo Tree Search and AlphaGo | 2006–2016 | planned | |
+| 8 | [Monte Carlo Tree Search and AlphaGo](08-monte-carlo-tree-search/README.md) | 2006–2016 | [`MonteCarloTreeSearch.java`](08-monte-carlo-tree-search/MonteCarloTreeSearch.java) | 6 |
 | 9 | The Transformer | 2017 | planned | |
 | 10 | Lattice Cryptography and ML-KEM | 2017–2024 | planned | |
 | 11 | Diffusion Models | 2015–2020 | planned | |

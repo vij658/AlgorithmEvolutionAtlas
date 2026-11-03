@@ -1,0 +1,5 @@
+tictactoe: solved exactly, 4,520 positions in play, the empty board is a draw ; UCT on 600 random positions ; 30 rounds: a best move in 570 of 600 (388 of 418 where a wrong move exists) ; 300 rounds: a best move in 597 of 600 (415 of 418 where a wrong move exists) ; 3,000 rounds: a best move in 600 of 600 (418 of 418 where a wrong move exists)
+connect4: 7 columns, 6 rows, each side first in half the games ; UCT 200 rounds against random moves: 40 wins, 0 draws, 0 losses ; UCT 2,000 rounds against UCT 500: 44 wins, 1 draws, 15 losses
+prior: a prior of 1, 2, 3, 4, 3, 2, 1 (out of 16) over the columns, centre first, selection by win rate + 1.5 * prior * sqrt(parent visits) / (1 + visits) ; with prior, 500 rounds, against plain UCT, 500 rounds: 38 wins, 4 draws, 18 losses
+position: moves 4, 4, 3, 5, 3 (columns, 1 to 7, Red first) ; Yellow to move ; UCT 5,000 rounds ; column 1: 460 visits, wins 40% ; column 2: 818 visits, wins 44% ; column 3: 2444 visits, wins 51% ; column 4: 437 visits, wins 39% ; column 5: 503 visits, wins 40% ; column 6: 184 visits, wins 28% ; column 7: 154 visits, wins 26% ; chosen: column 3
+MonteCarloTreeSearch: 6 checks passed

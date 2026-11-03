@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 341,
+ "rounds": 342,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10101,11 +10101,37 @@
    "rejected": "No suitable video could be confirmed. The only explainer found, 'Fixing Roundoff Error, part 2: Kahan summation & double doubles', failed its oEmbed check (it may be private or not embeddable), so it is not listed. 'Kahan on the 8087 and designing Intel's floating point' is William Kahan himself but on the Turing Awardee Clips reupload channel. Left out too: general floating-point addition lectures that do not cover compensated summation, a C++ Q&A clip, and an unrelated 'Kahn's algorithm' (topological sort). Neumaier's variant has no video at all.",
    "videos": [],
    "tries": 1
+  },
+  "p-19": {
+   "searched": "2026-11-03",
+   "query": "why 0.1 + 0.2 != 0.3 floating point money decimals explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: both listed videos were recalled and then confirmed by oEmbed like every other; this search did not show them. Left out: 'Why 0.1 + 0.2 is not 0.3' by PolitePixels (checked; channel does not say who teaches), a Short, JavaScript and Python 'stop using floats for money' tips from unidentified channels, and IEEE-754 explainers with clickbait titles. No video found that treats money (decimal or integer cents) on its own.",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=PZRI1IfStY0",
+     "title": "Floating Point Numbers - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=dQhj5RGtag0",
+     "title": "how floating point works",
+     "channel": "jan Misali",
+     "channel_url": "https://www.youtube.com/@HBMmaster",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

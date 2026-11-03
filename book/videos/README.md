@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**368 of 380 concepts searched, 917 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**369 of 380 concepts searched, 919 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1689,4 +1689,11 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | percentiles and coordinated omission | [Percentile Tail Latency Explained (95%, 99%) Monitor Backend performance with this metric](https://www.youtube.com/watch?v=3JdQOExKtUY) | Hussein Nasser | Start |
 |  | ["How NOT to Measure Latency" by Gil Tene](https://www.youtube.com/watch?v=lJ8ydIuPFeU) | Strange Loop Conference | Scholar |
+
+### Power of two choices
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| power of two choices | [Class 6, Video 1: Balls and Bins](https://www.youtube.com/watch?v=tQzanmpF8Ao) | Mary Wootters | Deeper |
+|  | [Load balancing with the multiple choice paradigm](https://www.youtube.com/watch?v=psMMngLC2Ds) | Microsoft Research | Scholar |
 

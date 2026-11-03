@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 373,
+ "rounds": 374,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11013,11 +11013,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-51": {
+   "searched": "2026-11-03",
+   "query": "power of two random choices load balancing balls into bins",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "The Wootters lecture covers the balls-and-bins model that the two-choices result improves on; its title does not promise the two-choices result itself. Left out: 'Balls into Boxes' (checked; a combinatorics counting lesson, a different problem), a STOC research talk on a graph variant, coupon-collector and stars-and-bars videos. No beginner-level video found.",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=tQzanmpF8Ao",
+     "title": "Class 6, Video 1: Balls and Bins",
+     "channel": "Mary Wootters",
+     "channel_url": "https://www.youtube.com/@marywootters7651",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=psMMngLC2Ds",
+     "title": "Load balancing with the multiple choice paradigm",
+     "channel": "Microsoft Research",
+     "channel_url": "https://www.youtube.com/@MicrosoftResearch",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

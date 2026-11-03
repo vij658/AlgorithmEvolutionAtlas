@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 383,
+ "rounds": 384,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11185,7 +11185,7 @@
    "query": "CRDTs conflict-free replicated data types explained Kleppmann talk",
    "host": "youtube.com",
    "candidates": 10,
-   "rejected": "Kleppmann's talk is listed from his own channel; another upload of the same talk (PMVBuMK_pJY) was not checked or listed. Left out: 'An introduction to CRDTs' (checked; a startup's company channel), a Short, an Italian-audio overview, and 'Practical CRDTs' and other talks from unidentified uploaders",
+   "rejected": "Kleppmann's talk is listed from his own channel; a second upload with a similar title on another channel was not listed. Left out: 'An introduction to CRDTs' (checked; a startup's company channel), a Short, an Italian-audio overview, and 'Practical CRDTs' and other talks from unidentified uploaders",
    "videos": [
     {
      "url": "https://www.youtube.com/watch?v=9xFfOhasiOE",
@@ -11204,7 +11204,7 @@
      "checked": "YouTube oEmbed, 2026-11-03"
     }
    ],
-   "tries": 1
+   "tries": 2
   }
  },
  "pace": {

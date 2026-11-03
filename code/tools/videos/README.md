@@ -1,6 +1,6 @@
 # The video list: how it is made
 
-The list is [`book/videos/`](../../../book/videos/README.md): for every topic of the book (Chapter 1, Eras 1 to 8 and the principles catalog), its concepts from the simplest to the most advanced, each with videos that explain it. The concepts are listed in [`concepts.py`](concepts.py), 380 of them; the results are kept in `book/videos/videos.json`, and [`videos.py`](videos.py) builds the interactive page (`index.html`) and the GitHub page (`README.md`) from them.
+The list is [`book/videos/`](../../../book/videos/README.md): for every topic of the book (Chapter 1, Eras 1 to 9 and the principles catalog), its concepts from the simplest to the most advanced, each with videos that explain it. The concepts are listed in [`concepts.py`](concepts.py), 419 of them; the results are kept in `book/videos/videos.json`, and [`videos.py`](videos.py) builds the interactive page (`index.html`) and the GitHub page (`README.md`) from them.
 
 ## One round
 
@@ -24,6 +24,7 @@ The loop runs on its own, without breaks, until all concepts are done.
 - **Mark it.** Add every link that needed permission to [`permission-log.md`](permission-log.md) (date, concept id, URL, what it was for). The video is not listed until it has been checked; the log is what the author reviews and approves later.
 - **Report it.** When the author returns, give them the list of links from the log that are still waiting.
 - The rules below still hold: a link is listed only after it opens; nothing is guessed or filled in.
+- **Check the check.** Some oEmbed lookups come back with a different, unrelated video (a stale answer). Every check must name the video ID found inside the returned `html` iframe; if it is not the ID asked for, the check has failed and the video is not listed.
 
 ## Rules carried over from the book
 

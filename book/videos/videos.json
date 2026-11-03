@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 334,
+ "rounds": 335,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9904,11 +9904,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-12": {
+   "searched": "2026-11-03",
+   "query": "sieve of Eratosthenes explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Math Mammoth and Gaurav Sen are also listed under Era 1 (the sieve) and were re-checked today. Left out: a numbered textbook-section clip, tutorials and 'Explained' uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=klcIklsWzrY",
+     "title": "Sieve of Eratosthenes | Journey into cryptography | Computer Science | Khan Academy",
+     "channel": "Khan Academy Labs",
+     "channel_url": "https://www.youtube.com/@KhanAcademyLabs",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=P__PsS2J_y8",
+     "title": "Sieve of Eratosthenes (finding prime numbers)",
+     "channel": "Math Mammoth",
+     "channel_url": "https://www.youtube.com/@MathMammoth",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=Xxu95iiVcPI",
+     "title": "Prime Number Sieves",
+     "channel": "Gaurav Sen",
+     "channel_url": "https://www.youtube.com/@gkcs",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

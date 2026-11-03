@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 353,
+ "rounds": 354,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10445,11 +10445,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-31": {
+   "searched": "2026-11-03",
+   "query": "Knuth Morris Pratt KMP algorithm explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Both are also listed in Era 6 (KMP) and were re-checked today. Left out: 'Knuth-Morris-Pratt Algorithm Visually Explained' by ByteQuest (checked; channel does not say who teaches), 'FULLY Explained' and emoji-titled uploads, and code-only walkthroughs",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=1DegxRXeP6U",
+     "title": "String Matching 3. The KMP Algorithm",
+     "channel": "Computer Science Lessons",
+     "channel_url": "https://www.youtube.com/@ComputerScienceLessons",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=V5-7GzOfADQ",
+     "title": "9.1 Knuth-Morris-Pratt KMP String Matching Algorithm",
+     "channel": "Abdul Bari",
+     "channel_url": "https://www.youtube.com/@abdul_bari",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 342,
+ "rounds": 343,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10127,11 +10127,29 @@
     }
    ],
    "tries": 1
+  },
+  "p-20": {
+   "searched": "2026-11-03",
+   "query": "integer overflow explained bugs pigeonhole principle; integer overflow Computerphile Tom Scott 2038 problem",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "Only the pigeonhole half found a suitable video. For integer overflow: 'The Integer Overflow Error' (checked; a personal channel), 'Year 2038 problem' (checked; Audiopedia, a machine-read Wikipedia channel), hashtag clickbait, security exploit tutorials, Shorts, and German- and French-language videos were left out",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=2-mxYrCNX60",
+     "title": "PIGEONHOLE PRINCIPLE - DISCRETE MATHEMATICS",
+     "channel": "TrevTutor",
+     "channel_url": "https://www.youtube.com/@Trevtutor",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

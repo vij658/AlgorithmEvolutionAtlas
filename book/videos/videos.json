@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 329,
+ "rounds": 330,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9750,11 +9750,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-07": {
+   "searched": "2026-11-03",
+   "query": "cosine similarity explained vectors",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "The Jaccard and Langmead videos are also listed in Era 8 (Jaccard similarity, MinHash) and were re-checked today; this search covered cosine similarity. Left out: vector-database product videos, clickbait 'FINALLY Explained Visually (No Math Fear!)', and several 'explained simply' and 'basics' uploads from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=e9U0QAFbfLI",
+     "title": "Cosine Similarity, Clearly Explained!!!",
+     "channel": "StatQuest with Josh Starmer",
+     "channel_url": "https://www.youtube.com/@statquest",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=96v3YO_fYI0",
+     "title": "Jaccard Similarity explained with examples | Science in Data",
+     "channel": "Science in Data",
+     "channel_url": "https://www.youtube.com/@scienceindata",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=aTwRpqUnQX8",
+     "title": "Similarity & MinHash",
+     "channel": "Ben Langmead",
+     "channel_url": "https://www.youtube.com/@BenLangmead",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

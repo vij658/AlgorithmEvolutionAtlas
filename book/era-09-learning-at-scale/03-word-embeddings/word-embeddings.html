@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Word Embeddings</title>
+<meta name="description" content="Era 9, topic 3 of The Algorithm Evolution Atlas: word2vec (Google, 2013), skip-gram with negative sampling, and the analogies that appear as directions in the vectors.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.w2v-board{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:18px}
+@media (max-width:760px){.w2v-board{grid-template-columns:1fr}}
+.w2v-view svg{width:100%;height:auto;display:block;background:var(--wash)}
+.w2v-ana{font:14px var(--mono);line-height:2.2}
+.w2v-ana select{font:inherit;max-width:9em}
+.w2v-btns{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.w2v-list{font:13px var(--mono);display:grid;gap:2px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 9: Learning at Scale</a><a href="../02-deep-convolutional-networks/deep-convolutional-networks.html">← Deep Convolutional Networks</a><a href="../04-raft/raft.html">Raft →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 9 · Topic 3 · 2013</div>
+    <h1>Word Embeddings</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">To a computer a word was a symbol, related to no other. In 2013 a team at Google gave every word a vector and trained it to predict the word's neighbours. Similar words ended up close together, and relations became directions.</p>
+  <p class="fieldnote">Field note from the visiting historian. I wrote the program a little world in 30,000 sentences and let it predict neighbours. I never told it what a capital is. Afterwards, Paris minus France plus Italy was rome, and king minus man plus woman was queen. Countries and their languages, it understood much less well.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>January and October 2013</dd></div><div><dt>Where</dt><dd>Google</dd></div><div><dt>What hurt</dt><dd>Words were symbols with nothing in common</dd></div><div><dt>The fix</dt><dd>Vectors trained to predict neighbours, with negative sampling</dd></div><div><dt>Checked</dt><dd>94 of 142 analogies, against 5 for random vectors</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Linguists had long held that a word is known by the company it keeps, and neural language models of the 2000s already learned a vector for each word, slowly. Mikolov and his colleagues at Google made the model shallow, replaced the expensive softmax by a cheap guessing game against random words, and trained on billions of words in a day.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 660" role="img" aria-label="How word2vec combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="124.0" x2="426.5" y2="190.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="426.5,190.0 417.7,191.8 419.3,184.7" style="fill:var(--ink-2)"/><line x1="500.0" y1="124.0" x2="500.0" y2="190.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,190.0 496.3,181.8 503.7,181.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="124.0" x2="573.5" y2="190.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,190.0 580.7,184.7 582.3,191.8" style="fill:var(--ink-2)"/><line x1="426.5" y1="294.0" x2="125.0" y2="360.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="125.0,360.0 132.2,354.7 133.8,361.8" style="fill:var(--ink-2)"/><line x1="573.5" y1="294.0" x2="875.0" y2="360.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="875.0,360.0 866.2,361.8 867.8,354.7" style="fill:var(--ink-2)"/><line x1="500.0" y1="294.0" x2="500.0" y2="520.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,520.0 496.3,511.8 503.7,511.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="42.8" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Distributional</text><text x="32.0" y="62.5" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">hypothesis</text><text x="32.0" y="79.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a word is known by its</text><text x="32.0" y="96.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">company</text><text x="32.0" y="112.8" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">linguistics, 1950s</text><rect x="395" y="20" width="210" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="52.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Neural language models</text><text x="407.0" y="69.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">words as learned vectors,</text><text x="407.0" y="86.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">slow</text><text x="407.0" y="102.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">2000s</text><rect x="770" y="20" width="210" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="52.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Huffman&#x27;s codes</text><text x="782.0" y="69.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a tree for the hierarchical</text><text x="782.0" y="86.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">softmax</text><text x="782.0" y="102.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 5</text><rect x="395" y="190" width="210" height="104" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="214.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">word2vec</text><text x="407.0" y="231.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ shallow models, negative</text><text x="407.0" y="248.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">sampling, billions of words</text><text x="407.0" y="264.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Mikolov and colleagues, Google,</text><text x="407.0" y="281.1" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">2013</text><rect x="20" y="360" width="210" height="104" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="400.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Subword tokens</text><text x="32.0" y="418.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">vectors for pieces of words</text><text x="32.0" y="434.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 6, 2015</text><rect x="770" y="360" width="210" height="104" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="782.0" y="392.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The Transformer</text><text x="782.0" y="409.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">every token starts as a</text><text x="782.0" y="426.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">vector</text><text x="782.0" y="442.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 9, 2017</text><rect x="395" y="520" width="210" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="552.6" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Language models</text><text x="407.0" y="569.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">embeddings learned with</text><text x="407.0" y="586.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">everything else</text><text x="407.0" y="602.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">after 2017</text><text x="20.0" y="645.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">The distributional hypothesis is attributed to Firth; his text was not opened, so the box gives no quotation.</text></svg></div><figcaption>Red: word2vec. Blue: later topics in this era where every token is a vector.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">Arithmetic with words</h2>
+<p class="col">These are the program's 42 trained word vectors, 32 numbers each, drawn on two dimensions. Choose an analogy, <em>a is to b as c is to ?</em>; the page computes v(b) − v(a) + v(c) with all 32 numbers and shows the nearest words by cosine. Country to capital and male to female work well; try country to language, which this small model learned badly.</p>
+
+<div class="board w2v-board">
+  <div style="min-width:0"><div class="w2v-view" id="w2v-view"></div></div>
+  <div style="min-width:0">
+    <div class="w2v-ana"><select id="w2v-a"></select> is to <select id="w2v-b"></select> as <select id="w2v-c"></select> is to <b id="w2v-d">?</b></div>
+    <div class="w2v-btns"><button type="button" class="primary" id="w2v-go">Compute b − a + c</button><button type="button" id="w2v-rnd">A random analogy</button></div>
+    <div class="w2v-list" id="w2v-list"></div>
+    <p class="say" id="w2v-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 9, learning at scale</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 9: Learning at Scale, from 2009 to 2026" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2009–2010</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Homomorphic</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">encryption</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2012</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AlexNet</text><circle cx="307.0" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2013</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">word2vec</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2014</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Raft</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2014</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Adam</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2015</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Byte-pair encoding</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2015</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">ResNet</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2006–2016</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AlphaGo</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2017</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Transformer</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2017–2024</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">ML-KEM</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2015–2020</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Diffusion models</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2022</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">FlashAttention</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2022–2025</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AlphaTensor</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 416" role="img" aria-label="Each fix leaves a new pain: from symbols to vectors" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A word was a symbol: nothing learned about &quot;cat&quot;</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">carried to &quot;kitten&quot;</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Learn a vector for each word by predicting its</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">neighbours</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">skip-gram</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The full softmax costs a pass over the whole vocabulary</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">for every pair</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Negative sampling: tell the real neighbour from 5 random</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">words</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Mikolov and colleagues, 2013</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="345.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">&quot;the&quot; and &quot;a&quot; appear everywhere and teach little</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Subsample frequent words; draw noise from count^(3/4)</text><text x="572.0" y="370.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the same paper</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Predict the neighbours</h2>
+<p class="col"><strong>Two vectors per word.</strong> Every word w gets a vector v_w for when it is in the centre and a vector u_c for when it is a neighbour. The skip-gram model reads the text and, for every centre word, looks at the words within a small window around it.</p>
+<p class="col"><strong>Negative sampling.</strong> For each real pair (w, c), push σ(v_w · u_c) towards 1, where σ(x) = 1/(1 + e^−x). Then draw k random noise words n and push σ(v_w · u_n) towards 0. One step of gradient descent per pair adjusts v_w, u_c and the u_n. The noise words are drawn in proportion to count^(3/4), which gives rarer words a little more chance than their counts would.</p>
+<p class="col"><strong>Subsampling.</strong> Words like "the" and "is" are thrown away at random each time they appear, more often the more frequent they are, so the window reaches past them to words that say something.</p>
+<p class="col"><strong>Why analogies work.</strong> Words used in similar company end up with similar vectors. If capitals share some company ("city", "capital") and each capital shares its country's own company (the language, the sentence with its country), then v(paris) is roughly <em>capital</em> + <em>france-ness</em>, v(france) is <em>nation</em> + <em>france-ness</em>, and the difference v(paris) − v(france) is about the same for every pair. Add it to v(italy) and you land near v(rome).</p>
+<div class="callout key col"><div class="k">Key idea</div><p>Do not tell the model what words mean; make it predict their neighbours. Meaning ends up as geometry: similar words close together, consistent relations as consistent directions.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Sixty words, two million pairs</h2>
+<p class="col"><strong>The corpus</strong>: 30,000 sentences written from patterns about 8 countries, their capitals and languages, and 6 pairs of words that differ by gender, each pair with a context word of its own: 160,808 words, a vocabulary of 60. Most frequent: is 15,112, the 14,839, a 11,325, of 11,278, speak 7,594. A real corpus would be ordinary text, billions of words long; this one is small so that the program can check what the vectors learn.</p>
+<p class="col"><strong>Training</strong>: d = 32, window 3, k = 5 noise words, 5 passes. Subsampling skipped 278,038 of 804,040 word occurrences; 2,103,862 centre-neighbour pairs were trained. Raising counts to the 3/4 power cut "the"'s share of the noise draws from 0.092 to 0.065. The gradient of the loss agreed with finite differences to 3.2 × 10⁻¹⁰.</p>
+<p class="col"><strong>Nearest words</strong> (cosine of the angle between vectors), among the 42 content words:</p>
+<div class="tbl"><table><thead><tr><th class="">Word</th><th class="">Nearest</th><th class="">Second</th><th class="">Third</th></tr></thead><tbody><tr class=""><td class="">paris</td><td class="">berlin 0.93</td><td class="">madrid 0.92</td><td class="">lima 0.91</td></tr><tr class=""><td class="">france</td><td class="">kenya 0.70</td><td class="">egypt 0.63</td><td class="">italy 0.62</td></tr><tr class=""><td class="">king</td><td class="">brother 0.69</td><td class="">prince 0.64</td><td class="">father 0.64</td></tr><tr class=""><td class="">sister</td><td class="">girl 0.68</td><td class="">princess 0.66</td><td class="">queen 0.63</td></tr><tr class=""><td class="">swahili</td><td class="">italian 0.61</td><td class="">quechua 0.61</td><td class="">japanese 0.61</td></tr></tbody></table></div>
+<p class="col"><strong>Analogies</strong>: every pair of pairs within a relation ("a is to b as c is to ?"), answered by the word nearest to v(b) − v(a) + v(c), excluding a, b and c:</p>
+<div class="tbl"><table><thead><tr><th class="">Relation</th><th class="n">Right</th><th class="n">Asked</th><th class="n">Share</th></tr></thead><tbody><tr class=""><td class="">country → capital</td><td class="n">56</td><td class="n">56</td><td class="n">100%</td></tr><tr class=""><td class="">country → language</td><td class="n">8</td><td class="n">56</td><td class="n">14%</td></tr><tr class=""><td class="">male → female</td><td class="n">30</td><td class="n">30</td><td class="n">100%</td></tr><tr class="hl"><td class="">all</td><td class="n">94</td><td class="n">142</td><td class="n">66%</td></tr><tr class=""><td class="">random vectors</td><td class="n">5</td><td class="n">142</td><td class="n">4%</td></tr></tbody></table></div>
+<p class="col">v(paris) − v(france) + v(italy) is nearest to <strong>rome</strong>; v(king) − v(man) + v(woman) is nearest to <strong>queen</strong>. Not every relation is learned equally: country to language was answered 8 times of 56.</p>
+<p class="col"><strong>The cost per training pair</strong>: a full softmax over these 60 words needs 1,920 multiply-adds; negative sampling with k = 5 needs 192. For a vocabulary of a million words and d = 300: 300,000,000 against 1,800.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">Two papers from Google, 2013</h2>
+<p class="col">Mikolov, Chen, Corrado and Dean (submitted 16 January 2013): "it takes less than a day to learn high quality word vectors from a 1.6 billion words data set", with "state-of-the-art performance on our test set for measuring syntactic and semantic word similarities". Mikolov, Sutskever, Chen, Corrado and Dean (October 2013): negative sampling with 5 to 20 noise words for small datasets and 2 to 5 for large ones, noise from the unigram distribution to the 3/4 power, subsampling of frequent words, phrases learned as tokens, and vectors that add ("Russian" + "river" near "Volga River").</p>
+<p class="col">Wikipedia: in skip-gram "the model uses the current word to predict the surrounding window of context words"; continuous bag-of-words is "a 'fill in the blank' task"; hierarchical softmax "uses a Huffman tree"; the second paper "received the 2023 NeurIPS Test of Time Award".</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Huffman&#x27;s tree, in a language model</h2>
+<p class="col">Word2vec's other speed trick, the hierarchical softmax, puts the vocabulary at the leaves of a Huffman tree (Era 5, topic 3), so frequent words sit near the root and a prediction costs a few steps down the tree instead of a pass over the whole vocabulary. The code meant to compress telegrams ended up organizing a neural network's output.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>Nothing told the program that Paris is a capital. v(paris) − v(france) + v(italy) landed on rome.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>In "in paris they speak french", with a window of 2, which neighbours does "paris" have?</span></summary><div class="ans"><p>in, they, speak (one word to its left, two to its right within the sentence); "french" is three away.</p></div></details><details class="try"><summary><span class="q">2</span><span>Why train against random noise words instead of the whole vocabulary?</span></summary><div class="ans"><p>The whole vocabulary costs a dot product per word for every pair; k noise words cost k + 1. The model only has to tell real neighbours from random ones.</p></div></details><details class="try"><summary><span class="q">3</span><span>Counts 10,000 and 100. What are their noise weights with the 3/4 power, and how does the ratio change?</span></summary><div class="ans"><p>1,000 and about 31.6: the ratio falls from 100 to about 32, so rare words are drawn more often than their counts alone would give.</p></div></details><details class="try"><summary><span class="q">4</span><span>Why exclude a, b and c when answering an analogy?</span></summary><div class="ans"><p>v(b) − v(a) + v(c) is often closest to b or c themselves; the question asks for a fourth word.</p></div></details><details class="try"><summary><span class="q">5</span><span>If two words never appear near each other but always appear near the same words, will their vectors be close?</span></summary><div class="ans"><p>Yes: their vectors are both pulled towards the same neighbour vectors. This is the distributional idea.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Efficient Estimation of Word Representations in Vector Space (2013)</b><span>Mikolov, Chen, Corrado and Dean.</span><a href="https://arxiv.org/abs/1301.3781">arXiv:1301.3781</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://www.youtube.com/watch?v=viZrOnJclY0" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Word Embedding and Word2Vec, Clearly Explained!!! · StatQuest with Josh Starmer</span><span class="w">Words to vectors, slowly and with pictures</span></a><a href="https://en.wikipedia.org/wiki/Word2vec" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Word2vec · Wikipedia</span><span class="w">The two models and the two training tricks</span></a><a href="https://www.youtube.com/watch?v=rmVRLeJRkl4" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Stanford CS224N: NLP with Deep Learning | Winter 2021 | Lecture 1 - Intro &amp; Word Vectors · Stanford Online</span><span class="w">The first lecture of Stanford's course, on word vectors</span></a><a href="https://arxiv.org/abs/1301.3781" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Efficient Estimation of Word Representations in Vector Space · T. Mikolov, K. Chen, G. Corrado, J. Dean (2013)</span><span class="w">The two architectures</span></a><a href="https://ar5iv.arxiv.org/html/1310.4546" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Distributed Representations of Words and Phrases and their Compositionality · T. Mikolov, I. Sutskever, K. Chen, G. Corrado, J. Dean (2013)</span><span class="w">Negative sampling and subsampling</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-09-learning-at-scale/reference-catalog.md">Era 9 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-09-learning-at-scale/03-word-embeddings/WordEmbeddings.java">WordEmbeddings.java</a> makes <strong>7 checks</strong>: the gradient against finite differences, the noise distribution, the analogies against random vectors, and the two famous examples. Run it with <code>java WordEmbeddings.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">/** One SGD step on the pair (w, c); returns the gradient with respect to vIn[w] (for the gradient check). */</span>
+<span class="k-kw">static</span> <span class="k-kw">double</span>[] pairStep(<span class="k-kw">int</span> w, <span class="k-kw">int</span> c, <span class="k-kw">int</span>[] neg, <span class="k-kw">double</span> lr) {
+    <span class="k-kw">double</span>[] gv = <span class="k-kw">new</span> <span class="k-kw">double</span>[D];
+    <span class="k-kw">int</span>[] all = <span class="k-kw">new</span> <span class="k-kw">int</span>[neg.length + <span class="k-n">1</span>];
+    all[<span class="k-n">0</span>] = c;
+    System.arraycopy(neg, <span class="k-n">0</span>, all, <span class="k-n">1</span>, neg.length);
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> t = <span class="k-n">0</span>; t &lt; all.length; t++) {
+        <span class="k-kw">int</span> o = all[t];
+        <span class="k-kw">double</span> label = t == <span class="k-n">0</span> ? <span class="k-n">1</span> : <span class="k-n">0</span>;
+        <span class="k-kw">double</span> g = sigma(dot(vIn[w], uOut[o])) - label; <span class="k-c">// d loss / d (v . u_o)</span>
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; D; i++) { gv[i] += g * uOut[o][i]; uOut[o][i] -= lr * g * vIn[w][i]; }
+    }
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; D; i++) vIn[w][i] -= lr * gv[i];
+    <span class="k-kw">return</span> gv;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>WordEmbeddings.java</code>.<br><span class="navfoot"><a href="../index.html">Era 9: Learning at Scale</a><a href="../02-deep-convolutional-networks/deep-convolutional-networks.html">← Deep Convolutional Networks</a><a href="../04-raft/raft.html">Raft →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const view = document.getElementById("w2v-view");
+  if (!view) return;
+  const WORDS = [{"w": "france", "x": 0.219, "y": 0.216, "v": [0.426, 0.556, -0.284, 0.516, 0.27, 0.481, 0.083, -0.194, -0.691, -0.074, 0.084, -0.16, 0.319, 0.147, 0.597, -0.262, 0.3, -0.221, -0.407, 0.312, -0.149, 0.29, -0.57, -0.066, 0.039, 0.263, 0.494, -0.067, -0.135, 0.118, 0.56, -0.861]}, {"w": "italy", "x": 0.148, "y": 0.211, "v": [0.444, 0.048, 0.122, 0.592, -0.05, -0.149, 0.247, -0.362, -0.456, -0.071, 0.543, -0.106, -0.009, -0.002, 0.781, -0.433, 0.276, -0.436, -0.351, 0.721, -0.623, 0.414, -0.402, 0.281, 0.347, -0.116, -0.03, -0.473, 0.047, -0.144, 0.114, -0.323]}, {"w": "spain", "x": 0.199, "y": 0.223, "v": [0.454, 0.425, 0.194, 0.527, 0.078, 0.138, 0.364, -0.432, -0.052, 0.279, 0.029, 0.401, 0.134, 0.137, 0.664, -0.206, -0.203, -0.46, 0.165, 0.526, -0.3, -0.222, -0.953, -0.049, -0.136, -0.466, 0.012, -0.288, -0.378, 0.175, 0.426, -0.674]}, {"w": "germany", "x": 0.183, "y": 0.197, "v": [0.055, 0.408, 0.311, 0.515, 0.049, -0.198, 0.147, -0.096, -0.351, 0.338, 0.553, 0.504, -0.076, 0.281, 0.547, -0.464, 0.643, -0.211, 0.305, 0.498, -0.455, 0.569, -0.502, -0.172, -0.16, 0.014, 0.289, -0.237, -0.424, 0.035, 0.172, -0.469]}, {"w": "japan", "x": 0.168, "y": 0.176, "v": [0.096, 0.343, -0.076, 0.326, -0.217, 0.112, 0.316, 0.005, -0.335, -0.121, 0.523, 0.509, -0.166, 0.063, 0.515, -0.409, 0.047, -0.256, -0.038, 0.318, -0.037, 0.452, -1.031, -0.252, 0.128, 0.045, -0.413, -0.514, -0.211, 0.233, 0.109, -0.913]}, {"w": "egypt", "x": 0.189, "y": 0.246, "v": [0.559, 0.296, -0.232, 0.601, -0.383, -0.112, -0.086, -0.266, -0.277, 0.586, 0.472, 0.022, 0.22, 0.027, 0.716, -0.669, 0.052, -0.145, -0.02, 0.555, -0.04, 0.185, -0.545, -0.155, -0.409, -0.096, 0.243, -0.257, -0.396, -0.175, 0.22, -0.36]}, {"w": "peru", "x": 0.132, "y": 0.235, "v": [0.204, 0.542, 0.238, 0.193, 0.091, 0.027, 0.044, -0.345, -0.365, 0.092, 0.553, -0.108, 0.655, 0.497, 0.669, -0.588, 0.216, 0.016, 0.018, 0.315, -0.209, 0.11, -0.694, -0.146, 0.111, -0.081, -0.25, -0.918, -0.341, 0.116, 0.194, -0.22]}, {"w": "kenya", "x": 0.207, "y": 0.199, "v": [0.182, 0.471, -0.053, 0.487, -0.273, 0.199, 0.176, -0.077, -0.824, 0.243, -0.016, 0.105, -0.002, 0.193, 0.404, -0.44, 0.444, -0.306, -0.418, 0.398, -0.613, 0.013, -0.709, -0.029, 0.112, -0.399, -0.142, -0.312, -0.38, 0.145, 0.516, -0.275]}, {"w": "paris", "x": 1.762, "y": 0.884, "v": [-0.021, 0.682, 0.446, 0.892, 0.563, 0.481, -0.373, -0.281, -0.68, 0.237, 0.296, 0.24, 0.108, 0.172, 0.307, -0.273, -0.694, -0.228, -0.545, 0.602, 0.283, 0.411, 0.252, 0.042, -0.323, 0.656, -0.211, 0.477, 0.068, 0.868, 0.437, 0.132]}, {"w": "rome", "x": 1.631, "y": 0.839, "v": [-0.044, 0.508, 0.411, 0.957, 0.236, 0.122, -0.305, -0.193, -0.415, 0.245, 0.449, 0.257, 0.139, -0.046, 0.525, -0.175, -0.635, -0.362, -0.663, 0.767, 0.052, 0.45, 0.298, 0.256, -0.08, 0.416, -0.636, 0.207, 0.345, 0.65, 0.261, 0.506]}, {"w": "madrid", "x": 1.698, "y": 0.868, "v": [-0.056, 0.635, 0.672, 0.905, 0.489, 0.333, -0.266, -0.377, -0.298, 0.453, 0.259, 0.47, 0.093, 0.074, 0.322, -0.081, -0.9, -0.289, -0.297, 0.654, 0.125, 0.197, 0.041, 0.126, -0.37, 0.181, -0.549, 0.446, 0.126, 0.853, 0.325, 0.277]}, {"w": "berlin", "x": 1.732, "y": 0.863, "v": [-0.272, 0.688, 0.66, 0.915, 0.276, 0.235, -0.443, -0.205, -0.487, 0.208, 0.396, 0.622, -0.088, 0.234, 0.194, -0.142, -0.485, -0.253, -0.319, 0.658, 0.067, 0.67, 0.117, 0.009, -0.457, 0.466, -0.361, 0.475, 0.068, 0.759, 0.348, 0.411]}, {"w": "tokyo", "x": 1.665, "y": 0.867, "v": [-0.242, 0.491, 0.314, 0.832, 0.142, 0.349, -0.17, -0.226, -0.322, 0.152, 0.433, 0.443, 0.02, 0.086, 0.249, -0.307, -0.822, -0.271, -0.58, 0.534, 0.399, 0.509, -0.038, -0.148, -0.2, 0.563, -0.783, 0.214, 0.158, 0.971, 0.176, 0.153]}, {"w": "cairo", "x": 1.649, "y": 0.891, "v": [0.178, 0.579, 0.302, 0.888, -0.024, 0.186, -0.511, -0.303, -0.279, 0.433, 0.377, 0.354, 0.258, 0.009, 0.347, -0.464, -0.831, -0.318, -0.465, 0.709, 0.322, 0.358, 0.192, 0.009, -0.518, 0.449, -0.469, 0.384, 0.052, 0.661, 0.284, 0.476]}, {"w": "lima", "x": 1.671, "y": 0.907, "v": [-0.285, 0.68, 0.56, 0.759, 0.337, 0.297, -0.489, -0.323, -0.396, 0.368, 0.476, 0.191, 0.318, 0.45, 0.31, -0.31, -0.573, -0.095, -0.419, 0.547, 0.232, 0.316, 0.121, -0.06, -0.34, 0.508, -0.684, 0.11, 0.141, 0.805, 0.309, 0.512]}, {"w": "nairobi", "x": 1.725, "y": 0.82, "v": [-0.198, 0.505, 0.471, 0.836, 0.101, 0.434, -0.333, -0.203, -0.637, 0.416, 0.201, 0.338, -0.052, 0.288, 0.128, -0.374, -0.76, -0.32, -0.716, 0.7, 0.11, 0.367, 0.111, 0.01, -0.141, 0.013, -0.59, 0.329, 0.161, 0.867, 0.512, 0.516]}, {"w": "french", "x": -1.517, "y": 1.144, "v": [0.015, -0.097, -0.12, -0.297, 0.533, 1.047, -0.158, 0.14, -1.237, 0.689, -0.257, 0.456, 0.081, 0.588, -0.525, -0.261, 0.583, -0.63, 0.169, 0.114, -0.235, 0.268, -1.433, -0.814, 0.188, 0.097, 0.599, -0.309, 0.394, 0.691, -0.62, 0.606]}, {"w": "italian", "x": -1.548, "y": 1.177, "v": [0.458, -0.033, -0.094, -0.112, -0.161, 0.799, -0.502, 0.418, -0.202, 0.556, 0.143, -0.054, 0.892, 0.378, 0.529, -0.146, 0.694, -1.143, -0.19, -0.403, 0.167, 0.271, -1.499, -0.117, 0.066, -0.139, -0.453, -0.118, 0.827, 0.286, -0.953, 0.435]}, {"w": "spanish", "x": -1.503, "y": 1.228, "v": [0.691, -0.267, 0.481, -0.192, 0.998, 0.373, 0.214, -0.476, -0.069, 0.334, 0.299, 0.159, 0.049, 0.112, 0.781, 0.434, 0.028, -1.114, 0.673, 0.203, -0.569, 0.506, -1.36, -0.269, 0.45, 0.261, 0.427, 0.238, 0.67, 0.537, -1.089, 0.349]}, {"w": "german", "x": -1.49, "y": 1.138, "v": [0.381, 0.342, 0.194, 0.567, 0.376, 0.189, -0.477, 0.39, -1.028, 0.467, -0.1, -0.052, 0.411, 0.178, 0.591, 0.505, 0.849, 0.049, 0.804, 0.478, -0.049, 0.125, -1.355, -0.108, -0.34, 0.383, 0.593, 0.021, 0.658, -0.213, -0.95, 0.898]}, {"w": "japanese", "x": -1.574, "y": 1.263, "v": [1.113, -0.089, 0.053, -0.47, 0.501, 0.264, 0.19, 0.075, -0.882, 0.862, -0.327, 0.449, 0.745, -0.497, 0.382, -0.269, 0.786, -1.051, 0.362, 0.869, 0.172, -0.343, -0.89, -0.082, 0.001, 0.319, 0.28, 0.32, 0.582, 0.364, -0.747, 0.351]}, {"w": "arabic", "x": -1.576, "y": 1.246, "v": [1.066, -0.046, -0.079, -0.071, -0.157, 0.386, 0.078, 0.105, -0.707, 0.616, -0.006, -0.566, 0.289, 0.088, 0.464, -0.021, -0.448, -0.382, -0.204, 0.685, 0.045, -0.159, -1.622, -0.437, 0.515, -0.25, 0.039, 0.052, 1.169, -0.152, -0.986, 0.797]}, {"w": "quechua", "x": -1.559, "y": 1.235, "v": [0.365, -0.709, -0.68, 0.481, 0.164, -0.023, -0.168, -0.025, -0.355, 1.455, -0.019, 0.117, 0.217, 0.048, 0.495, -0.465, 0.082, -1.042, 0.124, 0.245, -0.105, -0.077, -1.194, -0.163, 0.005, 0.237, 0.257, -0.507, 0.154, 0.081, -1.15, 1.144]}, {"w": "swahili", "x": -1.579, "y": 1.27, "v": [0.582, -0.041, -0.35, 0.283, -0.135, 0.566, 0.001, 0.098, -0.644, -0.356, -0.023, 0.657, 0.565, -0.268, 0.511, -0.306, 0.105, -0.771, 0.259, 0.155, 0.616, 0.562, -1.266, -0.601, 0.553, 0.977, 0.688, -0.385, 0.311, 0.248, -1.436, 0.495]}, {"w": "king", "x": -0.258, "y": -1.139, "v": [-0.154, -1.086, 0.962, 0.619, 0.983, 0.321, -0.464, 0.344, 0.429, 0.365, 0.082, 0.27, 0.918, -0.191, 0.475, -0.03, 0.147, 0.256, -0.446, 0.456, 0.436, 0.142, -0.631, -0.046, -0.006, -0.199, 0.293, -0.63, -0.059, -0.367, 0.088, -0.322]}, {"w": "man", "x": -0.213, "y": -1.154, "v": [0.11, -0.855, 0.998, 0.341, 0.179, 0.428, -0.263, 0.538, -0.188, 0.207, 0.2, 0.294, 0.376, -1.17, 0.132, -0.414, 0.303, 0.351, -0.852, 0.284, -0.139, 0.604, -0.635, -0.313, 0.085, -0.373, 0.391, 0.501, -0.353, -0.163, -0.071, -0.154]}, {"w": "boy", "x": -0.148, "y": -1.123, "v": [-0.027, -0.324, 0.785, 0.718, 0.411, 0.257, -0.291, 0.707, 0.014, 0.273, 0.114, -0.033, 0.226, -0.452, 0.405, -0.043, -0.636, 0.539, -0.59, 0.001, -0.61, 0.315, -0.828, -0.696, 0.488, -0.301, 0.651, -0.329, -0.514, -0.237, 0.086, 0.257]}, {"w": "brother", "x": -0.173, "y": -1.146, "v": [0.05, -0.384, 0.89, 0.127, 0.454, 0.224, -0.666, 0.879, 0.091, -0.273, -0.313, 0.64, 1.227, -0.303, 0.399, -0.073, 0.019, -0.249, -0.748, 0.31, -0.42, 0.09, -0.631, 0.021, 0.283, -0.201, 0.497, -0.14, -0.632, -0.097, 0.405, 0.083]}, {"w": "father", "x": -0.16, "y": -1.128, "v": [0.058, -0.308, 0.75, -0.106, 0.61, 0.253, -0.404, 1.354, -0.308, 0.765, 0.068, 0.287, 0.675, -0.224, 0.452, -0.298, -0.609, 0.377, -0.537, -0.049, 0.039, 0.407, -0.582, -0.489, 0.114, 0.109, 0.125, 0.014, 0.036, -0.708, 0.271, -0.578]}, {"w": "prince", "x": -0.147, "y": -1.122, "v": [-0.183, -0.831, 0.845, 0.03, 0.67, -0.157, 0.149, 0.957, -0.352, 0.508, -0.068, 0.659, 0.301, -0.442, -0.008, -0.167, -0.331, 0.206, -0.604, 0.849, -0.404, -0.032, -0.534, -0.511, 0.554, 0.135, 0.03, -0.507, -0.29, -0.21, 0.258, -0.031]}, {"w": "queen", "x": -0.236, "y": -1.173, "v": [0.14, -1.038, 0.132, 0.258, 0.531, 0.877, -0.684, -0.007, 0.445, -0.026, -0.464, -0.056, 0.24, -0.217, 0.761, -0.398, 0.068, 0.31, 0.523, 0.445, 0.237, 0.897, -0.465, 0.157, -0.157, -0.255, -0.155, -0.824, 0.228, 0.248, 0.46, -0.132]}, {"w": "woman", "x": -0.224, "y": -1.185, "v": [0.434, -0.924, 0.274, 0.009, -0.115, 0.757, -0.482, -0.033, -0.238, 0.063, -0.339, 0.001, -0.191, -1.191, 0.404, -0.816, 0.511, 0.596, 0.207, 0.388, -0.238, 1.109, -0.404, -0.178, -0.001, -0.343, -0.262, 0.236, -0.182, 0.415, 0.284, 0.171]}, {"w": "girl", "x": -0.198, "y": -1.187, "v": [0.231, -0.479, -0.025, 0.358, 0.2, 0.622, -0.609, 0.279, 0.084, -0.072, -0.455, -0.369, -0.306, -0.275, 0.71, -0.415, -0.529, 0.696, 0.352, 0.177, -0.572, 0.825, -0.631, -0.43, 0.564, -0.061, 0.227, -0.574, -0.316, 0.372, 0.402, 0.437]}, {"w": "sister", "x": -0.211, "y": -1.141, "v": [0.413, -0.401, 0.019, -0.21, -0.03, 0.403, -0.818, 0.612, 0.236, -0.496, -1.023, 0.205, 0.528, -0.377, 0.887, -0.382, -0.141, -0.111, 0.248, 0.475, -0.56, 0.572, -0.556, 0.289, 0.155, -0.112, -0.19, -0.208, -0.498, 0.505, 0.615, 0.534]}, {"w": "mother", "x": -0.25, "y": -1.118, "v": [0.46, -0.326, -0.054, -0.466, 0.356, 0.578, -0.631, 0.856, -0.206, 0.416, -0.46, -0.128, 0.051, -0.351, 0.996, -0.837, -0.249, 0.46, 0.676, 0.169, -0.053, 1.006, -0.341, -0.082, 0.005, 0.214, -0.528, -0.199, 0.279, -0.091, 0.549, -0.314]}, {"w": "princess", "x": -0.154, "y": -1.224, "v": [0.205, -0.799, -0.078, -0.139, 0.515, 0.211, -0.169, 0.462, -0.337, 0.174, -0.764, 0.334, -0.167, -0.462, 0.494, -0.42, -0.292, 0.478, 0.512, 1.098, -0.49, 0.447, -0.323, -0.035, 0.449, 0.188, -0.496, -0.91, -0.031, 0.198, 0.64, 0.134]}, {"w": "crown", "x": -0.044, "y": -0.742, "v": [0.291, -0.472, 0.036, 0.558, 0.172, -0.165, -0.35, 0.578, 0.127, 0.664, -0.118, -0.102, 0.226, -0.239, 0.725, 0.221, 0.389, -0.124, -0.178, -0.415, -0.773, 0.13, -0.301, -0.235, 0.489, 0.819, -0.35, 0.186, -0.089, 0.262, 0.632, -0.088]}, {"w": "adult", "x": -0.069, "y": -0.791, "v": [0.563, -0.547, -0.053, 0.74, -0.125, 0.527, -0.541, 0.445, 0.204, 0.464, -0.423, 0.302, -0.245, -0.211, 0.059, 0.546, 0.08, 0.325, -0.131, 0.074, -0.094, -0.06, -0.977, -0.422, -0.278, 0.255, -0.08, 0.372, 0.017, 0.249, 0.629, -0.576]}, {"w": "school", "x": -0.069, "y": -0.805, "v": [0.608, -0.87, 0.116, 0.183, -0.376, 0.052, -0.859, 0.496, 0.321, -0.024, 0.244, 0.256, 0.034, 0.306, -0.054, 0.313, 0.184, -0.024, -0.33, 0.707, -0.519, 0.558, -0.403, -0.297, 0.045, 0.661, 0.093, -0.148, 0.429, 0.007, 0.573, -0.216]}, {"w": "sibling", "x": -0.007, "y": -0.696, "v": [0.275, -0.557, 0.452, 0.525, -0.032, 0.114, -0.341, -0.014, 0.115, -0.087, -0.048, 0.022, 0.366, -0.431, 0.099, 0.504, 0.505, 0.511, -0.097, 0.182, -0.408, -0.247, -0.805, -0.354, 0.255, 0.565, -0.828, -0.25, -0.225, 0.678, 0.273, 0.084]}, {"w": "parent", "x": -0.035, "y": -0.754, "v": [0.565, -0.792, 0.46, 0.054, 0.232, 0.396, -0.39, -0.249, 0.152, 0.739, 0.197, -0.504, 0.312, 0.148, -0.044, -0.201, 0.443, 0.364, -0.245, 0.195, -0.313, -0.002, -0.206, -0.753, 0.337, 0.337, 0.01, -0.099, 0.139, 0.537, 0.733, -0.186]}, {"w": "palace", "x": -0.035, "y": -0.716, "v": [0.927, -0.241, 0.6, -0.174, -0.387, -0.003, -0.744, 0.288, 0.42, 0.459, 0.231, 0.346, 0.54, 0.035, -0.187, -0.229, -0.134, 0.16, 0.383, 0.054, -0.473, 0.06, -0.495, -0.709, 0.008, 0.542, -0.186, -0.021, -0.413, 0.411, 0.463, -0.056]}], GROUP = {"france": "country", "italy": "country", "spain": "country", "germany": "country", "japan": "country", "egypt": "country", "peru": "country", "kenya": "country", "paris": "capital", "rome": "capital", "madrid": "capital", "berlin": "capital", "tokyo": "capital", "cairo": "capital", "lima": "capital", "nairobi": "capital", "french": "language", "italian": "language", "spanish": "language", "german": "language", "japanese": "language", "arabic": "language", "quechua": "language", "swahili": "language", "king": "male", "man": "male", "boy": "male", "brother": "male", "father": "male", "prince": "male", "queen": "female", "woman": "female", "girl": "female", "sister": "female", "mother": "female", "princess": "female", "crown": "role", "adult": "role", "school": "role", "sibling": "role", "parent": "role", "palace": "role"}, PAIRS = [[["france", "italy", "spain", "germany", "japan", "egypt", "peru", "kenya"], ["paris", "rome", "madrid", "berlin", "tokyo", "cairo", "lima", "nairobi"]], [["king", "man", "boy", "brother", "father", "prince"], ["queen", "woman", "girl", "sister", "mother", "princess"]], [["france", "italy", "spain", "germany", "japan", "egypt", "peru", "kenya"], ["french", "italian", "spanish", "german", "japanese", "arabic", "quechua", "swahili"]]], GROUPS = {"country": ["france", "italy", "spain", "germany", "japan", "egypt", "peru", "kenya"], "capital": ["paris", "rome", "madrid", "berlin", "tokyo", "cairo", "lima", "nairobi"], "language": ["french", "italian", "spanish", "german", "japanese", "arabic", "quechua", "swahili"], "male": ["king", "man", "boy", "brother", "father", "prince"], "female": ["queen", "woman", "girl", "sister", "mother", "princess"], "role": ["crown", "adult", "school", "sibling", "parent", "palace"]};
+  const col = {country: "var(--blue)", capital: "var(--red)", language: "var(--yellow)", male: "var(--blue)", female: "var(--red)", role: "var(--muted)"};
+  const idx = {}; WORDS.forEach((w, i) => idx[w.w] = i);
+  ["w2v-a", "w2v-b", "w2v-c"].forEach(id => { const s = document.getElementById(id); WORDS.forEach(w => el("option", {value: w.w}, s, w.w)); });
+  const dot = (a, b) => a.reduce((s, x, i) => s + x * b[i], 0), cos = (a, b) => dot(a, b) / Math.sqrt(dot(a, a) * dot(b, b));
+  function pca(ids) {
+    const D = WORDS[0].v.length, mean = new Array(D).fill(0);
+    ids.forEach(i => WORDS[i].v.forEach((x, k) => mean[k] += x / ids.length));
+    const X = ids.map(i => WORDS[i].v.map((x, k) => x - mean[k])), pcs = [];
+    for (let c = 0; c < 2; c++) {
+      let u = new Array(D).fill(1); if (c === 1) u[0] = -1;
+      for (let it = 0; it < 200; it++) {
+        let nu = new Array(D).fill(0);
+        X.forEach(x => { const s = dot(x, u); x.forEach((a, k) => nu[k] += s * a); });
+        if (c === 1) { const s = dot(nu, pcs[0]); nu = nu.map((a, k) => a - s * pcs[0][k]); }
+        const n = Math.sqrt(dot(nu, nu)); u = nu.map(a => a / n);
+      }
+      pcs.push(u);
+    }
+    const out = {}; ids.forEach((i, r) => out[i] = [dot(X[r], pcs[0]), dot(X[r], pcs[1])]); return out;
+  }
+  function draw(hl, arrows) {
+    const groups = [...new Set(hl.map(i => GROUP[WORDS[i].w]))];
+    const ids = groups.flatMap(g => GROUPS[g].map(w => idx[w]));
+    const P = pca(ids), xs = ids.map(i => P[i][0]), ys = ids.map(i => P[i][1]);
+    const X = v => 40 + (v - Math.min(...xs)) / (Math.max(...xs) - Math.min(...xs) || 1) * 520, Y = v => 370 - (v - Math.min(...ys)) / (Math.max(...ys) - Math.min(...ys) || 1) * 340;
+    view.innerHTML = "";
+    const svg = sv("svg", {viewBox: "0 0 640 400", role: "img", "aria-label": "Word vectors of the chosen groups, in two dimensions"}, view);
+    const defs = sv("defs", {}, svg), mk = sv("marker", {id: "w2v-arw", viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: "auto-start-reverse"}, defs);
+    sv("path", {d: "M0,0 L10,5 L0,10 z", fill: "var(--ink)"}, mk);
+    PAIRS.forEach(([A, B]) => { if (groups.includes(GROUP[A[0]]) && groups.includes(GROUP[B[0]])) A.forEach((a, k) => sv("line", {x1: X(P[idx[a]][0]), y1: Y(P[idx[a]][1]), x2: X(P[idx[B[k]]][0]), y2: Y(P[idx[B[k]]][1]), stroke: "var(--muted)", "stroke-width": 1}, svg)); });
+    arrows.forEach(([p, q]) => sv("line", {x1: X(P[p][0]), y1: Y(P[p][1]), x2: X(P[q][0]), y2: Y(P[q][1]), stroke: "var(--ink)", "stroke-width": 2.2, "marker-end": "url(#w2v-arw)"}, svg));
+    ids.forEach(i => {
+      const w = WORDS[i], g = GROUP[w.w], on = hl.includes(i);
+      sv("circle", {cx: X(P[i][0]), cy: Y(P[i][1]), r: on ? 6.5 : 4.5, fill: col[g], stroke: on ? "var(--ink)" : "none", "stroke-width": 2}, svg);
+      sv("text", {x: X(P[i][0]) + 8, y: Y(P[i][1]) + 4, "font-size": on ? 13 : 11, "font-weight": on ? 700 : 400, fill: "var(--ink)"}, svg, w.w);
+    });
+  }
+  function go() {
+    const a = idx[document.getElementById("w2v-a").value], b = idx[document.getElementById("w2v-b").value], c = idx[document.getElementById("w2v-c").value];
+    const q = WORDS[b].v.map((x, k) => x - WORDS[a].v[k] + WORDS[c].v[k]);
+    const ranked = WORDS.map((w, i) => [i, cos(w.v, q)]).filter(([i]) => i !== a && i !== b && i !== c).sort((p, r) => r[1] - p[1]);
+    const best = ranked[0][0];
+    document.getElementById("w2v-d").textContent = WORDS[best].w;
+    const list = document.getElementById("w2v-list"); list.innerHTML = "";
+    ranked.slice(0, 5).forEach(([i, s], r) => el("div", {}, list, `${r + 1}. ${WORDS[i].w.padEnd(10)} cosine ${s.toFixed(3)}`));
+    draw([a, b, c, best], [[a, b], [c, best]]);
+    document.getElementById("w2v-say").textContent = `${WORDS[b].w} − ${WORDS[a].w} + ${WORDS[c].w} is nearest to ${WORDS[best].w}. The map shows only the groups involved, on their own two main directions; grey lines join matching pairs, and the bold arrows are a → b and c → the answer.`;
+  }
+  function rnd() {
+    const P = PAIRS[Math.floor(Math.random() * PAIRS.length)];
+    let i = Math.floor(Math.random() * P[0].length), j; do { j = Math.floor(Math.random() * P[0].length); } while (j === i);
+    document.getElementById("w2v-a").value = P[0][i]; document.getElementById("w2v-b").value = P[1][i]; document.getElementById("w2v-c").value = P[0][j];
+    go();
+  }
+  document.getElementById("w2v-go").addEventListener("click", go);
+  document.getElementById("w2v-rnd").addEventListener("click", rnd);
+  document.getElementById("w2v-a").value = "france"; document.getElementById("w2v-b").value = "paris"; document.getElementById("w2v-c").value = "italy";
+  go();
+})();
+
+</script>
+</body>
+</html>

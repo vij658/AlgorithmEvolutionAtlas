@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 369,
+ "rounds": 370,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10909,11 +10909,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-47": {
+   "searched": "2026-11-03",
+   "query": "Zipf's law explained; Zipf distribution cache hit ratio popularity caching lecture",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "Note: the Vsauce video did not appear in these searches; it was recalled and then confirmed by oEmbed like every other. The cache-sizing half found nothing suitable: the second search returned CPU cache hit-ratio lessons and distributed-caching overviews that do not connect hit ratio to Zipf popularity. Also left out: an Italian-language video, geography rank-size and NLP glossary clips, and 'The Math Behind Every Sentence' from an unidentified channel",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=fCn8zs912OE",
+     "title": "The Zipf Mystery",
+     "channel": "Vsauce",
+     "channel_url": "https://www.youtube.com/@Vsauce",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=KvOS2MdKFwE",
+     "title": "Laws of Text 2: Zipf's Law",
+     "channel": "Victor Lavrenko",
+     "channel_url": "https://www.youtube.com/@vlavrenko",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 332,
+ "rounds": 333,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9844,11 +9844,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-10": {
+   "searched": "2026-11-03",
+   "query": "metric space axioms triangle inequality explained; what is a metric space definition lecture introduction",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "The first search returned school-geometry triangle-inequality videos, a Short, and Lp/unitary-space proofs (later topics); the second search's complete-metric-space and functional-analysis lectures go beyond the axioms, and several numbered 'Lecture 1' uploads came from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=6CLl5xx5X-Y",
+     "title": "What is a metric space? An example",
+     "channel": "Dr Chris Tisdell",
+     "channel_url": "https://www.youtube.com/@drchristisdell",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=4lthpDkhMoU",
+     "title": "Introduction to Metric Spaces",
+     "channel": "The Math Sorcerer",
+     "channel_url": "https://www.youtube.com/@TheMathSorcerer",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=oz-LycQIL8g",
+     "title": "Metric Spaces Introduction, Real Analysis II",
+     "channel": "Dr. Bevin Maultsby",
+     "channel_url": "https://www.youtube.com/@bevinmaultsby",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

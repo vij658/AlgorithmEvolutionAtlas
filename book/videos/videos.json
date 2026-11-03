@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 361,
+ "rounds": 362,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10685,11 +10685,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-39": {
+   "searched": "2026-11-03",
+   "query": "consistent hashing virtual nodes ring explained lecture",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "All three are also listed in Era 8 (consistent hashing, Akamai) and were re-checked today. Left out: virtual-node and Cassandra explainers from unidentified channels, interview-prep and hashtag uploads, and 'The Secret to Scalable Load Balancing' clickbait",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=UF9Iqmg94tk",
+     "title": "Consistent Hashing | Algorithms You Should Know #1",
+     "channel": "ByteByteGo",
+     "channel_url": "https://www.youtube.com/@ByteByteGo",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=zaRkONvyGr8",
+     "title": "What is CONSISTENT HASHING and Where is it used?",
+     "channel": "Gaurav Sen",
+     "channel_url": "https://www.youtube.com/@gkcs",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=apHAqUG3Pi8",
+     "title": "Consistent Hashing, Danny Lewin, and the Creation of Akamai - MIT Prof. Tom Leighton",
+     "channel": "הטכניון - מכון טכנולוגי לישראל (Technion – Israel Institute of Technology)",
+     "channel_url": "https://www.youtube.com/@technion.israel",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 3,
+  "clean": 4,
   "rejects": 2
  }
 }

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**356 of 380 concepts searched, 891 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**357 of 380 concepts searched, 894 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1603,4 +1603,12 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | bloom filter | [Bloom filters, part 1](https://www.youtube.com/watch?v=KaQ9wOrRwow) | Ben Langmead | Start |
 |  | [Bloom Filters](https://www.youtube.com/watch?v=bEmBh1HtYrw) | Yoav Freund | Deeper |
+
+### Consistent hashing
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| consistent hashing | [Consistent Hashing \| Algorithms You Should Know #1](https://www.youtube.com/watch?v=UF9Iqmg94tk) | ByteByteGo | Start |
+|  | [What is CONSISTENT HASHING and Where is it used?](https://www.youtube.com/watch?v=zaRkONvyGr8) | Gaurav Sen | Start |
+|  | [Consistent Hashing, Danny Lewin, and the Creation of Akamai - MIT Prof. Tom Leighton](https://www.youtube.com/watch?v=apHAqUG3Pi8) | הטכניון - מכון טכנולוגי לישראל (Technion – Israel Institute of Technology) | Scholar |
 

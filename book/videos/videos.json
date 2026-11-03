@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 337,
+ "rounds": 338,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10006,11 +10006,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-15": {
+   "searched": "2026-11-03",
+   "query": "Horner's method polynomial evaluation explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "All three are also listed in earlier eras (Horner's method in Era 2; rolling hash and Karp-Rabin in Era 7) and were re-checked today; the search covered Horner's method, and the rolling-hash videos were recalled from those eras. Left out: a Short, 'Explained Simply' and unlabelled uploads, and a section-number clip",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Z393AcN_Gz0",
+     "title": "Nested Scheme - Horner’s Method - Evaluating Polynomials",
+     "channel": "Radford Mathematics",
+     "channel_url": "https://www.youtube.com/@RadfordMathematics",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=BfUejqd07yo",
+     "title": "Rolling Hash Function Tutorial, used by Rabin-Karp String Searching Algorithm",
+     "channel": "Stable Sort",
+     "channel_url": "https://www.youtube.com/@stablesort",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=BRO7mVIFt08",
+     "title": "Lecture 9: Table Doubling, Karp-Rabin",
+     "channel": "MIT OpenCourseWare",
+     "channel_url": "https://www.youtube.com/@mitocw",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

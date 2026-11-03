@@ -1,0 +1,9 @@
+.w-freshness .w-title { display: inline-flex; align-items: center; gap: .4em; }
+.w-freshness .fr-summary { flex: none; font-size: .85rem; color: var(--muted); display: grid; gap: .15em; margin-bottom: .5em; }
+.w-freshness .fr-ok { color: var(--ok); } .w-freshness .fr-bad { color: var(--bad); } .w-freshness .fr-warn { color: var(--warn); }
+.w-freshness .fr-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .1em; align-content: start; }
+.w-freshness .fr-row { display: grid; grid-template-columns: auto 1fr auto; gap: .2em .5em; align-items: center; font-size: .82rem; padding: .3em 0; border-bottom: 1px solid var(--line); }
+.w-freshness .fr-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.w-freshness .fr-age { color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.w-freshness .fr-err { grid-column: 2 / -1; color: var(--bad); font-size: .74rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.w-freshness .fr-refresh { min-height: 30px; }

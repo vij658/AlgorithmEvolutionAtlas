@@ -1,0 +1,15 @@
+{
+  "name": "Timers",
+  "description": "Several countdown timers at once, with one-tap presets. Shared live across screens.",
+  "icon": "⏲️",
+  "order": 4,
+  "styles": ["style.css"],
+  "size": { "w": 4, "h": 5, "minW": 3, "minH": 3, "phoneH": 6 },
+  "settings": [
+    { "key": "title", "type": "text", "label": "Title", "default": "Timers" },
+    { "key": "presets", "type": "list", "label": "Preset buttons", "itemLabel": "Add preset", "placeholder": "e.g. 25m, 1h, 90s, 1:30", "default": ["1h", "25m", "10m", "5m", "1m"], "max": 8 },
+    { "key": "group", "type": "text", "label": "Timer group", "default": "default", "pattern": "^[a-z0-9_-]{1,30}$", "patternHelp": "Use a-z, 0-9, - or _", "help": "Timer widgets with the same group show the same timers." },
+    { "key": "sound", "type": "boolean", "label": "Beep when a timer finishes", "default": true },
+    { "key": "jump", "type": "boolean", "label": "Show a banner on every page when a timer finishes", "default": true }
+  ]
+}

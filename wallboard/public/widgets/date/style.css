@@ -1,0 +1,6 @@
+.w-date .dt { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 0; line-height: 1.05; }
+.w-date .dt-weekday { color: var(--accent-2); font-weight: 600; font-size: 1.3rem; font-size: clamp(.8rem, min(13cqw, 13cqh), 4rem); }
+.w-date .dt-day { font-weight: 700; font-size: 4rem; font-size: min(42cqh, 48cqw); }
+.w-date .dt-month { font-size: 1.1rem; font-size: clamp(.8rem, min(11cqw, 11cqh), 3rem); }
+.w-date .dt-extra { color: var(--muted); margin-top: .3em; font-size: .85rem; font-size: clamp(.7rem, 8cqh, 1.6rem); }
+.w-date .dt-extra:empty { display: none; }

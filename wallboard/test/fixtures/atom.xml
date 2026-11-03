@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title type="text">Fixture Tech Wire</title>
+  <link rel="self" href="https://tech.example.com/feed.atom"/>
+  <link rel="alternate" type="text/html" href="https://tech.example.com/"/>
+  <updated>2026-11-03T10:00:00Z</updated>
+  <entry>
+    <title type="html">Chipmaker unveils 1nm &lt;i&gt;process&lt;/i&gt;</title>
+    <link rel="alternate" href="/posts/1nm"/>
+    <id>tag:tech.example.com,2026:1</id>
+    <published>2026-11-03T08:15:00Z</published>
+    <updated>2026-11-03T09:00:00Z</updated>
+    <author><name>Grace Hopper</name></author>
+    <summary type="html">&lt;p&gt;Smaller &amp;amp; faster.&lt;/p&gt;</summary>
+  </entry>
+  <entry>
+    <title>Open-source browser hits 1.0</title>
+    <link href="https://tech.example.com/posts/browser"/>
+    <id>tag:tech.example.com,2026:2</id>
+    <updated>2026-11-02T12:00:00+01:00</updated>
+    <content type="html">&lt;img src="https://tech.example.com/b.webp"&gt;Long awaited release.</content>
+  </entry>
+</feed>

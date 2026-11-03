@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- a typical WordPress-style feed -->
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
+<channel>
+  <title>Fixture AI Daily</title>
+  <link>https://ai.example.com/</link>
+  <description>Fixture feed</description>
+  <item>
+    <title>Model &#8220;Orion&#8221; tops benchmark &amp; leaderboard</title>
+    <link>https://ai.example.com/orion?utm_source=rss</link>
+    <guid isPermaLink="false">ai-1</guid>
+    <pubDate>Tue, 03 Nov 2026 09:30:00 GMT</pubDate>
+    <dc:creator><![CDATA[Ada Lovelace]]></dc:creator>
+    <description><![CDATA[<p>The <b>new</b> model was released today. It contains </item> in text.</p><img src="/img/orion.jpg">]]></description>
+    <media:thumbnail url="https://cdn.example.com/orion-thumb.jpg"/>
+  </item>
+  <item>
+    <title><![CDATA[Robots learn to fold laundry]]></title>
+    <link>https://ai.example.com/laundry</link>
+    <pubDate>Mon, 02 Nov 2026 18:00:00 -0500</pubDate>
+    <description>Researchers &lt;em&gt;finally&lt;/em&gt; solved it.</description>
+    <enclosure url="https://cdn.example.com/laundry.png" type="image/png" length="1"/>
+  </item>
+  <item>
+    <title>Undated item without link</title>
+    <guid>https://ai.example.com/undated</guid>
+    <description>No date here.</description>
+  </item>
+</channel>
+</rss>

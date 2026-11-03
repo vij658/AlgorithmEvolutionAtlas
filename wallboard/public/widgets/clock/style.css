@@ -1,0 +1,16 @@
+.w-clock .clk { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; text-align: center; }
+.w-clock .clk-time {
+  --fit: 20;
+  font-weight: 650; line-height: .95; letter-spacing: -.02em; white-space: nowrap;
+  font-size: 12vmin; /* fallback without container units */
+  font-size: min(calc(var(--fit) * 1cqw), 72cqh);
+}
+.w-clock.with-date .clk-time { font-size: min(calc(var(--fit) * 1cqw), 56cqh); }
+.w-clock.with-date.with-label .clk-time { font-size: min(calc(var(--fit) * 1cqw), 46cqh); }
+.w-clock .clk-sec { color: var(--muted); }
+.w-clock .clk-colon { opacity: .75; margin: 0 .02em; }
+.w-clock .clk-ampm { font-size: .32em; margin-left: .25em; color: var(--muted); font-weight: 600; letter-spacing: 0; }
+.w-clock .clk-date { margin-top: .35em; color: var(--accent-2); font-weight: 500; font-size: 1.2rem; font-size: clamp(.75rem, min(11cqh, 9cqw), 3.2rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.w-clock .clk-label { margin-bottom: .3em; }
+.w-clock .clk-short { display: none; }
+@container (max-width: 380px) { .w-clock .clk-long { display: none; } .w-clock .clk-short { display: inline; } }

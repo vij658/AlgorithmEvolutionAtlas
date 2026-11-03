@@ -1,0 +1,16 @@
+{
+  "name": "Weather",
+  "description": "Current conditions, next hours and daily forecast from Open-Meteo (no API key).",
+  "icon": "⛅",
+  "order": 3,
+  "styles": ["style.css"],
+  "configureOnAdd": true,
+  "size": { "w": 4, "h": 4, "minW": 2, "minH": 2, "phoneH": 6 },
+  "settings": [
+    { "key": "location", "type": "location", "label": "Location", "default": null, "help": "Search for a city, or enter coordinates. Until set, New York is shown." },
+    { "key": "units", "type": "select", "label": "Units", "default": "auto", "options": [
+      { "value": "auto", "label": "Automatic (°F in the US, else °C)" }, { "value": "celsius", "label": "°C, km/h" }, { "value": "fahrenheit", "label": "°F, mph" } ] },
+    { "key": "days", "type": "number", "label": "Forecast days", "default": 5, "min": 1, "max": 7 },
+    { "key": "showHourly", "type": "boolean", "label": "Show next hours (when there is room)", "default": true }
+  ]
+}

@@ -1,0 +1,47 @@
+/* Layouts by card shape: tall cards stack now / hours / days; wide short cards put
+   "now" on the left and the days on the right. */
+.w-weather .wx { flex: 1; min-height: 0; display: grid; gap: .6em; grid-template-rows: auto auto 1fr; overflow: hidden; }
+.w-weather .wx-now { display: grid; grid-template-columns: 1fr; align-content: start; min-width: 0; }
+.w-weather .wx-place { display: flex; justify-content: space-between; gap: .5em; }
+.w-weather .wx-main { display: flex; align-items: center; gap: .15em; line-height: 1; margin: .1em 0; }
+.w-weather .wx-icon { font-size: 3rem; font-size: clamp(1.6rem, min(22cqh, 16cqw), 7rem); }
+.w-weather .wx-temp { font-size: 3.4rem; font-size: clamp(1.8rem, min(26cqh, 19cqw), 8rem); font-weight: 650; letter-spacing: -.02em; }
+.w-weather .wx-desc { font-weight: 600; font-size: 1.05rem; }
+.w-weather .wx-details, .w-weather .wx-hilo { color: var(--muted); font-size: .85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.w-weather .wx-hours { display: grid; grid-template-columns: repeat(auto-fill, minmax(3.2em, 1fr)); grid-template-rows: auto; grid-auto-rows: 0; gap: .25em; overflow: hidden; border-top: 1px solid var(--line); padding-top: .5em; }
+.w-weather .wx-hour { display: grid; overflow: hidden; justify-items: center; gap: .1em; font-size: .8rem; }
+.w-weather .wx-h-t { color: var(--muted); white-space: nowrap; }
+.w-weather .wx-h-i { font-size: 1.25rem; }
+.w-weather .wx-h-v { font-weight: 600; }
+.w-weather .wx-h-p { color: var(--p3); font-size: .72rem; min-height: 1em; }
+
+.w-weather .wx-days { display: grid; align-content: start; gap: .25em; min-height: 0; overflow: hidden; border-top: 1px solid var(--line); padding-top: .5em; }
+.w-weather .wx-day { display: grid; grid-template-columns: 3.4em 1.6em 2.6em 2.4em 1fr 2.4em; align-items: center; gap: .35em; font-size: .9rem; }
+.w-weather .wx-d-n { font-weight: 600; }
+.w-weather .wx-d-i { font-size: 1.2rem; text-align: center; }
+.w-weather .wx-d-p { color: var(--p3); font-size: .75rem; text-align: right; }
+.w-weather .wx-d-lo { color: var(--muted); text-align: right; }
+.w-weather .wx-d-bar { position: relative; height: .35em; border-radius: 1em; background: var(--line); }
+.w-weather .wx-d-bar i { position: absolute; top: 0; bottom: 0; border-radius: 1em; background: linear-gradient(90deg, #6fb6ff, #ffb547); }
+
+/* Small cards: just the essentials. */
+@container (max-height: 300px) { .w-weather .wx-hours { display: none; } }
+@container (max-height: 200px) { .w-weather .wx-days, .w-weather .wx-hilo { display: none; } }
+@container (max-width: 240px) { .w-weather .wx-hours { display: none; } .w-weather .wx-details { white-space: normal; } }
+
+/* Wide, short card: now | days side by side (days become columns). */
+@container (min-aspect-ratio: 1.7) and (min-width: 480px) {
+  .w-weather .wx { grid-template-columns: minmax(12em, 34%) 1fr; grid-template-rows: auto 1fr; column-gap: 1.2em; }
+  .w-weather .wx-now { grid-row: 1 / span 2; }
+  .w-weather .wx-hours { grid-column: 2; border-top: 0; padding-top: 0; }
+  .w-weather .wx-days { grid-column: 2; grid-auto-flow: column; grid-auto-columns: 1fr; border-top: 0; align-content: stretch; }
+  .w-weather .wx-day { grid-template-columns: 1fr; justify-items: center; align-content: center; gap: .15em; background: var(--card-2); border-radius: 12px; padding: .5em .2em; }
+  .w-weather .wx-d-bar { display: none; }
+  .w-weather .wx-d-i { font-size: 1.6rem; }
+  .w-weather .wx-d-lo, .w-weather .wx-d-p { text-align: center; }
+  .w-weather .wx-d-hi { order: 3; font-weight: 700; }
+}
+@container (min-aspect-ratio: 1.7) and (max-height: 300px) { .w-weather .wx { grid-template-rows: 1fr; } .w-weather .wx-days { grid-row: 1 / span 2; } }
+
+.w-weather .wx-d-p:empty::before { content: "\00a0"; }

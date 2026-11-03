@@ -1,0 +1,5 @@
+/* Scope every rule to your widget's own class (added in widget.js) so widgets never
+   affect each other. The shared building blocks (.w-head, .w-title, .btn, ...) are
+   defined in /css/app.css. */
+.my-widget .tpl-msg { font-size: 1.6rem; font-size: clamp(1rem, 18cqh, 4rem); font-weight: 700; color: var(--accent); flex: 1; display: flex; align-items: center; }
+.my-widget .tpl-time { color: var(--muted); margin-bottom: .4em; }

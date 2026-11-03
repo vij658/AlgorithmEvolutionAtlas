@@ -1,0 +1,30 @@
+.w-timers .tm-presets { display: flex; flex-wrap: wrap; gap: .4em; flex: none; }
+.w-timers .tm-preset { flex: 1 1 auto; min-width: 3.2em; font-size: 1rem; padding: .45em .6em; }
+.w-timers .tm-new { display: flex; gap: .4em; margin-top: .5em; flex: none; }
+.w-timers .tm-input { min-height: 40px; }
+.w-timers .tm-err { color: var(--bad); font-size: .8rem; min-height: 0; }
+.w-timers .tm-err:not(:empty) { margin-top: .3em; }
+.w-timers .tm-list { margin-top: .6em; display: flex; flex-direction: column; gap: .5em; }
+.w-timers .tm-row {
+  position: relative; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: .3em .6em;
+  padding: .55em .7em .75em; border-radius: 12px; background: var(--card-2); border: 1px solid var(--line); overflow: hidden; flex: none;
+}
+.w-timers .tm-info { display: flex; align-items: baseline; gap: .6em; min-width: 0; }
+.w-timers .tm-time { font-size: 1.9rem; font-weight: 650; line-height: 1; letter-spacing: -.01em; }
+.w-timers .tm-label { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.w-timers .tm-actions { display: flex; gap: .3em; }
+.w-timers .tm-act { width: 2.2em; height: 2.2em; font-size: .95rem; font-weight: 700; }
+.w-timers .tm-del { color: var(--bad); }
+.w-timers .tm-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--line); }
+.w-timers .tm-bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); transition: width .25s linear; }
+.w-timers .tm-row[data-state="paused"] .tm-time { color: var(--muted); }
+.w-timers .tm-row[data-state="paused"] .tm-bar i { background: var(--faint); }
+.w-timers .tm-row.ringing { border-color: var(--bad); animation: tm-ring 1s ease-in-out infinite; }
+.w-timers .tm-row.ringing .tm-time { color: var(--bad); }
+.w-timers .tm-row.ringing .tm-bar i { background: var(--bad); }
+@keyframes tm-ring { 50% { background: rgba(255, 107, 107, .22); } }
+@container (max-width: 330px) {
+  .w-timers .tm-row { grid-template-columns: 1fr; }
+  .w-timers .tm-actions { justify-content: flex-end; }
+}
+@media (prefers-reduced-motion: reduce) { .w-timers .tm-row.ringing { animation: none; background: rgba(255, 107, 107, .2); } }

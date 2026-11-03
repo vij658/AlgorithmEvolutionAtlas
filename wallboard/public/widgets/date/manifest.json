@@ -1,0 +1,13 @@
+{
+  "name": "Date",
+  "description": "Weekday and date in large type, with optional week number.",
+  "icon": "📅",
+  "order": 2,
+  "styles": ["style.css"],
+  "size": { "w": 3, "h": 3, "minW": 2, "minH": 2 },
+  "settings": [
+    { "key": "showYear", "type": "boolean", "label": "Show year", "default": true },
+    { "key": "showWeek", "type": "boolean", "label": "Show week number (ISO)", "default": true },
+    { "key": "timeZone", "type": "text", "label": "Time zone", "default": "", "placeholder": "blank = this screen" }
+  ]
+}

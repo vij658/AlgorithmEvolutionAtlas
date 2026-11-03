@@ -1,0 +1,17 @@
+{
+  "name": "Clock",
+  "description": "Large time display with optional seconds, date and time zone.",
+  "icon": "🕒",
+  "order": 1,
+  "module": "widget.js",
+  "styles": ["style.css"],
+  "size": { "w": 4, "h": 3, "minW": 2, "minH": 1, "phoneH": 3 },
+  "settings": [
+    { "key": "label", "type": "text", "label": "Label (optional)", "default": "", "placeholder": "e.g. Tokyo" },
+    { "key": "timeZone", "type": "text", "label": "Time zone", "default": "", "placeholder": "e.g. Europe/Berlin", "help": "IANA time zone name. Leave blank for this screen's own time zone." },
+    { "key": "hour12", "type": "select", "label": "Clock format", "default": "auto", "options": [
+      { "value": "auto", "label": "Automatic (from language)" }, { "value": "24", "label": "24-hour" }, { "value": "12", "label": "12-hour" } ] },
+    { "key": "showSeconds", "type": "boolean", "label": "Show seconds", "default": false },
+    { "key": "showDate", "type": "boolean", "label": "Show date", "default": true }
+  ]
+}

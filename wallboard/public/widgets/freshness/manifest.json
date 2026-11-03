@@ -1,0 +1,12 @@
+{
+  "name": "Data freshness",
+  "description": "When each feed and the weather were last fetched, failures, connection state, and a refresh button.",
+  "icon": "🩺",
+  "order": 7,
+  "styles": ["style.css"],
+  "size": { "w": 3, "h": 4, "minW": 2, "minH": 2, "phoneH": 6 },
+  "settings": [
+    { "key": "showFeeds", "type": "boolean", "label": "List every feed", "default": true },
+    { "key": "problemsOnly", "type": "boolean", "label": "Only list feeds with problems", "default": false }
+  ]
+}

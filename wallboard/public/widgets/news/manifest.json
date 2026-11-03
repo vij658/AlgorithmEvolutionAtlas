@@ -1,0 +1,130 @@
+{
+  "name": "News",
+  "description": "Headlines merged from several RSS / Atom feeds, crawled hourly by the server.",
+  "icon": "📰",
+  "order": 6,
+  "styles": [
+    "style.css"
+  ],
+  "configureOnAdd": true,
+  "size": {
+    "w": 8,
+    "h": 8,
+    "minW": 3,
+    "minH": 3,
+    "phoneH": 9
+  },
+  "settings": [
+    {
+      "key": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "News"
+    },
+    {
+      "key": "topic",
+      "type": "select",
+      "label": "Starter topic (used when the feed list is empty)",
+      "default": "tech",
+      "options": [
+        {
+          "value": "ai",
+          "label": "AI"
+        },
+        {
+          "value": "tech",
+          "label": "Tech"
+        },
+        {
+          "value": "stocks",
+          "label": "Stocks"
+        },
+        {
+          "value": "sports",
+          "label": "Sports"
+        }
+      ]
+    },
+    {
+      "key": "feeds",
+      "type": "list",
+      "itemType": "url",
+      "itemLabel": "Add feed URL",
+      "placeholder": "https://example.com/feed.xml",
+      "label": "Feeds",
+      "default": [],
+      "max": 40,
+      "presets": {
+        "AI": [
+          "https://news.mit.edu/rss/topic/artificial-intelligence2",
+          "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+          "https://techcrunch.com/category/artificial-intelligence/feed/",
+          "https://venturebeat.com/category/ai/feed/",
+          "https://hnrss.org/newest?q=AI+OR+LLM&points=100"
+        ],
+        "Tech": [
+          "https://feeds.arstechnica.com/arstechnica/index",
+          "https://www.theverge.com/rss/index.xml",
+          "https://hnrss.org/frontpage",
+          "https://techcrunch.com/feed/",
+          "https://www.wired.com/feed/rss"
+        ],
+        "Stocks": [
+          "https://feeds.content.dowjones.io/public/rss/mw_topstories",
+          "https://www.cnbc.com/id/100003114/device/rss/rss.html",
+          "https://www.cnbc.com/id/10000664/device/rss/rss.html",
+          "https://finance.yahoo.com/news/rssindex"
+        ],
+        "Sports": [
+          "https://www.espn.com/espn/rss/news",
+          "https://feeds.bbci.co.uk/sport/rss.xml",
+          "https://www.cbssports.com/rss/headlines/",
+          "https://sports.yahoo.com/rss/"
+        ]
+      },
+      "help": "RSS, Atom or JSON Feed URLs. The server fetches them once an hour; new feeds are fetched right away."
+    },
+    {
+      "key": "maxItems",
+      "type": "number",
+      "label": "Maximum headlines",
+      "default": 40,
+      "min": 3,
+      "max": 200
+    },
+    {
+      "key": "maxAgeHours",
+      "type": "number",
+      "label": "Hide stories older than (hours, 0 = never)",
+      "default": 72,
+      "min": 0,
+      "max": 2000
+    },
+    {
+      "key": "showSummary",
+      "type": "boolean",
+      "label": "Show summaries",
+      "default": true
+    },
+    {
+      "key": "showImages",
+      "type": "boolean",
+      "label": "Show thumbnails",
+      "default": true
+    },
+    {
+      "key": "openLinks",
+      "type": "boolean",
+      "label": "Tap a headline to open the story",
+      "default": true
+    },
+    {
+      "key": "scrollSeconds",
+      "type": "number",
+      "label": "Auto-scroll every (seconds, 0 = off, blank = 10 s in TV mode)",
+      "default": null,
+      "min": 0,
+      "max": 600
+    }
+  ]
+}

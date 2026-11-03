@@ -1,0 +1,15 @@
+{
+  "name": "Tasks",
+  "description": "To-do list with high / normal / low priority. Saved on this screen and synced to the server.",
+  "icon": "✅",
+  "order": 5,
+  "styles": ["style.css"],
+  "size": { "w": 4, "h": 5, "minW": 3, "minH": 2, "phoneH": 6 },
+  "settings": [
+    { "key": "title", "type": "text", "label": "Title", "default": "Tasks" },
+    { "key": "list", "type": "text", "label": "List name", "default": "default", "pattern": "^[a-z0-9_-]{1,30}$", "patternHelp": "Use a-z, 0-9, - or _", "help": "Task widgets with the same list name show the same tasks (e.g. \"shopping\")." },
+    { "key": "showDone", "type": "boolean", "label": "Show completed tasks", "default": true },
+    { "key": "defaultPriority", "type": "select", "label": "Priority for new tasks", "default": 2, "options": [
+      { "value": 1, "label": "High" }, { "value": 2, "label": "Normal" }, { "value": 3, "label": "Low" } ] }
+  ]
+}

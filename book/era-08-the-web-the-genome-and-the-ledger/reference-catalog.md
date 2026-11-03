@@ -45,7 +45,7 @@ A note on videos: video sites themselves could not be opened from the environmen
 ## 1. Support vector machines
 
 **When / where:** Vladimir Vapnik and Alexey Chervonenkis, Institute of Control Sciences, Moscow, the "generalised portrait" method (work begun 1962, first published 1964); Bernhard Boser, Isabelle Guyon and Vladimir Vapnik, AT&T Bell Laboratories, "A training algorithm for optimal margin classifiers" (1992), the kernel trick; Corinna Cortes and Vladimir Vapnik, AT&T Bell Laboratories, Holmdel, New Jersey, "Support-vector networks", *Machine Learning* 20 (1995), the soft margin.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`SupportVectorMachines.java`](../../code/era-08-the-web-the-genome-and-the-ledger/01-support-vector-machines/) · **Page:** [topic 1](01-support-vector-machines/README.md)
 
 > **Field note.** Rosenblatt's perceptron (Era 5, topic 9) stops at the first line that separates its two kinds of examples, however close that line runs to them. In Moscow in the 1960s Vapnik and Chervonenkis asked for the best such line: the one with the widest empty street on either side. Only the examples standing on the edges of the street decide where it goes; they are the support vectors. Thirty years later, at Bell Laboratories, Boser, Guyon and Vapnik noticed that the method only ever compares two examples by a dot product, so the dot product could be swapped for another comparison, a kernel, and the straight street bent into a curved one without ever writing down the curved coordinates. Cortes and Vapnik then let a few examples stand inside the street or on the wrong side, at a price, so that the method works on data no line can separate. On handwritten digits from the US Postal Service their machines made fewer errors than the neural networks they compared against.
 
@@ -85,7 +85,7 @@ A note on videos: video sites themselves could not be opened from the environmen
 ## 2. Approximation by semidefinite programming: Goemans and Williamson's MAX CUT
 
 **When / where:** Michel Goemans (MIT) and David Williamson (IBM T. J. Watson Research Center, Yorktown Heights), preliminary version at the 26th ACM Symposium on Theory of Computing, Montreal, 1994; "Improved approximation algorithms for maximum cut and satisfiability problems using semidefinite programming", *Journal of the ACM* 42(6), November 1995.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`GoemansWilliamson.java`](../../code/era-08-the-web-the-genome-and-the-ledger/02-max-cut/) · **Page:** [topic 2](02-max-cut/README.md)
 
 > **Field note.** Since the sixth era the species has known that some problems, MAX CUT among them, probably have no fast exact method (Era 6, topic 8). So it began to ask a weaker question: how close to the best can a fast method promise to come? For MAX CUT, splitting a network's nodes into two groups so that as many links as possible run between them, the answer had been one half, from flipping a coin for each node, and for years nobody improved the constant. In 1994 Goemans and Williamson replaced each node's choice of side by an arrow in many dimensions, found the best arrows by semidefinite programming (a relative of the linear programs of Era 7, topic 1), and then cut the arrows with a random plane through the middle. Two arrows land on opposite sides with probability equal to the angle between them over π, and that one fact gives a guarantee of 0.87856 of the best cut.
 
@@ -122,7 +122,7 @@ No video page could be opened (see **Gaps**).
 ## 3. Streaming sketches
 
 **When / where:** Philippe Flajolet (INRIA) and G. Nigel Martin (IBM, Hursley), probabilistic counting (FOCS 1983; *Journal of Computer and System Sciences* 1985); Noga Alon (Tel Aviv University), Yossi Matias (Bell Laboratories) and Mario Szegedy (AT&T Research), "The space complexity of approximating the frequency moments", STOC, May 1996 (journal version 1999); Graham Cormode and S. Muthukrishnan (Rutgers), the Count-Min sketch (*Journal of Algorithms*, April 2005); Flajolet, Fusy, Gandouet and Meunier, HyperLogLog (Analysis of Algorithms conference, 2007).
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`StreamingSketches.java`](../../code/era-08-the-web-the-genome-and-the-ledger/03-streaming-sketches/) · **Page:** [topic 3](03-streaming-sketches/README.md)
 
 > **Field note.** By the 1990s the species' machines were watching more data pass than they could keep. How many different items went by? Which ones came most often? In 1996 Alon, Matias and Szegedy showed that some such questions can be answered approximately, with a few kilobytes of memory, in one pass, using random summaries they called sketches; and that others cannot. A sketch for the "repeat rate" adds up each item's count multiplied by a random plus or minus one and squares the total. Later sketches answered other questions: Count-Min (2005) estimates how often any one item appeared, never too low; HyperLogLog (2007), the descendant of Flajolet and Martin's counting of the 1980s, estimates the number of distinct items beyond a billion with about 2% error in 1.5 kilobytes.
 
@@ -163,7 +163,7 @@ No video page could be opened (see **Gaps**).
 ## 4. Consistent hashing
 
 **When / where:** David Karger, Eric Lehman, Tom Leighton, Matthew Levine, Daniel Lewin and Rina Panigrahy, MIT Laboratory for Computer Science, "Consistent hashing and random trees: distributed caching protocols for relieving hot spots on the World Wide Web", ACM Symposium on Theory of Computing, 1997; Akamai, founded 1998 by Lewin and Leighton; Chord (Stoica, Morris, Karger, Kaashoek and Balakrishnan, MIT), SIGCOMM, August 2001.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`ConsistentHashing.java`](../../code/era-08-the-web-the-genome-and-the-ledger/04-consistent-hashing/) · **Page:** [topic 4](04-consistent-hashing/README.md)
 
 > **Field note.** The Web's popular pages were swamped: when a comet struck Jupiter or an election was counted, everyone asked one server at once. Spreading copies over many caches needs a rule for which cache holds which page, and the obvious rule, hash the address and divide by the number of caches (hashing, Era 5, topic 4), has a flaw: add or remove one cache and almost every page moves. In 1997 Karger and his colleagues at MIT gave a rule that "changes minimally as the range of the function changes": put both the caches and the pages at random points on a line or circle and give each page to the nearest cache. A new cache takes over only the pages it now stands nearest to. Two of the authors founded Akamai the next year, and the same idea later placed keys on the computers of peer-to-peer networks and of large databases.
 
@@ -198,7 +198,7 @@ No video page could be opened (see **Gaps**).
 ## 5. MinHash and locality-sensitive hashing
 
 **When / where:** Andrei Broder, Digital Equipment Corporation's Systems Research Center, Palo Alto, "On the resemblance and containment of documents", Compression and Complexity of Sequences, 1997; Broder, Steven Glassman, Mark Manasse and Geoffrey Zweig, "Syntactic clustering of the Web" (SRC Technical Note 1997-015, July 1997), on 30 million pages from an AltaVista crawl; Piotr Indyk and Rajeev Motwani (Stanford), locality-sensitive hashing, STOC 1998.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`MinHashLsh.java`](../../code/era-08-the-web-the-genome-and-the-ledger/05-minhash/) · **Page:** [topic 5](05-minhash/README.md)
 
 > **Field note.** A search engine that has fetched 30 million pages finds that many of them are copies or near-copies: in AltaVista's crawl of 1996, 12.3 million of the 30 million fell into clusters of pages that resembled each other. Comparing every page with every other is hopeless, and exact fingerprints (Era 7, topic 9) miss pages that differ in one word. At Digital's research centre in Palo Alto, Broder cut each page into overlapping runs of words, "shingles", and measured resemblance as the shared runs over all the runs. Then he made it cheap: shuffle all possible shingles at random and keep, for each page, the one that comes first. The chance that two pages keep the same shingle is exactly their resemblance. A hundred such samples, a few hundred bytes per page, were enough to cluster AltaVista's crawl. Indyk and Motwani turned such hashes, built so that similar things tend to collide, into a general method for finding near neighbours among millions of points.
 
@@ -235,7 +235,7 @@ No video page could be opened (see **Gaps**).
 ## 6. Long short-term memory
 
 **When / where:** Sepp Hochreiter, diploma thesis, Technische Universität München, 1991 (the vanishing gradient); Hochreiter (TU München) and Jürgen Schmidhuber (IDSIA, Lugano), technical report 1995, NIPS 1996, and "Long short-term memory", *Neural Computation* 9(8), 1735–1780, 1997; the forget gate, Gers, Schmidhuber and Cummins, 1999.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`LongShortTermMemory.java`](../../code/era-08-the-web-the-genome-and-the-ledger/06-lstm/) · **Page:** [topic 6](06-lstm/README.md)
 
 > **Field note.** Backpropagation (Era 7, topic 7) can train a network that reads a sequence one step at a time and carries a memory from step to step. But the slope it sends back through time is multiplied at every step, and in his 1991 thesis Hochreiter showed what that does: the error signal either blows up or dies away exponentially with the distance. A network could not learn that something it saw a hundred steps ago mattered now. Hochreiter and Schmidhuber's answer was a memory cell whose content is carried forward unchanged, a "constant error carousel", with gates that learn when to let new input in and when to let the content out. Their 1997 network bridged time lags of more than 1,000 steps on tasks where the older methods failed at 10. A gate for forgetting was added in 1999, and in that form the cell later ran Google's speech recognition and machine translation.
 
@@ -270,7 +270,7 @@ No video page could be opened (see **Gaps**).
 ## 7. PageRank
 
 **When / where:** Larry Page and Sergey Brin, Stanford University, a research project from 1996; Brin and Page, "The anatomy of a large-scale hypertextual Web search engine", Seventh International World Wide Web Conference, Brisbane, April 1998 (*Computer Networks and ISDN Systems* 30); Jon Kleinberg's hubs and authorities (HITS), *Journal of the ACM*, 1999.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`PageRank.java`](../../code/era-08-the-web-the-genome-and-the-ledger/07-pagerank/) · **Page:** [topic 7](07-pagerank/README.md)
 
 > **Field note.** By 1998 the Web held tens of millions of pages, and search engines that matched keywords returned, in Brin and Page's words, "junk results" that "often wash out any results that a user is interested in". Two students at Stanford counted something else: the links. A page is important if important pages link to it, which sounds circular, and is: the ranks are the solution of one enormous system of equations. Brin and Page pictured a random surfer who clicks links forever and, now and then, gets bored and jumps to a random page; a page's PageRank is the share of time the surfer spends there. Multiplying the ranks by the link matrix again and again (the power method) converges, with the damping set at 0.85, the ranks of 26 million pages took a few hours on one workstation. The search engine built on it was called Google.
 
@@ -307,7 +307,7 @@ No video page could be opened (see **Gaps**).
 ## 8. Paxos
 
 **When / where:** Leslie Lamport, "The Part-Time Parliament", written and submitted around 1989–1990, published in *ACM Transactions on Computer Systems* 16(2), May 1998; "Paxos Made Simple", 2001.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`Paxos.java`](../../code/era-08-the-web-the-genome-and-the-ledger/08-paxos/) · **Page:** [topic 8](08-paxos/README.md)
 
 > **Field note.** The Byzantine generals (Era 7, topic 3) agreed despite traitors, but they marched in lockstep rounds. Real networks have no rounds: messages are late, lost or repeated, and a computer that has stopped answering may only be slow. Lamport described a solution as the lost records of a parliament on the Greek island of Paxos, whose part-time legislators kept wandering out of the chamber, yet still passed one consistent set of decrees. A proposer first asks a majority of acceptors to promise to ignore older ballots, and must then propose the value of the highest ballot any of them had already accepted; because any two majorities share a member, once a value is chosen no later ballot can choose another. The referees found the paper "mildly interesting, though not very important"; it waited eight years for publication, and then became one of the ways the species' largest computer systems keep their copies in agreement.
 
@@ -344,7 +344,7 @@ No video page could be opened (see **Gaps**).
 ## 9. Genome assembly with de Bruijn graphs
 
 **When / where:** Ramana Idury and Michael Waterman, University of Southern California, "A new algorithm for DNA sequence assembly", *Journal of Computational Biology* 2(2), 1995; Pavel Pevzner and Haixu Tang (University of California, San Diego) and Waterman, "An Eulerian path approach to DNA fragment assembly", *PNAS* 98(17), 14 August 2001; Velvet (Daniel Zerbino and Ewan Birney, European Bioinformatics Institute), *Genome Research*, 2008.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`GenomeAssembly.java`](../../code/era-08-the-web-the-genome-and-the-ledger/09-genome-assembly/) · **Page:** [topic 9](09-genome-assembly/README.md)
 
 > **Field note.** To read a genome the species could only read short pieces of it, from many copies broken at random places, like many copies of a book passed through shredders with different cutters. Putting the pieces back means finding a path through them. Treated the obvious way, each piece a point and each overlap a link, the path must visit every point once: a Hamiltonian path, an NP-complete problem (Era 6, topic 8), and the repeats in a genome make it worse. Idury and Waterman, then Pevzner, Tang and Waterman, cut every piece into all its words of length k and made each word a link between its first k − 1 letters and its last k − 1 letters. Now the genome is a path that uses every link once, an Eulerian path, the problem Euler settled for the bridges of Königsberg in 1736 (Era 3, topic 7), which takes linear time. Repeats still make several paths possible, and no method can assemble through a perfect repeat longer than the pieces.
 
@@ -383,7 +383,7 @@ No video page could be opened (see **Gaps**).
 ## 10. PRIMES is in P
 
 **When / where:** Manindra Agrawal, Neeraj Kayal and Nitin Saxena, Department of Computer Science and Engineering, Indian Institute of Technology Kanpur, "PRIMES is in P", preprint dated 6 August 2002; *Annals of Mathematics* 160(2), 781–793, 2004; Gödel Prize and Fulkerson Prize, 2006.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`AksPrimality.java`](../../code/era-08-the-web-the-genome-and-the-ledger/10-primes-is-in-p/) · **Page:** [topic 10](10-primes-is-in-p/README.md)
 
 > **Field note.** Since the sixth era the species had checked primes by flipping coins: Solovay and Strassen's test (Era 6, topic 10) and its relatives can call a composite number prime only with a probability that can be made tiny, but not zero. The deterministic methods were either limited to special numbers, or had no proved polynomial bound, or depended on an unproved hypothesis. In August 2002 three computer scientists at Kanpur posted a short paper with a test that has all four virtues at once: it works for every number, always gives the right answer, runs in time polynomial in the number of digits, and rests on nothing unproved. Its heart is an old fact: n is prime exactly when (x − a)ⁿ equals xⁿ − a with every coefficient taken modulo n. Checking that directly takes n steps; their idea was to check it only modulo a small polynomial xʳ − 1, for a few values of a, and to prove that this is enough. The test is not used in practice; what it changed is what is known.
 
@@ -421,9 +421,9 @@ No video page could be opened (see **Gaps**).
 ## 11. MapReduce
 
 **When / where:** Jeffrey Dean and Sanjay Ghemawat, Google, "MapReduce: Simplified Data Processing on Large Clusters", Sixth Symposium on Operating System Design and Implementation (OSDI), San Francisco, December 2004; Apache Hadoop, an open-source implementation.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`MapReduce.java`](../../code/era-08-the-web-the-genome-and-the-ledger/11-mapreduce/) · **Page:** [topic 11](11-mapreduce/README.md)
 
-> **Field note.** To index the Web, a search company must run one computation over terabytes of pages on thousands of cheap computers, any of which may fail. Writing such a program by hand means handling the splitting of the data, the scheduling, the network, and the failures, over and over. Dean and Ghemawat at Google noticed that many of their jobs had one shape, borrowed from the map and reduce of Lisp and other functional languages: apply a function to every record to make key–value pairs, group the pairs by key, and combine each group. A programmer writes those two functions; the library spreads them over the machines, and when a machine dies it simply runs that machine's pieces again, which is safe because the functions have no side effects. Slow machines are handled the same way, by running a backup copy of the last few pieces: without backups, their sort took 44% longer. By 2004 more than a thousand such jobs ran on Google's clusters every day.
+> **Field note.** A search company must run computations over data far too large for one computer, on clusters of cheap computers, any of which may fail. Writing such a program by hand means handling the splitting of the data, the scheduling, the network, and the failures, over and over. Dean and Ghemawat at Google noticed that many of their jobs had one shape, borrowed from the map and reduce of Lisp and other functional languages: apply a function to every record to make key–value pairs, group the pairs by key, and combine each group. A programmer writes those two functions; the library spreads them over the machines, and when a machine dies it simply runs that machine's pieces again, which is safe because the functions have no side effects. Slow machines are handled the same way, by running a backup copy of the last few pieces: without backups, their sort took 44% longer. By 2004 more than a thousand such jobs ran on Google's clusters every day.
 
 **What hurt:** programs that process huge data on thousands of failure-prone computers had to manage distribution, scheduling and fault tolerance themselves, and each one did it differently.
 **The step forward:** a restricted programming model, map and reduce, whose deterministic, side-effect-free tasks can be scheduled, moved and re-executed by a library, which hides the distribution.
@@ -456,7 +456,7 @@ No video page could be opened (see **Gaps**).
 ## 12. Compressed sensing
 
 **When / where:** Emmanuel Candès (Caltech), Justin Romberg (Caltech) and Terence Tao (UCLA), "Robust uncertainty principles: exact signal reconstruction from highly incomplete frequency information", preprint dated 10 June 2004, *IEEE Transactions on Information Theory* 52(2), February 2006; David Donoho (Stanford), "Compressed sensing", 2006.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`CompressedSensing.java`](../../code/era-08-the-web-the-genome-and-the-ledger/12-compressed-sensing/) · **Page:** [topic 12](12-compressed-sensing/README.md)
 
 > **Field note.** The sampling theorem of Nyquist and Shannon tells the species how often to measure a signal to capture it. Yet most of what is measured is thrown away again by compression, because most signals are sparse: a few strong components and a great deal of near-nothing. In 2004 Candès, experimenting with a known trick, minimizing the sum of absolute values (the ℓ1 norm), found it sharpened a blurry image remarkably well. In the paper that followed, with Romberg and Tao, a test image known only along 22 lines through its Fourier transform came back exactly, and they proved why: if a signal has only k nonzero entries, then about k log N random measurements determine it, and a convex program, essentially a linear program (Era 7, topic 1), finds it. The obvious alternative, the smallest solution in the ordinary least-squares sense, smears the answer over every entry. The idea has since been put to work on shorter MRI scans and on a camera with a single pixel.
 
@@ -493,7 +493,7 @@ No video page could be opened (see **Gaps**).
 ## 13. Bitcoin's proof-of-work ledger
 
 **When / where:** Satoshi Nakamoto, "Bitcoin: A Peer-to-Peer Electronic Cash System", announced on the Cryptography Mailing List on 31 October 2008; the domain bitcoin.org registered 18 August 2008; the network started with the genesis block of 3 January 2009; the first transaction, to Hal Finney, 12 January 2009. Adam Back's hashcash, the proof of work it reuses, dates from 1997.
-**Atlas:** to be mapped · **Code:** planned
+**Atlas:** to be mapped · **Code:** [`Bitcoin.java`](../../code/era-08-the-web-the-genome-and-the-ledger/13-bitcoin/) · **Page:** [topic 13](13-bitcoin/README.md)
 
 > **Field note.** Digital money has an obvious flaw: a file can be copied, so a coin can be spent twice, and the usual cure is a trusted bank that keeps the one true ledger. In October 2008, someone signing as Satoshi Nakamoto posted a design for a ledger with no bank. Everyone keeps a copy. Blocks of transactions are chained by hashes, each holding the Merkle root of its transactions (Era 7, topic 2), and a block counts only if its hash begins with many zero bits, which can be found only by trying nonce after nonce, with work that doubles for every extra zero bit: a proof of work, borrowed from hashcash. Honest computers always extend the longest chain. To rewrite history an attacker must redo the work of every later block and then overtake the honest majority, and Nakamoto calculated how fast that chance falls: with a tenth of the computing power, an attacker who is 5 blocks behind succeeds with probability below 0.1%. In this book's terms it is a kind of Byzantine agreement (Era 7, topic 3) among strangers, with votes paid for in computation.
 

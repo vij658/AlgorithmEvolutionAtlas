@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bitcoin&#x27;s Proof-of-Work Ledger</title>
+<meta name="description" content="Era 8, topic 13 of The Algorithm Evolution Atlas: Nakamoto&#x27;s Bitcoin (2008) as an algorithm: a hash-chained ledger sealed by proof of work, with the genesis block and Section 11 recomputed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.bt-board .controls{display:flex;gap:10px;align-items:end;flex-wrap:wrap}
+.bt-board #bt-msg{width:14em}
+.bt-board select{font:inherit;font-family:var(--mono);font-size:14px;padding:4px 6px;border:1px solid var(--axis);background:var(--paper);color:var(--ink)}
+.bt-line{font-size:13px;color:var(--muted);margin:12px 0 4px;overflow-wrap:anywhere}
+.bt-line b{color:var(--ink);font-family:var(--mono)}
+.bt-hash{font:14px/1.5 var(--mono);overflow-wrap:anywhere;background:var(--wash);padding:8px 10px}
+.bt-hash .z{background:var(--yellow);color:var(--on-yellow)}
+.bt-hash.ok{outline:2px solid var(--blue)}
+.bt-hash.bad{outline:2px solid var(--red)}
+.bt-bits{display:flex;flex-wrap:wrap;gap:1px;margin-top:6px}
+.bt-bits span{width:9px;height:12px;background:var(--axis)}
+.bt-bits span.z{background:var(--yellow)}
+.bt-bits span.need{outline:1px solid var(--ink)}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 8: The Web, the Genome and the Ledger</a><a href="../12-compressed-sensing/compressed-sensing.html">← Compressed Sensing</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 8 · Topic 13 · 2008</div>
+    <h1>Bitcoin&#x27;s Proof-of-Work Ledger</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">Digital money has an obvious flaw: a file can be copied, so a coin can be spent twice. In October 2008 a paper signed Satoshi Nakamoto described a ledger kept by everyone, sealed block by block with proof of work, in which rewriting history means outrunning the majority of the computing power.</p>
+  <p class="fieldnote">Field note from the visiting historian. I hashed the ledger's first block, 80 bytes from 3 January 2009, and got its published hash, 43 zero bits long. Nakamoto's table of an attacker's chances matched his formula to seven decimals. But when I ran the race itself 1,000,000 times, an attacker 5 blocks behind won 2.0 times as often as the formula says.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>31 October 2008; genesis block 3 January 2009</dd></div><div><dt>Where</dt><dd>The Cryptography Mailing List</dd></div><div><dt>What hurt</dt><dd>Without a trusted party, coins could be spent twice</dd></div><div><dt>The fix</dt><dd>A hash-chained ledger sealed by proof of work</dd></div><div><dt>Checked</dt><dd>The genesis header hashes to the published hash</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Hashcash (1997) made a computer prove it had done work, against spam. Merkle's trees (Era 7) sealed many items under one hash. The Byzantine generals (Era 7) showed how to agree despite traitors, among a known list of participants. Nakamoto chained blocks of payments by their hashes, sealed each with a proof of work, and let the chain with the most work decide. Each box names the idea that was added.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 640" role="img" aria-label="How Bitcoin combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="125.0" y1="106.0" x2="426.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="426.5,180.0 417.6,181.6 419.4,174.5" style="fill:var(--ink-2)"/><line x1="500.0" y1="106.0" x2="500.0" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,180.0 496.3,171.8 503.7,171.8" style="fill:var(--ink-2)"/><line x1="875.0" y1="106.0" x2="573.5" y2="180.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="573.5,180.0 580.6,174.5 582.4,181.6" style="fill:var(--ink-2)"/><rect x="589.2" y="127.7" width="116.9" height="19" rx="3" style="fill:var(--surface)"/><text x="701.2" y="140.7" text-anchor="end" style="fill:var(--ink);font-size:12.5px;font-weight:600">among strangers</text><line x1="426.5" y1="266.0" x2="125.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="125.0,340.0 132.1,334.5 133.9,341.6" style="fill:var(--ink-2)"/><line x1="573.5" y1="266.0" x2="875.0" y2="340.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="875.0,340.0 866.1,341.6 867.9,334.5" style="fill:var(--ink-2)"/><line x1="500.0" y1="266.0" x2="500.0" y2="490.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,490.0 496.3,481.8 503.7,481.8" style="fill:var(--ink-2)"/><rect x="20" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Hashcash</text><text x="32.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">proof of work against spam</text><text x="32.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Adam Back, 1997</text><rect x="395" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="407.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Merkle trees</text><text x="407.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">one hash seals many items</text><text x="407.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 7, topic 2</text><rect x="770" y="20" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="51.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Byzantine agreement</text><text x="782.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">agreement despite traitors</text><text x="782.0" y="85.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 7, topic 3</text><rect x="395" y="180" width="210" height="86" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="407.0" y="203.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Bitcoin</text><text x="407.0" y="220.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ the longest chain of work</text><text x="407.0" y="237.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">decides</text><text x="407.0" y="253.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Nakamoto, 31 October 2008</text><rect x="20" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="380.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The genesis block</text><text x="32.0" y="397.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">3 January 2009</text><rect x="770" y="340" width="210" height="86" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="782.0" y="371.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The first transaction</text><text x="782.0" y="389.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">10 bitcoins to Hal Finney</text><text x="782.0" y="405.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">12 January 2009, block 170</text><rect x="395" y="490" width="210" height="86" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="407.0" y="521.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">A textbook subject</text><text x="407.0" y="539.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Princeton University Press,</text><text x="407.0" y="555.6" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">2016</text><text x="20.0" y="615.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">The announcement: &quot;No mint or other trusted parties&quot;.</text></svg></div><figcaption>Red: Bitcoin. Blue: where it stands today.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">Mine a block, then break it</h2>
+<p class="col">The block here is just a line of text. Mining means trying nonce after nonce until the SHA-256 hash of "text|nonce:N" starts with enough zero bits; the yellow digits are the zeros. Each extra zero bit doubles the expected work. With the program's text, "alice pays bob 10", the widget finds the same nonces the program did: 21 for 4 bits, 117 for 8 bits, 8334 for 12 bits, 34965 for 16 bits. Then change one letter.</p>
+
+<div class="board bt-board">
+  <div style="min-width:0">
+    <div class="controls">
+      <label>block <input id="bt-msg" type="text" value="alice pays bob 10" spellcheck="false"></label>
+      <label>zero bits <select id="bt-bits"><option>4</option><option>8</option><option selected>12</option><option>16</option><option>20</option></select></label>
+      <button type="button" class="primary" id="bt-go">Mine</button>
+    </div>
+    <p class="bt-line">nonce <b id="bt-n">0</b> · SHA-256 of “<span id="bt-text"></span>”</p>
+    <div class="bt-hash" id="bt-hash" aria-live="off"></div>
+    <div class="bt-bits" id="bt-bitrow" aria-hidden="true"></div>
+  </div>
+  <div style="min-width:0">
+    <p class="say" id="bt-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 8, the Web, the genome and the ledger</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 8: The Web, the Genome and the Ledger, from 1995 to 2008" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1992–1995</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Support vector</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">machines</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1994–1995</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Goemans–Williamson</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1996</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Streaming</text><text x="307.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">sketches</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1997</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Consistent hashing</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1997–1998</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">MinHash</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1997</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">LSTM</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1998</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">PageRank</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1989–1998</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Paxos</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">1995–2001</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Genome assembly</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2002</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AKS primality</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2004</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">MapReduce</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2004–2006</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Compressed</text><text x="1400.5" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">sensing</text><circle cx="1522.0" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2008</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Bitcoin</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 416" role="img" aria-label="Each fix leaves a new pain: from the bank to the longest chain" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Without a trusted party, the payee can&#x27;t tell whether a</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">coin was spent twice</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Everyone keeps the ledger: blocks chained by hashes,</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">sealed by proof of work</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Nakamoto, 2008</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Strangers, with no list of members, must agree on one</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">history</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">&quot;Nodes always consider the longest chain to be the</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">correct one&quot;</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">the chain with the most work</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="345.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">An attacker can secretly build a rival chain</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Wait z blocks: with 10% of the power, z = 5 leaves a</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">chance of 0.0009137</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Section 11</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">A chain of sealed blocks</h2>
+<p class="col"><strong>A block.</strong> Each block holds a batch of payments, summarized by the root of a Merkle tree of their hashes; the hash of the block before it; and a number called the nonce. It counts only if the SHA-256 hash of its header, read as a number, is below a target: it starts with enough zero bits. Nobody knows how to find such a nonce except by trying, about 2^d tries for d zero bits. Checking takes one hash.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 760 330" role="img" aria-label="Four blocks, each holding the previous block&#x27;s hash" style="font-family:var(--body);min-width:380px;max-width:760px;margin:0 auto"><defs><marker id="bk-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--ink)"/></marker></defs><rect x="20.0" y="40.0" width="150.0" height="150.0" rx="0" style="fill:var(--surface);stroke:var(--ink);stroke-width:1.4"/><text x="30.0" y="60.0" text-anchor="start" style="fill:var(--ink);font-size:13px;font-weight:700">block 1</text><rect x="28.0" y="69.0" width="134.0" height="28.0" rx="0" style="fill:var(--wash);stroke:var(--axis);stroke-width:0.8"/><text x="34.0" y="81.0" text-anchor="start" style="fill:var(--muted);font-size:10px;font-weight:400">previous hash</text><text x="34.0" y="93.0" text-anchor="start" style="fill:var(--ink);font-size:11px;font-weight:400">hash of block 0</text><rect x="28.0" y="103.0" width="134.0" height="28.0" rx="0" style="fill:var(--wash);stroke:var(--axis);stroke-width:0.8"/><text x="34.0" y="115.0" text-anchor="start" style="fill:var(--muted);font-size:10px;font-weight:400">Merkle root</text><text x="34.0" y="127.0" text-anchor="start" style="fill:var(--ink);font-size:11px;font-weight:400">of its payments</text><rect x="28.0" y="137.0" width="134.0" height="28.0" rx="0" style="fill:var(--wash);stroke:var(--axis);stroke-width:0.8"/><text x="34.0" y="149.0" text-anchor="start" style="fill:var(--muted);font-size:10px;font-weight:400">nonce</text><text x="34.0" y="161.0" text-anchor="start" style="fill:var(--ink);font-size:11px;font-weight:400">found by trying</text><line x1="170.0" y1="82.0" x2="202.0" y2="82.0" style="stroke:var(--ink);stroke-width:1.6;marker-end:url(#bk-arrow)"/><rect x="206.0" y="40.0" width="150.0" height="150.0" rx="0" style="fill:var(--surface);stroke:var(--ink);stroke-width:1.4"/><text x="216.0" y="60.0" text-anchor="start" style="fill:var(--ink);font-size:13px;font-weight:700">block 2</text><rect x="214.0" y="69.0" width="134.0" height="28.0" rx="0" style="fill:var(--wash);stroke:var(--axis);stroke-width:0.8"/><text x="220.0" y="81.0" text-anchor="start" style="fill:var(--muted);font-size:10px;font-weight:400">previous hash</text><text x="220.0" y="93.0" text-anchor="start" style="fill:var(--ink);font-size:11px;font-weight:400">hash of block 1</text><rect x="214.0" y="103.0" width="134.0" height="28.0" rx="0" style="fill:var(--wash);stroke:var(--axis);stroke-width:0.8"/><text x="220.0" y="115.0" text-anchor="start" style="fill:var(--muted);font-size:10px;font-weight:400">Merkle root</text><text x="220.0" y="127.0" text-anchor="start" style="fill:var(--ink);font-size:11px;font-weight:400">of its payments</text><rect x="214.0" y="137.0" width="134.0" height="28.0" rx="0" style="fill:var(--wash);stroke:var(--axis);stroke-width:0.8"/><text x="220.0" y="149.0" text-anchor="start" style="fill:var(--muted);font-size:10px;font-weight:400">nonce</text><text x="220.0" y="161.0" text-anchor="start" style="fill:var(--ink);font-size:11px;font-weight:400">found by trying</text><line x1="356.0" y1="82.0" x2="388.0" y2="82.0" style="stroke:var(--ink);stroke-width:1.6;marker-end:url(#bk-arrow)"/><rect x="392.0" y="40.0" width="150.0" height="150.0" rx="0" style="fill:var(--surface);stroke:var(--red);stroke-width:1.8"/><text x="402.0" y="60.0" text-anchor="start" style="fill:var(--red);font-size:13px;font-weight:700">block 3: changed</text><rect x="400.0" y="69.0" width="134.0" height="28.0" rx="0" style="fill:var(--wash);stroke:var(--axis);stroke-width:0.8"/><text x="406.0" y="81.0" text-anchor="start" style="fill:var(--muted);font-size:10px;font-weight:400">previous hash</text><text x="406.0" y="93.0" text-anchor="start" style="fill:var(--ink);font-size:11px;font-weight:400">hash of block 2</text><rect x="400.0" y="103.0" width="134.0" height="28.0" rx="0" style="fill:var(--wash);stroke:var(--axis);stroke-width:0.8"/><text x="406.0" y="115.0" text-anchor="start" style="fill:var(--muted);font-size:10px;font-weight:400">Merkle root</text><text x="406.0" y="127.0" text-anchor="start" style="fill:var(--ink);font-size:11px;font-weight:400">of its payments</text><rect x="400.0" y="137.0" width="134.0" height="28.0" rx="0" style="fill:var(--wash);stroke:var(--axis);stroke-width:0.8"/><text x="406.0" y="149.0" text-anchor="start" style="fill:var(--muted);font-size:10px;font-weight:400">nonce</text><text x="406.0" y="161.0" text-anchor="start" style="fill:var(--ink);font-size:11px;font-weight:400">found by trying</text><line x1="542.0" y1="82.0" x2="574.0" y2="82.0" style="stroke:var(--red);stroke-width:1.6;stroke-dasharray:4 3"/><text x="560.0" y="74.0" text-anchor="middle" style="fill:var(--red);font-size:14px;font-weight:700">✗</text><rect x="578.0" y="40.0" width="150.0" height="150.0" rx="0" style="fill:var(--surface);stroke:var(--ink);stroke-width:1.4"/><text x="588.0" y="60.0" text-anchor="start" style="fill:var(--ink);font-size:13px;font-weight:700">block 4</text><rect x="586.0" y="69.0" width="134.0" height="28.0" rx="0" style="fill:var(--wash);stroke:var(--axis);stroke-width:0.8"/><text x="592.0" y="81.0" text-anchor="start" style="fill:var(--muted);font-size:10px;font-weight:400">previous hash</text><text x="592.0" y="93.0" text-anchor="start" style="fill:var(--ink);font-size:11px;font-weight:400">hash of block 3</text><rect x="586.0" y="103.0" width="134.0" height="28.0" rx="0" style="fill:var(--wash);stroke:var(--axis);stroke-width:0.8"/><text x="592.0" y="115.0" text-anchor="start" style="fill:var(--muted);font-size:10px;font-weight:400">Merkle root</text><text x="592.0" y="127.0" text-anchor="start" style="fill:var(--ink);font-size:11px;font-weight:400">of its payments</text><rect x="586.0" y="137.0" width="134.0" height="28.0" rx="0" style="fill:var(--wash);stroke:var(--axis);stroke-width:0.8"/><text x="592.0" y="149.0" text-anchor="start" style="fill:var(--muted);font-size:10px;font-weight:400">nonce</text><text x="592.0" y="161.0" text-anchor="start" style="fill:var(--ink);font-size:11px;font-weight:400">found by trying</text><text x="20.0" y="26.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:700">Each block&#x27;s header holds the previous block&#x27;s hash; its own hash must start with enough zero bits.</text><text x="20.0" y="222.0" text-anchor="start" style="fill:var(--red);font-size:12.5px;font-weight:700">Change one payment in block 3: its Merkle root changes, so its hash, so the next block&#x27;s link breaks.</text><text x="20.0" y="244.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:400">To repair the chain the attacker must re-mine block 3 and every block after it: in the program,</text><text x="20.0" y="264.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:400">10 blocks at 14 zero bits, re-mining blocks 3 to 9 took 83,758 tries (about 7 × 2^14 = 114,688),</text><text x="20.0" y="284.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:400">while the honest computers keep adding blocks to the real chain.</text></svg></div></figure>
+<p class="col"><strong>The longest chain.</strong> Every node keeps a copy and always extends the chain with the most work. To rewrite an old payment an attacker must redo that block and every block after it, and then overtake the honest computers, which keep adding blocks. <strong>Section 11.</strong> Nakamoto computed the attacker's chance. While the honest side finds z blocks, he counts the attacker's blocks with a Poisson distribution of mean z q/p, where q is the attacker's share of the computing power and p = 1 − q; from k blocks behind, the attacker ever draws level with probability (q/p)^k.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>Make each vote cost computation, and let the history with the most computation behind it win. Then rewriting history means out-computing everyone else.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">The first block, and the attacker&#x27;s chances</h2>
+<p class="col"><strong>The genesis block</strong> of 3 January 2009: its 80-byte header, hashed twice with SHA-256 and read with its bytes reversed, gives <code>000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f</code>, the published hash, with 43 leading zero bits. The target encoded in the header is 0x00ffff x 256^26 = 2^223 × 1.999969, so about 2^32 = 4,294,967,296 tries were expected.</p>
+<div class="tbl"><table><thead><tr><th class="">Field</th><th class="">Bytes (hex)</th><th class="">Value</th></tr></thead><tbody><tr class=""><td class="">version</td><td class="">01000000</td><td class="">1</td></tr><tr class=""><td class="">previous block's hash</td><td class="">0000000000000000…</td><td class="">zero: there is none</td></tr><tr class=""><td class="">Merkle root</td><td class="">3ba3edfd7a7b12b2…</td><td class="">of its one transaction</td></tr><tr class=""><td class="">time</td><td class="">29ab5f49</td><td class="">1231006505 seconds since 1970</td></tr><tr class=""><td class="">bits (the target)</td><td class="">ffff001d</td><td class="">0x1d00ffff</td></tr><tr class=""><td class="">nonce</td><td class="">1dac2b7c</td><td class="">2083236893</td></tr></tbody></table></div>
+<p class="col"><strong>Mining a toy chain</strong>, blocks of 4 payments, at 4 to 16 zero bits:</p>
+<div class="tbl"><table><thead><tr><th class="n">Zero bits</th><th class="n">Blocks</th><th class="n">Tries per block</th><th class="n">2^d</th></tr></thead><tbody><tr class=""><td class="n">4</td><td class="n">200</td><td class="n">15</td><td class="n">16</td></tr><tr class=""><td class="n">8</td><td class="n">200</td><td class="n">243</td><td class="n">256</td></tr><tr class=""><td class="n">12</td><td class="n">200</td><td class="n">4,497</td><td class="n">4,096</td></tr><tr class=""><td class="n">16</td><td class="n">60</td><td class="n">71,308</td><td class="n">65,536</td></tr></tbody></table></div>
+<p class="col"><strong>Tampering</strong>: in a chain of 10 blocks at 14 zero bits, one payment in block 3 was changed. Its Merkle root and hash changed, the old nonce no longer gives 14 zero bits, and block 4's link broke. Re-mining blocks 3 to 9 took 83,758 tries.</p>
+<p class="col"><strong>Section 11, recomputed</strong> from Nakamoto's formula: every value equals the paper's to 7 decimals.</p>
+<div class="tbl"><table><thead><tr><th class="n">z (q = 0.1)</th><th class="n">P</th><th class="n">z (q = 0.3)</th><th class="n">P</th></tr></thead><tbody><tr class=""><td class="n">0</td><td class="n">1.0000000</td><td class="n">0</td><td class="n">1.0000000</td></tr><tr class=""><td class="n">1</td><td class="n">0.2045873</td><td class="n">5</td><td class="n">0.1773523</td></tr><tr class=""><td class="n">2</td><td class="n">0.0509779</td><td class="n">10</td><td class="n">0.0416605</td></tr><tr class=""><td class="n">3</td><td class="n">0.0131722</td><td class="n">15</td><td class="n">0.0101008</td></tr><tr class=""><td class="n">4</td><td class="n">0.0034552</td><td class="n">20</td><td class="n">0.0024804</td></tr><tr class=""><td class="n">5</td><td class="n">0.0009137</td><td class="n">25</td><td class="n">0.0006132</td></tr><tr class=""><td class="n">6</td><td class="n">0.0002428</td><td class="n">30</td><td class="n">0.0001522</td></tr><tr class=""><td class="n">7</td><td class="n">0.0000647</td><td class="n">35</td><td class="n">0.0000379</td></tr><tr class=""><td class="n">8</td><td class="n">0.0000173</td><td class="n">40</td><td class="n">0.0000095</td></tr><tr class=""><td class="n">9</td><td class="n">0.0000046</td><td class="n">45</td><td class="n">0.0000024</td></tr><tr class=""><td class="n">10</td><td class="n">0.0000012</td><td class="n">50</td><td class="n">0.0000006</td></tr></tbody></table></div>
+<p class="col">The smallest z with P below 0.1%, as in the paper:</p>
+<div class="tbl"><table><thead><tr><th class="n">Attacker&#x27;s share q</th><th class="n">Blocks to wait</th></tr></thead><tbody><tr class=""><td class="n">0.10</td><td class="n">5</td></tr><tr class=""><td class="n">0.15</td><td class="n">8</td></tr><tr class=""><td class="n">0.20</td><td class="n">11</td></tr><tr class=""><td class="n">0.25</td><td class="n">15</td></tr><tr class=""><td class="n">0.30</td><td class="n">24</td></tr><tr class=""><td class="n">0.35</td><td class="n">41</td></tr><tr class=""><td class="n">0.40</td><td class="n">89</td></tr><tr class=""><td class="n">0.45</td><td class="n">340</td></tr></tbody></table></div>
+<p class="col"><strong>The race itself</strong>, simulated 1,000,000 times for each z with q = 0.1, block by block: first the attacker's blocks while the honest side finds z, then the race until the attacker draws level. The simulation came out above the formula for z = 2, 3, 5; at z = 5 it was 2.0 times the formula. The formula's Poisson count is an approximation: counted block by block, the attacker's blocks follow a different distribution with the same mean.</p>
+<div class="tbl"><table><thead><tr><th class="n">z</th><th class="n">Simulated</th><th class="n">Formula</th></tr></thead><tbody><tr class=""><td class="n">1</td><td class="n">0.20008</td><td class="n">0.20459</td></tr><tr class=""><td class="n">2</td><td class="n">0.05621</td><td class="n">0.05098</td></tr><tr class=""><td class="n">3</td><td class="n">0.01717</td><td class="n">0.01317</td></tr><tr class=""><td class="n">5</td><td class="n">0.00180</td><td class="n">0.00091</td></tr></tbody></table></div>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 760 380" role="img" aria-label="The attacker&#x27;s chance falls exponentially with z; the simulated race lies above the formula from z = 2" style="font-family:var(--body);min-width:380px;max-width:760px;margin:0 auto"><text x="20.0" y="24.0" text-anchor="start" style="fill:var(--ink);font-size:13px;font-weight:700">Chance that an attacker with 10% of the computing power ever catches up from z blocks behind</text><line x1="80.0" y1="320.0" x2="720.0" y2="320.0" style="stroke:var(--axis);stroke-width:0.6"/><text x="72.0" y="324.0" text-anchor="end" style="fill:var(--muted);font-size:11px;font-weight:400">10⁻⁷</text><line x1="80.0" y1="280.0" x2="720.0" y2="280.0" style="stroke:var(--axis);stroke-width:0.6"/><text x="72.0" y="284.0" text-anchor="end" style="fill:var(--muted);font-size:11px;font-weight:400">10⁻⁶</text><line x1="80.0" y1="240.0" x2="720.0" y2="240.0" style="stroke:var(--axis);stroke-width:0.6"/><text x="72.0" y="244.0" text-anchor="end" style="fill:var(--muted);font-size:11px;font-weight:400">10⁻⁵</text><line x1="80.0" y1="200.0" x2="720.0" y2="200.0" style="stroke:var(--axis);stroke-width:0.6"/><text x="72.0" y="204.0" text-anchor="end" style="fill:var(--muted);font-size:11px;font-weight:400">10⁻⁴</text><line x1="80.0" y1="160.0" x2="720.0" y2="160.0" style="stroke:var(--axis);stroke-width:0.6"/><text x="72.0" y="164.0" text-anchor="end" style="fill:var(--muted);font-size:11px;font-weight:400">10⁻³</text><line x1="80.0" y1="120.0" x2="720.0" y2="120.0" style="stroke:var(--axis);stroke-width:0.6"/><text x="72.0" y="124.0" text-anchor="end" style="fill:var(--muted);font-size:11px;font-weight:400">10⁻²</text><line x1="80.0" y1="80.0" x2="720.0" y2="80.0" style="stroke:var(--axis);stroke-width:0.6"/><text x="72.0" y="84.0" text-anchor="end" style="fill:var(--muted);font-size:11px;font-weight:400">10⁻¹</text><line x1="80.0" y1="40.0" x2="720.0" y2="40.0" style="stroke:var(--axis);stroke-width:0.6"/><text x="72.0" y="44.0" text-anchor="end" style="fill:var(--muted);font-size:11px;font-weight:400">1</text><text x="80.0" y="338.0" text-anchor="middle" style="fill:var(--muted);font-size:11px;font-weight:400">0</text><text x="144.0" y="338.0" text-anchor="middle" style="fill:var(--muted);font-size:11px;font-weight:400">1</text><text x="208.0" y="338.0" text-anchor="middle" style="fill:var(--muted);font-size:11px;font-weight:400">2</text><text x="272.0" y="338.0" text-anchor="middle" style="fill:var(--muted);font-size:11px;font-weight:400">3</text><text x="336.0" y="338.0" text-anchor="middle" style="fill:var(--muted);font-size:11px;font-weight:400">4</text><text x="400.0" y="338.0" text-anchor="middle" style="fill:var(--muted);font-size:11px;font-weight:400">5</text><text x="464.0" y="338.0" text-anchor="middle" style="fill:var(--muted);font-size:11px;font-weight:400">6</text><text x="528.0" y="338.0" text-anchor="middle" style="fill:var(--muted);font-size:11px;font-weight:400">7</text><text x="592.0" y="338.0" text-anchor="middle" style="fill:var(--muted);font-size:11px;font-weight:400">8</text><text x="656.0" y="338.0" text-anchor="middle" style="fill:var(--muted);font-size:11px;font-weight:400">9</text><text x="720.0" y="338.0" text-anchor="middle" style="fill:var(--muted);font-size:11px;font-weight:400">10</text><text x="400.0" y="358.0" text-anchor="middle" style="fill:var(--muted);font-size:12px;font-weight:400">z, blocks behind</text><path d="M80.0,40.0 L144.0,67.6 L208.0,91.7 L272.0,115.2 L336.0,138.5 L400.0,161.6 L464.0,184.6 L528.0,207.6 L592.0,230.5 L656.0,253.5 L720.0,276.8" style="fill:none;stroke:var(--blue);stroke-width:2.2"/><circle cx="80.0" cy="40.0" r="4.0" style="fill:var(--blue);stroke:var(--blue);stroke-width:1"/><circle cx="144.0" cy="67.6" r="4.0" style="fill:var(--blue);stroke:var(--blue);stroke-width:1"/><circle cx="208.0" cy="91.7" r="4.0" style="fill:var(--blue);stroke:var(--blue);stroke-width:1"/><circle cx="272.0" cy="115.2" r="4.0" style="fill:var(--blue);stroke:var(--blue);stroke-width:1"/><circle cx="336.0" cy="138.5" r="4.0" style="fill:var(--blue);stroke:var(--blue);stroke-width:1"/><circle cx="400.0" cy="161.6" r="4.0" style="fill:var(--blue);stroke:var(--blue);stroke-width:1"/><circle cx="464.0" cy="184.6" r="4.0" style="fill:var(--blue);stroke:var(--blue);stroke-width:1"/><circle cx="528.0" cy="207.6" r="4.0" style="fill:var(--blue);stroke:var(--blue);stroke-width:1"/><circle cx="592.0" cy="230.5" r="4.0" style="fill:var(--blue);stroke:var(--blue);stroke-width:1"/><circle cx="656.0" cy="253.5" r="4.0" style="fill:var(--blue);stroke:var(--blue);stroke-width:1"/><circle cx="720.0" cy="276.8" r="4.0" style="fill:var(--blue);stroke:var(--blue);stroke-width:1"/><circle cx="144.0" cy="68.0" r="6.0" style="fill:none;stroke:var(--red);stroke-width:2.2"/><circle cx="208.0" cy="90.0" r="6.0" style="fill:none;stroke:var(--red);stroke-width:2.2"/><circle cx="272.0" cy="110.6" r="6.0" style="fill:none;stroke:var(--red);stroke-width:2.2"/><circle cx="400.0" cy="149.8" r="6.0" style="fill:none;stroke:var(--red);stroke-width:2.2"/><line x1="470.0" y1="70.0" x2="498.0" y2="70.0" style="stroke:var(--blue);stroke-width:2.2"/><circle cx="484.0" cy="70.0" r="4.0" style="fill:var(--blue);stroke:var(--blue);stroke-width:1"/><text x="508.0" y="74.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">Nakamoto&#x27;s formula (Section 11)</text><circle cx="484.0" cy="94.0" r="6.0" style="fill:none;stroke:var(--red);stroke-width:2.2"/><text x="508.0" y="98.0" text-anchor="start" style="fill:var(--ink);font-size:12px;font-weight:400">the race simulated, 1,000,000 times</text></svg></div></figure>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">A paper on a mailing list</h2>
+<p class="col">Nakamoto's paper: "A purely peer-to-peer version of electronic cash would allow online payments to be sent directly"; "The problem of course is the payee can't verify that one of the owners did not double-spend the coin"; the block's hash must begin with a number of zero bits, "similar to Adam Back's Hashcash"; transactions are "hashed in a Merkle Tree"; "Nodes always consider the longest chain to be the correct one"; the system is secure "As long as a majority of CPU power is controlled by nodes that are not cooperating to attack the network"; Section 11 gives the attacker's chance with tables for q = 0.1 and 0.3. The announcement to the Cryptography Mailing List, Friday 31 October 2008: "No mint or other trusted parties".</p>
+<p class="col">Wikipedia's history: bitcoin.org was registered on 18 August 2008; the genesis block of 3 January 2009 carries the text "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"; the first client was released on 9 January 2009; Hal Finney received 10 bitcoins in the first transaction, on 12 January 2009 (block 170); hashcash was "a proof-of-work scheme for spam control in 1997". The Bitcoin Wiki lists the genesis header's fields and hash; its 50-bitcoin reward cannot be spent. Narayanan, Bonneau, Felten, Miller and Goldfeder's <em>Bitcoin and Cryptocurrency Technologies</em> (Princeton, 2016) is a textbook on "decentralization, mining, the politics of bitcoin".</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Agreement, paid for in work</h2>
+<p class="col">Paxos (topic 8) agrees on one history among a known set of machines, by majorities of votes. Bitcoin agrees among strangers who may join or leave at any time, so it counts work instead of votes. Each block seals its payments with a Merkle root, Era 7's idea, and the first block's 80 bytes can still be checked by anyone.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>The genesis block's header still hashes to 000000000019d6689c08…, with 43 zero bits: one hash to check work that was expected to take about 4,294,967,296 tries.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Why does each extra zero bit double the work?</span></summary><div class="ans"><p>Each bit of a good hash is 0 with probability ½, independently of the others, so d zero bits need about 2^d tries.</p></div></details><details class="try"><summary><span class="q">2</span><span>How much work does it take to check a proof of work?</span></summary><div class="ans"><p>One hash of the header (in Bitcoin, SHA-256 applied twice), and a count of its zero bits.</p></div></details><details class="try"><summary><span class="q">3</span><span>If a payment in block 3 changes, why must every later block be mined again?</span></summary><div class="ans"><p>Each block holds the previous block's hash. The changed block gets a new hash, which breaks the next block's link, and so on to the end.</p></div></details><details class="try"><summary><span class="q">4</span><span>With 30% of the computing power against you, how many blocks should you wait for a chance below 0.1%?</span></summary><div class="ans"><p>24, from Section 11's table.</p></div></details><details class="try"><summary><span class="q">5</span><span>Why is a Poisson count only an approximation here?</span></summary><div class="ans"><p>The number of attacker blocks found while the honest side finds exactly z is counted block by block; the Poisson distribution with the same mean is close, but not the same.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Bitcoin: A Peer-to-Peer Electronic Cash System (2008)</b><span>The design and the Section 11 calculations.</span><a href="https://courses.csail.mit.edu/6.857/2015/files/L07-nakamoto-bitcoin-a-peer-to-peer-electronic-cash-system.pdf">The paper (PDF, on an MIT course page)</a><span class="lic">Drawn placeholder.</span></figcaption></figure><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>The announcement (31 October 2008)</b><span>Posted to the Cryptography Mailing List.</span><a href="https://www.metzdowd.com/pipermail/cryptography/2008-October/014810.html">The mailing-list archive</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://en.wikipedia.org/wiki/History_of_bitcoin" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">History of bitcoin · Wikipedia</span><span class="w">From the domain name to the first transaction</span></a><a href="https://discovery.princeton.edu/2016/11/15/bitcoin-and-cryptocurrency-technologies-a-comprehensive-introduction" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Bitcoin and Cryptocurrency Technologies · Princeton University (2016)</span><span class="w">A textbook for the whole subject</span></a><a href="https://www.utwente.nl/en/ces/sal/exams/Blockchain-and-Distributed-Ledger-Technology-test/1-Bitcoin/genesis-block-bitcoin-wiki.pdf" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Genesis block · Bitcoin Wiki, printed for a University of Twente course</span><span class="w">The first block, field by field</span></a><a href="https://courses.csail.mit.edu/6.857/2015/files/L07-nakamoto-bitcoin-a-peer-to-peer-electronic-cash-system.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Bitcoin: A Peer-to-Peer Electronic Cash System · S. Nakamoto (2008), on an MIT course page</span><span class="w">The design and the Section 11 calculations</span></a><a href="https://www.metzdowd.com/pipermail/cryptography/2008-October/014810.html" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Bitcoin P2P e-cash paper · S. Nakamoto, Cryptography Mailing List (31 October 2008)</span><span class="w">The announcement</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-08-the-web-the-genome-and-the-ledger/reference-catalog.md">Era 8 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-08-the-web-the-genome-and-the-ledger/13-bitcoin/Bitcoin.java">Bitcoin.java</a> makes <strong>699 checks</strong>: that the genesis header hashes to the published hash and lies below its target, that mined blocks need about 2^d tries, that tampering breaks the chain, and that Section 11's tables match the paper to 7 decimals. Run it with <code>java Bitcoin.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-kw">static</span> <span class="k-kw">long</span> mine(<span class="k-kw">byte</span>[] prev, <span class="k-kw">byte</span>[] root, <span class="k-kw">int</span> bits) {
+    <span class="k-kw">for</span> (<span class="k-kw">long</span> nonce = <span class="k-n">0</span>; ; nonce++) <span class="k-kw">if</span> (leadingZeroBits(dsha(header(prev, root, nonce))) &gt;= bits) <span class="k-kw">return</span> nonce;
+}
+
+<span class="k-c">/** Nakamoto&#x27;s Section 11 formula. */</span>
+<span class="k-kw">static</span> <span class="k-kw">double</span> attackerSuccess(<span class="k-kw">double</span> q, <span class="k-kw">int</span> z) {
+    <span class="k-kw">double</span> p = <span class="k-n">1</span> - q, lambda = z * (q / p), sum = <span class="k-n">1</span>;
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> k = <span class="k-n">0</span>; k &lt;= z; k++) {
+        <span class="k-kw">double</span> poisson = Math.exp(-lambda);
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">1</span>; i &lt;= k; i++) poisson *= lambda / i;
+        sum -= poisson * (<span class="k-n">1</span> - Math.pow(q / p, z - k));
+    }
+    <span class="k-kw">return</span> sum;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>Bitcoin.java</code>.<br><span class="navfoot"><a href="../index.html">Era 8: The Web, the Genome and the Ledger</a><a href="../12-compressed-sensing/compressed-sensing.html">← Compressed Sensing</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const msgIn = document.getElementById("bt-msg");
+  if (!msgIn) return;
+
+  // SHA-256, written out so the page needs no secure context
+  const K = [0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  function sha256(bytes) {
+    const l = bytes.length, n = ((l + 9 + 63) >> 6) << 6, m = new Uint8Array(n);
+    m.set(bytes); m[l] = 0x80;
+    const bits = l * 8; for (let i = 0; i < 8; i++) m[n - 1 - i] = Math.floor(bits / Math.pow(2, 8 * i)) & 255;
+    let h = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+    const w = new Array(64), rot = (x, k) => (x >>> k) | (x << (32 - k));
+    for (let o = 0; o < n; o += 64) {
+      for (let i = 0; i < 16; i++) w[i] = (m[o + 4 * i] << 24) | (m[o + 4 * i + 1] << 16) | (m[o + 4 * i + 2] << 8) | m[o + 4 * i + 3];
+      for (let i = 16; i < 64; i++) {
+        const s0 = rot(w[i - 15], 7) ^ rot(w[i - 15], 18) ^ (w[i - 15] >>> 3), s1 = rot(w[i - 2], 17) ^ rot(w[i - 2], 19) ^ (w[i - 2] >>> 10);
+        w[i] = (w[i - 16] + s0 + w[i - 7] + s1) | 0;
+      }
+      let [a, b, c, d, e, f, g, hh] = h;
+      for (let i = 0; i < 64; i++) {
+        const t1 = (hh + (rot(e, 6) ^ rot(e, 11) ^ rot(e, 25)) + ((e & f) ^ (~e & g)) + K[i] + w[i]) | 0;
+        const t2 = ((rot(a, 2) ^ rot(a, 13) ^ rot(a, 22)) + ((a & b) ^ (a & c) ^ (b & c))) | 0;
+        hh = g; g = f; f = e; e = (d + t1) | 0; d = c; c = b; b = a; a = (t1 + t2) | 0;
+      }
+      h = [h[0] + a, h[1] + b, h[2] + c, h[3] + d, h[4] + e, h[5] + f, h[6] + g, h[7] + hh].map(x => x | 0);
+    }
+    const out = new Uint8Array(32);
+    h.forEach((x, i) => { out[4 * i] = x >>> 24; out[4 * i + 1] = (x >>> 16) & 255; out[4 * i + 2] = (x >>> 8) & 255; out[4 * i + 3] = x & 255; });
+    return out;
+  }
+
+  const PROG = [{"bits": 4, "nonce": 21, "hash": "0d99876aeea3c6c55915c8fc00701827180f64ad5c03255715e89136a599f533"}, {"bits": 8, "nonce": 117, "hash": "004ec52c5fba93ad24b53a38729a76365a347c773ce49070361d89cca599c993"}, {"bits": 12, "nonce": 8334, "hash": "0004c10c0f906247b27315a7d783fb60274da9878b844249772e2c640756f6fa"}, {"bits": 16, "nonce": 34965, "hash": "00008ded14ee7b728da66f420ff86ed4222b82d716e0ec4c194bdd199eb62ec8"}], MSG = "alice pays bob 10";
+  const enc = new TextEncoder();
+  const hex = b => Array.from(b, x => x.toString(16).padStart(2, "0")).join("");
+  function zeros(b) { let n = 0; for (const x of b) { if (x === 0) { n += 8; continue; } n += Math.clz32(x) - 24; break; } return n; }
+  const hashOf = (m, n) => sha256(enc.encode(`${m}|nonce:${n}`));
+  let nonce = 0, sealedFor = null, sealedBits = 0, job = 0;
+  const bitsSel = document.getElementById("bt-bits");
+  function show(h, need) {
+    const z = zeros(h), hx = hex(h), box = document.getElementById("bt-hash");
+    const zd = Math.floor(z / 4);
+    box.innerHTML = "";
+    el("span", {class: "z"}, box, hx.slice(0, zd));
+    el("span", {}, box, hx.slice(zd));
+    box.className = "bt-hash " + (z >= need ? "ok" : "bad");
+    const row = document.getElementById("bt-bitrow"); row.innerHTML = "";
+    for (let i = 0; i < 32; i++) {
+      const bit = (h[i >> 3] >> (7 - (i & 7))) & 1;
+      el("span", {class: (bit === 0 && i < z ? "z" : "") + (i < need ? " need" : ""), title: String(bit)}, row);
+    }
+    return z;
+  }
+  function refresh(note) {
+    const m = msgIn.value, need = +bitsSel.value, h = hashOf(m, nonce);
+    document.getElementById("bt-n").textContent = nonce.toLocaleString("en-US");
+    document.getElementById("bt-text").textContent = `${m}|nonce:${nonce}`;
+    const z = show(h, need);
+    let s = note || "";
+    if (!note) {
+      if (sealedFor !== null && m !== sealedFor) s = `You changed the block. With the same nonce the hash now starts with ${z} zero bit${z === 1 ? "" : "s"}, not ${sealedBits}: the seal is broken, and the block must be mined again.`;
+      else s = z >= need ? `The hash starts with ${z} zero bits: at least ${need}, so the block is sealed. Checking it took one hash.` : `The hash starts with ${z} zero bit${z === 1 ? "" : "s"}; ${need} are needed. Press Mine to try nonce after nonce.`;
+    }
+    document.getElementById("bt-say").textContent = s;
+  }
+  function mine() {
+    const m = msgIn.value, need = +bitsSel.value, my = ++job;
+    let n = 0;
+    const t0 = performance.now();
+    function chunk() {
+      if (my !== job) return;
+      const end = n + 20000;
+      for (; n < end; n++) {
+        const h = hashOf(m, n);
+        if (zeros(h) >= need) {
+          nonce = n; sealedFor = m; sealedBits = zeros(h);
+          const pg = m === MSG ? PROG.find(p => p.bits === need) : null;
+          let s = `Found after ${(n + 1).toLocaleString("en-US")} tries (about 2^${need} = ${(2 ** need).toLocaleString("en-US")} expected), in ${Math.round(performance.now() - t0)} ms. Checking it takes one hash.`;
+          if (pg) s += pg.nonce === n && pg.hash === hex(h) ? ` The program found the same nonce, ${pg.nonce}, and the same hash.` : ` The program found nonce ${pg.nonce}.`;
+          s += " Now change one letter of the block.";
+          refresh(s);
+          return;
+        }
+      }
+      nonce = n; refresh(`Trying… ${n.toLocaleString("en-US")} nonces so far.`);
+      setTimeout(chunk, 0);
+    }
+    chunk();
+  }
+  document.getElementById("bt-go").addEventListener("click", mine);
+  msgIn.addEventListener("input", () => { job++; refresh(); });
+  bitsSel.addEventListener("change", () => { job++; refresh(); });
+  refresh();
+})();
+
+</script>
+</body>
+</html>

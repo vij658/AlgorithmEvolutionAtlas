@@ -48,11 +48,11 @@ MAP = dict(
     color={7: "red", 13: "red"},
     edges=[
         (1, 6, "both learn from examples", dict(ports=("bottom", "top"), dashed=True, dx=8, anchor="start")),
-        (2, 12, "relax, then solve a convex program", dict(ports=("bottom", "top"), dashed=True, dx=8, anchor="start")),
+        (2, 12, "a convex relaxation", dict(ports=("bottom", "top"), dashed=True, dx=8, anchor="start")),
         (3, 5, "small random summaries", dict(ports=("bottom", "top"), dashed=True, dx=-8, anchor="end")),
         (5, 9, "texts cut into k-letter words", dict(ports=("bottom", "top"), dashed=True, dx=-8, anchor="end")),
-        (12, 7, "one huge sparse system", dict(ports=("bottom", "top"), dashed=True, dx=8, anchor="start")),
-        (4, 11, "data spread over many machines", dict(ports=("bottom", "top"), dashed=True, dx=8, anchor="start")),
+        (4, 11, "spread over machines", dict(ports=("bottom", "top"), dashed=True, dx=8, anchor="start")),
+        (7, 11, "PageRank in rounds of map and reduce", dict(ports=("bottom:0.1", "top:0.9"), dashed=True, at=0.2, dx=26, anchor="start")),
         (8, 13, "agreeing on one history", dict(ports=("bottom", "top"), dashed=True, dx=8, anchor="start")),
     ],
     caption="Dashed lines join related developments; none of them is a claim that one inventor learned from the other. "

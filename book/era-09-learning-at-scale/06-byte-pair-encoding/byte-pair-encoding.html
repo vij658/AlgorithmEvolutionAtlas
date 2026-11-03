@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Byte-Pair Encoding for Words</title>
+<meta name="description" content="Era 9, topic 6 of The Algorithm Evolution Atlas: byte-pair encoding, from Gage&#x27;s 1994 compressor to the subword units of Sennrich, Haddow and Birch (2015) and byte-level tokens.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.bpe-board{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:18px}
+@media (max-width:760px){.bpe-board{grid-template-columns:1fr}}
+.bpe-board textarea,.bpe-board input[type=text]{width:100%;box-sizing:border-box;font:13px var(--mono);padding:6px;background:var(--paper);color:var(--ink);border:1px solid var(--rule)}
+.bpe-lab,.bpe-h{display:block;font-size:12px;font-weight:700;margin:8px 0 4px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.bpe-btns{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.bpe-words{display:flex;flex-wrap:wrap;gap:6px 12px;font:13px var(--mono);margin:6px 0}
+.bpe-w{display:inline-flex;gap:2px;align-items:center}
+.bpe-w i{font-style:normal;color:var(--muted);font-size:11px;margin-left:3px}
+.bpe-t{border:1.5px solid var(--blue);border-radius:3px;padding:1px 4px;background:var(--paper)}
+.bpe-t.alt{border-color:var(--red)}
+.bpe-t.new{background:var(--yellow);color:#111}
+.bpe-pairs,.bpe-merges{font:12.5px var(--mono);display:grid;gap:2px}
+.bpe-merges{max-height:9em;overflow:auto}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 9: Learning at Scale</a><a href="../05-adam/adam.html">← Adam</a><a href="../07-residual-networks/residual-networks.html">Residual Networks →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 9 · Topic 6 · 2015</div>
+    <h1>Byte-Pair Encoding for Words</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">A neural translator knew a fixed list of words and called every other word unknown. In 2015 three researchers at Edinburgh borrowed a compression trick from 1994: merge the most frequent pair of symbols, again and again. The pieces it learns can spell any word.</p>
+  <p class="fieldnote">Field note from the visiting historian. I gave the program 40 stems and their endings, and hid one ending of each stem. It counted pairs of letters and merged them, 150 times. Then I showed it the 40 words it had never seen. It cut 40 of them exactly between stem and ending, and it had never been told what an ending is.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>1994; August 2015</dd></div><div><dt>Where</dt><dd>The C Users Journal; University of Edinburgh</dd></div><div><dt>What hurt</dt><dd>Fixed vocabularies, and unknown words</dd></div><div><dt>The fix</dt><dd>Learned merges: pieces that spell any word</dd></div><div><dt>Checked</dt><dd>40 of 40 unseen words cut at the stem</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. In 1994 Philip Gage compressed files by replacing their most frequent pair of bytes with a spare byte, again and again. Twenty-one years later, neural translators still worked with a fixed list of whole words. Sennrich, Haddow and Birch at Edinburgh ran Gage's loop on words written as letters, and the pieces it learned became a vocabulary that can spell any word.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 520" role="img" aria-label="How subword units combined older ideas, and where they led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="165.0" y1="124.0" x2="412.5" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="412.5,200.0 403.6,201.1 405.7,194.1" style="fill:var(--ink-2)"/><line x1="500.0" y1="124.0" x2="500.0" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,200.0 496.3,191.8 503.7,191.8" style="fill:var(--ink-2)"/><line x1="835.0" y1="124.0" x2="587.5" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="587.5,200.0 594.3,194.1 596.4,201.1" style="fill:var(--ink-2)"/><line x1="412.5" y1="304.0" x2="165.0" y2="380.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="165.0,380.0 171.8,374.1 173.9,381.1" style="fill:var(--ink-2)"/><line x1="587.5" y1="304.0" x2="835.0" y2="380.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="835.0,380.0 826.1,381.1 828.2,374.1" style="fill:var(--ink-2)"/><rect x="40" y="20" width="250" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="52.0" y="52.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Gage&#x27;s byte-pair encoding</text><text x="52.0" y="69.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">replace the most frequent pair,</text><text x="52.0" y="86.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">again and again</text><text x="52.0" y="102.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">The C Users Journal, 1994</text><rect x="375" y="20" width="250" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="387.0" y="69.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Neural translation</text><text x="387.0" y="86.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a fixed vocabulary of whole words</text><rect x="710" y="20" width="250" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="722.0" y="60.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Word vectors</text><text x="722.0" y="78.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a row of numbers for every symbol</text><text x="722.0" y="94.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 3, 2013</text><rect x="375" y="200" width="250" height="104" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="387.0" y="224.4" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Subword units</text><text x="387.0" y="241.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ merges learned on letters; any</text><text x="387.0" y="258.1" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">word can be spelled</text><text x="387.0" y="274.6" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Sennrich, Haddow and Birch, Edinburgh,</text><text x="387.0" y="291.1" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">2015</text><rect x="40" y="380" width="250" height="104" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="52.0" y="429.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Byte-level BPE</text><text x="52.0" y="446.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">start from the 256 bytes of UTF-8</text><rect x="710" y="380" width="250" height="104" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="722.0" y="429.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Language-model tokens</text><text x="722.0" y="446.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">the Transformer&#x27;s input (topic 9)</text></svg></div><figcaption>Red: subword units. Blue: what came after.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">Merge by merge</h2>
+<p class="col">Each word is written as letters followed by the end symbol ·. Press <em>Merge once</em>: the most frequent pair of neighbouring symbols, counted over all the words, becomes one new symbol. Watch common endings form, then whole words. Type a word that is not in the text to see it cut into the pieces learned so far, or edit the text and start over.</p>
+
+<div class="board bpe-board">
+  <div style="min-width:0">
+    <label class="bpe-lab" for="bpe-text">Training text (edit it)</label>
+    <textarea id="bpe-text" rows="4" spellcheck="false"></textarea>
+    <div class="bpe-btns"><button type="button" class="primary" id="bpe-step">Merge once</button><button type="button" id="bpe-ten">Merge 10 times</button><button type="button" id="bpe-reset">Start over</button></div>
+    <div class="bpe-words" id="bpe-words"></div>
+  </div>
+  <div style="min-width:0">
+    <div class="bpe-h">Most frequent pairs now</div><div class="bpe-pairs" id="bpe-pairs"></div>
+    <div class="bpe-h">Merges so far</div><div class="bpe-merges" id="bpe-merges"></div>
+    <label class="bpe-lab" for="bpe-test">Cut a new word with these merges</label>
+    <input id="bpe-test" type="text" value="oldest" spellcheck="false">
+    <div class="bpe-words" id="bpe-out"></div>
+    <p class="say" id="bpe-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 9, learning at scale</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 9: Learning at Scale, from 2009 to 2026" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2009–2010</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Homomorphic</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">encryption</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2012</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AlexNet</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2013</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">word2vec</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2014</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Raft</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2014</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Adam</text><circle cx="671.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2015</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">Byte-pair</text><text x="671.5" y="100" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">encoding</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2015</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">ResNet</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2006–2016</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AlphaGo</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2017</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Transformer</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2017–2024</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">ML-KEM</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2015–2020</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Diffusion models</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2022</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">FlashAttention</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2022–2025</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AlphaTensor</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 416" role="img" aria-label="Each fix leaves a new pain: from whole words to bytes" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A translator knows a fixed list of words; every other</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">word is &quot;unknown&quot;</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Cut words into pieces learned by byte-pair merges</text><text x="572.0" y="86.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Sennrich, Haddow and Birch, 2015</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Letters the training text never contained are still</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">unknown</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Start from the 256 bytes of UTF-8 instead of letters</text><text x="32.0" y="228.0" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">byte-level BPE</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Byte pieces can cross word and character boundaries in</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">odd ways</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Split text into words first, then merge bytes within</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">each word</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">today&#x27;s tokenizers</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it. The third row describes common practice, not a single paper.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Count, merge, repeat</h2>
+<p class="col"><strong>Learning.</strong> Count every word in the training text. Write each as its letters and an end symbol ·, so that "low" is l o w ·. Count every pair of neighbouring symbols, each word weighted by how often it occurs. Merge the most frequent pair everywhere into a new symbol, write it down, and count again. Stop after a chosen number of merges: the vocabulary is the letters plus one symbol per merge.</p>
+<p class="col"><strong>Cutting a word.</strong> Write it as letters and ·; then, among the merges that apply, apply the one learned earliest, and repeat until none applies. A frequent word ends as one symbol; a rare one as a few pieces; a word made of letters never seen keeps those letters as they are.</p>
+<p class="col"><strong>Why the end symbol.</strong> "er" at the end of a word (newer, wider) is a different thing from "er" inside one (very); the end symbol keeps them apart, and lets the pieces be joined back into words exactly.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>Let the data choose the vocabulary. A fixed number of merges gives a fixed-size vocabulary, yet every word can still be spelled, because the letters themselves remain in it.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Forty stems, forty unseen words</h2>
+<p class="col"><strong>Gage's compressor</strong> on Wikipedia's example: aaabdaaabac → ZabdZabac → ZYdZYac → XdXac, with the table Z = aa, Y = ab, X = ZY. At each step the pair replaced was a most frequent one: aa 2 times (tied with 1 other), ab 2 times (tied with 1 other), ZY 2 times. 11 symbols became 5, and the table, applied backwards, restores the text exactly.</p>
+<p class="col"><strong>The paper's Figure 1</strong> learns from the four words low, lowest, newer, wider, and shows the merges r ·, l o, lo w, e r·. The program checks that each was a most frequent pair when it was made; all four had count 2, tied with 4, 3, 2 and 0 other pairs. Ties may be broken either way: this program, taking the pair it saw first, learns l o, lo w, e r, er · instead. Afterwards the paper's four words read low ·, low e s t ·, n e w er·, w i d er·.</p>
+<p class="col"><strong>A corpus.</strong> 129,831 words in 20,000 sentences, built from 40 stems (low, walk, ...) with their endings (-er, -est, -ly, -ness; -s, -ed, -ing, -er, -ers): 198 distinct words over 24 letters. One ending of every stem was held out, so 40 words never appear, among them lowly, newest, widely, older, fastness, slowness. The first merges: the first 20: t + ·, e + s, s + ·, i + g, ig + h, es + t·, i + n, e + ·, h + igh, high + est·, e + r, g + ·.</p>
+<div class="tbl"><table><thead><tr><th class="n">Merges</th><th class="n">Symbols per word</th><th class="n">Vocabulary</th></tr></thead><tbody><tr class=""><td class="n">0</td><td class="n">5.88</td><td class="n">25</td></tr><tr class=""><td class="n">10</td><td class="n">4.21</td><td class="n">35</td></tr><tr class=""><td class="n">25</td><td class="n">3.28</td><td class="n">50</td></tr><tr class=""><td class="n">50</td><td class="n">2.54</td><td class="n">75</td></tr><tr class="hl"><td class="n">100</td><td class="n">1.61</td><td class="n">125</td></tr><tr class=""><td class="n">200</td><td class="n">1.12</td><td class="n">225</td></tr><tr class=""><td class="n">300</td><td class="n">1.01</td><td class="n">325</td></tr></tbody></table></div>
+<p class="col">Giving every distinct word of this corpus its own symbol would need 198 symbols, and would still fail on the next new word.</p>
+<p class="col"><strong>Words never seen.</strong> After 150 merges, the 40 held-out words are cut into 2.43 pieces on average, and <strong>40 of 40</strong> are cut exactly where the stem meets the ending: lowly = low + ly·; smaller = small + er·; strongness = strong + ness·; talker = talk + er·; called = call + ed·; starters = start + ers·. No grammar was given; the boundaries come from counting.</p>
+<p class="col"><strong>Letters against bytes.</strong> A vocabulary built from this corpus's 24 letters cannot write a letter it never saw; a byte vocabulary starts from all 256 values of UTF-8 and can write anything:</p>
+<div class="tbl"><table><thead><tr><th class="">Text</th><th class="n">Unknown letters</th><th class="n">UTF-8 bytes</th><th class="n">Byte tokens</th></tr></thead><tbody><tr class=""><td class="">slowest</td><td class="n">0</td><td class="n">7</td><td class="n">3</td></tr><tr class=""><td class="">naïve</td><td class="n">1</td><td class="n">6</td><td class="n">6</td></tr><tr class=""><td class="">café</td><td class="n">1</td><td class="n">5</td><td class="n">5</td></tr><tr class=""><td class="">Zürich</td><td class="n">2</td><td class="n">7</td><td class="n">7</td></tr><tr class=""><td class="">日本語</td><td class="n">3</td><td class="n">9</td><td class="n">9</td></tr><tr class=""><td class="">😀 ok</td><td class="n">1</td><td class="n">7</td><td class="n">7</td></tr><tr class=""><td class="">Ωmega</td><td class="n">1</td><td class="n">6</td><td class="n">6</td></tr></tbody></table></div>
+<p class="col">All 7 of 7 strings decode from their byte tokens back to exactly the original text. Characters the merges never met simply stay as single bytes, three or four per character.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">Edinburgh, 2015</h2>
+<p class="col">Sennrich, Haddow and Birch (School of Informatics, University of Edinburgh; arXiv, first version 31 August 2015): translation is "an open-vocabulary problem"; byte-pair encoding is "a simple data compression technique"; words end in a "special end-of-word symbol". Their Algorithm 1 is a minimal Python implementation; their experiments used 59,500 merge operations (89,500 for a vocabulary shared by both languages), and subword models improved on a back-off dictionary baseline "by up to 1.1 and 1.3 BLEU, respectively" for English→German and English→Russian.</p>
+<p class="col">Wikipedia: byte-pair encoding was "first described in 1994 by Philip Gage"; the original "replaces the highest-frequency pair of bytes with a new byte that was not contained in the initial dataset"; "A slightly modified version of the algorithm is used in large language model tokenizers"; byte-level BPE "converts the text into UTF-8 first". GPT-3.5 and GPT-4 use a vocabulary of 100,258 tokens.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">A compressor becomes a reader</h2>
+<p class="col">Gage wanted fewer bytes. The same loop, run on text, finds the pieces a language is built from, and those pieces became the units in which today's language models read and write. The algorithm did not change; the question asked of its output did.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>Nobody told the program that -ness is an ending. 40 of 40 words it had never seen were cut exactly there.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>Apply Gage's method by hand to abababcab. Which pair goes first?</span></summary><div class="ans"><p>ab, 4 times: XXXcX with X = ab. Now every pair occurs only once (XXX holds XX once without overlap), so another replacement would save nothing and the compressor stops.</p></div></details><details class="try"><summary><span class="q">2</span><span>Why add · to the end of each word?</span></summary><div class="ans"><p>So that endings and word-internal pieces are different symbols, and the pieces can be joined back into the original words.</p></div></details><details class="try"><summary><span class="q">3</span><span>A vocabulary of 30 letters and 1,000 merges: how many symbols?</span></summary><div class="ans"><p>1,030: each merge adds exactly one symbol.</p></div></details><details class="try"><summary><span class="q">4</span><span>Why are the merges replayed in the order learned when cutting a new word?</span></summary><div class="ans"><p>That reproduces how the training words were cut, so a new word gets the same pieces a training word with the same letters would have.</p></div></details><details class="try"><summary><span class="q">5</span><span>A byte vocabulary meets a Chinese character it never saw. What happens?</span></summary><div class="ans"><p>It is written as its three UTF-8 bytes, which are always in the vocabulary; nothing is unknown.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Neural Machine Translation of Rare Words with Subword Units (2015)</b><span>Sennrich, Haddow and Birch, arXiv:1508.07909.</span><a href="https://arxiv.org/pdf/1508.07909">arXiv:1508.07909 (PDF)</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://www.youtube.com/watch?v=HEikzVL-lZU" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Byte Pair Encoding Tokenization · Hugging Face</span><span class="w">A short lesson from the Hugging Face course</span></a><a href="https://en.wikipedia.org/wiki/Byte-pair_encoding" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Byte-pair encoding · Wikipedia</span><span class="w">The 1994 compressor and today's tokenizers</span></a><a href="https://www.youtube.com/watch?v=zduSFxRajkE" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Let's build the GPT Tokenizer · Andrej Karpathy</span><span class="w">A byte-level tokenizer written from scratch</span></a><a href="https://arxiv.org/pdf/1508.07909" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Neural Machine Translation of Rare Words with Subword Units · R. Sennrich, B. Haddow, A. Birch (2015–2016)</span><span class="w">Merges learned on words, and Algorithm 1</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-09-learning-at-scale/reference-catalog.md">Era 9 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-09-learning-at-scale/06-byte-pair-encoding/BytePairEncoding.java">BytePairEncoding.java</a> makes <strong>196 checks</strong>: Wikipedia's example and the paper's figure as valid runs, that the pieces always spell the word, that unseen words are cut at the stem, and that bytes decode exactly. Run it with <code>java BytePairEncoding.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-kw">static</span> <span class="k-kw">List</span>&lt;Pair&gt; learn(Map&lt;String, Long&gt; words, <span class="k-kw">int</span> merges, Map&lt;<span class="k-kw">List</span>&lt;String&gt;, Long&gt;[] finalVocab) {
+    Map&lt;<span class="k-kw">List</span>&lt;String&gt;, Long&gt; vocab = <span class="k-kw">new</span> LinkedHashMap&lt;&gt;();
+    <span class="k-kw">for</span> (Map.Entry&lt;String, Long&gt; e : words.entrySet()) vocab.put(letters(e.getKey()), e.getValue());
+    <span class="k-kw">List</span>&lt;Pair&gt; out = <span class="k-kw">new</span> ArrayList&lt;&gt;();
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> k = <span class="k-n">0</span>; k &lt; merges; k++) {
+        Pair p = best(pairCounts(vocab));
+        <span class="k-kw">if</span> (p == <span class="k-kw">null</span>) break;
+        out.add(p);
+        vocab = mergeVocab(vocab, p);
+    }
+    <span class="k-kw">if</span> (finalVocab != <span class="k-kw">null</span>) finalVocab[<span class="k-n">0</span>] = vocab;
+    <span class="k-kw">return</span> out;
+}
+
+<span class="k-c">/** Cut a word by replaying the merges: always apply the earliest-learned merge that occurs, until none does. */</span>
+<span class="k-kw">static</span> <span class="k-kw">List</span>&lt;String&gt; segment(<span class="k-kw">List</span>&lt;String&gt; w, Map&lt;Pair, Integer&gt; rank) {
+    <span class="k-kw">while</span> (<span class="k-kw">true</span>) {
+        <span class="k-kw">int</span> bestR = Integer.MAX_VALUE; Pair bp = <span class="k-kw">null</span>;
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i + <span class="k-n">1</span> &lt; w.size(); i++) {
+            Integer r = rank.get(<span class="k-kw">new</span> Pair(w.get(i), w.get(i + <span class="k-n">1</span>)));
+            <span class="k-kw">if</span> (r != <span class="k-kw">null</span> &amp;&amp; r &lt; bestR) { bestR = r; bp = <span class="k-kw">new</span> Pair(w.get(i), w.get(i + <span class="k-n">1</span>)); }
+        }
+        <span class="k-kw">if</span> (bp == <span class="k-kw">null</span>) <span class="k-kw">return</span> w;
+        w = applyMerge(w, bp);
+    }
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>BytePairEncoding.java</code>.<br><span class="navfoot"><a href="../index.html">Era 9: Learning at Scale</a><a href="../05-adam/adam.html">← Adam</a><a href="../07-residual-networks/residual-networks.html">Residual Networks →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const ta = document.getElementById("bpe-text");
+  if (!ta) return;
+  const END = "·", DEF = "low low low lower lowest lowest new new newer newest newest wide wider wider widest slow slower slowest old older";
+  let vocab, merges, last;
+  const pairKey = (a, b) => a + "\u0001" + b;
+  function reset() {
+    vocab = new Map(); merges = []; last = null;
+    ta.value.toLowerCase().split(/\s+/).filter(Boolean).forEach(w => { const k = [...w, END].join(" "); vocab.set(k, (vocab.get(k) || 0) + 1); });
+  }
+  function counts() {
+    const c = new Map();
+    vocab.forEach((n, k) => { const s = k.split(" "); for (let i = 0; i + 1 < s.length; i++) { const p = pairKey(s[i], s[i + 1]); c.set(p, (c.get(p) || 0) + n); } });
+    return [...c.entries()].sort((a, b) => b[1] - a[1]);
+  }
+  function apply(syms, a, b) {
+    const out = [];
+    for (let i = 0; i < syms.length; i++) { if (i + 1 < syms.length && syms[i] === a && syms[i + 1] === b) { out.push(a + b); i++; } else out.push(syms[i]); }
+    return out;
+  }
+  function step() {
+    const c = counts();
+    if (!c.length || c[0][1] < 1) return false;
+    const [a, b] = c[0][0].split("\u0001");
+    merges.push([a, b, c[0][1]]); last = a + b;
+    const nv = new Map();
+    vocab.forEach((n, k) => { const s = apply(k.split(" "), a, b).join(" "); nv.set(s, (nv.get(s) || 0) + n); });
+    vocab = nv; return true;
+  }
+  function segment(word) {
+    let s = [...word.toLowerCase(), END];
+    const rank = new Map(merges.map(([a, b], i) => [pairKey(a, b), i]));
+    for (;;) {
+      let best = -1, br = Infinity;
+      for (let i = 0; i + 1 < s.length; i++) { const r = rank.get(pairKey(s[i], s[i + 1])); if (r !== undefined && r < br) { br = r; best = i; } }
+      if (best < 0) return s;
+      s = apply(s, s[best], s[best + 1]);
+    }
+  }
+  function chips(parent, syms, n) {
+    const w = el("span", {class: "bpe-w"}, parent);
+    syms.forEach((p, k) => el("span", {class: "bpe-t" + (k % 2 ? " alt" : "") + (p === last ? " new" : "")}, w, p));
+    if (n !== undefined) el("i", {}, w, "×" + n);
+  }
+  function draw() {
+    const W = document.getElementById("bpe-words"); W.innerHTML = "";
+    let total = 0, syms = 0;
+    vocab.forEach((n, k) => { chips(W, k.split(" "), n); total += n; syms += n * k.split(" ").length; });
+    const P = document.getElementById("bpe-pairs"); P.innerHTML = "";
+    counts().slice(0, 5).forEach(([k, n], i) => el("div", {}, P, `${i === 0 ? "▶" : " "} ${k.split("\u0001").join(" + ").padEnd(14)} ${n}`));
+    const M = document.getElementById("bpe-merges"); M.innerHTML = "";
+    merges.forEach(([a, b, n], i) => el("div", {}, M, `${String(i + 1).padStart(2)}. ${a} + ${b} → ${a + b}   (${n})`));
+    if (!merges.length) el("div", {}, M, "none yet");
+    const O = document.getElementById("bpe-out"); O.innerHTML = "";
+    const tw = document.getElementById("bpe-test").value.trim().split(/\s+/)[0] || "";
+    if (tw) chips(O, segment(tw));
+    const sym = new Set(); vocab.forEach((n, k) => k.split(" ").forEach(s => sym.add(s)));
+    document.getElementById("bpe-say").textContent = `${merges.length} merges. The text is ${syms} symbols for ${total} words (${(syms / total).toFixed(2)} per word). Yellow marks the symbol just made.`;
+  }
+  document.getElementById("bpe-step").addEventListener("click", () => { step(); draw(); });
+  document.getElementById("bpe-ten").addEventListener("click", () => { for (let k = 0; k < 10 && step(); k++); draw(); });
+  document.getElementById("bpe-reset").addEventListener("click", () => { reset(); draw(); });
+  ta.addEventListener("change", () => { reset(); draw(); });
+  document.getElementById("bpe-test").addEventListener("input", draw);
+  ta.value = DEF; reset(); draw();
+})();
+
+</script>
+</body>
+</html>

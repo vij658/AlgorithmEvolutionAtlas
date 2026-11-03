@@ -264,6 +264,9 @@ public class CompressedSensing {
             double[][] Am = Arrays.copyOf(Aw, mm); // the first mm measurements
             double[] yw = mul(Am, xw);
             double[] r1 = basisPursuit(Am, yw), r2 = leastNorm(Am, yw);
+            check(maxErr(mul(Am, r1), yw) < 1e-7, "widget: the l1 solution fits the measurements");
+            check(maxErr(mul(Am, r2), yw) < 1e-9, "widget: so does the smallest-squares solution");
+            check(l1(r1) <= l1(xw) + 1e-8, "widget: the l1 solution's norm is no bigger than the true signal's");
             StringJoiner a1 = new StringJoiner(","), a2 = new StringJoiner(",");
             for (int i = 0; i < n2; i++) { a1.add(f2(r1[i])); a2.add(f2(r2[i])); }
             wj.add(String.format("m=%d %s l1=%s squares=%s", mm, recovered(r1, xw) ? "exact" : "wrong", a1, a2));

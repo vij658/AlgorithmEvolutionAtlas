@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Residual Networks</title>
+<meta name="description" content="Era 9, topic 7 of The Algorithm Evolution Atlas: residual networks (He, Zhang, Ren and Sun, Microsoft Research, 2015), identity shortcuts and the degradation problem, measured.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.res-btns{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;align-items:center;font-size:13px}
+.res-btns button.on{background:var(--ink);color:var(--paper)}
+.res-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+@media (max-width:760px){.res-grid{grid-template-columns:1fr}}
+.res-view svg{width:100%;height:auto;display:block;background:var(--wash)}
+.res-h{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:4px}
+#res-new{margin-top:8px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 9: Learning at Scale</a><a href="../06-byte-pair-encoding/byte-pair-encoding.html">← Byte-Pair Encoding for Words</a><a href="../08-monte-carlo-tree-search/monte-carlo-tree-search.html">Monte Carlo Tree Search and AlphaGo →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 9 · Topic 7 · 2015</div>
+    <h1>Residual Networks</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">Deeper networks did better, until they did worse, even on the data they were trained on. In December 2015 a team at Microsoft Research made every block of layers add its input to its output. Doing nothing became the easiest thing for a layer to learn, and networks of 152 layers trained.</p>
+  <p class="fieldnote">Field note from the visiting historian. I stacked layers on a small network and taught it a wavy surface. Two blocks did well. Thirty-two blocks did 28.1 times worse, on the very points they were taught. Then I let every block add its input back to its output, and the thirty-two-block network became the best of all.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>December 2015</dd></div><div><dt>Where</dt><dd>Microsoft Research</dd></div><div><dt>What hurt</dt><dd>Deeper plain networks trained worse</dd></div><div><dt>The fix</dt><dd>Identity shortcuts: y = F(x) + x</dd></div><div><dt>Checked</dt><dd>32 blocks: plain 0.1763, residual 0.0005</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. After 2012 (topic 2) deeper networks did better, up to a point, and then worse. The LSTM (Era 8) had already shown that a signal survives many steps if it is carried along and added to rather than rewritten each time; highway networks applied a gated version of that to feed-forward networks. He, Zhang, Ren and Sun at Microsoft Research removed the gate: every block simply adds its input to its output.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 520" role="img" aria-label="How residual networks combined older ideas, and where they led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="165.0" y1="124.0" x2="412.5" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="412.5,200.0 403.6,201.1 405.7,194.1" style="fill:var(--ink-2)"/><line x1="500.0" y1="124.0" x2="500.0" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="500.0,200.0 496.3,191.8 503.7,191.8" style="fill:var(--ink-2)"/><line x1="835.0" y1="124.0" x2="587.5" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="587.5,200.0 594.3,194.1 596.4,201.1" style="fill:var(--ink-2)"/><line x1="412.5" y1="304.0" x2="165.0" y2="380.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="165.0,380.0 171.8,374.1 173.9,381.1" style="fill:var(--ink-2)"/><line x1="587.5" y1="304.0" x2="835.0" y2="380.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="835.0,380.0 826.1,381.1 828.2,374.1" style="fill:var(--ink-2)"/><rect x="40" y="20" width="250" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="52.0" y="52.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Deep convolutional networks</text><text x="52.0" y="69.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">more layers, better results, up to a</text><text x="52.0" y="86.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">point</text><text x="52.0" y="102.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 2, 2012</text><rect x="375" y="20" width="250" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="387.0" y="52.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The LSTM&#x27;s cell state</text><text x="387.0" y="69.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a path along which the signal is</text><text x="387.0" y="86.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">added to, not rewritten</text><text x="387.0" y="102.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 8</text><rect x="710" y="20" width="250" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="722.0" y="52.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Highway networks</text><text x="722.0" y="69.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">gated shortcuts in a feed-forward</text><text x="722.0" y="86.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">network</text><text x="722.0" y="102.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">2015</text><rect x="375" y="200" width="250" height="104" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="387.0" y="232.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Residual networks</text><text x="387.0" y="249.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ identity shortcuts: y = F(x) + x</text><text x="387.0" y="266.4" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">He, Zhang, Ren and Sun, Microsoft</text><text x="387.0" y="282.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Research, 2015</text><rect x="40" y="380" width="250" height="104" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="52.0" y="420.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The Transformer</text><text x="52.0" y="438.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">residual connections throughout</text><text x="52.0" y="454.7" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 9, 2017</text><rect x="710" y="380" width="250" height="104" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="722.0" y="429.2" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">AlphaGo Zero, AlphaFold</text><text x="722.0" y="446.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">deep residual networks at work</text></svg></div><figcaption>Red: residual networks. Blue: where the shortcut went next.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">Deeper and worse, or deeper and better</h2>
+<p class="col">Choose a depth. On the left are the program's training runs: plain against residual, the same data, optimizer and steps. On the right, your browser builds a fresh random network of that depth and measures how much gradient reaches each block. Try 32 blocks, then press <em>New random weights</em>.</p>
+
+<div class="res-board">
+  <div class="res-btns" id="res-depths"></div>
+  <div class="res-grid">
+    <div style="min-width:0"><div class="res-h">Training error while training (log scale)</div><div class="res-view" id="res-curve"></div></div>
+    <div style="min-width:0"><div class="res-h">Gradient reaching each block, at the start (log scale)</div><div class="res-view" id="res-sig"></div>
+      <button type="button" id="res-new">New random weights</button></div>
+  </div>
+  <p class="say" id="res-say" aria-live="polite"></p>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 9, learning at scale</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 9: Learning at Scale, from 2009 to 2026" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2009–2010</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Homomorphic</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">encryption</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2012</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AlexNet</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2013</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">word2vec</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2014</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Raft</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2014</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Adam</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2015</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Byte-pair encoding</text><circle cx="793.0" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2015</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">ResNet</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2006–2016</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AlphaGo</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2017</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Transformer</text><circle cx="1157.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2017–2024</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">ML-KEM</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2015–2020</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Diffusion models</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2022</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">FlashAttention</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2022–2025</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AlphaTensor</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 416" role="img" aria-label="Each fix leaves a new pain: from plain to residual" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="53.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="69.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Deeper plain networks train worse, even on their own</text><text x="32.0" y="86.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">training data</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Identity shortcuts: each block learns only a</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">correction, y = F(x) + x</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">He and colleagues, 2015</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Each block adds to the signal, so without care it grows</text><text x="572.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">block after block</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="195.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="211.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Normalize each layer (batch normalization in the paper),</text><text x="32.0" y="228.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">or start every branch near zero</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Shortcuts trained deep networks for images; language</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">still went through recurrent layers one step at a time</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">The Transformer: attention layers, with residual</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">connections throughout</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">topic 9, 2017</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it. Starting branches at zero is what this program does; the paper normalizes instead.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Learn the correction, not the whole</h2>
+<p class="col"><strong>A plain block</strong> of two layers maps its input h to relu(W₂ relu(W₁h + b₁) + b₂). A stack of them has to carry everything the network knows through every layer; if a block should change nothing, its weights must learn to reproduce their input exactly, which is hard for layers of random numbers and rectifiers.</p>
+<p class="col"><strong>A residual block</strong> maps h to relu(h + F(h)), where F is the same two layers. The block only learns a correction F(h) = H(h) − h to its input. If nothing needs to change, F can shrink to zero, and setting W₂ = 0 passes the signal through exactly. The shortcut has no weights: the paper's words, it adds "neither extra parameter nor computational complexity".</p>
+<p class="col"><strong>Gradients flow along the shortcut too.</strong> Going backwards, each block passes its output's gradient straight to its input, plus whatever comes through F. In a plain stack, the gradient must pass through every layer's weights and rectifiers in turn, and it can shrink (or grow) by a factor at each one.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>Make doing nothing the easiest thing for a block to do. Then adding blocks cannot make the network worse at the start, and each block only has to learn what is still missing.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Thirty-two blocks</h2>
+<p class="col"><strong>The task</strong>: fit f(x, y) = sin 3x · cos 3y + 0.5 sin 5xy at 512 random points (the values have variance 0.3440). Every network has hidden layers 12 wide and is trained with Adam (topic 5), rate 0.001, for 1,500 steps of 32 points; each number is the mean of 2 runs. The error is on the training points themselves, so overfitting cannot explain it. Plain blocks start with random (He) weights; residual blocks start with their second layer at zero, so that each starts as the identity. The program's backpropagation agrees with finite differences to 1.6 × 10⁻⁸.</p>
+<div class="tbl"><table><thead><tr><th class="n">Blocks</th><th class="n">Weight layers</th><th class="n">Parameters</th><th class="n">Plain error</th><th class="n">Residual error</th><th class="n">Gradient at block 1, plain</th><th class="n">residual</th></tr></thead><tbody><tr class=""><td class="n">1</td><td class="n">4</td><td class="n">361</td><td class="n">0.0211</td><td class="n">0.0318</td><td class="n">7.4 × 10⁻¹</td><td class="n">6.3 × 10⁻¹</td></tr><tr class=""><td class="n">2</td><td class="n">6</td><td class="n">673</td><td class="n">0.0063</td><td class="n">0.0207</td><td class="n">3.8 × 10⁻¹</td><td class="n">2.1 × 10⁻¹</td></tr><tr class=""><td class="n">4</td><td class="n">10</td><td class="n">1,297</td><td class="n">0.0095</td><td class="n">0.0056</td><td class="n">1.2 × 10⁻¹</td><td class="n">4.4 × 10⁻¹</td></tr><tr class=""><td class="n">8</td><td class="n">18</td><td class="n">2,545</td><td class="n">0.0076</td><td class="n">0.0030</td><td class="n">1.8 × 10⁻¹</td><td class="n">3.9 × 10⁻¹</td></tr><tr class=""><td class="n">16</td><td class="n">34</td><td class="n">5,041</td><td class="n">0.0094</td><td class="n">0.0018</td><td class="n">1.7 × 10⁻²</td><td class="n">4.4 × 10⁻¹</td></tr><tr class="hl"><td class="n">32</td><td class="n">66</td><td class="n">10,033</td><td class="n">0.1763</td><td class="n">0.0005</td><td class="n">1.3 × 10⁻⁴</td><td class="n">2.7 × 10⁻¹</td></tr></tbody></table></div>
+<p class="col">The best plain network had 2 blocks (0.0063). With 32 blocks the plain network's error was 0.1763, <strong>28.1 times worse</strong> on its own training data: the degradation problem. The residual network's error kept falling with depth, to 0.0005 at 32 blocks. At the start of training, the gradient reaching the first block of the 32-block plain network was 1.3 × 10⁻⁴, against 7.4 × 10⁻¹ for one block.</p>
+<p class="col"><strong>The shortcut alone is not enough.</strong> A residual network started with the same random weights as the plain one adds a full random correction in every block, and the signal grows block after block. At the start of training:</p>
+<div class="tbl"><table><thead><tr><th class="n">Blocks</th><th class="n">Error at the start</th><th class="n">Gradient at block 1</th></tr></thead><tbody><tr class=""><td class="n">1</td><td class="n">1.21</td><td class="n">1.7</td></tr><tr class=""><td class="n">2</td><td class="n">0.813</td><td class="n">1.0</td></tr><tr class=""><td class="n">4</td><td class="n">11.3</td><td class="n">2.2 × 10¹</td></tr><tr class=""><td class="n">8</td><td class="n">138</td><td class="n">2.4 × 10²</td></tr><tr class=""><td class="n">16</td><td class="n">8.10 × 10³</td><td class="n">1.1 × 10⁴</td></tr><tr class="hl"><td class="n">32</td><td class="n">8.52 × 10⁸</td><td class="n">1.5 × 10⁹</td></tr></tbody></table></div>
+<p class="col">The paper's networks avoid this by normalizing every layer (batch normalization); this program avoids it by starting every branch at zero. Either way, the shortcut only helps if the corrections start small.</p>
+<p class="col"><strong>A deeper network can copy a shallower one.</strong> A 4-block residual network trained for 800 steps (error 0.0150) was extended to 20 blocks whose second weights are zero. Over all 512 points the largest difference in output was <strong>0.0</strong>: exactly the same function. The same weights in a plain network give every input the same output (error 0.3444): zero weights there do not pass the signal, they cut it.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">Microsoft Research, December 2015</h2>
+<p class="col">He, Zhang, Ren and Sun (Microsoft Research, submitted 10 December 2015): "with the network depth increasing, accuracy gets saturated (which might be unsurprising) and then degrades rapidly. Unexpectedly, such degradation is not caused by overfitting"; "we let the stacked nonlinear layers fit another mapping of F(x) := H(x)−x"; "the 34-layer plain net has higher training error throughout the whole training procedure". On ImageNet validation (10-crop, top-1 error): plain 18 layers 27.94%, plain 34 layers 28.54%; ResNet-18 27.88%, ResNet-34 25.03%. Networks of up to 152 layers; an ensemble reached 3.57% error on the ImageNet test set and won the ILSVRC 2015 classification task.</p>
+<p class="col">Wikipedia: "ResNet is equivalent to an open-gated highway network"; an LSTM's cell state can "function as a generalized residual connection"; "All transformer architectures include residual connections"; residual connections ease vanishing gradients "to some extent", but vanishing gradients are not the root cause of the degradation problem.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">The LSTM&#x27;s trick, turned sideways</h2>
+<p class="col">In 1997 the LSTM (Era 8) let a signal cross hundreds of time steps by adding to a cell rather than rewriting it. A residual network does the same thing across layers instead of across time: the signal is carried forward and each block adds a correction. Two years later the Transformer (topic 9) was built with residual connections throughout; Wikipedia: "All transformer architectures include residual connections".</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>Thirty-two plain blocks trained 28.1 times worse than two. Thirty-two residual blocks trained better than any plain network: 0.0005.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>A residual block's branch outputs F(h) = 0. What does the block compute, if h ≥ 0?</span></summary><div class="ans"><p>relu(h + 0) = h: the identity.</p></div></details><details class="try"><summary><span class="q">2</span><span>Why is higher training error, not test error, the telling sign of degradation?</span></summary><div class="ans"><p>Overfitting raises test error while lowering training error. Higher training error means the optimizer failed to find a solution a deeper network could represent.</p></div></details><details class="try"><summary><span class="q">3</span><span>In a plain stack, each layer multiplies the gradient by about 0.75. How much reaches the first of 64 layers?</span></summary><div class="ans"><p>0.75⁶⁴, about 10⁻⁸: almost nothing.</p></div></details><details class="try"><summary><span class="q">4</span><span>How many extra parameters does an identity shortcut add?</span></summary><div class="ans"><p>None: it adds the input as it is.</p></div></details><details class="try"><summary><span class="q">5</span><span>Why might a residual network started with full random weights in every branch blow up?</span></summary><div class="ans"><p>Each block adds a random correction of about the size of its input, so the signal can roughly double per block: 32 blocks, a factor of billions.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>Deep Residual Learning for Image Recognition (2015)</b><span>He, Zhang, Ren and Sun, arXiv:1512.03385.</span><a href="https://arxiv.org/abs/1512.03385v1">arXiv:1512.03385</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://en.wikipedia.org/wiki/Residual_neural_network" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Residual neural network · Wikipedia</span><span class="w">The degradation problem, highway networks and where residuals went next</span></a><a href="https://www.youtube.com/watch?v=GWt6Fu05voI" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">[Classic] Deep Residual Learning for Image Recognition (Paper Explained) · Yannic Kilcher</span><span class="w">A walk through the paper</span></a><a href="https://www.youtube.com/watch?v=C6tLw-rPQ2o" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Deep Residual Learning for Image Recognition · ComputerVisionFoundation Videos</span><span class="w">The conference talk, on the channel of the Computer Vision Foundation</span></a><a href="https://arxiv.org/pdf/1512.03385" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">Deep Residual Learning for Image Recognition · K. He, X. Zhang, S. Ren, J. Sun (2015)</span><span class="w">The degradation experiment and the residual block</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-09-learning-at-scale/reference-catalog.md">Era 9 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-09-learning-at-scale/07-residual-networks/ResidualNetworks.java">ResidualNetworks.java</a> makes <strong>8 checks</strong>: backpropagation against finite differences, the degradation of the deepest plain network, the residual networks improving with depth, and the exact copy of a shallower network. Run it with <code>java ResidualNetworks.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code">    <span class="k-c">/** Forward pass; keeps the activations in acts when it is not null (for backpropagation). */</span>
+    <span class="k-kw">double</span> forward(<span class="k-kw">double</span>[] x, <span class="k-kw">double</span>[][] h, <span class="k-kw">double</span>[][] u) {
+        <span class="k-kw">double</span>[] cur = <span class="k-kw">new</span> <span class="k-kw">double</span>[W];
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; W; j++) cur[j] = Math.max(<span class="k-n">0</span>, p[inW + <span class="k-n">2</span> * j] * x[<span class="k-n">0</span>] + p[inW + <span class="k-n">2</span> * j + <span class="k-n">1</span>] * x[<span class="k-n">1</span>] + p[inB + j]);
+        <span class="k-kw">if</span> (h != <span class="k-kw">null</span>) h[<span class="k-n">0</span>] = cur.clone();
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> b = <span class="k-n">0</span>; b &lt; B; b++) {
+            <span class="k-kw">double</span>[] mid = <span class="k-kw">new</span> <span class="k-kw">double</span>[W], nxt = <span class="k-kw">new</span> <span class="k-kw">double</span>[W];
+            <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; W; j++) {
+                <span class="k-kw">double</span> s = p[b1(b) + j];
+                <span class="k-kw">for</span> (<span class="k-kw">int</span> k = <span class="k-n">0</span>; k &lt; W; k++) s += p[w1(b) + j * W + k] * cur[k];
+                mid[j] = Math.max(<span class="k-n">0</span>, s);
+            }
+            <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; W; j++) {
+                <span class="k-kw">double</span> s = p[b2(b) + j] + (residual ? cur[j] : <span class="k-n">0</span>);
+                <span class="k-kw">for</span> (<span class="k-kw">int</span> k = <span class="k-n">0</span>; k &lt; W; k++) s += p[w2(b) + j * W + k] * mid[k];
+                nxt[j] = Math.max(<span class="k-n">0</span>, s);
+            }
+            <span class="k-kw">if</span> (u != <span class="k-kw">null</span>) u[b] = mid;
+            cur = nxt;
+            <span class="k-kw">if</span> (h != <span class="k-kw">null</span>) h[b + <span class="k-n">1</span>] = cur.clone();
+        }
+        <span class="k-kw">double</span> y = p[outB];
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; W; j++) y += p[outW + j] * cur[j];
+        <span class="k-kw">return</span> y;
+    }
+
+    <span class="k-c">/** Adds the gradient of 0.5 (f(x) - y)^2 to g; returns the squared error. */</span>
+    <span class="k-kw">double</span> backward(<span class="k-kw">double</span>[] x, <span class="k-kw">double</span> y, <span class="k-kw">double</span>[] g) {
+        <span class="k-kw">double</span>[][] h = <span class="k-kw">new</span> <span class="k-kw">double</span>[B + <span class="k-n">1</span>][], u = <span class="k-kw">new</span> <span class="k-kw">double</span>[B][];
+        <span class="k-kw">double</span> f = forward(x, h, u), e = f - y;
+        g[outB] += e;
+        <span class="k-kw">double</span>[] d = <span class="k-kw">new</span> <span class="k-kw">double</span>[W]; <span class="k-c">// gradient with respect to the current block output (after its relu)</span>
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; W; j++) { g[outW + j] += e * h[B][j]; d[j] = e * p[outW + j]; }
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> b = B - <span class="k-n">1</span>; b &gt;= <span class="k-n">0</span>; b--) {
+            <span class="k-kw">double</span>[] cur = h[b], mid = u[b], out = h[b + <span class="k-n">1</span>];
+            <span class="k-kw">double</span>[] ds = <span class="k-kw">new</span> <span class="k-kw">double</span>[W]; <span class="k-c">// through the relu after the addition</span>
+            <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; W; j++) ds[j] = out[j] &gt; <span class="k-n">0</span> ? d[j] : <span class="k-n">0</span>;
+            <span class="k-kw">double</span>[] dmid = <span class="k-kw">new</span> <span class="k-kw">double</span>[W], dcur = <span class="k-kw">new</span> <span class="k-kw">double</span>[W];
+            <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; W; j++) {
+                g[b2(b) + j] += ds[j];
+                <span class="k-kw">for</span> (<span class="k-kw">int</span> k = <span class="k-n">0</span>; k &lt; W; k++) { g[w2(b) + j * W + k] += ds[j] * mid[k]; dmid[k] += ds[j] * p[w2(b) + j * W + k]; }
+                <span class="k-kw">if</span> (residual) dcur[j] += ds[j];
+            }
+            <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; W; j++) {
+                <span class="k-kw">double</span> dm = mid[j] &gt; <span class="k-n">0</span> ? dmid[j] : <span class="k-n">0</span>;
+                g[b1(b) + j] += dm;
+                <span class="k-kw">for</span> (<span class="k-kw">int</span> k = <span class="k-n">0</span>; k &lt; W; k++) { g[w1(b) + j * W + k] += dm * cur[k]; dcur[k] += dm * p[w1(b) + j * W + k]; }
+            }
+            d = dcur;
+        }
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; W; j++) {
+            <span class="k-kw">double</span> dj = h[<span class="k-n">0</span>][j] &gt; <span class="k-n">0</span> ? d[j] : <span class="k-n">0</span>;
+            g[inW + <span class="k-n">2</span> * j] += dj * x[<span class="k-n">0</span>]; g[inW + <span class="k-n">2</span> * j + <span class="k-n">1</span>] += dj * x[<span class="k-n">1</span>]; g[inB + j] += dj;
+        }
+        <span class="k-kw">return</span> e * e;
+    }</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>ResidualNetworks.java</code>.<br><span class="navfoot"><a href="../index.html">Era 9: Learning at Scale</a><a href="../06-byte-pair-encoding/byte-pair-encoding.html">← Byte-Pair Encoding for Words</a><a href="../08-monte-carlo-tree-search/monte-carlo-tree-search.html">Monte Carlo Tree Search and AlphaGo →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const cv = document.getElementById("res-curve");
+  if (!cv) return;
+  const CURVES = {"plain 1": [0.6128, 0.2374, 0.1715, 0.125, 0.0979, 0.0783, 0.0612, 0.0495, 0.0412, 0.0341, 0.0304, 0.0268, 0.0246, 0.0231, 0.0219, 0.0211], "residual 1": [0.6892, 0.2568, 0.1904, 0.1479, 0.1191, 0.0953, 0.0779, 0.0661, 0.0571, 0.0515, 0.0465, 0.0419, 0.0386, 0.0356, 0.0333, 0.0318], "plain 2": [0.433, 0.2365, 0.1153, 0.055, 0.0327, 0.0235, 0.0186, 0.0162, 0.0125, 0.0111, 0.0099, 0.0087, 0.0086, 0.0072, 0.0074, 0.0063], "residual 2": [0.4989, 0.2399, 0.1485, 0.103, 0.0715, 0.0499, 0.0354, 0.032, 0.0288, 0.0261, 0.0254, 0.0253, 0.0224, 0.0224, 0.0258, 0.0207], "plain 4": [0.3792, 0.1944, 0.1012, 0.0566, 0.0362, 0.0253, 0.0245, 0.0191, 0.0209, 0.019, 0.0147, 0.0144, 0.0162, 0.011, 0.011, 0.0095], "residual 4": [0.6194, 0.206, 0.0905, 0.0498, 0.0315, 0.0256, 0.0218, 0.0194, 0.0173, 0.0147, 0.0125, 0.0104, 0.0092, 0.0081, 0.0075, 0.0056], "plain 8": [0.4126, 0.1687, 0.0863, 0.0324, 0.0237, 0.0212, 0.0173, 0.0165, 0.0134, 0.0117, 0.0137, 0.0088, 0.0085, 0.0073, 0.008, 0.0076], "residual 8": [0.6129, 0.1653, 0.0693, 0.0457, 0.0301, 0.0232, 0.0169, 0.0134, 0.0106, 0.0085, 0.0082, 0.0053, 0.0064, 0.0041, 0.0032, 0.003], "plain 16": [0.3452, 0.1787, 0.0876, 0.0379, 0.0413, 0.0281, 0.0242, 0.0236, 0.0198, 0.0255, 0.0154, 0.0132, 0.014, 0.0096, 0.011, 0.0094], "residual 16": [0.7792, 0.0917, 0.024, 0.0174, 0.0108, 0.0088, 0.0071, 0.0066, 0.0067, 0.0058, 0.0054, 0.0045, 0.0023, 0.0019, 0.0021, 0.0018], "plain 32": [0.344, 0.2684, 0.2347, 0.2088, 0.2099, 0.2022, 0.182, 0.1799, 0.1791, 0.1782, 0.1776, 0.177, 0.1755, 0.1779, 0.1762, 0.1763], "residual 32": [0.4988, 0.0706, 0.0193, 0.0139, 0.0088, 0.0057, 0.004, 0.0039, 0.0036, 0.0025, 0.0017, 0.0022, 0.0027, 0.0021, 0.0007, 0.0005]}, EVERY = 100, DEPTHS = [1, 2, 4, 8, 16, 32], W = 12;
+  let B = 32, seed = 1;
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+  const gauss = () => { let u = 0, v = 0; while (u === 0) u = rnd(); v = rnd(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+  const bar = document.getElementById("res-depths");
+  el("span", {}, bar, "Blocks:");
+  DEPTHS.forEach(b => { const x = el("button", {type: "button", id: `res-d${b}`}, bar, String(b)); x.addEventListener("click", () => { B = b; draw(); }); });
+  function logPlot(host, series, xmax, ylo, yhi, xlab) {
+    host.innerHTML = "";
+    const svg = sv("svg", {viewBox: `0 0 400 ${262 + 15 * series.length}`, role: "img", "aria-label": xlab}, host);
+    const X = x => 50 + x / xmax * 330, Y = v => 225 - (Math.log10(Math.max(v, 10 ** ylo)) - ylo) / (yhi - ylo) * 205;
+    for (let e = Math.ceil(ylo); e <= yhi; e++) { sv("line", {x1: 50, x2: 380, y1: Y(10 ** e), y2: Y(10 ** e), stroke: "var(--rule)"}, svg); sv("text", {x: 45, y: Y(10 ** e) + 4, "text-anchor": "end", "font-size": 10, fill: "var(--muted)"}, svg, e === 0 ? "1" : `1e${e}`); }
+    sv("text", {x: 215, y: 254, "text-anchor": "middle", "font-size": 11, fill: "var(--muted)"}, svg, xlab);
+    series.forEach(([pts, col, lab], k) => {
+      sv("polyline", {points: pts.map(([x, y]) => `${X(x)},${Y(y)}`).join(" "), fill: "none", stroke: col, "stroke-width": 2.4}, svg);
+      sv("line", {x1: 50, x2: 66, y1: 268 + 15 * k, y2: 268 + 15 * k, stroke: col, "stroke-width": 3}, svg);
+      sv("text", {x: 72, y: 272 + 15 * k, "font-size": 11, "font-weight": 700, fill: col}, svg, lab);
+    });
+  }
+  function grads(residual, zero) {
+    const Win = [...Array(W)].map(() => [gauss(), gauss()]);
+    const W1 = [], W2 = [];
+    for (let b = 0; b < B; b++) {
+      W1.push([...Array(W)].map(() => [...Array(W)].map(() => gauss() * Math.sqrt(2 / W))));
+      W2.push([...Array(W)].map(() => [...Array(W)].map(() => zero ? 0 : gauss() * Math.sqrt(2 / W))));
+    }
+    const wout = [...Array(W)].map(() => gauss() * Math.sqrt(1 / W));
+    const sum = new Array(B + 1).fill(0), S = 60;
+    for (let s = 0; s < S; s++) {
+      const x = [rnd() * 2 - 1, rnd() * 2 - 1];
+      const hs = [Win.map(w => Math.max(0, w[0] * x[0] + w[1] * x[1]))], mids = [];
+      for (let b = 0; b < B; b++) {
+        const h = hs[b], mid = W1[b].map(r => Math.max(0, r.reduce((a, w, k) => a + w * h[k], 0)));
+        mids.push(mid);
+        hs.push(W2[b].map((r, j) => Math.max(0, (residual ? h[j] : 0) + r.reduce((a, w, k) => a + w * mid[k], 0))));
+      }
+      let dd = wout.slice();
+      sum[B] += dd.reduce((a, v) => a + v * v, 0) / W;
+      for (let b = B - 1; b >= 0; b--) {
+        const out = hs[b + 1], mid = mids[b], ds = dd.map((v, j) => out[j] > 0 ? v : 0);
+        const dmid = mid.map((m, k) => m > 0 ? ds.reduce((a, v, j) => a + v * W2[b][j][k], 0) : 0);
+        dd = hs[b].map((_, k) => (residual ? ds[k] : 0) + dmid.reduce((a, v, j) => a + v * W1[b][j][k], 0));
+        sum[b] += dd.reduce((a, v) => a + v * v, 0) / W;
+      }
+    }
+    return sum.map((v, b) => [b, Math.sqrt(v / S)]);
+  }
+  function draw() {
+    DEPTHS.forEach(b => document.getElementById(`res-d${b}`).classList.toggle("on", b === B));
+    const pc = CURVES[`plain ${B}`], rc = CURVES[`residual ${B}`], xmax = (pc.length - 1) * EVERY;
+    logPlot(cv, [[pc.map((v, i) => [i * EVERY, v]), "var(--muted)", `plain: ${pc[pc.length - 1]}`], [rc.map((v, i) => [i * EVERY, v]), "var(--red)", `residual: ${rc[rc.length - 1]}`]], xmax, -4, 0, "training steps");
+    const s0 = seed, gp = grads(false, false); seed = s0; const gh = grads(true, false); seed = s0; const gz = grads(true, true);
+    const all = [...gp, ...gh, ...gz].map(p => p[1]).filter(v => v > 0);
+    const lo = Math.floor(Math.log10(Math.min(...all))), hi = Math.ceil(Math.log10(Math.max(...all)));
+    logPlot(document.getElementById("res-sig"), [[gp, "var(--muted)", "plain"], [gz, "var(--red)", "residual, branches start at zero"], [gh, "var(--blue)", "residual, started like the plain one"]], B, lo, Math.max(hi, lo + 1), "block (0 = nearest the input; the output is on the right)");
+    const ratio = gp[0][1] / gp[B][1], fmt = v => v < 100 ? v.toPrecision(2) : Math.round(v).toLocaleString("en-US");
+    document.getElementById("res-say").textContent = `${B} blocks. Left: the program's training runs. Right: a fresh random network in your browser; in the plain one the gradient arriving at the first block is ${ratio > 1 ? fmt(ratio) + " times larger" : fmt(1 / ratio) + " times smaller"} than at the last. Started like the plain one, a residual network's signal grows block after block; started with its branches at zero, it passes the gradient through unchanged.`;
+  }
+  document.getElementById("res-new").addEventListener("click", () => { seed = (seed * 7919 + 13) % 2147483647 || 1; draw(); });
+  draw();
+})();
+
+</script>
+</body>
+</html>

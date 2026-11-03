@@ -170,7 +170,8 @@ def md_block_render(b, svg_pair, sec, spec):
     if t == "links":
         out = ["| Level | Link | Why |", "|---|---|---|"]
         for lvl, title, source, url, why in b["items"]:
-            out.append(f"| {lvl.capitalize()} | [{title}]({url}) — {source} | {why} |")
+            pipe = lambda x: x.replace("|", "\\|")
+            out.append(f"| {lvl.capitalize()} | [{pipe(title)}]({url}) — {pipe(source)} | {pipe(why)} |")
         return out
     if t == "code":
         return ([b["caption"], ""] if b.get("caption") else []) + ["```java", b["code"], "```"]
@@ -328,6 +329,7 @@ def catalog_links(catalog_md: str, topic_num: int, limit_per_level=4):
         mm = re.match(r"\| (Start|Deeper|Scholar) \| \[(.+?)\]\((https?://[^)]+)\)(.*?)\| (.+?) \| (.+?) \|$", ln)
         if mm:
             lvl, title, url, extra, source, why = mm.groups()
+            title, source, why = (x.replace("\\|", "|") for x in (title, source, why))   # table pipes escaped in the catalog
             why = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", why)          # a card is one link: keep nested links as text
             rows.append((lvl.lower(), title, source.strip(), url, why.strip()))
     order = {"start": 0, "deeper": 1, "scholar": 2}

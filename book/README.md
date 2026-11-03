@@ -169,11 +169,49 @@
 | 12 | [The Burrows–Wheeler Transform](era-07-randomness-networks-and-learning/12-burrows-wheeler/README.md) | Sort the rotations, then undo and search them |
 | 13 | [AdaBoost](era-07-randomness-networks-and-learning/13-adaboost/README.md) | Watch the weights move as stumps vote |
 
-### Coming next (proposed eras; open to change)
+### Era 8 — The Web, the Genome and the Ledger (1995 to 2008)
 
-| Era | Span | Topics (from the Evolutionary Atlas) |
+- **[Era 8 front page](era-08-the-web-the-genome-and-the-ledger/README.md)**: the time line, a map of how the thirteen ideas combine, and the topics. [Interactive edition](era-08-the-web-the-genome-and-the-ledger/index.html) (download the folder and open `index.html` in a browser). [Plan](era-08-the-web-the-genome-and-the-ledger/plan.md).
+- [Reference catalog](era-08-the-web-the-genome-and-the-ledger/reference-catalog.md): each development with checked lectures, articles and original sources, certainty labels and gaps.
+- The topics, each with a GitHub edition, an interactive edition and a tested program:
+
+| # | Topic | Interactive widget |
 |---|---|---|
-| 8 onward | 1995–2026 | The algorithms of the Web and of genomes, streaming and sketches, approximation, distributed consensus at scale, deep learning, transformers, and the algorithms of 2026 |
+| 1 | [Support Vector Machines](era-08-the-web-the-genome-and-the-ledger/01-support-vector-machines/README.md) | Find the widest street |
+| 2 | [Approximation by Semidefinite Programming](era-08-the-web-the-genome-and-the-ledger/02-max-cut/README.md) | Throw a plane through the arrows |
+| 3 | [Streaming Sketches](era-08-the-web-the-genome-and-the-ledger/03-streaming-sketches/README.md) | Count words you cannot keep |
+| 4 | [Consistent Hashing](era-08-the-web-the-genome-and-the-ledger/04-consistent-hashing/README.md) | Add a server, take one away |
+| 5 | [MinHash and Locality-Sensitive Hashing](era-08-the-web-the-genome-and-the-ledger/05-minhash/README.md) | Two sentences, 32 minimum hashes |
+| 6 | [Long Short-Term Memory](era-08-the-web-the-genome-and-the-ledger/06-lstm/README.md) | Carry one sign through thirty steps of noise |
+| 7 | [PageRank](era-08-the-web-the-genome-and-the-ledger/07-pagerank/README.md) | Pass the rank along the links |
+| 8 | [Paxos](era-08-the-web-the-genome-and-the-ledger/08-paxos/README.md) | One rule between agreement and chaos |
+| 9 | [Genome Assembly with de Bruijn Graphs](era-08-the-web-the-genome-and-the-ledger/09-genome-assembly/README.md) | How long must the words be? |
+| 10 | [PRIMES is in P](era-08-the-web-the-genome-and-the-ledger/10-primes-is-in-p/README.md) | Run AKS on a number |
+| 11 | [MapReduce](era-08-the-web-the-genome-and-the-ledger/11-mapreduce/README.md) | Kill a machine, slow one down |
+| 12 | [Compressed Sensing](era-08-the-web-the-genome-and-the-ledger/12-compressed-sensing/README.md) | Recover a signal from too few measurements |
+| 13 | [Bitcoin's Proof-of-Work Ledger](era-08-the-web-the-genome-and-the-ledger/13-bitcoin/README.md) | Mine a block, then break it |
+
+### Era 9 — Learning at Scale (2009 to 2026)
+
+- **[Era 9 front page](era-09-learning-at-scale/README.md)**: the time line, a map of how the thirteen ideas combine, and the topics. [Interactive edition](era-09-learning-at-scale/index.html) (download the folder and open `index.html` in a browser). [Plan](era-09-learning-at-scale/plan.md).
+- [Reference catalog](era-09-learning-at-scale/reference-catalog.md): each development with checked lectures, articles and original sources, certainty labels and gaps.
+- The topics, each with a GitHub edition, an interactive edition and a tested program:
+
+| # | Topic | Interactive widget |
+|---|---|---|
+| 1 | [Fully Homomorphic Encryption](era-09-learning-at-scale/01-homomorphic-encryption/README.md) | Add and multiply what you cannot read |
+| 2 | [Deep Convolutional Networks](era-09-learning-at-scale/02-deep-convolutional-networks/README.md) | Draw a stroke |
+| 3 | [Word Embeddings](era-09-learning-at-scale/03-word-embeddings/README.md) | Arithmetic with words |
+| 4 | [Raft](era-09-learning-at-scale/04-raft/README.md) | Crash the leader and watch an election |
+| 5 | [Adam](era-09-learning-at-scale/05-adam/README.md) | Five ways down a valley |
+| 6 | [Byte-Pair Encoding for Words](era-09-learning-at-scale/06-byte-pair-encoding/README.md) | Merge by merge |
+| 7 | [Residual Networks](era-09-learning-at-scale/07-residual-networks/README.md) | Deeper and worse, or deeper and better |
+| 8 | [Monte Carlo Tree Search and AlphaGo](era-09-learning-at-scale/08-monte-carlo-tree-search/README.md) | Play Connect Four against the search |
+| 9 | [The Transformer](era-09-learning-at-scale/09-transformer/README.md) | A trained attention head |
+| 10 | [Lattice Cryptography and ML-KEM](era-09-learning-at-scale/10-lattice-cryptography/README.md) | Noise, and the margin |
+| 11 | [Diffusion Models](era-09-learning-at-scale/11-diffusion-models/README.md) | A spiral from static |
+| 12 | [FlashAttention](era-09-learning-at-scale/12-flashattention/README.md) | One tile at a time |
+| 13 | [Algorithms That Find Algorithms](era-09-learning-at-scale/13-algorithms-that-find-algorithms/README.md) | Walk the flip graph |
 
 ### Plans
 

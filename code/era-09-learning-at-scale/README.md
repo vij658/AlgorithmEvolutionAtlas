@@ -15,7 +15,7 @@ One folder per topic. Each holds a single-file Java program (run it with `java F
 | 7 | [Residual Networks](07-residual-networks/README.md) | 2015 | [`ResidualNetworks.java`](07-residual-networks/ResidualNetworks.java) | 8 |
 | 8 | [Monte Carlo Tree Search and AlphaGo](08-monte-carlo-tree-search/README.md) | 2006–2016 | [`MonteCarloTreeSearch.java`](08-monte-carlo-tree-search/MonteCarloTreeSearch.java) | 6 |
 | 9 | [The Transformer](09-transformer/README.md) | 2017 | [`Transformer.java`](09-transformer/Transformer.java) | 6 |
-| 10 | Lattice Cryptography and ML-KEM | 2017–2024 | planned | |
+| 10 | [Lattice Cryptography and ML-KEM](10-lattice-cryptography/README.md) | 2017–2024 | [`LatticeKem.java`](10-lattice-cryptography/LatticeKem.java) | 11 |
 | 11 | Diffusion Models | 2015–2020 | planned | |
 | 12 | FlashAttention | 2022 | planned | |
 | 13 | Algorithms That Find Algorithms | 2022–2025 | planned | |

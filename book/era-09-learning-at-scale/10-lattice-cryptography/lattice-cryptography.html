@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lattice Cryptography and ML-KEM</title>
+<meta name="description" content="Era 9, topic 10 of The Algorithm Evolution Atlas: learning with errors and ML-KEM (Kyber; FIPS 203, 2024), its arithmetic implemented and its noise measured.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+body{margin:0}
+
+/* Layout: Byrne's 1847 Elements - a white page where red, yellow and blue carry the mathematics.
+   One reading column (~68ch); figures and the interactive board break out wider. */
+:root{
+  --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
+  --red:#d5352a; --yellow:#e8a317; --blue:#1f5ba8; --wash:#f1f0ea; --on-red:#ffffff; --on-yellow:#17171a; --on-blue:#ffffff;
+  --link:#1f5ba8; --focus:#1f5ba8; --code-bg:#f4f3ee;
+  --display:"Libre Caslon Display","Big Caslon","Book Antiqua",Georgia,serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:68ch; --wide:1080px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+    --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+    --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121418; --surface:#1a1d22; --ink:#ecebe6; --ink-2:#b9b8b2; --muted:#8f8e96; --rule:#2b2e34; --axis:#41444b;
+  --red:#f0584d; --yellow:#d9a227; --blue:#5b8fe0; --wash:#1d2026; --on-red:#14161a; --on-yellow:#14161a; --on-blue:#14161a;
+  --link:#7ea8ec; --focus:#7ea8ec; --code-bg:#181b20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:16.5px/1.65 var(--body);margin:0;padding-inline:20px;padding-block:0 64px}
+a{color:var(--link);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wide);margin:0 auto}
+.col{max-width:var(--col)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;letter-spacing:.005em;margin:0}
+h1{font-size:clamp(44px,8vw,84px);line-height:1}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.1;margin-top:72px}
+h3{font-size:22px;margin-top:36px}
+p{margin:12px 0}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec-label{display:flex;gap:10px;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;margin-top:72px}
+.sec-label + h2{margin-top:6px}
+.sec-label .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--mono);font-size:.9em}
+
+/* hero */
+header.hero{padding-block:48px 8px;display:grid;gap:22px}
+.hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:end}
+.hero-top .titles{min-width:0}
+.byrne-mark{display:flex;gap:6px}
+.byrne-mark i{display:block;width:22px;height:22px}
+.byrne-mark i:nth-child(1){background:var(--red)} .byrne-mark i:nth-child(2){background:var(--yellow);border-radius:50%} .byrne-mark i:nth-child(3){width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid var(--blue)}
+.fieldnote{border-left:3px solid var(--ink);padding:2px 0 2px 16px;font-style:italic;color:var(--ink-2);max-width:var(--col)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.card-grid div{padding:10px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);min-width:0}
+.card-grid dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card-grid dd{margin:2px 0 0;font-size:15px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.6;vertical-align:1px}
+.chip.doc{color:var(--blue)} .chip.conj{color:var(--ink-2)} .chip.disp{color:var(--red)}
+
+/* the board */
+.board{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;background:var(--surface);border:1px solid var(--rule);padding:18px;margin-top:26px}
+@media (max-width:820px){.board{grid-template-columns:1fr}}
+.board svg{width:100%;height:auto;display:block;background:var(--wash)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.controls label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.controls input{width:9.5em;font:inherit;font-family:var(--mono);font-size:14px;padding:5px 8px;border:1px solid var(--axis);background:var(--paper);color:var(--ink);border-radius:2px}
+button{font:inherit;font-size:14px;font-weight:600;padding:6px 12px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:hover{background:var(--wash)} button.primary:hover{opacity:.9;background:var(--ink)}
+button:disabled{opacity:.4;cursor:default}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.presets button{font-weight:400;font-size:13px;padding:3px 9px;border-width:1px;border-color:var(--axis)}
+.zoomnote{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:1.4em}
+.steps{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:14px}
+.steps li{display:flex;gap:10px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--rule)}
+.steps li .sw{width:12px;height:12px;flex:none}
+.steps li.current{background:var(--wash);font-weight:600}
+.steps li.pending{color:var(--muted)}
+.result{margin-top:14px;font-size:14.5px}
+.result b{font-family:var(--mono)}
+.work{display:grid;gap:6px;margin-top:12px}
+.work .row{display:grid;grid-template-columns:9.5em 1fr;gap:8px;align-items:center;font-size:13px}
+.work .bar{height:10px;background:var(--blue);border-radius:0 3px 3px 0;min-width:2px}
+.work .row:nth-child(2) .bar{background:var(--muted)} .work .row:nth-child(3) .bar{background:var(--red)}
+.work .val{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* timeline */
+.timeline{overflow-x:auto;margin-top:18px;padding-bottom:6px}
+.timeline ol{list-style:none;margin:0;padding:28px 0 0;display:grid;grid-template-columns:repeat(8,minmax(118px,1fr));gap:10px;position:relative;min-width:980px}
+.timeline ol::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:var(--ink)}
+.timeline li{position:relative;padding-top:22px;font-size:13.5px;line-height:1.35}
+.timeline li::before{content:"";position:absolute;top:0;left:0;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.timeline li.here::before{background:var(--red);border-color:var(--red);width:18px;height:18px;top:-2px}
+.timeline .when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.timeline li.here b{color:var(--red)}
+
+/* chain of needs */
+.chain{display:grid;gap:10px;margin-top:20px}
+.chain .pair{display:grid;grid-template-columns:1fr 34px 1fr;align-items:stretch;gap:0}
+@media (max-width:640px){.chain .pair{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);height:28px}}
+.chain .pain,.chain .fix{padding:12px 14px;background:var(--surface);border:1px solid var(--rule);min-width:0}
+.chain .pain{border-left:5px solid var(--red)} .chain .fix{border-left:5px solid var(--blue)}
+.chain .tag{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.chain .arrow{display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:20px}
+.chain .down{text-align:center;color:var(--muted);font-size:13px}
+
+/* tables */
+.tbl{overflow-x:auto;margin-top:16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--wash)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums} td.n{font-family:var(--mono);font-size:13.5px}
+tr.hl td{background:var(--wash);font-weight:600}
+.callout{border:1.5px solid var(--ink);padding:14px 16px;margin-top:22px;background:var(--surface);max-width:var(--col)}
+.callout .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.callout.wrong .k{color:var(--red)} .callout.key .k{color:var(--blue)} .callout.circle .k{color:var(--ink-2)}
+
+details.data{margin-top:12px;font-size:13.5px} details.data summary{cursor:pointer;color:var(--ink-2)}
+
+/* diagrams */
+figure.dgm{margin:18px 0 0}
+figure.dgm .frame{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:14px}
+figure.dgm svg{display:block;width:100%;height:auto}
+.scrollx{overflow-x:auto}
+@media (max-width:720px){.scrollx::before{content:"Swipe sideways to see all of it";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+@media (max-width:720px){figure.dgm .frame::before{content:"Swipe sideways to see the whole diagram";display:block;position:sticky;left:0;font-size:12px;color:var(--muted);margin-bottom:6px}}
+figure.dgm figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;max-width:var(--col)}
+
+/* try */
+details.try{border-top:1px solid var(--rule);padding:12px 0;max-width:var(--col)}
+details.try:last-of-type{border-bottom:1px solid var(--rule)}
+details.try summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px}
+details.try summary::-webkit-details-marker{display:none}
+details.try summary .q{font-family:var(--mono);color:var(--red);flex:none}
+details.try summary::after{content:"Show answer";margin-left:auto;font-weight:400;font-size:13px;color:var(--link);flex:none}
+details.try[open] summary::after{content:"Hide"}
+details.try .ans{padding:8px 0 0 30px;color:var(--ink-2)}
+
+/* objects */
+.objects{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+@media (min-width:821px){.objects{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.obj{background:var(--surface);border:1px solid var(--rule);display:flex;flex-direction:column;min-width:0}
+.obj .pic{aspect-ratio:4/3;max-width:100%;background:var(--wash);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--rule);position:relative}
+.obj .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.obj .pic svg{width:86%;height:auto}
+.obj .pic .fallback{padding:16px;text-align:center;font-size:13px;color:var(--muted);display:grid;gap:8px;justify-items:center}
+.obj .pic .fallback svg{width:60%}
+.obj.noimg .pic img{display:none}
+.obj .txt{padding:12px 14px;font-size:14px;display:grid;gap:6px}
+.obj .lic{font-size:12px;color:var(--muted)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:720px){.links{grid-template-columns:1fr}}
+.links a{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:10px 12px;border:1px solid var(--rule);background:var(--surface);text-decoration:none;color:var(--ink)}
+.links a:hover{border-color:var(--ink)}
+.links .lvl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;align-self:start}
+.lvl.start{background:var(--yellow);color:var(--on-yellow)} .lvl.deeper{background:var(--blue);color:var(--on-blue)} .lvl.scholar{background:var(--red);color:var(--on-red)}
+.links .t{font-weight:600;font-size:14.5px;overflow-wrap:anywhere;min-width:0} .links .w{grid-column:2;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere;min-width:0}
+
+pre.code{background:var(--code-bg);border:1px solid var(--rule);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--mono);margin-top:16px}
+.k-kw{color:var(--red);font-weight:600} .k-c{color:var(--muted);font-style:italic} .k-n{color:var(--blue)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;margin-top:4px}
+nav.toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.toc a:hover{color:var(--ink);border-color:var(--ink)}
+footer{margin-top:72px;padding-top:14px;border-top:2px solid var(--ink);font-size:13.5px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* long numbers (a 38-digit answer) wrap instead of pushing the page sideways */
+p{overflow-wrap:break-word}
+
+nav.era-nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;padding-top:18px;color:var(--muted)}
+nav.era-nav a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--axis)}
+nav.era-nav a:hover{color:var(--ink);border-color:var(--ink)}
+nav.era-nav .here{color:var(--ink);font-weight:600}
+footer .navfoot{display:inline-flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .navfoot a{color:var(--ink-2)}
+
+.kem-board{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+@media (max-width:760px){.kem-board{grid-template-columns:1fr}}
+.kem-view svg{width:100%;height:auto;display:block;background:var(--wash)}
+.kem-row{display:block;font-size:13px;margin:6px 0}
+.kem-row input{vertical-align:middle;width:8em}
+.kem-btns{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.kem-res{font:12.5px var(--mono);display:grid;gap:2px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="era-nav" aria-label="Book navigation"><a href="../index.html">Era 9: Learning at Scale</a><a href="../09-transformer/transformer.html">← The Transformer</a><a href="../11-diffusion-models/diffusion-models.html">Diffusion Models →</a></nav>
+<header class="hero">
+  <div class="hero-top"><div class="titles">
+    <div class="eyebrow">The Algorithm Evolution Atlas · Era 9 · Topic 10 · 2017–2024</div>
+    <h1>Lattice Cryptography and ML-KEM</h1></div>
+    <div class="byrne-mark" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <p class="lede">A large quantum computer would break the public-key methods that protect the internet, and messages recorded today could be read later. The replacement rests on linear equations that a little noise makes unsolvable. In August 2024 it became a United States standard, ML-KEM.</p>
+  <p class="fieldnote">Field note from the visiting historian. I gave the program sixteen equations and asked for the secret behind them. It found it 200 times out of 200. Then I nudged every equation by at most two, and it found it 0 times. The receiver of an ML-KEM message carries a little of that noise too, but knows the secret, and rounds it away.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tree">How ideas combined</a><a href="#play">Try it</a><a href="#time">Timeline</a><a href="#hurt">What hurt</a><a href="#how">How it works</a><a href="#measured">Measured</a><a href="#evidence">The evidence</a><a href="#circle">Full circle</a><a href="#try">Pause and try</a><a href="#objects">The objects</a><a href="#read">Watch and read</a><a href="#prove">Prove it</a></nav>
+  <dl class="card-grid"><div><dt>When</dt><dd>Regev 2005; Kyber 2017; FIPS 203, August 2024</dd></div><div><dt>Where</dt><dd>The CRYSTALS-Kyber team; NIST</dd></div><div><dt>What hurt</dt><dd>Quantum computers would break RSA and Diffie–Hellman</dd></div><div><dt>The fix</dt><dd>Module learning with errors, NTT arithmetic, compression</dd></div><div><dt>Checked</dt><dd>Sizes of all three sets; every test message decrypted</dd></div></dl>
+</header>
+<section id="tree" aria-labelledby="tree-h">
+  <div class="sec-label"><span class="n">01</span><span class="eyebrow">A ⊕ B = C</span></div>
+  <h2 id="tree-h">How ideas combined</h2>
+<p class="col">A new algorithm is usually an older idea combined with a new one. Public-key cryptography (Era 6) rests on factoring and discrete logarithms, both of which Shor's algorithm (Era 7) would solve on a large quantum computer. In 2005 Oded Regev described a different hard problem, learning with errors. Kyber built a key exchange on it from polynomials, multiplied fast with the number-theoretic transform, the fast Fourier transform's modular cousin; in August 2024 NIST standardized it as ML-KEM.</p>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1000 520" role="img" aria-label="How ML-KEM combined older ideas, and where it led" style="font-family:var(--body);min-width:720px;max-width:1050px;margin:0 auto"><line x1="130.0" y1="124.0" x2="409.0" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="409.0,200.0 400.1,201.4 402.0,194.3" style="fill:var(--ink-2)"/><line x1="375.0" y1="124.0" x2="468.4" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="468.4,200.0 459.7,197.7 464.3,192.0" style="fill:var(--ink-2)"/><line x1="620.0" y1="124.0" x2="525.6" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="525.6,200.0 529.7,192.0 534.3,197.7" style="fill:var(--ink-2)"/><line x1="865.0" y1="124.0" x2="585.0" y2="200.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="585.0,200.0 592.0,194.3 593.9,201.4" style="fill:var(--ink-2)"/><line x1="431.0" y1="304.0" x2="250.0" y2="380.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="250.0,380.0 256.2,373.4 259.0,380.2" style="fill:var(--ink-2)"/><line x1="563.0" y1="304.0" x2="745.0" y2="380.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="745.0,380.0 736.0,380.2 738.8,373.4" style="fill:var(--ink-2)"/><rect x="20" y="20" width="220" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="32.0" y="52.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Public-key cryptography</text><text x="32.0" y="69.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">anyone can lock, only the key</text><text x="32.0" y="86.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">holder can open</text><text x="32.0" y="102.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 6, topic 10</text><rect x="265" y="20" width="220" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="277.0" y="52.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Shor&#x27;s algorithm</text><text x="277.0" y="69.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a quantum computer would</text><text x="277.0" y="86.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">break RSA and Diffie–Hellman</text><text x="277.0" y="102.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 7, topic 11</text><rect x="510" y="20" width="220" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="522.0" y="52.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Learning with errors</text><text x="522.0" y="69.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">linear equations nudged by</text><text x="522.0" y="86.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">small errors</text><text x="522.0" y="102.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Regev, 2005</text><rect x="755" y="20" width="220" height="104" style="fill:var(--paper);stroke:var(--ink);stroke-width:1.5"/><text x="767.0" y="51.0" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">The fast Fourier</text><text x="767.0" y="70.8" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">transform</text><text x="767.0" y="88.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">and its modular cousin, the NTT</text><text x="767.0" y="104.5" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Era 6, topic 1</text><rect x="387" y="200" width="220" height="104" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="399.0" y="232.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Kyber, then ML-KEM</text><text x="399.0" y="249.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">⊕ module LWE over polynomials,</text><text x="399.0" y="266.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">NTT arithmetic, compression</text><text x="399.0" y="282.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">submitted 2017; FIPS 203, 2024</text><rect x="140" y="380" width="220" height="104" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="152.0" y="412.7" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Signal&#x27;s PQXDH</text><text x="152.0" y="429.9" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">a Kyber-based protocol for</text><text x="152.0" y="446.4" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">messages</text><text x="152.0" y="462.9" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">2023</text><rect x="635" y="380" width="220" height="104" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="647.0" y="420.9" text-anchor="start" style="fill:var(--ink);font-size:15px;font-weight:700">Hybrid key exchange</text><text x="647.0" y="438.2" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">classical and post-quantum</text><text x="647.0" y="454.7" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">together</text></svg></div><figcaption>Red: Kyber and ML-KEM. Blue: where it went next.</figcaption></figure>
+</section>
+<section id="play" aria-labelledby="play-h">
+  <div class="sec-label"><span class="n">02</span><span class="eyebrow">Try it</span></div>
+  <h2 id="play-h">Noise, and the margin</h2>
+<p class="col">Your browser runs the scheme's arithmetic: a key pair, then one encryption and decryption of 256 random bits. Each decrypted coefficient is drawn on a circle of 3,329 steps: 0 bits should land near the top, 1 bits near the bottom. Make the errors larger, or keep fewer bits of the ciphertext, and watch the dots spread until some cross the line.</p>
+
+<div class="board kem-board">
+  <div style="min-width:0"><div class="kem-view" id="kem-view"></div></div>
+  <div style="min-width:0">
+    <label class="kem-row">k (module rank) <input type="range" id="kem-k" min="1" max="4" value="2"> <b id="kem-kv"></b></label>
+    <label class="kem-row">η, size of the small errors <input type="range" id="kem-eta" min="1" max="14" value="2"> <b id="kem-etav"></b></label>
+    <label class="kem-row">d_u, bits kept of u <input type="range" id="kem-du" min="3" max="11" value="10"> <b id="kem-duv"></b></label>
+    <label class="kem-row">d_v, bits kept of v <input type="range" id="kem-dv" min="1" max="5" value="4"> <b id="kem-dvv"></b></label>
+    <div class="kem-btns"><button type="button" class="primary" id="kem-go">Encrypt a random message</button><button type="button" id="kem-std">ML-KEM-768</button></div>
+    <div class="kem-res" id="kem-res"></div>
+    <p class="say" id="kem-say" aria-live="polite"></p>
+  </div>
+</div>
+
+</section>
+<section id="time" aria-labelledby="time-h">
+  <div class="sec-label"><span class="n">03</span><span class="eyebrow">Where it sits in time</span></div>
+  <h2 id="time-h">Era 9, learning at scale</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 1586 116" role="img" aria-label="Era 9: Learning at Scale, from 2009 to 2026" style="font-family:var(--body);min-width:1141px;max-width:1665px;margin:0 auto"><line x1="34" y1="34" x2="1552" y2="34" style="stroke:var(--ink);stroke-width:2"/><circle cx="64.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="64.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2009–2010</text><text x="64.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Homomorphic</text><text x="64.0" y="100" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">encryption</text><circle cx="185.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="185.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2012</text><text x="185.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AlexNet</text><circle cx="307.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="307.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2013</text><text x="307.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">word2vec</text><circle cx="428.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="428.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2014</text><text x="428.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Raft</text><circle cx="550.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="550.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2014</text><text x="550.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Adam</text><circle cx="671.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="671.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2015</text><text x="671.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Byte-pair encoding</text><circle cx="793.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="793.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2015</text><text x="793.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">ResNet</text><circle cx="914.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="914.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2006–2016</text><text x="914.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AlphaGo</text><circle cx="1036.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1036.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2017</text><text x="1036.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Transformer</text><circle cx="1157.5" cy="34" r="9" style="fill:var(--red);stroke:var(--red);stroke-width:2"/><text x="1157.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2017–2024</text><text x="1157.5" y="84" text-anchor="middle" style="fill:var(--red);font-size:12.5px;font-weight:700">ML-KEM</text><circle cx="1279.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1279.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2015–2020</text><text x="1279.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">Diffusion models</text><circle cx="1400.5" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1400.5" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2022</text><text x="1400.5" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">FlashAttention</text><circle cx="1522.0" cy="34" r="7" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/><text x="1522.0" y="64" text-anchor="middle" style="fill:var(--muted);font-size:11.5px">2022–2025</text><text x="1522.0" y="84" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:400">AlphaTensor</text></svg></div></figure>
+</section>
+<section id="hurt" aria-labelledby="hurt-h">
+  <div class="sec-label"><span class="n">04</span><span class="eyebrow">What hurt, and what fixed it</span></div>
+  <h2 id="hurt-h">Each fix leaves a new pain</h2>
+<figure class="dgm"><div class="frame"><svg viewBox="0 0 960 416" role="img" aria-label="Each fix leaves a new pain: from RSA to ML-KEM" style="font-family:var(--body);min-width:691px;max-width:1008px;margin:0 auto"><line x1="400.0" y1="66.0" x2="560.0" y2="66.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,66.0 551.8,69.7 551.8,62.3" style="fill:var(--ink-2)"/><rect x="449.2" y="45.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="58.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="750.0" y1="112.0" x2="750.0" y2="162.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="750.0,162.0 746.3,153.8 753.7,153.8" style="fill:var(--ink-2)"/><rect x="757.0" y="129.0" width="175.9" height="19" rx="3" style="fill:var(--surface)"/><text x="762.0" y="142.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">which leaves a new problem</text><line x1="560.0" y1="208.0" x2="400.0" y2="208.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="400.0,208.0 408.2,204.3 408.2,211.7" style="fill:var(--ink-2)"/><rect x="449.2" y="187.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="200.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><line x1="210.0" y1="254.0" x2="210.0" y2="304.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="210.0,304.0 206.3,295.8 213.7,295.8" style="fill:var(--ink-2)"/><line x1="400.0" y1="350.0" x2="560.0" y2="350.0" style="stroke:var(--ink-2);stroke-width:1.5"/><polygon points="560.0,350.0 551.8,353.7 551.8,346.3" style="fill:var(--ink-2)"/><rect x="449.2" y="329.0" width="61.6" height="19" rx="3" style="fill:var(--surface)"/><text x="480.0" y="342.0" text-anchor="middle" style="fill:var(--ink);font-size:12.5px;font-weight:600">fixed by</text><rect x="20" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">A large quantum computer would break RSA and</text><text x="32.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">elliptic-curve key exchange, and messages recorded</text><text x="32.0" y="94.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">today</text><rect x="560" y="20" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="45.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="61.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Rest on learning with errors, which no known quantum</text><text x="572.0" y="77.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">algorithm solves</text><text x="572.0" y="94.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Regev, 2005</text><rect x="560" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="572.0" y="203.7" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="572.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Plain LWE keys are large matrices of numbers</text><rect x="20" y="162" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="32.0" y="187.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="32.0" y="203.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Use polynomials modulo X²⁵⁶ + 1: one row describes a</text><text x="32.0" y="219.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">whole block</text><text x="32.0" y="236.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">Kyber, 2017</text><rect x="20" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--red);stroke-width:3"/><text x="32.0" y="337.5" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">WHAT HURT</text><text x="32.0" y="353.5" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Polynomial products cost n² multiplications, and</text><text x="32.0" y="370.0" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">ciphertexts are still long</text><rect x="560" y="304" width="380" height="92" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="572.0" y="329.2" text-anchor="start" style="fill:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em">THE FIX</text><text x="572.0" y="345.3" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">Multiply through the NTT; round ciphertexts to fewer</text><text x="572.0" y="361.8" text-anchor="start" style="fill:var(--ink);font-size:12.5px;font-weight:600">bits</text><text x="572.0" y="378.3" text-anchor="start" style="fill:var(--ink-2);font-size:12.5px;font-weight:400">FIPS 203, 2024</text></svg></div><figcaption>Read it as a snake: each new problem sits directly under the fix that exposed it.</figcaption></figure>
+</section>
+<section id="how" aria-labelledby="how-h">
+  <div class="sec-label"><span class="n">05</span><span class="eyebrow">How it works</span></div>
+  <h2 id="how-h">Equations with errors</h2>
+<p class="col"><strong>Learning with errors.</strong> Pick a random matrix A and a secret vector s with small entries, and publish A and b = As + e (mod q), where e is a vector of small random errors. Without e, Gaussian elimination recovers s at once. With e, nobody knows an efficient way, on an ordinary or a quantum computer.</p>
+<p class="col"><strong>Polynomials.</strong> ML-KEM's numbers are polynomials of degree below 256 with coefficients modulo q = 3,329, multiplied modulo X²⁵⁶ + 1; A is a k × k matrix of them, s and e vectors of k. Small means coefficients from a centred binomial distribution: η coin flips minus η more.</p>
+<p class="col"><strong>Keys and encryption.</strong> The public key is A (sent as a seed) and t = As + e. To send 256 bits m, pick small r, e₁ and e₂ and send u = Aᵀr + e₁ and v = tᵀr + e₂ + ⌈q/2⌋·m, each rounded to d_u and d_v bits. The receiver computes v − sᵀu = eᵀr + e₂ − sᵀe₁ + rounding + ⌈q/2⌋·m. Everything but the last term is small, so each coefficient is near 0 for a 0 bit and near q/2 for a 1.</p>
+<p class="col"><strong>The NTT.</strong> Because 17 is a primitive 256th root of unity modulo 3,329, a polynomial can be transformed so that multiplication becomes 128 small products of pairs. ML-KEM wraps this encryption scheme (K-PKE) with hashing to make a key-encapsulation mechanism: a shared secret key that two parties can agree on.</p>
+<div class="callout key col"><div class="k">Key idea</div><p>Hide the secret under noise small enough for the key holder to round away and large enough that no one else can solve the equations.</p></div>
+</section>
+<section id="measured" aria-labelledby="measured-h">
+  <div class="sec-label"><span class="n">06</span><span class="eyebrow">Measured</span></div>
+  <h2 id="measured-h">Three parameter sets</h2>
+<p class="col"><strong>With and without errors.</strong> 16 equations in 16 unknowns modulo 3329, 200 random trials. Without errors, Gaussian elimination recovered the secret <strong>200</strong> times. With errors from −2 to 2 added: <strong>0</strong> times; on average 16.0 of the 16 entries came out wrong. A tiny error ruins the method completely.</p>
+<p class="col"><strong>The NTT.</strong> 17¹²⁸ = 3328 = −1 modulo 3,329, so 17 is a primitive 256th root of unity. On 50 random pairs of polynomials, multiplying through the NTT gave exactly the schoolbook product modulo X²⁵⁶ + 1, with about 3,584 multiplications instead of 65,536.</p>
+<p class="col"><strong>The parameter sets.</strong> The program computes key and ciphertext sizes from the formulas (public key 384k + 32 bytes, ciphertext 32(d_u·k + d_v), secret key 768k + 96) and compares them with the published sizes, in brackets; then it encrypts 1,000 random 256-bit messages under 20 keys for each set:</p>
+<div class="tbl"><table><thead><tr><th class="">Set</th><th class="n">k</th><th class="n">η₁</th><th class="">d_u, d_v</th><th class="n">Public key</th><th class="n">Ciphertext</th><th class="n">Secret key</th><th class="">Wrong bits</th><th class="n">Largest noise</th></tr></thead><tbody><tr class=""><td class="">ML-KEM-512</td><td class="n">2</td><td class="n">3</td><td class="">10, 4</td><td class="n">800 (800)</td><td class="n">768 (768)</td><td class="n">1,632 (1,632)</td><td class="">0 in 1,000</td><td class="n">324</td></tr><tr class=""><td class="">ML-KEM-768</td><td class="n">3</td><td class="n">2</td><td class="">10, 4</td><td class="n">1,184 (1,184)</td><td class="n">1,088 (1,088)</td><td class="n">2,400 (2,400)</td><td class="">0 in 1,000</td><td class="n">285</td></tr><tr class=""><td class="">ML-KEM-1024</td><td class="n">4</td><td class="n">2</td><td class="">11, 5</td><td class="n">1,568 (1,568)</td><td class="n">1,568 (1,568)</td><td class="n">3,168 (3,168)</td><td class="">0 in 1,000</td><td class="n">261</td></tr></tbody></table></div>
+<p class="col">A bit is read wrongly only when the noise passes q/4 = 832. The largest noise seen in 256,000 coefficients per set stayed well under half of that. FIPS 203 puts the probability that a decapsulation fails at 2⁻¹³⁸·⁸, 2⁻¹⁶⁴·⁸ and 2⁻¹⁷⁴·⁸ for the three sets.</p>
+<p class="col"><strong>Too much noise.</strong> k = 3 and 100 messages each, with larger errors or harsher rounding:</p>
+<div class="tbl"><table><thead><tr><th class="">Variant</th><th class="n">Wrong bits</th><th class="n">Out of</th><th class="n">Largest noise</th></tr></thead><tbody><tr class="hl"><td class="">ML-KEM-768 as published</td><td class="n">0</td><td class="n">25,600</td><td class="n">255</td></tr><tr class=""><td class="">eta1 = eta2 = 6</td><td class="n">0</td><td class="n">25,600</td><td class="n">561</td></tr><tr class=""><td class="">eta1 = eta2 = 10</td><td class="n">3</td><td class="n">25,600</td><td class="n">935</td></tr><tr class=""><td class="">du = 6, dv = 2</td><td class="n">2178</td><td class="n">25,600</td><td class="n">1661</td></tr><tr class=""><td class="">du = 5, dv = 2</td><td class="n">8604</td><td class="n">25,600</td><td class="n">1664</td></tr></tbody></table></div>
+<p class="col">The parameters are a balance: more noise makes the equations harder to solve, until it makes decryption fail.</p>
+</section>
+<section id="evidence" aria-labelledby="evidence-h">
+  <div class="sec-label"><span class="n">07</span><span class="eyebrow">The evidence</span></div>
+  <h2 id="evidence-h">NIST, August 2024</h2>
+<p class="col">NIST, FIPS 203, "Published August 13, 2024": "ML-KEM is derived from the round-three version of the CRYSTALS-KYBER KEM"; "The security of ML-KEM is related to the computational difficulty of the Module Learning with Errors problem"; q is "the prime integer 3329"; "𝜁 = 17 ∈ ℤ𝑞 is a primitive 256-th root of unity modulo 𝑞"; decapsulation failure probabilities 2⁻¹³⁸·⁸, 2⁻¹⁶⁴·⁸ and 2⁻¹⁷⁴·⁸.</p>
+<p class="col">Wikipedia: Kyber was submitted to NIST in 2017 and was "the first key encapsulation mechanism that has been selected for standardization"; it is "based on the module learning with errors (M-LWE) problem, in conjunction with cyclotomic rings", "derived from a method published in 2005 by Oded Regev"; Signal adopted the Kyber-based PQXDH protocol in 2023. The parameter sets' sizes are from the chapter on ML-KEM in <em>Elements of Cryptanalysis</em> and agree with Wikipedia's for ML-KEM-768.</p>
+</section>
+<section id="circle" aria-labelledby="circle-h">
+  <div class="sec-label"><span class="n">08</span><span class="eyebrow">Full circle</span></div>
+  <h2 id="circle-h">Two thousand years of linear equations</h2>
+<p class="col">The Nine Chapters' fangcheng (Era 2) solved systems of linear equations by elimination on a counting board. ML-KEM's security rests on the same equations, made unsolvable by a little noise in each. The fast Fourier transform (Era 6), in its modular form, makes the arithmetic quick.</p>
+<div class="callout circle col"><div class="k">Full circle</div><p>Gaussian elimination solved 200 of 200 systems exactly. Add errors of at most 2 to each equation, and it solved 0.</p></div>
+</section>
+<section id="try" aria-labelledby="try-h">
+  <div class="sec-label"><span class="n">09</span><span class="eyebrow">Pause and try</span></div>
+  <h2 id="try-h">Before you read on</h2>
+<div><details class="try"><summary><span class="q">1</span><span>What is the ML-KEM-768 public key size from 384k + 32 with k = 3?</span></summary><div class="ans"><p>384 × 3 + 32 = 1,184 bytes.</p></div></details><details class="try"><summary><span class="q">2</span><span>Why does a bit flip only when the noise passes q/4?</span></summary><div class="ans"><p>0 is sent as 0 and 1 as about q/2; the receiver picks the nearer of the two, and they are q/2 apart, so a coefficient is read wrongly only if it moves more than q/4.</p></div></details><details class="try"><summary><span class="q">3</span><span>With η = 2, what values can one coefficient of a small polynomial take?</span></summary><div class="ans"><p>−2 to 2: two coin flips minus two coin flips.</p></div></details><details class="try"><summary><span class="q">4</span><span>Why does rounding u and v to fewer bits not break decryption?</span></summary><div class="ans"><p>Rounding adds at most half a step of the coarser scale, a little extra noise that stays inside the margin for the published parameters.</p></div></details><details class="try"><summary><span class="q">5</span><span>Why would an attacker record encrypted traffic today?</span></summary><div class="ans"><p>To decrypt it later, if a large quantum computer is ever built; this is why the replacement started before such a computer exists.</p></div></details></div>
+</section>
+<section id="objects" aria-labelledby="objects-h">
+  <div class="sec-label"><span class="n">10</span><span class="eyebrow">The objects</span></div>
+  <h2 id="objects-h">Where the evidence lives</h2>
+<div class="objects"><figure class="obj" style="margin:0"><div class="pic"><svg viewBox="0 0 200 150" role="img" aria-label="Drawn placeholder of a manuscript page" style="font-family:var(--body);min-width:60px;max-width:220px;margin:0 auto"><rect x="50.0" y="10.0" width="100.0" height="130.0" rx="0" style="fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2"/><line x1="60.0" y1="22.0" x2="140.0" y2="22.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="29.0" x2="140.0" y2="29.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="36.0" x2="118.0" y2="36.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="43.0" x2="140.0" y2="43.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="50.0" x2="140.0" y2="50.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="57.0" x2="118.0" y2="57.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="64.0" x2="140.0" y2="64.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="71.0" x2="140.0" y2="71.0" style="stroke:var(--axis);stroke-width:2"/><line x1="60.0" y1="78.0" x2="118.0" y2="78.0" style="stroke:var(--axis);stroke-width:2"/><rect x="72.0" y="90.0" width="36.0" height="36.0" rx="0" style="fill:none;stroke:var(--red);stroke-width:2"/><line x1="72.0" y1="126.0" x2="108.0" y2="90.0" style="stroke:var(--blue);stroke-width:2"/><text x="118.0" y="120.0" text-anchor="start" style="fill:var(--muted);font-size:9px;font-weight:400">888</text></svg></div><figcaption class="txt"><b>FIPS 203: Module-Lattice-Based Key-Encapsulation Mechanism Standard (2024)</b><span>NIST.</span><a href="https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.203.pdf">FIPS 203 (PDF)</a><span class="lic">Drawn placeholder.</span></figcaption></figure></div>
+</section>
+<section id="read" aria-labelledby="read-h">
+  <div class="sec-label"><span class="n">11</span><span class="eyebrow">Watch and read</span></div>
+  <h2 id="read-h">Every link was opened before it was listed</h2>
+<div class="links"><a href="https://www.youtube.com/watch?v=K026C5YaB3A" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">Learning with errors: Encrypting with unsolvable equations · Chalk Talk</span><span class="w">Equations with errors, and why they hide a secret</span></a><a href="https://en.wikipedia.org/wiki/ML-KEM" target="_blank" rel="noopener"><span class="lvl start">Start</span><span class="t">ML-KEM · Wikipedia</span><span class="w">From Regev to the standard</span></a><a href="https://www.youtube.com/watch?v=QcVns57MTxg" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">Learning With Errors (LWE) and Public Key Encryption || @ CMU || Lecture 25d of CS Theory Toolkit · Ryan O'Donnell</span><span class="w">Regev's public-key scheme, in a Carnegie Mellon course</span></a><a href="https://bnaskrecki.faculty.wmi.amu.edu.pl/crypto/book/part14_lattice_crypto/ch41_ml_kem_kyber.html" target="_blank" rel="noopener"><span class="lvl deeper">Deeper</span><span class="t">ML-KEM (Kyber) – Design and Implementation · <em>Elements of Cryptanalysis</em>, chapter 41</span><span class="w">The parameter sets, worked through</span></a><a href="https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.203.pdf" target="_blank" rel="noopener"><span class="lvl scholar">Scholar</span><span class="t">FIPS 203: Module-Lattice-Based Key-Encapsulation Mechanism Standard · NIST (13 August 2024)</span><span class="w">The standard</span></a></div>
+<p class="col">More, with certainty labels and the gaps we could not fill: <a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/book/era-09-learning-at-scale/reference-catalog.md">Era 9 reference catalog</a>.</p>
+</section>
+<section id="prove" aria-labelledby="prove-h">
+  <div class="sec-label"><span class="n">12</span><span class="eyebrow">Prove it</span></div>
+  <h2 id="prove-h">The program behind every number here</h2>
+<p class="col"><a href="https://github.com/vij658/AlgorithmEvolutionAtlas/blob/main/code/era-09-learning-at-scale/10-lattice-cryptography/LatticeKem.java">LatticeKem.java</a> makes <strong>11 checks</strong>: Gaussian elimination with and without errors, the NTT against schoolbook multiplication, every message of every parameter set, the sizes against the published ones, and decryption failing when the noise is too large. Run it with <code>java LatticeKem.java</code> (JDK 17 or newer). The heart of it:</p>
+<pre class="code"><span class="k-c">// ---- the number-theoretic transform (FIPS 203, Algorithms 9 to 12) --------------------------------------------------</span>
+<span class="k-kw">static</span> <span class="k-kw">int</span>[] ntt(<span class="k-kw">int</span>[] a) {
+    <span class="k-kw">int</span>[] f = a.clone();
+    <span class="k-kw">int</span> i = <span class="k-n">1</span>;
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> len = <span class="k-n">128</span>; len &gt;= <span class="k-n">2</span>; len /= <span class="k-n">2</span>)
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> start = <span class="k-n">0</span>; start &lt; N; start += <span class="k-n">2</span> * len) {
+            <span class="k-kw">int</span> z = pow(ZETA, bitrev7(i++));
+            <span class="k-kw">for</span> (<span class="k-kw">int</span> j = start; j &lt; start + len; j++) {
+                <span class="k-kw">int</span> t = mod((<span class="k-kw">long</span>) z * f[j + len]);
+                f[j + len] = mod(f[j] - t);
+                f[j] = mod(f[j] + t);
+            }
+        }
+    <span class="k-kw">return</span> f;
+}
+
+<span class="k-c">/** Encrypts and decrypts one message; returns the number of wrong bits and stores the largest noise in noise[0]. */</span>
+<span class="k-kw">static</span> <span class="k-kw">int</span> roundTripMessage(Params P, Keys K, Random r, <span class="k-kw">int</span>[] noise, <span class="k-kw">int</span> du, <span class="k-kw">int</span> dv) {
+    <span class="k-kw">int</span>[] m = <span class="k-kw">new</span> <span class="k-kw">int</span>[N];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; N; i++) m[i] = r.nextInt(<span class="k-n">2</span>);
+    <span class="k-kw">int</span>[][] rhat = <span class="k-kw">new</span> <span class="k-kw">int</span>[P.k][];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; P.k; i++) rhat[i] = ntt(cbd(P.eta1, r));
+    <span class="k-kw">int</span>[][] u = <span class="k-kw">new</span> <span class="k-kw">int</span>[P.k][];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; P.k; i++) {
+        <span class="k-kw">int</span>[] acc = <span class="k-kw">new</span> <span class="k-kw">int</span>[N];
+        <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; P.k; j++) acc = add(acc, mulNtt(K.Ahat[j][i], rhat[j])); <span class="k-c">// A transposed</span>
+        u[i] = roundTrip(add(invNtt(acc), cbd(P.eta2, r)), du);
+    }
+    <span class="k-kw">int</span>[] acc = <span class="k-kw">new</span> <span class="k-kw">int</span>[N];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; P.k; j++) acc = add(acc, mulNtt(K.that[j], rhat[j]));
+    <span class="k-kw">int</span>[] mu = <span class="k-kw">new</span> <span class="k-kw">int</span>[N];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; N; i++) mu[i] = m[i] * ((Q + <span class="k-n">1</span>) / <span class="k-n">2</span>);
+    <span class="k-kw">int</span>[] v = roundTrip(add(add(invNtt(acc), cbd(P.eta2, r)), mu), dv);
+    <span class="k-c">// decryption</span>
+    <span class="k-kw">int</span>[] su = <span class="k-kw">new</span> <span class="k-kw">int</span>[N];
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> j = <span class="k-n">0</span>; j &lt; P.k; j++) su = add(su, mulNtt(K.shat[j], ntt(u[j])));
+    <span class="k-kw">int</span>[] w = sub(v, invNtt(su));
+    <span class="k-kw">int</span> wrong = <span class="k-n">0</span>;
+    <span class="k-kw">for</span> (<span class="k-kw">int</span> i = <span class="k-n">0</span>; i &lt; N; i++) {
+        <span class="k-kw">int</span> bit = compress(w[i], <span class="k-n">1</span>);
+        <span class="k-kw">if</span> (bit != m[i]) wrong++;
+        noise[<span class="k-n">0</span>] = Math.max(noise[<span class="k-n">0</span>], Math.abs(centre(mod(w[i] - mu[i]))));
+    }
+    <span class="k-kw">return</span> wrong;
+}</pre>
+</section>
+<footer>Every number on this page is parsed from the output of <code>LatticeKem.java</code>.<br><span class="navfoot"><a href="../index.html">Era 9: Learning at Scale</a><a href="../09-transformer/transformer.html">← The Transformer</a><a href="../11-diffusion-models/diffusion-models.html">Diffusion Models →</a></span></footer>
+</div>
+<script>
+
+const NS = "http://www.w3.org/2000/svg";
+const fmt = n => (typeof n === "number" ? n.toLocaleString("en-US") : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+function el(tag, attrs = {}, parent, text) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) e.setAttribute(k, v);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs = {}, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined) continue;
+    if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+  }
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const COLORS = ["var(--red)", "var(--yellow)", "var(--blue)"];
+const ON = ["var(--on-red)", "var(--on-yellow)", "var(--on-blue)"];
+
+
+(() => {
+  const view = document.getElementById("kem-view");
+  if (!view) return;
+  const N = 256, Q = 3329;
+  let seed = 3;
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+  const md = x => ((x % Q) + Q) % Q, centre = x => x > Q / 2 ? x - Q : x;
+  const uni = () => Array.from({length: N}, () => Math.floor(rnd() * Q));
+  const cbd = eta => Array.from({length: N}, () => { let x = 0; for (let i = 0; i < eta; i++) x += (rnd() < 0.5) - (rnd() < 0.5); return md(x); });
+  function mul(a, b) { const c = new Float64Array(N); for (let i = 0; i < N; i++) { if (!a[i]) continue; for (let j = 0; j < N; j++) { const p = a[i] * b[j]; if (i + j < N) c[i + j] += p; else c[i + j - N] -= p; } } return Array.from(c, md); }
+  const add = (a, b) => a.map((x, i) => md(x + b[i])), sub = (a, b) => a.map((x, i) => md(x - b[i]));
+  const comp = (x, d) => Math.floor((x * 2 ** d + Math.floor(Q / 2)) / Q) % 2 ** d, decomp = (y, d) => Math.floor((y * Q + 2 ** (d - 1)) / 2 ** d);
+  const rt = (a, d) => a.map(x => decomp(comp(x, d), d));
+  const val = id => +document.getElementById(id).value;
+  function go() {
+    const k = val("kem-k"), eta = val("kem-eta"), du = val("kem-du"), dv = val("kem-dv");
+    ["k", "eta", "du", "dv"].forEach(n => document.getElementById(`kem-${n}v`).textContent = val(`kem-${n}`));
+    const A = [...Array(k)].map(() => [...Array(k)].map(uni)), s = [...Array(k)].map(() => cbd(eta)), e = [...Array(k)].map(() => cbd(eta));
+    const t = A.map((row, i) => row.reduce((acc, a, j) => add(acc, mul(a, s[j])), e[i]));
+    const m = Array.from({length: N}, () => rnd() < 0.5 ? 1 : 0), r = [...Array(k)].map(() => cbd(eta));
+    const u = [...Array(k)].map((_, i) => rt(A.reduce((acc, row, j) => add(acc, mul(row[i], r[j])), cbd(eta)), du));
+    const v = rt(add(t.reduce((acc, ti, j) => add(acc, mul(ti, r[j])), cbd(eta)), m.map(b => b * 1665)), dv);
+    const w = sub(v, s.reduce((acc, si, j) => add(acc, mul(si, u[j])), new Array(N).fill(0)));
+    let wrong = 0, worst = 0;
+    view.innerHTML = "";
+    const svg = sv("svg", {viewBox: "0 0 400 400", role: "img", "aria-label": "The 256 decrypted coefficients on a circle modulo q"}, view);
+    sv("circle", {cx: 200, cy: 200, r: 150, fill: "none", stroke: "var(--rule)", "stroke-width": 2}, svg);
+    sv("line", {x1: 30, x2: 370, y1: 200, y2: 200, stroke: "var(--ink)", "stroke-dasharray": "4 4"}, svg);
+    sv("text", {x: 200, y: 32, "text-anchor": "middle", "font-size": 12, fill: "var(--ink)"}, svg, "0: reads as 0");
+    sv("text", {x: 200, y: 380, "text-anchor": "middle", "font-size": 12, fill: "var(--ink)"}, svg, "q/2: reads as 1");
+    w.forEach((x, i) => {
+      const bit = comp(x, 1), bad = bit !== m[i]; if (bad) wrong++;
+      worst = Math.max(worst, Math.abs(centre(md(x - m[i] * 1665))));
+      const ang = 2 * Math.PI * x / Q, rr = 96 + (i % 8) * 7;
+      sv("circle", {cx: 200 + rr * Math.sin(ang), cy: 200 - rr * Math.cos(ang), r: bad ? 5 : 3, fill: m[i] ? "var(--red)" : "var(--blue)", stroke: bad ? "var(--ink)" : "none", "stroke-width": 2}, svg);
+    });
+    const res = document.getElementById("kem-res"); res.innerHTML = "";
+    [`public key  ${384 * k + 32} bytes`, `ciphertext  ${32 * (du * k + dv)} bytes`, `wrong bits  ${wrong} of 256`, `largest noise ${worst} (margin ${Math.floor(Q / 4)})`].forEach(x => el("div", {}, res, x));
+    document.getElementById("kem-say").textContent = wrong
+      ? `Too much noise: ${wrong} bits landed on the wrong side of the dashed line. Real parameters keep the noise far inside the margin, so that a failure is astronomically rare.`
+      : "Blue dots are 0 bits, red dots are 1 bits, after decryption. The noise spreads them around 0 and q/2, but none crosses the dashed line. Raise η or lower d_u and d_v to make the noise larger.";
+  }
+  ["kem-k", "kem-eta", "kem-du", "kem-dv"].forEach(id => document.getElementById(id).addEventListener("change", go));
+  document.getElementById("kem-go").addEventListener("click", go);
+  document.getElementById("kem-std").addEventListener("click", () => { document.getElementById("kem-k").value = 3; document.getElementById("kem-eta").value = 2; document.getElementById("kem-du").value = 10; document.getElementById("kem-dv").value = 4; go(); });
+  go();
+})();
+
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 327,
+ "rounds": 328,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -9698,11 +9698,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-05": {
+   "searched": "2026-11-03",
+   "query": "Hamming distance explained error detection",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Both listed videos are also under Era 4 (Hamming codes) and were re-checked today; they explain distance between codewords as the reason codes can detect and correct errors. Left out: 'Error Detection in Computer Networks || Hamming Distance' and 'Error correction and Hamming distance' (checked; channels that do not say who teaches), 'Minimum Hamming Distance For Error Correction' (oEmbed check failed, not listed), and numbered exam-prep lectures",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=cBBTWcHkVVY",
+     "title": "Error correction codes (Hamming coding)",
+     "channel": "Art of the Problem",
+     "channel_url": "https://www.youtube.com/@ArtOfTheProblem",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=X8jsijhllIA",
+     "title": "But what are Hamming codes? The origin of error correction",
+     "channel": "3Blue1Brown",
+     "channel_url": "https://www.youtube.com/@3blue1brown",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 4,
+  "clean": 0,
   "rejects": 2
  }
 }

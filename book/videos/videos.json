@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 348,
+ "rounds": 349,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10299,11 +10299,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-26": {
+   "searched": "2026-11-03",
+   "query": "amortized analysis dynamic array explained lecture",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Gaurav Sen and MIT are also listed in Era 7 (amortized analysis) and were re-checked today. Left out: a third lecture of a series ('Amortized Analysis III'), single-method clips (potential method, ArrayStack) and numbered topic uploads from uploaders that do not name the course",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=MTl8djZFWE0",
+     "title": "What is Amortized Time Complexity? - Dynamic Array",
+     "channel": "Gaurav Sen",
+     "channel_url": "https://www.youtube.com/@gkcs",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=agnNZX2W1AY",
+     "title": "F2021 CS 340 Lecture 11 (Amortized Analysis, Array Doubling/Resizable Arrays)",
+     "channel": "Dr. Daniel Page [CS University Lectures]",
+     "channel_url": "https://www.youtube.com/@DanielPageCSLectures",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=3MpzavN3Mco",
+     "title": "5. Amortization: Amortized Analysis",
+     "channel": "MIT OpenCourseWare",
+     "channel_url": "https://www.youtube.com/@mitocw",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

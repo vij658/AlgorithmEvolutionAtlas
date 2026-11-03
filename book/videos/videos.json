@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 345,
+ "rounds": 346,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10205,11 +10205,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-23": {
+   "searched": "2026-11-03",
+   "query": "dynamic programming explained memoization lecture",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Reducible and MIT are also listed in Era 5 (Bellman's dynamic programming) and were re-checked today. Left out: 'explained simply' and 'visualized' uploads, tutorial parts and unlabelled 'Dynamic Programming' videos from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=P8Xa2BitN3I",
+     "title": "Algorithms: Memoization and Dynamic Programming",
+     "channel": "HackerRank",
+     "channel_url": "https://www.youtube.com/@HackerrankOfficial",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=aPQY__2H3tE",
+     "title": "5 Simple Steps for Solving Dynamic Programming Problems",
+     "channel": "Reducible",
+     "channel_url": "https://www.youtube.com/@Reducible",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=OQ5jsbhAv_M",
+     "title": "Lecture 19: Dynamic Programming I: Fibonacci, Shortest Paths",
+     "channel": "MIT OpenCourseWare",
+     "channel_url": "https://www.youtube.com/@mitocw",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 2,
+  "clean": 3,
   "rejects": 2
  }
 }

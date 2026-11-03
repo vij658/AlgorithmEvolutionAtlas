@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**340 of 380 concepts searched, 851 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**341 of 380 concepts searched, 854 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1483,4 +1483,12 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | binary search | [Binary Search Algorithm in 100 Seconds](https://www.youtube.com/watch?v=MFhxShGxHWc) | Fireship | Start |
 |  | [Binary Search Algorithm - Computerphile](https://www.youtube.com/watch?v=hDn8iOc30Tk) | Computerphile | Start |
+
+### Dynamic programming
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| dynamic programming | [Algorithms: Memoization and Dynamic Programming](https://www.youtube.com/watch?v=P8Xa2BitN3I) | HackerRank | Start |
+|  | [5 Simple Steps for Solving Dynamic Programming Problems](https://www.youtube.com/watch?v=aPQY__2H3tE) | Reducible | Start |
+|  | [Lecture 19: Dynamic Programming I: Fibonacci, Shortest Paths](https://www.youtube.com/watch?v=OQ5jsbhAv_M) | MIT OpenCourseWare | Deeper |
 

@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 349,
+ "rounds": 350,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10333,11 +10333,45 @@
     }
    ],
    "tries": 1
+  },
+  "p-27": {
+   "searched": "2026-11-03",
+   "query": "prefix sum array and sliding window technique explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Note: the Ryan Schachte video did not appear in this search; it was recalled and then confirmed by oEmbed like every other. Left out: 'Sliding Window Technique Explained' (checked; a generic 'interview prep' channel), a Short, single LeetCode problem walkthroughs, and a course lecture from an unidentified uploader",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=xbYr9JOC2Lk",
+     "title": "Prefix Sum Array and Range Sum Queries",
+     "channel": "Profound Academy",
+     "channel_url": "https://www.youtube.com/@profound.academy",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=MK-NZ4hN7rs",
+     "title": "Sliding Window Technique - Algorithmic Mental Models",
+     "channel": "Ryan Schachte",
+     "channel_url": "https://www.youtube.com/@TheSimpleEngineer",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=pVS3yhlzrlQ",
+     "title": "Prefix Sum Algorithm | Prefix Sum Array | Difference Array | Range Sum QueryO(1) | EP2",
+     "channel": "JAVAAID - Coding Interview Preparation",
+     "channel_url": "https://www.youtube.com/@JavaAidTutorials",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

@@ -268,7 +268,7 @@ A note on videos: YouTube's watch pages could not be opened from the environment
 
 ## 7. Residual networks
 
-**When / where:** Kaiming He, Xiangyu Zhang, Shaoqing Ren and Jian Sun, Microsoft Research, "Deep Residual Learning for Image Recognition", arXiv 10 December 2015 (CVPR 2016). First place in the ILSVRC 2015 classification task. Highway networks (Srivastava, Greff and Schmidhuber, 2015) came months earlier.
+**When / where:** Kaiming He, Xiangyu Zhang, Shaoqing Ren and Jian Sun, Microsoft Research, "Deep Residual Learning for Image Recognition", arXiv 10 December 2015 (CVPR 2016). First place in the ILSVRC 2015 classification task. Highway networks, a gated form of the same idea, appeared in 2015 too.
 **Atlas:** to be mapped · **Code:** [`ResidualNetworks.java`](../../code/era-09-learning-at-scale/07-residual-networks/) · **Page:** [topic 7](07-residual-networks/README.md)
 
 > **Field note.** After 2012 the species stacked more layers, and the networks got better, up to a point. Beyond about twenty layers they got worse, and not because they memorized the training data: they did worse on the training data itself. A deeper network could in principle copy a shallower one and set its extra layers to do nothing, yet training could not find that solution. A team at Microsoft Research made "doing nothing" the default: each block of layers computes a correction that is added to its input, y = x + F(x). If the correction is not needed it can shrink to zero. With this one change they trained networks of 152 layers, won the ImageNet challenge of 2015, and gave every later deep network, the transformers included, its backbone.

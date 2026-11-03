@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**363 of 380 concepts searched, 907 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**364 of 380 concepts searched, 909 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1654,4 +1654,11 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | littles law | [Little's Law 1: Introduction](https://www.youtube.com/watch?v=zQey2zav7jQ) | EuroLEAN+ | Start |
 |  | [22. Sliding window analysis, Little's law](https://www.youtube.com/watch?v=xa38Q2_pnlQ) | MIT OpenCourseWare | Deeper |
+
+### Utilization and queueing delay
+
+| Idea | Video | Channel | Level |
+|---|---|---|---|
+| utilization and queueing delay | [Queueing Theory: M/M/1 Queue Worked Example](https://www.youtube.com/watch?v=GU-tWlTYvD8) | StatsResource | Start |
+|  | [When's waiting in one line better? The power of pooling queues vs sharing information (6min)](https://www.youtube.com/watch?v=LKxK12hlNgY) | Jan Albert Van Mieghem | Deeper |
 

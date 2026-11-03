@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 368,
+ "rounds": 369,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -10883,11 +10883,37 @@
     }
    ],
    "tries": 1
+  },
+  "p-46": {
+   "searched": "2026-11-03",
+   "query": "M/M/1 queue utilization waiting time hockey stick queueing theory explained; why waiting time explodes as utilization approaches 100 percent queueing",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "No video found that centres on the utilization-versus-delay curve itself. Checked and left out: 'Queuing Theory Tutorial' (a personal channel) and 'Queueing Theory' (a training institute with no named teacher). Also left out: exam-style derivations and worked problems from unidentified uploaders, '85% Rule' and 'in 10 Minutes!' clickbait, queue-psychology and hashtag videos",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=GU-tWlTYvD8",
+     "title": "Queueing Theory: M/M/1 Queue Worked Example",
+     "channel": "StatsResource",
+     "channel_url": "https://www.youtube.com/@statsresource",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=LKxK12hlNgY",
+     "title": "When's waiting in one line better? The power of pooling queues vs sharing information (6min)",
+     "channel": "Jan Albert Van Mieghem",
+     "channel_url": "https://www.youtube.com/@ProfessorJanVanMieghem",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 0,
+  "clean": 1,
   "rejects": 2
  }
 }

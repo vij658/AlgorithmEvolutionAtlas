@@ -133,7 +133,8 @@ def code_readme(era, t, spec, java, nav):
     if links:
         L += ["## Watch and read", "", "| Level | Link | Why |", "|---|---|---|"]
         for lvl, ltitle, source, url, why in links[0]["items"]:
-            L.append(f"| {lvl.capitalize()} | [{ltitle}]({url}) — {source} | {why} |")
+            pipe = lambda x: x.replace("|", "\\|")
+            L.append(f"| {lvl.capitalize()} | [{pipe(ltitle)}]({url}) — {pipe(source)} | {pipe(why)} |")
         L += ["", f"Every link was opened before it was listed. More, with certainty labels: "
                   f"[Era {era.ERA['num']} reference catalog](../../../book/{era.ERA['folder']}/reference-catalog.md).", ""]
     return "\n".join(L)

@@ -1,0 +1,7 @@
+scheme: secret p of 512 bits ; c = p*q + 2r + m with q of 1024 bits and noise r of 24 bits ; ciphertext of 1534 bits ; 800 XOR, AND and NOT pairs on encrypted bits all decrypt correctly
+noise: secret p of 512 bits, decryption works while the noise stays under p/2 ; fresh: 25 bits ; depth 1: 48 bits ; depth 2: 95 bits ; depth 3: 186 bits ; depth 4: 378 bits ; depth 5: over 511 bits (decryption fails) ; deepest working multiplication depth 4, doubling estimate 5 ; one addition: 24 bits ; after 1,000 additions: 30 bits
+adder: 4-bit ripple-carry adder on encrypted bits ; 256 pairs of 4-bit numbers, all sums correct ; noise in the final carry up to 126 bits of 512
+public: public key = 30 encryptions of 0 ; encrypt m as m + 2*(small) + a random subset sum of them ; 400 encryptions by subset sum, all decrypt correctly
+gcd: two ciphertexts of 0 without noise: their gcd has 513 bits and, after removing 1 small factor, equals p ; with noise: gcd = 1 (1 bits), and p stays hidden
+widget: p = 1009 ; a = 1009*4321 + 2*(3) + 1 = 4359896 ; b = 1009*7777 + 2*(-2) + 1 = 7846990 ; a + b = 12206886, noise 4, decrypts to 0 ; a * b = 34212060313040, noise -21, decrypts to 1 ; with fresh noise up to 9, products of 2 fresh ciphertexts always fit under p/2
+FullyHomomorphic: 3864 checks passed

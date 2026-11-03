@@ -1,6 +1,6 @@
 {
  "updated": "2026-11-03",
- "rounds": 374,
+ "rounds": 375,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11039,11 +11039,20 @@
     }
    ],
    "tries": 1
+  },
+  "p-52": {
+   "searched": "2026-11-03",
+   "query": "exponential backoff with jitter retries explained; Marc Brooker retries timeouts backoff jitter AWS re:Invent",
+   "host": "youtube.com",
+   "candidates": 20,
+   "rejected": "No suitable video found. Checked and left out: 'Retries & Exponential Backoff - Deep Dive' (glich.stream) and 'How to use exponential backoff when retrying failed service requests' (IT Mongoose), whose channels do not say who presents, and 'AWS Concept Review - Timeouts Retries Back-off Jitter' (a training-sales channel). Also left out: Shorts, Spring and n8n how-tos, 'Retry Storms ... Prevents System Meltdowns' clickbait, Portuguese- and Ukrainian-language videos, and Marc Brooker interviews that are not about backoff. The best source remains Brooker's written AWS Builders' Library article, which is not a video.",
+   "videos": [],
+   "tries": 1
   }
  },
  "pace": {
   "delay": 15,
-  "clean": 1,
+  "clean": 2,
   "rejects": 2
  }
 }

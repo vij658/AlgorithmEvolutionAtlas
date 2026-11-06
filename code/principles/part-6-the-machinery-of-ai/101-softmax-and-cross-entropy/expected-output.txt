@@ -1,0 +1,10 @@
+softmax([1, 2, 3]) = [0.090031, 0.244728, 0.665241]
+exp(x) overflows above x = 709.78 in double and x = 88.72 in float (32-bit)
+logits [1000, 0]: naive softmax [NaN, 0.0], stable softmax [1.0, 0.0]
+cross-entropy when the correct token's logit is 1000 below the best: naive Infinity, stable 1000.0
+500 random logit vectors with sd 10: stable and naive softmax agree to a relative 4.7e-15
+200 random cases: gradient softmax - onehot matches finite differences to 1.8e-10
+loss for one token when the model gives the right answer probability 0.9: 0.105 nats; 0.5: 0.693 nats; 0.1: 2.303 nats; 0.01: 4.605 nats; 0.0001: 9.210 nats;
+uniform guess over 50,000 tokens: cross-entropy 10.8198 nats = 15.6096 bits, perplexity 50000.0
+temperature on logits [2, 1, 0.5, 0]: T=0.01 top 1.0000 entropy 0.0000; T=0.25 top 0.9793 entropy 0.1098; T=0.5 top 0.8310 entropy 0.5951; T=1.0 top 0.5793 entropy 1.1098; T=2.0 top 0.4087 entropy 1.3139; T=10.0 top 0.2790 entropy 1.3835; T=1000.0 top 0.2503 entropy 1.3863;
+SoftmaxAndCrossEntropy: 2121 checks passed

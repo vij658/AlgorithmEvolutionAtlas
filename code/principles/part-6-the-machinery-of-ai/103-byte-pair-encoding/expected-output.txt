@@ -1,0 +1,11 @@
+"aaabdaaabac": merges learned in order aa, ab, aaab; tokens aaab|d|aaab|a|c
+training text: 1,705 bytes; tokens after 0 merges: 1,705 (1.00 bytes per token); 25 merges: 1,211 (1.41 bytes per token); 50 merges: 1,008 (1.69 bytes per token); 100 merges: 775 (2.20 bytes per token); 200 merges: 541 (3.15 bytes per token); 210 merges: 521 (3.27 bytes per token);
+merges learned before no pair occurred twice: 210 (vocabulary 466)
+"The algorithm" -> 3 tokens: T|he|_algorithm
+" strawberry"   -> 1 token: _strawberry
+" Strawberry"   -> 4 tokens: _S|t|ra|wberry
+" STRAWBERRY"   -> 10 tokens: _S|T|R|A|W|B|E|R|R|Y
+" tokenizer"    -> 4 tokens: _token|i|z|er
+" tokenization" -> 6 tokens: _token|i|z|at|i|on
+English sentence: 32 characters, 32 bytes, 9 tokens; the same sentence in Hindi: 30 characters, 80 bytes, 80 tokens (8.9 times as many)
+BytePairEncoding: 2380 checks passed

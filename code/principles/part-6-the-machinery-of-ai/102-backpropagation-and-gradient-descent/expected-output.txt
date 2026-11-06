@@ -1,0 +1,8 @@
+f = a*b + c at (2, -3, 10): f = 4, df/da = -3, df/db = 2, df/dc = 1
+d(x*x)/dx at x = 3: 6 with +=, 3 if gradients are assigned instead of added
+500 random expression graphs: backpropagation matches finite differences to a relative 2.7e-10
+1,000 inputs: one forward pass is 3,000 operations, one backward pass visits 5,001 nodes (the operations plus inputs and constants); central finite differences would need 2,000 forward passes (6,000,000 operations)
+gradient descent on x^2 from x = 1, 50 steps: lr 0.1 -> x = 1.43e-05; lr 0.5 -> x = 0.00; lr 0.9 -> x = 1.43e-05; lr 1.0 -> x = 1.00; lr 1.1 -> x = 9.10e+03;
+XOR, 2-8-1 tanh network, learning rate 0.05, loss at step 0: 5.38859; 50: 0.25096; 100: 0.07365; 200: 0.02621; 500: 0.00795; 1000: 0.00347;
+without resetting gradients: XOR loss at step 1000 is 0.00000 (it acts like momentum and happens to work), but on x^2 with lr 0.1 |x| still reaches 1.019 in steps 150-199 (it never settles)
+Backpropagation: 1515 checks passed

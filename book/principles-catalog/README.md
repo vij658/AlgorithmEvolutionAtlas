@@ -9,6 +9,7 @@ Named, mathematically grounded principles that keep showing up in real code, eac
 | [Part 3 — Performance laws and distributed systems](part-3-status-and-plan.md) | 43–62 | **Not written** (status and plan) | [20 programs](../../code/principles/README.md#part-3--performance-laws-and-distributed-systems-entries-4362), 154,369,152 checks |
 | Part 4 — Security and identity | | Not started | |
 | Part 5 — Design laws and engineering principles | | Not started | |
+| [Part 6 — The machinery of modern AI](part-6-status-and-plan.md) | 101–108 | **Not written** (status and plan) | [8 programs](../../code/principles/README.md#part-6--the-machinery-of-modern-ai-entries-101108), 422,233 checks |
 
 ## Reading the pages
 

@@ -1,0 +1,7 @@
+10-token example, probabilities 0.441 0.267 0.162 0.060 0.036 0.022 0.008 0.003 0.001 0.000
+temperature 0.7: top token 0.546; temperature 1.5: top token 0.339; top-k 3 keeps 3; top-p 0.9 keeps 4; top-p 0.9 at temperature 0.7 keeps 3
+200,000 draws from top-p 0.9 at temperature 0.7: every kept token within 0.43 standard errors of its probability; the 7 cut tokens drawn 0 times
+two logits that are the same 4,096 numbers added in different orders: unequal in 1964 of 2000 trials with a 32-bit total (B came out ahead 971 times); with a 64-bit total, 0 of 2000
+hand example: greedy picks [0, 2] with probability 0.24; beam width 2 finds [1, 0] with probability 0.36
+300 random models, vocabulary 5, length 5: most likely sequence found by greedy 128 times; beam 2 204 times; beam 4 268 times; beam 8 293 times; a wider beam did worse than a narrower one 1 time
+SamplingAndDecoding: 5515 checks passed

@@ -1,0 +1,8 @@
+81 of 100 correct: Wald [0.733, 0.887], Wilson [0.722, 0.875]; 100 of 100: Wald [1.000, 1.000], Wilson [0.963, 1.000]
+true coverage of a nominal 95% interval (exact binomial sums): n=20 p=0.50 Wald 0.959 Wilson 0.959; n=20 p=0.80 Wald 0.921 Wilson 0.956; n=20 p=0.95 Wald 0.639 Wilson 0.925; n=100 p=0.50 Wald 0.943 Wilson 0.943; n=100 p=0.80 Wald 0.933 Wilson 0.941; n=100 p=0.95 Wald 0.877 Wilson 0.966;
+n=50, averaged over p = 0.01 ... 0.99: Wald covers 0.908, Wilson 0.950
+at 80% accuracy the 95% interval is +/- 7.8 points with 100 questions; 3.9 points with 400 questions; 2.5 points with 1,000 questions; 1.1 points with 5,000 questions;
+to tell 80% from 82% with two independent samples (5% test, 80% power): 6,036 questions per model
+2000 simulated evals of 1,000 shared questions (A 80%, B 82%): the models disagree on 49.2 questions on average; McNemar finds the difference in 80.6% of evals; the same data run through an unpaired two-proportion test, 2.1%; two separate question sets of 1,000 each would give about 21%
+pass@k from n = 10 samples, k = 5, expected value of the estimate against the truth: p=0.05 truth 0.2262, unbiased 0.2262, plug-in 0.1889; p=0.10 truth 0.4095, unbiased 0.4095, plug-in 0.3485; p=0.30 truth 0.8319, unbiased 0.8319, plug-in 0.7597; p=0.60 truth 0.9898, unbiased 0.9898, plug-in 0.9703;
+EvalStatistics: 10018 checks passed

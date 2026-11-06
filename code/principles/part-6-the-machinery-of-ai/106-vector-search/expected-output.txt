@@ -1,0 +1,6 @@
+one random hyperplane separates two vectors at angle theta with probability theta/pi: 10 deg: 0.0551 (theta/pi = 0.0556); 30 deg: 0.1685 (theta/pi = 0.1667); 60 deg: 0.3362 (theta/pi = 0.3333); 90 deg: 0.4990 (theta/pi = 0.5000); 120 deg: 0.6701 (theta/pi = 0.6667); 170 deg: 0.9451 (theta/pi = 0.9444);
+20,000 unit vectors in 64 dimensions, 200 queries: exact top-10 by cosine equals exact top-10 by distance for every query
+k-means, 128 clusters, 8 iterations: sum of squared distances 24827.0 after the first assignment, 13940.0 at the end
+IVF recall@10 by clusters scanned (comparisons include the 128 cluster centres): nprobe 1: 0.902 with 1.5% of a full scan's comparisons; nprobe 2: 0.928 with 2.6% of a full scan's comparisons; nprobe 4: 0.956 with 4.7% of a full scan's comparisons; nprobe 8: 0.977 with 8.8% of a full scan's comparisons; nprobe 16: 0.991 with 17.0% of a full scan's comparisons; nprobe 128: 1.000 with 100.6% of a full scan's comparisons;
+SimHash (128 bits) recall@10 by candidates re-ranked exactly: 10: 0.276; 50: 0.601; 200: 0.834; 1,000: 0.966; 20,000: 1.000;
+VectorSearch: 234 checks passed

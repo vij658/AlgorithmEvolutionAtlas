@@ -13,7 +13,7 @@ Each program counts the checks it makes (known answers, edge cases, randomized c
 | Folder | What is in it |
 |---|---|
 | [`chapter-01-adding-two-numbers/`](chapter-01-adding-two-numbers/README.md) | The book's chapter 1 program: carries, counting boards, carry-lookahead |
-| [`principles/`](principles/README.md) | The 62 programs of the principles catalog, one folder per entry, grouped by part |
+| [`principles/`](principles/README.md) | The 70 programs of the principles catalog, one folder per entry, grouped by part |
 | [`tools/`](tools/README.md) | Python scripts that build and check the book's pages |
 | [`run-all.sh`](run-all.sh) | Runs every program and compares its output with `expected-output.txt` |
 
@@ -45,4 +45,5 @@ Runs on OpenJDK 21.0.12; every program exited with status 0.
 | Part 1 — Distances, similarity and number theory (entries 1–20) | 20 | 1,221,141 |
 | Part 2 — Algorithm paradigms and classics (entries 21–42) | 22 | 6,914,381 |
 | Part 3 — Performance laws and distributed systems (entries 43–62) | 20 | 154,369,152 |
-| **Total** | **63** | **176,576,844** |
+| Part 6 — The machinery of modern AI (entries 101–108) | 8 | 422,233 |
+| **Total** | **71** | **176,999,077** |

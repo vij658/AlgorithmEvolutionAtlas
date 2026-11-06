@@ -17,7 +17,7 @@ The repository has two halves:
 - **Nothing unverified.** Every link was opened before it was listed; every historical claim carries a label (*documented*, *conjecture*, *disputed*, *reconstructed*, *myth*); every number quoted comes from a program's output; every code block is copied from a program that was compiled and run.
 - **The Evolutionary Atlas** (the 180-chapter table of contents developed earlier) supplies the chapter map, the ⊕ notation (*A ⊕ B = C*: a new algorithm is an older idea combined with a new one), the full-circle callouts to machine learning, and the Pattern/Blind/Foundation problem labels. The book's topics point to Atlas chapters.
 
-## Status (October 2026)
+## Status (November 2026)
 
 | Piece | State |
 |---|---|
@@ -26,6 +26,7 @@ The repository has two halves:
 | Reference catalog, Era 2 onward | Not started |
 | Principles catalog, Parts 1–2 (entries 1–42) | Pages written; 42 programs verified (8,135,522 checks) |
 | Principles catalog, Part 3 (entries 43–62) | 20 programs verified (154,369,152 checks); page not written |
+| Principles catalog, Part 6 (entries 101–108): softmax, backpropagation, tokenizers, attention and the KV cache, decoding, vector search, eval statistics, agents | 8 programs verified (422,233 checks); page not written ([plan](book/principles-catalog/part-6-status-and-plan.md)) |
 
 ## Run the code
 

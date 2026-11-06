@@ -38,4 +38,4 @@
 
 ### Companion volume: the principles catalog
 
-- [The principles catalog](principles-catalog/README.md): 62 named principles with verified Java. Parts 1 and 2 are written; Part 3's programs are verified and its page is not written.
+- [The principles catalog](principles-catalog/README.md): 70 named principles with verified Java. Parts 1 and 2 are written; the programs of Part 3 and of Part 6 (the machinery of modern AI: softmax to agents) are verified and their pages are not written.

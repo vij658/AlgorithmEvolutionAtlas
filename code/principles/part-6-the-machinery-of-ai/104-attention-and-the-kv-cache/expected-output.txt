@@ -1,0 +1,9 @@
+24 tokens, model width 32, 4 query heads: 4 KV heads: cache holds 1,536 numbers, largest difference from full recomputation 0.0e+00; 2 KV heads: cache holds 768 numbers, largest difference from full recomputation 0.0e+00; 1 KV head: cache holds 384 numbers, largest difference from full recomputation 0.0e+00;
+causal mask: in 50 trials, changing token j left outputs 0..j-1 bit-for-bit identical
+no mask, no positions: 20 shuffles of the input shuffle the output identically (largest difference 7.8e-16), so word order must be added separately
+variance of q . k for random vectors with unit-variance entries: d=16: 16.1; d=64: 63.5; d=256: 252.5; d=1024: 1022.9;
+d=256, 64 keys: the largest attention weight averages 0.897 without the 1/sqrt(d) and 0.106 with it
+generating 24 tokens (width 32): 1,395,200 multiply-adds recomputing everything, 117,504 with the KV cache (11.9 times fewer)
+same formulas for 4,096 tokens at width 4,096, one layer: 6.57e+14 against 3.44e+11 multiply-adds (1912 times fewer)
+KV cache for 32 layers x 32 heads x 128 dims at 16 bits: 512 KiB per token, 4 GiB for 8,192 tokens; with 8 shared KV heads (grouped-query attention): 1 GiB
+AttentionAndKvCache: 402 checks passed

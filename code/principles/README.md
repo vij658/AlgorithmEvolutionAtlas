@@ -84,3 +84,18 @@ Text: [status and plan (page not written)](../../book/principles-catalog/part-3-
 | 60 | [Idempotency keys](part-3-performance-and-distributed-systems/60-idempotency/README.md) | [`Idempotency.java`](part-3-performance-and-distributed-systems/60-idempotency/Idempotency.java) | 516 |
 | 61 | [Gossip (epidemic) protocols](part-3-performance-and-distributed-systems/61-gossip/README.md) | [`Gossip.java`](part-3-performance-and-distributed-systems/61-gossip/Gossip.java) | 12 |
 | 62 | [Merkle trees](part-3-performance-and-distributed-systems/62-merkle-trees/README.md) | [`MerkleTrees.java`](part-3-performance-and-distributed-systems/62-merkle-trees/MerkleTrees.java) | 12,520 |
+
+## Part 6 — The machinery of modern AI (entries 101–108)
+
+Text: [status and plan (page not written)](../../book/principles-catalog/part-6-status-and-plan.md) · 422,233 checks in total
+
+| # | Entry | Program | Checks |
+|---|---|---|---|
+| 101 | [Softmax, log-sum-exp and cross-entropy](part-6-the-machinery-of-ai/101-softmax-and-cross-entropy/README.md) | [`SoftmaxAndCrossEntropy.java`](part-6-the-machinery-of-ai/101-softmax-and-cross-entropy/SoftmaxAndCrossEntropy.java) | 2,121 |
+| 102 | [Backpropagation and gradient descent](part-6-the-machinery-of-ai/102-backpropagation-and-gradient-descent/README.md) | [`Backpropagation.java`](part-6-the-machinery-of-ai/102-backpropagation-and-gradient-descent/Backpropagation.java) | 1,515 |
+| 103 | [Byte-pair encoding: how text becomes tokens](part-6-the-machinery-of-ai/103-byte-pair-encoding/README.md) | [`BytePairEncoding.java`](part-6-the-machinery-of-ai/103-byte-pair-encoding/BytePairEncoding.java) | 2,380 |
+| 104 | [Attention, the causal mask and the KV cache](part-6-the-machinery-of-ai/104-attention-and-the-kv-cache/README.md) | [`AttentionAndKvCache.java`](part-6-the-machinery-of-ai/104-attention-and-the-kv-cache/AttentionAndKvCache.java) | 402 |
+| 105 | [Greedy, temperature, top-k, top-p and beam search](part-6-the-machinery-of-ai/105-sampling-and-decoding/README.md) | [`SamplingAndDecoding.java`](part-6-the-machinery-of-ai/105-sampling-and-decoding/SamplingAndDecoding.java) | 5,515 |
+| 106 | [Vector search: exact k-NN, IVF and SimHash](part-6-the-machinery-of-ai/106-vector-search/README.md) | [`VectorSearch.java`](part-6-the-machinery-of-ai/106-vector-search/VectorSearch.java) | 234 |
+| 107 | [Statistics for evals: Wilson intervals, McNemar and pass@k](part-6-the-machinery-of-ai/107-eval-statistics/README.md) | [`EvalStatistics.java`](part-6-the-machinery-of-ai/107-eval-statistics/EvalStatistics.java) | 10,018 |
+| 108 | [The arithmetic of agents](part-6-the-machinery-of-ai/108-agent-reliability/README.md) | [`AgentReliability.java`](part-6-the-machinery-of-ai/108-agent-reliability/AgentReliability.java) | 400,048 |

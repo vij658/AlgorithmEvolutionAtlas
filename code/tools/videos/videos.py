@@ -4,6 +4,7 @@
     python3 code/tools/videos/videos.py record FILE     # merge one round's results (JSON) and rebuild the pages
     python3 code/tools/videos/videos.py build [--artifact OUT]
     python3 code/tools/videos/videos.py status
+    python3 code/tools/videos/videos.py playlists       # print the ordered playlists (also built into the pages)
 
 A round's FILE: {"cid": "e1-01-c2", "query": "tally marks", "host": "youtube.com",
                  "videos": [{"url": "...", "title": "...", "channel": "...", "channel_url": "...",
@@ -117,6 +118,16 @@ def stats(db):
 
 
 CSS = """
+.playlists{margin:28px 0 8px}
+.pl{border-top:1px solid var(--rule);padding:6px 0}
+.pl summary{cursor:pointer;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding:4px 0}
+.pl summary .n{font:600 13px var(--mono);color:var(--muted)}
+.pl-t{font-weight:600}
+.pl-s{color:var(--ink-2);font-size:13px}
+.pl-open{font-weight:600}
+.pl-list{margin:4px 0 10px;padding-left:2.4em;display:grid;gap:3px;font-size:14px}
+.pl-list li{min-width:0;overflow-wrap:anywhere}
+.pl-note{color:var(--ink-2);font-size:14px;max-width:70ch}
 /* Layout: the book's Byrne palette; one reading column of topics, concepts as rows, each video a line with a coloured level mark. */
 :root{
   --paper:#fbfbf9; --surface:#ffffff; --ink:#17171a; --ink-2:#55545a; --muted:#77767e; --rule:#e4e3dd; --axis:#c4c3bb;
@@ -219,6 +230,142 @@ JS = """
 """
 
 
+PLAYLIST_MAX = 50  # YouTube's watch_videos link takes at most 50 videos
+LEVEL_ORDER = {"start": 0, "deeper": 1, "scholar": 2}
+
+
+def video_id(url):
+    m = re.search(r"[?&]v=([\w-]{11})", url)
+    return m.group(1) if m else None
+
+
+def balance(blocks):
+    """Cuts a sequence of topic blocks into as few playlists as fit (at most PLAYLIST_MAX videos each),
+    choosing the cuts that make the largest playlist as small as possible, so no part is left with a few videos."""
+    if not blocks:
+        return []
+    sizes = [len(b) for b in blocks]
+    n, total = len(sizes), sum(sizes)
+    k = max(1, -(-total // PLAYLIST_MAX))
+    pre = [0]
+    for x in sizes:
+        pre.append(pre[-1] + x)
+    while True:
+        INF = float("inf")
+        # best[j][i]: smallest possible largest part when the first i blocks form j parts
+        best = [[INF] * (n + 1) for _ in range(k + 1)]
+        cut = [[0] * (n + 1) for _ in range(k + 1)]
+        best[0][0] = 0
+        for j in range(1, k + 1):
+            for i in range(1, n + 1):
+                for m in range(j - 1, i):
+                    part = pre[i] - pre[m]
+                    if part > PLAYLIST_MAX:
+                        continue
+                    v = max(best[j - 1][m], part)
+                    if v < best[j][i]:
+                        best[j][i], cut[j][i] = v, m
+        if best[k][n] < INF:
+            break
+        k += 1
+    parts, i = [], n
+    for j in range(k, 0, -1):
+        m = cut[j][i]
+        parts.append(blocks[m:i])
+        i = m
+    return parts[::-1]
+
+
+def playlists(db):
+    """Ordered playlists of at most 50 videos: the book's order (part, topic, concept from simplest to most advanced),
+    within a concept Start before Deeper before Scholar, each video only once in the whole set, cut at topic boundaries."""
+    seen, out, extra = set(), [], []
+    for g in grouped(db):
+        blocks = []
+        for t in g["topics"]:
+            items = []
+            for c in t["concepts"]:
+                d = c["data"]
+                if not d or d.get("error"):
+                    continue
+                for v in sorted(d["videos"], key=lambda v: LEVEL_ORDER.get(v["level"], 3)):
+                    vid = video_id(v["url"])
+                    if vid is None:
+                        extra.append(dict(group=g["title"], topic=t["title"], concept=c["name"], video=v))
+                        continue
+                    if vid in seen:
+                        continue
+                    seen.add(vid)
+                    items.append(dict(id=vid, topic=t["title"], concept=c["name"], video=v))
+            if not items:
+                continue
+            for i in range(0, len(items), PLAYLIST_MAX):  # a topic larger than one playlist is split
+                blocks.append(items[i:i + PLAYLIST_MAX])
+        lists = [dict(group=g["title"], gid=g["id"], items=[it for b in part for it in b]) for part in balance(blocks)]
+        for k, pl in enumerate(lists, 1):
+            topics = list(dict.fromkeys(it["topic"] for it in pl["items"]))
+            part = f", part {k} of {len(lists)}" if len(lists) > 1 else ""
+            pl["title"] = f"{g['title']}{part}"
+            pl["span"] = topics[0] if len(topics) == 1 else f"{topics[0]} to {topics[-1]}"
+            pl["link"] = "https://www.youtube.com/watch_videos?video_ids=" + ",".join(it["id"] for it in pl["items"])
+            out.append(pl)
+        lists = []
+    for n, pl in enumerate(out, 1):
+        pl["num"] = n
+    return out, extra
+
+
+def playlists_md(db):
+    pls, extra = playlists(db)
+    nv = sum(len(p["items"]) for p in pls)
+    o = ["# Playlists: the video list in book order", "",
+         f"{len(pls)} playlists, {nv} videos, each video once. They follow the book: Chapter 1, then the eras, then the principles; "
+         "within a part, topic by topic; within a topic, each idea from the simplest to the most advanced; within an idea, Start, then Deeper, then Scholar. "
+         f"No playlist has more than {PLAYLIST_MAX} videos, and each ends at the end of a topic.", "",
+         "**To keep a playlist:** open its link, which plays the videos as an untitled playlist, then use YouTube's *Save* (or *Add all to*) on the playlist panel "
+         "and give it the name shown here. These links use YouTube's `watch_videos` address, which YouTube does not document and could change.", ""]
+    o += ["| # | Playlist | Topics | Videos | Open |", "|---|---|---|---|---|"]
+    for p in pls:
+        o.append(f"| {p['num']} | {p['title']} | {p['span']} | {len(p['items'])} | [play]({p['link']}) |")
+    o.append("")
+    for p in pls:
+        o += [f"## {p['num']}. {p['title']}", "", f"{p['span']} · {len(p['items'])} videos · [play as a playlist]({p['link']})", ""]
+        for i, it in enumerate(p["items"], 1):
+            v = it["video"]
+            o.append(f"{i}. [{v['title']}]({v['url']}) · {v['channel']} · {v['level'].capitalize()} · *{it['topic']}: {it['concept']}*")
+        o.append("")
+    if extra:
+        o += ["## Not in a playlist", "", "These entries are YouTube playlists themselves, so they cannot go inside another playlist:", ""]
+        for e in extra:
+            v = e["video"]
+            o.append(f"- [{v['title']}]({v['url']}) · {v['channel']} · *{e['group']}, {e['topic']}: {e['concept']}*")
+        o.append("")
+    return "\n".join(o)
+
+
+def playlists_html(db):
+    pls, extra = playlists(db)
+    nv = sum(len(p["items"]) for p in pls)
+    o = ['<section class="playlists" id="playlists"><h2>Watch in order</h2>',
+         f'<p class="gstat">{len(pls)} playlists · {nv} videos, each once · at most {PLAYLIST_MAX} per playlist, each ending at the end of a topic</p>',
+         '<p class="pl-note">Each link plays its videos as an untitled YouTube playlist, in the book\'s order (within an idea: Start, then Deeper, then Scholar). '
+         'To keep one, use YouTube\'s Save on the playlist panel and give it the name shown here. The link format is undocumented by YouTube and could change.</p>']
+    for p in pls:
+        o.append(f'<details class="pl"><summary><span class="n">{p["num"]:02d}</span><span class="pl-t">{esc(p["title"])}</span>'
+                 f'<span class="pl-s">{esc(p["span"])} · {len(p["items"])} videos</span></summary>'
+                 f'<p><a class="pl-open" href="{esc(p["link"])}" target="_blank" rel="noopener">Play all {len(p["items"])} as a playlist</a></p><ol class="pl-list">')
+        for it in p["items"]:
+            v = it["video"]
+            o.append(f'<li><span class="mark {v["level"]}" aria-label="{v["level"]}"></span><a href="{esc(v["url"])}" target="_blank" rel="noopener">{esc(v["title"])}</a>'
+                     f' <span class="by">· {esc(v["channel"])} · {esc(it["topic"])}</span></li>')
+        o.append('</ol></details>')
+    if extra:
+        o.append('<p class="pl-note">Not in a playlist (these are YouTube playlists themselves): ' + "; ".join(
+            f'<a href="{esc(e["video"]["url"])}" target="_blank" rel="noopener">{esc(e["video"]["title"])}</a>' for e in extra) + '.</p>')
+    o.append('</section>')
+    return "".join(o)
+
+
 def page(db, artifact=False):
     total, searched, nvid = stats(db)
     groups = grouped(db)
@@ -235,6 +382,7 @@ def page(db, artifact=False):
              "".join(f'<option value="{g["id"]}">{esc(g["title"])}</option>' for g in groups) + '</select>')
     o.append('<div class="chips" role="group" aria-label="Levels">' + "".join(f'<button type="button" class="chip" data-level="{k}" aria-pressed="true">{n}</button>' for k, n, _ in LEVELS) + '</div>')
     o.append('<label class="chk"><input type="checkbox" id="vall"> Show concepts not searched yet</label></div>')
+    o.append(playlists_html(db))
     for g in groups:
         gc = [c for t in g["topics"] for c in t["concepts"]]
         gs = [c for c in gc if c["data"] and not c["data"].get("error")]
@@ -290,6 +438,7 @@ def readme(db):
          "A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). "
          "Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).", "",
          f"**{searched} of {total} concepts searched, {nvid} videos listed** (updated {db.get('updated') or 'not yet'}). "
+         "To watch in order, use the [playlists](playlists.md): the whole list in book order, at most 50 videos each. "
          "The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); "
          "the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).", ""]
     for g in grouped(db):
@@ -323,8 +472,16 @@ def build(artifact_out=None):
     out.mkdir(parents=True, exist_ok=True)
     (out / "index.html").write_text(page(db))
     (out / "README.md").write_text(readme(db))
+    (out / "playlists.md").write_text(playlists_md(db))
     if artifact_out:
         Path(artifact_out).write_text(page(db, artifact=True))
+
+
+def print_playlists():
+    pls, extra = playlists(load())
+    for p in pls:
+        print(f"{p['num']:2d}. {p['title']} | {p['span']} | {len(p['items'])} videos")
+    print(f"{len(pls)} playlists, {sum(len(p['items']) for p in pls)} videos, {len(extra)} entries that are playlists themselves")
 
 
 def status():
@@ -365,6 +522,8 @@ if __name__ == "__main__":
         pace(sys.argv[2])
     elif cmd == "record":
         record(sys.argv[2])
+    elif cmd == "playlists":
+        print_playlists()
     elif cmd == "build":
         build(sys.argv[3] if len(sys.argv) > 3 and sys.argv[2] == "--artifact" else None)
     else:

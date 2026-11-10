@@ -315,6 +315,16 @@ def playlists(db):
     return out, extra
 
 
+def write_youtube_script(db, folder):
+    """The script that creates the playlists in the reader's own YouTube account, with the playlists built in."""
+    pls, _ = playlists(db)
+    data = [[p["num"], p["title"], p["span"], [it["id"] for it in p["items"]]] for p in pls]
+    lines = ",\n    ".join(json.dumps(x, ensure_ascii=False) for x in data)
+    text = (HERE / "youtube_playlists_template.py").read_text().replace("__DATA__", "[\n    " + lines + ",\n]")
+    folder.mkdir(parents=True, exist_ok=True)
+    (folder / "make_youtube_playlists.py").write_text(text)
+
+
 def playlists_md(db):
     pls, extra = playlists(db)
     nv = sum(len(p["items"]) for p in pls)
@@ -438,7 +448,7 @@ def readme(db):
          "A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). "
          "Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).", "",
          f"**{searched} of {total} concepts searched, {nvid} videos listed** (updated {db.get('updated') or 'not yet'}). "
-         "To watch in order, use the [playlists](playlists.md): the whole list in book order, at most 50 videos each. "
+         "To watch in order, use the [playlists](playlists.md): the whole list in book order, at most 50 videos each; [`youtube/`](youtube/README.md) has a script that creates them in your own YouTube account. "
          "The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); "
          "the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).", ""]
     for g in grouped(db):
@@ -473,6 +483,7 @@ def build(artifact_out=None):
     (out / "index.html").write_text(page(db))
     (out / "README.md").write_text(readme(db))
     (out / "playlists.md").write_text(playlists_md(db))
+    write_youtube_script(db, out / "youtube")
     if artifact_out:
         Path(artifact_out).write_text(page(db, artifact=True))
 

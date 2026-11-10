@@ -1,6 +1,6 @@
 {
- "updated": "2026-11-03",
- "rounds": 413,
+ "updated": "2026-11-10",
+ "rounds": 427,
  "concepts": {
   "ch1-c1": {
    "searched": "2026-10-27",
@@ -11375,14 +11375,22 @@
    "tries": 1
   },
   "e9-02-c3": {
-   "searched": "2026-11-03",
+   "searched": "2026-11-10",
    "query": "dropout regularization neural networks explained",
    "host": "youtube.com",
    "candidates": 10,
-   "rejected": "Hinton's lecture 6.4 on dropout was the best candidate",
-   "videos": [],
-   "tries": 1,
-   "error": "oEmbed checks returned a different video (stale answer); retry later"
+   "rejected": "short clips, framework-specific coding tutorials and unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=hbTONDwwPUk",
+     "title": "Dropout - a Method to Regularize the Training of Deep Neural Networks [Lecture 6.4]",
+     "channel": "AMILE - Machine Learning with Christian Nabert",
+     "channel_url": "https://www.youtube.com/@amile-machinelearningwithc4547",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-10"
+    }
+   ],
+   "tries": 2
   },
   "e9-03-c1": {
    "searched": "2026-11-03",
@@ -11748,6 +11756,256 @@
      "channel_url": "https://www.youtube.com/@IPAMUCLA",
      "level": "scholar",
      "checked": "YouTube oEmbed, 2026-11-03"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-03-c3": {
+   "searched": "2026-11-10",
+   "query": "skip-gram negative sampling word2vec explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "numbered podcast episodes, TensorFlow-specific tutorials and unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=BWaHLmG1lak",
+     "title": "Rasa Algorithm Whiteboard - Understanding Word Embeddings 2: CBOW and Skip Gram",
+     "channel": "Rasa",
+     "channel_url": "https://www.youtube.com/@RasaHQ",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-10"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=I5MGaBBy6n0",
+     "title": "Lecture 38: word2vec -- Negative sampling",
+     "channel": "Kshitiz Verma",
+     "channel_url": "https://www.youtube.com/@KshitizVermaDL",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-10"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-04-c2": {
+   "searched": "2026-11-10",
+   "query": "Raft leader election explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Shorts, C++ code walkthroughs and Kubernetes-specific clips",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=EgKmNEM40R0",
+     "title": "Raft Consensus Algorithm Explained | Leader Election & Log Replication Made Simple",
+     "channel": "SystemDR - Scalable System Design",
+     "channel_url": "https://www.youtube.com/@SystemDR",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-10"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-05-c2": {
+   "searched": "2026-11-10",
+   "query": "RMSProp optimizer explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "Shorts, from-scratch coding videos and unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=p0wSmKslWi0",
+     "title": "RMSProp Explained in Detail with Animations | Optimizers in Deep Learning Part 5",
+     "channel": "CampusX",
+     "channel_url": "https://www.youtube.com/@campusx-official",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-10"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-06-c3": {
+   "searched": "2026-11-10",
+   "query": "subword units rare words neural machine translation",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Japanese-language paper review, a reading of the paper whose spoken language could not be confirmed, and general tokenizer overviews",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=mqknozQ-WAE",
+     "title": "[LLM 101 Series] Neural Machine Translation of Rare Words with Subword Units",
+     "channel": "Trend in Research",
+     "channel_url": "https://www.youtube.com/@trendinresearch",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-10"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-07-c1": {
+   "searched": "2026-11-10",
+   "query": "vanishing gradient problem explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "RNN-specific explainers and unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=qowp6SQ9_Oo",
+     "title": "Vanishing and exploding gradients | Deep Learning Tutorial 35 (Tensorflow, Keras & Python)",
+     "channel": "codebasics",
+     "channel_url": "https://www.youtube.com/@codebasics",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-10"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-08-c2": {
+   "searched": "2026-11-10",
+   "query": "UCT upper confidence bounds applied to trees",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "a Q&A clip, conference talks on variants, and bandit lectures that never reach trees",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=BEFY7IHs0HM",
+     "title": "Monte Carlo Tree Search - Computerphile",
+     "channel": "Computerphile",
+     "channel_url": "https://www.youtube.com/@Computerphile",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-10"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-09-c2": {
+   "searched": "2026-11-10",
+   "query": "self-attention queries keys values explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "numbered course lectures from unidentified channels and code-only tutorials",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=tIvKXrEDMhk",
+     "title": "Rasa Algorithm Whiteboard - Transformers & Attention 2: Keys, Values, Queries",
+     "channel": "Rasa",
+     "channel_url": "https://www.youtube.com/@RasaHQ",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-10"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-10-c1": {
+   "searched": "2026-11-10",
+   "query": "post-quantum cryptography explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "an advertisement for the same course, vendor clips and unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Ckr30ftMGU8",
+     "title": "Quantum-Safe Cryptography [Post-Quantum Cryptography Explained]",
+     "channel": "Cryptography 101",
+     "channel_url": "https://www.youtube.com/@cryptography101-alfred",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-10"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-10-c3": {
+   "searched": "2026-11-10",
+   "query": "Kyber ML-KEM explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "vendor product introductions, FPGA and microcontroller demos, and a Czech-language talk",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=G-A1d6P_1yo",
+     "title": "Kyber (ML-KEM) [Post-Quantum Cryptography Explained]",
+     "channel": "Cryptography 101",
+     "channel_url": "https://www.youtube.com/@cryptography101-alfred",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-10"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-11-c3": {
+   "searched": "2026-11-10",
+   "query": "score matching diffusion models explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "flow-matching comparisons, a Russian-language explainer and unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=zzKTpMPZ1wY",
+     "title": "UofT GenAI Course -- Lecture 44: Learning to Diffuse by Score Matching",
+     "channel": "Ali Bereyhi",
+     "channel_url": "https://www.youtube.com/@AliBereyhi90",
+     "level": "deeper",
+     "checked": "YouTube oEmbed, 2026-11-10"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-12-c1": {
+   "searched": "2026-11-10",
+   "query": "GPU memory hierarchy HBM SRAM explained",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "news-style 'memory crisis' videos, a product clip on HBM4 and unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=Xe22fsiGQXA",
+     "title": "SRAM vs DRAM vs HBM vs GDDR: What's the Difference? | All Major Types of AI Memory Explained",
+     "channel": "Learn with Whiteboard",
+     "channel_url": "https://www.youtube.com/@learnwithwhiteboard",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-10"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-13-c1": {
+   "searched": "2026-11-10",
+   "query": "matrix multiplication algorithms faster than n cubed",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "school-level 'fastest way to multiply matrices' videos and unrelated Karatsuba streams",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=fDAPJ7rvcUw",
+     "title": "How AI Discovered a Faster Matrix Multiplication Algorithm",
+     "channel": "Quanta Magazine",
+     "channel_url": "https://www.youtube.com/@QuantaScienceChannel",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-10"
+    },
+    {
+     "url": "https://www.youtube.com/watch?v=DruwS2_cVys",
+     "title": "Josh Alman. Algorithms and Barriers for Fast Matrix Multiplication",
+     "channel": "Georgetown Computer Science Colloquium",
+     "channel_url": "https://www.youtube.com/@georgetowncomputersciencec718",
+     "level": "scholar",
+     "checked": "YouTube oEmbed, 2026-11-10"
+    }
+   ],
+   "tries": 1
+  },
+  "e9-13-c2": {
+   "searched": "2026-11-10",
+   "query": "Strassen algorithm matrix multiplication",
+   "host": "youtube.com",
+   "candidates": 10,
+   "rejected": "exam-style course videos from unidentified channels",
+   "videos": [
+    {
+     "url": "https://www.youtube.com/watch?v=2IgZuVGwEb0",
+     "title": "Strassen Algorithm Visually Explained",
+     "channel": "ByteQuest",
+     "channel_url": "https://www.youtube.com/@Byte_Quest",
+     "level": "start",
+     "checked": "YouTube oEmbed, 2026-11-10"
     }
    ],
    "tries": 1

@@ -2,7 +2,7 @@
 
 A watch list for the book: for every topic, its concepts from the simplest to the most advanced, each with videos that explain it. A video is listed only after its title and channel were confirmed (YouTube's oEmbed lookup, or the page itself on other sites). Levels: **Start** (no background needed), **Deeper** (university level), **Scholar** (research talks and the inventors themselves).
 
-**405 of 419 concepts searched, 962 videos listed** (updated 2026-11-03). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
+**419 of 419 concepts searched, 978 videos listed** (updated 2026-11-10). The [interactive edition](index.html) can be searched and filtered by level. The data is in [`videos.json`](videos.json); the procedure is in [`code/tools/videos/README.md`](../../code/tools/videos/README.md).
 
 ## Chapter 1: Two numbers, one answer
 
@@ -1337,7 +1337,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | convolutional neural network | [Neural Networks Part 8: Image Classification with Convolutional Neural Networks (CNNs)](https://www.youtube.com/watch?v=HGwBXDKFk9I) | StatQuest with Josh Starmer | Start |
 | AlexNet ImageNet 2012 | [[Classic] ImageNet Classification with Deep Convolutional Neural Networks (Paper Explained)](https://www.youtube.com/watch?v=Nq3auVtvd9Q) | Yannic Kilcher | Deeper |
-| ReLU and dropout in neural networks | *not searched yet* | | |
+| ReLU and dropout in neural networks | [Dropout - a Method to Regularize the Training of Deep Neural Networks [Lecture 6.4]](https://www.youtube.com/watch?v=hbTONDwwPUk) | AMILE - Machine Learning with Christian Nabert | Deeper |
 
 ### Word Embeddings ([in the book](../era-09-learning-at-scale/03-word-embeddings/README.md))
 
@@ -1345,14 +1345,15 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | word embeddings | [Word Embedding and Word2Vec, Clearly Explained!!!](https://www.youtube.com/watch?v=viZrOnJclY0) | StatQuest with Josh Starmer | Start |
 | word2vec | [Stanford CS224N: NLP with Deep Learning \| Winter 2021 \| Lecture 1 - Intro & Word Vectors](https://www.youtube.com/watch?v=rmVRLeJRkl4) | Stanford Online | Deeper |
-| skip-gram negative sampling | *not searched yet* | | |
+| skip-gram negative sampling | [Rasa Algorithm Whiteboard - Understanding Word Embeddings 2: CBOW and Skip Gram](https://www.youtube.com/watch?v=BWaHLmG1lak) | Rasa | Start |
+|  | [Lecture 38: word2vec -- Negative sampling](https://www.youtube.com/watch?v=I5MGaBBy6n0) | Kshitiz Verma | Deeper |
 
 ### Raft ([in the book](../era-09-learning-at-scale/04-raft/README.md))
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
 | Raft consensus algorithm | [Distributed Systems 6.2: Raft](https://www.youtube.com/watch?v=uXEYuDwm7e4) | Martin Kleppmann | Deeper |
-| Raft leader election | *not searched yet* | | |
+| Raft leader election | [Raft Consensus Algorithm Explained \| Leader Election & Log Replication Made Simple](https://www.youtube.com/watch?v=EgKmNEM40R0) | SystemDR - Scalable System Design | Start |
 | Raft log replication and safety | [Raft lecture (Raft user study)](https://www.youtube.com/watch?v=YbZ3zDzDnrw) | Diego Ongaro | Scholar |
 
 ### Adam ([in the book](../era-09-learning-at-scale/05-adam/README.md))
@@ -1360,7 +1361,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Idea | Video | Channel | Level |
 |---|---|---|---|
 | gradient descent with momentum | [Optimization for Deep Learning (Momentum, RMSprop, AdaGrad, Adam)](https://www.youtube.com/watch?v=NE88eqLngkg) | DeepBean | Start |
-| RMSProp | *not searched yet* | | |
+| RMSProp | [RMSProp Explained in Detail with Animations \| Optimizers in Deep Learning Part 5](https://www.youtube.com/watch?v=p0wSmKslWi0) | CampusX | Start |
 | Adam optimizer | [Adam Optimization Algorithm (C2W2L08)](https://www.youtube.com/watch?v=JXQT_vxqwIs) | DeepLearningAI | Deeper |
 
 ### Byte-Pair Encoding for Words ([in the book](../era-09-learning-at-scale/06-byte-pair-encoding/README.md))
@@ -1369,13 +1370,13 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | tokenization in language models | [Let's build the GPT Tokenizer](https://www.youtube.com/watch?v=zduSFxRajkE) | Andrej Karpathy | Deeper |
 | byte pair encoding | [Byte Pair Encoding Tokenization](https://www.youtube.com/watch?v=HEikzVL-lZU) | Hugging Face | Start |
-| subword units rare words | *not searched yet* | | |
+| subword units rare words | [[LLM 101 Series] Neural Machine Translation of Rare Words with Subword Units](https://www.youtube.com/watch?v=mqknozQ-WAE) | Trend in Research | Deeper |
 
 ### Residual Networks ([in the book](../era-09-learning-at-scale/07-residual-networks/README.md))
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| vanishing gradients in deep networks | *not searched yet* | | |
+| vanishing gradients in deep networks | [Vanishing and exploding gradients \| Deep Learning Tutorial 35 (Tensorflow, Keras & Python)](https://www.youtube.com/watch?v=qowp6SQ9_Oo) | codebasics | Start |
 | ResNet residual connections | [[Classic] Deep Residual Learning for Image Recognition (Paper Explained)](https://www.youtube.com/watch?v=GWt6Fu05voI) | Yannic Kilcher | Deeper |
 | deep residual learning paper | [Deep Residual Learning for Image Recognition](https://www.youtube.com/watch?v=C6tLw-rPQ2o) | ComputerVisionFoundation Videos | Scholar |
 
@@ -1384,7 +1385,7 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Idea | Video | Channel | Level |
 |---|---|---|---|
 | Monte Carlo tree search | [Monte Carlo Tree Search](https://www.youtube.com/watch?v=UXW2yZndl7U) | John Levine | Start |
-| UCT upper confidence bounds applied to trees | *not searched yet* | | |
+| UCT upper confidence bounds applied to trees | [Monte Carlo Tree Search - Computerphile](https://www.youtube.com/watch?v=BEFY7IHs0HM) | Computerphile | Start |
 | AlphaGo | [AlphaGo - The Movie \| Full award-winning documentary](https://www.youtube.com/watch?v=WXuK6gekU1Y) | Google DeepMind | Start |
 
 ### The Transformer ([in the book](../era-09-learning-at-scale/09-transformer/README.md))
@@ -1392,17 +1393,17 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 | Idea | Video | Channel | Level |
 |---|---|---|---|
 | attention mechanism | [Attention in transformers, step-by-step \| Deep Learning Chapter 6](https://www.youtube.com/watch?v=eMlx5fFNoYc) | 3Blue1Brown | Start |
-| self-attention queries keys values | *not searched yet* | | |
+| self-attention queries keys values | [Rasa Algorithm Whiteboard - Transformers & Attention 2: Keys, Values, Queries](https://www.youtube.com/watch?v=tIvKXrEDMhk) | Rasa | Start |
 | transformer architecture | [Let's build GPT: from scratch, in code, spelled out.](https://www.youtube.com/watch?v=kCc8FmEb1nY) | Andrej Karpathy | Deeper |
 
 ### Lattice Cryptography and ML-KEM ([in the book](../era-09-learning-at-scale/10-lattice-cryptography/README.md))
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| post-quantum cryptography | *not searched yet* | | |
+| post-quantum cryptography | [Quantum-Safe Cryptography [Post-Quantum Cryptography Explained]](https://www.youtube.com/watch?v=Ckr30ftMGU8) | Cryptography 101 | Start |
 | learning with errors | [Learning with errors: Encrypting with unsolvable equations](https://www.youtube.com/watch?v=K026C5YaB3A) | Chalk Talk | Start |
 |  | [Learning With Errors (LWE) and Public Key Encryption \|\| @ CMU \|\| Lecture 25d of CS Theory Toolkit](https://www.youtube.com/watch?v=QcVns57MTxg) | Ryan O'Donnell | Deeper |
-| Kyber ML-KEM | *not searched yet* | | |
+| Kyber ML-KEM | [Kyber (ML-KEM) [Post-Quantum Cryptography Explained]](https://www.youtube.com/watch?v=G-A1d6P_1yo) | Cryptography 101 | Deeper |
 
 ### Diffusion Models ([in the book](../era-09-learning-at-scale/11-diffusion-models/README.md))
 
@@ -1410,13 +1411,13 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 |---|---|---|---|
 | diffusion models | [But how do AI images and videos actually work? \| Guest video by Welch Labs](https://www.youtube.com/watch?v=iv-5mZ_9CPY) | 3Blue1Brown | Start |
 | denoising diffusion probabilistic models | [Diffusion Models \| Paper Explanation \| Math Explained](https://www.youtube.com/watch?v=HoKDTa5jHvg) | Outlier | Deeper |
-| score matching diffusion | *not searched yet* | | |
+| score matching diffusion | [UofT GenAI Course -- Lecture 44: Learning to Diffuse by Score Matching](https://www.youtube.com/watch?v=zzKTpMPZ1wY) | Ali Bereyhi | Deeper |
 
 ### FlashAttention ([in the book](../era-09-learning-at-scale/12-flashattention/README.md))
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| GPU memory hierarchy | *not searched yet* | | |
+| GPU memory hierarchy | [SRAM vs DRAM vs HBM vs GDDR: What's the Difference? \| All Major Types of AI Memory Explained](https://www.youtube.com/watch?v=Xe22fsiGQXA) | Learn with Whiteboard | Start |
 | online softmax | [Flash Attention derived and coded from first principles with Triton (Python)](https://www.youtube.com/watch?v=zy8ChVd_oTM) | Umar Jamil | Deeper |
 | FlashAttention | [FlashAttention - Tri Dao \| Stanford MLSys #67](https://www.youtube.com/watch?v=gMOAud7hZg4) | Stanford MLSys Seminars | Scholar |
 
@@ -1424,8 +1425,9 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| matrix multiplication algorithms | *not searched yet* | | |
-| Strassen algorithm | *not searched yet* | | |
+| matrix multiplication algorithms | [How AI Discovered a Faster Matrix Multiplication Algorithm](https://www.youtube.com/watch?v=fDAPJ7rvcUw) | Quanta Magazine | Start |
+|  | [Josh Alman. Algorithms and Barriers for Fast Matrix Multiplication](https://www.youtube.com/watch?v=DruwS2_cVys) | Georgetown Computer Science Colloquium | Scholar |
+| Strassen algorithm | [Strassen Algorithm Visually Explained](https://www.youtube.com/watch?v=2IgZuVGwEb0) | ByteQuest | Start |
 | AlphaTensor | [Matej Balog - AlphaTensor: Discover faster matrix multiplication algorithms with RL - IPAM at UCLA](https://www.youtube.com/watch?v=QJT3LszR2pA) | Institute for Pure & Applied Mathematics (IPAM) | Scholar |
 
 ## The principles catalog

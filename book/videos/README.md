@@ -1432,55 +1432,55 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 
 ## The principles catalog
 
-### Euclidean algorithm
+### Euclidean algorithm (GCD)
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| euclidean algorithm | [The Euclidean Algorithm (Finding the GCD/GCF)](https://www.youtube.com/watch?v=SR-jmdjzw-Y) | Houston Math Prep | Start |
+| Euclidean algorithm (GCD) | [The Euclidean Algorithm (Finding the GCD/GCF)](https://www.youtube.com/watch?v=SR-jmdjzw-Y) | Houston Math Prep | Start |
 |  | [GCD - Euclidean Algorithm (Method 1)](https://www.youtube.com/watch?v=yHwneN6zJmU) | Neso Academy | Start |
 |  | [Euclidean Algorithm (Proof)](https://www.youtube.com/watch?v=H_2_nqKAZ5w) | Math Matters | Deeper |
 
-### Extended euclidean algorithm
+### Extended Euclidean algorithm
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| extended euclidean algorithm | [GCD, Bezout, and Modular Inverses \| The Extended Euclidean Algorithm](https://www.youtube.com/watch?v=YZfPcvbwwvI) | William Y. Feng | Start |
+| Extended Euclidean algorithm | [GCD, Bezout, and Modular Inverses \| The Extended Euclidean Algorithm](https://www.youtube.com/watch?v=YZfPcvbwwvI) | William Y. Feng | Start |
 |  | [Extended Euclidean Algorithm: GCD is a Linear Combination](https://www.youtube.com/watch?v=kfOGNl2gdr0) | Bill Kinney | Deeper |
 
-### Euclidean distance
+### Euclidean distance (L2)
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| euclidean distance | [Deriving the Distance Formula from the Pythagorean Theorem](https://www.youtube.com/watch?v=MeWonv4ef2k) | Wrath of Math | Start |
+| Euclidean distance (L2) | [Deriving the Distance Formula from the Pythagorean Theorem](https://www.youtube.com/watch?v=MeWonv4ef2k) | Wrath of Math | Start |
 |  | [Distance between 2 points in 3D \| Introduction to 3D \| Grade 11 \| Math \| Khan Academy](https://www.youtube.com/watch?v=p4y34xphISA) | Khan Academy India - English | Start |
 |  | [Euclidean Distance: Math, Applications and Code #SoME3](https://www.youtube.com/watch?v=3rPwfmrCwVw) | Radu Mariescu-Istodor | Deeper |
 
-### Manhattan chebyshev minkowski
+### Manhattan (L1), Chebyshev (L∞) and Minkowski (Lp)
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| manhattan chebyshev minkowski | [Every Distance in Data Science (Almost 100K Subs!)](https://www.youtube.com/watch?v=eutzTEGgLpE) | ritvikmath | Start |
+| Manhattan (L1), Chebyshev (L∞) and Minkowski (Lp) | [Every Distance in Data Science (Almost 100K Subs!)](https://www.youtube.com/watch?v=eutzTEGgLpE) | ritvikmath | Start |
 |  | [Find Distance using Euclidean Manhattan Chebyshev Distance formula Solved Example by Mahesh Huddar](https://www.youtube.com/watch?v=oPMaAApBAXU) | Mahesh Huddar | Start |
 
 ### Hamming distance
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| hamming distance | [Error correction codes (Hamming coding)](https://www.youtube.com/watch?v=cBBTWcHkVVY) | Art of the Problem | Start |
+| Hamming distance | [Error correction codes (Hamming coding)](https://www.youtube.com/watch?v=cBBTWcHkVVY) | Art of the Problem | Start |
 |  | [But what are Hamming codes? The origin of error correction](https://www.youtube.com/watch?v=X8jsijhllIA) | 3Blue1Brown | Start |
 
 ### Levenshtein edit distance
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| levenshtein edit distance | [Minimum Edit Distance Dynamic Programming](https://www.youtube.com/watch?v=We3YDTzNXEk) | Tushar Roy - Coding Made Simple | Start |
+| Levenshtein edit distance | [Minimum Edit Distance Dynamic Programming](https://www.youtube.com/watch?v=We3YDTzNXEk) | Tushar Roy - Coding Made Simple | Start |
 |  | [ADS1: Using dynamic programming for edit distance](https://www.youtube.com/watch?v=eAVGRWSryGo) | Ben Langmead | Deeper |
 
-### Cosine similarity and jaccard
+### Cosine similarity and Jaccard index
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| cosine similarity and jaccard | [Cosine Similarity, Clearly Explained!!!](https://www.youtube.com/watch?v=e9U0QAFbfLI) | StatQuest with Josh Starmer | Start |
+| Cosine similarity and Jaccard index | [Cosine Similarity, Clearly Explained!!!](https://www.youtube.com/watch?v=e9U0QAFbfLI) | StatQuest with Josh Starmer | Start |
 |  | [Jaccard Similarity explained with examples \| Science in Data](https://www.youtube.com/watch?v=96v3YO_fYI0) | Science in Data | Start |
 |  | [Similarity & MinHash](https://www.youtube.com/watch?v=aTwRpqUnQX8) | Ben Langmead | Deeper |
 
@@ -1488,61 +1488,61 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| mahalanobis distance | [What are Mahalanobis Distances](https://www.youtube.com/watch?v=-F1f5mefSi0) | Aric LaBarr | Start |
+| Mahalanobis distance | [What are Mahalanobis Distances](https://www.youtube.com/watch?v=-F1f5mefSi0) | Aric LaBarr | Start |
 |  | [Mahalanobis Distance - intuitive understanding through graphs and tables](https://www.youtube.com/watch?v=3IdvoI8O9hU) | Gopal Prasad Malakar | Start |
 |  | [23: Mahalanobis distance](https://www.youtube.com/watch?v=spNpfmWZBmg) | Matthew E. Clapham | Deeper |
 
-### Haversine distance
+### Haversine (great-circle) distance
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| haversine distance | [How to Calculate Distance between Geodetic Coordinates using Haversine Formula \| d = R × c](https://www.youtube.com/watch?v=lSIVK82o2sI) | Surveying Solutions | Start |
+| Haversine (great-circle) distance | [How to Calculate Distance between Geodetic Coordinates using Haversine Formula \| d = R × c](https://www.youtube.com/watch?v=lSIVK82o2sI) | Surveying Solutions | Start |
 |  | [Great Circle Distances, Longitude and Latitude](https://www.youtube.com/watch?v=qi9KIKDpHKY) | BurkeyAcademy | Deeper |
 
-### Metric axioms
+### The four metric axioms
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| metric axioms | [What is a metric space? An example](https://www.youtube.com/watch?v=6CLl5xx5X-Y) | Dr Chris Tisdell | Start |
+| The four metric axioms | [What is a metric space? An example](https://www.youtube.com/watch?v=6CLl5xx5X-Y) | Dr Chris Tisdell | Start |
 |  | [Introduction to Metric Spaces](https://www.youtube.com/watch?v=4lthpDkhMoU) | The Math Sorcerer | Start |
 |  | [Metric Spaces Introduction, Real Analysis II](https://www.youtube.com/watch?v=oz-LycQIL8g) | Dr. Bevin Maultsby | Deeper |
 
-### Square and multiply and rsa
+### Square-and-multiply, Fermat's little theorem and RSA
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| square and multiply and rsa | [Public Key Cryptography: RSA Encryption](https://www.youtube.com/watch?v=wXB-V_Keiu8) | Art of the Problem | Start |
+| Square-and-multiply, Fermat's little theorem and RSA | [Public Key Cryptography: RSA Encryption](https://www.youtube.com/watch?v=wXB-V_Keiu8) | Art of the Problem | Start |
 |  | [Modular exponentiation](https://www.youtube.com/watch?v=EHUgNLN8F1Y) | GVSUmath | Deeper |
 
-### Sieve of eratosthenes
+### Sieve of Eratosthenes
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| sieve of eratosthenes | [Sieve of Eratosthenes \| Journey into cryptography \| Computer Science \| Khan Academy](https://www.youtube.com/watch?v=klcIklsWzrY) | Khan Academy Labs | Start |
+| Sieve of Eratosthenes | [Sieve of Eratosthenes \| Journey into cryptography \| Computer Science \| Khan Academy](https://www.youtube.com/watch?v=klcIklsWzrY) | Khan Academy Labs | Start |
 |  | [Sieve of Eratosthenes (finding prime numbers)](https://www.youtube.com/watch?v=P__PsS2J_y8) | Math Mammoth | Start |
 |  | [Prime Number Sieves](https://www.youtube.com/watch?v=Xxu95iiVcPI) | Gaurav Sen | Deeper |
 
-### Birthday bound
+### The birthday bound (collisions in hashes and IDs)
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| birthday bound | [23 and Football Birthdays - Numberphile](https://www.youtube.com/watch?v=a2ey9a70yY0) | Numberphile | Start |
+| The birthday bound (collisions in hashes and IDs) | [23 and Football Birthdays - Numberphile](https://www.youtube.com/watch?v=a2ey9a70yY0) | Numberphile | Start |
 |  | [CS 124: Hashing Collisions and the Birthday Paradox](https://www.youtube.com/watch?v=gmur3e33A6A) | CS 124 | Start |
 |  | [Collision Resistance and Birthday Paradox (CSS322, L20, Y14)](https://www.youtube.com/watch?v=_JBkw60KPqw) | Steven Gordon | Deeper |
 
-### Bit tricks and gray code
+### Bit tricks and Gray code
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| bit tricks and gray code | [Algorithms: Bit Manipulation](https://www.youtube.com/watch?v=NLKQEOgBAnw) | HackerRank | Start |
+| Bit tricks and Gray code | [Algorithms: Bit Manipulation](https://www.youtube.com/watch?v=NLKQEOgBAnw) | HackerRank | Start |
 |  | [Discrete Math: 05. Binary Reflected Gray Codes](https://www.youtube.com/watch?v=a2OqhXHKSkI) | Sarada Herke | Deeper |
 |  | [13.SFI / Thomas H. Cormen / Dense and Cyclic Gray Codes for Binary, Fixed, and Mixed Radices](https://www.youtube.com/watch?v=ymkIDOMS5kE) | Studencki Festiwal Informatyczny | Scholar |
 
-### Horner and rolling hash
+### Horner's method and rolling hashes
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| horner and rolling hash | [Nested Scheme - Horner’s Method - Evaluating Polynomials](https://www.youtube.com/watch?v=Z393AcN_Gz0) | Radford Mathematics | Start |
+| Horner's method and rolling hashes | [Nested Scheme - Horner’s Method - Evaluating Polynomials](https://www.youtube.com/watch?v=Z393AcN_Gz0) | Radford Mathematics | Start |
 |  | [Rolling Hash Function Tutorial, used by Rabin-Karp String Searching Algorithm](https://www.youtube.com/watch?v=BfUejqd07yo) | Stable Sort | Start |
 |  | [Lecture 9: Table Doubling, Karp-Rabin](https://www.youtube.com/watch?v=BRO7mVIFt08) | MIT OpenCourseWare | Deeper |
 
@@ -1550,70 +1550,70 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| shannon entropy | [Shannon's Information Entropy (Physical Analogy)](https://www.youtube.com/watch?v=R4OlXb9aTvQ) | Art of the Problem | Start |
+| Shannon entropy | [Shannon's Information Entropy (Physical Analogy)](https://www.youtube.com/watch?v=R4OlXb9aTvQ) | Art of the Problem | Start |
 |  | [(Info 1.1) Entropy - Definition](https://www.youtube.com/watch?v=LodZWzrbayY) | mathematicalmonk | Deeper |
 
 ### Luhn checksum
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| luhn checksum | [Math for Liberal Studies: The Luhn Algorithm](https://www.youtube.com/watch?v=PNXXqzU4YnM) | James Hamblin | Start |
+| Luhn checksum | [Math for Liberal Studies: The Luhn Algorithm](https://www.youtube.com/watch?v=PNXXqzU4YnM) | James Hamblin | Start |
 |  | [Checksums: The Luhn Algorithm for Verifying Credit Card Numbers](https://www.youtube.com/watch?v=kMpEj7roKxM) | Barry Brown | Start |
 
-### Kahan and neumaier summation
+### Summing floating-point numbers: Kahan and Neumaier
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| kahan and neumaier summation | *no suitable video found* | | |
+| Summing floating-point numbers: Kahan and Neumaier | *no suitable video found* | | |
 
-### Comparing floats and money
+### Comparing floating-point numbers, and money
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| comparing floats and money | [Floating Point Numbers - Computerphile](https://www.youtube.com/watch?v=PZRI1IfStY0) | Computerphile | Start |
+| Comparing floating-point numbers, and money | [Floating Point Numbers - Computerphile](https://www.youtube.com/watch?v=PZRI1IfStY0) | Computerphile | Start |
 |  | [how floating point works](https://www.youtube.com/watch?v=dQhj5RGtag0) | jan Misali | Start |
 
-### Integer hazards and pigeonhole
+### Integer hazards and the pigeonhole principle
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| integer hazards and pigeonhole | [PIGEONHOLE PRINCIPLE - DISCRETE MATHEMATICS](https://www.youtube.com/watch?v=2-mxYrCNX60) | TrevTutor | Start |
+| Integer hazards and the pigeonhole principle | [PIGEONHOLE PRINCIPLE - DISCRETE MATHEMATICS](https://www.youtube.com/watch?v=2-mxYrCNX60) | TrevTutor | Start |
 
-### Divide and conquer
+### Divide and conquer, and the master theorem
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| divide and conquer | [Divide and Conquer: The Art of Breaking Down Problems \| Recursion Series](https://www.youtube.com/watch?v=ib4BHvr5-Ao) | WilliamFiset | Start |
+| Divide and conquer, and the master theorem | [Divide and Conquer: The Art of Breaking Down Problems \| Recursion Series](https://www.youtube.com/watch?v=ib4BHvr5-Ao) | WilliamFiset | Start |
 |  | [2 Divide And Conquer](https://www.youtube.com/watch?v=2Rr2tW9zvRg) | Abdul Bari | Start |
 |  | [2. Divide & Conquer: Convex Hull, Median Finding](https://www.youtube.com/watch?v=EzeYI7p9MjU) | MIT OpenCourseWare | Deeper |
 
-### Binary search
+### Binary search, and binary search on the answer
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| binary search | [Binary Search Algorithm in 100 Seconds](https://www.youtube.com/watch?v=MFhxShGxHWc) | Fireship | Start |
+| Binary search, and binary search on the answer | [Binary Search Algorithm in 100 Seconds](https://www.youtube.com/watch?v=MFhxShGxHWc) | Fireship | Start |
 |  | [Binary Search Algorithm - Computerphile](https://www.youtube.com/watch?v=hDn8iOc30Tk) | Computerphile | Start |
 
 ### Dynamic programming
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| dynamic programming | [Algorithms: Memoization and Dynamic Programming](https://www.youtube.com/watch?v=P8Xa2BitN3I) | HackerRank | Start |
+| Dynamic programming | [Algorithms: Memoization and Dynamic Programming](https://www.youtube.com/watch?v=P8Xa2BitN3I) | HackerRank | Start |
 |  | [5 Simple Steps for Solving Dynamic Programming Problems](https://www.youtube.com/watch?v=aPQY__2H3tE) | Reducible | Start |
 |  | [Lecture 19: Dynamic Programming I: Fibonacci, Shortest Paths](https://www.youtube.com/watch?v=OQ5jsbhAv_M) | MIT OpenCourseWare | Deeper |
 
-### Greedy algorithms
+### Greedy algorithms and the exchange argument
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| greedy algorithms | [3. Greedy Method - Introduction](https://www.youtube.com/watch?v=ARvQcqJ_-NY) | Abdul Bari | Start |
+| Greedy algorithms and the exchange argument | [3. Greedy Method - Introduction](https://www.youtube.com/watch?v=ARvQcqJ_-NY) | Abdul Bari | Start |
 |  | [12. Greedy Algorithms: Minimum Spanning Tree](https://www.youtube.com/watch?v=tKwnms5iRBU) | MIT OpenCourseWare | Deeper |
 
-### Backtracking
+### Backtracking and pruning
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| backtracking | [Python Sudoku Solver - Computerphile](https://www.youtube.com/watch?v=G_UYXzGuqvM) | Computerphile | Start |
+| Backtracking and pruning | [Python Sudoku Solver - Computerphile](https://www.youtube.com/watch?v=G_UYXzGuqvM) | Computerphile | Start |
 |  | [6 Introduction to Backtracking - Brute Force Approach](https://www.youtube.com/watch?v=DKCbsiDBN6c) | Abdul Bari | Start |
 |  | [6.1 N Queens Problem using Backtracking](https://www.youtube.com/watch?v=xFv_Hl4B83A) | Abdul Bari | Deeper |
 
@@ -1621,89 +1621,89 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| amortized analysis | [What is Amortized Time Complexity? - Dynamic Array](https://www.youtube.com/watch?v=MTl8djZFWE0) | Gaurav Sen | Start |
+| Amortized analysis | [What is Amortized Time Complexity? - Dynamic Array](https://www.youtube.com/watch?v=MTl8djZFWE0) | Gaurav Sen | Start |
 |  | [F2021 CS 340 Lecture 11 (Amortized Analysis, Array Doubling/Resizable Arrays)](https://www.youtube.com/watch?v=agnNZX2W1AY) | Dr. Daniel Page [CS University Lectures] | Deeper |
 |  | [5. Amortization: Amortized Analysis](https://www.youtube.com/watch?v=3MpzavN3Mco) | MIT OpenCourseWare | Deeper |
 
-### Prefix sums and sliding windows
+### Prefix sums, difference arrays, sliding windows and the monotonic deque
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| prefix sums and sliding windows | [Prefix Sum Array and Range Sum Queries](https://www.youtube.com/watch?v=xbYr9JOC2Lk) | Profound Academy | Start |
+| Prefix sums, difference arrays, sliding windows and the monotonic deque | [Prefix Sum Array and Range Sum Queries](https://www.youtube.com/watch?v=xbYr9JOC2Lk) | Profound Academy | Start |
 |  | [Sliding Window Technique - Algorithmic Mental Models](https://www.youtube.com/watch?v=MK-NZ4hN7rs) | Ryan Schachte | Start |
 |  | [Prefix Sum Algorithm \| Prefix Sum Array \| Difference Array \| Range Sum QueryO(1) \| EP2](https://www.youtube.com/watch?v=pVS3yhlzrlQ) | JAVAAID - Coding Interview Preparation | Deeper |
 
-### Kadane and boyer moore majority
+### Kadane's algorithm and the Boyer–Moore majority vote
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| kadane and boyer moore majority | [Kadane's Algorithm to Maximum Sum Subarray Problem](https://www.youtube.com/watch?v=86CQq3pKSUw) | CS Dojo | Start |
+| Kadane's algorithm and the Boyer–Moore majority vote | [Kadane's Algorithm to Maximum Sum Subarray Problem](https://www.youtube.com/watch?v=86CQq3pKSUw) | CS Dojo | Start |
 |  | [Moore voting algorithm](https://www.youtube.com/watch?v=n5QY3x_GNDg) | Techdose | Start |
 |  | [Kadane's Algorithm and Its Proof - Max/Min Sum Subarray Problem](https://www.youtube.com/watch?v=4csAswCkXZM) | QuanticDev | Deeper |
 
-### Fisher yates and reservoir sampling
+### Fisher–Yates shuffle and reservoir sampling
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| fisher yates and reservoir sampling | [17-4: Random Shuffle & Fisher-Yates Algorithm](https://www.youtube.com/watch?v=xaSBvljOQkc) | Shusen Wang | Deeper |
+| Fisher–Yates shuffle and reservoir sampling | [17-4: Random Shuffle & Fisher-Yates Algorithm](https://www.youtube.com/watch?v=xaSBvljOQkc) | Shusen Wang | Deeper |
 
-### Floyd cycle detection and pollard rho
+### Floyd's cycle detection and Pollard's rho
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| floyd cycle detection and pollard rho | [Linked List Cycle - Floyd's Tortoise and Hare - Leetcode 141 - Python](https://www.youtube.com/watch?v=gBTe7lFR3vc) | NeetCode | Start |
+| Floyd's cycle detection and Pollard's rho | [Linked List Cycle - Floyd's Tortoise and Hare - Leetcode 141 - Python](https://www.youtube.com/watch?v=gBTe7lFR3vc) | NeetCode | Start |
 |  | [Applied Cryptology 12.6: Pollard's Rho Algorithm](https://www.youtube.com/watch?v=en0vyyJdDs4) | Cryptography | Deeper |
 
-### Knuth morris pratt
+### Knuth–Morris–Pratt string search
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| knuth morris pratt | [String Matching 3. The KMP Algorithm](https://www.youtube.com/watch?v=1DegxRXeP6U) | Computer Science Lessons | Start |
+| Knuth–Morris–Pratt string search | [String Matching 3. The KMP Algorithm](https://www.youtube.com/watch?v=1DegxRXeP6U) | Computer Science Lessons | Start |
 |  | [9.1 Knuth-Morris-Pratt KMP String Matching Algorithm](https://www.youtube.com/watch?v=V5-7GzOfADQ) | Abdul Bari | Deeper |
 
-### Bfs and dfs
+### Breadth-first and depth-first search
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| bfs and dfs | [Algorithms: Graph Search, DFS and BFS](https://www.youtube.com/watch?v=zaBhtODEL0w) | HackerRank | Start |
+| Breadth-first and depth-first search | [Algorithms: Graph Search, DFS and BFS](https://www.youtube.com/watch?v=zaBhtODEL0w) | HackerRank | Start |
 |  | [6.2 BFS and DFS Graph Traversals\| Breadth First Search and Depth First Search \| Data structures](https://www.youtube.com/watch?v=vf-cxgUXcMk) | Jenny's Lectures CS IT | Start |
 |  | [Lesson 22: Introduction to Algorithms by Mohammad Hajiaghayi: Graph Traversal Algorithms: DFS & BFS](https://www.youtube.com/watch?v=_qeVmseIQv0) | Mohammad Hajiaghayi | Deeper |
 
-### Dijkstra
+### Dijkstra's algorithm
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| dijkstra | [How Dijkstra's Algorithm Works](https://www.youtube.com/watch?v=EFg3u_E6eHU) | Spanning Tree | Start |
+| Dijkstra's algorithm | [How Dijkstra's Algorithm Works](https://www.youtube.com/watch?v=EFg3u_E6eHU) | Spanning Tree | Start |
 |  | [Graph Data Structure 4. Dijkstra’s Shortest Path Algorithm](https://www.youtube.com/watch?v=pVfj6mxhdMw) | Computer Science Lessons | Start |
 |  | [3.6 Dijkstra Algorithm - Single Source Shortest Path - Greedy Method](https://www.youtube.com/watch?v=XB4MIexjvY0) | Abdul Bari | Deeper |
 
-### A star search
+### A* search and admissible heuristics
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| a star search | [A* Pathfinding (E01: algorithm explanation)](https://www.youtube.com/watch?v=-L-WgKMFuhE) | Sebastian Lague | Start |
+| A* search and admissible heuristics | [A* Pathfinding (E01: algorithm explanation)](https://www.youtube.com/watch?v=-L-WgKMFuhE) | Sebastian Lague | Start |
 |  | [A* (A Star) Search Algorithm - Computerphile](https://www.youtube.com/watch?v=ySN5Wnu88nE) | Computerphile | Start |
 |  | [COMP 3200 / 6980 - Intro to Artificial Intelligence - Lecture 05 - Heuristic Search + A* Algorithm](https://www.youtube.com/watch?v=9Wi5WutPiww) | Dave Churchill | Deeper |
 
-### Bellman ford floyd warshall johnson
+### Bellman–Ford, Floyd–Warshall and Johnson
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| bellman ford floyd warshall johnson | [4.4 Bellman Ford Algorithm - Single Source Shortest Path - Dynamic Programming](https://www.youtube.com/watch?v=FtN3BYH2Zes) | Abdul Bari | Start |
+| Bellman–Ford, Floyd–Warshall and Johnson | [4.4 Bellman Ford Algorithm - Single Source Shortest Path - Dynamic Programming](https://www.youtube.com/watch?v=FtN3BYH2Zes) | Abdul Bari | Start |
 |  | [4.2 All Pairs Shortest Path (Floyd-Warshall) - Dynamic Programming](https://www.youtube.com/watch?v=oNI0rf2P9gE) | Abdul Bari | Start |
 
-### Topological sort
+### Topological sort (Kahn's algorithm)
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| topological sort | [Topological Sort Algorithm \| Graph Theory](https://www.youtube.com/watch?v=eL-KzMXSXXI) | WilliamFiset | Start |
+| Topological sort (Kahn's algorithm) | [Topological Sort Algorithm \| Graph Theory](https://www.youtube.com/watch?v=eL-KzMXSXXI) | WilliamFiset | Start |
 |  | [G-22. Kahn's Algorithm \| Topological Sort Algorithm \| BFS](https://www.youtube.com/watch?v=73sneFXuTEg) | take U forward | Deeper |
 
-### Union find and minimum spanning trees
+### Union-find and minimum spanning trees
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| union find and minimum spanning trees | [Union Find Introduction](https://www.youtube.com/watch?v=ibjEGG7ylHk) | WilliamFiset | Start |
+| Union-find and minimum spanning trees | [Union Find Introduction](https://www.youtube.com/watch?v=ibjEGG7ylHk) | WilliamFiset | Start |
 |  | [Union Find Kruskal's Algorithm](https://www.youtube.com/watch?v=JZBQLXgSGfs) | WilliamFiset | Start |
 |  | [12. Greedy Algorithms: Minimum Spanning Tree](https://www.youtube.com/watch?v=tKwnms5iRBU) | MIT OpenCourseWare | Deeper |
 
@@ -1711,172 +1711,172 @@ A watch list for the book: for every topic, its concepts from the simplest to th
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| bloom filter | [Bloom filters, part 1](https://www.youtube.com/watch?v=KaQ9wOrRwow) | Ben Langmead | Start |
+| Bloom filter | [Bloom filters, part 1](https://www.youtube.com/watch?v=KaQ9wOrRwow) | Ben Langmead | Start |
 |  | [Bloom Filters](https://www.youtube.com/watch?v=bEmBh1HtYrw) | Yoav Freund | Deeper |
 
 ### Consistent hashing
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| consistent hashing | [Consistent Hashing \| Algorithms You Should Know #1](https://www.youtube.com/watch?v=UF9Iqmg94tk) | ByteByteGo | Start |
+| Consistent hashing | [Consistent Hashing \| Algorithms You Should Know #1](https://www.youtube.com/watch?v=UF9Iqmg94tk) | ByteByteGo | Start |
 |  | [What is CONSISTENT HASHING and Where is it used?](https://www.youtube.com/watch?v=zaRkONvyGr8) | Gaurav Sen | Start |
 |  | [Consistent Hashing, Danny Lewin, and the Creation of Akamai - MIT Prof. Tom Leighton](https://www.youtube.com/watch?v=apHAqUG3Pi8) | הטכניון - מכון טכנולוגי לישראל (Technion – Israel Institute of Technology) | Scholar |
 
-### Hyperloglog
+### HyperLogLog
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| hyperloglog | [HyperLogLog Hit Counter - Computerphile](https://www.youtube.com/watch?v=B_PexYrEcEw) | Computerphile | Start |
+| HyperLogLog | [HyperLogLog Hit Counter - Computerphile](https://www.youtube.com/watch?v=B_PexYrEcEw) | Computerphile | Start |
 |  | [Count-distinct using HLL++ algorithm](https://www.youtube.com/watch?v=tQhYqKTS08w) | Apache Beam | Deeper |
 
-### Newtons method
+### Newton's method
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| newtons method | [Newton-Raphson method \| Animated and explained \| Algorithm for finding roots of a function](https://www.youtube.com/watch?v=qlNqPE_X4ME) | MathAndPhysics | Start |
+| Newton's method | [Newton-Raphson method \| Animated and explained \| Algorithm for finding roots of a function](https://www.youtube.com/watch?v=qlNqPE_X4ME) | MathAndPhysics | Start |
 |  | [Newton's Method](https://www.youtube.com/watch?v=E24zUEKqgwQ) | Oscar Veliz | Start |
 |  | [When Newton's method doesn't work](https://www.youtube.com/watch?v=-DpZOZTsdvg) | Lorenzo Sadun | Deeper |
 
-### Monte carlo
+### Monte Carlo and the 1/√n law
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| monte carlo | [Monte Carlo Simulation](https://www.youtube.com/watch?v=7ESK5SaP-bc) | MarbleScience | Start |
+| Monte Carlo and the 1/√n law | [Monte Carlo Simulation](https://www.youtube.com/watch?v=7ESK5SaP-bc) | MarbleScience | Start |
 |  | [Monte Carlo Simulation - Explained](https://www.youtube.com/watch?v=lY4rSeX8IL4) | DataMListic | Start |
 |  | [6. Monte Carlo Simulation](https://www.youtube.com/watch?v=OgO1gpXSUzU) | MIT OpenCourseWare | Deeper |
 
-### Amdahl gustafson karp flatt
+### Amdahl, Gustafson, Karp–Flatt and list scheduling
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| amdahl gustafson karp flatt | [Computer Architecture Performance: Part 2: Amdahl's Law and Gustafson's Law](https://www.youtube.com/watch?v=9xSiDO2CWbE) | Gedare Bloom | Deeper |
+| Amdahl, Gustafson, Karp–Flatt and list scheduling | [Computer Architecture Performance: Part 2: Amdahl's Law and Gustafson's Law](https://www.youtube.com/watch?v=9xSiDO2CWbE) | Gedare Bloom | Deeper |
 
-### Universal scalability law
+### Universal Scalability Law
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| universal scalability law | [LISA17 - Scalability Is Quantifiable: The Universal Scalability Law](https://www.youtube.com/watch?v=lZU6RK0oazM) | USENIX | Deeper |
+| Universal Scalability Law | [LISA17 - Scalability Is Quantifiable: The Universal Scalability Law](https://www.youtube.com/watch?v=lZU6RK0oazM) | USENIX | Deeper |
 |  | [Applying The Universal Scalability Law to Distributed Systems by Dr. Neil J. Gunther](https://www.youtube.com/watch?v=cuieNj3NrZ8) | Distributed Systems Conference | Scholar |
 
-### Littles law
+### Little's law
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| littles law | [Little's Law 1: Introduction](https://www.youtube.com/watch?v=zQey2zav7jQ) | EuroLEAN+ | Start |
+| Little's law | [Little's Law 1: Introduction](https://www.youtube.com/watch?v=zQey2zav7jQ) | EuroLEAN+ | Start |
 |  | [22. Sliding window analysis, Little's law](https://www.youtube.com/watch?v=xa38Q2_pnlQ) | MIT OpenCourseWare | Deeper |
 
 ### Utilization and queueing delay
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| utilization and queueing delay | [Queueing Theory: M/M/1 Queue Worked Example](https://www.youtube.com/watch?v=GU-tWlTYvD8) | StatsResource | Start |
+| Utilization and queueing delay | [Queueing Theory: M/M/1 Queue Worked Example](https://www.youtube.com/watch?v=GU-tWlTYvD8) | StatsResource | Start |
 |  | [When's waiting in one line better? The power of pooling queues vs sharing information (6min)](https://www.youtube.com/watch?v=LKxK12hlNgY) | Jan Albert Van Mieghem | Deeper |
 
-### Zipf and cache sizing
+### Zipf's law and cache sizing
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| zipf and cache sizing | [The Zipf Mystery](https://www.youtube.com/watch?v=fCn8zs912OE) | Vsauce | Start |
+| Zipf's law and cache sizing | [The Zipf Mystery](https://www.youtube.com/watch?v=fCn8zs912OE) | Vsauce | Start |
 |  | [Laws of Text 2: Zipf's Law](https://www.youtube.com/watch?v=KvOS2MdKFwE) | Victor Lavrenko | Deeper |
 
-### Lru belady min and anomaly
+### LRU, Bélády's MIN and Bélády's anomaly
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| lru belady min and anomaly | [Memory Management Part 8 - Page Replacement Algorithms (FIFO, Optimal Replacement, LRU Algorithms)](https://www.youtube.com/watch?v=KqjtNLPb5MM) | Master CS & UGC NET with Professor Srinivasan | Start |
+| LRU, Bélády's MIN and Bélády's anomaly | [Memory Management Part 8 - Page Replacement Algorithms (FIFO, Optimal Replacement, LRU Algorithms)](https://www.youtube.com/watch?v=KqjtNLPb5MM) | Master CS & UGC NET with Professor Srinivasan | Start |
 |  | [Lec30 Belady's Anomaly in FIFO page replacement algorithm with example \| Operating System](https://www.youtube.com/watch?v=lfOOkEZLG-w) | Jenny's Lectures CS IT | Start |
 
-### Tail latency and fan out
+### Tail latency and fan-out
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| tail latency and fan out | [Read a paper: The Tail at Scale](https://www.youtube.com/watch?v=1Qxnrf2pW10) | Vivek Haldar | Start |
+| Tail latency and fan-out | [Read a paper: The Tail at Scale](https://www.youtube.com/watch?v=1Qxnrf2pW10) | Vivek Haldar | Start |
 |  | [The Tail at Scale - and building distributed systems](https://www.youtube.com/watch?v=HBeFe4Ojxvs) | Hasgeek TV | Deeper |
 
-### Percentiles and coordinated omission
+### Percentiles, histograms and coordinated omission
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| percentiles and coordinated omission | [Percentile Tail Latency Explained (95%, 99%) Monitor Backend performance with this metric](https://www.youtube.com/watch?v=3JdQOExKtUY) | Hussein Nasser | Start |
+| Percentiles, histograms and coordinated omission | [Percentile Tail Latency Explained (95%, 99%) Monitor Backend performance with this metric](https://www.youtube.com/watch?v=3JdQOExKtUY) | Hussein Nasser | Start |
 |  | ["How NOT to Measure Latency" by Gil Tene](https://www.youtube.com/watch?v=lJ8ydIuPFeU) | Strange Loop Conference | Scholar |
 
-### Power of two choices
+### The power of two choices
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| power of two choices | [Class 6, Video 1: Balls and Bins](https://www.youtube.com/watch?v=tQzanmpF8Ao) | Mary Wootters | Deeper |
+| The power of two choices | [Class 6, Video 1: Balls and Bins](https://www.youtube.com/watch?v=tQzanmpF8Ao) | Mary Wootters | Deeper |
 |  | [Load balancing with the multiple choice paradigm](https://www.youtube.com/watch?v=psMMngLC2Ds) | Microsoft Research | Scholar |
 
 ### Exponential backoff and jitter
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| exponential backoff and jitter | *no suitable video found* | | |
+| Exponential backoff and jitter | *no suitable video found* | | |
 
-### Retry amplification and budgets
+### Retry amplification and retry budgets
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| retry amplification and budgets | *no suitable video found* | | |
+| Retry amplification and retry budgets | *no suitable video found* | | |
 
 ### Circuit breaker
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| circuit breaker | [Circuit Breaker Pattern in Microservices](https://www.youtube.com/watch?v=dJI2saoM5_k) | ByteMonk | Start |
+| Circuit breaker | [Circuit Breaker Pattern in Microservices](https://www.youtube.com/watch?v=dJI2saoM5_k) | ByteMonk | Start |
 |  | [Circuit Breaker Pattern - Fault Tolerant Microservices](https://www.youtube.com/watch?v=ADHcBxEXvFA) | Defog Tech | Deeper |
 
-### Rate limiting
+### Token bucket, GCRA, fixed and sliding windows
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| rate limiting | [Five Rate Limiting Algorithms ~ Key Concepts in System Design](https://www.youtube.com/watch?v=mQCJJqUfn9Y) | Hello Byte | Start |
+| Token bucket, GCRA, fixed and sliding windows | [Five Rate Limiting Algorithms ~ Key Concepts in System Design](https://www.youtube.com/watch?v=mQCJJqUfn9Y) | Hello Byte | Start |
 |  | [Rate Limiting system design \| TOKEN BUCKET, Leaky Bucket, Sliding Logs](https://www.youtube.com/watch?v=mhUQe4BKZXs) | Tech Dummies - Narendra Lakshmana Gowda | Deeper |
 
-### Cache stampede
+### Cache stampede: single flight and early recomputation
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| cache stampede | [Solving Thundering Herd with Cache Promises \| Instagram Software Engineering](https://www.youtube.com/watch?v=f-06wUzZf58) | MsDeep Singh | Deeper |
+| Cache stampede: single flight and early recomputation | [Solving Thundering Herd with Cache Promises \| Instagram Software Engineering](https://www.youtube.com/watch?v=f-06wUzZf58) | MsDeep Singh | Deeper |
 
-### Quorums
+### Quorums: R + W > N
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| quorums | [Quorum \| System Design Fundamentals \| Distributed Systems](https://www.youtube.com/watch?v=nFOjNrG-DZE) | MsDeep Singh | Start |
+| Quorums: R + W > N | [Quorum \| System Design Fundamentals \| Distributed Systems](https://www.youtube.com/watch?v=nFOjNrG-DZE) | MsDeep Singh | Start |
 |  | [CSE138 (Distributed Systems) L19: more about quorum consistency; introduction to sharding; ...](https://www.youtube.com/watch?v=2edhMsGlwng) | Lindsey Kuper | Deeper |
 
-### Lamport and vector clocks
+### Lamport clocks and vector clocks
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| lamport and vector clocks | [Distributed Systems 4.1: Logical time](https://www.youtube.com/watch?v=x-D8iFU1d-o) | Martin Kleppmann | Start |
+| Lamport clocks and vector clocks | [Distributed Systems 4.1: Logical time](https://www.youtube.com/watch?v=x-D8iFU1d-o) | Martin Kleppmann | Start |
 |  | [CSE138 (Distributed Systems) L3: partial orders, total orders, Lamport clocks, vector clocks](https://www.youtube.com/watch?v=UqY1tF3zxjc) | Lindsey Kuper | Deeper |
 
-### Crdts
+### CRDTs (conflict-free replicated data types)
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| crdts | ["CRDTs Illustrated" by Arnout Engelen](https://www.youtube.com/watch?v=9xFfOhasiOE) | Strange Loop Conference | Start |
+| CRDTs (conflict-free replicated data types) | ["CRDTs Illustrated" by Arnout Engelen](https://www.youtube.com/watch?v=9xFfOhasiOE) | Strange Loop Conference | Start |
 |  | [CRDTs: The Hard Parts](https://www.youtube.com/watch?v=x7drE24geUw) | Martin Kleppmann | Scholar |
 
-### Idempotency
+### Idempotency keys
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| idempotency | [What is API Idempotency and Why Is It Important?](https://www.youtube.com/watch?v=I08syTslan8) | Be A Better Dev | Start |
+| Idempotency keys | [What is API Idempotency and Why Is It Important?](https://www.youtube.com/watch?v=I08syTslan8) | Be A Better Dev | Start |
 |  | [Idempotency and Intelligent Retry \| PayPal](https://www.youtube.com/watch?v=S3nq_Iq4eMI) | ByteMonk | Deeper |
 
-### Gossip
+### Gossip (epidemic) protocols
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| gossip | [Epidemic and Gossip Protocols](https://www.youtube.com/watch?v=-36j_DGXEwE) | Smruti R. Sarangi | Deeper |
+| Gossip (epidemic) protocols | [Epidemic and Gossip Protocols](https://www.youtube.com/watch?v=-36j_DGXEwE) | Smruti R. Sarangi | Deeper |
 
 ### Merkle trees
 
 | Idea | Video | Channel | Level |
 |---|---|---|---|
-| merkle trees | [What is a Merkle Tree?](https://www.youtube.com/watch?v=3AcQyTs_Es4) | Kerala Blockchain Academy | Start |
+| Merkle trees | [What is a Merkle Tree?](https://www.youtube.com/watch?v=3AcQyTs_Es4) | Kerala Blockchain Academy | Start |
 |  | [Merkle Tree with real world examples](https://www.youtube.com/watch?v=qHMLy5JjbjQ) | Gaurav Sen | Deeper |
 

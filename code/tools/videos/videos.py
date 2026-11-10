@@ -307,18 +307,28 @@ def playlists(db):
             part = f", part {k} of {len(lists)}" if len(lists) > 1 else ""
             pl["title"] = f"{g['title']}{part}"
             pl["span"] = topics[0] if len(topics) == 1 else f"{topics[0]} to {topics[-1]}"
+            # the name used in YouTube: numbered so the library sorts in book order
+            gt = g["title"]
+            if ": " in gt:
+                head, name = gt.split(": ", 1)
+            else:
+                head, name = ("Principles", "") if gt.lower().startswith("the principles") else (gt, "")
+            part_short = f" ({k}/{len(lists)})" if len(lists) > 1 else ""
+            label = f"{head} {name}".strip() + part_short
+            pl["youtube_title"] = f"Algorithm Atlas {0:02d} · {label} · {pl['span'].replace(' to ', ' → ')}"
             pl["link"] = "https://www.youtube.com/watch_videos?video_ids=" + ",".join(it["id"] for it in pl["items"])
             out.append(pl)
         lists = []
     for n, pl in enumerate(out, 1):
         pl["num"] = n
+        pl["youtube_title"] = pl["youtube_title"].replace("Algorithm Atlas 00", f"Algorithm Atlas {n:02d}", 1)
     return out, extra
 
 
 def write_youtube_script(db, folder):
     """The script that creates the playlists in the reader's own YouTube account, with the playlists built in."""
     pls, _ = playlists(db)
-    data = [[p["num"], p["title"], p["span"], [it["id"] for it in p["items"]]] for p in pls]
+    data = [[p["num"], p["youtube_title"], p["span"], [it["id"] for it in p["items"]]] for p in pls]
     lines = ",\n    ".join(json.dumps(x, ensure_ascii=False) for x in data)
     text = (HERE / "youtube_playlists_template.py").read_text().replace("__DATA__", "[\n    " + lines + ",\n]")
     folder.mkdir(parents=True, exist_ok=True)
@@ -334,12 +344,12 @@ def playlists_md(db):
          f"No playlist has more than {PLAYLIST_MAX} videos, and each ends at the end of a topic.", "",
          "**To keep a playlist:** open its link, which plays the videos as an untitled playlist, then use YouTube's *Save* (or *Add all to*) on the playlist panel "
          "and give it the name shown here. These links use YouTube's `watch_videos` address, which YouTube does not document and could change.", ""]
-    o += ["| # | Playlist | Topics | Videos | Open |", "|---|---|---|---|---|"]
+    o += ["| # | Playlist (the name it has in YouTube) | Videos | Open |", "|---|---|---|---|"]
     for p in pls:
-        o.append(f"| {p['num']} | {p['title']} | {p['span']} | {len(p['items'])} | [play]({p['link']}) |")
+        o.append(f"| {p['num']} | {p['youtube_title']} | {len(p['items'])} | [play]({p['link']}) |")
     o.append("")
     for p in pls:
-        o += [f"## {p['num']}. {p['title']}", "", f"{p['span']} · {len(p['items'])} videos · [play as a playlist]({p['link']})", ""]
+        o += [f"## {p['youtube_title']}", "", f"{len(p['items'])} videos · [play as a playlist]({p['link']})", ""]
         for i, it in enumerate(p["items"], 1):
             v = it["video"]
             o.append(f"{i}. [{v['title']}]({v['url']}) · {v['channel']} · {v['level'].capitalize()} · *{it['topic']}: {it['concept']}*")
@@ -361,8 +371,8 @@ def playlists_html(db):
          '<p class="pl-note">Each link plays its videos as an untitled YouTube playlist, in the book\'s order (within an idea: Start, then Deeper, then Scholar). '
          'To keep one, use YouTube\'s Save on the playlist panel and give it the name shown here. The link format is undocumented by YouTube and could change.</p>']
     for p in pls:
-        o.append(f'<details class="pl"><summary><span class="n">{p["num"]:02d}</span><span class="pl-t">{esc(p["title"])}</span>'
-                 f'<span class="pl-s">{esc(p["span"])} · {len(p["items"])} videos</span></summary>'
+        o.append(f'<details class="pl"><summary><span class="n">{p["num"]:02d}</span><span class="pl-t">{esc(p["youtube_title"])}</span>'
+                 f'<span class="pl-s">{len(p["items"])} videos</span></summary>'
                  f'<p><a class="pl-open" href="{esc(p["link"])}" target="_blank" rel="noopener">Play all {len(p["items"])} as a playlist</a></p><ol class="pl-list">')
         for it in p["items"]:
             v = it["video"]
@@ -491,7 +501,7 @@ def build(artifact_out=None):
 def print_playlists():
     pls, extra = playlists(load())
     for p in pls:
-        print(f"{p['num']:2d}. {p['title']} | {p['span']} | {len(p['items'])} videos")
+        print(f"{p['num']:2d}. {p['youtube_title']}  [{len(p['items'])} videos, {len(p['youtube_title'])} chars]")
     print(f"{len(pls)} playlists, {sum(len(p['items']) for p in pls)} videos, {len(extra)} entries that are playlists themselves")
 
 

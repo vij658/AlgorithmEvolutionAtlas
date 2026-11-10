@@ -139,7 +139,13 @@ def principles():
         if part.is_dir():
             for d in sorted(part.iterdir()):
                 if d.is_dir() and d.name[:2].isdigit():
-                    out.append((int(d.name[:2]), d.name[3:].replace("-", " ")))
+                    title = d.name[3:].replace("-", " ")
+                    readme = d / "README.md"
+                    if readme.exists():  # the principle's own title, "# 31. Knuth–Morris–Pratt string search"
+                        first = readme.read_text().split("\n", 1)[0]
+                        if first.startswith("# "):
+                            title = first[2:].split(". ", 1)[-1].strip()
+                    out.append((int(d.name[:2]), title))
     return out
 
 
